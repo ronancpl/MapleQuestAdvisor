@@ -113,6 +113,21 @@ local function SArray:find_first_from(fn_compare, iIdx, pToFind)
     return i
 end
 
+local function SArray:find_last_from(fn_compare, iIdx, pToFind)
+    local m_apItems = self.apItems
+
+    local i = iIdx
+    while i <= #m_apItems do
+        i += 1
+        if fn_compare(m_apItems[i], pToFind) ~= 0 then
+            i -= 1
+            break
+        end
+    end
+
+    return i
+end
+
 function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     local m_apItems = self.apItems
     local napItems = #m_apItems
@@ -126,8 +141,12 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
         local sResult = fn_compare(pMid, pToFind)
 
         if sResult == 0 then
-            if bFirstMatch then
-                m = find_first_from(fn_compare, m, pToFind)
+            if bFirstMatch ~= nil then
+                if bFirstMatch then
+                    m = find_first_from(fn_compare, m, pToFind)
+                else then
+                    m = find_last_from(fn_compare, m, pToFind)
+                end
             end
 
             return m
