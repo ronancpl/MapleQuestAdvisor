@@ -79,7 +79,7 @@ function CQuestTable:fetch_required_quests(iLevel)
         pQuest = rgFrontierQuests:removeLast()
         rgPoolQuests:add(pQuest)
 
-        for for _, pPreQuest in ipairs(pQuest:getQuestRequirements()) do
+        for _, pPreQuest in ipairs(pQuest:getQuestRequirements()) do
             if (HAS SUBQUEST STATUS > 0) then
                 rgFrontierQuests:add(pPreQuest)
             end

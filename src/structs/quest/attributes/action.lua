@@ -13,10 +13,4 @@
 require "utils/class";
 require "structs/quest/attributes/property";
 
-CQuestRequirement = createClass(CQuestProperty, {
-    iMapid,
-    iMapidFieldEnter,
-    bJobAccess,
-    bDateAccess,
-    bRepeatable
-})
+CQuestAction = createClass(CQuestProperty, {})

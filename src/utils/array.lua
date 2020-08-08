@@ -12,99 +12,99 @@
 
 require "utils/class";
 
-SArray = createClass({rgpItems = {}})
+SArray = createClass({apItems = {}})
 
 function SArray:isEmpty()
-    return #m_rgpItems == 0
+    return #m_apItems == 0
 end
 
 function SArray:add(pItem)
-    local m_rgpItems = self.rgpItems
-    local nItems = #m_rgpItems
+    local m_apItems = self.apItems
+    local nItems = #m_apItems
 
-    m_rgpItems[nItems + 1] = pItem
+    m_apItems[nItems + 1] = pItem
 end
 
 function SArray:remove(iIdxStart, iIdxEnd)
-    local m_rgpItems = self.rgpItems
-    local nItems = #m_rgpItems
+    local m_apItems = self.apItems
+    local nItems = #m_apItems
 
     iIdxEnd = iIdxEnd or nItems
 
-    rgpRemoved = SArray:new()
+    apRemoved = SArray:new()
     local nRemoved = iIdxEnd - iIdxStart
 
     for i = 1, nRemoved, 1 do
         local iIdxCur = iIdxStart + i - 1
-        rgpRemoved:add(m_rgpItems[iIdxCur])
+        apRemoved:add(m_apItems[iIdxCur])
     end
 
     local N = math.min(nItems - (iIdxEnd + 1), nRemoved)
     for i = 1, N, 1 do
         local iIdxCur = iIdxStart + i - 1
-        m_rgpItems[iIdxCur] = m_rgpItems[iIdxEnd + i]
+        m_apItems[iIdxCur] = m_apItems[iIdxEnd + i]
     end
 
     for i = N, nRemoved, 1 do
         local iIdxCur = iIdxStart + i - 1
-        m_rgpItems[iIdxCur] = nil
+        m_apItems[iIdxCur] = nil
     end
 
-    return rgpRemoved
+    return apRemoved
 end
 
 function SArray:removeLast()
-    local m_rgpItems = self.rgpItems
-    local nLastIdx = #m_rgpItems
+    local m_apItems = self.apItems
+    local nLastIdx = #m_apItems
 
     remove(nLastIdx)
 end
 
 function SArray:sort(fn_sort)
-    local m_rgpItems = self.rgpItems
+    local m_apItems = self.apItems
 
     if fn_sort then
-        tables.sort(m_rgpItems, fn_sort)
+        tables.sort(m_apItems, fn_sort)
     else
-        tables.sort(m_rgpItems)
+        tables.sort(m_apItems)
     end
 end
 
 function SArray:randomize()     -- Algorithm: Fisher-Yates
-    local m_rgpItems = self.rgpItems
-    local nRgpItems = #m_rgpItems
+    local m_apItems = self.apItems
+    local napItems = #m_apItems
 
-    for i = 1, nRgpItems, 1 then
-        local j = math.random(1, #nRgpItems)
+    for i = 1, napItems, 1 then
+        local j = math.random(1, #napItems)
 
-        local temp = m_rgpItems[j]
-        m_rgpItems[j] = m_rgpItems[i]
-        m_rgpItems[i] = temp
+        local temp = m_apItems[j]
+        m_apItems[j] = m_apItems[i]
+        m_apItems[i] = temp
     end
 end
 
 function SArray:find(fn_select)
-    local m_rgpItems = self.rgpItems
-    local nRgpItems = #m_rgpItems
+    local m_apItems = self.apItems
+    local napItems = #m_apItems
 
-    rgpFilter = SArray:new()
+    apFilter = SArray:new()
 
-    for i = 1, nRgpItems, 1 then
-        if fn_select(m_rgpItems[i]) then
-            rgpFilter:add(m_rgpItems[i])
+    for i = 1, napItems, 1 then
+        if fn_select(m_apItems[i]) then
+            apFilter:add(m_apItems[i])
         end
     end
 
-    return rgpFilter
+    return apFilter
 end
 
 local function SArray:find_first_from(fn_compare, iIdx, pToFind)
-    local m_rgpItems = self.rgpItems
+    local m_apItems = self.apItems
 
     local i = iIdx
     while i > 0 do
         i -= 1
-        if fn_compare(m_rgpItems[i], pToFind) ~= 0 then
+        if fn_compare(m_apItems[i], pToFind) ~= 0 then
             i += 1
             break
         end
@@ -114,15 +114,15 @@ local function SArray:find_first_from(fn_compare, iIdx, pToFind)
 end
 
 function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
-    local m_rgpItems = self.rgpItems
-    local nRgpItems = #m_rgpItems
+    local m_apItems = self.apItems
+    local napItems = #m_apItems
 
-    local st = 1, en = nRgpItems + 1
+    local st = 1, en = napItems + 1
 
     while st < en do
         local m = math.ceil((st + en) / 2)
 
-        local pMid = m_rgpItems[m]
+        local pMid = m_apItems[m]
         local sResult = fn_compare(pMid, pToFind)
 
         if sResult == 0 then

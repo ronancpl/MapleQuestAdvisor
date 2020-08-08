@@ -21,8 +21,8 @@ By seeking several aspects of utility within quests, look forward to route possi
 #### Values
 
 * Autonomy, seek self-improvement for finding new ways to do a task;
-* Orientation, plan ahead and perceive the surroundings to model a smooth activity.
-* Aptitude, enjoy the good moments provided throughout the cruise, be active to course-correct in the staggering moments.
+* Orientation, plan ahead and perceive the surroundings to model a smooth activity;
+* Aptitude, enjoy the good moments provided throughout the cruise, be active to course-correct in the staggering moments;
 
 #### Support MapleQuestAdvisor
 
