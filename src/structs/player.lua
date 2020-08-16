@@ -10,7 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require "utils/class";
+require("structs/inventory");
+require("utils/class");
 
 CPlayer = createClass({
     siJob,

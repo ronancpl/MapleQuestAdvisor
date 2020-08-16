@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require "utils/class";
-require "structs/quest/attributes/property";
+require("utils/class");
+require("structs/quest/attributes/property");
 
 CQuestRequirement = createClass(CQuestProperty, {
     iMapid,

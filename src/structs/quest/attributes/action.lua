@@ -10,6 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require "utils/class";
+require("utils/class");
 
 CQuestAction = createClass(CQuestProperty, {})
