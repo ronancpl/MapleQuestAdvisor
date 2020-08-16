@@ -10,30 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/io/file")
-local xml2lua = require("xml2lua")
-local pXmlHandler = require("xmlhandler.dom")
-local pXmlParser = xml2lua.parser(pXmlHandler)
-
-local function pcallParseXml(sContent)
+function pcallReadFile(sFilePath)
     local bResult, oRet = pcall(
         function ()
-            pXmlParser:parse(sContent)
-            return handler.root
+            local osFile = assert( io.open(sFilePath, "rb") )
+            sContent = osFile:read("*a")
+            f:close()
+
+            return sContent
         end
     )
 
     if bResult then
         return oRet
-    else:
-        print("[ERROR] Could not parse content " .. sContent)
-        return nil
+    else then
+        print("[ERROR] Could not access file " .. sFilePath)
+        return ""
     end
-end
 
-function readXmlFile(sDomXmlPath)
-    local sContent = pcallReadFile(sDomXmlPath)
-    local oRoot = pcallParseXml(sContent)
-
-    return oRoot
 end

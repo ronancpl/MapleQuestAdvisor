@@ -52,7 +52,7 @@ end
 function SXmlProvider:loadXml(sPath)
     local asDirPath, sFileName = SXmlProvider:splitPath(sPath)
 
-    local pFileDom = readDomFile(sPath)
+    local pFileDom = readXmlFile(sPath)
     local pFileContent = parseDomFile(pFileDom)
 
     local pDomNode = accessXmlDir(asDirPath)

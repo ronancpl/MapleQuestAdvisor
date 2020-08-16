@@ -10,15 +10,17 @@
     provide an express grant of patent rights.
 --]]
 
-local function parseDomNodeChilds(pNodeChilds, pTreeNode)
-    pN = table.remove(pNodeChilds)  -- avoid handling child N
+require("utils/provider/xml/node")
 
-    for _, pChildFileNode in pairs(pNodeChilds) do
+local function parseDomNodeChilds(pTreeNode, tFileNodeChilds)
+    pN = table.remove(tFileNodeChilds)  -- avoid handling child N
+
+    for _, pChildFileNode in pairs(tFileNodeChilds) do
         pChildTreeNode = parseDomNode(pChildFileNode)
-        table.insert(pTreeNode, pChildTreeNode)
+        pTreeNode:addChild(pChildTreeNode)
     end
 
-    table.insert(pNodeChilds, pN)   -- adds back child N
+    table.insert(tFileNodeChilds, pN)   -- adds back child N
 end
 
 local tfn_ParseAttr = {
@@ -45,30 +47,26 @@ local function parseDomDataAttribute(sName, sValue)
     end
 end
 
-local function parseDomNodeAttribute(pTreeNode)
-    local sDataType = pTreeNode["_name"]
-    local tAttr = pTreeNode["_attr"]
+local function parseDomNodeAttributes(pTreeNode, tFileNodeAttrs)
+    local sDataType = pTreeNode:getName()
+    -- local tAttr = pTreeNode:getAttr()
 
-    local sName = pAttr["name"]
-    local sValue = pAttr["value"]
+    local sName = tFileNodeAttrs["name"]
+    local sValue = tFileNodeAttrs["value"]
 
     local uValue = parseDomDataAttribute(sDataType, sValue)
-    pTreeNode["_value"] = uValue
+    pTreeNode:set("name", sName)
+    pTreeNode:set("value", uValue)
 end
 
 local function parseDomNode(pFileNode)
-    pTreeNode = {}
+    pTreeNode = CXmlNode:new()
 
-    pTreeNode["_type"] = pFileNode["_type"]
-    pTreeNode["_name"] = pFileNode["_name"]
+    pTreeNode:setType(pFileNode["_type"])
+    pTreeNode:setName(pFileNode["_name"])
 
-    pTreeNode["_attr"] = pFileNode["_attr"]
-    parseDomNodeAttribute(pTreeNode)
-
-    pTreeNode["_children"] = {}
-    tChildren = pFileNode["_children"]
-
-    parseDomNodeChilds(tChildren, pTreeNode["_children"])
+    parseDomNodeAttributes(pTreeNode, pFileNode["_attr"])
+    parseDomNodeChilds(pTreeNode, pFileNode["_children"])
 
     return pTreeNode
 end
