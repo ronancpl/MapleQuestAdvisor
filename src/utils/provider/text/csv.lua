@@ -14,7 +14,7 @@ require("utils/provider/io/file")
 require("utils/provider/io/wordlist")
 require("utils/provider/text/table")
 
-function readCsv(sFilePath)
-    local fn_split = splitCsv
-    return readTable(sFilePath, fn_split)
+function read_csv(sFilePath)
+    local fn_split = split_csv
+    return read_table(sFilePath, fn_split)
 end

@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-local function splitDelimiter(sText, sDelimiter)
+local function split_delimiter(sText, sDelimiter)
     local str = sText
 
     local asTokenList = {}
@@ -21,14 +21,14 @@ local function splitDelimiter(sText, sDelimiter)
     return asTokenList
 end
 
-function splitText(sText)
-    return splitDelimiter(sText, "(%w+)")
+function split_text(sText)
+    return split_delimiter(sText, "(%w+)")
 end
 
-function splitLine(sText)
-    return splitDelimiter(sText, "[^\r\n]+")
+function split_line(sText)
+    return split_delimiter(sText, "[^\r\n]+")
 end
 
-function splitCsv(sText)
-    return splitDelimiter(sText, "[^,]+")
+function split_csv(sText)
+    return split_delimiter(sText, "[^,]+")
 end

@@ -14,7 +14,7 @@ require("utils/class");
 
 SArray = createClass({apItems = {}})
 
-function SArray:isEmpty()
+function SArray:is_empty()
     return #m_apItems == 0
 end
 
@@ -53,7 +53,7 @@ function SArray:remove(iIdxStart, iIdxEnd)
     return apRemoved
 end
 
-function SArray:removeLast()
+function SArray:remove_last()
     local m_apItems = self.apItems
     local nLastIdx = #m_apItems
 

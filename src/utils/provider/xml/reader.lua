@@ -15,7 +15,7 @@ local xml2lua = require("xml2lua")
 local pXmlHandler = require("xmlhandler.dom")
 local pXmlParser = xml2lua.parser(pXmlHandler)
 
-local function pcallParseXml(sContent)
+local function pcall_parse_xml(sContent)
     local bResult, oRet = pcall(
         function ()
             pXmlParser:parse(sContent)
@@ -31,9 +31,9 @@ local function pcallParseXml(sContent)
     end
 end
 
-function readXmlFile(sDomXmlPath)
-    local sContent = pcallReadFile(sDomXmlPath)
-    local oRoot = pcallParseXml(sContent)
+function read_xml_file(sDomXmlPath)
+    local sContent = pcall_read_file(sDomXmlPath)
+    local oRoot = pcall_parse_xml(sContent)
 
     return oRoot
 end

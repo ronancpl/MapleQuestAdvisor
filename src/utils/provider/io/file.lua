@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-function pcallReadFile(sFilePath)
+function pcall_read_file(sFilePath)
     local bResult, oRet = pcall(
         function ()
             local osFile = assert( io.open(sFilePath, "rb") )

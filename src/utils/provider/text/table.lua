@@ -13,11 +13,11 @@
 require("utils/io/file")
 require("utils/io/wordlist")
 
-function readTable(sFilePath, fn_split)
-    local sFileContent = pcallReadFile(sFilePath)
+function read_table(sFilePath, fn_split)
+    local sFileContent = pcall_read_file(sFilePath)
     local tRowValues = {}
 
-    local asLines = splitLine(sFileContent)
+    local asLines = split_line(sFileContent)
     for sLine in asLines do
         local asRowContent = fn_split(sLine)
         table.insert(tRowValues, asRowContent)
@@ -26,7 +26,7 @@ function readTable(sFilePath, fn_split)
     return tRowValues
 end
 
-function readPlainTable(sFilePath)
+function read_plain_table(sFilePath)
     local fn_split = splitText
-    return readTable(sFilePath, fn_split)
+    return read_table(sFilePath, fn_split)
 end

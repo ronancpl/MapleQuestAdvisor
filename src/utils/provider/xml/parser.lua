@@ -12,18 +12,18 @@
 
 require("utils/provider/xml/node")
 
-local function parseDomNodeChilds(pTreeNode, tFileNodeChilds)
+local function parse_dom_node_childs(pTreeNode, tFileNodeChilds)
     pN = table.remove(tFileNodeChilds)  -- avoid handling child N
 
     for _, pChildFileNode in pairs(tFileNodeChilds) do
-        pChildTreeNode = parseDomNode(pChildFileNode)
-        pTreeNode:addChild(pChildTreeNode)
+        pChildTreeNode = parse_dom_node(pChildFileNode)
+        pTreeNode:add_child(pChildTreeNode)
     end
 
     table.insert(tFileNodeChilds, pN)   -- adds back child N
 end
 
-local tfn_ParseAttr = {
+local tfn_parse_attr = {
     -- ["imgdir"] = function (x)  end,
     -- ["canvas"] = function (x)  end,
     -- ["convex"] = function (x)  end,
@@ -38,40 +38,40 @@ local tfn_ParseAttr = {
     -- ["null"] = function (x)  return  end,
 }
 
-local function parseDomDataAttribute(sName, sValue)
-    fn_dataAttr = tfn_ParseAttr[sName]
-    if fn_dataAttr ~= nil then
-        return fn_dataAttr(sValue)
+local function parse_dom_data_attribute(sName, sValue)
+    fn_data_attr = tfn_parse_attr[sName]
+    if fn_data_attr ~= nil then
+        return fn_data_attr(sValue)
     else
         return nil
     end
 end
 
-local function parseDomNodeAttributes(pTreeNode, tFileNodeAttrs)
-    local sDataType = pTreeNode:getName()
-    -- local tAttr = pTreeNode:getAttr()
+local function parse_dom_node_attributes(pTreeNode, tFileNodeAttrs)
+    local sDataType = pTreeNode:get_name()
+    -- local tAttr = pTreeNode:get_attr()
 
     local sName = tFileNodeAttrs["name"]
     local sValue = tFileNodeAttrs["value"]
 
-    local uValue = parseDomDataAttribute(sDataType, sValue)
+    local uValue = parse_dom_data_attribute(sDataType, sValue)
     pTreeNode:set("name", sName)
     pTreeNode:set("value", uValue)
 end
 
-local function parseDomNode(pFileNode)
+local function parse_dom_node(pFileNode)
     pTreeNode = CXmlNode:new()
 
-    pTreeNode:setType(pFileNode["_type"])
-    pTreeNode:setName(pFileNode["_name"])
+    pTreeNode:set_type(pFileNode["_type"])
+    pTreeNode:set_name(pFileNode["_name"])
 
-    parseDomNodeAttributes(pTreeNode, pFileNode["_attr"])
-    parseDomNodeChilds(pTreeNode, pFileNode["_children"])
+    parse_dom_node_attributes(pTreeNode, pFileNode["_attr"])
+    parse_dom_node_childs(pTreeNode, pFileNode["_children"])
 
     return pTreeNode
 end
 
-function parseDomFile(pFileDom)
-    pTreeDom = parseDomNode(pFileDom)
+function parse_dom_file(pFileDom)
+    pTreeDom = parse_dom_node(pFileDom)
     return pTreeDom
 end

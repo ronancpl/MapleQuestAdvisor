@@ -27,26 +27,26 @@ function CXmlNode:set(sAttr, sValue)
     self.tAttributes[sAttr] = sValue
 end
 
-function CXmlNode:getName()
+function CXmlNode:get_name()
     return self.sName
 end
 
-function CXmlNode:setName(sName)
+function CXmlNode:set_name(sName)
     self.sName = sName
 end
 
-function CXmlNode:getType()
+function CXmlNode:get_type()
     return self.sType
 end
 
-function CXmlNode:setType(sType)
+function CXmlNode:set_type(sType)
     self.sType = sType
 end
 
-function CXmlNode:addChild(pChild)
+function CXmlNode:add_child(pChild)
     table.insert(self.tChildren, pChild)
 end
 
-function CXmlNode:getChildren()
+function CXmlNode:get_children()
     return self.tChildren
 end

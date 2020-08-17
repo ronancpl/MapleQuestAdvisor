@@ -17,7 +17,7 @@ require("utils/class")
 
 SXmlProvider = createClass({pDomTable = {}})  -- table of XMLs
 
-local function SXmlProvider:splitPath(sDomXmlPath)
+local function SXmlProvider:split_path(sDomXmlPath)
     local str = sDomXmlPath .. '/'
 
     local asPathList = {}
@@ -29,7 +29,7 @@ local function SXmlProvider:splitPath(sDomXmlPath)
     return asPathList, sFile
 end
 
-local function SXmlProvider:accessXmlDirNode(pDomNode, sDirName)
+local function SXmlProvider:access_xml_dir_node(pDomNode, sDirName)
     local pNextDomNode = pDomNode
     if pDomNode[sDirName] == nil then
         pNextDomNode = {}
@@ -39,29 +39,29 @@ local function SXmlProvider:accessXmlDirNode(pDomNode, sDirName)
     return pNextDomNode
 end
 
-local function SXmlProvider:accessXmlDir(asDirPath)
+local function SXmlProvider:access_xml_dir(asDirPath)
     local pDomNode = self.pDomTable
 
     for sDirName in asDirPath do
-        pDomNode = accessXmlDirNode(pDomNode, sDirName)
+        pDomNode = access_xml_dir_node(pDomNode, sDirName)
     end
 
     return pDomNode
 end
 
-function SXmlProvider:loadXml(sPath)
-    local asDirPath, sFileName = SXmlProvider:splitPath(sPath)
+function SXmlProvider:load_xml(sPath)
+    local asDirPath, sFileName = SXmlProvider:split_path(sPath)
 
-    local pFileDom = readXmlFile(sPath)
-    local pFileContent = parseDomFile(pFileDom)
+    local pFileDom = read_xml_file(sPath)
+    local pFileContent = parse_dom_file(pFileDom)
 
-    local pDomNode = accessXmlDir(asDirPath)
+    local pDomNode = access_xml_dir(asDirPath)
     pDomNode[sFileName] = pFileContent
 end
 
 function SXmlProvider:unloadNode(sPath)
-    local asDirPath, sName = SXmlProvider:splitPath(sPath)
+    local asDirPath, sName = SXmlProvider:split_path(sPath)
 
-    local pDomNode = accessXmlDir(asDirPath)
+    local pDomNode = access_xml_dir(asDirPath)
     pDomNode[sName] = nil
 end

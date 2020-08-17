@@ -18,7 +18,6 @@ CQuest = createClass({
     qpEnd
 })
 
-function CQuest:getQuestid()
+function CQuest:get_quest_id()
     return self.iQuestid
 end
-
