@@ -50,24 +50,26 @@ local function SXmlProvider:access_xml_dir(asDirPath)
 end
 
 function SXmlProvider:load_xml(sPath)
-    local asDirPath, sFileName = SXmlProvider:split_path(sPath)
+    local asDirPath, sFileName = self.split_path(sPath)
 
     local pFileDom = read_xml_file(sPath)
     local pFileContent = parse_dom_file(pFileDom)
 
     local pDomNode = access_xml_dir(asDirPath)
     pDomNode[sFileName] = pFileContent
+
+    return pFileContent
 end
 
 function SXmlProvider:unload_node(sPath)
-    local asDirPath, sName = SXmlProvider:split_path(sPath)
+    local asDirPath, sName = self.split_path(sPath)
 
     local pDomNode = access_xml_dir(asDirPath)
     pDomNode[sName] = nil
 end
 
 function SXmlProvider:enter_xml_dir(sDirPath)
-    local asDirPath, sName = SXmlProvider:split_path(sDirPath .. '/')
+    local asDirPath, sName = self.split_path(sDirPath .. '/')
 
     local pDomNode = access_xml_dir(asDirPath)
     return pDomNode

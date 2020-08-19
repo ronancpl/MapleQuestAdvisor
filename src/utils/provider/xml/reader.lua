@@ -25,7 +25,7 @@ local function pcall_parse_xml(sContent)
 
     if bResult then
         return oRet
-    else:
+    else
         print("[ERROR] Could not parse content " .. sContent)
         return nil
     end

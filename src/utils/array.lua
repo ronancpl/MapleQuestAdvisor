@@ -31,7 +31,7 @@ function SArray:remove(iIdxStart, iIdxEnd)
 
     iIdxEnd = iIdxEnd or nItems
 
-    apRemoved = SArray:new()
+    local apRemoved = SArray:new()
     local nRemoved = iIdxEnd - iIdxStart
 
     for i = 1, nRemoved, 1 do
@@ -87,7 +87,7 @@ function SArray:find(fn_select)
     local m_apItems = self.apItems
     local napItems = #m_apItems
 
-    apFilter = SArray:new()
+    local apFilter = SArray:new()
 
     for i = 1, napItems, 1 then
         if fn_select(m_apItems[i]) then

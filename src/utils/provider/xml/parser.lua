@@ -13,10 +13,10 @@
 require("utils/provider/xml/node")
 
 local function parse_dom_node_childs(pTreeNode, tFileNodeChilds)
-    pN = table.remove(tFileNodeChilds)  -- avoid handling child N
+    local pN = table.remove(tFileNodeChilds)  -- avoid handling child N
 
     for _, pChildFileNode in pairs(tFileNodeChilds) do
-        pChildTreeNode = parse_dom_node(pChildFileNode)
+        local pChildTreeNode = parse_dom_node(pChildFileNode)
         pTreeNode:add_child(pChildTreeNode)
     end
 
@@ -60,7 +60,7 @@ local function parse_dom_node_attributes(pTreeNode, tFileNodeAttrs)
 end
 
 local function parse_dom_node(pFileNode)
-    pTreeNode = CXmlNode:new()
+    local pTreeNode = CXmlNode:new()
 
     pTreeNode:set_type(pFileNode["_type"])
     pTreeNode:set_name(pFileNode["_name"])
