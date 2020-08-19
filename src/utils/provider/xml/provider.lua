@@ -59,9 +59,16 @@ function SXmlProvider:load_xml(sPath)
     pDomNode[sFileName] = pFileContent
 end
 
-function SXmlProvider:unloadNode(sPath)
+function SXmlProvider:unload_node(sPath)
     local asDirPath, sName = SXmlProvider:split_path(sPath)
 
     local pDomNode = access_xml_dir(asDirPath)
     pDomNode[sName] = nil
+end
+
+function SXmlProvider:enter_xml_dir(sDirPath)
+    local asDirPath, sName = SXmlProvider:split_path(sDirPath .. '/')
+
+    local pDomNode = access_xml_dir(asDirPath)
+    return pDomNode
 end

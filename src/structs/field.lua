@@ -15,6 +15,7 @@ require("utils/class");
 
 CField = createClass({
     iMapid,
+    bTown,
     rgNpcs,
     rgMobs,
     rgReactors

@@ -10,18 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs/storage/inventory");
+require("utils/array");
 require("utils/class");
 
-CPlayer = createClass({
-    siJob,
-    siLevel,
-    liExp,
-    liExpAmass,
-    iMapid,
-    iMeso,
-    siFame,
-    ivtItems,
-    ivtSkills,
-    ivtQuests
+CDepot = createClass({
+    tEntries
 })

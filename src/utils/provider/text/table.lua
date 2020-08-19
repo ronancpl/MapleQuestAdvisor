@@ -15,15 +15,15 @@ require("utils/io/wordlist")
 
 function read_table(sFilePath, fn_split)
     local sFileContent = pcall_read_file(sFilePath)
-    local tRowValues = {}
+    local aasRowValues = {}
 
     local asLines = split_line(sFileContent)
     for sLine in asLines do
         local asRowContent = fn_split(sLine)
-        table.insert(tRowValues, asRowContent)
+        table.insert(aasRowValues, asRowContent)
     end
 
-    return tRowValues
+    return aasRowValues
 end
 
 function read_plain_table(sFilePath)
