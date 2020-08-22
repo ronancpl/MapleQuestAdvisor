@@ -10,17 +10,13 @@
     provide an express grant of patent rights.
 --]]
 
-require "utils/array";
-require "utils/class";
-require "router/filters/graph"
+require("utils/array");
+require("utils/class");
+require("router/filters/graph");
 
 CQuestTable = createClass({
-    rgQuestsData
+    rgQuestsData = SArray:new()
 })
-
-function CQuestTable:init_quest_table()
-    self.rgQuestsData = SArray:new()
-end
 
 function CQuestTable:add_quest_data(pQuest)
     local m_rgQuestsData = self.rgQuestsData
@@ -29,7 +25,7 @@ end
 
 function CQuestTable:remove_quest_data(iIdx, iNumQuests)
     local m_rgQuestsData = self.rgQuestsData
-    rgRemovedQuestsData = m_rgQuestsData:remove(iIdx, iIdx + iNumQuests)
+    local rgRemovedQuestsData = m_rgQuestsData:remove(iIdx, iIdx + iNumQuests)
 
     return rgRemovedQuestsData
 end
@@ -44,42 +40,46 @@ function CQuestTable:sort_quest_table()
 
     m_rgQuestsData:sort(
         function(a,b)
-            a.getQuestid() < b.getQuestid()
+            a.get_quest_id() < b.get_quest_id()
         end
     )
 end
 
 local fn_compare_quest_level = function(pQuest, iLevel)
-    return pQuest:getQuestid() - iLevel
+    return pQuest:get_quest_id() - iLevel
 end
 
-function CQuestTable:ignore_quests_from_level(iLevel)
+local function CQuestTable:ignore_quests_from_level(iLevel)
     local m_rgQuestsData = self.rgQuestsData
 
-    local i = CQuest:bsearch(fn_compare_quest_level, iLevel, true, true)
+    local i = m_rgQuestsData:bsearch(fn_compare_quest_level, iLevel, true, false)
     if i > 0 then
-        m_rgQuestsData:remove(i)
+        m_rgQuestsData:remove(1, i)
     end
 end
 
-function CQuestTable:fetch_top_quests_by_level(iLevel)
-    local iPoolLevel = iLevel + RGraph.POOL_AHEAD_QUEST_LEVEL
+local function CQuestTable:fetch_top_quests_by_level(iLevel, nNumQuests)
+    local m_rgQuestsData = self.rgQuestsData
 
-    local iIdx = SArray:bsearch(fn_compare_quest_level, iPoolLevel, true, false)
-    local rgPoolQuests = qtQuests:remove(iIdx, 1)     -- pick top quest from overall table
+    local iIdx = m_rgQuestsData:bsearch(fn_compare_quest_level, iLevel, true, true)
+    local rgPoolQuests = m_rgQuestsData:remove(iIdx, nNumQuests)  -- pick top quests from overall table
 
     return rgPoolQuests
 end
 
-function CQuestTable:fetch_required_quests(iLevel)
-    rgPoolQuests = SArray:new()
-    local rgFrontierQuests = fetch_top_quests_by_level(iLevel)
+function CQuestTable:ignore_underleveled_quests(iLevel)
+    ignore_quests_from_level(iLevel - RGraph.POOL_BEHIND_QUEST_LEVEL)
+end
 
-    while ~rgFrontierQuests:isEmpty() do
-        pQuest = rgFrontierQuests:removeLast()
+function CQuestTable:fetch_required_quests(iLevel)
+    local rgPoolQuests = SArray:new()
+    local rgFrontierQuests = fetch_top_quests_by_level(iLevel + RGraph.POOL_AHEAD_QUEST_LEVEL, RGraph.POOL_MIN_QUESTS)
+
+    while ~rgFrontierQuests:is_empty() do
+        local pQuest = rgFrontierQuests:remove_last()
         rgPoolQuests:add(pQuest)
 
-        for for _, pPreQuest in ipairs(pQuest:getQuestRequirements()) do
+        for _, pPreQuest in ipairs(pQuest:GET_REQUIREMENTS) do
             if (HAS SUBQUEST STATUS > 0) then
                 rgFrontierQuests:add(pPreQuest)
             end
@@ -88,5 +88,3 @@ function CQuestTable:fetch_required_quests(iLevel)
 
     return rgPoolQuests
 end
-
--- fetch_required_quests(rgPoolQuests, qtQuests)           -- fetch along its prerequisites

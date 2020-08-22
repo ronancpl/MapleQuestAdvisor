@@ -10,27 +10,25 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/class");
-require("structs/quest/properties");
+local function split_delimiter(sText, sDelimiter)
+    local str = sText
 
-CQuest = createClass({
-    iQuestid = -1,
-    qpStart = CQuestProperties:new(),
-    qpEnd = CQuestProperties:new()
-})
+    local asTokenList = {}
+    for w in str:gmatch(sDelimiter) do
+        table.insert(asTokenList, w)
+    end
 
-function CQuest:get_quest_id()
-    return self.iQuestid
+    return asTokenList
 end
 
-function CQuest:set_quest_id(iQuestid)
-    self.iQuestid = iQuestid
+function split_text(sText)
+    return split_delimiter(sText, "(%w+)")
 end
 
-function CQuest:get_start()
-    return self.qpStart
+function split_line(sText)
+    return split_delimiter(sText, "[^\r\n]+")
 end
 
-function CQuest:get_end()
-    return self.qpEnd
+function split_csv(sText)
+    return split_delimiter(sText, "[^,]+")
 end

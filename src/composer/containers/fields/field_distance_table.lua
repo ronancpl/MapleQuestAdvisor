@@ -11,26 +11,15 @@
 --]]
 
 require("utils/class");
-require("structs/quest/properties");
 
-CQuest = createClass({
-    iQuestid = -1,
-    qpStart = CQuestProperties:new(),
-    qpEnd = CQuestProperties:new()
+CFieldDistanceTable = createClass({
+    tFieldDistance
 })
 
-function CQuest:get_quest_id()
-    return self.iQuestid
+function CFieldDistanceTable:add_field_entry(iSrcid)
+    self.tFieldDistance[iSrcid] = {}
 end
 
-function CQuest:set_quest_id(iQuestid)
-    self.iQuestid = iQuestid
-end
-
-function CQuest:get_start()
-    return self.qpStart
-end
-
-function CQuest:get_end()
-    return self.qpEnd
+function CFieldDistanceTable:add_field_distance(iSrcid, iDestId, iDistance)
+    tFieldDistance[iSrcid][iDestId] = iDistance     -- srcid entry already added
 end

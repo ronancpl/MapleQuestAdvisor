@@ -10,27 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/class");
-require("structs/quest/properties");
+function pcall_read_file(sFilePath)
+    local bResult, oRet = pcall(
+        function ()
+            local osFile = assert( io.open(sFilePath, "rb") )
+            local sContent = osFile:read("*a")
+            f:close()
 
-CQuest = createClass({
-    iQuestid = -1,
-    qpStart = CQuestProperties:new(),
-    qpEnd = CQuestProperties:new()
-})
+            return sContent
+        end
+    )
 
-function CQuest:get_quest_id()
-    return self.iQuestid
-end
+    if bResult then
+        return oRet
+    else then
+        print("[ERROR] Could not access file " .. sFilePath)
+        return ""
+    end
 
-function CQuest:set_quest_id(iQuestid)
-    self.iQuestid = iQuestid
-end
-
-function CQuest:get_start()
-    return self.qpStart
-end
-
-function CQuest:get_end()
-    return self.qpEnd
 end

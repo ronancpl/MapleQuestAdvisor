@@ -10,17 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
-require "utils/class";
+require("utils/provider/io/file")
+require("utils/provider/io/wordlist")
+require("utils/provider/text/table")
 
-CPlayer = createClass({
-    siJob,
-    siLevel,
-    liExp,
-    liExpAmass,
-    iMapid,
-    iMeso,
-    siFame,
-    ivtItems,
-    ivtSkills,
-    ivtQuests
-})
+function read_csv(sFilePath)
+    local fn_split = split_csv
+    return read_table(sFilePath, fn_split)
+end

@@ -11,26 +11,24 @@
 --]]
 
 require("utils/class");
-require("structs/quest/properties");
 
-CQuest = createClass({
-    iQuestid = -1,
-    qpStart = CQuestProperties:new(),
-    qpEnd = CQuestProperties:new()
+CFieldObject = createClass({
+    iSourceid,
+    iCount
 })
 
-function CQuest:get_quest_id()
-    return self.iQuestid
+function CFieldObject:get_sourceid()
+    return self.iSourceid
 end
 
-function CQuest:set_quest_id(iQuestid)
-    self.iQuestid = iQuestid
+function CFieldObject:set_sourceid(iSourceid)
+    self.iSourceid = iSourceid
 end
 
-function CQuest:get_start()
-    return self.qpStart
+function CFieldObject:get_count()
+    return self.iCount
 end
 
-function CQuest:get_end()
-    return self.qpEnd
+function CFieldObject:set_count(iCount)
+    self.iCount = iCount
 end

@@ -11,26 +11,6 @@
 --]]
 
 require("utils/class");
-require("structs/quest/properties");
+require("structs/quest/attributes/property");
 
-CQuest = createClass({
-    iQuestid = -1,
-    qpStart = CQuestProperties:new(),
-    qpEnd = CQuestProperties:new()
-})
-
-function CQuest:get_quest_id()
-    return self.iQuestid
-end
-
-function CQuest:set_quest_id(iQuestid)
-    self.iQuestid = iQuestid
-end
-
-function CQuest:get_start()
-    return self.qpStart
-end
-
-function CQuest:get_end()
-    return self.qpEnd
-end
+CQuestAction = createClass(CQuestProperty, {})

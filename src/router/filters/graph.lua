@@ -1,0 +1,7 @@
+RGraph = {
+
+    POOL_MIN_QUESTS = 5
+    POOL_AHEAD_QUEST_LEVEL  = 10
+    POOL_BEHIND_QUEST_LEVEL = 20
+
+}
