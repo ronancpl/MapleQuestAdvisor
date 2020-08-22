@@ -44,9 +44,14 @@ function CXmlNode:set_type(sType)
 end
 
 function CXmlNode:add_child(pChild)
-    table.insert(self.tChildren, pChild)
+    local sName = pChild:get_name()
+    self.tChildren[sName] = pChild
 end
 
 function CXmlNode:get_children()
     return self.tChildren
+end
+
+function CXmlNode:get_child_by_name(sName)
+    return self.tChildren[sName]
 end

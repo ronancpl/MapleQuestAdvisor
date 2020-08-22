@@ -14,9 +14,49 @@ require("utils/class");
 require("structs/quest/attributes/property");
 
 CQuestRequirement = createClass(CQuestProperty, {
-    iMapid,
-    iMapidFieldEnter,
-    bJobAccess,
-    bDateAccess,
-    bRepeatable
+    iMapid = 10000,
+    iMapidFieldEnter = -1,
+    bJobAccess = false,
+    bDateAccess = true,
+    bRepeatable = false
 })
+
+function CQuestRequirement:get_field()
+    return self.iMapid
+end
+
+function CQuestRequirement:set_field(iMapid)
+    self.iMapid = iMapid
+end
+
+function CQuestRequirement:get_field_enter()
+    return self.iMapidFieldEnter
+end
+
+function CQuestRequirement:set_field_enter(iMapidFieldEnter)
+    self.iMapidFieldEnter = iMapidFieldEnter
+end
+
+function CQuestRequirement:has_job_access()
+    return self.bJobAccess
+end
+
+function CQuestRequirement:set_job_access(bJobAccess)   -- requires runtime update, boolean check
+    self.bJobAccess = bJobAccess
+end
+
+function CQuestRequirement:has_date_access()
+    return self.bDateAccess
+end
+
+function CQuestRequirement:set_date_access(bDateAccess)
+    self.bDateAccess = bDateAccess
+end
+
+function CQuestRequirement:is_repeatable()
+    return self.bRepeatable
+end
+
+function CQuestRequirement:set_repeatable(bRepeatable)
+    self.bRepeatable = bRepeatable
+end

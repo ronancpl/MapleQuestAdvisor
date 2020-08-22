@@ -14,9 +14,41 @@ require("structs/storage/inventory");
 require("utils/class");
 
 CQuestProperty = createClass({
-    iExp,
-    iMeso,
-    siFame,
-    ivtSkills,
-    ivtItems
+    iExp = 0,
+    iMeso = 0,
+    siFame = 0,
+    ivtSkills = CInventory:new(),
+    ivtItems = CInventory:new()
 })
+
+function CQuestProperty:get_exp()
+    return self.iExp
+end
+
+function CQuestProperty:set_exp(iExp)
+    self.iExp = iExp
+end
+
+function CQuestProperty:get_meso()
+    return self.iMeso
+end
+
+function CQuestProperty:set_meso(iMeso)
+    self.iMeso = iMeso
+end
+
+function CQuestProperty:get_fame()
+    return self.siFame
+end
+
+function CQuestProperty:set_fame(siFame)
+    self.siFame = siFame
+end
+
+function CQuestProperty:get_skills()
+    return self.ivtSkills
+end
+
+function CQuestProperty:get_items()
+    return self.ivtItems
+end

@@ -14,7 +14,43 @@ require("utils/array");
 require("utils/class");
 
 CItem = createClass({
-    iItemid
-    rgpLootMobs
-    rgpLootReactors
+    iItemid = -1,
+    trgLootMobs = {},
+    trgLootReactors = {}
 })
+
+function CItem:get_itemid()
+    return self.iItemid
+end
+
+function CItem:set_itemid(iItemid)
+    self.iItemid = iItemid
+end
+
+local function CItem:add_loot(trgLoot, pLoot)
+    local iSourceid = pLoot:get_sourceid()
+
+    local rgIdLoot = trgLoot[iSourceid]
+    if rgIdLoot == nil then
+        rgIdLoot = SArray:new()
+        trgLoot[iSourceid] = rgIdLoot
+    end
+
+    rgIdLoot:add(pLoot)
+end
+
+function CItem:get_loot_mobs()
+    return self.trgLootMobs
+end
+
+function CItem:add_loot_mob(pLoot)
+    self.add_loot(self.trgLootMobs, pLoot)
+end
+
+function CItem:get_loot_reactors()
+    return self.trgLootReactors
+end
+
+function CItem:add_loot_reactor(pLoot)
+    self.add_loot(self.trgLootReactors, pLoot)
+end

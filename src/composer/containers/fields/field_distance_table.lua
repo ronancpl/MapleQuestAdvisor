@@ -16,7 +16,10 @@ CFieldDistanceTable = createClass({
     tFieldDistance
 })
 
-CFieldDistance = createClass({
-    iMapid,
-    iDistance
-})
+function CFieldDistanceTable:add_field_entry(iSrcid)
+    self.tFieldDistance[iSrcid] = {}
+end
+
+function CFieldDistanceTable:add_field_distance(iSrcid, iDestId, iDistance)
+    tFieldDistance[iSrcid][iDestId] = iDistance     -- srcid entry already added
+end

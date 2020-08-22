@@ -10,7 +10,25 @@
     provide an express grant of patent rights.
 --]]
 
-CInventoryEntry = createClass({
-    iId,
-    iCount
+require("utils/class");
+
+CQuestProperties = createClass({
+    rgpChecks = {},     -- CQuestRequirement
+    rgpActs = {}        -- CQuestAction
 })
+
+function CQuest:get_requirements()
+    return self.rgpChecks
+end
+
+function CQuest:add_requirement(pRequirement)
+    table.insert(self.rgpChecks, pRequirement)
+end
+
+function CQuest:get_actions()
+    return self.rgpActs
+end
+
+function CQuest:add_action(pAction)
+    table.insert(self.rgpActs, pAction)
+end

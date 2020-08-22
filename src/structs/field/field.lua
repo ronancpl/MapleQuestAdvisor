@@ -14,14 +14,37 @@ require("utils/array");
 require("utils/class");
 
 CField = createClass({
-    iMapid,
-    bTown,
-    rgNpcs,
-    rgMobs,
-    rgReactors
+    iMapid = -1,
+    bTown = false,
+    rgpNpcs = SArray:new(),
+    rgpMobs = SArray:new(),
+    rgpReactors = SArray:new()
 })
 
-CFieldObject = createClass({
-    iSourceid,
-    iCount
-})
+function CField:get_mapid()
+    return self.iMapid
+end
+
+function CField:set_mapid(iMapid)
+    self.iMapid = iMapid
+end
+
+function CField:is_town()
+    return self.bTown
+end
+
+function CField:set_town(bTown)
+    self.bTown = bTown
+end
+
+function CField:get_npcs()
+    return self.rgpNpcs
+end
+
+function CField:get_mobs()
+    return self.rgpMobs
+end
+
+function CField:get_reactors()
+    return self.rgpReactors
+end

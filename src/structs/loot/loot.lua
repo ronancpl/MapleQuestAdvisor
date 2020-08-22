@@ -14,8 +14,40 @@ require("utils/array");
 require("utils/class");
 
 CLoot = createClass({
-    iSourceid,
-    fChance,
-    siMinItems,
-    siMaxItems
+    iSourceid = -1,
+    fChance = 0.0,
+    siMinItems = 0,
+    siMaxItems = 0
 })
+
+function CLoot:get_sourceid()
+    return self.iSourceid
+end
+
+function CLoot:set_sourceid(iSourceid)
+    self.iSourceid = iSourceid
+end
+
+function CLoot:get_chance()
+    return self.fChance
+end
+
+function CLoot:set_chance(fChance)
+    self.fChance = fChance
+end
+
+function CLoot:get_min_items()
+    return self.siMinItems
+end
+
+function CLoot:set_min_items(siMinItems)
+    self.siMinItems = siMinItems
+end
+
+function CLoot:get_max_items()
+    return self.siMaxItems
+end
+
+function CLoot:set_max_items(siMaxItems)
+    self.siMaxItems = siMaxItems
+end

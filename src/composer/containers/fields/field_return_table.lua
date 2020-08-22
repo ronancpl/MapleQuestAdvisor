@@ -16,6 +16,10 @@ CFieldReturnTable = createClass({
     tFieldReturn
 })
 
-CFieldReturn = createClass({
-    iMapid
-})
+function CFieldReturnTable:add_field_return(iSrcid, iDestId)
+    self.tFieldReturn[iSrcid] = iDestId
+end
+
+function CFieldReturnTable:get_field_return(iSrcid)
+    return self.tFieldReturn[iSrcid]
+end

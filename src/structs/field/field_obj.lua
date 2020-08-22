@@ -10,9 +10,25 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/array");
 require("utils/class");
 
-CDepot = createClass({
-    tEntries
+CFieldObject = createClass({
+    iSourceid,
+    iCount
 })
+
+function CFieldObject:get_sourceid()
+    return self.iSourceid
+end
+
+function CFieldObject:set_sourceid(iSourceid)
+    self.iSourceid = iSourceid
+end
+
+function CFieldObject:get_count()
+    return self.iCount
+end
+
+function CFieldObject:set_count(iCount)
+    self.iCount = iCount
+end
