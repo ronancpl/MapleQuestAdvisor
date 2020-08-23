@@ -41,13 +41,12 @@ local tAttrList = {
     "quest" = CQuestRequirement.add_quest
 }
 
-
-function read_quest_attribute_value(fn_attr, pQuestProp, pNode)
+local function read_quest_attribute_value(fn_attr, pQuestProp, pNode)
     local iValue = pNode:get(sName)
     fn_attr(pQuestProp, iValue)
 end
 
-function read_quest_attribute_list(fn_attr, pQuestProp, pNode)
+local function read_quest_attribute_list(fn_attr, pQuestProp, pNode)
     for _, pTabListItemNode in pairs(pNode:get_children()) do
         local iId = pTabListItemNode:get_child_by_name("id")
         local iCount = pTabListItemNode:get_child_by_name("count")
@@ -56,7 +55,7 @@ function read_quest_attribute_list(fn_attr, pQuestProp, pNode)
     end
 end
 
-function read_quest_tab_node_attribute(pQuestProp, pNode)
+local function read_quest_tab_node_attribute(pQuestProp, pNode)
     local sName = pNode:get_name()
 
     local fn_attr = tAttrUnit[sName]
@@ -68,7 +67,7 @@ function read_quest_tab_node_attribute(pQuestProp, pNode)
     end
 end
 
-function read_quest_tab_state_node(pQuestTab, fn_addProperty, pTabStateNode, CStateProperty)
+local function read_quest_tab_state_node(pQuestTab, fn_addProperty, pTabStateNode, CStateProperty)
     for _, pTabElementNode in pairs(pTabStateNode:get_children()) do
 
         local pQuestProp = CStateProperty:new()
@@ -77,7 +76,7 @@ function read_quest_tab_state_node(pQuestTab, fn_addProperty, pTabStateNode, CSt
     end
 end
 
-function read_quest_tab_node(pQuestTab, sTabName, pActNode, pChkNode)
+local function read_quest_tab_node(pQuestTab, sTabName, pActNode, pChkNode)
     local pTabActNode = pActNode:get_child_by_name(sTabName)
     read_quest_tab_state_node(pQuestTab, pQuestTab.add_action, pTabActNode, CQuestAction)
 
@@ -85,7 +84,7 @@ function read_quest_tab_node(pQuestTab, sTabName, pActNode, pChkNode)
     read_quest_tab_state_node(pQuestTab, pQuestTab.add_requirement, pTabChkNode, CQuestRequirement)
 end
 
-function read_quest_node(pActNode, pChkNode)
+local function read_quest_node(pActNode, pChkNode)
     local pQuest = CQuest:new()
     pQuest:set_questid(pActQuestNode:get_name_tonumber())
 
@@ -95,7 +94,7 @@ function read_quest_node(pActNode, pChkNode)
     return pQuest
 end
 
-function read_quests(qtQuests, pActNode, pChkNode)
+local function read_quests(qtQuests, pActNode, pChkNode)
     local pActImgNode = pActNode:get_child_by_name("Act.img")
     local pChkImgNode = pActNode:get_child_by_name("Check.img")
 
@@ -107,7 +106,7 @@ function read_quests(qtQuests, pActNode, pChkNode)
     end
 end
 
-function init_quests_list(pActNode, pChkNode)
+local function init_quests_list(pActNode, pChkNode)
     local qtQuests = CQuestTable:new()
 
     read_quests(qtQuests, pActNode, pChkNode)

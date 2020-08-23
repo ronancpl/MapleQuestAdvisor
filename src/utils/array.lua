@@ -144,7 +144,7 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
             if bFirstMatch ~= nil then
                 if bFirstMatch then
                     m = find_first_from(fn_compare, m, pToFind)
-                else then
+                else
                     m = find_last_from(fn_compare, m, pToFind)
                 end
             end
@@ -152,7 +152,7 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
             return m
         else if sResult < 0 then
             st = m + 1
-        else then
+        else
             en = m - 1
         end
     end

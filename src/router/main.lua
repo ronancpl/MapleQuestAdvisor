@@ -10,22 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-function pcall_read_file(sFilePath)
-    local bResult, oRet = pcall(
-        function ()
-            local osFile = assert( io.open(sFilePath, "rb") )
-            local sContent = osFile:read("*a")
-            f:close()
+require("composer/quest/quest")
 
-            return sContent
-        end
-    )
-
-    if bResult then
-        return oRet
-    else
-        print("[ERROR] Could not access file " .. sFilePath)
-        return ""
-    end
-
-end
+qtQuests = load_resources_quests()
