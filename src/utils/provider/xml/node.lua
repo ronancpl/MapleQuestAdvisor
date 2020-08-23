@@ -31,6 +31,10 @@ function CXmlNode:get_name()
     return self.sName
 end
 
+function CXmlNode:get_name_tonumber()
+    return tonumber(self.sName)
+end
+
 function CXmlNode:set_name(sName)
     self.sName = sName
 end

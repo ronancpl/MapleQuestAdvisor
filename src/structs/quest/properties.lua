@@ -13,8 +13,8 @@
 require("utils/class");
 
 CQuestProperties = createClass({
-    rgpChecks = {},     -- CQuestRequirement
-    rgpActs = {}        -- CQuestAction
+    rgpChecks = {},
+    rgpActs = {}
 })
 
 function CQuest:get_requirements()
