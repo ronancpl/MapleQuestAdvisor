@@ -161,10 +161,10 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     return if bReturnPos then en else 0
 end
 
-function SArray:dump_content()
+function SArray:printable()
     local m_apItems = self.apItems
 
     for _, pItem in pairs(m_apItems) do
-        printlog(pItem)
+        printable(pItem)
     end
 end

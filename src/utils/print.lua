@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-local tfn_dump = {
+local tfn_printable = {
     ["nil"] = function (x) print("_NIL") end,
     ["boolean"] = function (x) print(x) end,
     ["number"] = function (x) print(x) end,
@@ -18,20 +18,20 @@ local tfn_dump = {
     ["userdata"] = function (x) print("_C_USERDATA") end,
     ["function"] = function (x) end,
     ["thread"] = function (x) end,
-    ["table"] = function (x) print("{") for n, m in pairs(x) do print(n) print (" :: ") printlog(m) print("}") end end
+    ["table"] = function (x) print("{") for n, m in pairs(x) do print(n) print (" :: ") printable(m) print("}") end end
 }
 
-function printlog(pItem)
-    local fn_dump = pItem.dump_content
+function printable(pItem)
+    local fn_printable = pItem.printable
 
-    if fn_dump == nil then
+    if fn_printable == nil then
         local sType = type(pItem)
-        fn_dump = tfn_dump[sType]
+        fn_printable = tfn_printable[sType]
 
-        if fn_dump == nil then
+        if fn_printable == nil then
             return
         end
     end
 
-    fn_dump(pItem)
+    fn_printable(pItem)
 end
