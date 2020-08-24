@@ -11,6 +11,7 @@
 --]]
 
 require("utils/class");
+require("utils/print");
 
 SArray = createClass({apItems = {}})
 
@@ -158,4 +159,12 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     end
 
     return if bReturnPos then en else 0
+end
+
+function SArray:dump_content()
+    local m_apItems = self.apItems
+
+    for _, pItem in pairs(m_apItems) do
+        printlog(pItem)
+    end
 end
