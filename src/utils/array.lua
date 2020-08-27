@@ -133,7 +133,8 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     local m_apItems = self.apItems
     local napItems = #m_apItems
 
-    local st = 1, en = napItems + 1
+    local st = 1
+    local en = napItems + 1
 
     while st < en do
         local m = math.ceil((st + en) / 2)
