@@ -55,7 +55,7 @@ function CPlayer:set_exp(liExp)
 end
 
 function CPlayer:add_exp(liExp)
-    self.liExp += liExp
+    self.liExp = self.liExp + liExp
     self:_update_exp_amass()
 end
 

@@ -3,7 +3,7 @@ local function search (k, plist)
     for i=1, table.getn(plist)
     do
         local v = plist[i][k]     -- try
-        `i'-th superclass
+        -- `i'-th superclass
         if v then return v end
     end
 end

@@ -104,9 +104,9 @@ function SArray:_find_first_from(fn_compare, iIdx, pToFind)
 
     local i = iIdx
     while i > 0 do
-        i -= 1
+        i = i - 1
         if fn_compare(m_apItems[i], pToFind) ~= 0 then
-            i += 1
+            i = i + 1
             break
         end
     end
@@ -119,9 +119,9 @@ function SArray:_find_last_from(fn_compare, iIdx, pToFind)
 
     local i = iIdx
     while i <= #m_apItems do
-        i += 1
+        i = i + 1
         if fn_compare(m_apItems[i], pToFind) ~= 0 then
-            i -= 1
+            i = i - 1
             break
         end
     end
