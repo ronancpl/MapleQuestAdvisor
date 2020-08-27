@@ -22,6 +22,7 @@ function CInventory:add_item(iId, iCount)
         self.rgEntries[iId] = self.rgEntries[iId] + iCount
     else
         self.rgEntries[iId] = iCount
+    end
 end
 
 function CInventory:remove_item(iId, iCount)

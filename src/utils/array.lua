@@ -75,7 +75,7 @@ function SArray:randomize()     -- Algorithm: Fisher-Yates
     local m_apItems = self.apItems
     local napItems = #m_apItems
 
-    for i = 1, napItems, 1 then
+    for i = 1, napItems, 1 do
         local j = math.random(1, #napItems)
 
         local temp = m_apItems[j]
@@ -90,7 +90,7 @@ function SArray:find(fn_select)
 
     local apFilter = SArray:new()
 
-    for i = 1, napItems, 1 then
+    for i = 1, napItems, 1 do
         if fn_select(m_apItems[i]) then
             apFilter:add(m_apItems[i])
         end
