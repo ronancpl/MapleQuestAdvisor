@@ -152,7 +152,7 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
             end
 
             return m
-        else if sResult < 0 then
+        elseif sResult < 0 then
             st = m + 1
         else
             en = m - 1
