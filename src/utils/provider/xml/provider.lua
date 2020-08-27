@@ -10,10 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/provider/xml/parser")
-require("utils/provider/xml/reader")
-require("utils/array")
-require("utils/class")
+require("utils.array")
+require("utils.class")
+require("utils.provider.xml.parser")
+require("utils.provider.xml.reader")
 
 SXmlProvider = createClass({pDomTable = {}})  -- table of XMLs
 

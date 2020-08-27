@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/array");
-require("utils/class");
+require("utils.array");
+require("utils.class");
 
 CInventory = createClass({
     rgEntries

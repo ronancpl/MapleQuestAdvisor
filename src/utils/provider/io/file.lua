@@ -23,7 +23,7 @@ function pcall_read_file(sFilePath)
 
     if bResult then
         return oRet
-    else then
+    else
         print("[ERROR] Could not access file " .. sFilePath)
         return ""
     end

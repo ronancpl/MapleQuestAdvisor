@@ -10,9 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/provider/io/file")
-require("utils/provider/io/wordlist")
-require("utils/provider/text/table")
+require("utils.provider.io.file")
+require("utils.provider.io.wordlist")
+require("utils.provider.text.table")
 
 function read_csv(sFilePath)
     local fn_split = split_csv

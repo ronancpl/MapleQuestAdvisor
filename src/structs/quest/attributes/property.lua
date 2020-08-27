@@ -10,15 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs/storage/inventory");
-require("utils/class");
+require("structs.storage.inventory");
+require("utils.class");
 
 CQuestProperty = createClass({
     iExp = 0,
     iMeso = 0,
     siFame = 0,
     ivtSkills = CInventory:new(),
-    ivtItems = CInventory:new()
+    ivtItems = CInventory:new(),
+    ivtMobs = CInventory:new()
 })
 
 function CQuestProperty:get_exp()
@@ -49,6 +50,22 @@ function CQuestProperty:get_skills()
     return self.ivtSkills
 end
 
+function CQuestProperty:add_skill(iId)
+    return self.ivtSkills:add_item(iId, 1)
+end
+
 function CQuestProperty:get_items()
     return self.ivtItems
+end
+
+function CQuestProperty:add_item(iId, iCount)
+    self.ivtItems:add_item(iId, iCount)
+end
+
+function CQuestProperty:get_mobs()
+    return self.ivtMobs
+end
+
+function CQuestProperty:add_mob(iId, iCount)
+    self.ivtMobs:add_item(iId, iCount)
 end

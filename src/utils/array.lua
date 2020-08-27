@@ -10,7 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/class");
+require("utils.class");
+require("utils.print");
 
 SArray = createClass({apItems = {}})
 
@@ -144,7 +145,7 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
             if bFirstMatch ~= nil then
                 if bFirstMatch then
                     m = find_first_from(fn_compare, m, pToFind)
-                else then
+                else
                     m = find_last_from(fn_compare, m, pToFind)
                 end
             end
@@ -152,10 +153,18 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
             return m
         else if sResult < 0 then
             st = m + 1
-        else then
+        else
             en = m - 1
         end
     end
 
     return if bReturnPos then en else 0
+end
+
+function SArray:printable()
+    local m_apItems = self.apItems
+
+    for _, pItem in pairs(m_apItems) do
+        printable(pItem)
+    end
 end

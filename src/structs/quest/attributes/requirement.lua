@@ -10,16 +10,29 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/class");
-require("structs/quest/attributes/property");
+require("structs.quest.attributes.property");
+require("structs.storage.inventory");
+require("utils.class");
 
 CQuestRequirement = createClass(CQuestProperty, {
+    iNpcid = -1,
     iMapid = 10000,
     iMapidFieldEnter = -1,
+    siLevelMin = -1,
+    siLevelMax = -1,
     bJobAccess = false,
     bDateAccess = true,
-    bRepeatable = false
+    bRepeatable = false,
+    ivtQuests = CInventory:new()
 })
+
+function CQuestRequirement:get_npc()
+    return self.iMapid
+end
+
+function CQuestRequirement:set_npc(iNpcid)
+    self.iNpcid = iNpcid
+end
 
 function CQuestRequirement:get_field()
     return self.iMapid
@@ -37,6 +50,22 @@ function CQuestRequirement:set_field_enter(iMapidFieldEnter)
     self.iMapidFieldEnter = iMapidFieldEnter
 end
 
+function CQuestRequirement:get_level_min()
+    return self.siLevelMin
+end
+
+function CQuestRequirement:set_level_min(siLevelMin)
+    self.siLevelMin = siLevelMin
+end
+
+function CQuestRequirement:get_level_max()
+    return self.siLevelMax
+end
+
+function CQuestRequirement:set_level_max(siLevelMax)
+    self.siLevelMax = siLevelMax
+end
+
 function CQuestRequirement:has_job_access()
     return self.bJobAccess
 end
@@ -49,14 +78,22 @@ function CQuestRequirement:has_date_access()
     return self.bDateAccess
 end
 
-function CQuestRequirement:set_date_access(bDateAccess)
-    self.bDateAccess = bDateAccess
+function CQuestRequirement:set_date_access(iDateAccess)
+    self.bDateAccess = iDateAccess > 0
 end
 
 function CQuestRequirement:is_repeatable()
     return self.bRepeatable
 end
 
-function CQuestRequirement:set_repeatable(bRepeatable)
-    self.bRepeatable = bRepeatable
+function CQuestRequirement:set_repeatable(iRepeatable)
+    self.bRepeatable = iRepeatable > 0
+end
+
+function CQuestRequirement:get_quests()
+    return self.ivtQuests
+end
+
+function CQuestRequirement:add_quest(iId)
+    self.ivtQuests:add_item(iId, 1)
 end

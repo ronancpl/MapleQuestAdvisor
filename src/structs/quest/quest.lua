@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/class");
-require("structs/quest/properties");
+require("structs.quest.properties");
+require("utils.class");
 
 CQuest = createClass({
     iQuestid = -1,
