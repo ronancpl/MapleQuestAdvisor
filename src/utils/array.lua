@@ -159,7 +159,7 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
         end
     end
 
-    return if bReturnPos then en else 0
+    return bReturnPos and en or 0
 end
 
 function SArray:printable()
