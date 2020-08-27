@@ -17,7 +17,7 @@ require("utils.provider.xml.reader")
 
 SXmlProvider = createClass({pDomTable = {}})  -- table of XMLs
 
-local function SXmlProvider:split_path(sDomXmlPath)
+function SXmlProvider:_split_path(sDomXmlPath)
     local str = sDomXmlPath .. '/'
 
     local asPathList = {}
@@ -29,7 +29,7 @@ local function SXmlProvider:split_path(sDomXmlPath)
     return asPathList, sFile
 end
 
-local function SXmlProvider:access_xml_dir_node(pDomNode, sDirName)
+function SXmlProvider:_access_xml_dir_node(pDomNode, sDirName)
     local pNextDomNode = pDomNode
     if pDomNode[sDirName] == nil then
         pNextDomNode = {}
@@ -39,38 +39,38 @@ local function SXmlProvider:access_xml_dir_node(pDomNode, sDirName)
     return pNextDomNode
 end
 
-local function SXmlProvider:access_xml_dir(asDirPath)
+function SXmlProvider:_access_xml_dir(asDirPath)
     local pDomNode = self.pDomTable
 
     for sDirName in asDirPath do
-        pDomNode = access_xml_dir_node(pDomNode, sDirName)
+        pDomNode = self:_access_xml_dir_node(pDomNode, sDirName)
     end
 
     return pDomNode
 end
 
 function SXmlProvider:load_xml(sPath)
-    local asDirPath, sFileName = self.split_path(sPath)
+    local asDirPath, sFileName = self:_split_path(sPath)
 
     local pFileDom = read_xml_file(sPath)
     local pFileContent = parse_dom_file(pFileDom)
 
-    local pDomNode = access_xml_dir(asDirPath)
+    local pDomNode = self:_access_xml_dir(asDirPath)
     pDomNode[sFileName] = pFileContent
 
     return pFileContent
 end
 
 function SXmlProvider:unload_node(sPath)
-    local asDirPath, sName = self.split_path(sPath)
+    local asDirPath, sName = self:_split_path(sPath)
 
-    local pDomNode = access_xml_dir(asDirPath)
+    local pDomNode = self:_access_xml_dir(asDirPath)
     pDomNode[sName] = nil
 end
 
 function SXmlProvider:enter_xml_dir(sDirPath)
-    local asDirPath, sName = self.split_path(sDirPath .. '/')
+    local asDirPath, sName = self:_split_path(sDirPath .. '/')
 
-    local pDomNode = access_xml_dir(asDirPath)
+    local pDomNode = self:_access_xml_dir(asDirPath)
     return pDomNode
 end

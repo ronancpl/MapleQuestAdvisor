@@ -49,7 +49,7 @@ local fn_compare_quest_level = function(pQuest, iLevel)
     return pQuest:get_quest_id() - iLevel
 end
 
-local function CQuestTable:ignore_quests_from_level(iLevel)
+function CQuestTable:_ignore_quests_from_level(iLevel)
     local m_rgQuestsData = self.rgQuestsData
 
     local i = m_rgQuestsData:bsearch(fn_compare_quest_level, iLevel, true, false)
@@ -58,7 +58,7 @@ local function CQuestTable:ignore_quests_from_level(iLevel)
     end
 end
 
-local function CQuestTable:fetch_top_quests_by_level(iLevel, nNumQuests)
+function CQuestTable:_fetch_top_quests_by_level(iLevel, nNumQuests)
     local m_rgQuestsData = self.rgQuestsData
 
     local iIdx = m_rgQuestsData:bsearch(fn_compare_quest_level, iLevel, true, true)
@@ -68,12 +68,12 @@ local function CQuestTable:fetch_top_quests_by_level(iLevel, nNumQuests)
 end
 
 function CQuestTable:ignore_underleveled_quests(iLevel)
-    ignore_quests_from_level(iLevel - RGraph.POOL_BEHIND_QUEST_LEVEL)
+    self:_ignore_quests_from_level(iLevel - RGraph.POOL_BEHIND_QUEST_LEVEL)
 end
 
 function CQuestTable:fetch_required_quests(iLevel)
     local rgPoolQuests = SArray:new()
-    local rgFrontierQuests = fetch_top_quests_by_level(iLevel + RGraph.POOL_AHEAD_QUEST_LEVEL, RGraph.POOL_MIN_QUESTS)
+    local rgFrontierQuests = self:_fetch_top_quests_by_level(iLevel + RGraph.POOL_AHEAD_QUEST_LEVEL, RGraph.POOL_MIN_QUESTS)
 
     while ~rgFrontierQuests:is_empty() do
         local pQuest = rgFrontierQuests:remove_last()

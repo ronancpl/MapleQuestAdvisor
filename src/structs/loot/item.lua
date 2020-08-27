@@ -27,7 +27,7 @@ function CItem:set_itemid(iItemid)
     self.iItemid = iItemid
 end
 
-local function CItem:add_loot(trgLoot, pLoot)
+function CItem:_add_loot(trgLoot, pLoot)
     local iSourceid = pLoot:get_sourceid()
 
     local rgIdLoot = trgLoot[iSourceid]
@@ -44,7 +44,7 @@ function CItem:get_loot_mobs()
 end
 
 function CItem:add_loot_mob(pLoot)
-    self.add_loot(self.trgLootMobs, pLoot)
+    self:_add_loot(self.trgLootMobs, pLoot)
 end
 
 function CItem:get_loot_reactors()
@@ -52,5 +52,5 @@ function CItem:get_loot_reactors()
 end
 
 function CItem:add_loot_reactor(pLoot)
-    self.add_loot(self.trgLootReactors, pLoot)
+    self:_add_loot(self.trgLootReactors, pLoot)
 end

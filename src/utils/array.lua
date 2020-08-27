@@ -99,7 +99,7 @@ function SArray:find(fn_select)
     return apFilter
 end
 
-local function SArray:find_first_from(fn_compare, iIdx, pToFind)
+function SArray:_find_first_from(fn_compare, iIdx, pToFind)
     local m_apItems = self.apItems
 
     local i = iIdx
@@ -114,7 +114,7 @@ local function SArray:find_first_from(fn_compare, iIdx, pToFind)
     return i
 end
 
-local function SArray:find_last_from(fn_compare, iIdx, pToFind)
+function SArray:_find_last_from(fn_compare, iIdx, pToFind)
     local m_apItems = self.apItems
 
     local i = iIdx
@@ -144,9 +144,9 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
         if sResult == 0 then
             if bFirstMatch ~= nil then
                 if bFirstMatch then
-                    m = find_first_from(fn_compare, m, pToFind)
+                    m = self:_find_first_from(fn_compare, m, pToFind)
                 else
-                    m = find_last_from(fn_compare, m, pToFind)
+                    m = self:_find_last_from(fn_compare, m, pToFind)
                 end
             end
 

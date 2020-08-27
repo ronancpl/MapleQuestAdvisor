@@ -34,7 +34,7 @@ function CPlayer:set_job(siJob)
     self.siJob = siJob
 end
 
-local function CPlayer:update_exp_amass() end
+function CPlayer:_update_exp_amass() end
 
 function CPlayer:get_level()
     return self.siLevel
@@ -42,7 +42,7 @@ end
 
 function CPlayer:set_level(siLevel)
     self.siLevel = siLevel
-    self:update_exp_amass()
+    self._update_exp_amass()
 end
 
 function CPlayer:get_exp()
@@ -51,12 +51,12 @@ end
 
 function CPlayer:set_exp(liExp)
     self.liExp = liExp
-    CPlayer:update_exp_amass()
+    self:_update_exp_amass()
 end
 
 function CPlayer:add_exp(liExp)
     self.liExp += liExp
-    CPlayer:update_exp_amass()
+    self:_update_exp_amass()
 end
 
 function CPlayer:get_mapid()
