@@ -17,18 +17,18 @@ CQuestProperties = createClass({
     rgpActs = {}
 })
 
-function CQuest:get_requirements()
+function CQuestProperties:get_requirements()
     return self.rgpChecks
 end
 
-function CQuest:add_requirement(pRequirement)
+function CQuestProperties:add_requirement(pRequirement)
     table.insert(self.rgpChecks, pRequirement)
 end
 
-function CQuest:get_actions()
+function CQuestProperties:get_actions()
     return self.rgpActs
 end
 
-function CQuest:add_action(pAction)
+function CQuestProperties:add_action(pAction)
     table.insert(self.rgpActs, pAction)
 end
