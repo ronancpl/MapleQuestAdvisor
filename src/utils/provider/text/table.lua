@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.io.file")
-require("utils.io.wordlist")
+require("utils.provider.io.file")
+require("utils.provider.io.wordlist")
 
 function read_table(sFilePath, fn_split)
     local sFileContent = pcall_read_file(sFilePath)

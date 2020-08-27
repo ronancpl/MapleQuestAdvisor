@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.io.file")
+require("utils.provider.io.file")
 local xml2lua = require("xml2lua")
 local pXmlHandler = require("xmlhandler.dom")
 local pXmlParser = xml2lua.parser(pXmlHandler)

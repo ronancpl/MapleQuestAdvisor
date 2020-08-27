@@ -40,7 +40,7 @@ function CQuestTable:sort_quest_table()
 
     m_rgQuestsData:sort(
         function(a,b)
-            a.get_quest_id() < b.get_quest_id()
+            return a.get_quest_id() < b.get_quest_id()
         end
     )
 end
@@ -73,9 +73,11 @@ end
 
 function CQuestTable:fetch_required_quests(iLevel)
     local rgPoolQuests = SArray:new()
+
+    --[[
     local rgFrontierQuests = self:_fetch_top_quests_by_level(iLevel + RGraph.POOL_AHEAD_QUEST_LEVEL, RGraph.POOL_MIN_QUESTS)
 
-    while ~rgFrontierQuests:is_empty() do
+    while not rgFrontierQuests:is_empty() do
         local pQuest = rgFrontierQuests:remove_last()
         rgPoolQuests:add(pQuest)
 
@@ -85,6 +87,7 @@ function CQuestTable:fetch_required_quests(iLevel)
             end
         end
     end
+    --]]
 
     return rgPoolQuests
 end
