@@ -19,25 +19,25 @@ require("structs.quest.quest_table")
 require("utils.provider.xml.provider")
 
 local tAttrUnit = {
-    "exp" = CQuestProperty.set_exp,
-    "money" = CQuestProperty.set_meso,
-    "item" = 0,
-    "skill" = 0,    -- attribute: list
-    "mob" = 0,
-    "pop" = CQuestProperty.set_fame,
-    "npc" = CQuestRequirement.set_npc,
-    "lvmin" = CQuestRequirement.set_level_min,
-    "lvmax" = CQuestRequirement.set_level_max,
-    "quest" = 0,
-    "interval" = CQuestRequirement.set_repeatable,
-    "end" = CQuestRequirement.set_date_access
+    _exp = CQuestProperty.set_exp,
+    _money = CQuestProperty.set_meso,
+    _item = 0,
+    _skill = 0,    -- attribute: list
+    _mob = 0,
+    _pop = CQuestProperty.set_fame,
+    _npc = CQuestRequirement.set_npc,
+    _lvmin = CQuestRequirement.set_level_min,
+    _lvmax = CQuestRequirement.set_level_max,
+    _quest = 0,
+    _interval = CQuestRequirement.set_repeatable,
+    _end = CQuestRequirement.set_date_access
 }
 
 local tAttrList = {
-    "item" = CQuestProperty.add_item,
-    "skill" = CQuestProperty.add_skill,
-    "mob" = CQuestProperty.add_mob,
-    "quest" = CQuestRequirement.add_quest
+    _item = CQuestProperty.add_item,
+    _skill = CQuestProperty.add_skill,
+    _mob = CQuestProperty.add_mob,
+    _quest = CQuestRequirement.add_quest
 }
 
 local function read_quest_attribute_value(fn_attr, pQuestProp, pNode)
@@ -55,7 +55,7 @@ local function read_quest_attribute_list(fn_attr, pQuestProp, pNode)
 end
 
 local function read_quest_tab_node_attribute(pQuestProp, pNode)
-    local sName = pNode:get_name()
+    local sName = '_' .. pNode:get_name()
 
     local fn_attr = tAttrUnit[sName]
     if fn_attr ~= 0 then
