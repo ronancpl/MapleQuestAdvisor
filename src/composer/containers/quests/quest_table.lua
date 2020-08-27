@@ -10,9 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/array");
-require("utils/class");
-require("router/filters/graph");
+require("router.filters.graph");
+require("utils.array");
+require("utils.class");
 
 CQuestTable = createClass({
     rgQuestsData = SArray:new()

@@ -10,8 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer/quest/quest");
-require("utils/print");
+package.path = package.path .. ';?.lua'
+
+require("composer.quest.quest");
+require("utils.print");
 
 qtQuests = load_resources_quests()
 printable(qtQuests)

@@ -10,14 +10,13 @@
     provide an express grant of patent rights.
 --]]
 
-require("router/filters/path")
-require("utils/provider/xml/provider")
-require("structs/quest/attributes/action")
-require("structs/quest/attributes/requirement")
-require("structs/quest/properties")
-require("structs/quest/quest")
-require("structs/quest/quest_table")
-
+require("router.filters.path")
+require("structs.quest.attributes.action")
+require("structs.quest.attributes.requirement")
+require("structs.quest.properties")
+require("structs.quest.quest")
+require("structs.quest.quest_table")
+require("utils.provider.xml.provider")
 
 local tAttrUnit = {
     "exp" = CQuestProperty.set_exp,

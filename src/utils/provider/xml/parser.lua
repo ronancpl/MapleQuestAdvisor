@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/provider/xml/node")
+require("utils.provider.xml.node")
 
 local function parse_dom_node_childs(pTreeNode, tFileNodeChilds)
     local pN = table.remove(tFileNodeChilds)  -- avoid handling child N

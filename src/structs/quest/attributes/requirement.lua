@@ -10,9 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils/class");
-require("structs/quest/attributes/property");
-require("structs/storage/inventory");
+require("structs.quest.attributes.property");
+require("structs.storage.inventory");
+require("utils.class");
 
 CQuestRequirement = createClass(CQuestProperty, {
     iNpcid = -1,
