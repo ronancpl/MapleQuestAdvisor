@@ -16,7 +16,7 @@ local function parse_dom_node_childs(pTreeNode, tFileNodeChilds)
     local pN = table.remove(tFileNodeChilds)  -- avoid handling child N
 
     for _, pChildFileNode in pairs(tFileNodeChilds) do
-        local pChildTreeNode = parse_dom_node(pChildFileNode)
+        local pChildTreeNode = _parse_dom_node(pChildFileNode)
         pTreeNode:add_child(pChildTreeNode)
     end
 
@@ -59,7 +59,7 @@ local function parse_dom_node_attributes(pTreeNode, tFileNodeAttrs)
     pTreeNode:set("value", uValue)
 end
 
-local function parse_dom_node(pFileNode)
+function _parse_dom_node(pFileNode)
     local pTreeNode = CXmlNode:new()
 
     pTreeNode:set_type(pFileNode["_type"])
@@ -72,6 +72,6 @@ local function parse_dom_node(pFileNode)
 end
 
 function parse_dom_file(pFileDom)
-    pTreeDom = parse_dom_node(pFileDom)
+    pTreeDom = _parse_dom_node(pFileDom)
     return pTreeDom
 end
