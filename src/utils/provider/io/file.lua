@@ -13,9 +13,10 @@
 function pcall_read_file(sFilePath)
     local bResult, oRet = pcall(
         function ()
-            local osFile = assert( io.open(sFilePath, "rb") )
+            local sFileSrcPath = "../" .. sFilePath
+            local osFile = assert( io.open(sFileSrcPath, "rb") )
             local sContent = osFile:read("*a")
-            f:close()
+            osFile:close()
 
             return sContent
         end

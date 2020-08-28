@@ -1,5 +1,5 @@
 RPath = {
 
-    RSC_QUESTS = "lib\xml\Quest.wz"
+    RSC_QUESTS = "lib/xml/Quest.wz"
 
 }

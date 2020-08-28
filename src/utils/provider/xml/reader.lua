@@ -15,25 +15,25 @@ local xml2lua = require("xml2lua")
 local pXmlHandler = require("xmlhandler.dom")
 local pXmlParser = xml2lua.parser(pXmlHandler)
 
-local function pcall_parse_xml(sContent)
+local function pcall_parse_xml(sContent, sXmlPath)
     local bResult, oRet = pcall(
         function ()
             pXmlParser:parse(sContent)
-            return handler.root
+            return pXmlHandler.root
         end
     )
 
     if bResult then
         return oRet
     else
-        print("[ERROR] Could not parse content " .. sContent)
+        print("[ERROR] Could not parse content from '" .. sXmlPath .. "'")
         return nil
     end
 end
 
 function read_xml_file(sDomXmlPath)
     local sContent = pcall_read_file(sDomXmlPath)
-    local oRoot = pcall_parse_xml(sContent)
+    local oRoot = pcall_parse_xml(sContent, sDomXmlPath)
 
     return oRoot
 end
