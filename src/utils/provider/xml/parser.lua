@@ -13,14 +13,10 @@
 require("utils.provider.xml.node")
 
 local function parse_dom_node_childs(pTreeNode, tFileNodeChilds)
-    local pN = table.remove(tFileNodeChilds)  -- avoid handling child N
-
-    for _, pChildFileNode in pairs(tFileNodeChilds) do
+    for _, pChildFileNode in ipairs(tFileNodeChilds) do
         local pChildTreeNode = _parse_dom_node(pChildFileNode)
         pTreeNode:add_child(pChildTreeNode)
     end
-
-    table.insert(tFileNodeChilds, pN)   -- adds back child N
 end
 
 local tfn_parse_attr = {
