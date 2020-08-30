@@ -11,6 +11,11 @@ end
 function createClass (...)
     local c = {}        -- new class
 
+    c.classMembers = {} -- members definition
+    for k, v in pairs(...) do
+        c.classMembers[k] = v
+    end
+
     -- class will search for each method in the list of its
     -- parents (`arg' is the list of parents)
     setmetatable(c,
@@ -27,6 +32,12 @@ function createClass (...)
     function c:new (o)
         o = o or {}
         setmetatable(o, c)
+
+        -- init field values
+        for k, v in pairs(c.classMembers) do
+            o[k] = v
+        end
+
         return o
     end
 
