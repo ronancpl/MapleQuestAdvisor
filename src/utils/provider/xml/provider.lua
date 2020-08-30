@@ -42,7 +42,7 @@ end
 function SXmlProvider:_access_xml_dir(asDirPath)
     local pDomNode = self.pDomTable
 
-    for sDirName in asDirPath do
+    for sDirName in ipairs(asDirPath) do
         pDomNode = self:_access_xml_dir_node(pDomNode, sDirName)
     end
 

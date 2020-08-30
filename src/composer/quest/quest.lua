@@ -17,6 +17,7 @@ require("structs.quest.attributes.requirement")
 require("structs.quest.properties")
 require("structs.quest.quest")
 require("utils.provider.xml.provider")
+require("utils.print");
 
 local tAttrUnit = {
     _exp = CQuestProperty.set_exp,
@@ -95,7 +96,7 @@ end
 
 local function read_quests(qtQuests, pActNode, pChkNode)
     local pActImgNode = pActNode:get_child_by_name("Act.img")
-    local pChkImgNode = pActNode:get_child_by_name("Check.img")
+    local pChkImgNode = pChkNode:get_child_by_name("Check.img")
 
     for _, pActQuestNode in pairs(pActImgNode:get_children()) do
         local pChkQuestNode = pChkImgNode:get_child_by_name(pActQuestNode:get_name())

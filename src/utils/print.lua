@@ -18,7 +18,7 @@ local tfn_printable = {
     ["userdata"] = function (x) print("_C_USERDATA") end,
     ["function"] = function (x) end,
     ["thread"] = function (x) end,
-    ["table"] = function (x) print("{") for n, m in pairs(x) do print(n) print (" :: ") printable(m) print("}") end end
+    ["table"] = function (x) print("{") for n, m in pairs(x) do print(n) print (" :: ") printable(m) end print("}") end
 }
 
 function printable(pItem)

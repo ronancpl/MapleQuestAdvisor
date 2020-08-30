@@ -13,11 +13,13 @@
 require("utils.provider.io.file")
 local xml2lua = require("xml2lua")
 local pXmlHandler = require("xmlhandler.dom")
-local pXmlParser = xml2lua.parser(pXmlHandler)
 
 local function pcall_parse_xml(sContent, sXmlPath)
     local bResult, oRet = pcall(
         function ()
+            pXmlHandler = pXmlHandler:new()
+            local pXmlParser = xml2lua.parser(pXmlHandler)
+
             pXmlParser:parse(sContent)
             return pXmlHandler.root
         end
