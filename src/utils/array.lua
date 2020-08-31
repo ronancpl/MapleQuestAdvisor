@@ -16,6 +16,7 @@ require("utils.print");
 SArray = createClass({apItems = {}})
 
 function SArray:is_empty()
+    local m_apItems = self.apItems
     return #m_apItems == 0
 end
 

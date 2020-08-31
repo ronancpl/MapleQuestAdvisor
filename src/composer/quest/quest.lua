@@ -122,6 +122,7 @@ function load_resources_quests()
     local sActPath = sDirPath .. "/Act.img.xml"
     local sChkPath = sDirPath .. "/Check.img.xml"
 
+    SXmlProvider:init()
     local pActNode = SXmlProvider:load_xml(sActPath)
     local pChkNode = SXmlProvider:load_xml(sChkPath)
 
