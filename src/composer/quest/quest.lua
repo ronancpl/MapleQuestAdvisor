@@ -42,7 +42,7 @@ local tAttrList = {
 }
 
 local function read_quest_attribute_value(fn_attr, pQuestProp, pNode)
-    local iValue = pNode:get(sName)
+    local iValue = pNode:get_value()
     fn_attr(pQuestProp, iValue)
 end
 
@@ -59,17 +59,18 @@ local function read_quest_tab_node_attribute(pQuestProp, pNode)
     local sName = '_' .. pNode:get_name()
 
     local fn_attr = tAttrUnit[sName]
-    if fn_attr ~= 0 then
-        read_quest_attribute_value(fn_attr, pQuestProp, pNode)
-    else
-        fn_attr = tAttrList[sName]
-        read_quest_attribute_list(fn_attr, pQuestProp, pNode)
+    if fn_attr ~= nil then
+        if fn_attr ~= 0 then
+            read_quest_attribute_value(fn_attr, pQuestProp, pNode)
+        else
+            fn_attr = tAttrList[sName]
+            read_quest_attribute_list(fn_attr, pQuestProp, pNode)
+        end
     end
 end
 
 local function read_quest_tab_state_node(pQuestTab, fn_addProperty, pTabStateNode, CStateProperty)
     for _, pTabElementNode in pairs(pTabStateNode:get_children()) do
-
         local pQuestProp = CStateProperty:new()
         read_quest_tab_node_attribute(pQuestProp, pTabElementNode)
         fn_addProperty(pQuestTab, pQuestProp)

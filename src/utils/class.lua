@@ -13,7 +13,9 @@ function deepCopy(e)
     if type(e) == "table" then
         ce = {}
         for k, v in pairs(e) do
-            ce[deepCopy(k)] = deepCopy(v)
+            local ck = k ~= e and deepCopy(k) or k
+            local cv = v ~= e and deepCopy(v) or v
+            ce[ck] = cv
         end
         setmetatable(ce, getmetatable(e))
     else
@@ -51,7 +53,7 @@ function createClass (...)
 
         -- init field values
         for k, v in pairs(c.classMembers) do
-            o[k] = deepCopy(v)
+            o[deepCopy(k)] = deepCopy(v)
         end
 
         return o
@@ -60,7 +62,7 @@ function createClass (...)
     -- init field values for this singleton instance
     function c:init ()
         for k, v in pairs(c.classMembers) do
-            c[k] = deepCopy(v)
+            c[deepCopy(k)] = deepCopy(v)
         end
         c.__static = true
     end

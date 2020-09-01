@@ -39,6 +39,10 @@ function CXmlNode:set_name(sName)
     self.sName = sName
 end
 
+function CXmlNode:get_value()
+    return self:get("value")
+end
+
 function CXmlNode:get_type()
     return self.sType
 end

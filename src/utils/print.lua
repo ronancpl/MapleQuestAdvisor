@@ -22,7 +22,10 @@ local tfn_printable = {
 }
 
 function printable(pItem)
-    local fn_printable = pItem and pItem.printable
+    local fn_printable
+    if type(pItem) == "table" then
+        fn_printable = pItem.printable
+    end
 
     if fn_printable == nil then
         local sType = type(pItem)
