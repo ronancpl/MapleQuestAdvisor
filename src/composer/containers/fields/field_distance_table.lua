@@ -13,7 +13,7 @@
 require("utils.class");
 
 CFieldDistanceTable = createClass({
-    tFieldDistance
+    tFieldDistance = {}
 })
 
 function CFieldDistanceTable:add_field_entry(iSrcid)

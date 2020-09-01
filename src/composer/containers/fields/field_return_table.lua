@@ -13,7 +13,7 @@
 require("utils.class");
 
 CFieldReturnTable = createClass({
-    tFieldReturn
+    tFieldReturn = {}
 })
 
 function CFieldReturnTable:add_field_return(iSrcid, iDestId)

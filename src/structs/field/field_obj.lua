@@ -13,8 +13,8 @@
 require("utils.class");
 
 CFieldObject = createClass({
-    iSourceid,
-    iCount
+    iSourceid = -1,
+    iCount = 0
 })
 
 function CFieldObject:get_sourceid()

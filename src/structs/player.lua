@@ -14,16 +14,16 @@ require("structs.storage.inventory");
 require("utils.class");
 
 CPlayer = createClass({
-    siJob,
-    siLevel,
-    liExp,
-    liExpAmass,
-    iMapid,
-    iMeso,
-    siFame,
-    ivtItems,
-    ivtSkills,
-    ivtQuests
+    siJob = -1,
+    siLevel = 1,
+    liExp = 0,
+    liExpAmass = 0,
+    iMapid = 0,
+    iMeso = 0,
+    siFame = 0,
+    ivtItems = CInventory:new(),
+    ivtSkills = CInventory:new(),
+    ivtQuests = CInventory:new()
 })
 
 function CPlayer:get_job()

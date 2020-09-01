@@ -14,7 +14,7 @@ require("utils.array");
 require("utils.class");
 
 CInventory = createClass({
-    rgEntries
+    rgEntries = {}
 })
 
 function CInventory:add_item(iId, iCount)
