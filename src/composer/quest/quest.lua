@@ -86,7 +86,7 @@ end
 
 local function read_quest_node(pActNode, pChkNode)
     local pQuest = CQuest:new()
-    pQuest:set_questid(pActQuestNode:get_name_tonumber())
+    pQuest:set_quest_id(pActNode:get_name_tonumber())
 
     read_quest_tab_node(pQuest:get_start(), "0", pActNode, pChkNode)
     read_quest_tab_node(pQuest:get_end(), "1", pActNode, pChkNode)

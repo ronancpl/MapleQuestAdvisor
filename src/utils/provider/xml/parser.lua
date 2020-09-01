@@ -12,26 +12,26 @@
 
 require("utils.provider.xml.node")
 
-local function parse_dom_node_childs(pTreeNode, tFileNodeChilds)
-    for _, pChildFileNode in ipairs(tFileNodeChilds) do
+local function parse_dom_node_children(pTreeNode, tFileNodeChildren)
+    for _, pChildFileNode in ipairs(tFileNodeChildren) do
         local pChildTreeNode = _parse_dom_node(pChildFileNode)
         pTreeNode:add_child(pChildTreeNode)
     end
 end
 
 local tfn_parse_attr = {
-    -- ["imgdir"] = function (x)  end,
-    -- ["canvas"] = function (x)  end,
-    -- ["convex"] = function (x)  end,
-    -- ["sound"] = function (x)  end,
-    -- ["uol"] = function (x)  end,
-    ["double"] = function (x) tonumber(x) end,
-    ["float"] = function (x) tonumber(x) end,
-    ["int"] = function (x) tonumber(x) end,
+    -- ["imgdir"] = function (x) return  end,
+    -- ["canvas"] = function (x) return  end,
+    -- ["convex"] = function (x) return  end,
+    -- ["sound"] = function (x) return  end,
+    -- ["uol"] = function (x) return  end,
+    ["double"] = function (x) return tonumber(x) end,
+    ["float"] = function (x) return tonumber(x) end,
+    ["int"] = function (x) return tonumber(x) end,
     ["short"] = function (x) return tonumber(x) end,
     ["string"] = function (x) return x end,
     -- ["vector"] = function (x) return  end,
-    -- ["null"] = function (x)  return  end,
+    -- ["null"] = function (x) return  end,
 }
 
 local function parse_dom_data_attribute(sName, sValue)
@@ -44,7 +44,7 @@ local function parse_dom_data_attribute(sName, sValue)
 end
 
 local function parse_dom_node_attributes(pTreeNode, tFileNodeAttrs)
-    local sDataType = pTreeNode:get_name()
+    local sDataType = pTreeNode:get_type()
     -- local tAttr = pTreeNode:get_attr()
 
     local sName = tFileNodeAttrs["name"]
@@ -58,16 +58,29 @@ end
 function _parse_dom_node(pFileNode)
     local pTreeNode = CXmlNode:new()
 
-    pTreeNode:set_type(pFileNode["_type"])
-    pTreeNode:set_name(pFileNode["_name"])
+    pTreeNode:set_node_type(pFileNode["_type"])
+    pTreeNode:set_type(pFileNode["_name"])
 
     parse_dom_node_attributes(pTreeNode, pFileNode["_attr"])
-    parse_dom_node_childs(pTreeNode, pFileNode["_children"])
+    parse_dom_node_children(pTreeNode, pFileNode["_children"])
+
+    pTreeNode:set_name(pTreeNode:get("name"))
 
     return pTreeNode
 end
 
+function _build_dom_root(pTreeDom)
+    local pTreeRoot = CXmlNode:new()
+
+    pTreeRoot:set_node_type("ROOT")
+    pTreeRoot:set_type("")
+    pTreeRoot:set_name("")
+    pTreeRoot:add_child(pTreeDom)
+
+    return pTreeRoot
+end
+
 function parse_dom_file(pFileDom)
-    pTreeDom = _parse_dom_node(pFileDom)
-    return pTreeDom
+    local pTreeDom = _parse_dom_node(pFileDom)
+    return _build_dom_root(pTreeDom)
 end

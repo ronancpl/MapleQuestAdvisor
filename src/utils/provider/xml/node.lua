@@ -47,6 +47,14 @@ function CXmlNode:set_type(sType)
     self.sType = sType
 end
 
+function CXmlNode:get_node_type()
+    return self.sNodeType
+end
+
+function CXmlNode:set_node_type(sNodeType)
+    self.sNodeType = sNodeType
+end
+
 function CXmlNode:add_child(pChild)
     local sName = pChild:get_name()
     self.tChildren[sName] = pChild
