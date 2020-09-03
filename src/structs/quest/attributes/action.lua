@@ -13,4 +13,4 @@
 require("structs.quest.attributes.property");
 require("utils.class");
 
-CQuestAction = createClass(CQuestProperty, {})
+CQuestAction = createClass({CQuestProperty, {}})

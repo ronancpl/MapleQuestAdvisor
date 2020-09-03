@@ -14,7 +14,7 @@ require("structs.quest.attributes.property");
 require("structs.storage.inventory");
 require("utils.class");
 
-CQuestRequirement = createClass(CQuestProperty, {
+CQuestRequirement = createClass({CQuestProperty, {
     iNpcid = -1,
     iMapid = 10000,
     iMapidFieldEnter = -1,
@@ -24,7 +24,7 @@ CQuestRequirement = createClass(CQuestProperty, {
     bDateAccess = true,
     bRepeatable = false,
     ivtQuests = CInventory:new()
-})
+}})
 
 function CQuestRequirement:get_npc()
     return self.iMapid

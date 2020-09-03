@@ -25,13 +25,60 @@ function deepCopy(e)
     return ce
 end
 
+function retrieveClassMembers(c)
+    local retMembers = {}
+
+    local classMembers = c.classMembers
+    local innerMembers = classMembers["classMembers"]
+    if (innerMembers ~= nil) then
+        for k, v in pairs(retrieveClassMembers(classMembers)) do
+            retMembers[k] = v
+        end
+    end
+
+    for k, v in pairs(classMembers) do
+        retMembers[k] = v
+    end
+
+    return retMembers
+end
+
+function initClassMembersInternal(tClassMembers)
+    local retMembers = {}                    -- raw members definition
+    for k, v in pairs(tClassMembers) do
+        retMembers[k] = v
+    end
+
+    return retMembers
+end
+
+function insertClassMembers(retMembers, classMembers)
+    for k, v in pairs(classMembers) do
+        retMembers[k] = v
+    end
+end
+
+function initClassMembers(...)
+    local retMembers = {}                    -- raw members definition
+
+    if (#... > 0) then
+        for _, c in ipairs(...) do
+            local cMembers = initClassMembersInternal(c)
+            insertClassMembers(retMembers, cMembers)
+        end
+    else
+        local cMembers = initClassMembersInternal(...)
+        insertClassMembers(retMembers, cMembers)
+    end
+
+    return retMembers
+end
+
 function createClass (...)
     local c = {}        -- new class
 
-    c.classMembers = {} -- members definition
-    for k, v in pairs(...) do
-        c.classMembers[k] = v
-    end
+    c.classMembers = initClassMembers(...)
+    c.classMembers = retrieveClassMembers(c) -- members definition
 
     -- class will search for each method in the list of its
     -- parents (`arg' is the list of parents)
