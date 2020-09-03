@@ -19,7 +19,8 @@ CQuestProperty = createClass({
     siFame = 0,
     ivtSkills = CInventory:new(),
     ivtItems = CInventory:new(),
-    ivtMobs = CInventory:new()
+    ivtMobs = CInventory:new(),
+    ivtQuests = CInventory:new()
 })
 
 function CQuestProperty:get_exp()
@@ -68,4 +69,12 @@ end
 
 function CQuestProperty:add_mob(iId, iCount)
     self.ivtMobs:add_item(iId, iCount)
+end
+
+function CQuestProperty:get_quests()
+    return self.ivtQuests
+end
+
+function CQuestProperty:add_quest(iId)
+    self.ivtQuests:add_item(iId, 1)
 end

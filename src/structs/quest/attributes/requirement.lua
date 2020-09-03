@@ -22,8 +22,7 @@ CQuestRequirement = createClass({CQuestProperty, {
     siLevelMax = -1,
     bJobAccess = false,
     bDateAccess = true,
-    bRepeatable = false,
-    ivtQuests = CInventory:new()
+    bRepeatable = false
 }})
 
 function CQuestRequirement:get_npc()
@@ -88,12 +87,4 @@ end
 
 function CQuestRequirement:set_repeatable(iRepeatable)
     self.bRepeatable = iRepeatable > 0
-end
-
-function CQuestRequirement:get_quests()
-    return self.ivtQuests
-end
-
-function CQuestRequirement:add_quest(iId)
-    self.ivtQuests:add_item(iId, 1)
 end

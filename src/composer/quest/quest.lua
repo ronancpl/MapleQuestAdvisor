@@ -38,7 +38,7 @@ local tAttrList = {
     _item = CQuestProperty.add_item,
     _skill = CQuestProperty.add_skill,
     _mob = CQuestProperty.add_mob,
-    _quest = CQuestRequirement.add_quest
+    _quest = CQuestProperty.add_quest
 }
 
 local function read_quest_attribute_value(fn_attr, pQuestProp, pNode)
@@ -101,9 +101,12 @@ local function read_quests(qtQuests, pActNode, pChkNode)
 
     for _, pActQuestNode in pairs(pActImgNode:get_children()) do
         local pChkQuestNode = pChkImgNode:get_child_by_name(pActQuestNode:get_name())
-
-        local pQuest = read_quest_node(pActQuestNode, pChkQuestNode)
-        qtQuests:add_quest_data(pQuest)
+        if (pChkQuestNode ~= nil) then
+            local pQuest = read_quest_node(pActQuestNode, pChkQuestNode)
+            qtQuests:add_quest_data(pQuest)
+        else
+            print("[WARNING] Missing questid " .. pActQuestNode:get_name())
+        end
     end
 end
 
