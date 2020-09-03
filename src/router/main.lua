@@ -12,8 +12,12 @@
 
 package.path = package.path .. ';?.lua'
 
+require("composer.field.field");
 require("composer.quest.quest");
 require("utils.print");
 
-qtQuests = load_resources_quests()
-printable(qtQuests)
+--qtQuests = load_resources_quests()
+--printable(qtQuests)
+
+tFieldDist = load_resources_fields()
+printable(tFieldDist)

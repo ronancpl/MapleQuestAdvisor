@@ -21,5 +21,5 @@ function CFieldDistanceTable:add_field_entry(iSrcid)
 end
 
 function CFieldDistanceTable:add_field_distance(iSrcid, iDestId, iDistance)
-    tFieldDistance[iSrcid][iDestId] = iDistance     -- srcid entry already added
+    self.tFieldDistance[iSrcid][iDestId] = iDistance     -- srcid entry already added
 end
