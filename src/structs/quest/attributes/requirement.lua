@@ -27,7 +27,7 @@ CQuestRequirement = createClass({CQuestProperty, {
 }})
 
 function CQuestRequirement:get_npc()
-    return self.iMapid
+    return self.iNpcid
 end
 
 function CQuestRequirement:set_npc(iNpcid)
