@@ -12,14 +12,18 @@
 
 require("utils.class");
 
-CFieldReturnTable = createClass({
-    tFieldReturn = {}
+CUnitDataTable = createClass({
+    tUnitFields = {}
 })
 
-function CFieldReturnTable:add_field_return(iSrcid, iDestId)
-    self.tFieldReturn[iSrcid] = iDestId
+function CUnitDataTable:add_entry(iSrcid)
+    self.tUnitFields[iSrcid] = {}
 end
 
-function CFieldReturnTable:get_field_return(iSrcid)
-    return self.tFieldReturn[iSrcid]
+function CUnitDataTable:add_location(iSrcid, iMapid)
+    self.tUnitFields[iSrcid][iMapid] = 1
+end
+
+function CUnitDataTable:get_locations(iSrcid)
+    return self.tUnitFields[iSrcid]
 end

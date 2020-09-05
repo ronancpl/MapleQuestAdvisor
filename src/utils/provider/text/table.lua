@@ -27,6 +27,6 @@ function read_table(sFilePath, fn_split)
 end
 
 function read_plain_table(sFilePath)
-    local fn_split = splitText
+    local fn_split = split_text
     return read_table(sFilePath, fn_split)
 end

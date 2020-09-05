@@ -10,18 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-package.path = package.path .. ';?.lua'
+require("utils.class");
+require("composer.containers.units.unit_table")
 
-require("composer.field.field");
-require("composer.quest.quest");
-require("composer.unit.unit");
-require("utils.print");
-
---qtQuests = load_resources_quests()
---printable(qtQuests)
-
---tFieldDist = load_resources_fields()
---printable(tFieldDist)
-
-tFieldMeta = load_more_resources_fields()
-load_resources_units(tFieldMeta)
+CReactorDataTable = createClass({CUnitDataTable, {}})

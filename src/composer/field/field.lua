@@ -11,7 +11,9 @@
 --]]
 
 require("composer.containers.fields.field_distance_table")
+require("composer.containers.fields.field_meta_table")
 require("router.filters.path")
+require("utils.provider.text.table")
 
 function read_field_distances(tFieldDist, pMapNeighborsNode)
     local pNeighborsImgNode = pMapNeighborsNode:get_child_by_name("MapNeighbors.img")
@@ -22,7 +24,10 @@ function read_field_distances(tFieldDist, pMapNeighborsNode)
 
         for _, pFieldNeighborNode in pairs(pFieldNode:get_children()) do
             local iToMapid = pFieldNeighborNode:get_value()
-            tFieldDist:add_field_distance(iMapid, iToMapid, 1)
+
+            if iMapid ~= iToMapid then
+                tFieldDist:add_field_distance(iMapid, iToMapid, 1)
+            end
         end
     end
 end
@@ -44,4 +49,42 @@ function load_resources_fields()
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Neighbors
     return tFieldDist
+end
+
+function load_field_return_areas(pFieldMeta, sFilePath)
+    local tFieldOverworld = read_plain_table(sFilePath)
+
+    for _, pFieldEntry in ipairs(tFieldOverworld) do
+        local iSrcid = tonumber(string.sub(pFieldEntry[1], 19, -8))
+        local iDestId = tonumber(pFieldEntry[2])
+
+        pFieldMeta:add_field_return(iSrcid, iDestId)
+    end
+end
+
+function load_field_overworld_areas(pFieldMeta, sFilePath)
+    local tFieldOverworld = read_plain_table(sFilePath)
+
+    for _, pFieldEntry in ipairs(tFieldOverworld) do
+        local iEntryLen = #pFieldEntry
+
+        if (iEntryLen <= 2) then    -- ignore not-in-overworld areas
+            local iSrcid = tonumber(pFieldEntry[1])
+            local iDestId = tonumber(pFieldEntry[2])
+
+            pFieldMeta:add_field_overworld(iSrcid, iDestId)
+        end
+    end
+end
+
+function load_more_resources_fields()
+    local sDirPath = RPath.RSC_META_FIELDS
+    local sMapOverworldPath = sDirPath .. "/map_overworld.txt"
+    local sMapReturnPath = sDirPath .. "/map_return_areas.txt"
+
+    local pFieldMeta = CFieldMetaTable:new()
+    load_field_overworld_areas(pFieldMeta, sPath)
+    load_field_return_areas(pFieldMeta, sPath)
+
+    return pFieldMeta
 end
