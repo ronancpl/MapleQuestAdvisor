@@ -38,3 +38,10 @@ function printable(pItem)
 
     fn_printable(pItem)
 end
+
+function print_table(pItem)
+    for k, v in pairs(pItem) do
+        print(k, type(v))
+    end
+    print("--------")
+end

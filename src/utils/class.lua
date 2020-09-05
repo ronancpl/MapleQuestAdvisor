@@ -72,6 +72,7 @@ function createClass (...)
 
     -- prepare `c' to be the metatable of its instances
     setmetatable(c, {__index = c.classMembers})
+    c.__index = c
 
     -- define a new constructor for this new class
     function c:new (o)
