@@ -10,21 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-package.path = package.path .. ';?.lua'
+require("utils.class");
 
-require("composer.field.field");
-require("composer.quest.quest");
-require("composer.unit.unit");
-require("composer.unit.player");
-require("utils.print");
+CPlayerDataTable = createClass({
+    tExpTnl = {}
+})
 
---qtQuests = load_resources_quests()
---printable(qtQuests)
+function CPlayerDataTable:add_exp_to_next_level(iExpNeeded)
+    table.insert(self.tExpTnl, iExpNeeded)
+end
 
---tFieldDist = load_resources_fields()
---printable(tFieldDist)
-
---tFieldMeta = load_more_resources_fields()
---load_resources_units(tFieldMeta)
-
-tPlayerMeta = load_resources_player()
+function CPlayerDataTable:get_exp_to_next_level(iLevel)
+    return self.tExpTnl[iLevel]
+end
