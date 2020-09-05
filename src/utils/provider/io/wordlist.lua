@@ -22,7 +22,7 @@ local function split_delimiter(sText, sDelimiter)
 end
 
 function split_text(sText)
-    return split_delimiter(sText, "(%w+)")
+    return split_delimiter(sText, "(%S+)")
 end
 
 function split_line(sText)

@@ -13,8 +13,8 @@
 require("utils.class");
 
 CFieldMetaTable = createClass({
-    tFieldReturn = {}
-    tFieldOverworld = {}
+    tFieldReturn = {},
+    tFieldOverworld = {},
     tTownFields = {}
 })
 

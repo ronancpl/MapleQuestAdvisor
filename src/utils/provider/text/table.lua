@@ -18,7 +18,7 @@ function read_table(sFilePath, fn_split)
     local aasRowValues = {}
 
     local asLines = split_line(sFileContent)
-    for sLine in asLines do
+    for _, sLine in ipairs(asLines) do
         local asRowContent = fn_split(sLine)
         table.insert(aasRowValues, asRowContent)
     end

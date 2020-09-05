@@ -55,7 +55,7 @@ function load_field_return_areas(pFieldMeta, sFilePath)
     local tFieldOverworld = read_plain_table(sFilePath)
 
     for _, pFieldEntry in ipairs(tFieldOverworld) do
-        local iSrcid = tonumber(string.sub(pFieldEntry[1], 19, -8))
+        local iSrcid = tonumber(string.sub(pFieldEntry[1], 20, -9))
         local iDestId = tonumber(pFieldEntry[2])
 
         pFieldMeta:add_field_return(iSrcid, iDestId)
@@ -83,8 +83,8 @@ function load_more_resources_fields()
     local sMapReturnPath = sDirPath .. "/map_return_areas.txt"
 
     local pFieldMeta = CFieldMetaTable:new()
-    load_field_overworld_areas(pFieldMeta, sPath)
-    load_field_return_areas(pFieldMeta, sPath)
+    load_field_overworld_areas(pFieldMeta, sMapOverworldPath)
+    load_field_return_areas(pFieldMeta, sMapReturnPath)
 
     return pFieldMeta
 end
