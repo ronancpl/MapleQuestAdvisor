@@ -1,13 +1,3 @@
--- look up for `k' in list of tables `plist'
-local function search (k, plist)
-    for i=1, table.getn(plist)
-    do
-        local v = plist[i][k]     -- try
-        -- `i'-th superclass
-        if v then return v end
-    end
-end
-
 function deepCopy(e)
     local ce
     if type(e) == "table" then
@@ -80,18 +70,8 @@ function createClass (...)
     c.classMembers = initClassMembers(...)
     c.classMembers = retrieveClassMembers(c) -- members definition
 
-    -- class will search for each method in the list of its
-    -- parents (`arg' is the list of parents)
-    setmetatable(c,
-    {
-        __index = function (t, k)
-            local arg = c.classMembers
-            return search(k, arg)
-        end
-    })
-
     -- prepare `c' to be the metatable of its instances
-    c.__index = c
+    setmetatable(c, {__index = c.classMembers})
 
     -- define a new constructor for this new class
     function c:new (o)
