@@ -17,11 +17,11 @@ local pXmlHandler = require("xmlhandler.dom")
 local function pcall_parse_xml(sContent, sXmlPath)
     local bResult, oRet = pcall(
         function ()
-            pXmlHandler = pXmlHandler:new()
-            local pXmlParser = xml2lua.parser(pXmlHandler)
+            local pXmlFileHandler = pXmlHandler:new()
+            local pXmlParser = xml2lua.parser(pXmlFileHandler)
 
             pXmlParser:parse(sContent)
-            return pXmlHandler.root
+            return pXmlFileHandler.root
         end
     )
 
