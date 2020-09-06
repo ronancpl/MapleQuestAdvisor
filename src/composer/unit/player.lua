@@ -16,26 +16,24 @@ require("utils.provider.text.csv")
 require("utils.provider.text.table")
 
 local function load_exp_to_next_level(pUnitData, sFilePath)
-    local tExpCsv = read_csv(sFilePath)
-    if #tExpCsv > 0 then
-        local tExpNeeded = tExpCsv[1]
-        for _, pExpEntry in ipairs(tExpNeeded) do
-            local iExp = tonumber(pExpEntry)
+    local tExpRs = read_result_set(sFilePath, {"exp"})
+    if #tExpRs > 1 then
+        for _, tRow in ipairs(tExpRs) do
+            local iExp = tonumber(tRow["exp"])
             pUnitData:add_exp_to_next_level(iExp)
         end
     end
-
 end
 
 local function load_player_data(sDirPath)
     local pUnitData = CPlayerDataTable:new()
-    load_exp_to_next_level(pUnitData, sDirPath .. "/exp_table.txt")
+    load_exp_to_next_level(pUnitData, sDirPath .. "/exp_table.csv")
 
     return pUnitData
 end
 
 function load_resources_player()
-    local sDirPath = RPath.RSC_META_UNITS
+    local sDirPath = RPath.RSC_META_UNITS_CSV
 
     local pPlayerData = load_player_data(sDirPath)
     return pPlayerData

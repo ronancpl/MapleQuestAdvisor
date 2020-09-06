@@ -29,10 +29,11 @@ require("utils.print");
 --tFieldMeta = load_more_resources_fields()
 --load_resources_units(tFieldMeta)
 
---tPlayerMeta = load_resources_player()
+tPlayerMeta = load_resources_player()
+printable(tPlayerMeta)
 
-tLoots = load_resources_loots()
-printable(tLoots)
+--tLoots = load_resources_loots()
+--printable(tLoots)
 
-tMaker = load_resources_maker()
-printable(tMaker)
+--tMaker = load_resources_maker()
+--printable(tMaker)
