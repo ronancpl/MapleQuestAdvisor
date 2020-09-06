@@ -13,6 +13,8 @@
 package.path = package.path .. ';?.lua'
 
 require("composer.field.field");
+require("composer.loot.loot");
+require("composer.loot.maker");
 require("composer.quest.quest");
 require("composer.unit.unit");
 require("composer.unit.player");
@@ -27,4 +29,10 @@ require("utils.print");
 --tFieldMeta = load_more_resources_fields()
 --load_resources_units(tFieldMeta)
 
-tPlayerMeta = load_resources_player()
+--tPlayerMeta = load_resources_player()
+
+tLoots = load_resources_loots()
+printable(tLoots)
+
+tMaker = load_resources_maker()
+printable(tMaker)
