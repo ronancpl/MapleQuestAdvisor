@@ -1,4 +1,17 @@
-function deepCopy(e)
+--[[
+
+    This source file, based on the original implementation presented on the lua.org site, codifies class members definition
+    and value initialization along the class instance.
+
+    Usage:  CLASS_DEF = CREATE_CLASS ({CLASS_ARG_LIST})
+
+            CLASS_ARG_LIST: (CLASS_ARG[, CLASS_ARG]*)
+            CLASS_ARG: CLASS_DEF | CLASS_COMP
+            CLASS_COMP: {[CLASS_MEMBER_ARG[, CLASS_MEMBER_ARG]*]}
+
+]]--
+
+local function deepCopy(e)
     local ce
     if type(e) == "table" then
         ce = {}
@@ -15,7 +28,7 @@ function deepCopy(e)
     return ce
 end
 
-function retrieveClassMembers(c)
+local function retrieveClassMembers(c)
     local retMembers = {}
 
     local classMembers = c.classMembers
@@ -33,7 +46,7 @@ function retrieveClassMembers(c)
     return retMembers
 end
 
-function initClassMembersInternal(tClassMembers)
+local function initClassMembersInternal(tClassMembers)
     local retMembers = {}                    -- raw members definition
     for k, v in pairs(tClassMembers) do
         retMembers[k] = v
@@ -42,13 +55,13 @@ function initClassMembersInternal(tClassMembers)
     return retMembers
 end
 
-function insertClassMembers(retMembers, classMembers)
+local function insertClassMembers(retMembers, classMembers)
     for k, v in pairs(classMembers) do
         retMembers[k] = v
     end
 end
 
-function initClassMembers(...)
+local function initClassMembers(...)
     local retMembers = {}                    -- raw members definition
 
     if (#... > 0) then

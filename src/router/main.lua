@@ -21,25 +21,31 @@ require("composer.unit.player");
 require("utils.print");
 require("utils.provider.xml.provider")
 
-SXmlProvider:init()
+function load_resources()
+    SXmlProvider:init()
 
-ctQuests = load_resources_quests()
-printable(ctQuests)
+    ctQuests = load_resources_quests()
+    --printable(ctQuests)
 
-ctFieldsDist = load_resources_fields()
-printable(ctFieldsDist)
+    ctFieldsDist = load_resources_fields()
+    --printable(ctFieldsDist)
 
-ctFieldsMeta = load_more_resources_fields()
-ctNpcs, ctMobs, ctReactors = load_resources_units(ctFieldsMeta)
-printable(ctNpcs)
-printable(ctMobs)
-printable(ctReactors)
+    ctFieldsMeta = load_more_resources_fields()
+    --printable(ctFieldsMeta)
 
-ctPlayersMeta = load_resources_player()
-printable(ctPlayersMeta)
+    ctNpcs, ctMobs, ctReactors = load_resources_units(ctFieldsMeta)
+    --printable(ctNpcs)
+    --printable(ctMobs)
+    --printable(ctReactors)
 
-ctLoots = load_resources_loots()
-printable(ctLoots)
+    ctPlayersMeta = load_resources_player()
+    --printable(ctPlayersMeta)
 
-ctMaker = load_resources_maker()
-printable(ctMaker)
+    ctLoots = load_resources_loots()
+    --printable(ctLoots)
+
+    ctMaker = load_resources_maker()
+    --printable(ctMaker)
+end
+
+load_resources()
