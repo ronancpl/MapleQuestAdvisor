@@ -17,8 +17,8 @@ require("composer.containers.units.unit_table")
 require("router.filters.path")
 require("utils.provider.text.table")
 
-local function load_units_data(sFilePath, CDataTable, fn_add_entry, fn_add_location, sUnitNodeStartsWith, sUnitNodeEndsWith, pFieldMeta)
-    local pUnitData = CDataTable:new()
+local function load_units_table(sFilePath, CBaseUnitTable, fn_add_entry, fn_add_location, sUnitNodeStartsWith, sUnitNodeEndsWith, ctFieldsMeta)
+    local ctUnits = CBaseUnitTable:new()
     local tUnitLocations = read_plain_table(sFilePath)
 
     local stIdx = #sUnitNodeStartsWith + 1
@@ -26,45 +26,45 @@ local function load_units_data(sFilePath, CDataTable, fn_add_entry, fn_add_locat
 
     for _, pUnitEntry in ipairs(tUnitLocations) do
         local iSrcid = tonumber(string.sub(pUnitEntry[1], stIdx, enIdx))
-        fn_add_entry(pUnitData, iSrcid)
+        fn_add_entry(ctUnits, iSrcid)
 
         for i = 2, #pUnitEntry, 1 do
-            local iMapId = pFieldMeta:get_field_overworld(tonumber(pUnitEntry[i]))
+            local iMapId = ctFieldsMeta:get_field_overworld(tonumber(pUnitEntry[i]))
             if (iMapId ~= nil) then
-                fn_add_location(pUnitData, iSrcid, iMapId)
+                fn_add_location(ctUnits, iSrcid, iMapId)
             end
         end
     end
 
-    return pUnitData
+    return ctUnits
 end
 
-local function load_npcs_data(sFilePath, pFieldMeta)
+local function load_npcs_table(sFilePath, ctFieldsMeta)
     local sUnitNodeStartsWith = "wz/Npc.wz/"
-    local pUnitData = load_units_data(sFilePath, CNpcDataTable, CNpcDataTable.add_entry, CNpcDataTable.add_location, sUnitNodeStartsWith, ".img.xml", pFieldMeta)
-    return pUnitData
+    local ctUnits = load_units_table(sFilePath, CNpcTable, CNpcTable.add_entry, CNpcTable.add_location, sUnitNodeStartsWith, ".img.xml", ctFieldsMeta)
+    return ctUnits
 end
 
-local function load_mobs_data(sFilePath, pFieldMeta)
+local function load_mobs_table(sFilePath, ctFieldsMeta)
     local sUnitNodeStartsWith = "wz/Mob.wz/"
 
-    local pUnitData = load_units_data(sFilePath, CMobDataTable, CMobDataTable.add_entry, CMobDataTable.add_location, sUnitNodeStartsWith, ".img.xml", pFieldMeta)
-    return pUnitData
+    local ctUnits = load_units_table(sFilePath, CMobTable, CMobTable.add_entry, CMobTable.add_location, sUnitNodeStartsWith, ".img.xml", ctFieldsMeta)
+    return ctUnits
 end
 
-local function load_reactors_data(sFilePath, pFieldMeta)
+local function load_reactors_table(sFilePath, ctFieldsMeta)
     local sUnitNodeStartsWith = "wz/Reactor.wz/"
 
-    local pUnitData = load_units_data(sFilePath, CReactorDataTable, CReactorDataTable.add_entry, CReactorDataTable.add_location, sUnitNodeStartsWith, ".img.xml", pFieldMeta)
-    return pUnitData
+    local ctUnits = load_units_table(sFilePath, CReactorTable, CReactorTable.add_entry, CReactorTable.add_location, sUnitNodeStartsWith, ".img.xml", ctFieldsMeta)
+    return ctUnits
 end
 
-function load_resources_units(pFieldMeta)
+function load_resources_units(ctFieldsMeta)
     local sDirPath = RPath.RSC_META_UNITS
 
-    local pNpcData = load_npcs_data(sDirPath .. "/npc.txt", pFieldMeta)
-    local pMobData = load_mobs_data(sDirPath .. "/mob.txt", pFieldMeta)
-    local pReactorData = load_reactors_data(sDirPath .. "/reactor.txt", pFieldMeta)
+    local ctNpcs = load_npcs_table(sDirPath .. "/npc.txt", ctFieldsMeta)
+    local ctMobs = load_mobs_table(sDirPath .. "/mob.txt", ctFieldsMeta)
+    local ctReactors = load_reactors_table(sDirPath .. "/reactor.txt", ctFieldsMeta)
 
-
+    return ctNpcs, ctMobs, ctReactors
 end

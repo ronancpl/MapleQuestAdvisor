@@ -13,24 +13,24 @@
 require("composer.containers.loots.maker")
 require("utils.provider.text.csv")
 
-local function init_maker_data(sFilePath)
-    local tMaker = CMakerDataTable:new()
+local function init_maker_table(sFilePath)
+    local ctMaker = CMakerTable:new()
 
     local tMakerRs = read_result_set(sFilePath, {"itemid"})
     if #tMakerRs > 1 then
         for _, tRow in ipairs(tMakerRs) do
             local iSrcid = tonumber(tRow["itemid"])
-            tMaker:add_maker_create_item(iSrcid)
+            ctMaker:add_maker_create_item(iSrcid)
         end
     end
 
-    return tMaker
+    return ctMaker
 end
 
 function load_resources_maker()
     local sDirPath = RPath.RSC_META_LOOTS
     local sMakerPath = sDirPath .. "/makercreatedata.csv"
 
-    local tMaker = init_maker_data(sMakerPath)
-    return tMaker
+    local ctMaker = init_maker_table(sMakerPath)
+    return ctMaker
 end

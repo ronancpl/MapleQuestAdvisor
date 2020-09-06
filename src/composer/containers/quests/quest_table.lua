@@ -15,30 +15,30 @@ require("utils.array");
 require("utils.class");
 
 CQuestTable = createClass({
-    rgQuestsData = SArray:new()
+    rgQuests = SArray:new()
 })
 
-function CQuestTable:add_quest_data(pQuest)
-    local m_rgQuestsData = self.rgQuestsData
-    m_rgQuestsData:add(pQuest)
+function CQuestTable:add_quest(pQuest)
+    local m_rgQuests = self.rgQuests
+    m_rgQuests:add(pQuest)
 end
 
-function CQuestTable:remove_quest_data(iIdx, iNumQuests)
-    local m_rgQuestsData = self.rgQuestsData
-    local rgRemovedQuestsData = m_rgQuestsData:remove(iIdx, iIdx + iNumQuests)
+function CQuestTable:remove_quest(iIdx, iNumQuests)
+    local m_rgQuests = self.rgQuests
+    local rgRemovedQuests = m_rgQuests:remove(iIdx, iIdx + iNumQuests)
 
-    return rgRemovedQuestsData
+    return rgRemovedQuests
 end
 
 function CQuestTable:randomize_quest_table()
-    local m_rgQuestsData = self.rgQuestsData
-    m_rgQuestsData:randomize()
+    local m_rgQuests = self.rgQuests
+    m_rgQuests:randomize()
 end
 
 function CQuestTable:sort_quest_table()
-    local m_rgQuestsData = self.rgQuestsData
+    local m_rgQuests = self.rgQuests
 
-    m_rgQuestsData:sort(
+    m_rgQuests:sort(
         function(a,b)
             return a.get_quest_id() < b.get_quest_id()
         end
@@ -50,19 +50,19 @@ local fn_compare_quest_level = function(pQuest, iLevel)
 end
 
 function CQuestTable:_ignore_quests_from_level(iLevel)
-    local m_rgQuestsData = self.rgQuestsData
+    local m_rgQuests = self.rgQuests
 
-    local i = m_rgQuestsData:bsearch(fn_compare_quest_level, iLevel, true, false)
+    local i = m_rgQuests:bsearch(fn_compare_quest_level, iLevel, true, false)
     if i > 0 then
-        m_rgQuestsData:remove(1, i)
+        m_rgQuests:remove(1, i)
     end
 end
 
 function CQuestTable:_fetch_top_quests_by_level(iLevel, nNumQuests)
-    local m_rgQuestsData = self.rgQuestsData
+    local m_rgQuests = self.rgQuests
 
-    local iIdx = m_rgQuestsData:bsearch(fn_compare_quest_level, iLevel, true, true)
-    local rgPoolQuests = m_rgQuestsData:remove(iIdx, nNumQuests)  -- pick top quests from overall table
+    local iIdx = m_rgQuests:bsearch(fn_compare_quest_level, iLevel, true, true)
+    local rgPoolQuests = m_rgQuests:remove(iIdx, nNumQuests)  -- pick top quests from overall table
 
     return rgPoolQuests
 end

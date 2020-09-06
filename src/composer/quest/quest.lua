@@ -94,7 +94,7 @@ local function read_quest_node(pActNode, pChkNode)
     return pQuest
 end
 
-local function read_quests(qtQuests, pActNode, pChkNode)
+local function read_quests(ctQuests, pActNode, pChkNode)
     local pActImgNode = pActNode:get_child_by_name("Act.img")
     local pChkImgNode = pChkNode:get_child_by_name("Check.img")
 
@@ -102,7 +102,7 @@ local function read_quests(qtQuests, pActNode, pChkNode)
         local pChkQuestNode = pChkImgNode:get_child_by_name(pActQuestNode:get_name())
         if (pChkQuestNode ~= nil) then
             local pQuest = read_quest_node(pActQuestNode, pChkQuestNode)
-            qtQuests:add_quest_data(pQuest)
+            ctQuests:add_quest(pQuest)
         else
             print("[WARNING] Missing questid " .. pActQuestNode:get_name())
         end
@@ -110,14 +110,14 @@ local function read_quests(qtQuests, pActNode, pChkNode)
 end
 
 local function init_quests_list(pActNode, pChkNode)
-    local qtQuests = CQuestTable:new()
+    local ctQuests = CQuestTable:new()
 
-    read_quests(qtQuests, pActNode, pChkNode)
+    read_quests(ctQuests, pActNode, pChkNode)
 
-    --qtQuests:randomize_quest_table()
-    --qtQuests:sort_quest_table()
+    --ctQuests:randomize_quest_table()
+    --ctQuests:sort_quest_table()
 
-    return qtQuests
+    return ctQuests
 end
 
 function load_resources_quests()
@@ -125,12 +125,11 @@ function load_resources_quests()
     local sActPath = sDirPath .. "/Act.img.xml"
     local sChkPath = sDirPath .. "/Check.img.xml"
 
-    SXmlProvider:init()
     local pActNode = SXmlProvider:load_xml(sActPath)
     local pChkNode = SXmlProvider:load_xml(sChkPath)
 
-    local qtQuests = init_quests_list(pActNode, pChkNode)
+    local ctQuests = init_quests_list(pActNode, pChkNode)
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Act, Check
-    return qtQuests
+    return ctQuests
 end

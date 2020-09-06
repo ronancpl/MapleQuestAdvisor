@@ -34,23 +34,23 @@ local tfn_parse_attr = {
     -- ["null"] = function (x) return  end,
 }
 
-local function parse_dom_data_attribute(sName, sValue)
-    fn_data_attr = tfn_parse_attr[sName]
-    if fn_data_attr ~= nil then
-        return fn_data_attr(sValue)
+local function parse_dom_node_attribute(sName, sValue)
+    local fn_parse_attr = tfn_parse_attr[sName]
+    if fn_parse_attr ~= nil then
+        return fn_parse_attr(sValue)
     else
         return nil
     end
 end
 
 local function parse_dom_node_attributes(pTreeNode, tFileNodeAttrs)
-    local sDataType = pTreeNode:get_type()
+    local sNodeType = pTreeNode:get_type()
     -- local tAttr = pTreeNode:get_attr()
 
     local sName = tFileNodeAttrs["name"]
     local sValue = tFileNodeAttrs["value"]
 
-    local uValue = parse_dom_data_attribute(sDataType, sValue)
+    local uValue = parse_dom_node_attribute(sNodeType, sValue)
     pTreeNode:set("name", sName)
     pTreeNode:set("value", uValue)
 end

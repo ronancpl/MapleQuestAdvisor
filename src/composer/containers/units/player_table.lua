@@ -12,14 +12,14 @@
 
 require("utils.class");
 
-CPlayerDataTable = createClass({
+CPlayerMetaTable = createClass({
     tExpTnl = {}
 })
 
-function CPlayerDataTable:add_exp_to_next_level(iExpNeeded)
+function CPlayerMetaTable:add_exp_to_next_level(iExpNeeded)
     table.insert(self.tExpTnl, iExpNeeded)
 end
 
-function CPlayerDataTable:get_exp_to_next_level(iLevel)
+function CPlayerMetaTable:get_exp_to_next_level(iLevel)
     return self.tExpTnl[iLevel]
 end

@@ -13,7 +13,7 @@
 require("composer.containers.loots.loot")
 require("utils.provider.text.csv")
 
-local function load_loot_entries(tLoot, fnLootEntry, sEntryKey, tLootRs)
+local function load_loot_entries(ctLoots, fnLootEntry, sEntryKey, tLootRs)
     local tLootEntries = {}
 
     for _, tRow in ipairs(tLootRs) do
@@ -22,11 +22,11 @@ local function load_loot_entries(tLoot, fnLootEntry, sEntryKey, tLootRs)
     end
 
     for _, iSrcid in ipairs(tLootEntries) do
-        fnLootEntry(tLoot, iSrcid)
+        fnLootEntry(ctLoots, iSrcid)
     end
 end
 
-local function load_loot_data(tLoot, fnLootAdd, tLootRs, tLoadKeys)
+local function load_loot_body(ctLoots, fnLootAdd, tLootRs, tLoadKeys)
     for _, tRow in ipairs(tLootRs) do
         local iSrcid = tonumber(tRow[tLoadKeys[1]])
         local iItemid = tonumber(tRow[tLoadKeys[2]])
@@ -34,34 +34,34 @@ local function load_loot_data(tLoot, fnLootAdd, tLootRs, tLoadKeys)
         local siMaxItems = type(tLoadKeys[4]) == "number" and tLoadKeys[4] or tonumber(tRow[tLoadKeys[4]])
         local iChance = tonumber(tRow[tLoadKeys[5]])
 
-        fnLootAdd(tLoot, iSrcid, iItemid, iChance, siMinItems, siMaxItems)
+        fnLootAdd(ctLoots, iSrcid, iItemid, iChance, siMinItems, siMaxItems)
     end
 end
 
-local function load_loot_type_data(tLoot, fnLootEntry, fnLootAdd, sEntryKey, rgsRsKeys, sFilePath)
+local function load_loot_by_type(ctLoots, fnLootEntry, fnLootAdd, sEntryKey, rgsRsKeys, sFilePath)
     local tLootRs = read_result_set(sFilePath, rgsRsKeys)
     if #tLootRs > 1 then
-        load_loot_entries(tLoot, fnLootEntry, sEntryKey, tLootRs)
+        load_loot_entries(ctLoots, fnLootEntry, sEntryKey, tLootRs)
 
         local tLoadKeys = rgsRsKeys
-        load_loot_data(tLoot, fnLootAdd, tLootRs, tLoadKeys)
+        load_loot_body(ctLoots, fnLootAdd, tLootRs, tLoadKeys)
     end
 end
 
-local function init_loot_data(sDirPath)
-    local tLoot = CLootDataTable:new()
+local function init_loot_table(sDirPath)
+    local ctLoots = CLootTable:new()
 
-    load_loot_type_data(tLoot, CLootDataTable.add_mob_entry, CLootDataTable.add_mob_loot, "dropperid", {"dropperid", "itemid", "minimum_quantity", "maximum_quantity", "chance"}, sDirPath .. "/drop_data.csv")
-    load_loot_type_data(tLoot, CLootDataTable.add_reactor_entry, CLootDataTable.add_reactor_loot, "reactorid", {"reactorid", "itemid", 1, 1, "chance"}, sDirPath .. "/reactordrops.csv")
+    load_loot_by_type(ctLoots, CLootTable.add_mob_entry, CLootTable.add_mob_loot, "dropperid", {"dropperid", "itemid", "minimum_quantity", "maximum_quantity", "chance"}, sDirPath .. "/drop_data.csv")
+    load_loot_by_type(ctLoots, CLootTable.add_reactor_entry, CLootTable.add_reactor_loot, "reactorid", {"reactorid", "itemid", 1, 1, "chance"}, sDirPath .. "/reactordrops.csv")
 
-    tLoot:squash_loots()
+    ctLoots:squash_loots()
 
-    return tLoot
+    return ctLoots
 end
 
 function load_resources_loots()
     local sDirPath = RPath.RSC_META_LOOTS
 
-    local tLoot = init_loot_data(sDirPath)
-    return tLoot
+    local ctLoots = init_loot_table(sDirPath)
+    return ctLoots
 end

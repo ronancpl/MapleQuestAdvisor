@@ -30,8 +30,8 @@ function SXmlProvider:_split_path(sDomXmlPath)
 end
 
 function SXmlProvider:_access_xml_dir_node(pDomNode, sDirName)
-    local pNextDomNode = pDomNode
-    if pDomNode[sDirName] == nil then
+    local pNextDomNode = pDomNode[sDirName]
+    if pNextDomNode == nil then
         pNextDomNode = {}
         pDomNode[sDirName] = pNextDomNode
     end
@@ -42,7 +42,7 @@ end
 function SXmlProvider:_access_xml_dir(asDirPath)
     local pDomNode = self.pDomTable
 
-    for sDirName in ipairs(asDirPath) do
+    for _, sDirName in ipairs(asDirPath) do
         pDomNode = self:_access_xml_dir_node(pDomNode, sDirName)
     end
 

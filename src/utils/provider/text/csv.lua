@@ -50,13 +50,13 @@ end
 function read_result_set(sFilePath, rgsSelectKeys)
     local rgRs = {}
 
-    local data_csv = read_csv(sFilePath)
-    if #data_csv > 1 then
-        local rgsKeys = get_header_indexes(data_csv[1])
+    local rows_csv = read_csv(sFilePath)
+    if #rows_csv > 1 then
+        local rgsKeys = get_header_indexes(rows_csv[1])
         rgsSelectKeys = filter_select_keys(rgsSelectKeys, rgsKeys)
 
-        for i = 2, #data_csv, 1 do
-            local pRow = data_csv[i]
+        for i = 2, #rows_csv, 1 do
+            local pRow = rows_csv[i]
 
             local rgRsItem = {}
             for _, v in ipairs(rgsSelectKeys) do

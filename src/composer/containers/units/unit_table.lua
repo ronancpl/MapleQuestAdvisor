@@ -12,18 +12,18 @@
 
 require("utils.class");
 
-CUnitDataTable = createClass({
+CUnitTable = createClass({
     tUnitFields = {}
 })
 
-function CUnitDataTable:add_entry(iSrcid)
+function CUnitTable:add_entry(iSrcid)
     self.tUnitFields[iSrcid] = {}
 end
 
-function CUnitDataTable:add_location(iSrcid, iMapid)
+function CUnitTable:add_location(iSrcid, iMapid)
     self.tUnitFields[iSrcid][iMapid] = 1
 end
 
-function CUnitDataTable:get_locations(iSrcid)
+function CUnitTable:get_locations(iSrcid)
     return self.tUnitFields[iSrcid]
 end

@@ -12,14 +12,14 @@
 
 require("utils.class");
 
-CMakerDataTable = createClass({
+CMakerTable = createClass({
     tCreateItems = {}
 })
 
-function CMakerDataTable:add_maker_create_item(iSrcid)
+function CMakerTable:add_maker_create_item(iSrcid)
     self.tCreateItems[iSrcid] = 1
 end
 
-function CMakerDataTable:is_maker_create_item(iSrcid)
+function CMakerTable:is_maker_create_item(iSrcid)
     return self.tCreateItems[iSrcid] ~= nil
 end

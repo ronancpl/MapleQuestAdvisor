@@ -13,4 +13,4 @@
 require("utils.class");
 require("composer.containers.units.unit_table")
 
-CMobDataTable = createClass({CUnitDataTable, {}})
+CMobTable = createClass({CUnitTable, {}})

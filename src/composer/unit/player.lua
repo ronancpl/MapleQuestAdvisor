@@ -15,26 +15,26 @@ require("router.filters.path")
 require("utils.provider.text.csv")
 require("utils.provider.text.table")
 
-local function load_exp_to_next_level(pUnitData, sFilePath)
+local function load_exp_to_next_level(ctPlayersMeta, sFilePath)
     local tExpRs = read_result_set(sFilePath, {"exp"})
     if #tExpRs > 1 then
         for _, tRow in ipairs(tExpRs) do
             local iExp = tonumber(tRow["exp"])
-            pUnitData:add_exp_to_next_level(iExp)
+            ctPlayersMeta:add_exp_to_next_level(iExp)
         end
     end
 end
 
-local function load_player_data(sDirPath)
-    local pUnitData = CPlayerDataTable:new()
-    load_exp_to_next_level(pUnitData, sDirPath .. "/exp_table.csv")
+local function load_player_table(sDirPath)
+    local ctPlayersMeta = CPlayerMetaTable:new()
+    load_exp_to_next_level(ctPlayersMeta, sDirPath .. "/exp_table.csv")
 
-    return pUnitData
+    return ctPlayersMeta
 end
 
 function load_resources_player()
     local sDirPath = RPath.RSC_META_UNITS_CSV
 
-    local pPlayerData = load_player_data(sDirPath)
-    return pPlayerData
+    local ctPlayersMeta = load_player_table(sDirPath)
+    return ctPlayersMeta
 end

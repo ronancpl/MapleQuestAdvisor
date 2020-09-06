@@ -13,7 +13,7 @@
 require("utils.class");
 require("structs.loot.loot")
 
-CLootDataTable = createClass({
+CLootTable = createClass({
     tMobItems = {},
     tReactorItems = {}
 })
@@ -112,20 +112,20 @@ local function squash_entry_loots(iItemid, rgpLoots)
     return pSquashed
 end
 
-function CLootDataTable:add_mob_entry(iSrcid)
+function CLootTable:add_mob_entry(iSrcid)
     self.tMobItems[iSrcid] = {}
 end
 
-function CLootDataTable:add_mob_loot(iSrcid, iItemid, iChance, siMinItems, siMaxItems)
+function CLootTable:add_mob_loot(iSrcid, iItemid, iChance, siMinItems, siMaxItems)
     local pLoot = create_loot(iItemid, iChance, "mob", siMinItems, siMaxItems)
     insert_loot(self.tMobItems, pLoot)
 end
 
-function CLootDataTable:add_reactor_entry(iSrcid)
+function CLootTable:add_reactor_entry(iSrcid)
     self.tReactorItems[iSrcid] = {}
 end
 
-function CLootDataTable:add_reactor_loot(iSrcid, iItemid, iChance, siMinItems, siMaxItems)
+function CLootTable:add_reactor_loot(iSrcid, iItemid, iChance, siMinItems, siMaxItems)
     local pLoot = create_loot(iItemid, iChance, "reactor", siMinItems, siMaxItems)
     insert_loot(self.tReactorItems, pLoot)
 end
@@ -136,7 +136,7 @@ local function squash_type_loots(tItems)
     end
 end
 
-function CLootDataTable:squash_loots()
+function CLootTable:squash_loots()
     -- after inserting all loots, unify loots into one representative for each srcid
 
     squash_type_loots(self.tMobItems)
