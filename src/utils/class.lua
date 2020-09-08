@@ -77,6 +77,15 @@ local function initClassMembers(...)
     return retMembers
 end
 
+local function loadValues(o)
+    local nv = {}
+    for k, v in pairs(o) do
+        nv[k] = v
+    end
+
+    return nv
+end
+
 function createClass (...)
     local c = {}        -- new class
 
@@ -92,8 +101,16 @@ function createClass (...)
         o = o or {}
         setmetatable(o, c)
 
+        -- load constructor values
+        local nv = loadValues(o)
+
         -- init field values
         for k, v in pairs(c.classMembers) do
+            o[deepCopy(k)] = deepCopy(v)
+        end
+
+        -- init constructor values
+        for k, v in pairs(nv) do
             o[deepCopy(k)] = deepCopy(v)
         end
 

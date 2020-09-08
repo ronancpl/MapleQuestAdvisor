@@ -12,6 +12,7 @@
 
 require("router.filters.graph");
 require("utils.array");
+require("utils.constants");
 require("utils.class");
 
 CQuestTable = createClass({
@@ -39,8 +40,8 @@ function CQuestTable:sort_quest_table()
     local m_rgQuests = self.rgQuests
 
     m_rgQuests:sort(
-        function(a,b)
-            return a.get_quest_id() < b.get_quest_id()
+        function (a,b)
+            return b.get_quest_id() - a.get_quest_id()
         end
     )
 end
@@ -52,19 +53,86 @@ end
 function CQuestTable:_ignore_quests_from_level(iLevel)
     local m_rgQuests = self.rgQuests
 
-    local i = m_rgQuests:bsearch(fn_compare_quest_level, iLevel, true, false)
+    local i = m_rgQuests:bsearch(fn_compare_quest_level, iLevel, true, true)
     if i > 0 then
-        m_rgQuests:remove(1, i)
+        m_rgQuests:remove(i)
     end
 end
 
-function CQuestTable:_fetch_top_quests_by_level(iLevel, nNumQuests)
+function CQuestTable:_add_quest_if_eligible(tQuests, fn_filterQuests, pPlayer, iIdx)
+    local m_rgQuests = self.rgQuests
+    local pQuest = m_rgQuests.get(iIdx)
+
+    if fn_filterQuests(pQuest, pPlayer) then
+        tQuests[pQuest] = 1
+    end
+end
+
+function CQuestTable:_fetch_top_quests_internal(fn_filterQuests, pPlayer, nNumQuests, iFromIdx)
+    local tQuests = {}
+
     local m_rgQuests = self.rgQuests
 
-    local iIdx = m_rgQuests:bsearch(fn_compare_quest_level, iLevel, true, true)
-    local rgPoolQuests = m_rgQuests:remove(iIdx, nNumQuests)  -- pick top quests from overall table
+    local nNumAvailable = m_rgQuests:size() - iFromIdx
+    local nToPick = math.min(nNumAvailable, nNumQuests)
 
-    return rgPoolQuests
+    local nParts = math.ceil(nNumAvailable / POOL_QUEST_FETCH_PARTITIONS)
+
+    local nRows = math.floor(nToPick / nParts)
+    local nCols = nParts
+
+    for j = 0, nCols - 1, 1 do
+        for i = 0, nRows - 2, 1 do
+            local iIdx = (nCols * i) + j + 1
+            self:_add_quest_if_eligible(tQuests, fn_filterQuests, pPlayer, iIdx)
+        end
+
+        local iIdx = (nCols * i) + j + 1
+        if iIdx <= nToPick then
+            self:_add_quest_if_eligible(tQuests, fn_filterQuests, pPlayer, iIdx)
+        end
+    end
+
+    return tQuests
+end
+
+function CQuestTable:_fetch_top_quests_by_continent(pPlayer, nNumQuests, iFromIdx)
+    local tQuests = {}
+
+    local fn_filterQuests = function (pQuest, pPlayer)
+        return get_continent_id(pQuest:get_start():get_requirements()[0]:get_field()) == get_continent_id(pPlayer:get_mapid())
+    end
+
+    self:_fetch_top_quests_internal(fn_filterQuests, pPlayer, nNumQuests, iFromIdx)
+
+    return tQuests
+end
+
+function CQuestTable:_fetch_top_quests_by_availability(pPlayer, nNumQuests, iFromIdx)
+    local tQuests = {}
+
+    local fn_filterQuests = function (pQuest, pPlayer) return true end
+    self:_fetch_top_quests_internal(fn_filterQuests, pPlayer, nNumQuests, iFromIdx)
+
+    return tQuests
+end
+
+function CQuestTable:_fetch_top_quests_by_player(pPlayer, nNumQuests)
+    local m_rgQuests = self.rgQuests
+
+    local iLevel = pPlayer:get_level() + POOL_AHEAD_QUEST_LEVEL
+    local iIdx = m_rgQuests:bsearch(fn_compare_quest_level, iLevel, true, true)
+
+    local tPoolQuests = STable:new()
+
+    local iNumQuestsRegional = POOL_QUEST_FETCH_CONTINENT_RATIO * nNumQuests
+    tPoolQuests:insert(self:_fetch_top_quests_by_continent(pPlayer, iNumQuestsRegional, iIdx))
+
+    local iNumLeft = iNumQuestsRegional - tPoolQuests:size()
+    local iNumQuestsOverall = (1.0 - POOL_QUEST_FETCH_CONTINENT_RATIO) * nNumQuests
+    tPoolQuests:insert(self:_fetch_top_quests_by_availability(pPlayer, iNumQuestsOverall + iNumLeft, iIdx))
+
+    return tPoolQuests
 end
 
 function CQuestTable:ignore_underleveled_quests(iLevel)

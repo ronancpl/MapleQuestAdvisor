@@ -20,6 +20,16 @@ function SArray:is_empty()
     return #m_apItems == 0
 end
 
+function SArray:size()
+    local m_apItems = self.apItems
+    return #m_apItems
+end
+
+function SArray:get(iIdx)
+    local m_apItems = self.apItems
+    return m_apItems[iIdx]
+end
+
 function SArray:add(pItem)
     local m_apItems = self.apItems
     local nItems = #m_apItems
@@ -161,6 +171,18 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     end
 
     return bReturnPos and en or 0
+end
+
+function SArray:slice(iFromIdx, iToIdx)
+    local rgpNew = SArray:new()
+
+    local m_apItems = self.apItems
+    for i = iFromIdx, iToIdx, 1 do
+        local pItem = m_apItems[i]
+        rgpNew:add(pItem)
+    end
+
+    return rgpNew
 end
 
 function SArray:printable()
