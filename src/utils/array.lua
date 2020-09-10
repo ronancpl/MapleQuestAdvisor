@@ -76,9 +76,9 @@ function SArray:sort(fn_sort)
     local m_apItems = self.apItems
 
     if fn_sort then
-        tables.sort(m_apItems, fn_sort)
+        table.sort(m_apItems, fn_sort)
     else
-        tables.sort(m_apItems)
+        table.sort(m_apItems)
     end
 end
 
@@ -87,7 +87,7 @@ function SArray:randomize()     -- Algorithm: Fisher-Yates
     local napItems = #m_apItems
 
     for i = 1, napItems, 1 do
-        local j = math.random(1, #napItems)
+        local j = math.random(1, napItems)
 
         local temp = m_apItems[j]
         m_apItems[j] = m_apItems[i]

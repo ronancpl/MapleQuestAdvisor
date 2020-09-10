@@ -22,7 +22,8 @@ CQuestRequirement = createClass({CQuestProperty, {
     siLevelMax = -1,
     bJobAccess = false,
     bDateAccess = true,
-    bRepeatable = false
+    bRepeatable = false,
+    bScripted = false
 }})
 
 function CQuestRequirement:get_npc()
@@ -87,4 +88,12 @@ end
 
 function CQuestRequirement:set_repeatable(iRepeatable)
     self.bRepeatable = iRepeatable > 0
+end
+
+function CQuestRequirement:has_script()
+    return self.bScript
+end
+
+function CQuestRequirement:set_script(sScript)
+    self.bScript = string.len(sScript) > 0
 end

@@ -32,7 +32,9 @@ local tAttrUnit = {
     _lvmax = CQuestRequirement.set_level_max,
     _quest = 0,
     _interval = CQuestRequirement.set_repeatable,
-    _end = CQuestRequirement.set_date_access
+    _end = CQuestRequirement.set_date_access,
+    _startscript = CQuestRequirement.set_script,
+    _endscript = CQuestRequirement.set_script
 }
 
 local tAttrList = {
@@ -156,7 +158,7 @@ local function init_quests_list(pActNode, pChkNode)
     return ctQuests
 end
 
-local function _get_first_field_value(tNpcMapid)
+local function get_first_field_value(tNpcMapid)
     for _, v in pairs(tNpcMapid) do
         return v
     end
@@ -164,7 +166,7 @@ local function _get_first_field_value(tNpcMapid)
     return -1
 end
 
-local function _apply_npc_town_fields_only(tNpcMapid, ctFieldsMeta)
+local function apply_npc_town_fields_only(tNpcMapid, ctFieldsMeta)
     for k, v in pairs(tNpcMapid:get_entry_set()) do
         if not ctFieldsMeta:is_town(iMapid) then
             tNpcMapid:remove(k)
@@ -172,12 +174,13 @@ local function _apply_npc_town_fields_only(tNpcMapid, ctFieldsMeta)
     end
 end
 
-local function _apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, fn_get_quest_tab)
+local function apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, fn_get_quest_tab)
     -- selects main areas in a bundle of locations
 
     local pTab = fn_get_quest_tab(pQuest)
     local pRequirement = pTab:get_requirement()
     local iStartNpc = pRequirement:get_npc()
+    print("questid " .. pQuest:get_quest_id())
 
     local pNpcMapid = tNpcField[iStartNpc]
     if pNpcMapid == nil then
@@ -198,11 +201,11 @@ local function _apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, fn_get_
 
         -- make sure only towns listed if there's at least one town in
         if bHasTown then
-            _apply_npc_town_fields_only(tNpcMapid)
+            apply_npc_town_fields_only(tNpcMapid)
         end
 
         if tNpcMapid:size() < 2 then
-            tNpcField[iStartNpc] = _get_first_field_value(tNpcMapid:get_entry_set())
+            tNpcField[iStartNpc] = get_first_field_value(tNpcMapid:get_entry_set())
         else
             tNpcField[iStartNpc] = tNpcMapid:get_entry_set()
         end
@@ -221,8 +224,8 @@ function apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
     for i = 1, rgQuests:size(), 1 do
         local pQuest = rgQuests:get(i)
 
-        local pMapid = _get_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_start)
-        _apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_end)
+        apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_start)
+        apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_end)
     end
 end
 
@@ -238,4 +241,28 @@ function load_resources_quests()
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Act, Check
     return ctQuests
+end
+
+local function is_inoperative_quest(pQuest)
+    local pStartReq = pQuest:get_start():get_requirement()
+    local pEndReq = pQuest:get_end():get_requirement()
+
+    return pStartReq:get_npc() < 0 or pEndReq:get_npc() < 0 and not pStartReq:has_script()
+end
+
+function dispose_inoperative_quests(ctQuests)
+    local pQuests = ctQuests:get_quests()
+    local pToRemove = {}
+
+    for i = 1, pQuests:size(), 1 do
+        local pQuest = pQuests:get(i)
+        if is_inoperative_quest(pQuest) then
+            print("[WARNING] Disposed questid " .. pQuest:get_quest_id())
+            table.insert(pToRemove, i)
+        end
+    end
+
+    for i = #pToRemove, 1, -1 do
+        ctQuests:remove_quest(i, 1)
+    end
 end

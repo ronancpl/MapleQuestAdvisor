@@ -22,6 +22,7 @@ require("utils.print");
 require("utils.provider.xml.provider")
 
 function post_process_resources(ctQuests, ctNpcs, ctFieldsMeta)
+    dispose_inoperative_quests(ctQuests)
     apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
 end
 

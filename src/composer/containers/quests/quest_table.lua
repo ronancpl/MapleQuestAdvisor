@@ -44,7 +44,7 @@ end
 function CQuestTable:sort_quest_table()
     local m_rgQuests = self.rgQuests
 
-    m_rgQuests:sort(
+    table.sort(m_rgQuests,
         function (a,b)
             return b.get_quest_id() - a.get_quest_id()
         end
