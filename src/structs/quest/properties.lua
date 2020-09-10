@@ -13,22 +13,22 @@
 require("utils.class");
 
 CQuestProperties = createClass({
-    rgpChecks = {},
-    rgpActs = {}
+    pPropCheck,
+    pPropAct
 })
 
-function CQuestProperties:get_requirements()
-    return self.rgpChecks
+function CQuestProperties:get_requirement()
+    return self.pPropCheck
 end
 
-function CQuestProperties:add_requirement(pRequirement)
-    table.insert(self.rgpChecks, pRequirement)
+function CQuestProperties:set_requirement(pRequirement)
+    self.pPropCheck = pRequirement
 end
 
-function CQuestProperties:get_actions()
-    return self.rgpActs
+function CQuestProperties:get_action()
+    return self.pPropAct
 end
 
-function CQuestProperties:add_action(pAction)
-    table.insert(self.rgpActs, pAction)
+function CQuestProperties:set_action(pAction)
+    self.pPropAct = pAction
 end

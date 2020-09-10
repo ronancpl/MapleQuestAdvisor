@@ -21,6 +21,10 @@ require("composer.unit.player");
 require("utils.print");
 require("utils.provider.xml.provider")
 
+function post_process_resources(ctQuests, ctNpcs, ctFieldsMeta)
+    apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
+end
+
 function load_resources()
     SXmlProvider:init()
 
@@ -49,3 +53,4 @@ function load_resources()
 end
 
 load_resources()
+post_process_resources(ctQuests, ctNpcs, ctFieldsMeta)

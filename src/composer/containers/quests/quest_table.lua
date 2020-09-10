@@ -19,6 +19,11 @@ CQuestTable = createClass({
     rgQuests = SArray:new()
 })
 
+function CQuestTable:get_quests()
+    local m_rgQuests = self.rgQuests
+    return m_rgQuests
+end
+
 function CQuestTable:add_quest(pQuest)
     local m_rgQuests = self.rgQuests
     m_rgQuests:add(pQuest)
@@ -100,7 +105,7 @@ function CQuestTable:_fetch_top_quests_by_continent(pPlayer, nNumQuests, iFromId
     local tQuests = {}
 
     local fn_filterQuests = function (pQuest, pPlayer)
-        return get_continent_id(pQuest:get_start():get_requirements()[0]:get_field()) == get_continent_id(pPlayer:get_mapid())
+        return get_continent_id(pQuest:get_start():get_requirement():get_field()) == get_continent_id(pPlayer:get_mapid())
     end
 
     self:_fetch_top_quests_internal(fn_filterQuests, pPlayer, nNumQuests, iFromIdx)

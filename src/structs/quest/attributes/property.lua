@@ -75,6 +75,6 @@ function CQuestProperty:get_quests()
     return self.ivtQuests
 end
 
-function CQuestProperty:add_quest(iId)
-    self.ivtQuests:add_item(iId, 1)
+function CQuestProperty:add_quest(iId, iState)
+    self.ivtQuests:add_item(iId, iState)
 end

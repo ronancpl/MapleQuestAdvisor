@@ -16,6 +16,8 @@ require("structs.quest.attributes.action")
 require("structs.quest.attributes.requirement")
 require("structs.quest.properties")
 require("structs.quest.quest")
+require("utils.constants")
+require("utils.table")
 require("utils.provider.xml.provider")
 
 local tAttrUnit = {
@@ -40,17 +42,40 @@ local tAttrList = {
     _quest = CQuestProperty.add_quest
 }
 
+local ttsAttrKey = {
+    _item = {id = 0, count = 0},
+    _skill = {id = 0},
+    _mob = {id = 0, count = 0},
+    _quest = {id = 0, state = 0}
+}
+
 local function read_quest_attribute_value(fn_attr, pQuestProp, pNode)
     local iValue = pNode:get_value()
     fn_attr(pQuestProp, iValue)
 end
 
-local function read_quest_attribute_list(fn_attr, pQuestProp, pNode)
-    for _, pTabListItemNode in pairs(pNode:get_children()) do
-        local iId = pTabListItemNode:get_child_by_name("id")
-        local iCount = pTabListItemNode:get_child_by_name("count")
+local function read_quest_attribute_item_value(pTabListItemNode, sKey)
+    local pAttrNode = pTabListItemNode:get_child_by_name(sKey)
 
-        fn_attr(pQuestProp, iId, iCount)
+    local iVal
+    if pAttrNode ~= nil then
+        iVal = pAttrNode:get_value()
+    else
+        iVal = iDef
+    end
+
+    return iVal
+end
+
+local function read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProp, pNode)
+    for _, pTabListItemNode in pairs(pNode:get_children()) do
+        local aiAttrList = {}
+        for sKey, iDef in pairs(tsAttrKey) do
+            local iVal = read_quest_attribute_item_value(pTabListItemNode, sKey)
+            table.insert(aiAttrList, iVal)
+        end
+
+        fn_attr(pQuestProp, unpack(aiAttrList))
     end
 end
 
@@ -63,33 +88,44 @@ local function read_quest_tab_node_attribute(pQuestProp, pNode)
             read_quest_attribute_value(fn_attr, pQuestProp, pNode)
         else
             fn_attr = tAttrList[sName]
-            read_quest_attribute_list(fn_attr, pQuestProp, pNode)
+            local tsAttrKey = ttsAttrKey[sName]
+
+            read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProp, pNode)
         end
     end
 end
 
-local function read_quest_tab_state_node(pQuestTab, fn_addProperty, pTabStateNode, CStateProperty)
+local function read_quest_tab_state_node(pQuestProp, pTabStateNode)
     for _, pTabElementNode in pairs(pTabStateNode:get_children()) do
-        local pQuestProp = CStateProperty:new()
         read_quest_tab_node_attribute(pQuestProp, pTabElementNode)
-        fn_addProperty(pQuestTab, pQuestProp)
     end
 end
 
-local function read_quest_tab_node(pQuestTab, sTabName, pActNode, pChkNode)
+local function read_quest_tab_node(sTabName, pQuestActProp, pQuestChkProp, pActNode, pChkNode)
     local pTabActNode = pActNode:get_child_by_name(sTabName)
-    read_quest_tab_state_node(pQuestTab, pQuestTab.add_action, pTabActNode, CQuestAction)
+    read_quest_tab_state_node(pQuestActProp, pTabActNode)
 
     local pTabChkNode = pChkNode:get_child_by_name(sTabName)
-    read_quest_tab_state_node(pQuestTab, pQuestTab.add_requirement, pTabChkNode, CQuestRequirement)
+    read_quest_tab_state_node(pQuestChkProp, pTabChkNode)
+end
+
+local function read_quest_tab(sTabName, fn_quest_tab, pQuest, pActNode, pChkNode)
+    local pQuestActProp = CQuestAction:new()
+    local pQuestChkProp = CQuestRequirement:new()
+    local pQuestTab = fn_quest_tab(pQuest)
+
+    read_quest_tab_node(sTabName, pQuestActProp, pQuestChkProp, pActNode, pChkNode)
+
+    pQuestTab:set_requirement(pQuestChkProp)
+    pQuestTab:set_action(pQuestActProp)
 end
 
 local function read_quest_node(pActNode, pChkNode)
     local pQuest = CQuest:new()
     pQuest:set_quest_id(pActNode:get_name_tonumber())
 
-    read_quest_tab_node(pQuest:get_start(), "0", pActNode, pChkNode)
-    read_quest_tab_node(pQuest:get_end(), "1", pActNode, pChkNode)
+    read_quest_tab("0", CQuest.get_start, pQuest, pActNode, pChkNode)
+    read_quest_tab("1", CQuest.get_end, pQuest, pActNode, pChkNode)
 
     return pQuest
 end
@@ -114,10 +150,80 @@ local function init_quests_list(pActNode, pChkNode)
 
     read_quests(ctQuests, pActNode, pChkNode)
 
-    --ctQuests:randomize_quest_table()
-    --ctQuests:sort_quest_table()
+    ctQuests:randomize_quest_table()    -- same level quests appears in arbitrary order
+    ctQuests:sort_quest_table()
 
     return ctQuests
+end
+
+local function _get_first_field_value(tNpcMapid)
+    for _, v in pairs(tNpcMapid) do
+        return v
+    end
+
+    return -1
+end
+
+local function _apply_npc_town_fields_only(tNpcMapid, ctFieldsMeta)
+    for k, v in pairs(tNpcMapid:get_entry_set()) do
+        if not ctFieldsMeta:is_town(iMapid) then
+            tNpcMapid:remove(k)
+        end
+    end
+end
+
+local function _apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, fn_get_quest_tab)
+    -- selects main areas in a bundle of locations
+
+    local pTab = fn_get_quest_tab(pQuest)
+    local pRequirement = pTab:get_requirement()
+    local iStartNpc = pRequirement:get_npc()
+
+    local pNpcMapid = tNpcField[iStartNpc]
+    if pNpcMapid == nil then
+        local tNpcFields = ctNpcs:get_locations(iStartNpc)
+
+        local tNpcMapid = STable:new()
+        local bHasTown = false
+        for iMapid, _ in pairs(tNpcFields) do
+            local bTown = ctFieldsMeta:is_town(iMapid)
+            bHasTown = bHasTown or bTown
+
+            if tNpcMapid:get(get_continent_id(iMapid)) == nil then
+                tNpcMapid:insert(get_continent_id(iMapid), iMapid)
+            elseif bTown then
+                tNpcMapid:insert(get_continent_id(iMapid), iMapid)
+            end
+        end
+
+        -- make sure only towns listed if there's at least one town in
+        if bHasTown then
+            _apply_npc_town_fields_only(tNpcMapid)
+        end
+
+        if tNpcMapid:size() < 2 then
+            tNpcField[iStartNpc] = _get_first_field_value(tNpcMapid:get_entry_set())
+        else
+            tNpcField[iStartNpc] = tNpcMapid:get_entry_set()
+        end
+
+        -- pNpcMapid: [integer - 1 value][dict - 1 per region]
+        pNpcMapid = tNpcField[iStartNpc]
+    end
+
+    pRequirement:set_field(pNpcMapid)
+end
+
+function apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
+    local rgQuests = ctQuests:get_quests()
+    local tNpcField = {}
+
+    for i = 1, rgQuests:size(), 1 do
+        local pQuest = rgQuests:get(i)
+
+        local pMapid = _get_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_start)
+        _apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_end)
+    end
 end
 
 function load_resources_quests()

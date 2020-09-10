@@ -16,7 +16,7 @@ require("utils.class");
 
 CQuestRequirement = createClass({CQuestProperty, {
     iNpcid = -1,
-    iMapid = 10000,
+    pMapid = 10000,
     iMapidFieldEnter = -1,
     siLevelMin = -1,
     siLevelMax = -1,
@@ -34,11 +34,11 @@ function CQuestRequirement:set_npc(iNpcid)
 end
 
 function CQuestRequirement:get_field()
-    return self.iMapid
+    return self.pMapid      -- this one is tricky: can be either a [number] or map of [continent, mapid]
 end
 
-function CQuestRequirement:set_field(iMapid)
-    self.iMapid = iMapid
+function CQuestRequirement:set_field(pMapid)
+    self.pMapid = pMapid
 end
 
 function CQuestRequirement:get_field_enter()
