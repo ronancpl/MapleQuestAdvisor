@@ -29,9 +29,9 @@ function CQuestTable:add_quest(pQuest)
     m_rgQuests:add(pQuest)
 end
 
-function CQuestTable:remove_quest(iIdx, iNumQuests)
+function CQuestTable:remove_quest(iIdx, nNumQuests)
     local m_rgQuests = self.rgQuests
-    local rgRemovedQuests = m_rgQuests:remove(iIdx, iIdx + iNumQuests)
+    local rgRemovedQuests = m_rgQuests:remove(iIdx, iIdx + nNumQuests - 1)
 
     return rgRemovedQuests
 end

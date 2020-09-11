@@ -41,25 +41,21 @@ function SArray:remove(iIdxStart, iIdxEnd)
     local m_apItems = self.apItems
     local nItems = #m_apItems
 
-    iIdxEnd = iIdxEnd or nItems
+    iIdxEnd = (iIdxEnd <= nItems and iIdxEnd) or nItems
 
     local apRemoved = SArray:new()
-    local nRemoved = iIdxEnd - iIdxStart
-
-    for i = 1, nRemoved, 1 do
-        local iIdxCur = iIdxStart + i - 1
-        apRemoved:add(m_apItems[iIdxCur])
+    for i = iIdxStart, iIdxEnd, 1 do
+        apRemoved:add(m_apItems[i])
     end
 
-    local N = math.min(nItems - (iIdxEnd + 1), nRemoved)
-    for i = 1, N, 1 do
-        local iIdxCur = iIdxStart + i - 1
-        m_apItems[iIdxCur] = m_apItems[iIdxEnd + i]
+    local iIdxRight = iIdxEnd + 1
+    local nLeft = nItems - iIdxRight + 1
+    for i = 0, nLeft - 1, 1 do
+        m_apItems[iIdxStart + i] = m_apItems[iIdxRight + i]
     end
 
-    for i = N, nRemoved, 1 do
-        local iIdxCur = iIdxStart + i - 1
-        m_apItems[iIdxCur] = nil
+    for i = iIdxStart + nLeft, nItems, 1 do
+        m_apItems[i] = nil
     end
 
     return apRemoved
