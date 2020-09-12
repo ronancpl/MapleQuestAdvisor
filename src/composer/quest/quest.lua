@@ -174,47 +174,64 @@ local function apply_npc_town_fields_only(tNpcMapid, ctFieldsMeta)
     end
 end
 
-local function apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, fn_get_quest_tab)
+local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tNpcField, fn_get_quest_tab)
     -- selects main areas in a bundle of locations
 
     local pTab = fn_get_quest_tab(pQuest)
     local pRequirement = pTab:get_requirement()
-    local iStartNpc = pRequirement:get_npc()
-    print("questid " .. pQuest:get_quest_id())
+    local iReqNpc = pRequirement:get_npc()
+
+    if iReqNpc > -1 then        -- keep same npc from start requirement if not found
+        iStartNpc = iReqNpc
+    end
 
     local pNpcMapid = tNpcField[iStartNpc]
     if pNpcMapid == nil then
         local tNpcFields = ctNpcs:get_locations(iStartNpc)
 
-        local tNpcMapid = STable:new()
-        local bHasTown = false
-        for iMapid, _ in pairs(tNpcFields) do
-            local bTown = ctFieldsMeta:is_town(iMapid)
-            bHasTown = bHasTown or bTown
+        if tNpcFields ~= nil then
+            local tNpcMapid = STable:new()
+            local bHasTown = false
+            for iMapid, _ in pairs(tNpcFields) do
+                local bTown = ctFieldsMeta:is_town(iMapid)
+                bHasTown = bHasTown or bTown
 
-            if tNpcMapid:get(get_continent_id(iMapid)) == nil then
-                tNpcMapid:insert(get_continent_id(iMapid), iMapid)
-            elseif bTown then
-                tNpcMapid:insert(get_continent_id(iMapid), iMapid)
+                if tNpcMapid:get(get_continent_id(iMapid)) == nil then
+                    tNpcMapid:insert(get_continent_id(iMapid), iMapid)
+                elseif bTown then
+                    tNpcMapid:insert(get_continent_id(iMapid), iMapid)
+                end
             end
-        end
 
-        -- make sure only towns listed if there's at least one town in
-        if bHasTown then
-            apply_npc_town_fields_only(tNpcMapid)
-        end
+            -- make sure only towns listed if there's at least one town in
+            if bHasTown then
+                apply_npc_town_fields_only(tNpcMapid)
+            end
 
-        if tNpcMapid:size() < 2 then
-            tNpcField[iStartNpc] = get_first_field_value(tNpcMapid:get_entry_set())
+            if tNpcMapid:size() < 2 then
+                tNpcField[iStartNpc] = get_first_field_value(tNpcMapid:get_entry_set())
+            else
+                tNpcField[iStartNpc] = tNpcMapid:get_entry_set()
+            end
+
+            -- pNpcMapid: [integer - 1 value][dict - 1 per region]
+            pNpcMapid = tNpcField[iStartNpc]
         else
-            tNpcField[iStartNpc] = tNpcMapid:get_entry_set()
+            print("[WARNING] NPC locations not found for NPCID " .. iStartNpc)
         end
-
-        -- pNpcMapid: [integer - 1 value][dict - 1 per region]
-        pNpcMapid = tNpcField[iStartNpc]
     end
 
     pRequirement:set_field(pNpcMapid)
+end
+
+local function should_supress_quest(pQuest)
+    -- ignore date expiring quests
+    local bHasDate = pQuest:get_start():get_requirement():has_date_access()
+    if (bHasDate) then
+        return true
+    end
+
+    return false
 end
 
 function apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
@@ -223,9 +240,12 @@ function apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
 
     for i = 1, rgQuests:size(), 1 do
         local pQuest = rgQuests:get(i)
+        if not should_supress_quest(pQuest) then
+            local iStartNpc = pQuest:get_start():get_requirement():get_npc()
 
-        apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_start)
-        apply_npc_field(pQuest, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_end)
+            apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_start)
+            apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_end)
+        end
     end
 end
 
