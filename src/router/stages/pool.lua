@@ -10,19 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-package.path = package.path .. ';?.lua'
+require("router.filters.graph")
+require("utils.table")
 
-require("router.stages.load")
-require("router.stages.pool")
+local function randomize_quest_table_by_level()
+    -- same level quests appears in arbitrary order
 
-local function create_player()
-    local pPlayer = CPlayer:new()
-
-    return pPlayer
+    ctQuests:randomize_quest_table()
+    ctQuests:sort_quest_table()
 end
 
-load_resources()
-pool_init()
+function pool_init()
+    randomize_quest_table_by_level()
+end
 
-local pPlayer = create_player()
-pool_select_graph_quests(pPlayer)
+function pool_select_graph_quests(pPlayer)
+
+    local tQuests = ctQuests:fetch_top_quests_by_player(pPlayer, POOL_MIN_QUESTS)
+
+end

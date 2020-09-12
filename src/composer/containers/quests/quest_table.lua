@@ -122,7 +122,7 @@ function CQuestTable:_fetch_top_quests_by_availability(pPlayer, nNumQuests, iFro
     return tQuests
 end
 
-function CQuestTable:_fetch_top_quests_by_player(pPlayer, nNumQuests)
+function CQuestTable:fetch_top_quests_by_player(pPlayer, nNumQuests)
     local m_rgQuests = self.rgQuests
 
     local iLevel = pPlayer:get_level() + POOL_AHEAD_QUEST_LEVEL

@@ -151,8 +151,6 @@ local function init_quests_list(pActNode, pChkNode)
     local ctQuests = CQuestTable:new()
 
     read_quests(ctQuests, pActNode, pChkNode)
-
-    ctQuests:randomize_quest_table()    -- same level quests appears in arbitrary order
     ctQuests:sort_quest_table()
 
     return ctQuests
