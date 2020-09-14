@@ -14,6 +14,7 @@ package.path = package.path .. ';?.lua'
 
 require("router.stages.load")
 require("router.stages.pool")
+require("structs.player")
 
 local function create_player()
     local pPlayer = CPlayer:new()
@@ -25,4 +26,4 @@ load_resources()
 pool_init()
 
 local pPlayer = create_player()
-pool_select_graph_quests(pPlayer)
+local tQuests = pool_select_graph_quests(pPlayer)

@@ -66,7 +66,7 @@ function STable:_insert(tTable)
     end
 end
 
-function STable:insert(tTable)
+function STable:insert_table(tTable)
     if type(tTable) == "table" then
         if tTable.__LENGTH ~= nil then
             self:_insert(tTable:get_entry_set())

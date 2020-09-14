@@ -25,7 +25,6 @@ function pool_init()
 end
 
 function pool_select_graph_quests(pPlayer)
-
-    local tQuests = ctQuests:fetch_top_quests_by_player(pPlayer, POOL_MIN_QUESTS)
-
+    local tQuests = ctQuests:fetch_top_quests_by_player(pPlayer, RGraph.POOL_MIN_QUESTS)
+    return tQuests
 end
