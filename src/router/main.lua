@@ -23,7 +23,8 @@ local function create_player()
 end
 
 load_resources()
-pool_init()
 
+local pGridQuests = load_grid_quests(ctQuests)
 local pPlayer = create_player()
-local tQuests = pool_select_graph_quests(pPlayer)
+
+local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)

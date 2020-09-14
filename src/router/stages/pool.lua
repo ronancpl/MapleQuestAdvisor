@@ -10,21 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.quest.quest")
 require("router.filters.graph")
 require("utils.table")
 
-local function randomize_quest_table_by_level()
-    -- same level quests appears in arbitrary order
-
-    ctQuests:randomize_quest_table()
-    ctQuests:sort_quest_table()
-end
-
-function pool_init()
-    randomize_quest_table_by_level()
-end
-
-function pool_select_graph_quests(pPlayer)
-    local tQuests = ctQuests:fetch_top_quests_by_player(pPlayer, RGraph.POOL_MIN_QUESTS)
+function pool_select_graph_quests(pGridQuests, pPlayer)
+    local tQuests = pGridQuests:fetch_top_quests_by_player(pPlayer, RGraph.POOL_MIN_QUESTS)
     return tQuests
 end

@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.containers.quests.quest_grid")
 require("composer.containers.quests.quest_table")
 require("router.filters.path")
 require("structs.quest.attributes.action")
@@ -151,7 +152,6 @@ local function init_quests_list(pActNode, pChkNode)
     local ctQuests = CQuestTable:new()
 
     read_quests(ctQuests, pActNode, pChkNode)
-    ctQuests:sort_quest_table()
 
     return ctQuests
 end
@@ -233,11 +233,10 @@ local function should_supress_quest(pQuest)
 end
 
 function apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
-    local rgQuests = ctQuests:get_quests()
+    local tQuests = ctQuests:get_quests()
     local tNpcField = {}
 
-    for i = 1, rgQuests:size(), 1 do
-        local pQuest = rgQuests:get(i)
+    for _, pQuest in pairs(tQuests) do
         if not should_supress_quest(pQuest) then
             local iStartNpc = pQuest:get_start():get_requirement():get_npc()
 
@@ -261,26 +260,16 @@ function load_resources_quests()
     return ctQuests
 end
 
-local function is_inoperative_quest(pQuest)
-    local pStartReq = pQuest:get_start():get_requirement()
-    local pEndReq = pQuest:get_end():get_requirement()
+local function randomize_quest_table_by_level(pGridQuests)
+    -- same level quests appears in arbitrary order
 
-    return pStartReq:get_npc() < 0 or pEndReq:get_npc() < 0 and not pStartReq:has_script()
+    pGridQuests:randomize_quest_table()
+    pGridQuests:sort_quest_table()
 end
 
-function dispose_inoperative_quests(ctQuests)
-    local pQuests = ctQuests:get_quests()
-    local pToRemove = {}
+function load_grid_quests(ctQuests)
+    local pGridQuests = CQuestGrid:new(ctQuests)
+    randomize_quest_table_by_level(pGridQuests)
 
-    for i = 1, pQuests:size(), 1 do
-        local pQuest = pQuests:get(i)
-        if is_inoperative_quest(pQuest) then
-            print("[WARNING] Disposed questid " .. pQuest:get_quest_id())
-            table.insert(pToRemove, i)
-        end
-    end
-
-    for i = #pToRemove, 1, -1 do
-        ctQuests:remove_quest(i, 1)
-    end
+    return pGridQuests
 end

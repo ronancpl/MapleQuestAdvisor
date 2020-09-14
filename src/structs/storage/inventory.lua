@@ -17,6 +17,14 @@ CInventory = createClass({
     rgEntries = {}
 })
 
+function CInventory:have_item(iId, iCount)
+    return self.rgEntries[iId] ~= nil and self.rgEntries[iId] >= iCount
+end
+
+function CInventory:get_items()
+    return self.rgEntries
+end
+
 function CInventory:add_item(iId, iCount)
     if self.rgEntries[iId] ~= nil then
         self.rgEntries[iId] = self.rgEntries[iId] + iCount
@@ -32,8 +40,4 @@ function CInventory:remove_item(iId, iCount)
             self.rgEntries[iId] = nil
         end
     end
-end
-
-function CInventory:have_item(iId, iCount)
-    return self.rgEntries[iId] ~= nil and self.rgEntries[iId] >= iCount
 end
