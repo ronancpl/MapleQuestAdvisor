@@ -52,7 +52,7 @@ function CQuestTable:sort_quest_table()
 end
 
 local fn_compare_quest_level = function(pQuest, iLevel)
-    return pQuest:get_quest_id() - iLevel
+    return pQuest:get_starting_level() - iLevel
 end
 
 function CQuestTable:_ignore_quests_from_level(iLevel)

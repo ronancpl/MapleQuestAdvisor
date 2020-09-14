@@ -27,6 +27,10 @@ function CQuest:set_quest_id(iQuestid)
     self.iQuestid = iQuestid
 end
 
+function CQuest:get_starting_level()
+    return self.get_start():get_requirement():get_min_level()
+end
+
 function CQuest:get_start()
     return self.qpStart
 end
