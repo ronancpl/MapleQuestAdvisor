@@ -84,7 +84,6 @@ end
 
 function CQuestGrid:_add_quest_if_eligible(tQuests, fn_filterQuests, pQuest, pPlayer)
     if fn_filterQuests(pQuest, pPlayer) then
-        print("add" .. pQuest:get_quest_id())
         tQuests[pQuest] = 1
         self:_search_subquests(tQuests, fn_filterQuests, pQuest, pPlayer)
     end
