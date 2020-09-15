@@ -143,7 +143,7 @@ local function read_quests(ctQuests, pActNode, pChkNode)
             local pQuest = read_quest_node(pActQuestNode, pChkQuestNode)
             ctQuests:add_quest(pQuest)
         else
-            print("[WARNING] Missing questid " .. pActQuestNode:get_name())
+            -- print("[WARNING] Missing questid " .. pActQuestNode:get_name())
         end
     end
 end

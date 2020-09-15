@@ -52,12 +52,49 @@ function CQuestTable:dispose_inoperative_quests()
     local pToRemove = {}
     for iQuestid, pQuest in pairs(m_tpQuests) do
         if is_inoperative_quest(pQuest) then
-            print("[WARNING] Disposed questid " .. iQuestid)
+            -- print("[WARNING] Disposed questid " .. iQuestid)
             table.insert(pToRemove, iQuestid)
         end
     end
 
     for i = #pToRemove, 1, -1 do
         self:remove_quest(pToRemove[i])
+    end
+end
+
+function CQuestTable:_find_subquest_starting_level(pQuest)
+    local rgiPreQuestIds = {}
+    for iPreQuestId, _ in pairs(pQuest:get_start():get_requirement():get_quests():get_items()) do
+        table.insert(rgiPreQuestIds, iPreQuestId)
+    end
+
+    local siStartLevel = -1
+    for _, iPreQuestId in ipairs(rgiPreQuestIds) do
+        local pSubQuest = ctQuests:get_quest_by_id(iPreQuestId)
+        local siSubStartLevel = _apply_quest_starting_level(pSubQuest)
+
+        if siSubStartLevel > siStartLevel then
+            siStartLevel = siSubStartLevel
+        end
+    end
+
+    return siStartLevel
+end
+
+function CQuestTable:_apply_quest_starting_level(pQuest)
+    local siStartLevel = pQuest:get_start():get_requirement():get_level_min()
+    if (siStartLevel < 0) then
+        siStartLevel = _find_subquest_starting_level(pQuest)
+    end
+
+    pQuest:set_level_min(siStartLevel)
+    return siStartLevel
+end
+
+function CQuestTable:apply_starting_level()
+    local m_tpQuests = self.tpQuests
+
+    for _, pQuest in pairs(m_tpQuests) do
+        self:_apply_quest_starting_level(pQuest)
     end
 end

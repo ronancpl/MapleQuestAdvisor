@@ -15,6 +15,7 @@ require("utils.class");
 
 CQuest = createClass({
     iQuestid = -1,
+    siStartingLevel = -1,
     qpStart = CQuestProperties:new(),
     qpEnd = CQuestProperties:new()
 })
@@ -28,7 +29,11 @@ function CQuest:set_quest_id(iQuestid)
 end
 
 function CQuest:get_starting_level()
-    return self.get_start():get_requirement():get_min_level()
+    return self.siStartingLevel
+end
+
+function CQuest:set_starting_level(siLevel)
+    self.siStartingLevel = siLevel
 end
 
 function CQuest:get_start()

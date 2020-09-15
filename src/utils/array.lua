@@ -25,6 +25,17 @@ function SArray:size()
     return #m_apItems
 end
 
+function SArray:list()
+    local m_apItems = self.apItems
+
+    local rgItems = {}
+    for _, v in pairs(m_apItems) do
+        table.insert(rgItems, v)
+    end
+
+    return rgItems
+end
+
 function SArray:get(iIdx)
     local m_apItems = self.apItems
     return m_apItems[iIdx]

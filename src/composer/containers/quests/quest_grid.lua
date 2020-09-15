@@ -11,9 +11,11 @@
 --]]
 
 require("router.filters.graph");
+require("structs.quest.quest")
 require("utils.array");
 require("utils.constants");
 require("utils.class");
+require("utils.print");
 
 CQuestGrid = createClass({
     rgQuests = SArray:new()
@@ -39,15 +41,12 @@ end
 function CQuestGrid:sort_quest_table()
     local m_rgQuests = self.rgQuests
 
-    table.sort(m_rgQuests,
-        function (a,b)
-            return b:get_quest_id() - a:get_quest_id()
-        end
-    )
+    local fn_compare_quest_level = function (a,b) return b:get_starting_level() - a:get_starting_level() end
+    m_rgQuests:sort(fn_compare_quest_level)
 end
 
 function CQuestGrid:new(ctQuests)
-    for _, pQuest in ipairs(ctQuests:get_quests()) do
+    for _, pQuest in pairs(ctQuests:get_quests()) do
         self:add_quest(pQuest)
     end
 
@@ -71,8 +70,8 @@ end
 function CQuestGrid:_search_subquests_in_tab(tQuests, fn_filterQuests, pQuest, fn_quest_tab, pPlayer)
     local pQuestTab = fn_quest_tab(pQuest)
 
-    for iPreQuestId, _ in pQuestTab:get_requirement():get_quests():get_items() do
-        local pPreQuest = tQuests:get_quest_by_id(iPreQuestId)
+    for iPreQuestId, _ in pairs(pQuestTab:get_requirement():get_quests():get_items()) do
+        local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
         self:_add_quest_if_eligible(tQuests, fn_filterQuests, pPreQuest, pPlayer)
     end
 end
@@ -85,8 +84,9 @@ end
 
 function CQuestGrid:_add_quest_if_eligible(tQuests, fn_filterQuests, pQuest, pPlayer)
     if fn_filterQuests(pQuest, pPlayer) then
+        print("add" .. pQuest:get_quest_id())
         tQuests[pQuest] = 1
-        self:_search_subquests(tQuests, fn_filterQuests, pPlayer, pQuest)
+        self:_search_subquests(tQuests, fn_filterQuests, pQuest, pPlayer)
     end
 end
 
@@ -94,7 +94,7 @@ function CQuestGrid:_try_add_quest(tQuests, fn_filterQuests, iIdx, pPlayer)
     local m_rgQuests = self.rgQuests
     local pQuest = m_rgQuests:get(iIdx)
 
-    _add_quest_if_eligible(tQuests, fn_filterQuests, pQuest, pPlayer)
+    self:_add_quest_if_eligible(tQuests, fn_filterQuests, pQuest, pPlayer)
 end
 
 function CQuestGrid:_fetch_top_quests_internal(fn_filterQuests, pPlayer, nNumQuests, iFromIdx)
@@ -102,7 +102,7 @@ function CQuestGrid:_fetch_top_quests_internal(fn_filterQuests, pPlayer, nNumQue
 
     local m_rgQuests = self.rgQuests
 
-    local nNumAvailable = m_rgQuests:size() - iFromIdx
+    local nNumAvailable = (m_rgQuests:size() + 1) - iFromIdx
     local nToPick = math.min(nNumAvailable, nNumQuests)
 
     local nParts = math.ceil(nNumAvailable / RGraph.POOL_QUEST_FETCH_PARTITIONS)
@@ -150,11 +150,11 @@ function CQuestGrid:fetch_top_quests_by_player(pPlayer, nNumQuests)
 
     local pPoolQuests = STable:new()
 
-    local iNumQuestsRegional = RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO * nNumQuests
+    local iNumQuestsRegional = math.ceil(RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO * nNumQuests)
     pPoolQuests:insert(self:_fetch_top_quests_by_continent(pPlayer, iNumQuestsRegional, iIdx))
 
     local iNumLeft = iNumQuestsRegional - pPoolQuests:size()
-    local iNumQuestsOverall = (1.0 - RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO) * nNumQuests
+    local iNumQuestsOverall = math.ceil((1.0 - RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO) * nNumQuests)
     pPoolQuests:insert(self:_fetch_top_quests_by_availability(pPlayer, iNumQuestsOverall + iNumLeft, iIdx))
 
     return pPoolQuests
