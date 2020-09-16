@@ -40,7 +40,7 @@ function CInventory:remove_item(iId, iCount)
         end
 
         self.rgEntries[iId] = self.rgEntries[iId] - iCount
-        if self.rgEntries[iId] < 0 then
+        if self.rgEntries[iId] <= 0 then
             self.rgEntries[iId] = nil
         end
     end

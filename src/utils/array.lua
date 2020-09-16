@@ -12,6 +12,7 @@
 
 require("utils.class");
 require("utils.print");
+require("utils.sort");
 
 SArray = createClass({apItems = {}})
 
@@ -76,14 +77,30 @@ function SArray:remove_last()
     local m_apItems = self.apItems
     local nLastIdx = #m_apItems
 
-    remove(nLastIdx)
+    self:remove(nLastIdx)
+end
+
+function SArray:remove_all()
+    local m_apItems = self.apItems
+
+    local nItems = #m_apItems
+    for i = 1, nItems, 1 do
+        m_apItems[i] = nil
+    end
 end
 
 function SArray:sort(fn_sort)
     local m_apItems = self.apItems
 
     if fn_sort then
-        table.sort(m_apItems, fn_sort)
+        local rgpPairs = spairs(m_apItems, fn_sort)
+
+        self:remove_all()   -- clear array, next insert sorted
+
+        for _, pPair in ipairs(rgpPairs) do
+            local pItem = pPair[2]
+            table.insert(m_apItems, pItem)
+        end
     else
         table.sort(m_apItems)
     end

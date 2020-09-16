@@ -64,14 +64,13 @@ end
 
 function CQuestTable:_dispose_missing_subquests_in_tab(pQuest, fn_quest_tab)
     local pPrequests = fn_quest_tab(pQuest):get_requirement():get_quests()
-    for _, tPrequests in pairs(pPrequests:get_items()) do
-        local tToRemove = {}
-        for i = 1, #tPrequests, 1 do
-            local iPreQuestId = tPrequests[i]
-            local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
-            if pPreQuest == nil then
-                table.insert(tToRemove, iPreQuestId)
-            end
+    local tPrequests = pPrequests:get_items()
+
+    local tToRemove = {}
+    for iPreQuestId, _ in pairs(tPrequests) do
+        local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
+        if pPreQuest == nil then
+            table.insert(tToRemove, iPreQuestId)
         end
 
         for i = 1, #tToRemove, 1 do
