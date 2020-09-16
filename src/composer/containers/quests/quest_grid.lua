@@ -149,11 +149,11 @@ function CQuestGrid:fetch_top_quests_by_player(pPlayer, nNumQuests)
     local pPoolQuests = STable:new()
 
     local iNumQuestsRegional = math.ceil(RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO * nNumQuests)
-    pPoolQuests:insert(self:_fetch_top_quests_by_continent(pPlayer, iNumQuestsRegional, iIdx))
+    pPoolQuests:insert_table(self:_fetch_top_quests_by_continent(pPlayer, iNumQuestsRegional, iIdx))
 
     local iNumLeft = iNumQuestsRegional - pPoolQuests:size()
     local iNumQuestsOverall = math.ceil((1.0 - RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO) * nNumQuests)
-    pPoolQuests:insert(self:_fetch_top_quests_by_availability(pPlayer, iNumQuestsOverall + iNumLeft, iIdx))
+    pPoolQuests:insert_table(self:_fetch_top_quests_by_availability(pPlayer, iNumQuestsOverall + iNumLeft, iIdx))
 
     return pPoolQuests
 end
