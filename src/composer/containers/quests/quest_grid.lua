@@ -54,7 +54,7 @@ function CQuestGrid:new(ctQuests)
 end
 
 local fn_compare_quest_level = function(pQuest, iLevel)
-    return pQuest:get_starting_level() - iLevel
+    return iLevel - pQuest:get_starting_level()
 end
 
 function CQuestGrid:_ignore_quests_from_level(iLevel)

@@ -169,7 +169,7 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     local napItems = #m_apItems
 
     local st = 1
-    local en = napItems + 1
+    local en = napItems
 
     while st < en do
         local m = math.ceil((st + en) / 2)
@@ -194,7 +194,7 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
         end
     end
 
-    return bReturnPos and en or 0
+    return bReturnPos and ((fn_compare(m_apItems[napItems], pToFind) > 0) and en or en + 1) or 0
 end
 
 function SArray:slice(iFromIdx, iToIdx)
