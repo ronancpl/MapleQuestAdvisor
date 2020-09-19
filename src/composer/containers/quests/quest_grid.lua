@@ -26,9 +26,9 @@ function CQuestGrid:add_quest(pQuest)
     m_rgQuests:add(pQuest)
 end
 
-function CQuestGrid:remove_quest(iIdx, nNumQuests)
+function CQuestGrid:remove_quest(iIdx, nQuests)
     local m_rgQuests = self.rgQuests
-    local rgRemovedQuests = m_rgQuests:remove(iIdx, iIdx + nNumQuests - 1)
+    local rgRemovedQuests = m_rgQuests:remove(iIdx, iIdx + nQuests - 1)
 
     return rgRemovedQuests
 end
@@ -97,19 +97,19 @@ function CQuestGrid:_try_add_quest(tQuests, fn_filter_quests, iIdx, pPlayer)
     self:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, 0)
 end
 
-function CQuestGrid:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nNumQuests, iFromIdx, iToIdx)
+function CQuestGrid:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuests, iFromIdx, iToIdx)
     local tQuests = {}
 
     local m_rgQuests = self.rgQuests
 
-    local nNumAvailable = (m_rgQuests:size() + 1) - iFromIdx
-    local nToPick = math.min(nNumAvailable, nNumQuests)
+    local nAvailable = (m_rgQuests:size() + 1) - iFromIdx
+    local nToPick = math.min(nAvailable, nQuests)
 
     if iToIdx ~= nil then
-        nNumAvailable = math.min(nNumAvailable, iToIdx - iFromIdx + 1)  -- focus on the relevant portion of the available pool
+        nAvailable = math.min(nAvailable, iToIdx - iFromIdx + 1)  -- focus on the relevant portion of the available pool
     end
 
-    local nParts = math.ceil(nNumAvailable / RGraph.POOL_QUEST_FETCH_PARTITIONS)
+    local nParts = math.ceil(nAvailable / RGraph.POOL_QUEST_FETCH_PARTITIONS)
 
     local nRows = math.ceil(nToPick / nParts)
     local nCols = nParts
@@ -134,75 +134,54 @@ function CQuestGrid:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nNumQu
     return tQuests
 end
 
-function CQuestGrid:_fetch_top_quests_by_continent(pPlayer, nNumQuests, iFromIdx, iToIdx)
+function CQuestGrid:_fetch_top_quests_by_continent(pPlayer, nQuests, iFromIdx, iToIdx)
     local fn_filter_quests = function (pQuest, pPlayer)
         local iPlayerMapid = pPlayer:get_mapid()
         return get_continent_id(pQuest:get_start():get_requirement():get_field(iPlayerMapid)) == get_continent_id(iPlayerMapid)
     end
 
-    local tQuests = self:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nNumQuests, iFromIdx, iToIdx)
+    local tQuests = self:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuests, iFromIdx, iToIdx)
     return tQuests
 end
 
-function CQuestGrid:_fetch_top_quests_by_availability(pPlayer, nNumQuests, iFromIdx, iToIdx)
+function CQuestGrid:_fetch_top_quests_by_availability(pPlayer, nQuests, iFromIdx, iToIdx)
     local fn_filter_quests = function (pQuest, pPlayer) return true end
 
-    local tQuests = self:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nNumQuests, iFromIdx, iToIdx)
+    local tQuests = self:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuests, iFromIdx, iToIdx)
     return tQuests
 end
 
-function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nNumQuests)
+function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nQuests)
     local m_rgQuests = self.rgQuests
 
     local nLevel = pPlayer:get_level() + RGraph.POOL_AHEAD_QUEST_LEVEL
     local iIdx = m_rgQuests:bsearch(fn_compare_quest_level, nLevel, true, true)
     local iToIdx = m_rgQuests:bsearch(fn_compare_quest_level, pPlayer:get_level(), true, true)
 
-    if iToIdx - iIdx < nNumQuests then
-        iToIdx = math.min(m_rgQuests:size(), iIdx + nNumQuests)
+    if iToIdx - iIdx < nQuests then
+        iToIdx = math.min(m_rgQuests:size(), iIdx + nQuests)
     end
 
     return iIdx, iToIdx
 end
 
-function CQuestGrid:fetch_top_quests_by_player(pPlayer, nNumQuests)
+function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
     local pPoolQuests = STable:new()
 
     local iIdx
     local iToIdx
-    iIdx, iToIdx = self:_fetch_top_quests_searchable_range(pPlayer, nNumQuests)
+    iIdx, iToIdx = self:_fetch_top_quests_searchable_range(pPlayer, nQuests)
 
-    local iNumQuestsRegional = math.ceil(RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO * nNumQuests)
-    pPoolQuests:insert_table(self:_fetch_top_quests_by_continent(pPlayer, iNumQuestsRegional, iIdx, iToIdx))
+    local nQuestsRegional = math.ceil(RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO * nQuests)
+    pPoolQuests:insert_table(self:_fetch_top_quests_by_continent(pPlayer, nQuestsRegional, iIdx, iToIdx))
 
-    local iNumLeft = iNumQuestsRegional - pPoolQuests:size()
-    local iNumQuestsOverall = math.ceil((1.0 - RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO) * nNumQuests)
-    pPoolQuests:insert_table(self:_fetch_top_quests_by_availability(pPlayer, iNumQuestsOverall + iNumLeft, iIdx, iToIdx))
+    local nLeft = nQuestsRegional - pPoolQuests:size()
+    local nQuestsOverall = math.ceil((1.0 - RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO) * nQuests)
+    pPoolQuests:insert_table(self:_fetch_top_quests_by_availability(pPlayer, nQuestsOverall + nLeft, iIdx, iToIdx))
 
     return pPoolQuests
 end
 
 function CQuestGrid:ignore_underleveled_quests(iLevel)
     self:_ignore_quests_from_level(iLevel - RGraph.POOL_BEHIND_QUEST_LEVEL)
-end
-
-function CQuestGrid:fetch_required_quests(iLevel)
-    local rgPoolQuests = SArray:new()
-
-    --[[
-    local rgFrontierQuests = self:_fetch_top_quests_by_level(iLevel + RGraph.POOL_AHEAD_QUEST_LEVEL, RGraph.POOL_MIN_QUESTS)
-
-    while not rgFrontierQuests:is_empty() do
-        local pQuest = rgFrontierQuests:remove_last()
-        rgPoolQuests:add(pQuest)
-
-        for _, pPreQuest in ipairs(pQuest:GET_REQUIREMENTS) do
-            if (HAS prequest STATUS > 0) then
-                rgFrontierQuests:add(pPreQuest)
-            end
-        end
-    end
-    --]]
-
-    return rgPoolQuests
 end

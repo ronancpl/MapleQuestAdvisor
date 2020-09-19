@@ -75,9 +75,9 @@ end
 
 function SArray:remove_last()
     local m_apItems = self.apItems
-    local nLastIdx = #m_apItems
+    local iLastIdx = #m_apItems
 
-    self:remove(nLastIdx)
+    self:remove(iLastIdx)
 end
 
 function SArray:remove_all()
