@@ -34,8 +34,23 @@ function CQuestRequirement:set_npc(iNpcid)
     self.iNpcid = iNpcid
 end
 
-function CQuestRequirement:get_field()
-    return self.pMapid      -- this one is tricky: can be either a [number] or map of [continent, mapid]
+function CQuestRequirement:get_field(siRefMapid)
+    local pMapid = self.pMapid
+    if type(pMapid) == "table" then     -- this one is tricky: can be either a [number] or map of [continent, mapid]
+        local iMapid = pMapid[get_continent_id(siRefMapid)]
+        if iMapid == nil then
+            for _, iRegionMapid in pairs(pMapid) do
+                iMapid = iRegionMapid
+                return iMapid
+            end
+
+            iMapid = -1
+        end
+
+        return iMapid
+    end
+
+    return self.pMapid
 end
 
 function CQuestRequirement:set_field(pMapid)

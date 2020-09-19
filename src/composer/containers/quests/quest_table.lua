@@ -62,7 +62,7 @@ function CQuestTable:dispose_inoperative_quests()
     end
 end
 
-function CQuestTable:_dispose_missing_subquests_in_tab(pQuest, fn_quest_tab)
+function CQuestTable:_dispose_missing_prequests_in_tab(pQuest, fn_quest_tab)
     local pPrequests = fn_quest_tab(pQuest):get_requirement():get_quests()
     local tPrequests = pPrequests:get_items()
 
@@ -79,16 +79,16 @@ function CQuestTable:_dispose_missing_subquests_in_tab(pQuest, fn_quest_tab)
     end
 end
 
-function CQuestTable:dispose_missing_subquests()
+function CQuestTable:dispose_missing_prequests()
     local m_tpQuests = self.tpQuests
 
     for _, pQuest in pairs(m_tpQuests) do
-        self:_dispose_missing_subquests_in_tab(pQuest, CQuest.get_start)
-        self:_dispose_missing_subquests_in_tab(pQuest, CQuest.get_end)
+        self:_dispose_missing_prequests_in_tab(pQuest, CQuest.get_start)
+        self:_dispose_missing_prequests_in_tab(pQuest, CQuest.get_end)
     end
 end
 
-function CQuestTable:_find_subquest_starting_level(pQuest)
+function CQuestTable:_find_prequest_starting_level(pQuest)
     local rgiPreQuestIds = {}
     for iPreQuestId, _ in pairs(pQuest:get_start():get_requirement():get_quests():get_items()) do
         table.insert(rgiPreQuestIds, iPreQuestId)
@@ -96,11 +96,11 @@ function CQuestTable:_find_subquest_starting_level(pQuest)
 
     local siStartLevel = -1
     for _, iPreQuestId in ipairs(rgiPreQuestIds) do
-        local pSubQuest = ctQuests:get_quest_by_id(iPreQuestId)
-        local siSubStartLevel = self:_apply_quest_starting_level(pSubQuest)
+        local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
+        local siPreStartLevel = self:_apply_quest_starting_level(pPreQuest)
 
-        if siSubStartLevel > siStartLevel then
-            siStartLevel = siSubStartLevel
+        if siPreStartLevel > siStartLevel then
+            siStartLevel = siPreStartLevel
         end
     end
 
@@ -110,7 +110,7 @@ end
 function CQuestTable:_apply_quest_starting_level(pQuest)
     local siStartLevel = pQuest:get_start():get_requirement():get_level_min()
     if (siStartLevel < 0) then
-        siStartLevel = self:_find_subquest_starting_level(pQuest)
+        siStartLevel = self:_find_prequest_starting_level(pQuest)
     end
 
     pQuest:set_starting_level(siStartLevel)
