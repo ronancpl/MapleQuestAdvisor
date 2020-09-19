@@ -165,9 +165,9 @@ local function get_first_field_value(tNpcMapid)
 end
 
 local function apply_npc_town_fields_only(tNpcMapid, ctFieldsMeta)
-    for k, v in pairs(tNpcMapid:get_entry_set()) do
+    for iContinentid, iMapid in pairs(tNpcMapid:get_entry_set()) do
         if not ctFieldsMeta:is_town(iMapid) then
-            tNpcMapid:remove(k)
+            tNpcMapid:remove(iContinentid)
         end
     end
 end
@@ -203,7 +203,7 @@ local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tNpcFiel
 
             -- make sure only towns listed if there's at least one town in
             if bHasTown then
-                apply_npc_town_fields_only(tNpcMapid)
+                apply_npc_town_fields_only(tNpcMapid, ctFieldsMeta)
             end
 
             if tNpcMapid:size() < 2 then
@@ -215,7 +215,7 @@ local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tNpcFiel
             -- pNpcMapid: [integer - 1 value][dict - 1 per region]
             pNpcMapid = tNpcField[iStartNpc]
         else
-            print("[WARNING] NPC locations not found for NPCID " .. iStartNpc)
+            --print("[WARNING] NPC locations not found for NPCID " .. iStartNpc)
         end
     end
 

@@ -51,9 +51,8 @@ end
 
 function STable:insert(pKey, pValue)
     local pRemoved = self:remove(pKey)
-    if pRemoved == nil then
-        self.__LENGTH = self.__LENGTH + 1
-    end
+
+    self.__LENGTH = self.__LENGTH + 1
 
     local m_tpItems = self.tpItems
     m_tpItems[pKey] = pValue

@@ -11,6 +11,6 @@
 --]]
 
 function get_continent_id(iMapid)
-    return math.floor(iMapid / 1000000)
+    return math.floor(iMapid / 100000000)
 end
 
