@@ -14,6 +14,7 @@ package.path = package.path .. ';?.lua'
 
 require("router.stages.load")
 require("router.stages.pool")
+require("router.stages.route")
 require("structs.player")
 
 local function create_player()
@@ -28,3 +29,4 @@ local pGridQuests = load_grid_quests(ctQuests)
 local pPlayer = create_player()
 
 local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
+local tRoute = route_graph_quests(tQuests, pPlayer)
