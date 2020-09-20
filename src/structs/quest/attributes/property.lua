@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.storage.inventory");
-require("utils.class");
+require("structs.storage.inventory")
+require("utils.class")
 
 CQuestProperty = createClass({
     iExp = 0,
