@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.quest.attributes.property");
-require("utils.class");
+require("structs.quest.attributes.property")
+require("utils.class")
 
 CQuestAction = createClass({CQuestProperty, {}})

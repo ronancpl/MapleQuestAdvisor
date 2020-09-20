@@ -10,13 +10,13 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.field");
-require("composer.loot.loot");
-require("composer.loot.maker");
-require("composer.quest.quest");
-require("composer.unit.unit");
-require("composer.unit.player");
-require("utils.print");
+require("composer.field.field")
+require("composer.loot.loot")
+require("composer.loot.maker")
+require("composer.quest.quest")
+require("composer.unit.unit")
+require("composer.unit.player")
+--require("utils.print")
 require("utils.provider.xml.provider")
 
 function post_process_resources(ctQuests, ctNpcs, ctFieldsMeta)

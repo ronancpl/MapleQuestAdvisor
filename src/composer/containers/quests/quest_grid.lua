@@ -10,12 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.graph");
+require("router.filters.graph")
 require("structs.quest.quest")
-require("utils.array");
-require("utils.constants");
-require("utils.class");
-require("utils.print");
+require("utils.array")
+require("utils.constants")
+require("utils.class")
 
 CQuestGrid = createClass({
     rgQuests = SArray:new()

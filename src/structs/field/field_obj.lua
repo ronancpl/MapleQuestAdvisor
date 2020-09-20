@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.class");
+require("utils.class")
 
 CFieldObject = createClass({
     iSourceid = -1,

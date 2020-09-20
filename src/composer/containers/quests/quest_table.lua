@@ -10,10 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.graph");
-require("utils.array");
-require("utils.constants");
-require("utils.class");
+require("router.filters.graph")
+require("utils.array")
+require("utils.constants")
+require("utils.class")
 
 CQuestTable = createClass({
     tpQuests = {}
