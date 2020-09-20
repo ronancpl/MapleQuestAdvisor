@@ -97,12 +97,14 @@ function createClass (...)
     c.__index = c
 
     -- define a new constructor for this new class
-    function c:new (o)
-        o = o or {}
-        setmetatable(o, c)
+    function c:new (sv)
+        sv = sv or {}
 
-        -- load constructor values
-        local nv = loadValues(o)
+        -- load constructor values from superclass
+        local nv = loadValues(sv)
+
+        local o = {}
+        setmetatable(o, c)
 
         -- init field values
         for k, v in pairs(c.classMembers) do
