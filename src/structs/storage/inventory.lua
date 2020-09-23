@@ -21,6 +21,11 @@ function CInventory:have_item(iId, iCount)
     return self.rgEntries[iId] ~= nil and self.rgEntries[iId] >= iCount
 end
 
+function CInventory:get_item(iId)
+    local iCount = self.rgEntries[iId]
+    return iCount or 0
+end
+
 function CInventory:get_items()
     return self.rgEntries
 end

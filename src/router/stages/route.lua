@@ -10,10 +10,13 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.structs.path")
+require("router.procedures.requisites")
+
 local function make_pool_list(tQuests)
     local rgpQuests = SArray:new()
 
-    for pQuest, _ in pairs(tQuests) do
+    for pQuest, _ in pairs(tQuests:get_entry_set()) do
         rgpQuests:add(pQuest)
     end
 
@@ -32,7 +35,15 @@ local function update_player_state(pQuest, pPlayerState, bUndo)
 
 end
 
-local function route_internal(tQuests, pPlayer)
+local function is_route_quest_in_path(pQuestProp, pCurrentPath)
+    return pCurrentPath:is_in_path(pQuestProp)
+end
+
+local function is_route_quest_meet_prerequisites(pQuestProp, pPlayerState)
+    return is_player_have_strong_prerequisites(pPlayerState, pQuestProp)
+end
+
+local function route_internal(tQuests, pPlayerState, pQuestProp, pCurrentPath, pLeadingPath)
 
 end
 
@@ -40,10 +51,8 @@ function route_graph_quests(tQuests, pPlayer)
     local pPlayerState = CPlayer:new(pPlayer)
     local rgFrontierQuests = make_pool_list(tQuests)
 
-    local pQuestPath = SArray:new()
-
-    local pLeadingPath = {}
-    local iLeadingReward = 0.0
+    local pCurrentPath = CQuestPath:new()
+    local pLeadingPath = CQuestPath:new()
 
     while not rgFrontierQuests:is_empty() do
         local pQuest = rgFrontierQuests:remove_last()

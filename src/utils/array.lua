@@ -53,7 +53,7 @@ function SArray:remove(iIdxStart, iIdxEnd)
     local m_apItems = self.apItems
     local nItems = #m_apItems
 
-    iIdxEnd = (iIdxEnd <= nItems and iIdxEnd) or nItems
+    iIdxEnd = (iIdxEnd and iIdxEnd <= nItems) or nItems
 
     local apRemoved = SArray:new()
     for i = iIdxStart, iIdxEnd, 1 do
@@ -77,7 +77,12 @@ function SArray:remove_last()
     local m_apItems = self.apItems
     local iLastIdx = #m_apItems
 
-    self:remove(iLastIdx)
+    local apRemoved = self:remove(iLastIdx)
+    if not apRemoved:is_empty() then
+        return apRemoved:get(1)
+    else
+        return nil
+    end
 end
 
 function SArray:remove_all()
