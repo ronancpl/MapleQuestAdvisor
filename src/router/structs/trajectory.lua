@@ -17,35 +17,35 @@ CGraphTree = createClass(CQuestPath, {
     tpActiveNeighbors = {}
 })
 
-function CGraphTree:push_node(pQuestProp, tpNeighbors)
+function CGraphTree:push_node(pQuestProp, rgpNeighbors)
     self:add(pQuestProp)
 
-    local tpNeighborsCopy = STable:new()
-    tpNeighborsCopy:insert_table(tpNeighbors)
-    self.tpActiveNeighbors[pQuestProp] = tpNeighborsCopy
+    local rgpNeighborsCopy = STable:new()
+    rgpNeighborsCopy:insert_table(rgpNeighbors)
+    self.tpActiveNeighbors[pQuestProp] = rgpNeighborsCopy
 end
 
-function CGraphTree:_is_empty_on_erase_inactive_neighbors(tpNeighbors)
-    local pToRemove = {}
-    for i = 1, #tpNeighbors, 1 do
-        local v = tpNeighbors[i]
+function CGraphTree:_is_empty_on_erase_inactive_neighbors(rgpNeighbors)
+    local tiToRemove = {}
+    for i = 1, #rgpNeighbors, 1 do
+        local v = rgpNeighbors[i]
         if not self:is_in_path(v) then
-            table.insert(pToRemove, i)
+            table.insert(tiToRemove, i)
         end
     end
 
-    for i = #pToRemove, 1, -1 do
-        table.remove(tpNeighbors, pToRemove[i])
+    for i = #tiToRemove, 1, -1 do
+        table.remove(rgpNeighbors, tiToRemove[i])
     end
 
-    return #tpNeighbors == 0
+    return #rgpNeighbors == 0
 end
 
 function CGraphTree:try_pop()
     local pQuestProp = self:get_last()
 
-    local tpNeighbors = self.tpActiveNeighbors[pQuestProp]
-    if tpNeighbors:is_empty() or self:_is_empty_on_erase_inactive_neighbors(tpNeighbors) then
+    local rgpNeighbors = self.tpActiveNeighbors[pQuestProp]
+    if rgpNeighbors:is_empty() or self:_is_empty_on_erase_inactive_neighbors(rgpNeighbors) then
         self:remove_last()
         return pQuestProp
     else

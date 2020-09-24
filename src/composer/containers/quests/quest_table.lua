@@ -49,16 +49,16 @@ end
 function CQuestTable:dispose_inoperative_quests()
     local m_tpQuests = self.tpQuests
 
-    local pToRemove = {}
+    local tiToRemove = {}
     for iQuestid, pQuest in pairs(m_tpQuests) do
         if is_inoperative_quest(pQuest) then
             -- print("[WARNING] Disposed questid " .. iQuestid)
-            table.insert(pToRemove, iQuestid)
+            table.insert(tiToRemove, iQuestid)
         end
     end
 
-    for i = #pToRemove, 1, -1 do
-        self:remove_quest(pToRemove[i])
+    for i = #tiToRemove, 1, -1 do
+        self:remove_quest(tiToRemove[i])
     end
 end
 
@@ -66,15 +66,15 @@ function CQuestTable:_dispose_missing_prequests_in_tab(pQuest, fn_quest_tab)
     local pPrequests = fn_quest_tab(pQuest):get_requirement():get_quests()
     local tPrequests = pPrequests:get_items()
 
-    local tToRemove = {}
+    local tiToRemove = {}
     for iPreQuestId, _ in pairs(tPrequests) do
         local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
         if pPreQuest == nil then
-            table.insert(tToRemove, iPreQuestId)
+            table.insert(tiToRemove, iPreQuestId)
         end
 
-        for i = 1, #tToRemove, 1 do
-            pPrequests:remove_item(tToRemove[i])
+        for i = 1, #tiToRemove, 1 do
+            pPrequests:remove_item(tiToRemove[i])
         end
     end
 end
