@@ -42,6 +42,13 @@ function SArray:get(iIdx)
     return m_apItems[iIdx]
 end
 
+function SArray:get_last()
+    local m_apItems = self.apItems
+    local iLastIdx = #m_apItems
+
+    return self:get(iLastIdx)
+end
+
 function SArray:add(pItem)
     local m_apItems = self.apItems
     local nItems = #m_apItems

@@ -14,9 +14,6 @@ require("router.procedures.quest.accessor.property")
 require("structs.quest.attributes.requirement")
 require("utils.class")
 
-local tfn_strong_reqs = {}
-local tfn_weak_reqs = {}
-
 CQuestAccessor = createClass({
     sName = "_NIL",
     fn_get_property,
@@ -27,6 +24,8 @@ function CQuestAccessor:new(sName, fn_get_property, fn_diff_pending)
     self.sName = sName
     self.fn_get_property = fn_get_property
     self.fn_diff_pending = fn_diff_pending
+
+    return self
 end
 
 function CQuestAccessor:get_fn_pending()
