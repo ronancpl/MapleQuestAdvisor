@@ -13,9 +13,23 @@
 require("utils.class")
 
 CQuestProperties = createClass({
+    iQuestid,
+    bStart,
     pPropCheck,
     pPropAct
 })
+
+function CQuestProperties:get_quest_id()
+    return self.iQuestid
+end
+
+function CQuestProperties:set_quest_id(iQuestid)
+    self.iQuestid = iQuestid
+end
+
+function CQuestProperties:is_start()
+    return self.bStart
+end
 
 function CQuestProperties:get_requirement()
     return self.pPropCheck

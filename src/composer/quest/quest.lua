@@ -124,8 +124,12 @@ local function read_quest_tab(sTabName, fn_quest_tab, pQuest, pActNode, pChkNode
 end
 
 local function read_quest_node(pActNode, pChkNode)
-    local pQuest = CQuest:new()
-    pQuest:set_quest_id(pActNode:get_name_tonumber())
+    local iQuestid = pActNode:get_name_tonumber()
+    local pQuest = CQuest:new({
+        iQuestid = iQuestid,
+        qpStart = CQuestProperties:new({iQuestid = iQuestid, bStart = true}),
+        qpEnd = CQuestProperties:new({iQuestid = iQuestid, bStart = false})
+    })
 
     read_quest_tab("0", CQuest.get_start, pQuest, pActNode, pChkNode)
     read_quest_tab("1", CQuest.get_end, pQuest, pActNode, pChkNode)

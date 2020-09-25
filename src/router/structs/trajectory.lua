@@ -13,9 +13,9 @@
 require("router.structs.path")
 require("utils.table")
 
-CGraphTree = createClass(CQuestPath, {
+CGraphTree = createClass({CQuestPath, {
     tpActiveNeighbors = {}
-})
+}})
 
 function CGraphTree:push_node(pQuestProp, rgpNeighbors)
     self:add(pQuestProp)

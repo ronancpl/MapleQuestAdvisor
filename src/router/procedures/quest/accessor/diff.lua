@@ -11,14 +11,14 @@
 --]]
 
 function fn_diff_pending(pQuestAcc, pQuestProp, iSeized)
-    local fn_quest_prop = pQuestAcc.fn_get_property
+    local fn_quest_prop = pQuestAcc:get_fn_property()
     local iRequired = fn_quest_prop(pQuestProp)
 
     return iSeized - iRequired
 end
 
 function fn_diff_pending_list(pQuestAcc, pQuestProp, ivtSeized)
-    local fn_quest_prop = pQuestAcc.fn_get_property
+    local fn_quest_prop = pQuestAcc:get_fn_property()
     local rgReqItems = fn_quest_prop(pQuestProp)
 
     local tPending = {}

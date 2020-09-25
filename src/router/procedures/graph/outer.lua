@@ -11,7 +11,6 @@
 --]]
 
 require("router.structs.path")
-require("router.procedures.quest.requisites")
 
 function fetch_neighbors(tpPoolProps, pQuestProp, pPlayer)
 
@@ -24,6 +23,6 @@ function is_route_quest_in_path(pQuestProp, pCurrentPath)
     return pCurrentPath:is_in_path(pQuestProp)
 end
 
-function is_route_quest_meet_prerequisites(pQuestProp, pPlayerState)
-    return is_player_have_strong_prerequisites(pPlayerState, pQuestProp)
+function is_route_quest_meet_prerequisites(ctAccessors, pQuestProp, pPlayerState)
+    return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end

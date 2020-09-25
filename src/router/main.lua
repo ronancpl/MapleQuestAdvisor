@@ -12,7 +12,7 @@
 
 package.path = package.path .. ';?.lua'
 
-require("router.procedures.quest.accessor.accessor")
+require("router.procedures.quest.accessors")
 require("router.stages.load")
 require("router.stages.pool")
 require("router.stages.route")
@@ -31,8 +31,5 @@ local pPlayer = create_player()
 
 local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
 
-local tfn_strong_reqs
-local tfn_weak_reqs
-tfn_strong_reqs, tfn_weak_reqs = init_quest_accessors()
-
-local tRoute = route_graph_quests(tQuests, pPlayer)
+ctAccessors = init_quest_accessors()
+local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors)
