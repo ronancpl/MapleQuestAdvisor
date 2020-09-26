@@ -41,12 +41,13 @@ function CGraphTree:_is_empty_on_erase_inactive_neighbors(rgpNeighbors)
     return #rgpNeighbors == 0
 end
 
-function CGraphTree:try_pop()
-    local pQuestProp = self:get_last()
+function CGraphTree:try_pop_node()
+    local m_rgpPath = self.tpPath
+    local pQuestProp = m_rgpPath:get_last()
 
     local rgpNeighbors = self.tpActiveNeighbors[pQuestProp]
     if rgpNeighbors:is_empty() or self:_is_empty_on_erase_inactive_neighbors(rgpNeighbors) then
-        self:remove_last()
+        m_rgpPath:remove_last()
         return pQuestProp
     else
         return nil

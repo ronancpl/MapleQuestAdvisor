@@ -12,8 +12,16 @@
 
 require("router.structs.path")
 
-function fetch_neighbors(tpPoolProps, pQuestProp, pPlayer)
+function fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState)
+    local rgpNeighbors = {}
 
+    for _, pQuestProp in pairs(tpPoolProps:list()) do
+        if IN_REQUIREMENT(pQuestProp) and NOT_COMPLETE(pQuestProp, pPlayerState) then
+            table.insert(rgpNeighbors, pQuestProp)
+        end
+    end
+
+    return rgpNeighbors
 end
 
 function update_player_state(pQuestProp, pPlayerState, bUndo)

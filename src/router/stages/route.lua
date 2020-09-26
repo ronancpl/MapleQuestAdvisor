@@ -62,7 +62,7 @@ local function route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath,
     local rgpBcktQuests = {}
 
     while not pQuestTree:is_empty() do
-        local pQuestProp = try_pop()
+        local pQuestProp = pQuestTree:try_pop_node()
         if pQuestProp == nil then
             return
         end
@@ -87,13 +87,14 @@ local function route_internal_node(tpPoolProps, rgpFrontierQuests, pPlayerState,
         if not is_route_quest_in_path(pQuestProp, pCurrentPath) then
                 EVAL_QUEST(pQuestProp, pPlayerState)
                 if WORTH_PROGRESS then
-            if is_route_quest_meet_prerequisites(ctAccessors, pQuestProp, pPlayerState) then
+                if is_route_quest_meet_prerequisites(ctAccessors, pQuestProp, pPlayerState) then
                     route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, rgpNeighbors, pPlayerState, rgpFrontierQuests)
                 end
             end
         end
 
         route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath, pPlayerState)
+        route_debug_frontier(rgpFrontierQuests)
     end
 end
 

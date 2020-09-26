@@ -209,6 +209,20 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     return bReturnPos and ((fn_compare(m_apItems[napItems], pToFind) > 0) and en or en + 1) or 0
 end
 
+function SArray:index_of(fn_select, bFromStart)
+    local m_apItems = self.apItems
+    local napItems = #m_apItems
+
+    local it = bFromStart and [1, napItems, 1] or [napItems, 1, -1]
+    for i = it[1], it[2], it[3] do
+        if fn_select(m_apItems[i]) then
+            return i
+        end
+    end
+
+    return -1
+end
+
 function SArray:slice(iFromIdx, iToIdx)
     local rgpNew = SArray:new()
 
