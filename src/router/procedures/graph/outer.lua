@@ -10,13 +10,34 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.player.quest")
 require("router.structs.path")
 
-function fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState)
+local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
+    if is_quest_state_achieved(pPlayerState, pQuestProp) then
+        return false
+    end
+
+    if is_route_quest_in_path(pQuestProp, pCurrentPath) then
+        return false
+    end
+
+    if not is_route_quest_meet_prerequisites(ctAccessors, pQuestProp, pPlayerState) then
+        return false
+    end
+
+    return true
+end
+
+function is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
+    return is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
+end
+
+function fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
     local rgpNeighbors = {}
 
     for _, pQuestProp in pairs(tpPoolProps:list()) do
-        if IN_REQUIREMENT(pQuestProp) and NOT_COMPLETE(pQuestProp, pPlayerState) then
+        if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
             table.insert(rgpNeighbors, pQuestProp)
         end
     end
