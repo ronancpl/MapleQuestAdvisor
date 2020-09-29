@@ -56,6 +56,20 @@ function SArray:add(pItem)
     m_apItems[nItems + 1] = pItem
 end
 
+function SArray:add_all(rgpItems)
+    if type(rgpItems) == "table" then
+        local m_apItems = self.apItems
+        local nItems = #m_apItems
+
+        local rgpList = rgpItems.apItems ~= nil and rgpItems:list() or rgpItems
+
+        local nList = #rgpList
+        for i = 1, nList, 1 do
+            m_apItems[nItems + i] = rgpList[i]
+        end
+    end
+end
+
 function SArray:remove(iIdxStart, iIdxEnd)
     local m_apItems = self.apItems
     local nItems = #m_apItems
@@ -233,6 +247,18 @@ function SArray:slice(iFromIdx, iToIdx)
     end
 
     return rgpNew
+end
+
+function SArray:insert(pItem, iFromIdx)
+    local rgpSlice = iFromIdx ~= nil and self:remove(iFromIdx) or SArray:new()
+    self:add(pItem)
+    self:add_all(rgpSlice)
+end
+
+function SArray:insert_array(rgpArray, iFromIdx)
+    local rgpSlice = iFromIdx ~= nil and self:remove(iFromIdx) or SArray:new()
+    self:add_all(rgpArray)
+    self:add_all(rgpSlice)
 end
 
 function SArray:printable()

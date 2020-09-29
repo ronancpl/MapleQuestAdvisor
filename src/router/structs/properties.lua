@@ -10,32 +10,31 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.array")
 require("utils.class")
 
-CInventory = createClass({
+CFrontierNodeProperties = createClass({
     rgEntries = {},
     nSize = 0
 })
 
-function CInventory:have_item(iId, iCount)
+function CFrontierNodeProperties:have(iId, iCount)
     return self.rgEntries[iId] ~= nil and self.rgEntries[iId] >= iCount
 end
 
-function CInventory:get_item(iId)
+function CFrontierNodeProperties:get(iId)
     local iCount = self.rgEntries[iId]
     return iCount or 0
 end
 
-function CInventory:get_items()
+function CFrontierNodeProperties:get_entry_set()
     return self.rgEntries
 end
 
-function CInventory:size()
+function CFrontierNodeProperties:size()
     return self.nSize
 end
 
-function CInventory:add_item(iId, iCount)
+function CFrontierNodeProperties:add(iId, iCount)
     if self.rgEntries[iId] ~= nil then
         self.rgEntries[iId] = self.rgEntries[iId] + iCount
     else
@@ -44,7 +43,7 @@ function CInventory:add_item(iId, iCount)
     end
 end
 
-function CInventory:remove_item(iId, iCount)
+function CFrontierNodeProperties:remove(iId, iCount)
     if self.rgEntries[iId] ~= nil then
         if iCount == nil then
             iCount = self.rgEntries[iId]

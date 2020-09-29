@@ -22,10 +22,6 @@ local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAcces
         return false
     end
 
-    if not is_route_quest_meet_prerequisites(ctAccessors, pQuestProp, pPlayerState) then
-        return false
-    end
-
     return true
 end
 
@@ -50,8 +46,4 @@ end
 
 function is_route_quest_in_path(pQuestProp, pCurrentPath)
     return pCurrentPath:is_in_path(pQuestProp)
-end
-
-function is_route_quest_meet_prerequisites(ctAccessors, pQuestProp, pPlayerState)
-    return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end

@@ -21,6 +21,10 @@ CQuestAccessor = createClass({
     fn_diff_pending
 })
 
+function CQuestAccessor:get_name()
+    return self.sName
+end
+
 function CQuestAccessor:get_fn_property()
     return self.fn_get_property
 end

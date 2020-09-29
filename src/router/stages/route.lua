@@ -13,6 +13,7 @@
 require("router.procedures.graph.outer")
 require("router.structs.path")
 require("router.structs.trajectory")
+require("router.structs.frontier.frontier")
 require("structs.player")
 require("utils.array")
 
@@ -44,7 +45,7 @@ local function route_quest_suppress_complete(tpPoolProps, pQuestProp, pPlayerSta
 
 end
 
-local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, rgpNeighbors, pPlayerState, ctAccessors, rgpFrontierQuests)
+local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, pFrontierQuests)
     route_quest_permit_complete(tpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
     local rgpNeighbors = fetch_neighbors(tpPoolProps, pQuestProp, pPlayerState, ctAccessors)
@@ -54,7 +55,7 @@ local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, 
     pCurrentPath:add(pQuestProp)
 
     for _, pNeighborProp in ipairs(rgpNeighbors) do
-        rgpFrontierQuests:add(pNeighborProp)
+        pFrontierQuests:add(pNeighborProp, pPlayerState)
     end
 end
 
@@ -78,19 +79,23 @@ local function route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath,
     end
 end
 
-local function route_internal_node(tpPoolProps, rgpFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors)
+local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors)
     local pQuestTree = CGraphTree:new()
 
-    while not rgpFrontierQuests:is_empty() do
-        local pQuestProp = rgpFrontierQuests:remove_last()
+    while true do
+        local pQuestProp = pFrontierQuests:fetch()
+        if pQuestProp == nil then
+            break
+        end
 
                 EVAL_QUEST(pQuestProp, pPlayerState)
                 if WORTH_PROGRESS then
                 end
-            route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, rgpNeighbors, pPlayerState, ctAccessors, rgpFrontierQuests)
+            route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, pFrontierQuests)
 
         route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath, pPlayerState)
-        route_debug_frontier(rgpFrontierQuests)
+
+        pFrontierQuests:update(pPlayerState)
     end
 end
 
@@ -100,11 +105,13 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
     local pCurrentPath = CQuestPath:new()
 
     if is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
-        local rgpFrontierQuests = SArray:new()
-        rgpFrontierQuests:add(pQuestProp)
+        local pFrontierQuests = CQuestFrontier:new()
+        pFrontierQuests:init(ctAccessors)
+
+        pFrontierQuests:add(pQuestProp, pPlayerState)
 
         local tpPool = make_available_neighbors_list(tQuests)
-        route_internal_node(tpPool, rgpFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors)
+        route_internal_node(tpPool, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors)
     end
 end
 
