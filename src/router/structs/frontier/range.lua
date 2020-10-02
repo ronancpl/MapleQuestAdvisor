@@ -22,21 +22,21 @@ CQuestFrontierRange = createClass({
     rgsPropTypeKeys = SArray:new()
 })
 
-function CQuestFrontierRange:_init_accessor_type(sAccName, CQuestRangeType)
+function CQuestFrontierRange:_init_accessor_type(sAccName, CQuestRangeType, fn_get_player_property)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
-    m_tpPropTypeQuests[sAccName] = CQuestRangeType:new()
+    m_tpPropTypeQuests[sAccName] = CQuestRangeType:new({fn_player_property = fn_get_player_property})
 
     local m_rgsPropTypeKeys = self.rgsPropTypeKeys
     m_rgsPropTypeKeys:add(sAccName)
 end
 
-function CQuestFrontierRange:init(rgsAccUnitNames, rgsAccInvtNames)
-    for _, sAccName in ipairs(rgsAccUnitNames) do
-        self:_init_accessor_type(sAccName, CQuestFrontierUnit)
+function CQuestFrontierRange:init(tsAccUnits, tsAccInvts)
+    for sAccName, fn_get_player_property in pairs(tsAccUnits) do
+        self:_init_accessor_type(sAccName, CQuestFrontierUnit, fn_get_player_property)
     end
 
-    for _, sAccName in ipairs(rgsAccInvtNames) do
-        self:_init_accessor_type(sAccName, CQuestFrontierList)
+    for sAccName, fn_get_player_property in pairs(tsAccInvts) do
+        self:_init_accessor_type(sAccName, CQuestFrontierList, fn_get_player_property)
     end
 end
 

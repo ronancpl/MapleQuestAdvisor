@@ -14,20 +14,26 @@ require("router.structs.frontier.node.node")
 require("utils.array")
 require("utils.class")
 
+local function fn_default_player_property(pPlayerState)
+    return 0
+end
+
 local function fn_compare_prop_unit(pFrontierProp, pFrontierOther)
     return pFrontierOther:get(1) - pFrontierProp:get(1)
 end
 
-local function fn_attain_prop_unit(pReqAcc, pFrontierProp, pPlayerState)
-    local pRet = fn_diff_prop_unit(pReqAcc, pFrontierProp, pPlayerState)
-    return pRet > 0
-end
+local function fn_diff_prop_unit(pFrontierProp, pPlayerState)
+    local fn_get_player_property = self:get_fn_player_property()
 
-local function fn_diff_prop_unit(pReqAcc, pFrontierProp, pPlayerState)
-    local iProgress = pReqAcc:get_fn_player_property(pPlayerState)
-    local pRet = pReqAcc:get_fn_diff(pReqAcc, pQuestProp, iProgress)    -- TODO: not pQuestProp
+    local iProgress = fn_get_player_property(pPlayerState)
+    local pRet = self:get_fn_diff(iRequired, iProgress)
 
     return pRet
+end
+
+local function fn_attain_prop_unit(pFrontierProp, pPlayerState)
+    local pRet = fn_diff_prop_unit(pFrontierProp, pPlayerState)
+    return pRet > 0
 end
 
 local function fn_make_prop_unit(pQuestProp, fn_get_property)
@@ -39,4 +45,4 @@ local function fn_make_prop_unit(pQuestProp, fn_get_property)
     return pFrontierProp
 end
 
-CQuestFrontierUnit = createClass({CQuestFrontierNode, {bList = false, fn_attain = fn_attain_prop_unit, fn_diff = fn_diff_prop_unit, fn_compare = fn_compare_prop_unit, fn_create = fn_make_prop_unit}})
+CQuestFrontierUnit = createClass({CQuestFrontierNode, {bList = false, fn_attain = fn_attain_prop_unit, fn_diff = fn_diff_prop_unit, fn_player_property = fn_default_player_property, fn_compare = fn_compare_prop_unit, fn_create = fn_make_prop_unit}})

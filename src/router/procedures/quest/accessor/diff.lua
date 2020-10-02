@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-function fn_property_diff_pending(pQuestAcc, iRequired, iSeized)
+function fn_property_diff_pending(iRequired, iSeized)
     return iSeized - iRequired
 end
 
@@ -18,11 +18,11 @@ function fn_diff_pending(pQuestAcc, pQuestProp, iSeized)
     local fn_quest_prop = pQuestAcc:get_fn_property()
     local iRequired = fn_quest_prop(pQuestProp)
 
-    local iPending = fn_property_diff_pending(pQuestAcc, iRequired, iSeized)
+    local iPending = fn_property_diff_pending(iRequired, iSeized)
     return iPending
 end
 
-function fn_property_diff_pending_list(pQuestAcc, rgReqItems, ivtSeized)
+function fn_property_diff_pending_list(rgReqItems, ivtSeized)
     local tPending = {}
     for iId, iCount in ipairs(rgReqItems) do
         local iLeft = iCount - ivtSeized:get_item(iId)
@@ -38,7 +38,7 @@ function fn_diff_pending_list(pQuestAcc, pQuestProp, ivtSeized)
     local fn_quest_prop = pQuestAcc:get_fn_property()
     local rgReqItems = fn_quest_prop(pQuestProp)
 
-    local tPending = fn_property_diff_pending_list(pQuestAcc, rgReqItems, ivtSeized)
+    local tPending = fn_property_diff_pending_list(rgReqItems, ivtSeized)
     return tPending
 end
 

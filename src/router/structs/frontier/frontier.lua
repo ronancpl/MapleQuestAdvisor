@@ -22,10 +22,10 @@ function CQuestFrontier:init(ctAccessors) do
     local rgsPropInvtNames
     local rgsPropUnitNames
 
-    rgsPropInvtNames, rgsPropUnitNames = ctAccessors:get_accessor_range_keys()
+    tsPropInvts, tsPropUnits = ctAccessors:get_accessor_range_keys()
 
-    self.pHold:init(rgsPropInvtNames, rgsPropUnitNames)
-    self.pSelect:init(rgsPropInvtNames, rgsPropUnitNames)
+    self.pHold:init(tsPropUnits, tsPropInvts)
+    self.pSelect:init(tsPropUnits, tsPropInvts)
 end
 
 function CQuestFrontier:_is_quest_attainable(pQuestProp, pPlayerState)

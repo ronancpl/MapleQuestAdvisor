@@ -19,6 +19,7 @@ CQuestFrontierNode = createClass({
     pItems = SArray:new(),
     fn_attain = nil,
     fn_diff = nil,
+    fn_player_property = nil,
     fn_compare = nil,
     fn_create = nil
 })
@@ -29,6 +30,10 @@ end
 
 function CQuestFrontierNode:get_fn_diff()
     return self.fn_diff
+end
+
+function CQuestFrontierNode:get_fn_player_property()
+    return self.fn_player_property
 end
 
 function CQuestFrontierNode:get_fn_compare()
@@ -61,7 +66,10 @@ end
 
 function CQuestFrontierNode:_is_prop_offbounds(pFrontierProp, pPlayerState, bSelect)
     return self:get_fn_attain(pFrontierProp, pPlayerState) ~= bSelect
+end
 
+local function fn_compare_attainable(pFrontierProp, pPlayerState)
+    return self:get_fn_diff(pFrontierProp, pPlayerState)
 end
 
 function CQuestFrontierNode:update_take(pPlayerState, bSelect, fn_get_property)
