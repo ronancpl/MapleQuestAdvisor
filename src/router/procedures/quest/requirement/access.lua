@@ -23,31 +23,26 @@ local function get_accessors_table(ctAccessors)
     return {ctAccessors.tfn_strong_reqs, ctAccessors.tfn_strong_ivt_reqs, ctAccessors.tfn_weak_reqs, ctAccessors.tfn_weak_ivt_reqs}
 end
 
-local function fetch_accessors_all(ctAccessors)
-    local rgpAccs = {}
-    for _, pAcc in ipairs(get_accessors_table(ctAccessors)) do
-        table.insert(rgpAccs, pAcc)
-    end
+local function get_allow_table(bStrong, bInventory)
+    local btAllow = bit.tobit(0)
+    btAllow = bit.bor(btAllow, bit.lshift(bStrong == true and 1 or 0, 1))
+    btAllow = bit.bor(btAllow, bit.lshift(bInventory == true and 1 or 0, 0))
 
-    return rgpAccs
+    local btDontCare = bit.tobit(0)
+    btDontCare = bit.bor(btDontCare, bit.lshift(bStrong == nil and 0 or 1, 1))
+    btDontCare = bit.bor(btDontCare, bit.lshift(bInventory == nil and 0 or 1, 0))
+
+    return btAllow, btDontCare
 end
 
-local function get_block_table(bStrong, bInventory)
-    local btBlock = bit.tobit(0)
-    btBlock = bit.bor(btBlock, bit.lshift(bStrong and 0 or 1, 1))
-    btBlock = bit.bor(btBlock, bit.lshift(bInventory and 0 or 1, 0))
-
-    return btBlock
-end
-
-local function fetch_accessors_select(btBlock, ctAccessors)
+local function fetch_accessors_select(btAllow, btDontCare, ctAccessors)
     local rgpAccs = {}
 
     for i, pAcc in ipairs(get_accessors_table(ctAccessors)) do
         local iIdx = i - 1
 
-        local btPass = bit.band(xnor(btBlock, iIdx), iIdx)
-        if btPass > 0 then
+        local btPass = xnor(btAllow, iIdx)
+        if bit.band(btPass, btDontCare) <= 0 then
             table.insert(rgpAccs, pAcc)
         end
     end
@@ -55,11 +50,7 @@ local function fetch_accessors_select(btBlock, ctAccessors)
     return rgpAccs
 end
 
-function fetch_accessors(ctAccessors, bStrong, bInventory)  -- TODO: alter table to accept [nil, true, false] rather than boolean select
-    local btBlock = get_block_table(bStrong, bInventory)
-    if btBlock == 0 then
-        return fetch_accessors_all(ctAccessors)
-    else
-        return fetch_accessors_select(btBlock, ctAccessors)
-    end
+function fetch_accessors(ctAccessors, bStrong, bInventory)
+    local btAllow, btDontCare = get_allow_table(bStrong, bInventory)
+    return fetch_accessors_select(btAllow, btDontCare, ctAccessors)
 end
