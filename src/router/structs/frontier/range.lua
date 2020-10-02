@@ -12,17 +12,22 @@
 
 require("router.structs.frontier.node.list")
 require("router.structs.frontier.node.unit")
+require("utils.array")
 require("utils.class")
 require("utils.quest")
 require("utils.table")
 
 CQuestFrontierRange = createClass({
-    tpPropTypeQuests = {}
+    tpPropTypeQuests = {},
+    rgsPropTypeKeys = SArray:new()
 })
 
 function CQuestFrontierRange:_init_accessor_type(sAccName, CQuestRangeType)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
     m_tpPropTypeQuests[sAccName] = CQuestRangeType:new()
+
+    local m_rgsPropTypeKeys = self.rgsPropTypeKeys
+    m_rgsPropTypeKeys:add(sAccName)
 end
 
 function CQuestFrontierRange:init(rgsAccUnitNames, rgsAccInvtNames)
@@ -78,9 +83,28 @@ function CQuestFrontier:update_take(pPlayerState, bSelect)
     return pQuestProp
 end
 
-function CQuestFrontier:fetch()
-    local m_pNode = self.tpPropTypeQuests
-    local pQuestProp = m_pRange:fetch()
+function CQuestFrontier:_fetch_from_nodes()
+    local m_rgsKeys = self.rgsPropTypeKeys
 
-    return pQuestProp
+    local nKeys = m_rgsKeys:size()
+    if nKeys > 0 then
+        m_rgsKeys:randomize()
+
+        local pQuestProp = nil
+        local i = 1
+        while pQuestProp == nil and i <= nKeys do
+            local pNode = m_rgsKeys:get(i)
+            i = i + 1
+
+            pQuestProp = pNode:fetch()
+        end
+
+        return pQuestProp
+    else
+        return nil
+    end
+end
+
+function CQuestFrontier:fetch()
+    return self:_fetch_from_nodes()
 end
