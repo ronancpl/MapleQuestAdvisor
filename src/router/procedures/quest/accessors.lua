@@ -81,8 +81,12 @@ function CQuestAccessors:get_accessor_by_name(sAccName)
     return self.tsAllReqs[sAccName]
 end
 
-function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_get_acc_property, fn_diff_acc_pending)
-    local pAcc = CQuestAccessor:new({sName = sAccName, fn_get_property = fn_get_acc_property, fn_diff_pending = fn_diff_acc_pending})
+function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_get_acc_property, fn_get_player_state_property, fn_diff_pending_type)
+    local fn_diff_acc_pending = function(pQuestAcc, pQuestProp, pPlayerState)
+        return fn_diff_pending_type(pQuestAcc, pQuestProp, fn_get_player_state_property(pPlayerState))
+    end
+
+    local pAcc = CQuestAccessor:new({sName = sAccName, fn_get_property = fn_get_acc_property, fn_get_player_property = fn_get_player_state_property, fn_diff_pending = fn_diff_acc_pending, fn_diff_pending_type = fn_diff_pending_type})
 
     table.insert(tfn_reqs, pAcc)
     self.tsAllReqs[sAccName] = pAcc
@@ -92,28 +96,28 @@ function init_quest_accessors()
     local ctAccessors = CQuestAccessors:new()
 
     local tfn_strong_reqs = ctAccessors.tfn_strong_reqs
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_FAME", CQuestProperty.get_fame, fn_quest_diff_pending_fame})
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_DATE", CQuestRequirement.has_date_access, fn_quest_diff_pending_date})
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_LVMIN", CQuestRequirement.get_level_min, fn_quest_diff_pending_level_min})
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_LVMAX", CQuestRequirement.get_level_max, fn_quest_diff_pending_level_max})
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_FAME", CQuestProperty.get_fame, fn_get_player_state_fame, fn_diff_pending})
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_DATE", CQuestRequirement.has_date_access, fn_get_player_state_date, fn_diff_zero})
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_LVMIN", CQuestRequirement.get_level_min, fn_get_player_state_level_min, fn_diff_pending})
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_LVMAX", CQuestRequirement.get_level_max, fn_get_player_state_level_max, fn_diff_pending})
 
     tfn_strong_reqs = ctAccessors.tfn_strong_ivt_reqs
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_QUESTS", CQuestProperty.get_quests, fn_quest_diff_pending_quests})
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_SKILLS", CQuestProperty.get_skills, fn_quest_diff_pending_skills})
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_JOBS", CQuestRequirement.has_job_access, fn_quest_diff_pending_jobs})
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_QUESTS", CQuestProperty.get_quests, fn_get_player_state_quests, fn_diff_pending_list})
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_SKILLS", CQuestProperty.get_skills, fn_get_player_state_skills, fn_diff_pending_list})
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_JOBS", CQuestRequirement.has_job_access, fn_get_player_state_jobs, fn_diff_pending_list})
 
     local tfn_weak_reqs = ctAccessors.tfn_weak_reqs
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_EXP", CQuestProperty.get_exp, fn_quest_diff_pending_exp})
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_MESO", CQuestProperty.get_meso, fn_quest_diff_pending_meso})
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_NPC", CQuestRequirement.get_npc, fn_quest_diff_pending_npc})
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_FIELD", CQuestRequirement.get_field, fn_quest_diff_pending_field})
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_FIELD_ENTER", CQuestRequirement.get_field_enter, fn_quest_diff_pending_field_enter})
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_REPEAT", CQuestRequirement.is_repeatable, fn_quest_diff_pending_repeat})
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_SCRIPT", CQuestRequirement.has_script, fn_quest_diff_pending_script})
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_EXP", CQuestProperty.get_exp, fn_get_player_state_exp, fn_diff_pending})
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_MESO", CQuestProperty.get_meso, fn_get_player_state_meso, fn_diff_pending})
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_NPC", CQuestRequirement.get_npc, fn_get_player_state_npc, fn_diff_zero})
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_FIELD", CQuestRequirement.get_field, fn_get_player_state_field, fn_diff_zero})
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_FIELD_ENTER", CQuestRequirement.get_field_enter, fn_get_player_state_field_enter, fn_diff_zero})
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_REPEAT", CQuestRequirement.is_repeatable, fn_get_player_state_repeat, fn_diff_zero})
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_SCRIPT", CQuestRequirement.has_script, fn_get_player_state_scripts, fn_diff_zero})
 
     tfn_weak_reqs = ctAccessors.tfn_weak_ivt_reqs
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_ITEMS", CQuestProperty.get_items, fn_quest_diff_pending_items})
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_MOBS", CQuestProperty.get_mobs, fn_quest_diff_pending_mobs})
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_ITEMS", CQuestProperty.get_items, fn_get_player_state_items, fn_diff_pending_list})
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_MOBS", CQuestProperty.get_mobs, fn_get_player_state_mobs, fn_diff_pending_list})
 
     return ctAccessors
 end

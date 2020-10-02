@@ -12,66 +12,66 @@
 
 require("router.procedures.quest.accessor.diff")
 
-function fn_quest_diff_pending_exp(pQuestAcc, pQuestProp, pPlayerState)
-    return fn_diff_pending(pQuestAcc, pQuestProp, pPlayerState:get_exp())
+function fn_get_player_state_exp(pPlayerState)
+    return pPlayerState:get_exp()
 end
 
-function fn_quest_diff_pending_meso(pQuestAcc, pQuestProp, pPlayerState)
-    return fn_diff_pending(pQuestAcc, pQuestProp, pPlayerState:get_meso())
+function fn_get_player_state_meso(pPlayerState)
+    return pPlayerState:get_meso()
 end
 
-function fn_quest_diff_pending_fame(pQuestAcc, pQuestProp, pPlayerState)
-    return fn_diff_pending(pQuestAcc, pQuestProp, pPlayerState:get_fame())
+function fn_get_player_state_fame(pPlayerState)
+    return pPlayerState:get_fame()
 end
 
-function fn_quest_diff_pending_skills(pQuestAcc, pQuestProp, pPlayerState)
-    return fn_diff_pending_list(pQuestAcc, pQuestProp, pPlayerState:get_skills())
+function fn_get_player_state_skills(pPlayerState)
+    return pPlayerState:get_skills()
 end
 
-function fn_quest_diff_pending_items(pQuestAcc, pQuestProp, pPlayerState)
-    return fn_diff_pending_list(pQuestAcc, pQuestProp, pPlayerState:get_items())
+function fn_get_player_state_items(pPlayerState)
+    return pPlayerState:get_items()
 end
 
-function fn_quest_diff_pending_mobs(pQuestAcc, pQuestProp, pPlayerState)
-    return fn_diff_pending_list(pQuestAcc, pQuestProp, pPlayerState:get_mobs())
+function fn_get_player_state_mobs(pPlayerState)
+    return pPlayerState:get_mobs()
 end
 
-function fn_quest_diff_pending_quests(pQuestAcc, pQuestProp, pPlayerState)
-    return fn_diff_pending_list(pQuestAcc, pQuestProp, pPlayerState:get_quests())
+function fn_get_player_state_quests(pPlayerState)
+    return pPlayerState:get_quests()
 end
 
-function fn_quest_diff_pending_npc(pQuestAcc, pQuestProp, pPlayerState)
+function fn_get_player_state_npc(pPlayerState)
     return 0
 end
 
-function fn_quest_diff_pending_field(pQuestAcc, pQuestProp, pPlayerState)
+function fn_get_player_state_field(pPlayerState)
     return 0
 end
 
-function fn_quest_diff_pending_field_enter(pQuestAcc, pQuestProp, pPlayerState)
+function fn_get_player_state_field_enter(pPlayerState)
     return 0
 end
 
-function fn_quest_diff_pending_level_min(pQuestAcc, pQuestProp, pPlayerState)
-    return fn_diff_pending(pQuestAcc, pQuestProp, pPlayerState:get_level_min())
+function fn_get_player_state_level_min(pPlayerState)
+    return pPlayerState:get_level_min()
 end
 
-function fn_quest_diff_pending_level_max(pQuestAcc, pQuestProp, pPlayerState)
-    return fn_diff_pending(pQuestAcc, pQuestProp, pPlayerState:get_level_max())
+function fn_get_player_state_level_max(pPlayerState)
+    return pPlayerState:get_level_max()
 end
 
-function fn_quest_diff_pending_jobs(pQuestAcc, pQuestProp, pPlayerState)
+function fn_get_player_state_jobs(pPlayerState)
     return 0
 end
 
-function fn_quest_diff_pending_date(pQuestAcc, pQuestProp, pPlayerState)
+function fn_get_player_state_date(pPlayerState)
     return 0
 end
 
-function fn_quest_diff_pending_repeat(pQuestAcc, pQuestProp, pPlayerState)
+function fn_get_player_state_repeat(pPlayerState)
     return 0
 end
 
-function fn_quest_diff_pending_scripts(pQuestAcc, pQuestProp, pPlayerState)
+function fn_get_player_state_scripts(pPlayerState)
     return 0
 end

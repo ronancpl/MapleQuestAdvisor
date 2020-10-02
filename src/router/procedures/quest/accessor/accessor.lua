@@ -18,7 +18,9 @@ require("utils.class")
 CQuestAccessor = createClass({
     sName = "_NIL",
     fn_get_property,
-    fn_diff_pending
+    fn_get_player_property,
+    fn_diff_pending,
+    fn_diff
 })
 
 function CQuestAccessor:get_name()
@@ -29,6 +31,14 @@ function CQuestAccessor:get_fn_property()
     return self.fn_get_property
 end
 
+function CQuestAccessor:get_fn_player_property()
+    return self.fn_get_player_property
+end
+
 function CQuestAccessor:get_fn_pending()
     return self.fn_diff_pending
+end
+
+function CQuestAccessor:get_fn_diff()
+    return self.fn_diff
 end
