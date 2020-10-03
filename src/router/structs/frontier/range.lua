@@ -64,26 +64,32 @@ function CQuestFrontierRange:add(pQuestProp, ctAccessors)
     end
 end
 
-function CQuestFrontierRange:update(pPlayerState)
-
-end
-
-function CQuestFrontier:_fetch_from_type(pNode)
-
-end
-
-function CQuestFrontier:update_take(pPlayerState, bSelect)
+function CQuestFrontierRange:update_take(pPlayerState, bSelect)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
-    local tpQuestProps = STable:new()
+    local tpTakeQuestProps = STable:new()
 
-    for _, tpTypeQuestProps in pairs(m_tpPropTypeQuests) do
-        tpQuestProps:insert_table(tpTypeQuestProps:update_take(pPlayerState, bSelect))
+    for sAccName, tpQuestProps in pairs(m_tpPropTypeQuests) do
+        local rgpQuestProps = tpQuestProps:update_take(pPlayerState, bSelect)
+        tpTakeQuestProps:insert(sAccName, rgpQuestProps)
     end
 
-    return pQuestProp
+    return tpTakeQuestProps
 end
 
-function CQuestFrontier:_fetch_from_nodes()
+function CQuestFrontierRange:update_put(tpTakeQuestProps)
+    local m_tpPropTypeQuests = self.tpPropTypeQuests
+
+    for sAccName, rgpQuestProps in pairs(tpTakeQuestProps:get_entry_set()) do
+        local tpQuestProps = m_tpPropTypeQuests[sAccName]
+        tpQuestProps:update_put(rgpQuestProps)
+    end
+end
+
+function CQuestFrontierRange:_fetch_from_type(pNode)
+
+end
+
+function CQuestFrontierRange:_fetch_from_nodes()
     local m_rgsKeys = self.rgsPropTypeKeys
 
     local nKeys = m_rgsKeys:size()
@@ -105,6 +111,6 @@ function CQuestFrontier:_fetch_from_nodes()
     end
 end
 
-function CQuestFrontier:fetch()
+function CQuestFrontierRange:fetch()
     return self:_fetch_from_nodes()
 end

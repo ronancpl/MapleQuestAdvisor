@@ -42,8 +42,17 @@ function CQuestFrontier:add(pQuestProp, pPlayerState)
     m_pRange:add(pQuestProp)
 end
 
-function CQuestFrontier:update(pPlayerState)
+function CQuestFrontier:_update_range(pPlayerState, m_pRangeFrom, m_pRangeTo, bFromIsSelect)
+    local tpTakeQuestProps = m_pRangeFrom:update_take(pPlayerState, bSelect)
+    m_pRangeTo:update_put(tpTakeQuestProps)
+end
 
+function CQuestFrontier:update(pPlayerState)
+    local m_pRangeHold = self.pHold
+    local m_pRangeSelect = self.pSelect
+
+    self:_update_range(pPlayerState, m_pRangeSelect, m_pRangeHold, true)
+    self:_update_range(pPlayerState, m_pRangeHold, m_pRangeSelect, false)
 end
 
 function CQuestFrontier:fetch()

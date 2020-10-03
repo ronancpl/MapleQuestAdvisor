@@ -72,10 +72,32 @@ local function fn_compare_attainable(pFrontierProp, pPlayerState)
     return self:get_fn_diff(pFrontierProp, pPlayerState)
 end
 
-function CQuestFrontierNode:update_take(pPlayerState, bSelect, fn_get_property)
+local function fetch_update_iterator_step(bSelect, iIdx)
+    local iStart
+    local iEnd
 
+    if bSelect then
+        iStart = pItems:size()
+        iEnd = iIdx - 1
+    else
+        iStart = 1
+        iEnd = iIdx
+    end
+
+    return iStart, iEnd
 end
 
-function CQuestFrontierNode:update_put(tpQuestProps)
+function CQuestFrontierNode:update_take(pPlayerState, bSelect)
+    local iIdx = pItems:bsearch(fn_compare_attainable, pPlayerState, true, true)
 
+    local iStart
+    local iEnd
+    iStart, iEnd = fetch_update_iterator_step(bSelect, iIdx)
+
+    local rgpQuestProps = pItems:remove(iStart, iEnd)
+    return rgpQuestProps
+end
+
+function CQuestFrontierNode:update_put(rgpQuestProps)
+    pItems:add_all(rgpQuestProps)
 end
