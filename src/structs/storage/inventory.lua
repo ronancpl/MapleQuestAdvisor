@@ -18,7 +18,7 @@ CInventory = createClass({
     nSize = 0
 })
 
-function CInventory:have_item(iId, iCount)
+function CInventory:has_item(iId, iCount)
     return self.rgEntries[iId] ~= nil and self.rgEntries[iId] >= iCount
 end
 

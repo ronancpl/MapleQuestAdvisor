@@ -96,10 +96,11 @@ function CQuestFrontierRange:_fetch_from_nodes()
     if nKeys > 0 then
         m_rgsKeys:randomize()
 
+        local m_tpPropTypeQuests = self.tpPropTypeQuests
         local pQuestProp = nil
         local i = 1
         while pQuestProp == nil and i <= nKeys do
-            local pNode = m_rgsKeys:get(i)
+            local pNode = m_tpPropTypeQuests[m_rgsKeys:get(i)]
             i = i + 1
 
             pQuestProp = pNode:fetch()

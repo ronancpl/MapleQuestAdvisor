@@ -112,3 +112,45 @@ end
 function CQuestRequirement:set_script(sScript)
     self.bScript = string.len(sScript) > 0
 end
+
+function CQuestRequirement:_is_active_element(fn_req)
+    local pRes = fn_req(self)
+
+    if type(pRes) ~= "table" then
+        return pRes
+    else
+        return pRes:size() > 0  -- inventory-type
+    end
+end
+
+function CQuestRequirement:fetch_active_requirements(rgfn_get)
+    local rgfn_active_reqs = {}
+
+    for _, fn_req in ipairs(rgfn_get) do
+        if self:_is_active_element(fn_req) then
+            table.insert(rgfn_active_reqs, fn_req)
+        end
+    end
+
+    return rgfn_active_reqs
+end
+
+function fetch_requirement_get_methods()
+    local pReq = CQuestRequirement:new()
+
+    local rgGets = {"get_", "is_", "has_"}
+    local rgfn_get = {}
+
+    for sName, pMember in pairs(pReq) do
+        if type(pMember) == "function" then
+            for _, sGetMatch in ipairs(rgGets) do
+                if string.starts_with(sName, sGetMatch) then
+                    table.insert(rgfn_get, pMember)
+                    break
+                end
+            end
+        end
+    end
+
+    return rgfn_get
+end

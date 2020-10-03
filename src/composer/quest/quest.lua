@@ -112,18 +112,18 @@ local function read_quest_tab_node(sTabName, pQuestActProp, pQuestChkProp, pActN
     read_quest_tab_state_node(pQuestChkProp, pTabChkNode)
 end
 
-local function read_quest_tab(sTabName, fn_quest_tab, pQuest, pActNode, pChkNode)
+local function read_quest_tab(sTabName, fn_quest_tab, pQuest, pActNode, pChkNode, rgfn_req_get)
     local pQuestActProp = CQuestAction:new()
     local pQuestChkProp = CQuestRequirement:new()
     local pQuestTab = fn_quest_tab(pQuest)
 
     read_quest_tab_node(sTabName, pQuestActProp, pQuestChkProp, pActNode, pChkNode)
 
-    pQuestTab:set_requirement(pQuestChkProp)
+    pQuestTab:set_requirement(pQuestChkProp, rgfn_req_get)
     pQuestTab:set_action(pQuestActProp)
 end
 
-local function read_quest_node(pActNode, pChkNode)
+local function read_quest_node(pActNode, pChkNode, rgfn_req_get)
     local iQuestid = pActNode:get_name_tonumber()
     local pQuest = CQuest:new({
         iQuestid = iQuestid,
@@ -131,7 +131,7 @@ local function read_quest_node(pActNode, pChkNode)
         qpEnd = CQuestProperties:new({iQuestid = iQuestid, bStart = false})
     })
 
-    read_quest_tab("0", CQuest.get_start, pQuest, pActNode, pChkNode)
+    read_quest_tab("0", CQuest.get_start, pQuest, pActNode, pChkNode, rgfn_req_get)
     read_quest_tab("1", CQuest.get_end, pQuest, pActNode, pChkNode)
 
     return pQuest
@@ -141,10 +141,12 @@ local function read_quests(ctQuests, pActNode, pChkNode)
     local pActImgNode = pActNode:get_child_by_name("Act.img")
     local pChkImgNode = pChkNode:get_child_by_name("Check.img")
 
+    local rgfn_req_get = fetch_requirement_get_methods()
+
     for _, pActQuestNode in pairs(pActImgNode:get_children()) do
         local pChkQuestNode = pChkImgNode:get_child_by_name(pActQuestNode:get_name())
         if (pChkQuestNode ~= nil) then
-            local pQuest = read_quest_node(pActQuestNode, pChkQuestNode)
+            local pQuest = read_quest_node(pActQuestNode, pChkQuestNode, rgfn_req_get)
             ctQuests:add_quest(pQuest)
         else
             -- print("[WARNING] Missing questid " .. pActQuestNode:get_name())

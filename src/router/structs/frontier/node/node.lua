@@ -64,10 +64,6 @@ function CQuestFrontierNode:fetch()
     return pQuestProp
 end
 
-function CQuestFrontierNode:_is_prop_offbounds(pFrontierProp, pPlayerState, bSelect)
-    return self:get_fn_attain(pFrontierProp, pPlayerState) ~= bSelect
-end
-
 local function fn_compare_attainable(pFrontierProp, pPlayerState)
     return self:get_fn_diff(pFrontierProp, pPlayerState)
 end

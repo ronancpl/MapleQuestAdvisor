@@ -16,7 +16,8 @@ CQuestProperties = createClass({
     iQuestid,
     bStart,
     pPropCheck,
-    pPropAct
+    pPropAct,
+    rgfnActiveCheck
 })
 
 function CQuestProperties:get_quest_id()
@@ -35,8 +36,9 @@ function CQuestProperties:get_requirement()
     return self.pPropCheck
 end
 
-function CQuestProperties:set_requirement(pRequirement)
+function CQuestProperties:set_requirement(pRequirement, rgfn_get)
     self.pPropCheck = pRequirement
+    self.rgfnActiveCheck = pRequirement:fetch_active_requirements(rgfn_get)
 end
 
 function CQuestProperties:get_action()
@@ -45,4 +47,8 @@ end
 
 function CQuestProperties:set_action(pAction)
     self.pPropAct = pAction
+end
+
+function CQuestProperties:get_rgfn_active_requirements()
+    return self.rgfnActiveCheck, self.pPropCheck
 end
