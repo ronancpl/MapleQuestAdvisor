@@ -15,15 +15,15 @@ require("structs.storage.inventory")
 require("utils.class")
 
 CQuestRequirement = createClass({CQuestProperty, {
-    iNpcid = -1,
-    pMapid = 10000,
-    iMapidFieldEnter = -1,
-    siLevelMin = -1,
-    siLevelMax = -1,
-    bJobAccess = false,
-    bDateAccess = true,
-    bRepeatable = false,
-    bScripted = false
+    iNpcid,
+    pMapid,
+    iMapidFieldEnter,
+    siLevelMin,
+    siLevelMax,
+    bJobAccess,
+    bDateAccess,
+    bRepeatable,
+    bScripted
 }})
 
 function CQuestRequirement:get_npc()
@@ -117,7 +117,7 @@ function CQuestRequirement:_is_active_element(fn_req)
     local pRes = fn_req(self)
 
     if type(pRes) ~= "table" then
-        return pRes
+        return pRes ~= nil
     else
         return pRes:size() > 0  -- inventory-type
     end

@@ -14,9 +14,9 @@ require("structs.storage.inventory")
 require("utils.class")
 
 CQuestProperty = createClass({
-    iExp = 0,
-    iMeso = 0,
-    siFame = 0,
+    iExp,
+    iMeso,
+    siFame,
     ivtSkills = CInventory:new(),
     ivtItems = CInventory:new(),
     ivtMobs = CInventory:new(),
