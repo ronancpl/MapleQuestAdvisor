@@ -12,6 +12,7 @@
 
 require("structs.storage.inventory")
 require("utils.class")
+require("utils.string")
 
 CQuestProperty = createClass({
     iExp,
@@ -77,4 +78,46 @@ end
 
 function CQuestProperty:add_quest(iId, iState)
     self.ivtQuests:add_item(iId, iState)
+end
+
+function CQuestProperty:_is_active_element(fn_get)
+    local pRes = fn_get(self)
+
+    if type(pRes) ~= "table" then
+        return pRes ~= nil
+    else
+        return pRes:size() > 0  -- inventory-type
+    end
+end
+
+function CQuestProperty:fetch_active_elements(rgfn_get)
+    local rgfn_active_elements = {}
+
+    for _, fn_get in ipairs(rgfn_get) do
+        if self:_is_active_element(fn_get) then
+            table.insert(rgfn_active_elements, fn_get)
+        end
+    end
+
+    return rgfn_active_elements
+end
+
+function fetch_property_get_methods(CPropertyType)
+    local pReq = CPropertyType:new()
+
+    local rgGets = {"get_", "is_", "has_"}
+    local rgfn_get = {}
+
+    for sName, pMember in pairs(pReq) do
+        if type(pMember) == "function" then
+            for _, sGetMatch in ipairs(rgGets) do
+                if string.starts_with(sName, sGetMatch) then
+                    table.insert(rgfn_get, pMember)
+                    break
+                end
+            end
+        end
+    end
+
+    return rgfn_get
 end

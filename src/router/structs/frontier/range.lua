@@ -85,31 +85,22 @@ function CQuestFrontierRange:update_put(tpTakeQuestProps)
     end
 end
 
-function CQuestFrontierRange:_fetch_from_type(pNode)
-
-end
-
 function CQuestFrontierRange:_fetch_from_nodes()
     local m_rgsKeys = self.rgsPropTypeKeys
+    m_rgsKeys:randomize()
 
+    local m_tpPropTypeQuests = self.tpPropTypeQuests
+    local pQuestProp = nil
+    local i = 1
     local nKeys = m_rgsKeys:size()
-    if nKeys > 0 then
-        m_rgsKeys:randomize()
+    while pQuestProp == nil and i <= nKeys do
+        local pNode = m_tpPropTypeQuests[m_rgsKeys:get(i)]
+        i = i + 1
 
-        local m_tpPropTypeQuests = self.tpPropTypeQuests
-        local pQuestProp = nil
-        local i = 1
-        while pQuestProp == nil and i <= nKeys do
-            local pNode = m_tpPropTypeQuests[m_rgsKeys:get(i)]
-            i = i + 1
-
-            pQuestProp = pNode:fetch()
-        end
-
-        return pQuestProp
-    else
-        return nil
+        pQuestProp = pNode:fetch()
     end
+
+    return pQuestProp
 end
 
 function CQuestFrontierRange:fetch()

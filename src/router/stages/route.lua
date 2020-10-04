@@ -11,6 +11,7 @@
 --]]
 
 require("router.procedures.graph.outer")
+require("router.procedures.player.update")
 require("router.structs.path")
 require("router.structs.trajectory")
 require("router.structs.frontier.frontier")
@@ -45,13 +46,13 @@ local function route_quest_suppress_complete(tpPoolProps, pQuestProp, pPlayerSta
 
 end
 
-local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, pFrontierQuests)
+local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, pFrontierQuests)
     route_quest_permit_complete(tpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
     local rgpNeighbors = fetch_neighbors(tpPoolProps, pQuestProp, pPlayerState, ctAccessors)
     pQuestTree:push_node(pQuestProp, rgpNeighbors)
 
-    update_player_state(pQuestProp, pPlayerState, false)
+    update_player_state(ctAwarders, pQuestProp, pPlayerState, false)
     pCurrentPath:add(pQuestProp)
 
     for _, pNeighborProp in ipairs(rgpNeighbors) do
@@ -59,7 +60,7 @@ local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, 
     end
 end
 
-local function route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath, pPlayerState)
+local function route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
     local rgpBcktQuests = {}
 
     while not pQuestTree:is_empty() do
@@ -69,7 +70,7 @@ local function route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath,
         end
 
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
-            update_player_state(pQuestProp, pPlayerState, true)
+            update_player_state(ctAwarders, pQuestProp, pPlayerState, true)
             table.insert(rgpBcktQuests, pQuestProp)
         end
     end
@@ -79,7 +80,7 @@ local function route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath,
     end
 end
 
-local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors)
+local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
     local pQuestTree = CGraphTree:new()
 
     while true do
@@ -91,15 +92,15 @@ local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, p
                 EVAL_QUEST(pQuestProp, pPlayerState)
                 if WORTH_PROGRESS then
                 end
-            route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, pFrontierQuests)
+            route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, pFrontierQuests)
 
-        route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath, pPlayerState)
+        route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
 
         pFrontierQuests:update(pPlayerState)
     end
 end
 
-local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors)
+local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders)
     local pPlayerState = CPlayer:new(pPlayer)
     local pQuestProp = pQuest:get_start()
     local pCurrentPath = CQuestPath:new()
@@ -111,17 +112,17 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
         pFrontierQuests:add(pQuestProp, pPlayerState)
 
         local tpPool = make_available_neighbors_list(tQuests)
-        route_internal_node(tpPool, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors)
+        route_internal_node(tpPool, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
     end
 end
 
-function route_graph_quests(tQuests, pPlayer, ctAccessors)
+function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
     local rgPoolQuests = make_pool_list(tQuests)
     local pLeadingPath = CQuestPath:new()
 
     while not rgPoolQuests:is_empty() do
         local pQuest = rgPoolQuests:remove_last()
-        route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors)
+        route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders)
     end
 
     return pLeadingPath

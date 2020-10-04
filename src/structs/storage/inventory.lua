@@ -57,3 +57,12 @@ function CInventory:remove_item(iId, iCount)
         end
     end
 end
+
+function CInventory:set_item(iId, iCount)
+    if self.rgEntries[iId] ~= nil then
+        self.rgEntries[iId] = iCount
+    else
+        self.rgEntries[iId] = iCount
+        self.nSize = self.nSize + 1
+    end
+end

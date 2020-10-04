@@ -10,8 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.procedures.quest.accessor.diff")
-
 function fn_get_player_state_exp(pPlayerState)
     return pPlayerState:get_exp()
 end
@@ -53,11 +51,11 @@ function fn_get_player_state_field_enter(pPlayerState)
 end
 
 function fn_get_player_state_level_min(pPlayerState)
-    return pPlayerState:get_level_min()
+    return pPlayerState:get_level()
 end
 
 function fn_get_player_state_level_max(pPlayerState)
-    return pPlayerState:get_level_max()
+    return pPlayerState:get_level()
 end
 
 function fn_get_player_state_jobs(pPlayerState)

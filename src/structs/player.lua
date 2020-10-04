@@ -75,12 +75,20 @@ function CPlayer:set_meso()
     self.iMeso = iMeso
 end
 
+function CPlayer:add_meso(iMeso)
+    self.iMeso = self.iMeso + iMeso
+end
+
 function CPlayer:get_fame()
     return self.siFame
 end
 
 function CPlayer:set_fame(siFame)
     self.siFame = siFame
+end
+
+function CPlayer:add_fame(siFame)
+    self.siFame = self.siFame + siFame
 end
 
 function CPlayer:get_items()
