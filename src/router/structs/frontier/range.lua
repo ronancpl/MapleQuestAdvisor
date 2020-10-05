@@ -14,7 +14,6 @@ require("router.structs.frontier.node.list")
 require("router.structs.frontier.node.unit")
 require("utils.array")
 require("utils.class")
-require("utils.quest")
 require("utils.table")
 
 CQuestFrontierRange = createClass({

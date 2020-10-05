@@ -102,7 +102,7 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
     local pQuestProp = pQuest:get_start()
     local pCurrentPath = CQuestPath:new()
 
-    if is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
+    if is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
         local pFrontierQuests = CQuestFrontier:new()
         pFrontierQuests:init(ctAccessors)
 

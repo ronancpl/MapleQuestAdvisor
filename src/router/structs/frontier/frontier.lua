@@ -18,7 +18,7 @@ CQuestFrontier = createClass({
     pSelect = CQuestFrontierRange:new()
 })
 
-function CQuestFrontier:init(ctAccessors) do
+function CQuestFrontier:init(ctAccessors)
     local rgsPropInvtNames
     local rgsPropUnitNames
 
