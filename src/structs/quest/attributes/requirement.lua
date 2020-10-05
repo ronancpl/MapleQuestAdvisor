@@ -112,3 +112,10 @@ end
 function CQuestRequirement:set_script(sScript)
     self.bScript = string.len(sScript) > 0
 end
+
+function CQuestRequirement:set_default_on_empty_requirements()
+    self:set_default_on_empty_properties()  -- calls super-method
+
+    local tsDef = {iNpcid = -1, pMapid = 10000, iMapidFieldEnter = -1, siLevelMin = -1, siLevelMax = -1, bJobAccess = false, bDateAccess = true, bRepeatable = false, bScripted = false}
+    self:_set_default_on_empty_properties(tsDef)
+end

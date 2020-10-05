@@ -102,6 +102,23 @@ function CQuestProperty:fetch_active_elements(rgfn_get)
     return rgfn_active_elements
 end
 
+function CQuestProperty:_set_default_on_nil(sKey, pDef)
+    if self[sKey] == nil then
+        self[sKey] = pDef
+    end
+end
+
+function CQuestProperty:_set_default_on_empty_properties(tsDef)
+    for sKey, pDef in pairs(tsDef) do
+        self:_set_default_on_nil(sKey, pDef)
+    end
+end
+
+function CQuestProperty:set_default_on_empty_properties()
+    local tsDef = {iExp = 0, iMeso = 0, siFame = 0}
+    self:_set_default_on_empty_properties(tsDef)
+end
+
 function fetch_property_get_methods(CPropertyType)
     local pReq = CPropertyType:new()
 

@@ -40,6 +40,7 @@ end
 function CQuestProperties:set_requirement(pRequirement, rgfn_get)
     self.pPropCheck = pRequirement
     self.rgfn_active_check = pRequirement:fetch_active_elements(rgfn_get)
+    pRequirement:set_default_on_empty_requirements()
 end
 
 function CQuestProperties:get_action()
@@ -49,6 +50,7 @@ end
 function CQuestProperties:set_action(pAction, rgfn_get)
     self.pPropAct = pAction
     self.rgfn_active_act = pAction:fetch_active_elements(rgfn_get)
+    pAction:set_default_on_empty_actions()
 end
 
 function CQuestProperties:get_rgfn_active_requirements()

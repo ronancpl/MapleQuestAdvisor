@@ -14,3 +14,7 @@ require("structs.quest.attributes.property")
 require("utils.class")
 
 CQuestAction = createClass({CQuestProperty, {}})
+
+function CQuestAction:set_default_on_empty_actions()
+    self:set_default_on_empty_properties()
+end
