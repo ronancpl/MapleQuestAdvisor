@@ -13,20 +13,25 @@
 require("router.procedures.quest.awarder.property")
 require("utils.class")
 
-CQuestAccessor = createClass({
+CQuestAwarder = createClass({
     sName = "_NIL",
     fn_quest_property,
+    fn_quest_rollback,
     fn_award_property
 })
 
-function CQuestAccessor:get_name()
+function CQuestAwarder:get_name()
     return self.sName
 end
 
-function CQuestAccessor:get_fn_quest_property()
+function CQuestAwarder:get_fn_quest_property()
     return self.fn_quest_property
 end
 
-function CQuestAccessor:get_fn_award_property()
+function CQuestAwarder:get_fn_quest_rollback()
+    return self.fn_quest_rollback
+end
+
+function CQuestAwarder:get_fn_award_property()
     return self.fn_award_property
 end

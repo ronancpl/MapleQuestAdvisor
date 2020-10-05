@@ -60,7 +60,11 @@ end
 
 function CInventory:set_item(iId, iCount)
     if self.rgEntries[iId] ~= nil then
-        self.rgEntries[iId] = iCount
+        if iCount > 0 then
+            self.rgEntries[iId] = iCount
+        else
+            self:remove_item(iId, self.rgEntries[iId])
+        end
     else
         self.rgEntries[iId] = iCount
         self.nSize = self.nSize + 1

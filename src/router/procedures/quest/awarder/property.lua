@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+local bit = require("bit")
+
 function fn_award_player_state_exp(pPlayerState, iGain)
     pPlayerState:add_exp(iGain)
 end
@@ -22,18 +24,44 @@ function fn_award_player_state_fame(pPlayerState, siGain)
     pPlayerState:add_fame(siGain)
 end
 
-function fn_award_player_state_skills(pPlayerState, iGain)
-    pPlayerState:get_skills():set_item(iGain, 1)
+function fn_award_player_state_skills(pPlayerState, rgpGet)
+    local pSkills = pPlayerState:get_skills()
+
+    for iId, iGain in pairs(rgpGet:get_items()) do
+        pSkills:set_item(iId, iGain)
+    end
 end
 
-function fn_award_player_state_items(pPlayerState, iId, iGain)
-    pPlayerState:get_items():set_item(iId, iGain)
+function fn_award_player_state_items(pPlayerState, rgpGet)
+    local pItems = pPlayerState:get_items()
+
+    for iId, iGain in pairs(rgpGet:get_items()) do
+        pItems:add_item(iId, iGain)
+    end
 end
 
-function fn_award_player_state_quests(pPlayerState, iId, iStatus)
-    pPlayerState:get_items():set_item(iId, iStatus)
+local function update_quest_status(pQuests, iId, iGain)
+    local iStatus = pQuests:get_item(iId)
+    return bit.bor(iStatus, iGain)
 end
 
-function fn_award_player_state_jobs(pPlayerState, iGain)
-    return pPlayerState:set_job(siJob)
+local function update_undo_quest_status(pQuests, iId, iGain)
+    local iStatus = pQuests:get_item(iId)
+    return bit.band(iStatus, bit.bxor(iStatus, iGain))
+end
+
+function fn_award_player_state_quests(pPlayerState, rgpGet, bUndo)
+    local pQuests = pPlayerState:get_quests()
+
+    local fn_next_status = bUndo and update_undo_quest_status or update_quest_status
+    for iId, iGain in pairs(rgpGet:get_items()) do
+        local btStatus = fn_next_status(pQuests, iId, iGain)
+        pQuests:set_item(iId, btStatus)
+    end
+end
+
+function fn_award_player_state_jobs(pPlayerState, rgpGet)
+    for iId, _ in pairs(rgpGet:get_items()) do
+        pPlayerState:set_job(iId)
+    end
 end

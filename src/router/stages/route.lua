@@ -52,7 +52,7 @@ local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, 
     local rgpNeighbors = fetch_neighbors(tpPoolProps, pQuestProp, pPlayerState, ctAccessors)
     pQuestTree:push_node(pQuestProp, rgpNeighbors)
 
-    update_player_state(ctAwarders, pQuestProp, pPlayerState, false)
+    rollback_player_state(ctAwarders, pQuestProp, pPlayerState)
     pCurrentPath:add(pQuestProp)
 
     for _, pNeighborProp in ipairs(rgpNeighbors) do
@@ -70,7 +70,7 @@ local function route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath,
         end
 
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
-            update_player_state(ctAwarders, pQuestProp, pPlayerState, true)
+            progress_player_state(ctAwarders, pQuestProp, pPlayerState)
             table.insert(rgpBcktQuests, pQuestProp)
         end
     end
@@ -89,10 +89,7 @@ local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, p
             break
         end
 
-                EVAL_QUEST(pQuestProp, pPlayerState)
-                if WORTH_PROGRESS then
-                end
-            route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, pFrontierQuests)
+        route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, pFrontierQuests)
 
         route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
 
