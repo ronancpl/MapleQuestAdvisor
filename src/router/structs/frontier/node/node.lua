@@ -64,7 +64,7 @@ function CQuestFrontierNode:fetch()
     return pQuestProp
 end
 
-local function fn_compare_attainable(pFrontierProp, pPlayerState)
+function CQuestFrontierNode:fn_compare_attainable(pFrontierProp, pPlayerState)
     return self:get_fn_diff(pFrontierProp, pPlayerState)
 end
 
@@ -84,7 +84,7 @@ local function fetch_update_iterator_step(bSelect, iIdx)
 end
 
 function CQuestFrontierNode:update_take(pPlayerState, bSelect)
-    local iIdx = pItems:bsearch(fn_compare_attainable, pPlayerState, true, true)
+    local iIdx = pItems:bsearch(self.fn_compare_attainable, pPlayerState, true, true)
 
     local iStart
     local iEnd

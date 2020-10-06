@@ -23,17 +23,17 @@ local function fn_compare_prop_invt(pFrontierProp, pFrontierOther)
     return pFrontierOther:size() - pFrontierProp:size()
 end
 
-local function fn_diff_prop_invt(pFrontierProp, pPlayerState)
-    local fn_get_player_property = self:get_fn_player_property()
+local function fn_diff_prop_invt(pAcc, pFrontierProp, pPlayerState)
+    local fn_get_player_property = pAcc:get_fn_player_property()
 
     local pProgress = fn_get_player_property(pPlayerState)
-    local pRet = self:get_fn_diff(rgReqItems, pProgress)
+    local pRet = pAcc:get_fn_diff(rgReqItems, pProgress)
 
     return pRet
 end
 
-local function fn_attain_prop_invt(pFrontierProp, pPlayerState)
-    local pRet = fn_diff_prop_invt(pFrontierProp, pPlayerState)
+local function fn_attain_prop_invt(pAcc, pFrontierProp, pPlayerState)
+    local pRet = fn_diff_prop_invt(pAcc, pFrontierProp, pPlayerState)
     return #pRet > 0
 end
 

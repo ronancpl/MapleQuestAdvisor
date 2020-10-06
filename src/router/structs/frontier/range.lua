@@ -50,16 +50,18 @@ function CQuestFrontierRange:_add_to_node(pAcc, pQuestProp, CQuestRangeType)
 end
 
 function CQuestFrontierRange:add(pQuestProp, ctAccessors)
-    local rgsPropInvts = pQuestProp:get_properties_keys_invt()
-    for _, sAccName in ipairs(rgsPropInvts) do
-        local pAcc = ctAccessors:get_accessor_by_name(sAccName)
-        self:_add_to_node(pAcc, pQuestProp, CQuestFrontierList)
+    local rgfn_active_check_unit
+    local rgfn_active_check_invt
+    rgfn_active_check_unit, rgfn_active_check_invt, pQuestPropCheck = pQuestProp:get_rgfn_active_requirements()
+
+    for _, fn_get in ipairs(rgfn_active_check_invt) do
+        local pAcc = ctAccessors:get_accessor_by_fn_get(fn_get)
+        self:_add_to_node(pAcc, pQuestPropCheck, CQuestFrontierList)
     end
 
-    local rgsPropUnits = pQuestProp:get_properties_keys_unit()
-    for _, sAccName in ipairs(rgsPropUnits) do
-        local pAcc = ctAccessors:get_accessor_by_name(sAccName)
-        self:_add_to_node(pAcc, pQuestProp, CQuestFrontierUnit)
+    for _, fn_get in ipairs(rgfn_active_check_unit) do
+        local pAcc = ctAccessors:get_accessor_by_fn_get(fn_get)
+        self:_add_to_node(pAcc, pQuestPropCheck, CQuestFrontierUnit)
     end
 end
 

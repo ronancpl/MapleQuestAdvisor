@@ -63,8 +63,10 @@ end
 
 function CQuestAccessors:_get_prerequisite_range_keys(bStrong, bInventory)
     local tsKeys = {}
-    for _, v in ipairs(fetch_accessors(self, bStrong, bInventory)) do
-        tsKeys[v:get_name()] = v:get_fn_player_property()
+
+    local rgpAccs = fetch_accessors(self, bStrong, bInventory)
+    for _, pAcc in ipairs(rgpAccs) do
+        tsKeys[pAcc:get_name()] = pAcc:get_fn_player_property()
     end
 
     return tsKeys
@@ -77,8 +79,8 @@ function CQuestAccessors:get_accessor_range_keys()
     return tsInvtKeys, tsUnitKeys
 end
 
-function CQuestAccessors:get_accessor_by_name(sAccName)
-    return self.tsAllReqs[sAccName]
+function CQuestAccessors:get_accessor_by_fn_get(fn_get_acc_property)
+    return self.tsAllReqs[fn_get_acc_property]
 end
 
 function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_get_acc_property, fn_get_player_state_property, fn_diff_pending_type)
@@ -89,7 +91,7 @@ function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_get_a
     local pAcc = CQuestAccessor:new({sName = sAccName, fn_get_property = fn_get_acc_property, fn_get_player_property = fn_get_player_state_property, fn_diff_pending = fn_diff_acc_pending, fn_diff_pending_type = fn_diff_pending_type})
 
     table.insert(tfn_reqs, pAcc)
-    self.tsAllReqs[sAccName] = pAcc
+    self.tsAllReqs[fn_get_acc_property] = pAcc
 end
 
 function init_quest_accessors()

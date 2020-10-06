@@ -84,22 +84,31 @@ function CQuestProperty:_is_active_element(fn_get)
     local pRes = fn_get(self)
 
     if type(pRes) ~= "table" then
-        return pRes ~= nil
+        return pRes ~= nil, true
     else
-        return pRes:size() > 0  -- inventory-type
+        return pRes:size() > 0, false  -- inventory-type
     end
 end
 
 function CQuestProperty:fetch_active_elements(rgfn_get)
-    local rgfn_active_elements = {}
+    local rgfn_active_units = {}
+    local rgfn_active_invts = {}
 
     for _, fn_get in ipairs(rgfn_get) do
-        if self:_is_active_element(fn_get) then
-            table.insert(rgfn_active_elements, fn_get)
+        local bActive
+        local bInvt
+
+        bActive, bInvt = self:_is_active_element(fn_get)
+        if bActive then
+            if bInvt then
+                table.insert(rgfn_active_invts, fn_get)
+            else
+                table.insert(rgfn_active_units, fn_get)
+            end
         end
     end
 
-    return rgfn_active_elements
+    return rgfn_active_units, rgfn_active_invts
 end
 
 function CQuestProperty:_set_default_on_nil(sKey, pDef)

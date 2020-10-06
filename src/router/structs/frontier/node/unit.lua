@@ -22,17 +22,17 @@ local function fn_compare_prop_unit(pFrontierProp, pFrontierOther)
     return pFrontierOther:get(1) - pFrontierProp:get(1)
 end
 
-local function fn_diff_prop_unit(pFrontierProp, pPlayerState)
-    local fn_get_player_property = self:get_fn_player_property()
+local function fn_diff_prop_unit(pAcc, pFrontierProp, pPlayerState)
+    local fn_get_player_property = pAcc:get_fn_player_property()
 
     local iProgress = fn_get_player_property(pPlayerState)
-    local pRet = self:get_fn_diff(iRequired, iProgress)
+    local pRet = pAcc:get_fn_diff(iRequired, iProgress)
 
     return pRet
 end
 
-local function fn_attain_prop_unit(pFrontierProp, pPlayerState)
-    local pRet = fn_diff_prop_unit(pFrontierProp, pPlayerState)
+local function fn_attain_prop_unit(pAcc, pFrontierProp, pPlayerState)
+    local pRet = fn_diff_prop_unit(pAcc, pFrontierProp, pPlayerState)
     return pRet > 0
 end
 
