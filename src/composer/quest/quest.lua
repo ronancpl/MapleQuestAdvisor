@@ -53,9 +53,9 @@ local ttsAttrKey = {
     _quest = {id = 0, state = 0}
 }
 
-local function read_quest_attribute_value(fn_attr, pQuestProp, pNode)
+local function read_quest_attribute_value(fn_attr, pQuestProps, pNode)
     local iValue = pNode:get_value()
-    fn_attr(pQuestProp, iValue)
+    fn_attr(pQuestProps, iValue)
 end
 
 local function read_quest_attribute_item_value(pTabListItemNode, sKey)
@@ -71,7 +71,7 @@ local function read_quest_attribute_item_value(pTabListItemNode, sKey)
     return iVal
 end
 
-local function read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProp, pNode)
+local function read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProps, pNode)
     for _, pTabListItemNode in pairs(pNode:get_children()) do
         local aiAttrList = {}
         for sKey, iDef in pairs(tsAttrKey) do
@@ -79,29 +79,29 @@ local function read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProp, pNode)
             table.insert(aiAttrList, iVal)
         end
 
-        fn_attr(pQuestProp, unpack(aiAttrList))
+        fn_attr(pQuestProps, unpack(aiAttrList))
     end
 end
 
-local function read_quest_tab_node_attribute(pQuestProp, pNode)
+local function read_quest_tab_node_attribute(pQuestProps, pNode)
     local sName = '_' .. pNode:get_name()
 
     local fn_attr = tAttrUnit[sName]
     if fn_attr ~= nil then
         if fn_attr ~= 0 then
-            read_quest_attribute_value(fn_attr, pQuestProp, pNode)
+            read_quest_attribute_value(fn_attr, pQuestProps, pNode)
         else
             fn_attr = tAttrList[sName]
             local tsAttrKey = ttsAttrKey[sName]
 
-            read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProp, pNode)
+            read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProps, pNode)
         end
     end
 end
 
-local function read_quest_tab_state_node(pQuestProp, pTabStateNode)
+local function read_quest_tab_state_node(pQuestProps, pTabStateNode)
     for _, pTabElementNode in pairs(pTabStateNode:get_children()) do
-        read_quest_tab_node_attribute(pQuestProp, pTabElementNode)
+        read_quest_tab_node_attribute(pQuestProps, pTabElementNode)
     end
 end
 

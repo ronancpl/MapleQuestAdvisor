@@ -48,8 +48,11 @@ function CQuestFrontierNode:size()
     return self.pItems:size()
 end
 
-function CQuestFrontierNode:add(pQuestProp, fn_compare, fn_create, fn_get_property)
-    local pFrontierProp = fn_create(pQuestProp, fn_get_property)
+function CQuestFrontierNode:add(pQuestAcc, pQuestProp)
+    local fn_create = self:get_fn_create()
+    local fn_compare = self:get_fn_compare()
+
+    local pFrontierProp = fn_create(pQuestAcc, pQuestProp)
 
     local m_pItems = self.pItems
     local iInsIdx = m_pItems:bsearch(fn_compare, pFrontierProp, true, true)

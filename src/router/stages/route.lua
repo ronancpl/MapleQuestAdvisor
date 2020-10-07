@@ -56,7 +56,7 @@ local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, 
     pCurrentPath:add(pQuestProp)
 
     for _, pNeighborProp in ipairs(rgpNeighbors) do
-        pFrontierQuests:add(pNeighborProp, pPlayerState)
+        pFrontierQuests:add(pNeighborProp, pPlayerState, ctAccessors)
     end
 end
 
@@ -89,7 +89,7 @@ local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, p
             break
         end
 
-        route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, pFrontierQuests)
+        route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, pFrontierQuests, ctAccessors)
 
         route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
 
@@ -106,7 +106,7 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
         local pFrontierQuests = CQuestFrontier:new()
         pFrontierQuests:init(ctAccessors)
 
-        pFrontierQuests:add(pQuestProp, pPlayerState)
+        pFrontierQuests:add(pQuestProp, pPlayerState, ctAccessors)
 
         local tpPool = make_available_neighbors_list(tQuests)
         route_internal_node(tpPool, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)

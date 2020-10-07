@@ -35,11 +35,11 @@ function CQuestFrontier:_is_quest_attainable(pQuestProp, pPlayerState)
     return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end
 
-function CQuestFrontier:add(pQuestProp, pPlayerState)
+function CQuestFrontier:add(pQuestProp, pPlayerState, ctAccessors)
     local bSelect = self:_is_quest_attainable(pQuestProp, pPlayerState)
     local m_pRange = bSelect and self.pSelect or self.pHold
 
-    m_pRange:add(pQuestProp)
+    m_pRange:add(pQuestProp, ctAccessors)
 end
 
 function CQuestFrontier:_update_range(pPlayerState, m_pRangeFrom, m_pRangeTo, bFromIsSelect)

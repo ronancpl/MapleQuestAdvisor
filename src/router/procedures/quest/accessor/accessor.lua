@@ -19,8 +19,8 @@ CQuestAccessor = createClass({
     sName = "_NIL",
     fn_get_property,
     fn_get_player_property,
-    fn_diff_pending,
-    fn_diff
+    fn_diff_pending_property,
+    fn_diff_pending_type
 })
 
 function CQuestAccessor:get_name()
@@ -35,10 +35,10 @@ function CQuestAccessor:get_fn_player_property()
     return self.fn_get_player_property
 end
 
-function CQuestAccessor:get_fn_pending()
-    return self.fn_diff_pending
+function CQuestAccessor:get_fn_pending_property()
+    return self.fn_diff_pending_property
 end
 
-function CQuestAccessor:get_fn_diff()
-    return self.fn_diff
+function CQuestAccessor:get_fn_pending_progress()
+    return self.fn_diff_pending_type
 end
