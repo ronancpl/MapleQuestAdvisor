@@ -49,7 +49,7 @@ end
 local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, pFrontierQuests)
     route_quest_permit_complete(tpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
-    local rgpNeighbors = fetch_neighbors(tpPoolProps, pQuestProp, pPlayerState, ctAccessors)
+    local rgpNeighbors = fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
     pQuestTree:push_node(pQuestProp, rgpNeighbors)
 
     rollback_player_state(ctAwarders, pQuestProp, pPlayerState)

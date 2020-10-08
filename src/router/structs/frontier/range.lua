@@ -93,14 +93,19 @@ function CQuestFrontierRange:_fetch_from_nodes()
     m_rgsKeys:randomize()
 
     local m_tpPropTypeQuests = self.tpPropTypeQuests
-    local pQuestProp = nil
+    local pFrontierProp = nil
     local i = 1
     local nKeys = m_rgsKeys:size()
-    while pQuestProp == nil and i <= nKeys do
+    while pFrontierProp == nil and i <= nKeys do
         local pNode = m_tpPropTypeQuests[m_rgsKeys:get(i)]
         i = i + 1
 
-        pQuestProp = pNode:fetch()
+        pFrontierProp = pNode:fetch()
+    end
+
+    local pQuestProp = nil
+    if pFrontierProp ~= nil then
+        pQuestProp = pFrontierProp:get_quest_properties()
     end
 
     return pQuestProp

@@ -63,15 +63,15 @@ end
 function CQuestFrontierNode:fetch()
     local m_pItems = self.pItems
 
-    local pQuestProp = m_pItems:remove_last()
-    return pQuestProp
+    local pFrontierProp = m_pItems:remove_last()
+    return pFrontierProp
 end
 
 function CQuestFrontierNode:fn_compare_attainable(pFrontierProp, pPlayerState)
     return self:get_fn_diff(pFrontierProp, pPlayerState)
 end
 
-local function fetch_update_iterator_step(bSelect, iIdx)
+local function fetch_update_iterator_step(pItems, bSelect, iIdx)
     local iStart
     local iEnd
 
@@ -91,7 +91,7 @@ function CQuestFrontierNode:update_take(pPlayerState, bSelect)
 
     local iStart
     local iEnd
-    iStart, iEnd = fetch_update_iterator_step(bSelect, iIdx)
+    iStart, iEnd = fetch_update_iterator_step(self.pItems, bSelect, iIdx)
 
     local rgpQuestProps = pItems:remove(iStart, iEnd)
     return rgpQuestProps

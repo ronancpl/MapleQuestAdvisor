@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.class")
+
 CQuestPath = createClass({
     rgpPath = SArray:new(),
     tpPathSet = {},

@@ -37,10 +37,11 @@ local function fn_attain_prop_invt(pAcc, pFrontierProp, pPlayerState)
     return #pRet > 0
 end
 
-local function fn_make_prop_invt(pQuestProp, fn_get_property)
+local function fn_make_prop_invt(pAcc, pQuestProps)
     local pFrontierProp = CFrontierNodeProperties:new()
 
-    local ivtValue = fn_get_property(pQuestProp)
+    local fn_get_property = pAcc:get_fn_property()
+    local ivtValue = fn_get_property(pQuestProps)
     for iId, iCount in pairs(ivtValue:get_items()) do
         pFrontierProp:add(iId, iCount)
     end

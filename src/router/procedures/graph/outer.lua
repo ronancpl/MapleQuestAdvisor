@@ -13,6 +13,11 @@
 require("router.procedures.player.quest")
 require("router.procedures.player.update")
 require("router.structs.path")
+require("utils.print")
+
+local function is_route_quest_in_path(pQuestProp, pCurrentPath)
+    return pCurrentPath:is_in_path(pQuestProp)
+end
 
 local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
     if is_quest_state_achieved(pPlayerState, pQuestProp) then
@@ -40,8 +45,4 @@ function fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
     end
 
     return rgpNeighbors
-end
-
-function is_route_quest_in_path(pQuestProp, pCurrentPath)
-    return pCurrentPath:is_in_path(pQuestProp)
 end

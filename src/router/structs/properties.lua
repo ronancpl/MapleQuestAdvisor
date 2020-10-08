@@ -13,6 +13,7 @@
 require("utils.class")
 
 CFrontierNodeProperties = createClass({
+    pQuestProps = nil,
     rgEntries = {},
     nSize = 0
 })
@@ -28,6 +29,10 @@ end
 
 function CFrontierNodeProperties:get_entry_set()
     return self.rgEntries
+end
+
+function CFrontierNodeProperties:get_quest_properties()
+    return self.pQuestProps
 end
 
 function CFrontierNodeProperties:size()

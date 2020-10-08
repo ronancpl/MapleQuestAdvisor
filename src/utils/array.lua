@@ -197,30 +197,34 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     local st = 1
     local en = napItems
 
-    while st < en do
-        local m = math.ceil((st + en) / 2)
+    if napItems > 0 then
+        while st < en do
+            local m = math.ceil((st + en) / 2)
 
-        local pMid = m_apItems[m]
-        local sResult = fn_compare(pMid, pToFind)
+            local pMid = m_apItems[m]
+            local sResult = fn_compare(pMid, pToFind)
 
-        if sResult == 0 then
-            if bFirstMatch ~= nil then
-                if bFirstMatch then
-                    m = self:_find_first_from(fn_compare, m, pToFind)
-                else
-                    m = self:_find_last_from(fn_compare, m, pToFind)
+            if sResult == 0 then
+                if bFirstMatch ~= nil then
+                    if bFirstMatch then
+                        m = self:_find_first_from(fn_compare, m, pToFind)
+                    else
+                        m = self:_find_last_from(fn_compare, m, pToFind)
+                    end
                 end
+
+                return m
+            elseif sResult < 0 then
+                st = m + 1
+            else
+                en = m - 1
             end
-
-            return m
-        elseif sResult < 0 then
-            st = m + 1
-        else
-            en = m - 1
         end
-    end
 
-    return bReturnPos and ((fn_compare(m_apItems[napItems], pToFind) > 0) and en or en + 1) or 0
+        return bReturnPos and ((fn_compare(m_apItems[napItems], pToFind) > 0) and en or en + 1) or 0
+    else
+        return bReturnPos and 1 or 0
+    end
 end
 
 function SArray:index_of(fn_select, bFromStart)
