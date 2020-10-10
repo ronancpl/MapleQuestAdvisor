@@ -42,7 +42,7 @@ function CGraphTree:_is_empty_on_erase_inactive_neighbors(rgpNeighbors)
 end
 
 function CGraphTree:try_pop_node()
-    local m_rgpPath = self.tpPath
+    local m_rgpPath = self.rgpPath
     local pQuestProp = m_rgpPath:get_last()
 
     local rgpNeighbors = self.tpActiveNeighbors[pQuestProp]

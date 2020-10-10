@@ -24,9 +24,11 @@ end
 
 local function fn_diff_prop_unit(pAcc, pFrontierProp, pPlayerState)
     local fn_get_player_property = pAcc:get_fn_player_property()
+    local pQuestChkProp = pFrontierProp:get_requirement()
 
     local iProgress = fn_get_player_property(pPlayerState)
-    local pRet = pAcc:get_fn_pending_progress(iRequired, iProgress)
+    local fn_pending_progress = pAcc:get_fn_pending_progress()
+    local pRet = fn_pending_progress(pAcc, pQuestChkProp, iProgress)
 
     return pRet
 end

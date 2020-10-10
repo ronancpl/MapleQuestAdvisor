@@ -21,21 +21,24 @@ CQuestFrontierRange = createClass({
     rgsPropTypeKeys = SArray:new()
 })
 
-function CQuestFrontierRange:_init_accessor_type(sAccName, CQuestRangeType, fn_get_player_property)
+function CQuestFrontierRange:_init_accessor_type(pAcc, CQuestRangeType)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
-    m_tpPropTypeQuests[sAccName] = CQuestRangeType:new({fn_player_property = fn_get_player_property})
+
+    local sAccName = pAcc:get_name()
+    local fn_get_player_property = pAcc:get_fn_player_property()
+    m_tpPropTypeQuests[sAccName] = CQuestRangeType:new({pQuestAcc = pAcc, fn_player_property = fn_get_player_property})
 
     local m_rgsPropTypeKeys = self.rgsPropTypeKeys
     m_rgsPropTypeKeys:add(sAccName)
 end
 
-function CQuestFrontierRange:init(tsAccUnits, tsAccInvts)
-    for sAccName, fn_get_player_property in pairs(tsAccUnits) do
-        self:_init_accessor_type(sAccName, CQuestFrontierUnit, fn_get_player_property)
+function CQuestFrontierRange:init(rgpAccUnits, rgpAccInvts)
+    for _, pAcc in ipairs(rgpAccUnits) do
+        self:_init_accessor_type(pAcc, CQuestFrontierUnit)
     end
 
-    for sAccName, fn_get_player_property in pairs(tsAccInvts) do
-        self:_init_accessor_type(sAccName, CQuestFrontierList, fn_get_player_property)
+    for _, pAcc in ipairs(rgpAccInvts) do
+        self:_init_accessor_type(pAcc, CQuestFrontierList)
     end
 end
 
@@ -44,7 +47,7 @@ function CQuestFrontierRange:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQues
     local sAccName = pAcc:get_name()
 
     local pTypeRange = m_tpPropTypeQuests[sAccName]
-    pTypeRange:add(pAcc, pQuestProp, pQuestChkProp)
+    pTypeRange:add(pQuestProp, pQuestChkProp)
 end
 
 function CQuestFrontierRange:add(pQuestProp, ctAccessors)
@@ -105,7 +108,7 @@ function CQuestFrontierRange:_fetch_from_nodes()
 
     local pQuestProp = nil
     if pFrontierProp ~= nil then
-        pQuestProp = pFrontierProp:get_quest_properties()
+        pQuestProp = pFrontierProp:get_property()
     end
 
     return pQuestProp

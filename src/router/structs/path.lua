@@ -57,8 +57,9 @@ function CQuestPath:remove(pQuestProp)
             return pOtherProp == pQuestProp
         end
 
-        local iIdx = self.rgpPath:index_of(fn_select, false)
-        self.rgpPath:remove(iIdx, iIdx)
+        local m_rgpPath = self.rgpPath
+        local iIdx = m_rgpPath:index_of(fn_select, false)
+        m_rgpPath:remove(iIdx, iIdx)
 
         bRet = true
     end

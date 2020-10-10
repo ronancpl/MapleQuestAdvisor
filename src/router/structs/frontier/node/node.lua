@@ -17,6 +17,7 @@ require("utils.class")
 CQuestFrontierNode = createClass({
     bList = false,
     pItems = SArray:new(),
+    pQuestAcc = nil,
     fn_attain = nil,
     fn_diff = nil,
     fn_player_property = nil,
@@ -48,11 +49,12 @@ function CQuestFrontierNode:size()
     return self.pItems:size()
 end
 
-function CQuestFrontierNode:add(pQuestAcc, pQuestProp, pQuestChkProp)
+function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
+    local m_pQuestAcc = self.pQuestAcc
     local fn_create = self:get_fn_create()
     local fn_compare = self:get_fn_compare()
 
-    local pFrontierProp = fn_create(pQuestAcc, pQuestProp, pQuestChkProp)
+    local pFrontierProp = fn_create(m_pQuestAcc, pQuestProp, pQuestChkProp)
 
     local m_pItems = self.pItems
     local iInsIdx = m_pItems:bsearch(fn_compare, pFrontierProp, true, true)
@@ -64,12 +66,7 @@ function CQuestFrontierNode:fetch()
     local m_pItems = self.pItems
     local pFrontierProp = m_pItems:remove_last()
 
-    local pQuestProp = pFrontierProp:get_property()
-    return pQuestProp
-end
-
-function CQuestFrontierNode:fn_compare_attainable(pFrontierProp, pPlayerState)
-    return self:get_fn_diff(pFrontierProp, pPlayerState)
+    return pFrontierProp
 end
 
 local function fetch_update_iterator_step(pItems, bSelect, iIdx)
@@ -87,17 +84,30 @@ local function fetch_update_iterator_step(pItems, bSelect, iIdx)
     return iStart, iEnd
 end
 
+local function fn_compare_attainable(m_pQuestAcc, fn_diff)
+    return function(pFrontierProp, pPlayerState)
+        return fn_diff(m_pQuestAcc, pFrontierProp, pPlayerState)
+    end
+end
+
 function CQuestFrontierNode:update_take(pPlayerState, bSelect)
-    local iIdx = pItems:bsearch(self.fn_compare_attainable, pPlayerState, true, true)
+    local m_pQuestAcc = self.pQuestAcc
+    local fn_diff = self:get_fn_diff()
+
+    local m_pItems = self.pItems
+    local fn_compare = fn_compare_attainable(m_pQuestAcc, fn_diff)
+    print("&", (fn_diff(m_pQuestAcc, self.pItems.apItems[1], pPlayerState)()))
+    local iIdx = m_pItems:bsearch(fn_compare, pPlayerState, true, true)
 
     local iStart
     local iEnd
-    iStart, iEnd = fetch_update_iterator_step(self.pItems, bSelect, iIdx)
+    iStart, iEnd = fetch_update_iterator_step(m_pItems, bSelect, iIdx)
 
-    local rgpQuestProps = pItems:remove(iStart, iEnd)
+    local rgpQuestProps = m_pItems:remove(iStart, iEnd)
     return rgpQuestProps
 end
 
 function CQuestFrontierNode:update_put(rgpQuestProps)
-    pItems:add_all(rgpQuestProps)
+    local m_pItems = self.pItems
+    m_pItems:add_all(rgpQuestProps)
 end

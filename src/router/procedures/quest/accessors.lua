@@ -62,21 +62,15 @@ function CQuestAccessors:is_player_have_prerequisites(bStrong, pPlayerState, pQu
 end
 
 function CQuestAccessors:_get_prerequisite_range_keys(bStrong, bInventory)
-    local tsKeys = {}
-
     local rgpAccs = fetch_accessors(self, bStrong, bInventory)
-    for _, pAcc in ipairs(rgpAccs) do
-        tsKeys[pAcc:get_name()] = pAcc:get_fn_player_property()
-    end
-
-    return tsKeys
+    return rgpAccs
 end
 
 function CQuestAccessors:get_accessor_range_keys()
-    local tsInvtKeys = self:_get_prerequisite_range_keys(nil, true)
-    local tsUnitKeys = self:_get_prerequisite_range_keys(nil, false)
+    local rgpInvtKeys = self:_get_prerequisite_range_keys(nil, true)
+    local rgpUnitKeys = self:_get_prerequisite_range_keys(nil, false)
 
-    return tsInvtKeys, tsUnitKeys
+    return rgpInvtKeys, rgpUnitKeys
 end
 
 function CQuestAccessors:get_accessor_by_fn_get(fn_get_acc_property)

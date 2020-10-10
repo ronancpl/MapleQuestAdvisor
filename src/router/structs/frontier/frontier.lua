@@ -19,13 +19,13 @@ CQuestFrontier = createClass({
 })
 
 function CQuestFrontier:init(ctAccessors)
-    local rgsPropInvtNames
-    local rgsPropUnitNames
+    local rgpAccInvts
+    local rgpAccUnits
 
-    tsPropInvts, tsPropUnits = ctAccessors:get_accessor_range_keys()
+    rgpAccInvts, rgpAccUnits = ctAccessors:get_accessor_range_keys()
 
-    self.pHold:init(tsPropUnits, tsPropInvts)
-    self.pSelect:init(tsPropUnits, tsPropInvts)
+    self.pHold:init(rgpAccUnits, rgpAccInvts)
+    self.pSelect:init(rgpAccUnits, rgpAccInvts)
 end
 
 function CQuestFrontier:_is_quest_attainable(pQuestProp, pPlayerState)

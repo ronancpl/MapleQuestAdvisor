@@ -74,7 +74,7 @@ function SArray:remove(iIdxStart, iIdxEnd)
     local m_apItems = self.apItems
     local nItems = #m_apItems
 
-    iIdxEnd = (iIdxEnd and iIdxEnd <= nItems) or nItems
+    iIdxEnd = (iIdxEnd or nItems) <= nItems and iIdxEnd or nItems
 
     local apRemoved = SArray:new()
     for i = iIdxStart, iIdxEnd, 1 do
@@ -163,13 +163,14 @@ end
 function SArray:_find_first_from(fn_compare, iIdx, pToFind)
     local m_apItems = self.apItems
 
-    local i = iIdx
+    local i = iIdx - 1
     while i > 0 do
-        i = i - 1
         if fn_compare(m_apItems[i], pToFind) ~= 0 then
             i = i + 1
             break
         end
+
+        i = i - 1
     end
 
     return i
