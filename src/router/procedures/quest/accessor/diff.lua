@@ -14,17 +14,17 @@ local function fn_property_diff_pending(iRequired, iSeized)
     return iSeized - iRequired
 end
 
-function fn_diff_exceeded(pQuestAcc, pQuestProp, iSeized)
+function fn_diff_exceeded(pQuestAcc, pQuestProps, iSeized)
     local fn_req_prop = pQuestAcc:get_fn_property()
-    local iRequired = fn_req_prop(pQuestProp)
+    local iRequired = fn_req_prop(pQuestProps)
 
     local iExceeded = fn_property_diff_pending(iSeized, iRequired)
     return iExceeded
 end
 
-function fn_diff_pending(pQuestAcc, pQuestProp, iSeized)
+function fn_diff_pending(pQuestAcc, pQuestProps, iSeized)
     local fn_req_prop = pQuestAcc:get_fn_property()
-    local iRequired = fn_req_prop(pQuestProp)
+    local iRequired = fn_req_prop(pQuestProps)
 
     local iPending = fn_property_diff_pending(iRequired, iSeized)
     return iPending
@@ -42,14 +42,14 @@ local function fn_property_diff_pending_list(rgReqItems, ivtSeized)
     return tPending
 end
 
-function fn_diff_pending_list(pQuestAcc, pQuestProp, ivtSeized)
+function fn_diff_pending_list(pQuestAcc, pQuestProps, ivtSeized)
     local fn_req_prop = pQuestAcc:get_fn_property()
-    local rgReqItems = fn_req_prop(pQuestProp)
+    local rgReqItems = fn_req_prop(pQuestProps)
 
     local tPending = fn_property_diff_pending_list(rgReqItems, ivtSeized)
     return tPending
 end
 
-function fn_diff_zero(pQuestAcc, pQuestProp, iSeized)
+function fn_diff_zero(pQuestAcc, pQuestProps, iSeized)
     return 0
 end

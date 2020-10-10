@@ -33,10 +33,10 @@ local function fn_unit_pending(pRet)
     return pRet > 0
 end
 
-function CQuestAccessors:is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProp)
+function CQuestAccessors:is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProps)
     local fn_req = pReqAcc:get_fn_pending_property()
 
-    local pRet = fn_req(pReqAcc, pQuestProp, pPlayerState)
+    local pRet = fn_req(pReqAcc, pQuestProps, pPlayerState)
     if fn_pending(pRet) then
         return false
     end
@@ -44,9 +44,9 @@ function CQuestAccessors:is_player_have_prerequisite(pReqAcc, fn_pending, pPlaye
     return true
 end
 
-function CQuestAccessors:_is_player_have_prerequisites(fn_pending, tfn_reqs, pPlayerState, pQuestProp)
+function CQuestAccessors:_is_player_have_prerequisites(fn_pending, tfn_reqs, pPlayerState, pQuestProps)
     for _, pReqAcc in ipairs(tfn_reqs) do
-        if not self:is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProp) then
+        if not self:is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProps) then
             return false
         end
     end
@@ -55,10 +55,10 @@ function CQuestAccessors:_is_player_have_prerequisites(fn_pending, tfn_reqs, pPl
 end
 
 function CQuestAccessors:is_player_have_prerequisites(bStrong, pPlayerState, pQuestProp)
-    local pQuestProp = pQuestProp:get_requirement()
+    local pQuestProps = pQuestProp:get_requirement()
 
-    return self._is_player_have_prerequisites(fn_unit_pending, bStrong and self.tfn_strong_reqs or self.tfn_weak_reqs, pPlayerState, pQuestProp)
-                and self._is_player_have_prerequisites(fn_invt_pending, bStrong and self.tfn_strong_ivt_reqs or self.tfn_weak_ivt_reqs, pPlayerState, pQuestProp)
+    return self._is_player_have_prerequisites(fn_unit_pending, bStrong and self.tfn_strong_reqs or self.tfn_weak_reqs, pPlayerState, pQuestProps)
+                and self._is_player_have_prerequisites(fn_invt_pending, bStrong and self.tfn_strong_ivt_reqs or self.tfn_weak_ivt_reqs, pPlayerState, pQuestProps)
 end
 
 function CQuestAccessors:_get_prerequisite_range_keys(bStrong, bInventory)
@@ -84,8 +84,8 @@ function CQuestAccessors:get_accessor_by_fn_get(fn_get_acc_property)
 end
 
 function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_get_acc_property, fn_get_player_state_property, fn_diff_pending_type)
-    local fn_diff_acc_pending = function(pQuestAcc, pQuestProp, pPlayerState)
-        return fn_diff_pending_type(pQuestAcc, pQuestProp, fn_get_player_state_property(pPlayerState))
+    local fn_diff_acc_pending = function(pQuestAcc, pQuestProps, pPlayerState)
+        return fn_diff_pending_type(pQuestAcc, pQuestProps, fn_get_player_state_property(pPlayerState))
     end
 
     local pAcc = CQuestAccessor:new({sName = sAccName, fn_get_property = fn_get_acc_property, fn_get_player_property = fn_get_player_state_property, fn_diff_pending_property = fn_diff_acc_pending, fn_diff_pending_type = fn_diff_pending_type})

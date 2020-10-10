@@ -39,30 +39,30 @@ function CQuestFrontierRange:init(tsAccUnits, tsAccInvts)
     end
 end
 
-function CQuestFrontierRange:_add_to_node(pAcc, pQuestProp, CQuestRangeType)
+function CQuestFrontierRange:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestRangeType)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
     local sAccName = pAcc:get_name()
 
     local pTypeRange = m_tpPropTypeQuests[sAccName]
-    pTypeRange:add(pAcc, pQuestProp)
+    pTypeRange:add(pAcc, pQuestProp, pQuestChkProp)
 end
 
 function CQuestFrontierRange:add(pQuestProp, ctAccessors)
     local rgfn_active_check_unit
     local rgfn_active_check_invt
-    rgfn_active_check_unit, rgfn_active_check_invt, pQuestPropCheck = pQuestProp:get_rgfn_active_requirements()
+    rgfn_active_check_unit, rgfn_active_check_invt, pQuestChkProp = pQuestProp:get_rgfn_active_requirements()
 
     for _, fn_get in ipairs(rgfn_active_check_invt) do
         local pAcc = ctAccessors:get_accessor_by_fn_get(fn_get)
         if pAcc ~= nil then
-            self:_add_to_node(pAcc, pQuestPropCheck, CQuestFrontierList)
+            self:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestFrontierList)
         end
     end
 
     for _, fn_get in ipairs(rgfn_active_check_unit) do
         local pAcc = ctAccessors:get_accessor_by_fn_get(fn_get)
         if pAcc ~= nil then
-            self:_add_to_node(pAcc, pQuestPropCheck, CQuestFrontierUnit)
+            self:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestFrontierUnit)
         end
     end
 end

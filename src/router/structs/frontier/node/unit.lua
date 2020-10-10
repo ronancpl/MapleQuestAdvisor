@@ -36,11 +36,11 @@ local function fn_attain_prop_unit(pAcc, pFrontierProp, pPlayerState)
     return pRet > 0
 end
 
-local function fn_make_prop_unit(pAcc, pQuestProps)
-    local pFrontierProp = CFrontierNodeProperties:new({pQuestProps = pQuestProps})
+local function fn_make_prop_unit(pAcc, pQuestProp, pQuestChkProp)
+    local pFrontierProp = CFrontierNodeProperties:new({pQuestProp = pQuestProp, pQuestChkProp = pQuestChkProp})
 
     local fn_get_property = pAcc:get_fn_property()
-    local iValue = fn_get_property(pQuestProps)
+    local iValue = fn_get_property(pQuestChkProp)
     pFrontierProp:add(iValue, 1)
 
     return pFrontierProp

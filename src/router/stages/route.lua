@@ -32,7 +32,8 @@ local function make_available_neighbors_list(tQuests)
     local tpPool = CQuestPath:new()
 
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
-        tpPool:add(pQuest:get_start())
+        local pQuestProp = pQuest:get_start()
+        tpPool:add(pQuestProp)
     end
 
     return tpPool

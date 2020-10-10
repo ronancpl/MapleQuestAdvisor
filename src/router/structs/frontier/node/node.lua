@@ -48,11 +48,11 @@ function CQuestFrontierNode:size()
     return self.pItems:size()
 end
 
-function CQuestFrontierNode:add(pQuestAcc, pQuestProp)
+function CQuestFrontierNode:add(pQuestAcc, pQuestProp, pQuestChkProp)
     local fn_create = self:get_fn_create()
     local fn_compare = self:get_fn_compare()
 
-    local pFrontierProp = fn_create(pQuestAcc, pQuestProp)
+    local pFrontierProp = fn_create(pQuestAcc, pQuestProp, pQuestChkProp)
 
     local m_pItems = self.pItems
     local iInsIdx = m_pItems:bsearch(fn_compare, pFrontierProp, true, true)
@@ -62,9 +62,10 @@ end
 
 function CQuestFrontierNode:fetch()
     local m_pItems = self.pItems
-
     local pFrontierProp = m_pItems:remove_last()
-    return pFrontierProp
+
+    local pQuestProp = pFrontierProp:get_property()
+    return pQuestProp
 end
 
 function CQuestFrontierNode:fn_compare_attainable(pFrontierProp, pPlayerState)
