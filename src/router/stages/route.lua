@@ -36,6 +36,7 @@ local function make_available_neighbors_list(tQuests)
         tpPool:add(pQuestProp)
     end
 
+    tpPool:sort()   -- in order to use bsearch with questid
     return tpPool
 end
 
@@ -49,12 +50,12 @@ end
 
 local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, pFrontierQuests)
     route_quest_permit_complete(tpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
+    pCurrentPath:add(pQuestProp)
 
     local rgpNeighbors = fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
     pQuestTree:push_node(pQuestProp, rgpNeighbors)
 
-    rollback_player_state(ctAwarders, pQuestProp, pPlayerState)
-    pCurrentPath:add(pQuestProp)
+    progress_player_state(ctAwarders, pQuestProp, pPlayerState)
 
     for _, pNeighborProp in ipairs(rgpNeighbors) do
         pFrontierQuests:add(pNeighborProp, pPlayerState, ctAccessors)
@@ -67,11 +68,11 @@ local function route_quest_dismiss_update(pQuestTree, tpPoolProps, pCurrentPath,
     while not pQuestTree:is_empty() do
         local pQuestProp = pQuestTree:try_pop_node()
         if pQuestProp == nil then
-            return
+            break
         end
 
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
-            progress_player_state(ctAwarders, pQuestProp, pPlayerState)
+            rollback_player_state(ctAwarders, pQuestProp, pPlayerState)
             table.insert(rgpBcktQuests, pQuestProp)
         end
     end

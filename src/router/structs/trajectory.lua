@@ -14,40 +14,73 @@ require("router.structs.path")
 require("utils.table")
 
 CGraphTree = createClass({CQuestPath, {
-    tpActiveNeighbors = {}
+    tpActiveNeighbors = {},
+    tpActiveFroms = {}
 }})
+
+function CGraphTree:_push_from(pQuestProp, rgpNeighbors)
+    for _, pNeighborProp in ipairs(rgpNeighbors) do
+        local pNeighborFroms = tpActiveFroms[pNeighborProp]
+        if pNeighborFroms == nil then
+            pNeighborFroms = {}
+            tpActiveFroms[pNeighborProp] = pNeighborFroms
+        end
+
+        table.insert(pNeighborFroms, pQuestProp)
+    end
+end
+
+function CGraphTree:_push_neighbors(pQuestProp, rgpNeighbors)
+    local rgpNeighborsCopy = SArray:new()
+    rgpNeighborsCopy:add_all(rgpNeighbors)
+    self.tpActiveNeighbors[pQuestProp] = rgpNeighborsCopy
+end
 
 function CGraphTree:push_node(pQuestProp, rgpNeighbors)
     self:add(pQuestProp)
 
-    local rgpNeighborsCopy = STable:new()
-    rgpNeighborsCopy:insert_table(rgpNeighbors)
-    self.tpActiveNeighbors[pQuestProp] = rgpNeighborsCopy
+    self:_push_neighbors(pQuestProp, rgpNeighbors)
+    self:_push_from(pQuestProp, rgpNeighbors)
 end
 
-function CGraphTree:_is_empty_on_erase_inactive_neighbors(rgpNeighbors)
-    local tiToRemove = {}
-    for i = 1, #rgpNeighbors, 1 do
-        local v = rgpNeighbors[i]
-        if not self:is_in_path(v) then
-            table.insert(tiToRemove, i)
+function CGraphTree:_is_empty_active_neighbors(pQuestProp)
+    local rgpNeighbors = self.tpActiveNeighbors[pQuestProp]
+    return #rgpNeighbors == 0
+end
+
+local function fn_value_start_property(pQuestProp)
+    return pQuestProp:is_start() and 0 or 1
+end
+
+local function fn_compare_active_neighbor(pQuestProp, pOtherProp)
+    local iQuestidDiff = pQuestProp:get_quest_id() - pOtherProp:get_quest_id()
+    local iStartDiff = fn_value_start_property(pQuestProp) - fn_value_start_property(pOtherProp)
+
+    return 2 * iQuestidDiff + iStartDiff
+end
+
+function CGraphTree:_pop_from(pQuestProp)
+    local rgpFroms = self.tpActiveFroms[pQuestProp]
+    self.tpActiveFroms[pQuestProp] = nil
+
+    for _, pFromProp in ipairs(rgpFroms) do
+        local rgFromActiveNeighbors = self.tpActiveNeighbors[pFromProp]
+
+        local iIdx = rgFromActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
+        if iIdx > 0 then
+            rgFromActiveNeighbors:remove(iIdx, iIdx)
         end
     end
-
-    for i = #tiToRemove, 1, -1 do
-        table.remove(rgpNeighbors, tiToRemove[i])
-    end
-
-    return #rgpNeighbors == 0
 end
 
 function CGraphTree:try_pop_node()
     local m_rgpPath = self.rgpPath
     local pQuestProp = m_rgpPath:get_last()
 
-    local rgpNeighbors = self.tpActiveNeighbors[pQuestProp]
-    if rgpNeighbors:is_empty() or self:_is_empty_on_erase_inactive_neighbors(rgpNeighbors) then
+    if self:_is_empty_active_neighbors(pQuestProp) then
         m_rgpPath:remove_last()
+        self:_pop_from(pQuestProp)
+
         return pQuestProp
     else
         return nil
