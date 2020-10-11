@@ -10,6 +10,31 @@
     provide an express grant of patent rights.
 --]]
 
+local function is_array(m_apItems)
+    local ret = true
+    if next(m_apItems) ~= nil then
+        ret = (m_apItems[1] ~= nil)
+    end
+
+    return ret
+end
+
+local function fetch_array_values(m_apItems)
+    local tTable = {}
+    for iKey, pVal in ipairs(m_apItems) do
+        tTable[pVal] = iKey
+    end
+
+    return tTable
+end
+
+function spairs_table(m_apItems)
+    local bArray = is_array(m_apItems)
+    local tTable = bArray and fetch_array_values(m_apItems) or m_apItems
+
+    return tTable, bArray
+end
+
 function spairs(tTable, fn_table_sort)
     local rgKeys = {}
     for k, _ in pairs(tTable) do

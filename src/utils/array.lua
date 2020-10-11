@@ -119,12 +119,16 @@ function SArray:sort(fn_sort)
     local m_apItems = self.apItems
 
     if fn_sort then
-        local rgpPairs = spairs(m_apItems, fn_sort)
+        local tTable
+        local bArray
+
+        tTable, bArray = spairs_table(m_apItems)
+        local rgpPairs = spairs(tTable, fn_sort)
 
         self:remove_all()   -- clear array, next insert sorted
-
+        local iOpt = bArray and 1 or 2
         for _, pPair in ipairs(rgpPairs) do
-            local pItem = pPair[2]
+            local pItem = pPair[iOpt]
             table.insert(m_apItems, pItem)
         end
     else

@@ -39,7 +39,7 @@ end
 
 function CQuestGrid:sort_quest_table()
     local m_rgQuests = self.rgQuests
-    local fn_compare_quest_level = function (a,b) return m_rgQuests:get(a):get_starting_level() > m_rgQuests:get(b):get_starting_level() end
+    local fn_compare_quest_level = function (a,b) return a:get_starting_level() > b:get_starting_level() end
     m_rgQuests:sort(fn_compare_quest_level)
 end
 
