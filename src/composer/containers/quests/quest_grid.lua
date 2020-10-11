@@ -136,7 +136,9 @@ end
 function CQuestGrid:_fetch_top_quests_by_continent(pPlayer, nQuests, iFromIdx, iToIdx)
     local fn_filter_quests = function (pQuest, pPlayer)
         local iPlayerMapid = pPlayer:get_mapid()
-        return get_continent_id(pQuest:get_start():get_requirement():get_field(iPlayerMapid)) == get_continent_id(iPlayerMapid)
+        local iStartMapid = pQuest:get_start():get_requirement():get_field(iPlayerMapid) or 0
+
+        return get_continent_id(iStartMapid) == get_continent_id(iPlayerMapid)
     end
 
     local tQuests = self:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuests, iFromIdx, iToIdx)

@@ -11,22 +11,7 @@
 
 ]]--
 
-local function deepCopy(e)
-    local ce
-    if type(e) == "table" then
-        ce = {}
-        for k, v in pairs(e) do
-            local ck = k ~= e and deepCopy(k) or k
-            local cv = v ~= e and deepCopy(v) or v
-            ce[ck] = cv
-        end
-        setmetatable(ce, getmetatable(e))
-    else
-        ce = e  -- string, number, etc
-    end
-
-    return ce
-end
+require("utils.copy")
 
 local function retrieveClassMembers(c)
     local retMembers = {}
@@ -108,12 +93,12 @@ function createClass (...)
 
         -- init field values
         for k, v in pairs(c.classMembers) do
-            o[deepCopy(k)] = deepCopy(v)
+            o[deep_copy(k)] = deep_copy(v)
         end
 
         -- init constructor values
         for k, v in pairs(nv) do
-            o[deepCopy(k)] = deepCopy(v)
+            o[deep_copy(k)] = v
         end
 
         return o
@@ -122,7 +107,7 @@ function createClass (...)
     -- init field values for this singleton instance
     function c:init ()
         for k, v in pairs(c.classMembers) do
-            c[deepCopy(k)] = deepCopy(v)
+            c[deep_copy(k)] = v
         end
         c.__static = true
     end

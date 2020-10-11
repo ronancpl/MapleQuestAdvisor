@@ -19,11 +19,13 @@ CGraphTree = createClass({CQuestPath, {
 }})
 
 function CGraphTree:_push_from(pQuestProp, rgpNeighbors)
+    local m_tpActiveFroms = self.tpActiveFroms
+
     for _, pNeighborProp in ipairs(rgpNeighbors) do
-        local pNeighborFroms = tpActiveFroms[pNeighborProp]
+        local pNeighborFroms = m_tpActiveFroms[pNeighborProp]
         if pNeighborFroms == nil then
             pNeighborFroms = {}
-            tpActiveFroms[pNeighborProp] = pNeighborFroms
+            m_tpActiveFroms[pNeighborProp] = pNeighborFroms
         end
 
         table.insert(pNeighborFroms, pQuestProp)
@@ -61,14 +63,16 @@ end
 
 function CGraphTree:_pop_from(pQuestProp)
     local rgpFroms = self.tpActiveFroms[pQuestProp]
-    self.tpActiveFroms[pQuestProp] = nil
+    if rgpFroms ~= nil then
+        self.tpActiveFroms[pQuestProp] = nil
 
-    for _, pFromProp in ipairs(rgpFroms) do
-        local rgFromActiveNeighbors = self.tpActiveNeighbors[pFromProp]
+        for _, pFromProp in ipairs(rgpFroms) do
+            local rgFromActiveNeighbors = self.tpActiveNeighbors[pFromProp]
 
-        local iIdx = rgFromActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
-        if iIdx > 0 then
-            rgFromActiveNeighbors:remove(iIdx, iIdx)
+            local iIdx = rgFromActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
+            if iIdx > 0 then
+                rgFromActiveNeighbors:remove(iIdx, iIdx)
+            end
         end
     end
 end
