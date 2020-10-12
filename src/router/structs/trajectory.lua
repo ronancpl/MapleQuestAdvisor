@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("structs.quest.properties")
 require("router.structs.path")
 require("utils.table")
 
@@ -47,18 +48,7 @@ end
 
 function CGraphTree:_is_empty_active_neighbors(pQuestProp)
     local rgpNeighbors = self.tpActiveNeighbors[pQuestProp]
-    return #rgpNeighbors == 0
-end
-
-local function fn_value_start_property(pQuestProp)
-    return pQuestProp:is_start() and 0 or 1
-end
-
-local function fn_compare_active_neighbor(pQuestProp, pOtherProp)
-    local iQuestidDiff = pQuestProp:get_quest_id() - pOtherProp:get_quest_id()
-    local iStartDiff = fn_value_start_property(pQuestProp) - fn_value_start_property(pOtherProp)
-
-    return 2 * iQuestidDiff + iStartDiff
+    return rgpNeighbors:size() == 0
 end
 
 function CGraphTree:_pop_from(pQuestProp)
@@ -69,6 +59,7 @@ function CGraphTree:_pop_from(pQuestProp)
         for _, pFromProp in ipairs(rgpFroms) do
             local rgFromActiveNeighbors = self.tpActiveNeighbors[pFromProp]
 
+            local fn_compare_active_neighbor = CQuestProperties.compare
             local iIdx = rgFromActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
             if iIdx > 0 then
                 rgFromActiveNeighbors:remove(iIdx, iIdx)

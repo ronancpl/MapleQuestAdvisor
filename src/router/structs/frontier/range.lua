@@ -91,6 +91,13 @@ function CQuestFrontierRange:update_put(tpTakeQuestProps)
     end
 end
 
+function CQuestFrontierRange:_remove_from_nodes(pQuestProp)
+    local m_tpPropTypeQuests = self.tpPropTypeQuests
+    for _, pTypeRange in pairs(m_tpPropTypeQuests) do
+        pTypeRange:remove(pQuestProp)
+    end
+end
+
 function CQuestFrontierRange:_fetch_from_nodes()
     local m_rgsKeys = self.rgsPropTypeKeys
     m_rgsKeys:randomize()
@@ -109,6 +116,7 @@ function CQuestFrontierRange:_fetch_from_nodes()
     local pQuestProp = nil
     if pFrontierProp ~= nil then
         pQuestProp = pFrontierProp:get_property()
+        self:_remove_from_nodes(pQuestProp)
     end
 
     return pQuestProp

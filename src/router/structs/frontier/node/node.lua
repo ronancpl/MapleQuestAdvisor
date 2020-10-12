@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.structs.properties")
+require("router.structs.frontier.properties")
 require("utils.array")
 require("utils.class")
 
@@ -62,6 +62,19 @@ function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
     m_pItems:insert(pFrontierProp, iInsIdx)
 end
 
+function CQuestFrontierNode:remove(pQuestProp)
+    local m_pItems = self.pItems
+
+    local fn_select = function(pOtherProp)
+        return pQuestProp:compare(pOtherProp:get_property()) == 0
+    end
+
+    local iRmvIdx = m_pItems:index_of(fn_select, false)
+    if iRmvIdx > 0 then
+        m_pItems:remove(iRmvIdx, iRmvIdx)
+    end
+end
+
 function CQuestFrontierNode:fetch()
     local m_pItems = self.pItems
     local pFrontierProp = m_pItems:remove_last()
@@ -103,11 +116,11 @@ function CQuestFrontierNode:update_take(pPlayerState, bSelect)
     local iEnd
     iStart, iEnd = fetch_update_iterator_step(m_pItems, bSelect, iIdx)
 
-    local rgpQuestProps = m_pItems:remove(iStart, iEnd)
-    return rgpQuestProps
+    local rgpFrontierProps = m_pItems:remove(iStart, iEnd)
+    return rgpFrontierProps
 end
 
-function CQuestFrontierNode:update_put(rgpQuestProps)
+function CQuestFrontierNode:update_put(rgpFrontierProps)
     local m_pItems = self.pItems
-    m_pItems:add_all(rgpQuestProps)
+    m_pItems:add_all(rgpFrontierProps)
 end

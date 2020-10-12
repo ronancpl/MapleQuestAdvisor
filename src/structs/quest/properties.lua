@@ -62,3 +62,14 @@ end
 function CQuestProperties:get_rgfn_active_awards()
     return self.rgfn_active_act_unit, self.rgfn_active_act_invt, self.pPropAct
 end
+
+local function fn_value_start_property(pQuestProp)
+    return pQuestProp:is_start() and 0 or 1
+end
+
+function CQuestProperties:compare(pOtherProp)
+    local iQuestidDiff = self:get_quest_id() - pOtherProp:get_quest_id()
+    local iStartDiff = fn_value_start_property(self) - fn_value_start_property(pOtherProp)
+
+    return 2 * iQuestidDiff + iStartDiff
+end
