@@ -10,25 +10,25 @@
     provide an express grant of patent rights.
 --]]
 
-CMapStack = createClass({
+SMapStack = createClass({
     tpStacks = {}
 })
 
-function CMapStack:get_top(pKey)
+function SMapStack:get_top(pKey)
     local m_tpStacks = self.tpStacks
 
     local rgpStack = m_tpStacks[pKey]
     return rgpStack[#rgpStack]
 end
 
-function CMapStack:push(pKey, pItem)
+function SMapStack:push(pKey, pItem)
     local m_tpStacks = self.tpStacks
 
     local rgpStack = m_tpStacks[pKey]
     table.insert(rgpStack, pItem)
 end
 
-function CMapStack:pop(pKey)
+function SMapStack:pop(pKey)
     local m_tpStacks = self.tpStacks
 
     local rgpStack = m_tpStacks[pKey]
@@ -37,7 +37,7 @@ function CMapStack:pop(pKey)
     return pItem
 end
 
-function CMapStack:init(rgpKeys)
+function SMapStack:init(rgpKeys)
     local m_tpStacks = self.tpStacks
 
     for _, pKey in pairs(rgpKeys) do

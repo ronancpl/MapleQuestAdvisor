@@ -10,12 +10,13 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.structs.stack.stage")
 require("utils.class")
 require("utils.mapstack")
 
 CGraphDeckQuest = createClass({
-    tpQuestStages = CMapStack:new(),
-    tpPendingFroms = CMapStack:new()
+    tpQuestStages = SMapStack:new(),
+    tpPendingFroms = SMapStack:new()
 })
 
 function CGraphDeckQuest:init(rgpQuestProps)
@@ -24,6 +25,10 @@ function CGraphDeckQuest:init(rgpQuestProps)
 
     local m_tpPendingFroms = self.tpPendingFroms
     m_tpPendingFroms:init(rgpQuestProps)
+
+    for _, pQuestProp in ipairs(rgpQuestProps) do   -- this hubs non-charted props
+        m_tpPendingFroms:push(pQuestProp, {})
+    end
 end
 
 function CGraphDeckQuest:get_quest_stage(pQuestProp)
@@ -61,11 +66,6 @@ function CGraphDeckQuest:_post_froms(pQuestStage, rgpNeighborProps)
 
     for _, pNeighborProp in ipairs(rgpNeighborProps) do
         local rgpNeighborPendingFroms = m_tpPendingFroms:get_top(pNeighborProp)
-        if rgpNeighborPendingFroms == nil then
-            rgpNeighborPendingFroms = {}
-            m_tpPendingFroms:push(pNeighborProp, rgpNeighborPendingFroms)
-        end
-
         table.insert(rgpNeighborPendingFroms, pQuestStage)
     end
 end

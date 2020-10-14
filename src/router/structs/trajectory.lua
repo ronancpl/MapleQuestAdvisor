@@ -10,22 +10,15 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.quest.properties")
 require("router.structs.path")
-require("utils.table")
+require("router.structs.stack.deck")
 
 CGraphTree = createClass({CQuestPath, {
     pDeck = CGraphDeckQuest:new()
 }})
 
-function CGraphTree:init(tpQuestProps)
+function CGraphTree:install_entries(rgpQuestProps)
     local m_pDeck = self.pDeck
-
-    local rgpQuestProps = {}
-    for k, _ in pairs(tpQuestProps) do
-        table.insert(rgpQuestProps, k)
-    end
-
     m_pDeck:init(rgpQuestProps)
 end
 
