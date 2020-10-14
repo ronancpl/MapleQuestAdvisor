@@ -29,9 +29,6 @@ function CQuestFrontier:init(ctAccessors)
 end
 
 function CQuestFrontier:_is_quest_attainable(pQuestProp, pPlayerState)
-    local iQuestid = pQuestProp:get_quest_id()
-    local bStart = pQuestProp:is_start()
-
     return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end
 
