@@ -136,6 +136,18 @@ function SArray:sort(fn_sort)
     end
 end
 
+function SArray:reverse()
+    local rgTempArray = SArray:new()
+    rgTempArray:add_all(self)
+
+    self:remove_all()
+
+    local rgTempItems = rgTempArray:list()
+    for i = #rgTempItems, 1, -1 do
+        self:add(rgTempItems[i])
+    end
+end
+
 function SArray:randomize()     -- Algorithm: Fisher-Yates
     local m_apItems = self.apItems
     local napItems = #m_apItems

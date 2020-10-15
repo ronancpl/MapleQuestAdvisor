@@ -16,6 +16,7 @@ require("router.structs.path")
 require("router.structs.trajectory")
 require("router.structs.frontier.frontier")
 require("structs.player")
+require("structs.quest.properties")
 require("utils.array")
 
 local function make_pool_list(tQuests)
@@ -28,15 +29,21 @@ local function make_pool_list(tQuests)
     return rgpQuests
 end
 
+local function fn_compare_quest_id(a, b)
+    return CQuestProperties.compare(a, b) < 0
+end
+
 local function make_available_neighbors_list(tQuests)
-    local tpPool = CQuestPath:new()
+    local tpPool = SArray:new()
 
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
         local pQuestProp = pQuest:get_start()
         tpPool:add(pQuestProp)
     end
 
-    tpPool:sort()   -- in order to use bsearch with questid
+    tpPool:sort(fn_compare_quest_id)        -- in order to use bsearch with questid
+    tpPool:reverse()                        -- consumer takes item linearly
+
     return tpPool
 end
 

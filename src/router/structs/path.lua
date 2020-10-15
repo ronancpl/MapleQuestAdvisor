@@ -10,7 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.quest.properties")
 require("utils.class")
 
 CQuestPath = createClass({
@@ -98,13 +97,4 @@ end
 
 local function fn_value_start_property(pQuestProp)
     return pQuestProp:is_start() and 0 or 1
-end
-
-local function fn_compare_quest_id(a, b)
-    return CQuestProperties.compare(a, b) < 0
-end
-
-function CQuestPath:sort()
-    local m_rgpPath = self.rgpPath
-    m_rgpPath:sort(fn_compare_quest_id)
 end
