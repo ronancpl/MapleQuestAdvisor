@@ -18,18 +18,14 @@ require("utils.table")
 
 CQuestFrontierRange = createClass({
     tpPropTypeQuests = {},
-    rgsPropTypeKeys = SArray:new()
+    rgpQuestStack = {}
 })
 
 function CQuestFrontierRange:_init_accessor_type(pAcc, CQuestRangeType)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
-    local sAccName = pAcc:get_name()
     local fn_get_player_property = pAcc:get_fn_player_property()
-    m_tpPropTypeQuests[sAccName] = CQuestRangeType:new({pQuestAcc = pAcc, fn_player_property = fn_get_player_property})
-
-    local m_rgsPropTypeKeys = self.rgsPropTypeKeys
-    m_rgsPropTypeKeys:add(sAccName)
+    m_tpPropTypeQuests[pAcc] = CQuestRangeType:new({pQuestAcc = pAcc, fn_player_property = fn_get_player_property})
 end
 
 function CQuestFrontierRange:init(rgpAccUnits, rgpAccInvts)
@@ -44,39 +40,36 @@ end
 
 function CQuestFrontierRange:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestRangeType)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
-    local sAccName = pAcc:get_name()
 
-    local pTypeRange = m_tpPropTypeQuests[sAccName]
+    local pTypeRange = m_tpPropTypeQuests[pAcc]
     pTypeRange:add(pQuestProp, pQuestChkProp)
 end
 
 function CQuestFrontierRange:add(pQuestProp, ctAccessors)
-    local rgfn_active_check_unit
-    local rgfn_active_check_invt
-    rgfn_active_check_unit, rgfn_active_check_invt, pQuestChkProp = pQuestProp:get_rgfn_active_requirements()
+    local pQuestChkProp = pQuestProp:get_requirement()
 
-    for _, fn_get in ipairs(rgfn_active_check_invt) do
-        local pAcc = ctAccessors:get_accessor_by_fn_get(fn_get)
+    for _, pAcc in ipairs(ctAccessors:get_accessors_by_active_requirements(pQuestProp, true)) do
         if pAcc ~= nil then
             self:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestFrontierList)
         end
     end
 
-    for _, fn_get in ipairs(rgfn_active_check_unit) do
-        local pAcc = ctAccessors:get_accessor_by_fn_get(fn_get)
+    for _, pAcc in ipairs(ctAccessors:get_accessors_by_active_requirements(pQuestProp, false)) do
         if pAcc ~= nil then
             self:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestFrontierUnit)
         end
     end
+
+    table.insert(self.rgpQuestStack, pQuestProp)
 end
 
 function CQuestFrontierRange:update_take(pPlayerState, bSelect)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
     local tpTakeQuestProps = STable:new()
 
-    for sAccName, tpQuestProps in pairs(m_tpPropTypeQuests) do
+    for pAcc, tpQuestProps in pairs(m_tpPropTypeQuests) do
         local rgpQuestProps = tpQuestProps:update_take(pPlayerState, bSelect)
-        tpTakeQuestProps:insert(sAccName, rgpQuestProps)
+        tpTakeQuestProps:insert(pAcc, rgpQuestProps)
     end
 
     return tpTakeQuestProps
@@ -85,8 +78,8 @@ end
 function CQuestFrontierRange:update_put(tpTakeQuestProps)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
-    for sAccName, rgpQuestProps in pairs(tpTakeQuestProps:get_entry_set()) do
-        local tpQuestProps = m_tpPropTypeQuests[sAccName]
+    for pAcc, rgpQuestProps in pairs(tpTakeQuestProps:get_entry_set()) do
+        local tpQuestProps = m_tpPropTypeQuests[pAcc]
         tpQuestProps:update_put(rgpQuestProps)
     end
 end
@@ -98,30 +91,44 @@ function CQuestFrontierRange:_remove_from_nodes(pQuestProp)
     end
 end
 
-function CQuestFrontierRange:_fetch_from_nodes()
-    local m_rgsKeys = self.rgsPropTypeKeys
-    m_rgsKeys:randomize()
+function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
+    if #rgpAccs > 0 then
+        local m_tpPropTypeQuests = self.tpPropTypeQuests
 
+        for _, pAcc in pairs(rgpAccs) do
+            local pNode = m_tpPropTypeQuests[pAcc]
+            if not pNode:contains(pCurQuestProp) do     -- meaning this requisite has not been met by player
+                return false
+            end
+        end
+    end
+
+    return true
+end
+
+function CQuestFrontierRange:_fetch_from_nodes(pCurQuestProp, rgpAccs)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
-    local pFrontierProp = nil
-    local i = 1
-    local nKeys = m_rgsKeys:size()
-    while pFrontierProp == nil and i <= nKeys do
-        local pNode = m_tpPropTypeQuests[m_rgsKeys:get(i)]
-        i = i + 1
 
-        pFrontierProp = pNode:fetch()
+    for _, pAcc in pairs(rgpAccs) do
+        local pNode = m_tpPropTypeQuests[pAcc]
+        pNode:remove(pCurQuestProp)
     end
-
-    local pQuestProp = nil
-    if pFrontierProp ~= nil then
-        pQuestProp = pFrontierProp:get_property()
-        self:_remove_from_nodes(pQuestProp)
-    end
-
-    return pQuestProp
 end
 
 function CQuestFrontierRange:fetch()
-    return self:_fetch_from_nodes()
+    local m_rgpQuestStack = self.rgpQuestStack
+    local nCurQuests = #m_rgpQuestStack
+
+    local pQuestProp = nil
+    if nCurQuests > 0 then
+        local pCurQuestProp = m_rgpQuestStack[nCurQuests]
+
+        local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pCurQuestProp, nil)
+        if self:_should_fetch_quest(pCurQuestProp, rgpAccs) do
+            self:_fetch_from_nodes(pCurQuestProp, rgpAccs)
+            pQuestProp = pCurQuestProp
+        end
+    end
+
+    return pQuestProp
 end

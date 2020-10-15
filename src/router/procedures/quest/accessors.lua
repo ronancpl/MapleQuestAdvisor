@@ -77,6 +77,34 @@ function CQuestAccessors:get_accessor_by_fn_get(fn_get_acc_property)
     return self.tsAllReqs[fn_get_acc_property]
 end
 
+function CQuestAccessors:get_accessors_by_active_requirements(pQuestProp, bInvt)
+    local rgfn_active_check_unit
+    local rgfn_active_check_invt
+    rgfn_active_check_unit, rgfn_active_check_invt, _ = pQuestProp:get_rgfn_active_requirements()
+
+    local rgpAccs = {}
+
+    if bInvt ~= false then
+        for _, fn_get in ipairs(rgfn_active_check_invt) do
+            local pAcc = self:get_accessor_by_fn_get(fn_get)
+            if pAcc ~= nil then
+                table.insert(rgpAccs, pAcc)
+            end
+        end
+    end
+
+    if bInvt ~= true then
+        for _, fn_get in ipairs(rgfn_active_check_unit) do
+            local pAcc = self:get_accessor_by_fn_get(fn_get)
+            if pAcc ~= nil then
+                table.insert(rgpAccs, pAcc)
+            end
+        end
+    end
+
+    return rgpAccs
+end
+
 function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_get_acc_property, fn_get_player_state_property, fn_diff_pending_type)
     local fn_diff_acc_pending = function(pQuestAcc, pQuestProps, pPlayerState)
         return fn_diff_pending_type(pQuestAcc, pQuestProps, fn_get_player_state_property(pPlayerState))

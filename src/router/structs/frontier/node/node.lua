@@ -62,24 +62,27 @@ function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
     m_pItems:insert(pFrontierProp, iInsIdx)
 end
 
-function CQuestFrontierNode:remove(pQuestProp)
+function CQuestFrontierNode:find(pQuestProp)
     local m_pItems = self.pItems
 
     local fn_select = function(pOtherProp)
         return pQuestProp:compare(pOtherProp:get_property()) == 0
     end
 
-    local iRmvIdx = m_pItems:index_of(fn_select, false)
+    local iIdx = m_pItems:index_of(fn_select, false)
+    return iIdx
+end
+
+function CQuestFrontierNode:contains(pQuestProp)
+    local iRmvIdx = self:find(pQuestProp)
+    return iRmvIdx > 0
+end
+
+function CQuestFrontierNode:remove(pQuestProp)
+    local iRmvIdx = self:find(pQuestProp)
     if iRmvIdx > 0 then
         m_pItems:remove(iRmvIdx, iRmvIdx)
     end
-end
-
-function CQuestFrontierNode:fetch()
-    local m_pItems = self.pItems
-    local pFrontierProp = m_pItems:remove_last()
-
-    return pFrontierProp
 end
 
 local function fetch_update_iterator_step(pItems, bSelect, iIdx)
