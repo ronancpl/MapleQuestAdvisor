@@ -10,9 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.class")
-require("utils.print")
-require("utils.sort")
+require("utils.struct.class")
+require("utils.procedure.print")
+require("utils.procedure.sort")
 
 SArray = createClass({apItems = {}})
 

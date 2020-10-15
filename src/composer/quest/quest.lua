@@ -18,9 +18,9 @@ require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")
 require("structs.quest.properties")
 require("structs.quest.quest")
-require("utils.constants")
-require("utils.table")
+require("utils.procedure.constants")
 require("utils.provider.xml.provider")
+require("utils.struct.table")
 
 local tAttrUnit = {
     _exp = CQuestProperty.set_exp,

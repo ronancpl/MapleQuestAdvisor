@@ -12,7 +12,7 @@
 
 require("composer.quest.quest")
 require("router.filters.graph")
-require("utils.table")
+require("utils.struct.table")
 
 function pool_select_graph_quests(pGridQuests, pPlayer)
     local tQuests = pGridQuests:fetch_top_quests_by_player(pPlayer, RGraph.POOL_MIN_QUESTS)

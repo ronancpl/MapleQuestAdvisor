@@ -11,7 +11,7 @@
 --]]
 
 require("router.structs.frontier.range")
-require("utils.class")
+require("utils.struct.class")
 
 CQuestFrontier = createClass({
     pHold = CQuestFrontierRange:new(),

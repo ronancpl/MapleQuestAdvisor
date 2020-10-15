@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.class")
 require("structs.loot.loot")
+require("utils.struct.class")
 
 CLootTable = createClass({
     tMobItems = {},

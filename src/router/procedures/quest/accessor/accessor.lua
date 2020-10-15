@@ -13,7 +13,7 @@
 require("router.procedures.quest.accessor.property")
 require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")
-require("utils.class")
+require("utils.struct.class")
 
 CQuestAccessor = createClass({
     sName = "_NIL",

@@ -11,7 +11,7 @@
 --]]
 
 require("structs.quest.attributes.property")
-require("utils.class")
+require("utils.struct.class")
 
 CQuestAction = createClass({CQuestProperty, {}})
 

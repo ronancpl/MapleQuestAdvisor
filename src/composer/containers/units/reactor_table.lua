@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.class")
 require("composer.containers.units.unit_table")
+require("utils.struct.class")
 
 CReactorTable = createClass({CUnitTable, {}})

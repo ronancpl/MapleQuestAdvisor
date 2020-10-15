@@ -12,9 +12,9 @@
 
 require("router.structs.frontier.node.list")
 require("router.structs.frontier.node.unit")
-require("utils.array")
-require("utils.class")
-require("utils.table")
+require("utils.struct.array")
+require("utils.struct.class")
+require("utils.struct.table")
 
 CQuestFrontierRange = createClass({
     tpPropTypeQuests = {},

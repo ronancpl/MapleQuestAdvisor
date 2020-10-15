@@ -11,8 +11,8 @@
 --]]
 
 require("router.structs.frontier.node.node")
-require("utils.array")
-require("utils.class")
+require("utils.struct.array")
+require("utils.struct.class")
 
 local function fn_default_player_property(pPlayerState)
     return 0

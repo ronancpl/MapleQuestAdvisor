@@ -11,7 +11,7 @@
 --]]
 
 require("structs.storage.inventory")
-require("utils.class")
+require("utils.struct.class")
 
 CPlayer = createClass({
     siJob = -1,

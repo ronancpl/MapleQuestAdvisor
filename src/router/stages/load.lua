@@ -16,7 +16,7 @@ require("composer.loot.maker")
 require("composer.quest.quest")
 require("composer.unit.unit")
 require("composer.unit.player")
---require("utils.print")
+--require("utils.procedure.print")
 require("utils.provider.xml.provider")
 
 function post_process_resources(ctQuests, ctNpcs, ctFieldsMeta)

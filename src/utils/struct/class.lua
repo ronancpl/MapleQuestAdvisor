@@ -11,7 +11,7 @@
 
 ]]--
 
-require("utils.copy")
+require("utils.procedure.copy")
 
 local function retrieveClassMembers(c)
     local retMembers = {}

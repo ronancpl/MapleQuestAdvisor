@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.array")
-require("utils.class")
+require("utils.struct.array")
+require("utils.struct.class")
 require("utils.provider.xml.parser")
 require("utils.provider.xml.reader")
 

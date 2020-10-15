@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.array")
-require("utils.class")
+require("utils.struct.array")
+require("utils.struct.class")
 
 CField = createClass({
     iMapid = -1,

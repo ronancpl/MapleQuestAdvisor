@@ -17,7 +17,7 @@ require("router.structs.trajectory")
 require("router.structs.frontier.frontier")
 require("structs.player")
 require("structs.quest.properties")
-require("utils.array")
+require("utils.struct.array")
 
 local function make_pool_list(tQuests)
     local rgpQuests = SArray:new()

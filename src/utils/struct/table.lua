@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.class")
-require("utils.print")
+require("utils.struct.class")
+require("utils.procedure.print")
 
 STable = createClass({tpItems = {}, __LENGTH = 0})
 

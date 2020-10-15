@@ -11,8 +11,8 @@
 --]]
 
 require("structs.storage.inventory")
-require("utils.class")
-require("utils.string")
+require("utils.procedure.string")
+require("utils.struct.class")
 
 CQuestProperty = createClass({
     iExp,

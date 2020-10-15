@@ -11,8 +11,8 @@
 --]]
 
 require("router.structs.frontier.properties")
-require("utils.array")
-require("utils.class")
+require("utils.struct.array")
+require("utils.struct.class")
 
 CQuestFrontierNode = createClass({
     bList = false,

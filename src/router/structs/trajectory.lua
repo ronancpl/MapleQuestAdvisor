@@ -12,7 +12,7 @@
 
 require("structs.quest.properties")
 require("router.structs.path")
-require("utils.table")
+require("utils.struct.table")
 
 CGraphTree = createClass({CQuestPath, {
     tpActiveNeighbors = {},

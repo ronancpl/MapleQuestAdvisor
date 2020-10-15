@@ -10,7 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.struct.class")
-require("composer.containers.units.unit_table")
+function rpairs(tTable)   -- in reverse order
+    local rgpItems = {}
+    for i = #tTable, 1, -1 do
+        local pItem = tTable[i]
+        table.insert(rgpItems, pItem)
+    end
 
-CMobTable = createClass({CUnitTable, {}})
+    return ipairs(rgpItems)
+end

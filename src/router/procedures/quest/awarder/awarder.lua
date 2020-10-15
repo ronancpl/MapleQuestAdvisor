@@ -11,7 +11,7 @@
 --]]
 
 require("router.procedures.quest.awarder.property")
-require("utils.class")
+require("utils.struct.class")
 
 CQuestAwarder = createClass({
     sName = "_NIL",

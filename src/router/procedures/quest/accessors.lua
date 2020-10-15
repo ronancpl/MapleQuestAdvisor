@@ -15,7 +15,7 @@ require("router.procedures.quest.accessor.diff")
 require("router.procedures.quest.requirement.access")
 require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")
-require("utils.class")
+require("utils.struct.class")
 
 CQuestAccessors = createClass({
     tfn_strong_reqs = {},

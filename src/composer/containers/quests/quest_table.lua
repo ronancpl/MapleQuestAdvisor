@@ -11,9 +11,9 @@
 --]]
 
 require("router.filters.graph")
-require("utils.array")
-require("utils.constants")
-require("utils.class")
+require("utils.procedure.constants")
+require("utils.struct.array")
+require("utils.struct.class")
 
 CQuestTable = createClass({
     tpQuests = {}

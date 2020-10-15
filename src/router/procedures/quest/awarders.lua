@@ -15,7 +15,7 @@ require("router.procedures.quest.awarder.property")
 require("router.procedures.quest.awarder.update")
 require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")
-require("utils.class")
+require("utils.struct.class")
 
 CQuestAwarders = createClass({
     tfn_acts = {},

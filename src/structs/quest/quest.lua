@@ -11,7 +11,7 @@
 --]]
 
 require("structs.quest.properties")
-require("utils.class")
+require("utils.struct.class")
 
 CQuest = createClass({
     iQuestid = -1,

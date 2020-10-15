@@ -13,7 +13,7 @@
 require("router.procedures.player.quest")
 require("router.procedures.player.update")
 require("router.structs.path")
-require("utils.print")
+require("utils.procedure.print")
 
 local function is_route_quest_in_path(pQuestProp, pCurrentPath)
     return pCurrentPath:is_in_path(pQuestProp)

@@ -12,7 +12,7 @@
 
 require("structs.quest.attributes.property")
 require("structs.storage.inventory")
-require("utils.class")
+require("utils.struct.class")
 
 CQuestRequirement = createClass({CQuestProperty, {
     iNpcid,
