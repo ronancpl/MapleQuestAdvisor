@@ -170,14 +170,13 @@ function SArray:_find_first_from(fn_compare, iIdx, pToFind)
     local i = iIdx - 1
     while i > 0 do
         if fn_compare(m_apItems[i], pToFind) ~= 0 then
-            i = i + 1
             break
         end
 
         i = i - 1
     end
 
-    return i
+    return i + 1
 end
 
 function SArray:_find_last_from(fn_compare, iIdx, pToFind)
@@ -186,13 +185,13 @@ function SArray:_find_last_from(fn_compare, iIdx, pToFind)
     local i = iIdx
     while i <= #m_apItems do
         i = i + 1
+
         if fn_compare(m_apItems[i], pToFind) ~= 0 then
-            i = i - 1
             break
         end
     end
 
-    return i
+    return i - 1
 end
 
 function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
@@ -203,7 +202,7 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     local en = napItems
 
     if napItems > 0 then
-        while st < en do
+        while st <= en do
             local m = math.ceil((st + en) / 2)
 
             local pMid = m_apItems[m]

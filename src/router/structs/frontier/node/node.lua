@@ -63,12 +63,11 @@ function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
 end
 
 function CQuestFrontierNode:find(pQuestProp)
-    local m_pItems = self.pItems
-
     local fn_select = function(pOtherProp)
         return pQuestProp:compare(pOtherProp:get_property()) == 0
     end
 
+    local m_pItems = self.pItems
     local iIdx = m_pItems:index_of(fn_select, false)
     return iIdx
 end
@@ -81,6 +80,7 @@ end
 function CQuestFrontierNode:remove(pQuestProp)
     local iRmvIdx = self:find(pQuestProp)
     if iRmvIdx > 0 then
+        local m_pItems = self.pItems
         m_pItems:remove(iRmvIdx, iRmvIdx)
     end
 end

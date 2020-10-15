@@ -97,7 +97,7 @@ function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
 
         for _, pAcc in pairs(rgpAccs) do
             local pNode = m_tpPropTypeQuests[pAcc]
-            if not pNode:contains(pCurQuestProp) do     -- meaning this requisite has not been met by player
+            if not pNode:contains(pCurQuestProp) then     -- meaning this requisite has not been met by player
                 return false
             end
         end
@@ -124,7 +124,7 @@ function CQuestFrontierRange:fetch()
         local pCurQuestProp = m_rgpQuestStack[nCurQuests]
 
         local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pCurQuestProp, nil)
-        if self:_should_fetch_quest(pCurQuestProp, rgpAccs) do
+        if self:_should_fetch_quest(pCurQuestProp, rgpAccs) then
             self:_fetch_from_nodes(pCurQuestProp, rgpAccs)
             pQuestProp = pCurQuestProp
         end
