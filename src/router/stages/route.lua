@@ -55,11 +55,21 @@ local function route_quest_suppress_complete(tpPoolProps, pQuestProp, pPlayerSta
 
 end
 
+local function is_quest_attainable(ctAccessors, pQuestProp, pPlayerState)
+    return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
+end
+
 local function route_quest_attend_update(pQuestTree, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, pFrontierQuests)
     route_quest_permit_complete(tpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
     pCurrentPath:add(pQuestProp)
 
-    local rgpNeighbors = fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
+    local rgpNeighbors
+    if is_quest_attainable(ctAccessors, pQuestProp, pPlayerState) then
+        rgpNeighbors = fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
+    else
+        rgpNeighbors = {}
+    end
+
     pQuestTree:push_node(pQuestProp, rgpNeighbors)
 
     progress_player_state(ctAwarders, pQuestProp, pPlayerState)
@@ -91,6 +101,7 @@ end
 
 local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
     local pQuestTree = CGraphTree:new()
+    pQuestTree:install_entries(tpPoolProps:list())
 
     while true do
         local pQuestProp = pFrontierQuests:fetch()

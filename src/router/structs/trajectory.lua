@@ -10,72 +10,33 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.quest.properties")
 require("router.structs.path")
+require("router.structs.stack.deck")
 require("utils.struct.table")
 
 CGraphTree = createClass({CQuestPath, {
-    tpActiveNeighbors = {},
-    tpActiveFroms = {}
+    pDeck = CGraphDeckQuest:new()
 }})
 
-function CGraphTree:_push_from(pQuestProp, rgpNeighbors)
-    local m_tpActiveFroms = self.tpActiveFroms
-
-    for _, pNeighborProp in ipairs(rgpNeighbors) do
-        local pNeighborFroms = m_tpActiveFroms[pNeighborProp]
-        if pNeighborFroms == nil then
-            pNeighborFroms = {}
-            m_tpActiveFroms[pNeighborProp] = pNeighborFroms
-        end
-
-        table.insert(pNeighborFroms, pQuestProp)
-    end
-end
-
-function CGraphTree:_push_neighbors(pQuestProp, rgpNeighbors)
-    local rgpNeighborsCopy = SArray:new()
-    rgpNeighborsCopy:add_all(rgpNeighbors)
-    self.tpActiveNeighbors[pQuestProp] = rgpNeighborsCopy
+function CGraphTree:install_entries(rgpQuestProps)
+    local m_pDeck = self.pDeck
+    m_pDeck:init(rgpQuestProps)
 end
 
 function CGraphTree:push_node(pQuestProp, rgpNeighbors)
     self:add(pQuestProp)
 
-    self:_push_neighbors(pQuestProp, rgpNeighbors)
-    self:_push_from(pQuestProp, rgpNeighbors)
-end
-
-function CGraphTree:_is_empty_active_neighbors(pQuestProp)
-    local rgpNeighbors = self.tpActiveNeighbors[pQuestProp]
-    return rgpNeighbors:size() == 0
-end
-
-function CGraphTree:_pop_from(pQuestProp)
-    local rgpFroms = self.tpActiveFroms[pQuestProp]
-    if rgpFroms ~= nil then
-        self.tpActiveFroms[pQuestProp] = nil
-
-        for _, pFromProp in ipairs(rgpFroms) do
-            local rgFromActiveNeighbors = self.tpActiveNeighbors[pFromProp]
-
-            local fn_compare_active_neighbor = CQuestProperties.compare
-            local iIdx = rgFromActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
-            if iIdx > 0 then
-                rgFromActiveNeighbors:remove(iIdx, iIdx)
-            end
-        end
-    end
+    local m_pDeck = self.pDeck
+    m_pDeck:push_node(pQuestProp, rgpNeighbors)
 end
 
 function CGraphTree:try_pop_node()
     local m_rgpPath = self.rgpPath
     local pQuestProp = m_rgpPath:get_last()
 
-    if self:_is_empty_active_neighbors(pQuestProp) then
+    local m_pDeck = self.pDeck
+    if m_pDeck:try_pop_node(pQuestProp) then
         m_rgpPath:remove_last()
-        self:_pop_from(pQuestProp)
-
         return pQuestProp
     else
         return nil
