@@ -11,8 +11,8 @@
 --]]
 
 require("router.structs.stack.stage")
-require("utils.class")
-require("utils.mapstack")
+require("utils.struct.class")
+require("utils.struct.mapstack")
 
 CGraphDeckQuest = createClass({
     tpQuestStages = SMapStack:new(),
@@ -26,9 +26,12 @@ function CGraphDeckQuest:init(rgpQuestProps)
     local m_tpPendingFroms = self.tpPendingFroms
     m_tpPendingFroms:init(rgpQuestProps)
 
-    for _, pQuestProp in ipairs(rgpQuestProps) do   -- this hubs non-charted props
+    for _, pQuestProp in ipairs(rgpQuestProps) do       -- this hubs stack for to-be-charted props
         m_tpPendingFroms:push(pQuestProp, {})
     end
+
+    local pElementarStage = CGraphStageQuest:new()      -- for quests at base stage, points to token from
+    self:_post_froms(pElementarStage, rgpQuestProps)
 end
 
 function CGraphDeckQuest:get_quest_stage(pQuestProp)
@@ -55,10 +58,10 @@ end
 function CGraphDeckQuest:_announce_froms(pQuestProp, pQuestStage)
     local m_tpPendingFroms = self.tpPendingFroms
 
-    local rgpStagePendingFroms = m_tpPendingFroms:pop(pQuestProp)
-    for _, pFromStage in ipairs(rgpStagePendingFroms) do
-        pFromStage:set_stage_from(pQuestStage)
-    end
+    local rgpStagePendingFroms = m_tpPendingFroms:get_top(pQuestProp)
+    local pFromStage = table.remove(rgpStagePendingFroms)
+
+    pQuestStage:set_stage_from(pFromStage)
 end
 
 function CGraphDeckQuest:_post_froms(pQuestStage, rgpNeighborProps)
@@ -74,10 +77,10 @@ function CGraphDeckQuest:push_node(pQuestProp, rgpNeighborProps)
     local pQuestStage = CGraphStageQuest:new()
     pQuestStage:push_stage(pQuestProp, rgpNeighborProps)
 
-    self:_append_quest_stage(pQuestProp, pQuestStage)
-
-    self:_post_froms(pQuestStage, rgpNeighborProps)
     self:_announce_froms(pQuestProp, pQuestStage)
+    self:_post_froms(pQuestStage, rgpNeighborProps)
+
+    self:_append_quest_stage(pQuestProp, pQuestStage)
 end
 
 function CGraphDeckQuest:try_pop_node(pQuestProp)

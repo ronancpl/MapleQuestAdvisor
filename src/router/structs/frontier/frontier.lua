@@ -52,9 +52,29 @@ function CQuestFrontier:update(pPlayerState)
     self:_update_range(pPlayerState, m_pRangeHold, m_pRangeSelect, false)
 end
 
+function CQuestFrontier:peek()
+    local m_pRange = self.pSelect
+    local pQuestProp = m_pRange:peek()
+
+    return pQuestProp
+end
+
 function CQuestFrontier:fetch()
     local m_pRange = self.pSelect
     local pQuestProp = m_pRange:fetch()
 
     return pQuestProp
+end
+
+function CQuestFrontier:count()
+    local m_pRangeCount = self.pSelect:count()
+    local m_pHoldCount = self.pHold:count()
+
+    local ret = {}
+    for i = 1, #m_pRangeCount, 1 do
+        local iCount = m_pRangeCount[i] + m_pHoldCount[i]
+        table.insert(ret, iCount)
+    end
+
+    return ret
 end

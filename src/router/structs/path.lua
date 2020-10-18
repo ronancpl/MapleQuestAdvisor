@@ -17,7 +17,11 @@ CQuestPath = createClass({
     tpPathSet = {},
     tsPathSet = {},
     tpPathCount = {},
-    iPathValue = 0.0
+    iPathValue = 0.0,
+
+    pPathTree = {},
+    pPathNow = {},
+    pPathStack = {}
 })
 
 function CQuestPath:_fetch_identifier(iQuestid, bStart)
@@ -37,6 +41,9 @@ function CQuestPath:add(pQuestProp)
 
     self.rgpPath:add(pQuestProp)
     self.tpPathCount[pQuestProp] = iPathCount + 1
+    self.pPathNow[pQuestProp] = {}
+    table.insert(self.pPathStack, self.pPathNow)
+    self.pPathNow = self.pPathNow[pQuestProp]
 end
 
 function CQuestPath:remove(pQuestProp)
@@ -62,6 +69,8 @@ function CQuestPath:remove(pQuestProp)
         m_rgpPath:remove(iIdx, iIdx)
 
         bRet = true
+
+        self.pPathNow = table.remove(self.pPathStack)
     end
 
     return bRet
@@ -70,7 +79,7 @@ end
 function CQuestPath:remove_by_quest_state(iQuestid, bStart)
     local sQuestState = self:_fetch_identifier(iQuestid, bStart)
 
-    local pQuestProp = tsPathSet[sQuestState]
+    local pQuestProp = self.tsPathSet[sQuestState]
     if pQuestProp ~= nil then
         return self:remove(pQuestProp)
     end

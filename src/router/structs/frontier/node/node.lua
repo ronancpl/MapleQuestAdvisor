@@ -77,6 +77,11 @@ function CQuestFrontierNode:contains(pQuestProp)
     return iRmvIdx > 0
 end
 
+function CQuestFrontierNode:count()
+    local m_pItems = self.pItems
+    return m_pItems:size()
+end
+
 function CQuestFrontierNode:remove(pQuestProp)
     local iRmvIdx = self:find(pQuestProp)
     if iRmvIdx > 0 then

@@ -11,8 +11,9 @@
 --]]
 
 require("structs.quest.properties")
-require("utils.array")
-require("utils.class")
+require("utils.procedure.iterate")
+require("utils.struct.array")
+require("utils.struct.class")
 
 CGraphStageQuest = createClass({
     pQuestProp,
@@ -22,7 +23,9 @@ CGraphStageQuest = createClass({
 
 function CGraphStageQuest:_push_neighbors(rgpNeighbors)
     local m_rgpNeighbors = self.rgpActiveNeighbors
-    m_rgpNeighbors:add_all(rgpNeighbors)
+    for _, pNeighborProp in rpairs(rgpNeighbors) do
+        m_rgpNeighbors:add(pNeighborProp)
+    end
 end
 
 function CGraphStageQuest:push_stage(pQuestProp, rgpNeighbors)
@@ -35,6 +38,7 @@ function CGraphStageQuest:set_stage_from(pStageFrom)
 end
 
 function CGraphStageQuest:remove_neighbor(pQuestProp)
+    local m_rgpActiveNeighbors = self.rgpActiveNeighbors
     local fn_compare_active_neighbor = CQuestProperties.compare
     local iIdx = m_rgpActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
     if iIdx > 0 then
@@ -51,7 +55,7 @@ function CGraphStageQuest:_pop_from()
     local m_pStageFrom = self.pStageFrom
     local m_pQuestProp = self.pQuestProp
 
-    pStageFrom:remove_neighbor(m_pQuestProp)
+    m_pStageFrom:remove_neighbor(m_pQuestProp)
 end
 
 function CGraphStageQuest:try_pop_stage()

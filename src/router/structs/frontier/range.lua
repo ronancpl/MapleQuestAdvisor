@@ -106,6 +106,21 @@ function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
     return true
 end
 
+function CQuestFrontierRange:peek()
+    local m_rgpQuestStack = self.rgpQuestStack
+    local pCurQuestProp = m_rgpQuestStack[#m_rgpQuestStack]
+
+    local pQuestProp = nil
+    if pCurQuestProp ~= nil then
+        local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pCurQuestProp, nil)
+        if self:_should_fetch_quest(pCurQuestProp, rgpAccs) then
+            pQuestProp = pCurQuestProp
+        end
+    end
+
+    return pQuestProp
+end
+
 function CQuestFrontierRange:_fetch_from_nodes(pCurQuestProp, rgpAccs)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
@@ -117,18 +132,23 @@ end
 
 function CQuestFrontierRange:fetch()
     local m_rgpQuestStack = self.rgpQuestStack
-    local nCurQuests = #m_rgpQuestStack
 
-    local pQuestProp = nil
-    if nCurQuests > 0 then
-        local pCurQuestProp = m_rgpQuestStack[nCurQuests]
+    local pQuestProp = table.remove(m_rgpQuestStack)
 
-        local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pCurQuestProp, nil)
-        if self:_should_fetch_quest(pCurQuestProp, rgpAccs) then
-            self:_fetch_from_nodes(pCurQuestProp, rgpAccs)
-            pQuestProp = pCurQuestProp
-        end
-    end
+    local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp, nil)
+    self:_fetch_from_nodes(pQuestProp, rgpAccs)
 
     return pQuestProp
+end
+
+function CQuestFrontierRange:count()
+    local m_tpPropTypeQuests = self.tpPropTypeQuests
+
+    local ret = {}
+    for pAcc, m_pNode in pairs(m_tpPropTypeQuests) do
+        local iCount = m_pNode:count()
+        table.insert(ret, iCount)
+    end
+
+    return ret
 end
