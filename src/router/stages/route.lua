@@ -15,6 +15,7 @@ require("router.procedures.player.update")
 require("router.structs.path")
 require("router.structs.trajectory")
 require("router.structs.frontier.frontier")
+require("router.structs.recall.milestone")
 require("structs.player")
 require("structs.quest.properties")
 require("utils.struct.array")
@@ -60,12 +61,15 @@ local function is_quest_attainable(ctAccessors, pQuestProp, pPlayerState)
     return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end
 
-local function route_quest_attend_update(pQuestTree, pFrontierQuests, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
+local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
     route_quest_permit_complete(tpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
     pCurrentPath:add(pQuestProp)
 
     local rgpNeighbors = fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
 
+    local pNeighborsMilestone = pQuestMilestone:get_subpath(rgpNeighbors)
+    if pNeighborsMilestone ~= nil then  -- already found result for this subset of neighbors
+        rgpNeighbors = {}
     end
 
     pQuestTree:push_node(pQuestProp, rgpNeighbors)
@@ -77,7 +81,7 @@ local function route_quest_attend_update(pQuestTree, pFrontierQuests, tpPoolProp
     end
 end
 
-local function route_quest_dismiss_update(pQuestTree, pFrontierQuests, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
+local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
     local rgpBcktQuests = {}
 
     while not pQuestTree:is_empty() do
@@ -91,6 +95,8 @@ local function route_quest_dismiss_update(pQuestTree, pFrontierQuests, tpPoolPro
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
             rollback_player_state(ctAwarders, pQuestProp, pPlayerState)
             table.insert(rgpBcktQuests, pQuestProp)
+
+            pQuestMilestone:add_subpath(rgpBcktQuests)
         end
     end
 
@@ -103,15 +109,17 @@ local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, p
     local pQuestTree = CGraphTree:new()
     pQuestTree:install_entries(tpPoolProps:list())
 
+    local pQuestMilestone = CGraphMilestone:new()
+
     while true do
         local pQuestProp = pFrontierQuests:peek()
         if pQuestProp == nil then
             break
         end
 
-        route_quest_attend_update(pQuestTree, pFrontierQuests, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
+        route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
 
-        route_quest_dismiss_update(pQuestTree, pFrontierQuests, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
+        route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
 
         pFrontierQuests:update(pPlayerState)
     end
