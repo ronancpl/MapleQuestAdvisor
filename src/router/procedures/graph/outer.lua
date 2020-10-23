@@ -19,7 +19,7 @@ local function is_route_quest_in_path(pQuestProp, pCurrentPath)
     return pCurrentPath:is_in_path(pQuestProp)
 end
 
-local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
+local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState)
     if is_quest_state_achieved(pPlayerState, pQuestProp) then
         return false
     end
@@ -31,15 +31,15 @@ local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAcces
     return true
 end
 
-function is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
-    return is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
+function is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState)
+    return is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState)
 end
 
-function fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
+function fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState)
     local rgpNeighbors = {}
 
     for _, pQuestProp in pairs(tpPoolProps:list()) do
-        if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
+        if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState) then
             table.insert(rgpNeighbors, pQuestProp)
         end
     end

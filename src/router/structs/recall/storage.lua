@@ -11,7 +11,7 @@
 --]]
 
 require("utils.struct.class")
-SSet = require("pl.class").Set
+local SSet = require("pl.class").Set
 
 CGraphMilestoneStorage = createClass({
     tStorage = {}
@@ -30,7 +30,7 @@ function CGraphMilestoneStorage:_insert(pInsNode, iIdx, rgpSearch, pSearchSet)
         local pNeighbor = rgpSearch[i]
 
         local pNode = {}
-        pCurNode[pNeighbor:get_quest_id()] = pNode
+        pCurNode[pNeighbor] = pNode
 
         pCurNode = pNode
     end
@@ -48,16 +48,12 @@ function CGraphMilestoneStorage:get(rgpNeighbors)
     if #rgpNeighbors > 0 then
         local pCurNode = nil
 
-        local apSearch = SArray:new()
-        apSearch:add_all(rgpNeighbors)
-        apSearch:sort(fn_storage_sort)
+        local rgpSearch = rgpNeighbors
+        local pSearchSet = make_subpath_set(rgpNeighbors)
 
-        local rgpSearch = apSearch:list()
-        for iIdx, pNeighbor in ipairs(rgpSearch) do
-            pCurNode = pParentNode[pNeighbor:get_quest_id()]
+        for iIdx, pNeighbor in ipairs(rgpNeighbors) do
+            pCurNode = pParentNode[pNeighbor]
             if pCurNode == nil then
-                local pSearchSet = make_subpath_set(rgpNeighbors)
-
                 pCurNode = self:_insert(pParentNode, iIdx, rgpSearch, pSearchSet)
                 break
             end

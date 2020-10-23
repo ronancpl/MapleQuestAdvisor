@@ -61,11 +61,14 @@ local function is_quest_attainable(ctAccessors, pQuestProp, pPlayerState)
     return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end
 
-local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
+local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
     route_quest_permit_complete(tpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
-    pCurrentPath:add(pQuestProp)
 
-    local rgpNeighbors = fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
+    pCurrentPath:add(pQuestProp)
+    progress_player_state(ctAwarders, pQuestProp, pPlayerState)
+
+    local rgpPoolProps = pFrontierArranger:update_visit(ctAccessors, pPlayerState, pQuestProp)
+    local rgpNeighbors = fetch_neighbors(rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors)
 
     local pNeighborsMilestone = pQuestMilestone:get_subpath(rgpNeighbors)
     if pNeighborsMilestone ~= nil then  -- already found result for this subset of neighbors
@@ -74,14 +77,12 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
 
     pQuestTree:push_node(pQuestProp, rgpNeighbors)
 
-    progress_player_state(ctAwarders, pQuestProp, pPlayerState)
-
     for _, pNeighborProp in ipairs(rgpNeighbors) do
         pFrontierQuests:add(pNeighborProp, pPlayerState, ctAccessors)
     end
 end
 
-local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
+local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, tpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
     local rgpBcktQuests = {}
 
     while not pQuestTree:is_empty() do
@@ -94,6 +95,7 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
 
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
             rollback_player_state(ctAwarders, pQuestProp, pPlayerState)
+            pFrontierArranger:rollback_visit(ctAccessors, pQuestProp)
             table.insert(rgpBcktQuests, pQuestProp)
 
             pQuestMilestone:add_subpath(rgpBcktQuests)
@@ -105,7 +107,7 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
     end
 end
 
-local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
+local function route_internal_node(tpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
     local pQuestTree = CGraphTree:new()
     pQuestTree:install_entries(tpPoolProps:list())
 
@@ -117,9 +119,9 @@ local function route_internal_node(tpPoolProps, pFrontierQuests, pPlayerState, p
             break
         end
 
-        route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
+        route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, tpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
 
-        route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, tpPoolProps, pCurrentPath, pPlayerState, ctAwarders)
+        route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, tpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
 
         pFrontierQuests:update(pPlayerState)
     end
@@ -136,8 +138,10 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
 
         pFrontierQuests:add(pQuestProp, pPlayerState, ctAccessors)
 
+        local pFrontierArranger = CNeighborArranger:init()
+
         local tpPool = make_available_neighbors_list(tQuests)
-        route_internal_node(tpPool, pFrontierQuests, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
+        route_internal_node(tpPool, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
     end
 end
 

@@ -257,7 +257,7 @@ function SArray:index_of(fn_select, bFromStart)
     return -1
 end
 
-function SArray:slice(iFromIdx, iToIdx)
+function SArray:slice(iFromIdx, iToIdx)     -- creates a sub-list
     local rgpNew = SArray:new()
 
     local m_apItems = self.apItems
