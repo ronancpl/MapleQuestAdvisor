@@ -134,13 +134,11 @@ function fetch_property_get_methods(CPropertyType)
     local rgGets = {"get_", "is_", "has_"}
     local rgfn_get = {}
 
-    for sName, pMember in pairs(pReq) do
-        if type(pMember) == "function" then
-            for _, sGetMatch in ipairs(rgGets) do
-                if string.starts_with(sName, sGetMatch) then
-                    table.insert(rgfn_get, pMember)
-                    break
-                end
+    for sName, pMember in pairs(getClassMethods(pReq)) do
+        for _, sGetMatch in ipairs(rgGets) do
+            if string.starts_with(sName, sGetMatch) then
+                table.insert(rgfn_get, pMember)
+                break
             end
         end
     end

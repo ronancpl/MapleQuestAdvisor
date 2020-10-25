@@ -115,3 +115,29 @@ function createClass (...)
     -- return new class
     return c
 end
+
+local function getMetatableMethods(o, m)
+    for sName, pMember in pairs(o) do
+        if type(pMember) == "function" then
+            m[sName] = pMember
+        end
+    end
+end
+
+function getClassMethods(o)
+    local m = o.classMethods
+    if not m then
+        m = {}
+        getMetatableMethods(getmetatable(o), m)
+        getMetatableMethods(o, m)
+
+        o.classMethods = m
+    end
+
+    return m
+end
+
+function reloadClassMethods(o)
+    o.classMethods = nil
+    getClassMethods(o)
+end
