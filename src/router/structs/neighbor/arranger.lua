@@ -22,7 +22,7 @@ CNeighborArranger = createClass({
     pQuestPool = CNeighborPool:new()
 })
 
-function CNeighborArranger:init()
+function CNeighborArranger:init(ctAccessors, rgpPoolProps)
     local rgpAccInvts
     local rgpAccUnits
 
@@ -36,6 +36,9 @@ function CNeighborArranger:init()
     for _, pAcc in ipairs(rgpAccUnits) do
         m_tpUpdatedUnitAccs[pAcc] = 1
     end
+
+    local m_pQuestPool = self.pQuestPool
+    m_pQuestPool:init(ctAccessors, rgpPoolProps)
 end
 
 function CNeighborArranger:_fetch_visit_updated_requirements()
@@ -62,8 +65,8 @@ function CNeighborArranger:update_visit(ctAccessors, pPlayerState, pExploredQues
     local rgpUpdatedUnitAccs
     rgpUpdatedInvtAccs, rgpUpdatedUnitAccs = self:_fetch_visit_updated_requirements()
 
-    local pUpdatedInvtAccsSet = SSet{ctAccessors:get_accessors_by_active_requirements(pQuestProp, true)} + SSet{unpack(rgpUpdatedInvtAccs)}
-    local pUpdatedUnitAccsSet = SSet{ctAccessors:get_accessors_by_active_requirements(pQuestProp, false)} + SSet{unpack(rgpUpdatedUnitAccs)}
+    local pUpdatedInvtAccsSet = SSet{ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, true)} + SSet{unpack(rgpUpdatedInvtAccs)}
+    local pUpdatedUnitAccsSet = SSet{ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, false)} + SSet{unpack(rgpUpdatedUnitAccs)}
 
     local rgpInvtAccs = pUpdatedInvtAccsSet:values()
     local rgpUnitAccs = pUpdatedUnitAccsSet:values()

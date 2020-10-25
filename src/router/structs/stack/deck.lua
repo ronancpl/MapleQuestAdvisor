@@ -19,19 +19,19 @@ CGraphDeckQuest = createClass({
     tpPendingFroms = SMapStack:new()
 })
 
-function CGraphDeckQuest:init(rgpQuestProps)
+function CGraphDeckQuest:init(rgpPoolProps)
     local m_tpQuestStages = self.tpQuestStages
-    m_tpQuestStages:init(rgpQuestProps)
+    m_tpQuestStages:init(rgpPoolProps)
 
     local m_tpPendingFroms = self.tpPendingFroms
-    m_tpPendingFroms:init(rgpQuestProps)
+    m_tpPendingFroms:init(rgpPoolProps)
 
-    for _, pQuestProp in ipairs(rgpQuestProps) do       -- this hubs stack for to-be-charted props
+    for _, pQuestProp in ipairs(rgpPoolProps) do       -- this hubs stack for to-be-charted props
         m_tpPendingFroms:push(pQuestProp, {})
     end
 
     local pElementarStage = CGraphStageQuest:new()      -- for quests at base stage, points to token from
-    self:_post_froms(pElementarStage, rgpQuestProps)
+    self:_post_froms(pElementarStage, rgpPoolProps)
 end
 
 function CGraphDeckQuest:get_quest_stage(pQuestProp)

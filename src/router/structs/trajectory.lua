@@ -18,9 +18,9 @@ CGraphTree = createClass({CQuestPath, {
     pDeck = CGraphDeckQuest:new()
 }})
 
-function CGraphTree:install_entries(rgpQuestProps)
+function CGraphTree:install_entries(rgpPoolProps)
     local m_pDeck = self.pDeck
-    m_pDeck:init(rgpQuestProps)
+    m_pDeck:init(rgpPoolProps)
 end
 
 function CGraphTree:push_node(pQuestProp, rgpNeighbors)

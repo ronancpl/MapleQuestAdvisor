@@ -35,10 +35,10 @@ function is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState)
     return is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState)
 end
 
-function fetch_neighbors(tpPoolProps, pCurrentPath, pPlayerState)
+function fetch_neighbors(rgpPoolProps, pCurrentPath, pPlayerState)
     local rgpNeighbors = {}
 
-    for _, pQuestProp in pairs(tpPoolProps:list()) do
+    for _, pQuestProp in pairs(rgpPoolProps:list()) do
         if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState) then
             table.insert(rgpNeighbors, pQuestProp)
         end

@@ -25,24 +25,24 @@ function CNeighborPool:_init_table(ctAccessors)
     local rgpAccUnits
 
     rgpAccInvts, rgpAccUnits = ctAccessors:get_accessor_range_keys()
-    local m_tQuestNeighbors = self.tAccQuests
+    local m_tAccQuests = self.tAccQuests
 
     for _, pAcc in ipairs(rgpAccInvts) do
-        m_tQuestNeighbors[pAcc] = SArray:new()
+        m_tAccQuests[pAcc] = SArray:new()
     end
 
     for _, pAcc in ipairs(rgpAccUnits) do
-        m_tQuestNeighbors[pAcc] = SArray:new()
+        m_tAccQuests[pAcc] = SArray:new()
     end
 end
 
-function CNeighborPool:_init_quests(tpPoolQuests, ctAccessors)   -- should contain END props as well
-    local m_tQuestNeighbors = self.tAccQuests
+function CNeighborPool:_init_quests(rgpPoolProps, ctAccessors)
+    local m_tAccQuests = self.tAccQuests
     local m_rgpAllQuests = self.rgpAllQuests
-    for _, pQuestProp in ipairs(tpPoolQuests) do
+    for _, pQuestProp in ipairs(rgpPoolProps:list()) do
         local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp)
         for _, pAcc in ipairs(rgpAccs) do
-            m_tQuestNeighbors[pAcc]:add(pQuestProp)
+            m_tAccQuests[pAcc]:add(pQuestProp)
         end
 
         table.insert(m_rgpAllQuests, pQuestProp)
@@ -50,26 +50,30 @@ function CNeighborPool:_init_quests(tpPoolQuests, ctAccessors)   -- should conta
 end
 
 local function fn_compare_invt(pAcc)
+    local fn_get_property = pAcc:get_fn_property()
     return function(a, b)
-        return #(pAcc:fn_get_property(b)) - #(pAcc:fn_get_property(a))
+        return #(fn_get_property(a)) < #(fn_get_property(b))
     end
 end
 
 local function fn_compare_unit(pAcc)
+    local fn_get_property = pAcc:get_fn_property()
     return function(a, b)
-        return pAcc:fn_get_property(b) - pAcc:fn_get_property(a)
+        return fn_get_property(a) < fn_get_property(b)
     end
 end
 
 local function fn_compare_player_invt(pAcc, iSeized)
+    local fn_get_property = pAcc:get_fn_property()
     return function(a)
         return iSeized - #(pAcc:fn_get_property(a))
     end
 end
 
 local function fn_compare_player_unit(pAcc, iSeized)
+    local fn_get_property = pAcc:get_fn_property()
     return function(a)
-        return iSeized - pAcc:fn_get_property(a)
+        return iSeized - fn_get_property(a)
     end
 end
 
@@ -79,17 +83,17 @@ function CNeighborPool:_sort_tables(ctAccessors)
 
     rgpAccInvts, rgpAccUnits = ctAccessors:get_accessor_range_keys()
     for _, pAcc in ipairs(rgpAccInvts) do
-        self.tQuestNeighbors[pAcc]:sort(fn_compare_invt(pAcc))
+        self.tAccQuests[pAcc]:sort(fn_compare_invt(pAcc))
     end
 
     for _, pAcc in ipairs(rgpAccUnits) do
-        self.tQuestNeighbors[pAcc]:sort(fn_compare_unit(pAcc))
+        self.tAccQuests[pAcc]:sort(fn_compare_unit(pAcc))
     end
 end
 
-function CNeighborPool:init(ctAccessors, tpPoolQuests)
+function CNeighborPool:init(ctAccessors, rgpPoolProps)
     self:_init_table(ctAccessors)
-    self:_init_quests(tpPoolQuests, ctAccessors)
+    self:_init_quests(rgpPoolProps, ctAccessors)
     self:_sort_tables(ctAccessors)
 end
 
@@ -105,7 +109,7 @@ end
 function CNeighborPool:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_prop, bInvt, pPlayerState)
     local rgpNeighbors = {}
 
-    local fn_player_property = pAcc:fn_get_player_property()
+    local fn_player_property = pAcc:get_fn_player_property()
 
     local pCurProp = fn_player_property(pPlayerState)
     local iCurProp = bInvt and #pCurProp or pCurProp
@@ -113,8 +117,8 @@ function CNeighborPool:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_play
     local m_pLastPlayerProps = self.pLastPlayerProps
     local iLastProp = m_pLastPlayerProps[pAcc]
 
-    local m_tQuestNeighbors = self.tAccQuests
-    local rgPool = m_tQuestNeighbors[pAcc]
+    local m_tAccQuests = self.tAccQuests
+    local rgPool = m_tAccQuests[pAcc]
 
     local iStateIdx = rgPool:bsearch(fn_compare_player_prop(pAcc, iCurProp), pCurProp)
     local iLastIdx = rgPool:bsearch(fn_compare_player_prop(pAcc, iLastProp), pLastProp)
@@ -134,14 +138,14 @@ function CNeighborPool:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_play
 end
 
 function CNeighborPool:fetch_remaining_neighbors(tpCurrentQuests, pPlayerState, rgpInvtAccs, rgpUnitAccs)
-    local pSet = SSet{unpack(tpCurrentQuests:list())}
+    local pSet = SSet{unpack(tpCurrentQuests:values())} -- todo set from set
 
     for _, pAcc in ipairs(rgpInvtAccs) do
-        pSet = SSet.intersection(pSet, self:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_invt, pPlayerState))
+        pSet = SSet.intersection(pSet, self:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_invt, true, pPlayerState))
     end
 
     for _, pAcc in ipairs(rgpUnitAccs) do
-        pSet = SSet.intersection(pSet, self:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_unit, pPlayerState))
+        pSet = SSet.intersection(pSet, self:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_unit, false, pPlayerState))
     end
 
     return pSet
@@ -152,11 +156,11 @@ function CNeighborPool:fetch_additional_neighbors(pPlayerState, rgpInvtAccs, rgp
     local pSet = SSet{unpack(m_rgpAllQuests)}
 
     for _, pAcc in ipairs(rgpInvtAccs) do
-        pSet = SSet.intersection(pSet, self:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_invt, pPlayerState))
+        pSet = SSet.intersection(pSet, self:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_invt, true, pPlayerState))
     end
 
     for _, pAcc in ipairs(rgpUnitAccs) do
-        pSet = SSet.intersection(pSet, self:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_unit, pPlayerState))
+        pSet = SSet.intersection(pSet, self:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_unit, false, pPlayerState))
     end
 
     return pSet

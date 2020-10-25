@@ -23,7 +23,8 @@ CPlayer = createClass({
     siFame = 0,
     ivtItems = CInventory:new(),
     ivtSkills = CInventory:new(),
-    ivtQuests = CInventory:new()
+    ivtQuests = CInventory:new(),
+    ivtMobs = CInventory:new()
 })
 
 function CPlayer:get_job()
@@ -101,4 +102,8 @@ end
 
 function CPlayer:get_quests()
     return self.ivtQuests
+end
+
+function CPlayer:get_mobs()
+    return self.ivtMobs
 end
