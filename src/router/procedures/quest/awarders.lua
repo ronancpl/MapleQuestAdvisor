@@ -55,8 +55,14 @@ function CQuestAwarders:get_accessors_by_active_awards(pQuestProp, bInvt)
     return rgpAccs
 end
 
-function CQuestAwarders:_add_award_accessor(tfn_acts, sAccName, fn_get_quest_property, fn_player_quest_rollback, fn_award_player_state_property)
-    local pAwd = CQuestAwarder:new({sName = sAccName, fn_quest_property = fn_get_quest_property, fn_quest_rollback = fn_player_quest_rollback, fn_award_property = fn_award_player_state_property})
+local function fn_get_awd_property(fn_quest_reward)
+    return function(pQuestProp)
+        return fn_quest_reward(pQuestProp:get_action())
+    end
+end
+
+function CQuestAwarders:_add_award_accessor(tfn_acts, sAccName, fn_quest_reward, fn_player_quest_rollback, fn_award_player_state_property)
+    local pAwd = CQuestAwarder:new({sName = sAccName, fn_quest_property = fn_get_awd_property(fn_quest_reward), fn_quest_rollback = fn_player_quest_rollback, fn_award_property = fn_award_player_state_property})
 
     table.insert(tfn_acts, pAwd)
     self.tsAllActs[fn_award_player_state_property] = pAwd

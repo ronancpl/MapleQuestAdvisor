@@ -10,25 +10,25 @@
     provide an express grant of patent rights.
 --]]
 
-local function award_player(ctAwarders, fn_award_key, pQuestProps, pPlayerState)
+local function award_player(ctAwarders, fn_award_key, pQuestProp, pPlayerState)
     local pAwd = ctAwarders:get_awarder_by_fn_award(fn_award_key)
     if pAwd ~= nil then
         local fn_get = pAwd:get_fn_quest_property()
         local fn_award = pAwd:get_fn_award_property()
 
-        local rgpGet = fn_get(pQuestProps)
+        local rgpGet = fn_get(pQuestProp)
         fn_award(pPlayerState, rgpGet, false)
     end
 end
 
-local function undo_award_player(ctAwarders, fn_award_key, pQuestProps, pPlayerState)
+local function undo_award_player(ctAwarders, fn_award_key, pQuestProp, pPlayerState)
     local pAwd = ctAwarders:get_awarder_by_fn_award(fn_award_key)
     if pAwd ~= nil then
         local fn_get = pAwd:get_fn_quest_property()
         local fn_pnot = pAwd:get_fn_quest_rollback()
         local fn_award = pAwd:get_fn_award_property()
 
-        local rgpGet = fn_get(pQuestProps)
+        local rgpGet = fn_get(pQuestProp)
         rgpGet = fn_pnot(rgpGet)
         fn_award(pPlayerState, rgpGet, true)
     end

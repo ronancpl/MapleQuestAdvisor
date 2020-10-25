@@ -105,12 +105,18 @@ function CQuestAccessors:get_accessors_by_active_requirements(pQuestProp, bInvt)
     return rgpAccs
 end
 
-function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_get_acc_property, fn_get_player_state_property, fn_diff_pending_type)
+local function fn_get_acc_property(fn_quest_property)
+    return function(pQuestProp)
+        return fn_quest_property(pQuestProp:get_requirement())
+    end
+end
+
+function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_quest_property, fn_get_player_state_property, fn_diff_pending_type)
     local fn_diff_acc_pending = function(pQuestAcc, pQuestProps, pPlayerState)
         return fn_diff_pending_type(pQuestAcc, pQuestProps, fn_get_player_state_property(pPlayerState))
     end
 
-    local pAcc = CQuestAccessor:new({sName = sAccName, fn_get_property = fn_get_acc_property, fn_get_player_property = fn_get_player_state_property, fn_diff_pending_property = fn_diff_acc_pending, fn_diff_pending_type = fn_diff_pending_type})
+    local pAcc = CQuestAccessor:new({sName = sAccName, fn_get_property = fn_get_acc_property(fn_quest_property), fn_get_player_property = fn_get_player_state_property, fn_diff_pending_property = fn_diff_acc_pending, fn_diff_pending_type = fn_diff_pending_type})
 
     table.insert(tfn_reqs, pAcc)
     self.tsAllReqs[fn_get_acc_property] = pAcc
