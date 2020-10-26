@@ -66,7 +66,7 @@ end
 local function fn_compare_player_invt(pAcc, iSeized)
     local fn_get_property = pAcc:get_fn_property()
     return function(a)
-        return iSeized - #(pAcc:fn_get_property(a))
+        return iSeized - #(fn_get_property(a))
     end
 end
 

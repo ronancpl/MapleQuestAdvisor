@@ -36,7 +36,7 @@ local function fn_compare_quest_id(a, b)
     return CQuestProperties.compare(a, b) < 0
 end
 
-local function make_available_neighbors_list(tQuests)
+local function make_quest_pool_list(tQuests)
     local rgpPool = SArray:new()
 
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
@@ -71,7 +71,7 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     route_quest_permit_complete(rgpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
     pCurrentPath:add(pQuestProp)
-    progress_player_state(ctAwarders, pQuestProp, pPlayerState)
+    progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
 
     local rgpFrontierPoolProps = pFrontierArranger:update_visit(ctAccessors, pPlayerState, pQuestProp)
     local rgpNeighbors = fetch_neighbors(rgpFrontierPoolProps, pCurrentPath, pPlayerState, ctAccessors)
@@ -88,7 +88,7 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     end
 end
 
-local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpQuestProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
+local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
     local rgpBcktQuests = {}
 
     while not pQuestTree:is_empty() do
@@ -100,7 +100,7 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
         pFrontierQuests:fetch()
 
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
-            rollback_player_state(ctAwarders, pQuestProp, pPlayerState)
+            rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
             pFrontierArranger:rollback_visit(ctAccessors, pQuestProp)
             table.insert(rgpBcktQuests, pQuestProp)
 
@@ -109,7 +109,7 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
     end
 
     for _, pBcktQuestProp in ipairs(rgpBcktQuests) do
-        route_quest_suppress_complete(rgpQuestProps, pBcktQuestProp, pPlayerState)
+        route_quest_suppress_complete(rgpPoolProps, pBcktQuestProp, pPlayerState)
     end
 end
 
@@ -144,7 +144,7 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
 
         pFrontierQuests:add(pQuestProp, pPlayerState, ctAccessors)
 
-        local rgpPoolProps = make_available_neighbors_list(tQuests)
+        local rgpPoolProps = make_quest_pool_list(tQuests)
 
         local pFrontierArranger = CNeighborArranger:new()
         pFrontierArranger:init(ctAccessors, rgpPoolProps)

@@ -34,11 +34,20 @@ local function undo_award_player(ctAwarders, fn_award_key, pQuestProp, pPlayerSt
     end
 end
 
-local function process_player_state_update(fn_process_award, ctAwarders, pQuestProp, pPlayerState)
+local function process_player_job_update(pPlayerState, rgpPoolProps)
+    local siJobid = pPlayerState:get_job()
+
+    for _, pQuestProp in ipairs(rgpPoolProps) do
+        pQuestProp:set_job_access(siJobid)
+    end
+end
+
+local function process_player_state_update(fn_process_award, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
     local rgfn_active_act_unit
     local rgfn_active_act_invt
     local pPropAct
 
+    local siPlayerJob = pPlayerState:get_job()
     rgfn_active_act_unit, rgfn_active_act_invt, pPropAct = pQuestProp:get_rgfn_active_awards()
     for _, fn_award in ipairs(rgfn_active_act_unit) do
         fn_process_award(ctAwarders, fn_award, pPropAct, pPlayerState)
@@ -47,12 +56,17 @@ local function process_player_state_update(fn_process_award, ctAwarders, pQuestP
     for _, fn_award in ipairs(rgfn_active_act_invt) do
         fn_process_award(ctAwarders, fn_award, pPropAct, pPlayerState)
     end
+
+    local iCurJob = pPlayerState:get_job()
+    if siPlayerJob ~= iCurJob then
+        process_player_job_update(pPlayerState, rgpPoolProps)
+    end
 end
 
-function progress_player_state(ctAwarders, pQuestProp, pPlayerState)
-    process_player_state_update(award_player, ctAwarders, pQuestProp, pPlayerState)
+function progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+    process_player_state_update(award_player, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
 end
 
-function rollback_player_state(ctAwarders, pQuestProp, pPlayerState)
-    process_player_state_update(undo_award_player, ctAwarders, pQuestProp, pPlayerState)
+function rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+    process_player_state_update(undo_award_player, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
 end

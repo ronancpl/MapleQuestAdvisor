@@ -11,7 +11,7 @@
 --]]
 
 require("structs.quest.attributes.property")
-require("structs.storage.inventory")
+require("utils.struct.array")
 require("utils.struct.class")
 
 CQuestRequirement = createClass({CQuestProperty, {
@@ -21,6 +21,7 @@ CQuestRequirement = createClass({CQuestProperty, {
     siLevelMin,
     siLevelMax,
     bJobAccess,
+    rgpJobs,
     bDateAccess,
     bRepeatable,
     bScripted
@@ -81,12 +82,74 @@ function CQuestRequirement:set_level_max(siLevelMax)
     self.siLevelMax = siLevelMax
 end
 
+function CQuestRequirement:get_jobs()
+    return self.rgpJobs
+end
+
+function CQuestRequirement:set_jobs(rgpQuestJobs)
+    local m_rgpJobs = self.rgpJobs
+
+    m_rgpJobs:remove_all()
+    m_rgpJobs:add_all(rgpQuestJobs)
+
+    m_rgpJobs:sort()
+end
+
 function CQuestRequirement:has_job_access()
     return self.bJobAccess
 end
 
-function CQuestRequirement:set_job_access(bJobAccess)   -- requires runtime update, boolean check
-    self.bJobAccess = bJobAccess
+local function fn_compare_job(siJobid, siPlayerJobid)
+    return siPlayerJobid - siJobid
+end
+
+local function is_in_job_class_tree(siBaseJobBranch, siJobBranch, depth)
+    local siNextBaseBranch = math.floor(siBaseJobBranch / 10)
+    local siNextJobBranch = math.floor(siJobBranch / 10)
+    if siNextBaseBranch == siNextJobBranch then
+        return siNextJobBranch ~= 0 or depth < 3
+    elseif siNextJobBranch ~= 0 then
+        return is_in_job_tree_node(siNextBaseBranch, siNextJobBranch, depth + 1)
+    else
+        return false
+    end
+end
+
+local function is_in_job_tree(siBaseJobid, siJobid)
+    if siBaseJobid > siJobid then
+        return false
+    end
+
+    local siBaseBranch = math.floor(siBaseJobid / 10)
+    local siJobBranch = math.floor(siJobid / 10)
+    if siBaseBranch == siJobBranch then
+        return true
+    else
+        local siBaseClass = math.floor(siBaseJobid / 100)
+        local siJobClass = math.floor(siJobid / 100)
+
+        if siBaseClass ~= siJobClass and siBaseClass % 10 ~= 0 then
+            return false
+        else
+            return is_in_job_class_tree(siBaseBranch, siJobBranch, 1)
+        end
+    end
+end
+
+function CQuestRequirement:_in_job_tree(siPlayerJob)
+    local m_rgpJobs = self.rgpJobs
+
+    local bRet = false
+    local iIdx = m_rgpJobs:bsearch(fn_compare_job, siPlayerJob, true, true)
+    if iIdx >= 1 and iIdx <= m_rgpJobs:size() then
+        bRet = is_in_job_tree(m_rgpJobs:get(iIdx), siPlayerJob)
+    end
+
+    return bRet
+end
+
+function CQuestRequirement:set_job_access(siPlayerJob)   -- requires runtime update, to allow boolean checks
+    self.bJobAccess = self:_in_job_tree(siPlayerJob)
 end
 
 function CQuestRequirement:has_date_access()
@@ -116,6 +179,6 @@ end
 function CQuestRequirement:set_default_on_empty_requirements()
     self:set_default_on_empty_properties()  -- calls super-method
 
-    local tsDef = {iNpcid = -1, pMapid = 10000, iMapidFieldEnter = -1, siLevelMin = -1, siLevelMax = -1, bJobAccess = false, bDateAccess = true, bRepeatable = false, bScripted = false}
+    local tsDef = {iNpcid = -1, pMapid = 10000, iMapidFieldEnter = -1, siLevelMin = -1, siLevelMax = -1, bJobAccess = false, rgpJobs = SArray:new(), bDateAccess = true, bRepeatable = false, bScripted = false}
     self:_set_default_on_empty_properties(tsDef)
 end

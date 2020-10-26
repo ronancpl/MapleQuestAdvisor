@@ -33,6 +33,7 @@ local tAttrUnit = {
     _lvmin = CQuestRequirement.set_level_min,
     _lvmax = CQuestRequirement.set_level_max,
     _quest = 0,
+    _job = 1,
     _interval = CQuestRequirement.set_repeatable,
     _end = CQuestRequirement.set_date_access,
     _startscript = CQuestRequirement.set_script,
@@ -43,7 +44,8 @@ local tAttrList = {
     _item = CQuestProperty.add_item,
     _skill = CQuestProperty.add_skill,
     _mob = CQuestProperty.add_mob,
-    _quest = CQuestProperty.add_quest
+    _quest = CQuestProperty.add_quest,
+    _job = CQuestRequirement.set_jobs
 }
 
 local ttsAttrKey = {
@@ -58,7 +60,7 @@ local function read_quest_attribute_value(fn_attr, pQuestProps, pNode)
     fn_attr(pQuestProps, iValue)
 end
 
-local function read_quest_attribute_item_value(pTabListItemNode, sKey)
+local function read_quest_attribute_item_value(pTabListItemNode, sKey, iDef)
     local pAttrNode = pTabListItemNode:get_child_by_name(sKey)
 
     local iVal
@@ -75,7 +77,7 @@ local function read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProps, pNode)
     for _, pTabListItemNode in pairs(pNode:get_children()) do
         local aiAttrList = {}
         for sKey, iDef in pairs(tsAttrKey) do
-            local iVal = read_quest_attribute_item_value(pTabListItemNode, sKey)
+            local iVal = read_quest_attribute_item_value(pTabListItemNode, sKey, iDef)
             table.insert(aiAttrList, iVal)
         end
 
@@ -83,18 +85,41 @@ local function read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProps, pNode)
     end
 end
 
+local function read_quest_attribute_array(fn_attr, pQuestProps, pNode)
+    local aiAttrList = {}
+
+    local i = 0
+    while true do
+        local sKey = tostring(i)
+
+        local iVal = read_quest_attribute_item_value(pNode, sKey)
+        if iVal == nil then
+            break
+        end
+        i = i + 1
+
+        table.insert(aiAttrList, iVal)
+    end
+
+    fn_attr(pQuestProps, aiAttrList)
+end
+
 local function read_quest_tab_node_attribute(pQuestProps, pNode)
     local sName = '_' .. pNode:get_name()
 
     local fn_attr = tAttrUnit[sName]
     if fn_attr ~= nil then
-        if fn_attr ~= 0 then
-            read_quest_attribute_value(fn_attr, pQuestProps, pNode)
-        else
+        if fn_attr == 0 then
             fn_attr = tAttrList[sName]
             local tsAttrKey = ttsAttrKey[sName]
 
             read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProps, pNode)
+        elseif fn_attr == 1 then
+            fn_attr = tAttrList[sName]
+
+            read_quest_attribute_array(fn_attr, pQuestProps, pNode)
+        else
+            read_quest_attribute_value(fn_attr, pQuestProps, pNode)
         end
     end
 end
