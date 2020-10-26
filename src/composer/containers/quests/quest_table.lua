@@ -88,16 +88,19 @@ function CQuestTable:dispose_missing_prequests()
     end
 end
 
-function CQuestTable:_find_prequest_starting_level(pQuest)
+function CQuestTable:_find_prequest_starting_level(pQuest, tiQuestSearchers)
     local rgiPreQuestIds = {}
     for iPreQuestId, _ in pairs(pQuest:get_start():get_requirement():get_quests():get_items()) do
-        table.insert(rgiPreQuestIds, iPreQuestId)
+        if tiQuestSearchers[iPreQuestId] == nil then
+            tiQuestSearchers[iPreQuestId] = 1
+            table.insert(rgiPreQuestIds, iPreQuestId)
+        end
     end
 
     local siStartLevel = -1
     for _, iPreQuestId in ipairs(rgiPreQuestIds) do
         local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
-        local siPreStartLevel = self:_apply_quest_starting_level(pPreQuest)
+        local siPreStartLevel = self:_apply_quest_starting_level(pPreQuest, tiQuestSearchers)
 
         if siPreStartLevel > siStartLevel then
             siStartLevel = siPreStartLevel
@@ -107,10 +110,10 @@ function CQuestTable:_find_prequest_starting_level(pQuest)
     return siStartLevel
 end
 
-function CQuestTable:_apply_quest_starting_level(pQuest)
+function CQuestTable:_apply_quest_starting_level(pQuest, tiQuestSearchers)
     local siStartLevel = pQuest:get_start():get_requirement():get_level_min()
     if (siStartLevel < 0) then
-        siStartLevel = self:_find_prequest_starting_level(pQuest)
+        siStartLevel = self:_find_prequest_starting_level(pQuest, tiQuestSearchers)
     end
 
     pQuest:set_starting_level(siStartLevel)
@@ -121,6 +124,6 @@ function CQuestTable:apply_starting_level()
     local m_tpQuests = self.tpQuests
 
     for _, pQuest in pairs(m_tpQuests) do
-        self:_apply_quest_starting_level(pQuest)
+        self:_apply_quest_starting_level(pQuest, {})
     end
 end

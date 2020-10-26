@@ -116,12 +116,35 @@ function createClass (...)
     return c
 end
 
+local function assignClassMethods(o)
+    local m = o.classMethods
+    if m ~= nil then
+        for sName, pMember in pairs(m) do
+            o[sName] = pMember
+        end
+    end
+end
+
+local function unassignClassMethods(o)
+    local m = o.classMethods
+    if m ~= nil then
+        for sName, _ in pairs(m) do
+            o[sName] = nil
+        end
+    end
+end
+
 local function getMetatableMethods(o, m)
     for sName, pMember in pairs(o) do
         if type(pMember) == "function" then
             m[sName] = pMember
         end
     end
+end
+
+function clearClassMethods(o)
+    unassignClassMethods(o)
+    o.classMethods = nil
 end
 
 function getClassMethods(o)
@@ -132,12 +155,13 @@ function getClassMethods(o)
         getMetatableMethods(o, m)
 
         o.classMethods = m
+        assignClassMethods(o)
     end
 
     return m
 end
 
 function reloadClassMethods(o)
-    o.classMethods = nil
+    clearClassMethods(o)
     getClassMethods(o)
 end

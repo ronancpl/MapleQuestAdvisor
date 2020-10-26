@@ -11,7 +11,6 @@
 --]]
 
 require("structs.quest.attributes.property")
-require("utils.struct.array")
 require("utils.struct.class")
 
 CQuestRequirement = createClass({CQuestProperty, {
@@ -21,7 +20,6 @@ CQuestRequirement = createClass({CQuestProperty, {
     siLevelMin,
     siLevelMax,
     bJobAccess,
-    rgpJobs,
     bDateAccess,
     bRepeatable,
     bScripted
@@ -80,19 +78,6 @@ end
 
 function CQuestRequirement:set_level_max(siLevelMax)
     self.siLevelMax = siLevelMax
-end
-
-function CQuestRequirement:get_jobs()
-    return self.rgpJobs
-end
-
-function CQuestRequirement:set_jobs(rgpQuestJobs)
-    local m_rgpJobs = self.rgpJobs
-
-    m_rgpJobs:remove_all()
-    m_rgpJobs:add_all(rgpQuestJobs)
-
-    m_rgpJobs:sort()
 end
 
 function CQuestRequirement:has_job_access()

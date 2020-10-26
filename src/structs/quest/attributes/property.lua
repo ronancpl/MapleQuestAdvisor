@@ -12,6 +12,7 @@
 
 require("structs.storage.inventory")
 require("utils.procedure.string")
+require("utils.struct.array")
 require("utils.struct.class")
 
 CQuestProperty = createClass({
@@ -21,7 +22,8 @@ CQuestProperty = createClass({
     ivtSkills = CInventory:new(),
     ivtItems = CInventory:new(),
     ivtMobs = CInventory:new(),
-    ivtQuests = CInventory:new()
+    ivtQuests = CInventory:new(),
+    rgpJobs = SArray:new()          -- not only requirement, really?
 })
 
 function CQuestProperty:get_exp()
@@ -78,6 +80,19 @@ end
 
 function CQuestProperty:add_quest(iId, iState)
     self.ivtQuests:add_item(iId, iState)
+end
+
+function CQuestProperty:get_jobs()
+    return self.rgpJobs
+end
+
+function CQuestProperty:set_jobs(rgpQuestJobs)
+    local m_rgpJobs = self.rgpJobs
+
+    m_rgpJobs:remove_all()
+    m_rgpJobs:add_all(rgpQuestJobs)
+
+    m_rgpJobs:sort()
 end
 
 function CQuestProperty:_is_active_element(fn_get)
