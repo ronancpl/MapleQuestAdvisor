@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.set")
 require("utils.struct.array")
 require("utils.struct.class")
 local SSet = require("pl.class").Set
@@ -138,7 +139,7 @@ function CNeighborPool:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_play
 end
 
 function CNeighborPool:fetch_remaining_neighbors(tpCurrentQuests, pPlayerState, rgpInvtAccs, rgpUnitAccs)
-    local pSet = SSet{unpack(tpCurrentQuests:values())} -- todo set from set
+    local pSet = collection_copy(tpCurrentQuests)
 
     for _, pAcc in ipairs(rgpInvtAccs) do
         pSet = SSet.intersection(pSet, self:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_invt, true, pPlayerState))

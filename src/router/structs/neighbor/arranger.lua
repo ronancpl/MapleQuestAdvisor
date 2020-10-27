@@ -11,6 +11,7 @@
 --]]
 
 require("router.structs.neighbor.pool")
+require("utils.procedure.set")
 require("utils.struct.array")
 require("utils.struct.class")
 local SSet = require("pl.class").Set
@@ -68,14 +69,14 @@ function CNeighborArranger:update_visit(ctAccessors, pPlayerState, pExploredQues
     local pUpdatedInvtAccsSet = SSet{ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, true)} + SSet{unpack(rgpUpdatedInvtAccs)}
     local pUpdatedUnitAccsSet = SSet{ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, false)} + SSet{unpack(rgpUpdatedUnitAccs)}
 
-    local rgpInvtAccs = pUpdatedInvtAccsSet:values()
-    local rgpUnitAccs = pUpdatedUnitAccsSet:values()
+    local rgpInvtAccs = collection_values(pUpdatedInvtAccsSet)
+    local rgpUnitAccs = collection_values(pUpdatedUnitAccsSet)
 
     local pRemainingSet = m_pQuestPool:fetch_remaining_neighbors(m_tpCurrentNeighbors, pPlayerState, rgpInvtAccs, rgpUnitAccs)
     local pAdditionalSet = m_pQuestPool:fetch_additional_neighbors(pPlayerState, rgpInvtAccs, rgpUnitAccs)
 
     self.pCurrentNeighborsSet = pRemainingSet + pAdditionalSet
-    return self.pCurrentNeighborsSet:values()
+    return collection_values(self.pCurrentNeighborsSet)
 end
 
 function CNeighborArranger:rollback_visit(ctAccessors, pExploredQuestProp)
