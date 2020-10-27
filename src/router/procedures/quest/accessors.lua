@@ -130,11 +130,11 @@ function init_quest_accessors()
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_DATE", CQuestRequirement.has_date_access, fn_get_player_state_date, fn_diff_zero)
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_LVMIN", CQuestRequirement.get_level_min, fn_get_player_state_level_min, fn_diff_pending)
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_LVMAX", CQuestRequirement.get_level_max, fn_get_player_state_level_max, fn_diff_exceeded)
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_JOB", CQuestRequirement.has_job_access, fn_get_player_state_job, fn_diff_avail)
 
     tfn_strong_reqs = ctAccessors.tfn_strong_ivt_reqs
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_QUESTS", CQuestProperty.get_quests, fn_get_player_state_quests, fn_diff_pending_list)
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_SKILLS", CQuestProperty.get_skills, fn_get_player_state_skills, fn_diff_pending_list)
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_JOBS", CQuestRequirement.has_job_access, fn_get_player_state_jobs, fn_diff_pending_list)
 
     local tfn_weak_reqs = ctAccessors.tfn_weak_reqs
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_EXP", CQuestProperty.get_exp, fn_get_player_state_exp, fn_diff_pending)

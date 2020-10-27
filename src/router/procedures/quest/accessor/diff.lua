@@ -53,3 +53,10 @@ end
 function fn_diff_zero(pQuestAcc, pQuestProps, iSeized)
     return 0
 end
+
+function fn_diff_avail(pQuestAcc, pQuestProps, iSeized)
+    local fn_req_prop = pQuestAcc:get_fn_property()
+    local bAvailable = fn_req_prop(pQuestProps)
+
+    return bAvailable and 0 or 1
+end

@@ -124,10 +124,16 @@ end
 function CQuestRequirement:_in_job_tree(siPlayerJob)
     local m_rgpJobs = self.rgpJobs
 
-    local bRet = false
-    local iIdx = m_rgpJobs:bsearch(fn_compare_job, siPlayerJob, true, true)
-    if iIdx >= 1 and iIdx <= m_rgpJobs:size() then
-        bRet = is_in_job_tree(m_rgpJobs:get(iIdx), siPlayerJob)
+    local bRet
+    if m_rgpJobs:size() > 0 then
+        bRet = false
+
+        local iIdx = m_rgpJobs:bsearch(fn_compare_job, siPlayerJob, true, true)
+        if iIdx >= 1 and iIdx <= m_rgpJobs:size() then
+            bRet = is_in_job_tree(m_rgpJobs:get(iIdx), siPlayerJob)
+        end
+    else
+        bRet = true
     end
 
     return bRet

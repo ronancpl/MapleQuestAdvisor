@@ -58,7 +58,7 @@ function fn_get_player_state_level_max(pPlayerState)
     return pPlayerState:get_level()
 end
 
-function fn_get_player_state_jobs(pPlayerState)
+function fn_get_player_state_job(pPlayerState)
     return 0
 end
 
