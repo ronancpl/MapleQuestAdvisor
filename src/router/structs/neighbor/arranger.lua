@@ -66,23 +66,36 @@ function CNeighborArranger:update_visit(ctAccessors, pPlayerState, pExploredQues
     local rgpUpdatedUnitAccs
     rgpUpdatedInvtAccs, rgpUpdatedUnitAccs = self:_fetch_visit_updated_requirements()
 
-    local pUpdatedInvtAccsSet = SSet{ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, true)} + SSet{unpack(rgpUpdatedInvtAccs)}
-    local pUpdatedUnitAccsSet = SSet{ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, false)} + SSet{unpack(rgpUpdatedUnitAccs)}
+    local rgpExploredInvtAccs = ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, true)
+    local rgpExploredUnitAccs = ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, false)
+
+    local pUpdatedInvtAccsSet = SSet{unpack(rgpExploredInvtAccs)} + SSet{unpack(rgpUpdatedInvtAccs)}
+    local pUpdatedUnitAccsSet = SSet{unpack(rgpExploredUnitAccs)} + SSet{unpack(rgpUpdatedUnitAccs)}
 
     local rgpInvtAccs = collection_values(pUpdatedInvtAccsSet)
     local rgpUnitAccs = collection_values(pUpdatedUnitAccsSet)
 
-    local pRemainingSet = m_pQuestPool:fetch_remaining_neighbors(m_tpCurrentNeighbors, pPlayerState, rgpInvtAccs, rgpUnitAccs)
-    local pAdditionalSet = m_pQuestPool:fetch_additional_neighbors(pPlayerState, rgpInvtAccs, rgpUnitAccs)
+    local tAccWithdrawnSet
+    local tAccAdditionalSet
+    tAccWithdrawnSet, tAccAdditionalSet = m_pQuestPool:fetch_updated_accessors_set(rgpInvtAccs, rgpUnitAccs, pPlayerState)
+
+    local pRemainingSet = m_pQuestPool:fetch_remaining_neighbors(m_tpCurrentNeighbors, tAccWithdrawnSet)
+    local pAdditionalSet = m_pQuestPool:fetch_additional_neighbors(ctAccessors, tAccAdditionalSet)
 
     self.pCurrentNeighborsSet = pRemainingSet + pAdditionalSet
+    m_pQuestPool:update_player_props(pExploredQuestProp)
+
     return collection_values(self.pCurrentNeighborsSet)
 end
 
 function CNeighborArranger:rollback_visit(ctAccessors, pExploredQuestProp)
-    local m_tpUpdatedAccs = self.tpUpdatedAccs
+    local m_tpUpdatedInvtAccs = self.tpUpdatedInvtAccs
+    for _, pAcc in ipairs(ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, true)) do
+        m_tpUpdatedInvtAccs[pAcc] = 1
+    end
 
-    for _, pAcc in ipairs(ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp)) do
-        m_tpUpdatedAccs[pAcc] = 1
+    local m_tpUpdatedUnitAccs = self.tpUpdatedUnitAccs
+    for _, pAcc in ipairs(ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, false)) do
+        m_tpUpdatedUnitAccs[pAcc] = 1
     end
 end

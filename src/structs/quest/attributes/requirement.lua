@@ -140,7 +140,7 @@ function CQuestRequirement:_in_job_tree(siPlayerJob)
 end
 
 function CQuestRequirement:set_job_access(siPlayerJob)   -- requires runtime update, to allow boolean checks
-    self.bJobAccess = self:_in_job_tree(siPlayerJob)
+    self.bJobAccess = self:_in_job_tree(siPlayerJob) and 1 or 0     -- numeric booleans, for compare
 end
 
 function CQuestRequirement:has_date_access()
@@ -148,7 +148,7 @@ function CQuestRequirement:has_date_access()
 end
 
 function CQuestRequirement:set_date_access(sDateAccess)
-    self.bDateAccess = string.len(sDateAccess) == 0
+    self.bDateAccess = string.len(sDateAccess) == 0 and 1 or 0
 end
 
 function CQuestRequirement:is_repeatable()
@@ -156,7 +156,7 @@ function CQuestRequirement:is_repeatable()
 end
 
 function CQuestRequirement:set_repeatable(iRepeatable)
-    self.bRepeatable = iRepeatable > 0
+    self.bRepeatable = iRepeatable > 0 and 1 or 0
 end
 
 function CQuestRequirement:has_script()
@@ -164,7 +164,7 @@ function CQuestRequirement:has_script()
 end
 
 function CQuestRequirement:set_script(sScript)
-    self.bScript = string.len(sScript) > 0
+    self.bScript = string.len(sScript) > 0 and 1 or 0
 end
 
 function CQuestRequirement:set_default_on_empty_requirements()

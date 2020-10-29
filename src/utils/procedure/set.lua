@@ -26,12 +26,6 @@ function collection_values(set)
 
     local rgpItems = {}
     for pItem, _ in pairs(tpItems) do
-        if pItem == nil or #pItem == 0 then
-            print("hm ")
-            printable(pItem)
-            os.execute("pause")
-        end
-
         table.insert(rgpItems, pItem)
     end
 

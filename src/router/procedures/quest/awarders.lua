@@ -56,8 +56,8 @@ function CQuestAwarders:get_accessors_by_active_awards(pQuestProp, bInvt)
 end
 
 local function fn_get_awd_property(fn_quest_reward)
-    return function(pQuestProp)
-        return fn_quest_reward(pQuestProp:get_action())
+    return function(pQuestProps)
+        return fn_quest_reward(pQuestProps)
     end
 end
 

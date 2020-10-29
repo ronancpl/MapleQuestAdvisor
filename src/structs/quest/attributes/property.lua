@@ -99,9 +99,9 @@ function CQuestProperty:_is_active_element(fn_get)
     local pRes = fn_get(self)
 
     if type(pRes) ~= "table" then
-        return pRes ~= nil, true
+        return pRes ~= nil, false
     else
-        return pRes:size() > 0, false  -- inventory-type
+        return pRes:size() > 0, true  -- inventory-type
     end
 end
 

@@ -38,7 +38,7 @@ end
 function fetch_neighbors(rgpPoolProps, pCurrentPath, pPlayerState)
     local rgpNeighbors = {}
 
-    for _, pQuestProp in pairs(rgpPoolProps:list()) do
+    for _, pQuestProp in ipairs(rgpPoolProps) do
         if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState) then
             table.insert(rgpNeighbors, pQuestProp)
         end

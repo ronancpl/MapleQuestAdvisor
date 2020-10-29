@@ -194,13 +194,13 @@ end
 function SArray:_find_last_from(fn_compare, iIdx, pToFind)
     local m_apItems = self.apItems
 
-    local i = iIdx
+    local i = iIdx + 1
     while i <= #m_apItems do
-        i = i + 1
-
         if fn_compare(m_apItems[i], pToFind) ~= 0 then
             break
         end
+
+        i = i + 1
     end
 
     return i - 1
