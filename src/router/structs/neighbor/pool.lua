@@ -72,14 +72,21 @@ end
 local function fn_compare_player_invt(pAcc)
     local fn_get_property = pAcc:get_fn_property()
     return function(a, iSeized)
-        return iSeized - #(fn_get_property(a))
+        return #(fn_get_property(a)) - iSeized
     end
 end
 
 local function fn_compare_player_unit(pAcc)
     local fn_get_property = pAcc:get_fn_property()
     return function(a, iSeized)
-        return iSeized - fn_get_property(a)
+        return fn_get_property(a) - iSeized
+    end
+end
+
+local function fn_get_quest_property(pAcc)
+    local fn_get_property = pAcc:get_fn_property()
+    return function(a)
+        return fn_get_property(a)
     end
 end
 
@@ -105,7 +112,7 @@ function CNeighborPool:_init_last_player_props(ctAccessors)
 
     rgpAccInvts, rgpAccUnits = ctAccessors:get_accessor_range_keys()
     for _, pAcc in ipairs(rgpAccInvts) do
-        m_pLastPlayerProps[pAcc] = 0
+        m_pLastPlayerProps[pAcc] = {}
     end
 
     for _, pAcc in ipairs(rgpAccUnits) do
@@ -125,9 +132,39 @@ function CNeighborPool:update_player_props(pExploredQuestProp)
     local m_pLastPlayerProps = self.pLastPlayerProps
 
     local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp)
+
+    local pQuestChkProp = pExploredQuestProp:get_requirement()
     for _, pAcc in ipairs(rgpAccs) do
-        m_pLastPlayerProps[pAcc] = pAcc:fn_get_property(pExploredQuestProp)
+        local fn_get_property = pAcc:get_fn_property()
+        m_pLastPlayerProps[pAcc] = fn_get_property(pQuestChkProp)
     end
+end
+
+function CNeighborPool:_adjust_accessor_neighbor_limits(pAcc, bInvt, iSt, iEn, iCurProp, iLastProp, bReverse)
+    local rgAccPool = self.tAccQuests[pAcc]
+
+    local iStProp
+    local iEnProp
+    if bReverse then
+        iStProp = iLastProp
+        iEnProp = iCurProp
+    else
+        iStProp = iCurProp
+        iEnProp = iLastProp
+    end
+
+    local fn_get_prop = fn_get_quest_property(pAcc)
+    local iStPoolProp = rgAccPool:get(iSt)
+    if pStPoolProp == nil or (bInvt and #fn_get_prop(pStPoolProp) or fn_get_prop(pStPoolProp)) < iStProp then     -- prop values are within range of iStProp ~ iEnProp
+        iSt = iSt + 1
+    end
+
+    local iEnPoolProp = rgAccPool:get(iEn)
+    if pEnPoolProp == nil or (bInvt and #fn_get_prop(pEnPoolProp) or fn_get_prop(pEnPoolProp)) > iEnProp then
+        iEn = iEn - 1
+    end
+
+    return iSt, iEn
 end
 
 function CNeighborPool:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_player_prop, bInvt, pPlayerState)
@@ -139,7 +176,8 @@ function CNeighborPool:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_play
     local iCurProp = bInvt and #pCurProp or pCurProp
 
     local m_pLastPlayerProps = self.pLastPlayerProps
-    local iLastProp = m_pLastPlayerProps[pAcc]
+    local pLastProp = m_pLastPlayerProps[pAcc]
+    local iLastProp = bInvt and #pLastProp or pLastProp
 
     local rgAccPool = self.tAccQuests[pAcc]
 
@@ -162,6 +200,7 @@ function CNeighborPool:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_play
         bReverse = true
     end
 
+    iSt, iEn = self:_adjust_accessor_neighbor_limits(pAcc, bInvt, iSt, iEn, iCurProp, iLastProp, bReverse)
     local rgpNeighbors = rgAccPool:slice(iSt, iEn)
     return SSet{unpack(rgpNeighbors:list())}, bReverse
 end
@@ -230,10 +269,6 @@ function CNeighborPool:_fetch_full_additional_set(tAccAdditionalSet)
     return pFullSet
 end
 
-local function fn_to_additionals_table(pQuestProps, pAccAdditionals)
-    pAccAdditionals[pQuestProps] = 1
-end
-
 function CNeighborPool:_fetch_accessor_additionals_table(tAccAdditionalSet)
     local tpAccAdditionals = {}
 
@@ -241,7 +276,7 @@ function CNeighborPool:_fetch_accessor_additionals_table(tAccAdditionalSet)
         local pAccAdditionals = {}
 
         for _, pQuestProps in ipairs(pAdditionalSet:values()) do
-            fn_to_additionals_table(pQuestProps, pAccAdditionals)
+            pAccAdditionals[pQuestProps] = 1
         end
 
         tpAccAdditionals[pAcc] = pAccAdditionals
@@ -250,13 +285,15 @@ function CNeighborPool:_fetch_accessor_additionals_table(tAccAdditionalSet)
     return tpAccAdditionals
 end
 
-function CNeighborPool:_is_additional_neighbor(ctAccessors, tpAccAdditionals, pQuestProp)
+function CNeighborPool:_is_additional_neighbor(ctAccessors, tpAccAdditionals, pQuestProp, pQuestProps)
     local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp)
 
     for _, pAcc in ipairs(rgpAccs) do
         local tpAdditionalNeighbors = tpAccAdditionals[pAcc]
-        if tpAdditionalNeighbors ~= nil and tpAdditionalNeighbors[pQuestProp] == nil then
-            return false
+        if tpAdditionalNeighbors ~= nil then
+            if tpAdditionalNeighbors[pQuestProps] == nil then
+                return false
+            end
         end
     end
 
@@ -270,10 +307,10 @@ function CNeighborPool:fetch_additional_neighbors(ctAccessors, tAccAdditionalSet
     local tpAccAdditionals = self:_fetch_accessor_additionals_table(tAccAdditionalSet)
 
     local m_tPropQuests = self.tPropQuests
-    for _, pQuestProps in pairs(pFullSet:values()) do
+    for _, pQuestProps in ipairs(pFullSet:values()) do
         local pQuestProp = m_tPropQuests[pQuestProps]
 
-        if self:_is_additional_neighbor(ctAccessors, tpAccAdditionals, pQuestProp) then
+        if self:_is_additional_neighbor(ctAccessors, tpAccAdditionals, pQuestProp, pQuestProps) then
             table.insert(rgpAdditionalNeighbors, pQuestProp)
         end
     end

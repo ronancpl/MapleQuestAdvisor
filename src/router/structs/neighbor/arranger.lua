@@ -24,11 +24,11 @@ CNeighborArranger = createClass({
 })
 
 function CNeighborArranger:init(ctAccessors, rgpPoolProps)
-    local rgpAccInvts
-    local rgpAccUnits
-
     local m_tpUpdatedInvtAccs = self.tpUpdatedInvtAccs
     local m_tpUpdatedUnitAccs = self.tpUpdatedUnitAccs
+
+    local rgpAccInvts
+    local rgpAccUnits
     rgpAccInvts, rgpAccUnits = ctAccessors:get_accessor_range_keys()
     for _, pAcc in ipairs(rgpAccInvts) do
         m_tpUpdatedInvtAccs[pAcc] = 1
@@ -58,6 +58,18 @@ function CNeighborArranger:_fetch_visit_updated_requirements()
     return rgpUpdatedInvtAccs, rgpUpdatedUnitAccs
 end
 
+function CNeighborArranger:_fetch_explored_updated_requirements(ctAccessors, pExploredQuestProp, bInvt)
+    local rgpAccs = {}
+
+    for _, pAcc in ipairs(ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, bInvt)) do
+        if pAcc:is_supply_handler() then
+            table.insert(rgpAccs, pAcc)
+        end
+    end
+
+    return rgpAccs
+end
+
 function CNeighborArranger:update_visit(ctAccessors, pPlayerState, pExploredQuestProp)
     local m_pQuestPool = self.pQuestPool
     local m_tpCurrentNeighbors = self.pCurrentNeighborsSet
@@ -66,8 +78,8 @@ function CNeighborArranger:update_visit(ctAccessors, pPlayerState, pExploredQues
     local rgpUpdatedUnitAccs
     rgpUpdatedInvtAccs, rgpUpdatedUnitAccs = self:_fetch_visit_updated_requirements()
 
-    local rgpExploredInvtAccs = ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, true)
-    local rgpExploredUnitAccs = ctAccessors:get_accessors_by_active_requirements(pExploredQuestProp, false)
+    local rgpExploredInvtAccs = self:_fetch_explored_updated_requirements(ctAccessors, pExploredQuestProp, true)
+    local rgpExploredUnitAccs = self:_fetch_explored_updated_requirements(ctAccessors, pExploredQuestProp, false)
 
     local pUpdatedInvtAccsSet = SSet{unpack(rgpExploredInvtAccs)} + SSet{unpack(rgpUpdatedInvtAccs)}
     local pUpdatedUnitAccsSet = SSet{unpack(rgpExploredUnitAccs)} + SSet{unpack(rgpUpdatedUnitAccs)}

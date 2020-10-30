@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.quest.accessor.diff")
 require("router.procedures.quest.accessor.property")
 require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")
@@ -20,7 +21,8 @@ CQuestAccessor = createClass({
     fn_get_property,
     fn_get_player_property,
     fn_diff_pending_property,
-    fn_diff_pending_type
+    fn_diff_pending_type,
+    fn_is_attainable
 })
 
 function CQuestAccessor:get_name()
@@ -41,4 +43,12 @@ end
 
 function CQuestAccessor:get_fn_pending_progress()
     return self.fn_diff_pending_type
+end
+
+function CQuestAccessor:get_fn_attainable()
+    return self.fn_is_attainable
+end
+
+function CQuestAccessor:is_supply_handler()
+    return self.fn_diff_pending_type ~= fn_diff_zero
 end

@@ -105,20 +105,14 @@ local function fetch_update_iterator_step(pItems, bSelect, iIdx)
     return iStart, iEnd
 end
 
-local function fn_compare_attainable(m_pQuestAcc, fn_diff)
-    return function(pFrontierProp, pPlayerState)
-        local tInvtDiff = fn_diff(m_pQuestAcc, pFrontierProp, pPlayerState)
-        return next(tInvtDiff) ~= nil and 0 or 1
-    end
-end
-
 function CQuestFrontierNode:update_take(pPlayerState, bSelect)
     local m_pQuestAcc = self.pQuestAcc
-    local fn_diff = self:get_fn_diff()
+    local m_fn_diff = self:get_fn_diff()
+
+    local fn_attainable = m_pQuestAcc:get_fn_attainable()
 
     local m_pItems = self.pItems
-    local fn_compare = fn_compare_attainable(m_pQuestAcc, fn_diff)
-    local iIdx = m_pItems:bsearch(fn_compare, pPlayerState, true, true)
+    local iIdx = m_pItems:bsearch(fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, true, true)
 
     local iStart
     local iEnd

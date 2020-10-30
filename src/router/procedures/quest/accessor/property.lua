@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+local U_INT_MAX = 0x7FFFFFFF
+
 function fn_get_player_state_exp(pPlayerState)
     return pPlayerState:get_exp()
 end
@@ -39,15 +41,15 @@ function fn_get_player_state_quests(pPlayerState)
 end
 
 function fn_get_player_state_npc(pPlayerState)
-    return 0
+    return U_INT_MAX
 end
 
 function fn_get_player_state_field(pPlayerState)
-    return 0
+    return U_INT_MAX
 end
 
 function fn_get_player_state_field_enter(pPlayerState)
-    return 0
+    return U_INT_MAX
 end
 
 function fn_get_player_state_level_min(pPlayerState)
@@ -59,17 +61,17 @@ function fn_get_player_state_level_max(pPlayerState)
 end
 
 function fn_get_player_state_job(pPlayerState)
-    return 0
+    return U_INT_MAX
 end
 
 function fn_get_player_state_date(pPlayerState)
-    return 0
+    return U_INT_MAX
 end
 
 function fn_get_player_state_repeat(pPlayerState)
-    return 0
+    return U_INT_MAX
 end
 
 function fn_get_player_state_scripts(pPlayerState)
-    return 0
+    return U_INT_MAX
 end
