@@ -11,11 +11,11 @@
 --]]
 
 require("router.structs.path")
-require("router.structs.stack.deck")
+require("router.structs.stack.graph")
 require("utils.struct.table")
 
 CGraphTree = createClass({CQuestPath, {
-    pDeck = CGraphDeckQuest:new()
+    pDeck = CGraphDeckArranger:new()
 }})
 
 function CGraphTree:install_entries(rgpPoolProps)
@@ -26,16 +26,20 @@ end
 function CGraphTree:push_node(pQuestProp, rgpNeighbors)
     self:add(pQuestProp)
 
+    local m_rgpPath = self.rgpPath
+    local iCurPathLen = m_rgpPath:size()
+
     local m_pDeck = self.pDeck
-    m_pDeck:push_node(pQuestProp, rgpNeighbors)
+    m_pDeck:push_node(pQuestProp, iCurPathLen, rgpNeighbors)
 end
 
 function CGraphTree:try_pop_node()
     local m_rgpPath = self.rgpPath
     local pQuestProp = m_rgpPath:get_last()
+    local iCurPathLen = m_rgpPath:size()
 
     local m_pDeck = self.pDeck
-    if m_pDeck:try_pop_node(pQuestProp) then
+    if m_pDeck:try_pop_node(pQuestProp, iCurPathLen) then
         m_rgpPath:remove_last()
         return pQuestProp
     else

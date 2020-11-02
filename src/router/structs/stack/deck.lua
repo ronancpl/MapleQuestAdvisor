@@ -19,19 +19,12 @@ CGraphDeckQuest = createClass({
     tpPendingFroms = SMapStack:new()
 })
 
-function CGraphDeckQuest:init(rgpPoolProps)
-    local m_tpQuestStages = self.tpQuestStages
-    m_tpQuestStages:init(rgpPoolProps)
+function CGraphDeckQuest:_create_quest_stage(pFromStage, pQuestProp)
+    local pQuestStage = CGraphStageQuest:new()
+    pQuestStage:set_stage_from(pFromStage)
+    pQuestStage:push_stage(pQuestProp, {})
 
-    local m_tpPendingFroms = self.tpPendingFroms
-    m_tpPendingFroms:init(rgpPoolProps)
-
-    for _, pQuestProp in ipairs(rgpPoolProps) do       -- this hubs stack for to-be-charted props
-        m_tpPendingFroms:push(pQuestProp, {})
-    end
-
-    local pElementarStage = CGraphStageQuest:new()      -- for quests at base stage, points to token from
-    self:_post_froms(pElementarStage, rgpPoolProps)
+    return pQuestStage
 end
 
 function CGraphDeckQuest:get_quest_stage(pQuestProp)
@@ -39,7 +32,9 @@ function CGraphDeckQuest:get_quest_stage(pQuestProp)
     return m_tpQuestStages:get_top(pQuestProp)
 end
 
-function CGraphDeckQuest:_append_quest_stage(pQuestProp, pQuestStage)
+function CGraphDeckQuest:_append_quest_stage(pQuestStage, pQuestProp, rgpNeighborProps)
+    pQuestStage:push_stage(pQuestProp, rgpNeighborProps)
+
     local m_tpQuestStages = self.tpQuestStages
     m_tpQuestStages:push(pQuestProp, pQuestStage)
 
@@ -55,40 +50,51 @@ function CGraphDeckQuest:_pop_quest_stage(pQuestProp)
     m_tpPendingFroms:pop(pQuestProp)
 end
 
-function CGraphDeckQuest:_announce_froms(pQuestProp, pQuestStage)
-    local m_tpPendingFroms = self.tpPendingFroms
-
-    local rgpStagePendingFroms = m_tpPendingFroms:get_top(pQuestProp)
-    local pFromStage = table.remove(rgpStagePendingFroms)
-
-    pQuestStage:set_stage_from(pFromStage)
-end
-
-function CGraphDeckQuest:_post_froms(pQuestStage, rgpNeighborProps)
-    local m_tpPendingFroms = self.tpPendingFroms
-
+function CGraphDeckQuest:_create_neighbor_quest_stages(pQuestStage, rgpNeighborProps)
+    local rgpNeighborStages = {}
     for _, pNeighborProp in ipairs(rgpNeighborProps) do
-        local rgpNeighborPendingFroms = m_tpPendingFroms:get_top(pNeighborProp)
-        table.insert(rgpNeighborPendingFroms, pQuestStage)
+        local pNeighborStage = self:_create_quest_stage(pQuestStage, pNeighborProp)
+        table.insert(rgpNeighborStages, pNeighborStage)
     end
+
+    return rgpNeighborStages
 end
 
-function CGraphDeckQuest:push_node(pQuestProp, rgpNeighborProps)
-    local pQuestStage = CGraphStageQuest:new()
-    pQuestStage:push_stage(pQuestProp, rgpNeighborProps)
+function CGraphDeckQuest:push_node(pQuestStage, pQuestProp, rgpNeighborProps)
+    self:_append_quest_stage(pQuestStage, pQuestProp, rgpNeighborProps)
 
-    self:_announce_froms(pQuestProp, pQuestStage)
-    self:_post_froms(pQuestStage, rgpNeighborProps)
-
-    self:_append_quest_stage(pQuestProp, pQuestStage)
+    local rgpNeighborStages = self:_create_neighbor_quest_stages(pQuestStage, rgpNeighborProps)
+    return rgpNeighborStages
 end
 
-function CGraphDeckQuest:try_pop_node(pQuestProp)
-    local pQuestStage = self:get_quest_stage(pQuestProp)
+function CGraphDeckQuest:try_pop_node(pQuestStage)
+    local pQuestProp = pQuestStage:get_quest_prop()
+
+
     if pQuestStage:try_pop_stage() then
         self:_pop_quest_stage(pQuestProp)
         return true
     else
         return false
     end
+end
+
+function CGraphDeckQuest:init(rgpPoolProps)
+    local m_tpQuestStages = self.tpQuestStages
+    m_tpQuestStages:init(rgpPoolProps)
+
+    local m_tpPendingFroms = self.tpPendingFroms
+    m_tpPendingFroms:init(rgpPoolProps)
+
+    local pElementarStage = CGraphStageQuest:new()      -- for quests at base stage, points to token from
+
+    local rgpPoolStages = {}
+    for _, pQuestProp in ipairs(rgpPoolProps) do        -- this hubs stack for to-be-charted props
+        m_tpPendingFroms:push(pQuestProp, {})
+
+        local pQuestStage = self:_create_quest_stage(pFromStage, pQuestProp)
+        table.insert(rgpPoolStages, pQuestStage)
+    end
+
+    return rgpPoolStages
 end

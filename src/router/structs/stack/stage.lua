@@ -21,6 +21,14 @@ CGraphStageQuest = createClass({
     rgpActiveNeighbors = SArray:new()
 })
 
+function CGraphStageQuest:get_quest_prop()
+    return self.pQuestProp
+end
+
+function CGraphStageQuest:set_stage_from(pStageFrom)
+    self.pStageFrom = pStageFrom
+end
+
 function CGraphStageQuest:_push_neighbors(rgpNeighbors)
     local m_rgpNeighbors = self.rgpActiveNeighbors
     for _, pNeighborProp in rpairs(rgpNeighbors) do
@@ -31,10 +39,6 @@ end
 function CGraphStageQuest:push_stage(pQuestProp, rgpNeighbors)
     self.pQuestProp = pQuestProp
     self:_push_neighbors(rgpNeighbors)
-end
-
-function CGraphStageQuest:set_stage_from(pStageFrom)
-    self.pStageFrom = pStageFrom
 end
 
 function CGraphStageQuest:remove_neighbor(pQuestProp)
