@@ -54,21 +54,14 @@ function CGraphDeckArranger:_add_neighbor_decks(iCurPathLen, rgpNeighborStages)
 end
 
 function CGraphDeckArranger:_find_quest_deck(pQuestProp, iCurPathLen, rgpNeighborProps)
-    if self:_get_quest_deck(pQuestProp, 1) == nil then
-        return nil
+    local pQuestStage
+    local iNext = iCurPathLen - 1
+
+    for iNext = iCurPathLen - 1, iNext >= 1 and pQuestStage == nil, -1 do
+        pQuestStage = self:_get_quest_deck(pQuestProp, iNext)
     end
 
-    local rgpQuestStages = SArray:new()
-    for i = 1, i < iCurPathLen, 1 do
-        rgpQuestStages:add(self:_get_quest_deck(pQuestProp, i))
-    end
-
-    local fn_compare_stg = function(pQuestStage, iCurPathLen)
-        return pQuestStage ~= nil and 0 or 1
-    end
-
-    local iIdx = rgpQuestStages:bsearch(fn_compare_stg, nLevel, false, false)
-    return self:_get_quest_deck(pQuestProp, iIdx)
+    return pQuestStage
 end
 
 function CGraphDeckArranger:push_node(pQuestProp, iCurPathLen, rgpNeighborProps)
