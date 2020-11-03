@@ -39,10 +39,24 @@ function CGraphDeckArranger:_set_quest_deck(pQuestProp, iCurPathLen, pQuestStage
     pQuestDeckNode[iCurPathLen] = pQuestStage
 end
 
+function CGraphDeckArranger:_find_quest_deck(pQuestProp, iCurPathLen, rgpNeighborProps)
+    local pQuestStage
+    local iNext = iCurPathLen
+
+    for iNext = iCurPathLen, 1, -1 do
+        pQuestStage = self:_get_quest_deck(pQuestProp, iNext)
+        if pQuestStage ~= nil then
+            break
+        end
+    end
+
+    return pQuestStage
+end
+
 function CGraphDeckArranger:get_quest_stage(pQuestProp, iCurPathLen)
     local m_pDeckBuilder = self.pDeckBuilder
 
-    local pQuestStage = self:_get_quest_deck(pQuestProp, iCurPathLen)
+    local pQuestStage = self:_find_quest_deck(pQuestProp, iCurPathLen)
     return pQuestStage
 end
 
@@ -53,24 +67,9 @@ function CGraphDeckArranger:_add_neighbor_decks(iCurPathLen, rgpNeighborStages)
     end
 end
 
-function CGraphDeckArranger:_find_quest_deck(pQuestProp, iCurPathLen, rgpNeighborProps)
-    local pQuestStage
-    local iNext = iCurPathLen - 1
-
-    for iNext = iCurPathLen - 1, iNext >= 1 and pQuestStage == nil, -1 do
-        pQuestStage = self:_get_quest_deck(pQuestProp, iNext)
-    end
-
-    return pQuestStage
-end
-
 function CGraphDeckArranger:push_node(pQuestProp, iCurPathLen, rgpNeighborProps)
     local m_pDeckBuilder = self.pDeckBuilder
-    local pQuestStage = self:_get_quest_deck(pQuestProp, iCurPathLen)
-
-    if pQuestStage == nil then
-        pQuestStage = self:_find_quest_deck(pQuestProp, iCurPathLen, rgpNeighborProps)
-    end
+    local pQuestStage = self:_find_quest_deck(pQuestProp, iCurPathLen, rgpNeighborProps)
 
     local rgpNeighborStages = m_pDeckBuilder:push_node(pQuestStage, pQuestProp, rgpNeighborProps)
     self:_add_neighbor_decks(iCurPathLen, rgpNeighborStages)
@@ -79,7 +78,7 @@ end
 function CGraphDeckArranger:try_pop_node(pQuestProp, iCurPathLen)
     local m_pDeckBuilder = self.pDeckBuilder
 
-    local pQuestStage = self:_get_quest_deck(pQuestProp, iCurPathLen)
+    local pQuestStage = self:_find_quest_deck(pQuestProp, iCurPathLen)
     local bRet = m_pDeckBuilder:try_pop_node(pQuestStage)
 
     return bRet
