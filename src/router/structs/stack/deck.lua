@@ -70,7 +70,6 @@ end
 function CGraphDeckQuest:try_pop_node(pQuestStage)
     local pQuestProp = pQuestStage:get_quest_prop()
 
-
     if pQuestStage:try_pop_stage() then
         self:_pop_quest_stage(pQuestProp)
         return true

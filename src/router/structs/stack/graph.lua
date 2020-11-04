@@ -11,6 +11,8 @@
 --]]
 
 require("router.structs.stack.deck")
+require("router.structs.stack.node")
+require("utils.struct.class")
 
 CGraphDeckArranger = createClass({
     tQuestDecks = {},
@@ -29,27 +31,56 @@ function CGraphDeckArranger:_fetch_quest_deck_node(pQuestProp)
     return pQuestDeckNode
 end
 
+function CGraphDeckArranger:_propagate_quest_deck(pQuestDeckItem, iStPathLen, iCurPathLen)
+    local pQuestStageFirst = pQuestDeckItem:get()
+    local pQuestProp = pQuestStageFirst:get_quest_prop()
+
+    for i = iStPathLen, iCurPathLen, 1 do
+        local pQuestStageNext = pQuestStageFirst
+        while true do
+            local rgpNeighborProps = pQuestStageNext:get_active_neighbors()
+            self:push_node(pQuestProp, i, rgpNeighborProps)
+
+            pQuestStageNext = pQuestDeckItem:get()
+            if pQuestStageFirst == pQuestStageNext then
+                break
+            end
+        end
+    end
+end
+
 function CGraphDeckArranger:_get_quest_deck(pQuestProp, iCurPathLen)
     local pQuestDeckNode = self:_fetch_quest_deck_node(pQuestProp)
-    return pQuestDeckNode[iCurPathLen]
-end
+    local pQuestDeckItem
 
-function CGraphDeckArranger:_set_quest_deck(pQuestProp, iCurPathLen, pQuestStage)
-    local pQuestDeckNode = self:_fetch_quest_deck_node(pQuestProp)
-    pQuestDeckNode[iCurPathLen] = pQuestStage
-end
-
-function CGraphDeckArranger:_find_quest_deck(pQuestProp, iCurPathLen, rgpNeighborProps)
-    local pQuestStage
-    local iNext = iCurPathLen
-
-    for iNext = iCurPathLen, 1, -1 do
-        pQuestStage = self:_get_quest_deck(pQuestProp, iNext)
-        if pQuestStage ~= nil then
+    local iIdxDeck = 1
+    for i = iCurPathLen, 1, -1 do
+        pQuestDeckItem = pQuestDeckNode[i]
+        if pQuestDeckItem ~= nil then
+            iIdxDeck = i
             break
         end
     end
 
+    self:_propagate_quest_deck(pQuestDeckItem, iIdxDeck + 1, iCurPathLen)
+
+    return pQuestDeckItem:get()
+end
+
+function CGraphDeckArranger:_set_quest_deck(pQuestProp, iCurPathLen, pQuestStage)
+    local pQuestDeckNode = self:_fetch_quest_deck_node(pQuestProp)
+
+    local pQuestDeckItem = pQuestDeckNode[iCurPathLen]
+    if pQuestDeckItem == nil then
+        pQuestDeckItem = CGraphDeckNode:new()
+        pQuestDeckNode[iCurPathLen] = pQuestDeckItem
+    end
+
+    pQuestDeckItem:append(pQuestStage)
+end
+
+function CGraphDeckArranger:_find_quest_deck(pQuestProp, iCurPathLen)
+    local pQuestStage = self:_get_quest_deck(pQuestProp, iCurPathLen)
     return pQuestStage
 end
 
@@ -69,10 +100,15 @@ end
 
 function CGraphDeckArranger:push_node(pQuestProp, iCurPathLen, rgpNeighborProps)
     local m_pDeckBuilder = self.pDeckBuilder
-    local pQuestStage = self:_find_quest_deck(pQuestProp, iCurPathLen, rgpNeighborProps)
 
-    local rgpNeighborStages = m_pDeckBuilder:push_node(pQuestStage, pQuestProp, rgpNeighborProps)
-    self:_add_neighbor_decks(iCurPathLen, rgpNeighborStages)
+    local pQuestDeckNode = self:_fetch_quest_deck_node(pQuestProp)
+    local pQuestDeckItem = pQuestDeckNode[iCurPathLen]
+    if pQuestDeckItem ~= nil then
+        local pQuestStage = pQuestDeckItem:get()
+
+        local rgpNeighborStages = m_pDeckBuilder:push_node(pQuestStage, pQuestProp, rgpNeighborProps)
+        self:_add_neighbor_decks(iCurPathLen, rgpNeighborStages)
+    end
 end
 
 function CGraphDeckArranger:try_pop_node(pQuestProp, iCurPathLen)

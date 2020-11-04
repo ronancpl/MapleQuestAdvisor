@@ -18,6 +18,7 @@ require("utils.struct.class")
 CGraphStageQuest = createClass({
     pQuestProp,
     pStageFrom,
+    rgpNeighbors = SArray:new(),
     rgpActiveNeighbors = SArray:new()
 })
 
@@ -25,15 +26,25 @@ function CGraphStageQuest:get_quest_prop()
     return self.pQuestProp
 end
 
+function CGraphStageQuest:get_active_neighbors()
+    return self.rgpActiveNeighbors:list()
+end
+
 function CGraphStageQuest:set_stage_from(pStageFrom)
     self.pStageFrom = pStageFrom
 end
 
 function CGraphStageQuest:_push_neighbors(rgpNeighbors)
-    local m_rgpNeighbors = self.rgpActiveNeighbors
+    local m_rgpNeighbors = self.rgpNeighbors
+
+    m_rgpNeighbors:remove_all()
     for _, pNeighborProp in rpairs(rgpNeighbors) do
         m_rgpNeighbors:add(pNeighborProp)
     end
+
+    local m_rgpActiveNeighbors = self.rgpActiveNeighbors
+    m_rgpActiveNeighbors:remove_all()
+    m_rgpActiveNeighbors:add_all(m_rgpNeighbors)
 end
 
 function CGraphStageQuest:push_stage(pQuestProp, rgpNeighbors)
