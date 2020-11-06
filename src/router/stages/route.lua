@@ -84,8 +84,6 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
         rgpNeighbors = {}
     end
 
-    pQuestTree:push_node(pQuestProp, rgpNeighbors)
-
     if pRerouteCheckerNode[pQuestProp] ~= nil then
         print("reroute")
         os.execute("pause")
@@ -93,6 +91,8 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     pRerouteCheckerNode[pQuestProp] = {}
     pRerouteCheckerNode = pRerouteCheckerNode[pQuestProp]
     table.insert(pRerouteCheckerTable, pRerouteCheckerNode)
+
+    pQuestTree:push_node(pQuestProp, rgpNeighbors)
 
     for _, pNeighborProp in ipairs(rgpNeighbors) do
         pFrontierQuests:add(pNeighborProp, pPlayerState, ctAccessors)
@@ -110,8 +110,6 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
 
         pRerouteCheckerNode = table.remove(pRerouteCheckerTable)
 
-        pFrontierQuests:fetch()
-
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
             rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
             pFrontierArranger:rollback_visit(ctAccessors, pQuestProp)
@@ -123,13 +121,12 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
 
     for _, pBcktQuestProp in ipairs(rgpBcktQuests) do
         route_quest_suppress_complete(rgpPoolProps, pBcktQuestProp, pPlayerState)
+        pFrontierQuests:fetch()
     end
 end
 
 local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
     local pQuestTree = CGraphTree:new()
-    pQuestTree:install_entries(rgpPoolProps:list())
-
     local pQuestMilestone = CGraphMilestone:new()
 
     while true do
@@ -137,6 +134,8 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
         if pQuestProp == nil then
             break
         end
+
+        pFrontierQuests:fetch()
 
         route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
 
