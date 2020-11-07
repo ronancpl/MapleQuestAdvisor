@@ -31,4 +31,8 @@ If you liked this project, please don't forget to __star__ the repo ;) .
 ---
 ### Using the tool
 
-This tool is designed to be a standalone, running in Lua. Currently WIP.
+This tool is designed to be a standalone, running in Lua.
+
+At the moment, this tool provides route skimming through a group of quests around the player's level, and displays a path from quests traveled.
+
+Quest evaluation, and by consequence path evaluation, is currently WIP.

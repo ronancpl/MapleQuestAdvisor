@@ -104,6 +104,10 @@ function CQuestPath:list()
     return self.rgpPath:list()
 end
 
+function CQuestPath:size()
+    return #(self.pPathStack)
+end
+
 local function fn_value_start_property(pQuestProp)
     return pQuestProp:is_start() and 0 or 1
 end

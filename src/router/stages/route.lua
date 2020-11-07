@@ -67,10 +67,23 @@ local function is_quest_attainable(ctAccessors, pQuestProp, pPlayerState)
     return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end
 
+local tPathSearched = {}
+
+local function print_path_search_counts()
+    print("Path length observed:")
+    for k, v in pairs(tPathSearched) do
+        print("", k, v)
+    end
+end
+
 local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
     route_quest_permit_complete(rgpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
     pCurrentPath:add(pQuestProp)
+
+    local iPathSize = pCurrentPath:size()
+    tPathSearched[iPathSize] = tPathSearched[iPathSize] and (tPathSearched[iPathSize] + 1) or 1
+
     progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
 
     local rgpFrontierPoolProps = pFrontierArranger:update_visit(ctAccessors, pPlayerState, pQuestProp)
@@ -161,5 +174,7 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
         route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders)
     end
 
+    print("Total of quests searched: " .. tQuests:size())
+    print_path_search_counts()
     return pLeadingPath
 end
