@@ -67,9 +67,6 @@ local function is_quest_attainable(ctAccessors, pQuestProp, pPlayerState)
     return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end
 
-local pRerouteCheckerNode
-local pRerouteCheckerTable
-
 local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
     route_quest_permit_complete(rgpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
@@ -83,13 +80,6 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     if pNeighborsMilestone ~= nil then  -- already found result for this subset of neighbors
         rgpNeighbors = {}
     end
-
-    if pRerouteCheckerNode[pQuestProp] ~= nil then
-        rgpNeighbors = {}
-    end
-    pRerouteCheckerNode[pQuestProp] = {}
-    pRerouteCheckerNode = pRerouteCheckerNode[pQuestProp]
-    table.insert(pRerouteCheckerTable, pRerouteCheckerNode)
 
     pQuestTree:push_node(pQuestProp, rgpNeighbors)
 
@@ -106,8 +96,6 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
         if pQuestProp == nil then
             break
         end
-
-        pRerouteCheckerNode = table.remove(pRerouteCheckerTable)
 
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
             rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
@@ -167,9 +155,6 @@ end
 function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
     local rgPoolQuests = make_pool_list(tQuests)
     local pLeadingPath = CQuestPath:new()
-
-    pRerouteCheckerNode = {}
-    pRerouteCheckerTable = {}
 
     while not rgPoolQuests:is_empty() do
         local pQuest = rgPoolQuests:remove_last()
