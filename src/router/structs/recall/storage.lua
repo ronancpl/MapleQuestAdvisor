@@ -14,11 +14,17 @@ require("utils.struct.class")
 local SSet = require("pl.class").Set
 
 CGraphMilestoneStorage = createClass({
-    tStorage = {}
+    tStorage = {},
+    iRunningId = 0
 })
 
 local function make_subpath_set(rgpNeighbors)
     return SSet{unpack(rgpNeighbors)}
+end
+
+function CGraphMilestoneStorage:_get_and_inc_path_id()
+    self.iRunningId = self.iRunningId + 1
+    return self.iRunningId
 end
 
 function CGraphMilestoneStorage:_insert(pInsNode, iIdx, rgpSearch, pSearchSet)
@@ -35,7 +41,7 @@ function CGraphMilestoneStorage:_insert(pInsNode, iIdx, rgpSearch, pSearchSet)
         pCurNode = pNode
     end
 
-    pCurNode["SET"] = pSet
+    pCurNode["node"] = self:_get_and_inc_path_id()
     return pCurNode
 end
 
@@ -46,26 +52,25 @@ end
 function CGraphMilestoneStorage:_get_node(rgpNeighbors)
     local pSearchSet = make_subpath_set(rgpNeighbors)
     local rgpNeighborVals = pSearchSet:values()
+    local nNeighborVals = #rgpNeighborVals
 
     local pParentNode = self.tStorage
     local pCurNode
 
-    local nNeighborVals = #rgpNeighborVals
-    if nNeighborVals > 0 then
-        local iEndIdx = nNeighborVals
-        for iIdx, pNeighbor in ipairs(rgpNeighborVals) do
-            pCurNode = pParentNode[pNeighbor]
-            if pCurNode == nil then
-                iEndIdx = iIdx
-                break
-            end
-
-            pParentNode = pCurNode
+    local iEndIdx = nNeighborVals + 1
+    for iIdx, pNeighbor in ipairs(rgpNeighborVals) do
+        local pCurNode = pParentNode[pNeighbor]
+        if pCurNode == nil then
+            iEndIdx = iIdx
+            break
         end
 
-        pCurNode = self:_insert(pParentNode, iEndIdx, rgpNeighborVals, pSearchSet)
-    else
-        pCurNode = self:_insert(pParentNode, 1, rgpNeighborVals, pSearchSet)
+        pParentNode = pCurNode
+    end
+
+    pCurNode = pParentNode
+    if iEndIdx <= nNeighborVals or pCurNode["node"] == nil then
+        pCurNode = self:_insert(pCurNode, iEndIdx, rgpNeighborVals, pSearchSet)
     end
 
     return pCurNode
@@ -73,5 +78,5 @@ end
 
 function CGraphMilestoneStorage:get(rgpNeighbors)
     local pCurNode = self:_get_node(rgpNeighbors)
-    return pCurNode["SET"]
+    return pCurNode["node"]
 end
