@@ -43,38 +43,35 @@ local function fn_storage_sort(a, b)
     return a:get_quest_id() < b:get_quest_id()
 end
 
-function CGraphMilestoneStorage:get(rgpNeighbors)
+function CGraphMilestoneStorage:_get_node(rgpNeighbors)
+    local pSearchSet = make_subpath_set(rgpNeighbors)
+    local rgpNeighborVals = pSearchSet:values()
+
     local pParentNode = self.tStorage
-    if #rgpNeighbors > 0 then
-        local pCurNode = nil
+    local pCurNode
 
-        local rgpSearch = rgpNeighbors
-        local pSearchSet = make_subpath_set(rgpNeighbors)
-
-        for iIdx, pNeighbor in ipairs(rgpNeighbors) do
+    local nNeighborVals = #rgpNeighborVals
+    if nNeighborVals > 0 then
+        local iEndIdx = nNeighborVals
+        for iIdx, pNeighbor in ipairs(rgpNeighborVals) do
             pCurNode = pParentNode[pNeighbor]
             if pCurNode == nil then
-                pCurNode = self:_insert(pParentNode, iIdx, rgpSearch, pSearchSet)
+                iEndIdx = iIdx
                 break
             end
 
             pParentNode = pCurNode
         end
 
-        local pSearchSet = pCurNode["SET"]
-        if pSearchSet == nil then
-            pSearchSet = make_subpath_set(rgpNeighbors)
-            pCurNode["SET"] = pSearchSet
-        end
-
-        return pSearchSet
+        pCurNode = self:_insert(pParentNode, iEndIdx, rgpNeighborVals, pSearchSet)
     else
-        local pSearchSet = pParentNode["SET"]
-        if pSearchSet == nil then
-            pSearchSet = make_subpath_set(rgpNeighbors)
-            pParentNode["SET"] = pSearchSet
-        end
-
-        return pSearchSet
+        pCurNode = self:_insert(pParentNode, 1, rgpNeighborVals, pSearchSet)
     end
+
+    return pCurNode
+end
+
+function CGraphMilestoneStorage:get(rgpNeighbors)
+    local pCurNode = self:_get_node(rgpNeighbors)
+    return pCurNode["SET"]
 end

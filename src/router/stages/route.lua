@@ -85,8 +85,7 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     end
 
     if pRerouteCheckerNode[pQuestProp] ~= nil then
-        print("reroute")
-        os.execute("pause")
+        rgpNeighbors = {}
     end
     pRerouteCheckerNode[pQuestProp] = {}
     pRerouteCheckerNode = pRerouteCheckerNode[pQuestProp]
