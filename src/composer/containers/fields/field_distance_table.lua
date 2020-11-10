@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CFieldDistanceTable = createClass({
@@ -20,6 +21,14 @@ function CFieldDistanceTable:add_field_entry(iSrcid)
     self.tFieldDistance[iSrcid] = {}
 end
 
+function CFieldDistanceTable:get_field_entries()
+    return unpack_keys(self.tFieldDistance)
+end
+
 function CFieldDistanceTable:add_field_distance(iSrcid, iDestId, iDistance)
     self.tFieldDistance[iSrcid][iDestId] = iDistance     -- srcid entry already added
+end
+
+function CFieldDistanceTable:get_field_distances(iSrcid)
+    return self.tFieldDistance[iSrcid]
 end

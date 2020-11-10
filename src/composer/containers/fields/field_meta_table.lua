@@ -22,6 +22,17 @@ function CFieldMetaTable:is_town(iSrcid)
     return self.tTownFields[iSrcid] ~= nil
 end
 
+function CFieldMetaTable:get_towns()
+    local rgiTowns = {}
+
+    local m_tTownFields = self.tTownFields
+    for iMapid, _ in pairs(m_tTownFields) do
+        table.insert(rgiTowns, iMapid)
+    end
+
+    return rgiTowns
+end
+
 function CFieldMetaTable:add_field_return(iSrcid, iDestId)
     self.tFieldReturn[iSrcid] = iDestId
     self.tTownFields[iDestId] = 1
