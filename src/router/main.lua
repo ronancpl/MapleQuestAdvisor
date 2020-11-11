@@ -28,6 +28,7 @@ end
 load_resources()
 
 load_regions_overworld(ctFieldsDist, ctFieldsMeta)
+load_distances_overworld(ctFieldsDist, ctFieldsMeta)
 
 local pGridQuests = load_grid_quests(ctQuests)
 local pPlayer = create_player()

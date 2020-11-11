@@ -15,3 +15,7 @@ require("utils.struct.class")
 CFieldRegion = createClass({
     pMapidsSet
 })
+
+function CFieldRegion:get_areas()
+    return self.pMapidsSet
+end

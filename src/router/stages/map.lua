@@ -13,8 +13,10 @@
 require("router.structs.landscape.world")
 
 function load_regions_overworld(ctFieldsDist, ctFieldsMeta)
-    local ctFieldsLandscape = CFieldLandscape:new()
+    ctFieldsLandscape = CFieldLandscape:new()
     ctFieldsLandscape:scan_region_areas(ctFieldsDist, ctFieldsMeta)
+end
 
-    return ctFieldsLandscape
+function load_distances_overworld(ctFieldsLandscape, ctFieldsDist)
+    ctFieldsLandscape:calc_land_distances(ctFieldsDist)
 end

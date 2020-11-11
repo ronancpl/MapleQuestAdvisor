@@ -11,13 +11,14 @@
 --]]
 
 require("composer.containers.fields.field_distance_table")
+require("router.procedures.world.distance")
 require("router.procedures.world.outline")
 require("router.structs.landscape.region")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CFieldLandscape = createClass({
-    tFieldRegions = {}
+    tFieldRegions
 })
 
 function CFieldLandscape:_append_region_areas(pRegionAreasSet)
@@ -28,10 +29,19 @@ function CFieldLandscape:_append_region_areas(pRegionAreasSet)
 end
 
 function CFieldLandscape:scan_region_areas(ctFieldsDist, ctFieldsMeta)
-    local tpRegionMapids = {}
+    self.tFieldRegions = {}
 
     local rgpRegionAreasSet = fetch_regional_areas(ctFieldsDist, ctFieldsMeta)
     for _, pAreasSet in ipairs(rgpRegionAreasSet) do
         self:_append_region_areas(pAreasSet)
+    end
+end
+
+function CFieldLandscape:calc_land_distances(ctFieldsDist)
+    local m_tFieldRegions = self.tFieldRegions
+
+    for _, pRegion in ipairs(m_tFieldRegions) do
+        local pRegionAreasSet = pRegion:get_areas()
+        find_region_distances(pRegionAreasSet, ctFieldsDist)
     end
 end
