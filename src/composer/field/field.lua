@@ -15,7 +15,7 @@ require("composer.containers.fields.field_meta_table")
 require("router.filters.path")
 require("utils.provider.text.table")
 
-function read_field_distances(ctFieldsDist, pMapNeighborsNode)
+local function read_field_distances(ctFieldsDist, pMapNeighborsNode)
     local pNeighborsImgNode = pMapNeighborsNode:get_child_by_name("MapNeighbors.img")
 
     for _, pFieldNode in pairs(pNeighborsImgNode:get_children()) do
@@ -48,6 +48,19 @@ function load_resources_fields()
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Neighbors
     return ctFieldsDist
+end
+
+function load_resources_stations()
+    local sDirPath = RPath.RSC_FIELDS
+    local sMapStationsPath = sDirPath .. "/MapStations.img.xml"
+
+    local pMapStationsNode = SXmlProvider:load_xml(sMapNeighborsPath)
+
+    local ctFieldsExtDist = init_field_external_distances(pMapStationsNode)
+
+    SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Stations
+
+    return ctFieldsExtDist
 end
 
 function load_field_return_areas(ctFieldsMeta, sFilePath)
