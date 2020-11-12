@@ -14,18 +14,18 @@
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
-CStationDistanceTable = createClass({
+CStationConnectionTable = createClass({
     tFieldStations = {}
 })
 
-function CStationDistanceTable:add_region_link(iSrcRegionid, iDestRegionid, iSrcMapid, iDestMapid)
-    local m_tFieldDistance = self.tFieldDistance
+function CStationConnectionTable:add_hub_entry(iSrcMapid)
+    local m_tFieldStations = self.tFieldStations
+    m_tFieldStations[iSrcMapid] = {}
+end
 
-    local pRegionStations = m_tFieldDistance[iSrcRegionid]
-    if pRegionStations == nil then
-        pRegionStations = CStationTable:new()
-        m_tFieldDistance[iSrcRegionid] = pRegionStations
-    end
+function CStationConnectionTable:add_hub_link(iSrcMapid, iDestMapid)
+    local m_tFieldStations = self.tFieldStations
 
-    pRegionStations:add_entry(iSrcMapid, iDestRegionid, iDestMapid)
+    local tFieldStation = m_tFieldStations[iSrcMapid]
+    table.insert(tFieldStation, iDestMapid)
 end

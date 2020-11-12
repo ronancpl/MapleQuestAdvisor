@@ -10,25 +10,38 @@
     provide an express grant of patent rights.
 --]]
 
-local function read_station_distances(ctStationsDist, pMapStationsNode)
+local function read_station_links(ctStationsDist, pMapStationsNode)
     local pStationsImgNode = pMapStationsNode:get_child_by_name("MapStations.img")
 
     for _, pStationNode in pairs(pStationsImgNode:get_children()) do
         local iMapid = pStationNode:get_name_tonumber()
-        ctStationsDist:add_station_entry(iMapid)
+        ctStationsDist:add_hub_entry(iMapid)
 
         for _, pStationNeighborNode in pairs(pStationNode:get_children()) do
             local iToMapid = pStationNeighborNode:get_value()
 
             if iMapid ~= iToMapid then
-                ctStationsDist:add_station_distance(iMapid, iToMapid, 1)
+                ctStationsDist:add_hub_link(iMapid, iToMapid)
             end
         end
     end
 end
 
-function init_field_external_distances(pMapStationsNode)
-    local ctStationsDist = CStationDistanceTable:new()
-    read_station_distances(ctStationsDist, pMapStationsNode)
+local function init_field_external_links(pMapStationsNode)
+    local ctStationsDist = CStationConnectionTable:new()
+    read_station_links(ctStationsDist, pMapStationsNode)
     return ctStationsDist
+end
+
+function load_resources_stations()
+    local sDirPath = RPath.RSC_FIELDS
+    local sMapStationsPath = sDirPath .. "/MapStations.img.xml"
+
+    local pMapStationsNode = SXmlProvider:load_xml(sMapNeighborsPath)
+
+    local ctFieldsExtDist = init_field_external_links(pMapStationsNode)
+
+    SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Stations
+
+    return ctFieldsExtDist
 end

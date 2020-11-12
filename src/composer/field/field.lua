@@ -50,19 +50,6 @@ function load_resources_fields()
     return ctFieldsDist
 end
 
-function load_resources_stations()
-    local sDirPath = RPath.RSC_FIELDS
-    local sMapStationsPath = sDirPath .. "/MapStations.img.xml"
-
-    local pMapStationsNode = SXmlProvider:load_xml(sMapNeighborsPath)
-
-    local ctFieldsExtDist = init_field_external_distances(pMapStationsNode)
-
-    SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Stations
-
-    return ctFieldsExtDist
-end
-
 function load_field_return_areas(ctFieldsMeta, sFilePath)
     local tFieldOverworld = read_plain_table(sFilePath)
 

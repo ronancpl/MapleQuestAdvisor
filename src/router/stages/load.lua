@@ -11,6 +11,7 @@
 --]]
 
 require("composer.field.field")
+require("composer.field.station")
 require("composer.loot.loot")
 require("composer.loot.maker")
 require("composer.quest.quest")
@@ -33,6 +34,9 @@ local function load_resources_internal()
     --printable(ctQuests)
 
     ctFieldsDist = load_resources_fields()
+    --printable(ctFieldsDist)
+
+    ctFieldsLink = load_resources_stations()
     --printable(ctFieldsDist)
 
     ctFieldsMeta = load_more_resources_fields()
