@@ -17,5 +17,5 @@ CFieldRegion = createClass({
 })
 
 function CFieldRegion:get_areas()
-    return self.pMapidsSet
+    return self.pMapidsSet:values()
 end
