@@ -22,4 +22,5 @@ function load_distances_overworld(ctFieldsLandscape, ctFieldsDist, ctFieldsMeta,
     ctFieldsLandscape:calc_region_distances(ctFieldsDist)   -- calc distance between each pair of same-region areas
 
     ctFieldsLandscape:build_interconnection_overworld(ctStationsDist)
+    ctFieldsLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsMeta)
 end

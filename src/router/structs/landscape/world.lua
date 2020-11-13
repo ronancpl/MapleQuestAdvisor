@@ -11,8 +11,9 @@
 --]]
 
 require("composer.containers.fields.field_distance_table")
-require("router.procedures.world.distance")
+require("router.procedures.world.abroad")
 require("router.procedures.world.outline")
+require("router.procedures.world.regional")
 require("router.structs.landscape.region")
 require("utils.procedure.unpack")
 require("utils.struct.class")
@@ -88,3 +89,9 @@ function CFieldLandscape:build_interconnection_overworld(ctStationsDist)
     self:_build_world_nodes(ctStationsDist)
 end
 
+function CFieldLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsMeta)
+    local m_tiFieldRegion = self.tiFieldRegion
+    local m_tWorldNodes = self.tWorldNodes
+
+    fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, m_tiFieldRegion, m_tWorldNodes)
+end
