@@ -13,6 +13,8 @@
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
+local U_INT_MAX = 0x7FFFFFFF
+
 CFieldDistanceTable = createClass({
     tFieldDistance = {}
 })
@@ -31,4 +33,8 @@ end
 
 function CFieldDistanceTable:get_field_distances(iSrcid)
     return self.tFieldDistance[iSrcid]
+end
+
+function CFieldDistanceTable:get_field_distance(iSrcid, iDestid)
+    return self.tFieldDistance[iSrcid][iDestid] or U_INT_MAX
 end

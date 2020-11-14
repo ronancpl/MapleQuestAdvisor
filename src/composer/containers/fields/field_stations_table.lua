@@ -15,7 +15,8 @@ require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CStationConnectionTable = createClass({
-    tFieldStations = {}
+    tFieldStations = {},
+    tTravelRegions = {}
 })
 
 function CStationConnectionTable:add_hub_entry(iSrcMapid)
@@ -32,4 +33,43 @@ end
 
 function CStationConnectionTable:get_hub_entries()
     return self.tFieldStations
+end
+
+function CStationConnectionTable:_create_travel_region_entries(pLandscape)
+    local m_tTravelRegions = self.tTravelRegions
+    for i = 1, pLandscape:get_region_count(), 1 do
+        m_tTravelRegions[i] = {}
+    end
+end
+
+function CStationConnectionTable:make_index_travel_region(pLandscape)
+    self:_create_travel_region_entries()
+
+    local m_tFieldStations = self.tFieldStations
+    local m_tTravelRegions = self.tTravelRegions
+    for iSrcMapid, rgiDestMapids in pairs(m_tFieldStations) do
+        local iSrcRegionid = pLandscape:get_region_by_mapid(iSrcMapid)
+        local tDestStationMapids = m_tTravelRegions[iSrcRegionid]
+
+        for _, iDestMapid in ipairs(rgiDestMapids) do
+            local iDestRegionid = pLandscape:get_region_by_mapid(iDestMapid)
+
+            local rgpStations = tDestStationMapids[iDestRegionid]
+            if rgpStations == nil then
+                rgpStations = {}
+                tDestStationMapids[iDestRegionid] = rgpStations
+            end
+
+            local pSrcMapLink = {iSrcMapid, iDestMapid}
+            table.insert(rgpStations, pSrcMapLink)
+        end
+    end
+end
+
+function CStationConnectionTable:get_stations_to_region(tiFieldRegion, iSrcMapid, iDestRegionid)
+    local m_tTravelRegions = self.tTravelRegions
+    local iSrcRegionid = tiFieldRegion[iSrcMapid]
+
+    local rgpSrcStationMapLinks = m_tTravelRegions[iSrcRegionid][iDestRegionid]
+    return rgpSrcStationMapLinks or {}
 end

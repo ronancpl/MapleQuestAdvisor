@@ -12,30 +12,106 @@
 
 require("router.procedures.world.path.distance")
 require("router.procedures.world.path.table")
+require("utils.procedure.iterate")
+require("utils.struct.queue")
+
+local U_INT_MAX = 0x7FFFFFFF
 
 local function get_region_by_mapid(tiFieldRegion, iMapid)
     return tiFieldRegion[iMapid]
 end
 
-local function get_interregional_path(iSrcMapid, iDestMapid)
+local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestRegionid)
+    local piQueueFrontierNodeids = SQueue:new()
+    local tiVisitedNodeid = {}
 
-end
+    piQueueFrontierNodeids:push(iSrcRegionid)
+    tiVisitedNodeid[iSrcRegionid] = -1
 
-local function apply_town_distances(ctFieldsDist, rgpRegionAreas, ttiRegionDistances)
-    for iMapidA in pairs(rgpRegionAreas) do
-        for iMapidB in pairs(rgpRegionAreas) do
-            local iDist = ttiRegionDistances[iMapidA][iMapidB]
-            if iDist < U_INT_MAX then
-                ctFieldsDist:add_field_distance(iMapidA, iMapidB, iDist)
+    local tiPathedFrom = {}
+    local iCurPath = nil
+    while #rgiFrontierNodeids > 0 do
+        local iRegionid = piQueueFrontierNodeids:poll()
+
+        for iLinkedRegionid, _ in pairs(tWorldNodes[iRegionid]) do
+            if tiVisitedNodeid[iLinkedRegionid] == nil then         -- first visited is shortest path
+                piQueueFrontierNodeids:push(iLinkedRegionid)
+                tiVisitedNodeid[iLinkedRegionid] = iRegionid
             end
         end
     end
+
+    local rgiRevVisitedRegions = {}
+    local iRegionid = iDestRegionid
+    while tiVisitedNodeid[iRegionid] ~= -1 then
+        table.insert(rgiRevVisitedRegions, iRegionid)
+        iRegionid = tiVisitedNodeid[iRegionid]
+    end
+
+    return rpairs(rgiRevVisitedRegions)
 end
 
-function fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, tiFieldRegion, tWorldNodes)
-    local rgiTownMapids = ctFieldsMeta:get_towns()
-    local trgiNeighborMapids = fetch_area_neighbors(rgiTownMapids, ctFieldsDist)
+local function get_interregional_path(tWorldNodes, tiFieldRegion, iSrcMapid, iDestMapid)
+    local iSrcRegionid = get_region_by_mapid(tiFieldRegion, iSrcMapid)
+    local iDestRegionid = get_region_by_mapid(tiFieldRegion, iDestMapid)
 
-    local ttiTownDistances = determine_distances(rgiTownMapids, trgiNeighborMapids) -- TODO this ain't a connected regional graph
-    apply_area_distances(ctFieldsDist, rgiTownMapids, ttiTownDistances)
+    local rgiTransitRegionids = {}
+
+    for _, iRegionid in pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestRegionid) do
+        table.insert(rgiTransitRegionids, iRegionid)
+    end
+
+    return rgiTransitRegionids
+end
+
+local function fetch_nearby_region_station(ctFieldsDist, ctFieldsLink, tiFieldRegion, iSrcMapid, iDestRegionid)
+    local iStationDist = U_INT_MAX
+    local iStationMapid = nil
+    local iNextMapid = nil
+
+    local rgpMapLinks = ctFieldsLink:get_stations_to_region(tiFieldRegion, iSrcMapid, iDestRegionid)
+    for _, pStationMapLink in ipairs(rgpMapLinks) do
+        local iCurStationMapid
+        local iCurNextMapid
+        iCurStationMapid, iCurNextMapid = pStationMapLink
+
+        local iDist = ctFieldsDist:get_field_distance(iSrcMapid, iCurStationMapid)
+        if iDist < iStationDist then
+            iStationDist = iDist
+
+            iStationMapid = iCurStationMapid
+            iNextMapid = iCurNextMapid
+        end
+    end
+
+    return iStationMapid, iNextMapid, iStationDist
+end
+
+local function calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iSrcMapid, iDestMapid)
+    local rgpTransitRegionids = get_interregional_path(tWorldNodes, tiFieldRegion, iSrcMapid, iDestMapid)
+
+    local iTransitDist = 0
+    local iCurMapid = iSrcMapid
+    for _, iNextRegionid in ipairs(rgpTransitRegionids) do
+        local iStationMapid     -- prioritizes going to nearest station
+        local iNextMapid
+        local iDist
+        iStationMapid, iNextMapid, iDist = fetch_nearby_region_station(ctFieldsDist, ctFieldsLink, tiFieldRegion, iCurMapid, iNextRegionid)
+
+        iTransitDist = iTransitDist + iDist + 1
+        iCurMapid = iNextMapid
+    end
+
+    iTransitDist = iTransitDist + ctFieldsDist:get_field_distance(iCurMapid, iDestMapid)
+    return iTransitDist
+end
+
+function fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsLink, tiFieldRegion, tWorldNodes)
+    local rgiTowns = ctFieldsMeta:get_towns()
+    for _, iTownA in ipairs(rgiTowns) do
+        for _, iTownB in ipairs(rgiTowns) do
+            local iDistance = calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iTownA, iTownB)
+            ctFieldsDist:add_field_distance(iTownA, iTownB, iDistance)
+        end
+    end
 end

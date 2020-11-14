@@ -58,7 +58,12 @@ function CFieldLandscape:calc_region_distances(ctFieldsDist)
     end
 end
 
-function CFieldLandscape:_get_region_by_mapid(iMapid)
+function CFieldLandscape:get_region_count()
+    local m_rgpRegionFields = self.rgpRegionFields
+    return #m_rgpRegionFields
+end
+
+function CFieldLandscape:get_region_by_mapid(iMapid)
     local m_tiFieldRegion = self.tiFieldRegion
     return m_tiFieldRegion[iMapid]
 end
@@ -72,26 +77,26 @@ function CFieldLandscape:_init_world_nodes()
     end
 end
 
-function CFieldLandscape:_build_world_nodes(ctStationsDist)
+function CFieldLandscape:_build_world_nodes()
     local m_tWorldNodes = self.tWorldNodes
 
     for iSrcMapid, rgiDestMapids in pairs(tpRegionLinks) do
-        local iSrcRegionId = self:_get_region_by_mapid(iSrcMapid)
+        local iSrcRegionId = self:get_region_by_mapid(iSrcMapid)
         for _, iDestMapid in ipairs(rgiDestMapids) do
-            local iDestRegionId = self:_get_region_by_mapid(iDestMapid)
+            local iDestRegionId = self:get_region_by_mapid(iDestMapid)
             m_tWorldNodes[iSrcRegionId][iDestRegionId] = 1
         end
     end
 end
 
-function CFieldLandscape:build_interconnection_overworld(ctStationsDist)
+function CFieldLandscape:build_interconnection_overworld()
     self:_init_world_nodes()
-    self:_build_world_nodes(ctStationsDist)
+    self:_build_world_nodes()
 end
 
-function CFieldLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsMeta)
+function CFieldLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsLink)
     local m_tiFieldRegion = self.tiFieldRegion
     local m_tWorldNodes = self.tWorldNodes
 
-    fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, m_tiFieldRegion, m_tWorldNodes)
+    fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsLink, m_tiFieldRegion, m_tWorldNodes)
 end
