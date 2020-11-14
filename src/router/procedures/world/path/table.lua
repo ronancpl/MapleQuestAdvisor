@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.constants")
+
 function fetch_area_neighbors(rgpAreas, ctFieldsDist)
     local trgiNeighborMapids = {}
 
@@ -26,8 +28,8 @@ function fetch_area_neighbors(rgpAreas, ctFieldsDist)
 end
 
 function apply_area_distances(ctFieldsDist, rgpAreas, ttiDistances)
-    for iMapidA in pairs(rgpAreas) do
-        for iMapidB in pairs(rgpAreas) do
+    for _, iMapidA in ipairs(rgpAreas) do
+        for _, iMapidB in ipairs(rgpAreas) do
             local iDist = ttiDistances[iMapidA][iMapidB]
             if iDist < U_INT_MAX then
                 ctFieldsDist:add_field_distance(iMapidA, iMapidB, iDist)

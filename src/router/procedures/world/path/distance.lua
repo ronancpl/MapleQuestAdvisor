@@ -15,11 +15,11 @@ require("utils.procedure.constants")
 local function init_distance_table(rgiMapids, trgiNeighborMapids)
     local ttiDistances = {}
 
-    for _, iMapid in pairs(rgiMapids) do
+    for _, iMapid in ipairs(rgiMapids) do
         local tiAreaDistances = {}
         ttiDistances[iMapid] = tiAreaDistances
 
-        for _, iMapid in pairs(rgiMapids) do
+        for _, iMapid in ipairs(rgiMapids) do
             tiAreaDistances[iMapid] = U_INT_MAX
         end
 
@@ -35,9 +35,9 @@ end
 function determine_distances(rgiMapids, trgiNeighborMapids)
     local ttiDistances = init_distance_table(rgiMapids, trgiNeighborMapids)
 
-    for iMapidA in pairs(rgiMapids) do
-        for iMapidB in pairs(rgiMapids) do
-            for iMapidC in pairs(rgiMapids) do
+    for _, iMapidA in ipairs(rgiMapids) do
+        for _, iMapidB in ipairs(rgiMapids) do
+            for _, iMapidC in ipairs(rgiMapids) do
                 local iCurDistAB = ttiDistances[iMapidA][iMapidB]
                 local iCurDistAC = ttiDistances[iMapidA][iMapidC]
                 local iCurDistCB = ttiDistances[iMapidC][iMapidB]

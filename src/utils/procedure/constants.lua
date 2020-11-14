@@ -10,9 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-local U_INT_MAX = 0x7FFFFFFF
+U_INT_MAX = 0x7FFFFFFF
 
-local U_QUEUE_SIZE_INC = 25
+U_QUEUE_SIZE_INC = 25
 
 function get_continent_id(iMapid)
     return math.floor(iMapid / 100000000)
