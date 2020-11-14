@@ -22,6 +22,10 @@ local function init_field_entries(ctFieldsDist, pNeighborsImgNode)
     end
 end
 
+local function in_same_region(iMapid, iToMapid)
+    return math.floor(iMapid / 10000000) == math.floor(iToMapid / 10000000)
+end
+
 local function read_field_distances(ctFieldsDist, pNeighborsImgNode)
     for _, pFieldNode in pairs(pNeighborsImgNode:get_children()) do
         local iMapid = pFieldNode:get_name_tonumber()
@@ -29,8 +33,8 @@ local function read_field_distances(ctFieldsDist, pNeighborsImgNode)
         for _, pFieldNeighborNode in pairs(pFieldNode:get_children()) do
             local iToMapid = pFieldNeighborNode:get_value()
 
-            if iMapid > iToMapid then
-                -- bidirectional graph, accept as neighbors if referenced mapid is lower (unlink FM rooms)
+            if in_same_region(iMapid, iToMapid) then
+                -- bidirectional graph, accept as neighbors if referenced mapid share region (unlink FM rooms)
 
                 ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
                 ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)

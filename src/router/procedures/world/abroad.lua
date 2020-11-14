@@ -29,8 +29,11 @@ local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestR
 
     local tiPathedFrom = {}
     local iCurPath = nil
-    while #rgiFrontierNodeids > 0 do
+    while true do
         local iRegionid = pQueueFrontierNodeids:poll()
+        if iRegionid == nil then
+            break
+        end
 
         for iLinkedRegionid, _ in pairs(tWorldNodes[iRegionid]) do
             if tiVisitedNodeid[iLinkedRegionid] == nil then         -- first visited is shortest path
