@@ -16,7 +16,7 @@ function keys(tTable)           -- keys as list
         table.insert(rgpKeys, k)
     end
 
-    return unpack(k)
+    return rgpKeys
 end
 
 function unpack_keys(tTable)    -- unpacking keys as arguments

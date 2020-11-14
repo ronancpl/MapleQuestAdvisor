@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.containers.fields.field_station_table")
+
 local function read_station_links(ctStationsDist, pMapStationsNode)
     local pStationsImgNode = pMapStationsNode:get_child_by_name("MapStations.img")
 
@@ -37,7 +39,7 @@ function load_resources_stations()
     local sDirPath = RPath.RSC_FIELDS
     local sMapStationsPath = sDirPath .. "/MapStations.img.xml"
 
-    local pMapStationsNode = SXmlProvider:load_xml(sMapNeighborsPath)
+    local pMapStationsNode = SXmlProvider:load_xml(sMapStationsPath)
 
     local ctFieldsExtDist = init_field_external_links(pMapStationsNode)
 

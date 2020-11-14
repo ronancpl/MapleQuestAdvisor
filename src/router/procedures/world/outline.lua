@@ -11,14 +11,17 @@
 --]]
 
 require("utils.procedure.unpack")
+local SSet = require("pl.class").Set
 
 local function outline_area_outskirts(iMapid, tiExploredMapids, tFrontierMapids, ctFieldsDist)
     tiExploredMapids[iMapid] = 1
 
-    local tiNeighborMapids = ctFieldsDist:get_field_distances(iMapid)
-    for iMapid, _ in pairs(tiNeighborMapids) do
-        if tiExploredMapids[iMapid] == nil then
-            table.insert(tFrontierMapids, iMapid)
+    local tiNeighborMapids = ctFieldsDist:get_field_distances(iMapid)   -- TODO check nil necessary?
+    if tiNeighborMapids ~= nil then
+        for iMapid, _ in pairs(tiNeighborMapids) do
+            if tiExploredMapids[iMapid] == nil then
+                table.insert(tFrontierMapids, iMapid)
+            end
         end
     end
 end
@@ -41,14 +44,14 @@ local function scan_regional_areas(iMapidSeed, ctFieldsDist)
     return SSet{unpack_keys(tiExploredMapids)}
 end
 
-function fetch_regional_areas(ctFieldsDist, ctFieldsMeta)
+function fetch_regional_areas(ctFieldsDist)
     local rgpSetRegionAreas = {}
 
-    local rgiMapids = ctFieldsMeta:get_field_entries()
+    local rgiMapids = ctFieldsDist:get_field_entries()
     local pSetRemaining = SSet{unpack(rgiMapids)}
     for _, iMapid in pairs(rgiMapids) do
         local pSetMapid = SSet{iMapid}
-        if pSetMapid:is_subset(pRemainingSet) then
+        if pSetMapid:issubset(pSetRemaining) then
             local pSetRegional = scan_regional_areas(iMapid, ctFieldsDist)
 
             table.insert(rgpSetRegionAreas, pSetRegional)

@@ -43,7 +43,7 @@ function CStationConnectionTable:_create_travel_region_entries(pLandscape)
 end
 
 function CStationConnectionTable:make_index_travel_region(pLandscape)
-    self:_create_travel_region_entries()
+    self:_create_travel_region_entries(pLandscape)
 
     local m_tFieldStations = self.tFieldStations
     local m_tTravelRegions = self.tTravelRegions

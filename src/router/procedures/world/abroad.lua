@@ -42,7 +42,7 @@ local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestR
 
     local rgiRevVisitedRegions = {}
     local iRegionid = iDestRegionid
-    while tiVisitedNodeid[iRegionid] ~= -1 then
+    while tiVisitedNodeid[iRegionid] ~= -1 do
         table.insert(rgiRevVisitedRegions, iRegionid)
         iRegionid = tiVisitedNodeid[iRegionid]
     end

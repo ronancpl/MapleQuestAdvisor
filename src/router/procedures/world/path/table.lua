@@ -17,7 +17,7 @@ function fetch_area_neighbors(rgpAreas, ctFieldsDist)
         local rgiNeighborMapids = {}
         trgiNeighborMapids[iMapid] = rgiNeighborMapids
 
-        for iMapid, _ in pairs(ctFieldsDist:get_field_distances(iSrcid)) do
+        for iMapid, _ in pairs(ctFieldsDist:get_field_distances(iMapid)) do
             table.insert(rgiNeighborMapids, iMapid)
         end
     end

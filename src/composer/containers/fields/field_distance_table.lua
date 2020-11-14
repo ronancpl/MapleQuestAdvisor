@@ -23,7 +23,7 @@ function CFieldDistanceTable:add_field_entry(iSrcid)
 end
 
 function CFieldDistanceTable:get_field_entries()
-    return unpack_keys(self.tFieldDistance)
+    return keys(self.tFieldDistance)
 end
 
 function CFieldDistanceTable:add_field_distance(iSrcid, iDestId, iDistance)

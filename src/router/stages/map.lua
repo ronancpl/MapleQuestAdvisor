@@ -12,10 +12,10 @@
 
 require("router.structs.landscape.world")
 
-function load_regions_overworld(ctFieldsDist, ctFieldsMeta, ctFieldsLink)
+function load_regions_overworld(ctFieldsDist, ctFieldsLink)
     ctFieldsLandscape = CFieldLandscape:new()
 
-    ctFieldsLandscape:scan_region_areas(ctFieldsDist, ctFieldsMeta)
+    ctFieldsLandscape:scan_region_areas(ctFieldsDist)
     ctFieldsLandscape:make_index_area_region()
     ctFieldsLink:make_index_travel_region(ctFieldsLandscape)
 end

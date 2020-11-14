@@ -15,6 +15,7 @@ package.path = package.path .. ';?.lua'
 require("router.procedures.quest.accessors")
 require("router.procedures.quest.awarders")
 require("router.stages.load")
+require("router.stages.map")
 require("router.stages.pool")
 require("router.stages.route")
 require("structs.player")
@@ -27,7 +28,7 @@ end
 
 load_resources()
 
-load_regions_overworld(ctFieldsDist, ctFieldsMeta, ctFieldsLink)
+load_regions_overworld(ctFieldsDist, ctFieldsLink)
 load_distances_overworld(ctFieldsLandscape, ctFieldsDist, ctFieldsMeta, ctFieldsLink)
 
 local pGridQuests = load_grid_quests(ctQuests)

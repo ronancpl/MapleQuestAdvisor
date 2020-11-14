@@ -35,9 +35,9 @@ end
 function determine_distances(rgiMapids, trgiNeighborMapids)
     local ttiDistances = init_distance_table(rgiMapids, trgiNeighborMapids)
 
-    for iMapidA in pairs(rgpAreas) do
-        for iMapidB in pairs(rgpAreas) do
-            for iMapidC in pairs(rgpAreas) do
+    for iMapidA in pairs(rgiMapids) do
+        for iMapidB in pairs(rgiMapids) do
+            for iMapidC in pairs(rgiMapids) do
                 local iCurDistAB = ttiDistances[iMapidA][iMapidB]
                 local iCurDistAC = ttiDistances[iMapidA][iMapidC]
                 local iCurDistCB = ttiDistances[iMapidC][iMapidB]

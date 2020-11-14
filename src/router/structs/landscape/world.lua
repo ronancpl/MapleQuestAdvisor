@@ -28,11 +28,11 @@ function CFieldLandscape:_append_region_areas(pSetRegionAreas)
     local m_rgpRegionFields = self.rgpRegionFields
 
     local pRegion = CFieldRegion:new({pSetMapids = pSetRegionAreas})
-    table.insert(m_tFieldRegions, pRegion)
+    table.insert(m_rgpRegionFields, pRegion)
 end
 
-function CFieldLandscape:scan_region_areas(ctFieldsDist, ctFieldsMeta)
-    local rgpSetRegionAreas = fetch_regional_areas(ctFieldsDist, ctFieldsMeta)
+function CFieldLandscape:scan_region_areas(ctFieldsDist)
+    local rgpSetRegionAreas = fetch_regional_areas(ctFieldsDist)
     for _, pSetAreas in ipairs(rgpSetRegionAreas) do
         self:_append_region_areas(pSetAreas)
     end
@@ -53,8 +53,8 @@ function CFieldLandscape:calc_region_distances(ctFieldsDist)
     local m_rgpRegionFields = self.rgpRegionFields
 
     for _, pRegion in ipairs(m_rgpRegionFields) do
-        local pSetRegionAreas = pRegion:get_areas()
-        find_region_distances(pSetRegionAreas, ctFieldsDist)
+        local rgiRegionAreas = pRegion:get_areas()
+        find_region_distances(rgiRegionAreas, ctFieldsDist)
     end
 end
 
