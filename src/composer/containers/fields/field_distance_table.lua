@@ -10,10 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.constants")
 require("utils.procedure.unpack")
 require("utils.struct.class")
-
-local U_INT_MAX = 0x7FFFFFFF
 
 CFieldDistanceTable = createClass({
     tFieldDistance = {}

@@ -13,8 +13,8 @@
 require("router.procedures.world.path.distance")
 require("router.procedures.world.path.table")
 
-function find_region_distances(pRegionAreasSet, ctFieldsDist)
-    local rgiRegionMapids = pRegionAreasSet:values()
+function find_region_distances(pSetRegionAreas, ctFieldsDist)
+    local rgiRegionMapids = pSetRegionAreas:values()
     local trgiRegionNeighborMapids = fetch_area_neighbors(rgiRegionMapids, ctFieldsDist)
 
     local ttiRegionDistances = determine_distances(rgiRegionMapids, trgiRegionNeighborMapids)

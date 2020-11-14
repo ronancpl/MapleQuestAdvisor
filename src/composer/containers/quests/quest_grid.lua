@@ -167,20 +167,20 @@ function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nQuests)
 end
 
 function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
-    local pPoolQuests = STable:new()
+    local tpPoolQuests = STable:new()
 
     local iIdx
     local iToIdx
     iIdx, iToIdx = self:_fetch_top_quests_searchable_range(pPlayer, nQuests)
 
     local nQuestsRegional = math.ceil(RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO * nQuests)
-    pPoolQuests:insert_table(self:_fetch_top_quests_by_continent(pPlayer, nQuestsRegional, iIdx, iToIdx))
+    tpPoolQuests:insert_table(self:_fetch_top_quests_by_continent(pPlayer, nQuestsRegional, iIdx, iToIdx))
 
-    local nLeft = nQuestsRegional - pPoolQuests:size()
+    local nLeft = nQuestsRegional - tpPoolQuests:size()
     local nQuestsOverall = math.ceil((1.0 - RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO) * nQuests)
-    pPoolQuests:insert_table(self:_fetch_top_quests_by_availability(pPlayer, nQuestsOverall + nLeft, iIdx, iToIdx))
+    tpPoolQuests:insert_table(self:_fetch_top_quests_by_availability(pPlayer, nQuestsOverall + nLeft, iIdx, iToIdx))
 
-    return pPoolQuests
+    return tpPoolQuests
 end
 
 function CQuestGrid:ignore_underleveled_quests(iLevel)

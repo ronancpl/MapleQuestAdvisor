@@ -189,23 +189,23 @@ local function init_quests_list(pActNode, pChkNode)
     return ctQuests
 end
 
-local function get_first_field_value(tNpcMapid)
-    for _, v in pairs(tNpcMapid) do
+local function get_first_field_value(tpNpcMapid)
+    for _, v in pairs(tpNpcMapid) do
         return v
     end
 
     return -1
 end
 
-local function apply_npc_town_fields_only(tNpcMapid, ctFieldsMeta)
-    for iContinentid, iMapid in pairs(tNpcMapid:get_entry_set()) do
+local function apply_npc_town_fields_only(tpNpcMapid, ctFieldsMeta)
+    for iContinentid, iMapid in pairs(tpNpcMapid:get_entry_set()) do
         if not ctFieldsMeta:is_town(iMapid) then
-            tNpcMapid:remove(iContinentid)
+            tpNpcMapid:remove(iContinentid)
         end
     end
 end
 
-local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tNpcField, fn_get_quest_tab)
+local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcField, fn_get_quest_tab)
     -- selects main areas in a bundle of locations
 
     local pTab = fn_get_quest_tab(pQuest)
@@ -216,37 +216,37 @@ local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tNpcFiel
         iStartNpc = iReqNpc
     end
 
-    local pNpcMapid = tNpcField[iStartNpc]
+    local pNpcMapid = tpNpcField[iStartNpc]
     if pNpcMapid == nil then
-        local tNpcFields = ctNpcs:get_locations(iStartNpc)
+        local tpNpcFields = ctNpcs:get_locations(iStartNpc)
 
-        if tNpcFields ~= nil then
-            local tNpcMapid = STable:new()
+        if tpNpcFields ~= nil then
+            local tpNpcMapid = STable:new()
             local bHasTown = false
-            for iMapid, _ in pairs(tNpcFields) do
+            for iMapid, _ in pairs(tpNpcFields) do
                 local bTown = ctFieldsMeta:is_town(iMapid)
                 bHasTown = bHasTown or bTown
 
-                if tNpcMapid:get(get_continent_id(iMapid)) == nil then
-                    tNpcMapid:insert(get_continent_id(iMapid), iMapid)
+                if tpNpcMapid:get(get_continent_id(iMapid)) == nil then
+                    tpNpcMapid:insert(get_continent_id(iMapid), iMapid)
                 elseif bTown then
-                    tNpcMapid:insert(get_continent_id(iMapid), iMapid)
+                    tpNpcMapid:insert(get_continent_id(iMapid), iMapid)
                 end
             end
 
             -- make sure only towns listed if there's at least one town in
             if bHasTown then
-                apply_npc_town_fields_only(tNpcMapid, ctFieldsMeta)
+                apply_npc_town_fields_only(tpNpcMapid, ctFieldsMeta)
             end
 
-            if tNpcMapid:size() < 2 then
-                tNpcField[iStartNpc] = get_first_field_value(tNpcMapid:get_entry_set())
+            if tpNpcMapid:size() < 2 then
+                tpNpcField[iStartNpc] = get_first_field_value(tpNpcMapid:get_entry_set())
             else
-                tNpcField[iStartNpc] = tNpcMapid:get_entry_set()
+                tpNpcField[iStartNpc] = tpNpcMapid:get_entry_set()
             end
 
             -- pNpcMapid: [integer - 1 value][dict - 1 per region]
-            pNpcMapid = tNpcField[iStartNpc]
+            pNpcMapid = tpNpcField[iStartNpc]
         else
             --print("[WARNING] NPC locations not found for NPCID " .. iStartNpc)
         end
@@ -267,14 +267,14 @@ end
 
 function apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
     local tQuests = ctQuests:get_quests()
-    local tNpcField = {}
+    local tpNpcField = {}
 
     for _, pQuest in pairs(tQuests) do
         if not should_supress_quest(pQuest) then
             local iStartNpc = pQuest:get_start():get_requirement():get_npc()
 
-            apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_start)
-            apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tNpcField, CQuest.get_end)
+            apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcField, CQuest.get_start)
+            apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcField, CQuest.get_end)
         end
     end
 end

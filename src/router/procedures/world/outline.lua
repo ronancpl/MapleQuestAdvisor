@@ -42,19 +42,19 @@ local function scan_regional_areas(iMapidSeed, ctFieldsDist)
 end
 
 function fetch_regional_areas(ctFieldsDist, ctFieldsMeta)
-    local rgpRegionAreasSet = {}
+    local rgpSetRegionAreas = {}
 
     local rgiMapids = ctFieldsMeta:get_field_entries()
-    local pRemainingSet = SSet{unpack(rgiMapids)}
+    local pSetRemaining = SSet{unpack(rgiMapids)}
     for _, iMapid in pairs(rgiMapids) do
-        local pMapidSet = SSet{iMapid}
-        if pMapidSet:is_subset(pRemainingSet) then
-            local pRegionalSet = scan_regional_areas(iMapid, ctFieldsDist)
+        local pSetMapid = SSet{iMapid}
+        if pSetMapid:is_subset(pRemainingSet) then
+            local pSetRegional = scan_regional_areas(iMapid, ctFieldsDist)
 
-            table.insert(rgpRegionAreasSet, pRegionalSet)
-            pRemainingSet = pRemainingSet - pRegionalSet
+            table.insert(rgpSetRegionAreas, pSetRegional)
+            pSetRemaining = pSetRemaining - pSetRegional
         end
     end
 
-    return rgpRegionAreasSet
+    return rgpSetRegionAreas
 end

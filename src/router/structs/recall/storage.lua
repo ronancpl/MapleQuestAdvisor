@@ -21,8 +21,8 @@ local function make_subpath_set(rgpNeighbors)
     return SSet{unpack(rgpNeighbors)}
 end
 
-function CGraphMilestoneStorage:_insert(pInsNode, iIdx, rgpSearch, pSearchSet)
-    local pSet = pSearchSet
+function CGraphMilestoneStorage:_insert(pInsNode, iIdx, rgpSearch, pSetSearch)
+    local pSet = pSetSearch
     local nNeighbors = #rgpSearch
 
     local pCurNode = pInsNode
@@ -44,8 +44,8 @@ local function fn_storage_sort(a, b)
 end
 
 function CGraphMilestoneStorage:_get_node(rgpNeighbors)
-    local pSearchSet = make_subpath_set(rgpNeighbors)
-    local rgpNeighborVals = pSearchSet:values()
+    local pSetSearch = make_subpath_set(rgpNeighbors)
+    local rgpNeighborVals = pSetSearch:values()
 
     local pParentNode = self.tStorage
     local pCurNode
@@ -63,9 +63,9 @@ function CGraphMilestoneStorage:_get_node(rgpNeighbors)
             pParentNode = pCurNode
         end
 
-        pCurNode = self:_insert(pParentNode, iEndIdx, rgpNeighborVals, pSearchSet)
+        pCurNode = self:_insert(pParentNode, iEndIdx, rgpNeighborVals, pSetSearch)
     else
-        pCurNode = self:_insert(pParentNode, 1, rgpNeighborVals, pSearchSet)
+        pCurNode = self:_insert(pParentNode, 1, rgpNeighborVals, pSetSearch)
     end
 
     return pCurNode

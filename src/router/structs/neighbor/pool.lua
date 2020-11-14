@@ -222,60 +222,60 @@ function CNeighborPool:_fetch_updated_accessors_slices(rgpInvtAccs, rgpUnitAccs,
 end
 
 function CNeighborPool:_create_updated_accessors_set(tAccSlices)
-    local tAccWithdrawnSet = {}
-    local tAccAdditionalSet = {}
+    local tpSetAccWithdrawn = {}
+    local tpSetAccAdditional = {}
 
     for pAcc, tSlice in pairs(tAccSlices) do
-        local pNeighborsSet
+        local pSetNeighbors
         local bReverse
 
-        pNeighborsSet, bReverse = tSlice
+        pSetNeighbors, bReverse = tSlice
         if bReverse then
-            tAccWithdrawnSet[pAcc] = pNeighborsSet
+            tpSetAccWithdrawn[pAcc] = pSetNeighbors
         else
-            tAccAdditionalSet[pAcc] = pNeighborsSet
+            tpSetAccAdditional[pAcc] = pSetNeighbors
         end
     end
 
-    return tAccWithdrawnSet, tAccAdditionalSet
+    return tpSetAccWithdrawn, tpSetAccAdditional
 end
 
 function CNeighborPool:fetch_updated_accessors_set(rgpInvtAccs, rgpUnitAccs, pPlayerState)
     local tAccSlices = self:_fetch_updated_accessors_slices(rgpInvtAccs, rgpUnitAccs, pPlayerState)
 
-    local tAccWithdrawnSet
-    local tAccAdditionalSet
-    tAccWithdrawnSet, tAccAdditionalSet = self:_create_updated_accessors_set(tAccSlices)
+    local tpSetAccWithdrawn
+    local tpSetAccAdditional
+    tpSetAccWithdrawn, tpSetAccAdditional = self:_create_updated_accessors_set(tAccSlices)
 
-    return tAccWithdrawnSet, tAccAdditionalSet
+    return tpSetAccWithdrawn, tpSetAccAdditional
 end
 
-function CNeighborPool:fetch_remaining_neighbors(pCurNeighborsSet, tAccWithdrawnSet)
-    local pSet = collection_copy(pCurNeighborsSet)
+function CNeighborPool:fetch_remaining_neighbors(pSetCurNeighbors, tpSetAccWithdrawn)
+    local pSet = collection_copy(pSetCurNeighbors)
 
-    for _, pWithdrawnSet in pairs(tAccWithdrawnSet) do
-        pSet = pSet - pWithdrawnSet
+    for _, pSetWithdrawn in pairs(tpSetAccWithdrawn) do
+        pSet = pSet - pSetWithdrawn
     end
 
     return pSet
 end
 
-function CNeighborPool:_fetch_full_additional_set(tAccAdditionalSet)
-    local pFullSet = SSet{}
-    for _, pAdditionalSet in pairs(tAccAdditionalSet) do
-        pFullSet = pFullSet + pAdditionalSet
+function CNeighborPool:_fetch_full_additional_set(tpSetAccAdditional)
+    local pSetFull = SSet{}
+    for _, pSetAdditional in pairs(tpSetAccAdditional) do
+        pSetFull = pSetFull + pSetAdditional
     end
 
-    return pFullSet
+    return pSetFull
 end
 
-function CNeighborPool:_fetch_accessor_additionals_table(tAccAdditionalSet)
+function CNeighborPool:_fetch_accessor_additionals_table(tpSetAccAdditional)
     local tpAccAdditionals = {}
 
-    for pAcc, pAdditionalSet in pairs(tAccAdditionalSet) do
+    for pAcc, pSetAdditional in pairs(tpSetAccAdditional) do
         local pAccAdditionals = {}
 
-        for _, pQuestProps in ipairs(pAdditionalSet:values()) do
+        for _, pQuestProps in ipairs(pSetAdditional:values()) do
             pAccAdditionals[pQuestProps] = 1
         end
 
@@ -300,14 +300,14 @@ function CNeighborPool:_is_additional_neighbor(ctAccessors, tpAccAdditionals, pQ
     return true
 end
 
-function CNeighborPool:fetch_additional_neighbors(ctAccessors, tAccAdditionalSet)
+function CNeighborPool:fetch_additional_neighbors(ctAccessors, tpSetAccAdditional)
     local rgpAdditionalNeighbors = {}
 
-    local pFullSet = self:_fetch_full_additional_set(tAccAdditionalSet)
-    local tpAccAdditionals = self:_fetch_accessor_additionals_table(tAccAdditionalSet)
+    local pSetFull = self:_fetch_full_additional_set(tpSetAccAdditional)
+    local tpAccAdditionals = self:_fetch_accessor_additionals_table(tpSetAccAdditional)
 
     local m_tPropQuests = self.tPropQuests
-    for _, pQuestProps in ipairs(pFullSet:values()) do
+    for _, pQuestProps in ipairs(pSetFull:values()) do
         local pQuestProp = m_tPropQuests[pQuestProps]
 
         if self:_is_additional_neighbor(ctAccessors, tpAccAdditionals, pQuestProp, pQuestProps) then

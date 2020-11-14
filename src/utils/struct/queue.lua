@@ -10,9 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.constants")
 require("utils.struct.class")
-
-local U_QUEUE_SIZE_INC = 25
 
 SQueue = createClass({
     tpItems = {},

@@ -13,9 +13,9 @@
 require("utils.struct.class")
 
 CFieldRegion = createClass({
-    pMapidsSet
+    pSetMapids
 })
 
 function CFieldRegion:get_areas()
-    return self.pMapidsSet:values()
+    return self.pSetMapids:values()
 end

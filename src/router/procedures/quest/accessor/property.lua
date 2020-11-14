@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-local U_INT_MAX = 0x7FFFFFFF
+require("utils.procedure.constants")
 
 function fn_get_player_state_exp(pPlayerState)
     return pPlayerState:get_exp()

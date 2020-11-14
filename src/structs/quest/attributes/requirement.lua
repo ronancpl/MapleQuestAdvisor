@@ -11,6 +11,7 @@
 --]]
 
 require("structs.quest.attributes.property")
+require("utils.procedure.constants")
 require("utils.struct.class")
 
 CQuestRequirement = createClass({CQuestProperty, {

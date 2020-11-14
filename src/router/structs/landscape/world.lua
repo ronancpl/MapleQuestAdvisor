@@ -24,17 +24,17 @@ CFieldLandscape = createClass({
     tWorldNodes = {}
 })
 
-function CFieldLandscape:_append_region_areas(pRegionAreasSet)
+function CFieldLandscape:_append_region_areas(pSetRegionAreas)
     local m_rgpRegionFields = self.rgpRegionFields
 
-    local pRegion = CFieldRegion:new({pMapidsSet = pRegionAreasSet})
+    local pRegion = CFieldRegion:new({pSetMapids = pSetRegionAreas})
     table.insert(m_tFieldRegions, pRegion)
 end
 
 function CFieldLandscape:scan_region_areas(ctFieldsDist, ctFieldsMeta)
-    local rgpRegionAreasSet = fetch_regional_areas(ctFieldsDist, ctFieldsMeta)
-    for _, pAreasSet in ipairs(rgpRegionAreasSet) do
-        self:_append_region_areas(pAreasSet)
+    local rgpSetRegionAreas = fetch_regional_areas(ctFieldsDist, ctFieldsMeta)
+    for _, pSetAreas in ipairs(rgpSetRegionAreas) do
+        self:_append_region_areas(pSetAreas)
     end
 end
 
@@ -53,8 +53,8 @@ function CFieldLandscape:calc_region_distances(ctFieldsDist)
     local m_rgpRegionFields = self.rgpRegionFields
 
     for _, pRegion in ipairs(m_rgpRegionFields) do
-        local pRegionAreasSet = pRegion:get_areas()
-        find_region_distances(pRegionAreasSet, ctFieldsDist)
+        local pSetRegionAreas = pRegion:get_areas()
+        find_region_distances(pSetRegionAreas, ctFieldsDist)
     end
 end
 

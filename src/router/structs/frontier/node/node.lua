@@ -16,7 +16,7 @@ require("utils.struct.class")
 
 CQuestFrontierNode = createClass({
     bList = false,
-    pItems = SArray:new(),
+    rgpItems = SArray:new(),
     pQuestAcc = nil,
     fn_attain = nil,
     fn_diff = nil,
@@ -46,7 +46,7 @@ function CQuestFrontierNode:get_fn_create()
 end
 
 function CQuestFrontierNode:size()
-    return self.pItems:size()
+    return self.rgpItems:size()
 end
 
 function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
@@ -56,10 +56,10 @@ function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
 
     local pFrontierProp = fn_create(m_pQuestAcc, pQuestProp, pQuestChkProp)
 
-    local m_pItems = self.pItems
-    local iInsIdx = m_pItems:bsearch(fn_compare, pFrontierProp, true, true)
+    local m_rgpItems = self.rgpItems
+    local iInsIdx = m_rgpItems:bsearch(fn_compare, pFrontierProp, true, true)
 
-    m_pItems:insert(pFrontierProp, iInsIdx)
+    m_rgpItems:insert(pFrontierProp, iInsIdx)
 end
 
 function CQuestFrontierNode:find(pQuestProp)
@@ -67,8 +67,8 @@ function CQuestFrontierNode:find(pQuestProp)
         return pQuestProp:compare(pOtherProp:get_property()) == 0
     end
 
-    local m_pItems = self.pItems
-    local iIdx = m_pItems:index_of(fn_select, false)
+    local m_rgpItems = self.rgpItems
+    local iIdx = m_rgpItems:index_of(fn_select, false)
     return iIdx
 end
 
@@ -78,25 +78,25 @@ function CQuestFrontierNode:contains(pQuestProp)
 end
 
 function CQuestFrontierNode:count()
-    local m_pItems = self.pItems
-    return m_pItems:size()
+    local m_rgpItems = self.rgpItems
+    return m_rgpItems:size()
 end
 
 function CQuestFrontierNode:remove(pQuestProp)
     local iRmvIdx = self:find(pQuestProp)
     if iRmvIdx > 0 then
-        local m_pItems = self.pItems
-        m_pItems:remove(iRmvIdx, iRmvIdx)
+        local m_rgpItems = self.rgpItems
+        m_rgpItems:remove(iRmvIdx, iRmvIdx)
     end
 end
 
-local function fetch_update_iterator_step(pItems, bSelect, iIdx)
+local function fetch_update_iterator_step(rgpItems, bSelect, iIdx)
     local iStart
     local iEnd
 
     if bSelect then
         iStart = iIdx - 1
-        iEnd = pItems:size()
+        iEnd = rgpItems:size()
     else
         iStart = 1
         iEnd = iIdx
@@ -111,18 +111,18 @@ function CQuestFrontierNode:update_take(pPlayerState, bSelect)
 
     local fn_attainable = m_pQuestAcc:get_fn_attainable()
 
-    local m_pItems = self.pItems
-    local iIdx = m_pItems:bsearch(fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, true, true)
+    local m_rgpItems = self.rgpItems
+    local iIdx = m_rgpItems:bsearch(fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, true, true)
 
     local iStart
     local iEnd
-    iStart, iEnd = fetch_update_iterator_step(m_pItems, bSelect, iIdx)
+    iStart, iEnd = fetch_update_iterator_step(m_rgpItems, bSelect, iIdx)
 
-    local rgpFrontierProps = m_pItems:remove(iStart, iEnd)
+    local rgpFrontierProps = m_rgpItems:remove(iStart, iEnd)
     return rgpFrontierProps
 end
 
 function CQuestFrontierNode:update_put(rgpFrontierProps)
-    local m_pItems = self.pItems
-    m_pItems:add_all(rgpFrontierProps)
+    local m_rgpItems = self.rgpItems
+    m_rgpItems:add_all(rgpFrontierProps)
 end

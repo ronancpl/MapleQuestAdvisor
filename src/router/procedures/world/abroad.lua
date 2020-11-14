@@ -12,30 +12,29 @@
 
 require("router.procedures.world.path.distance")
 require("router.procedures.world.path.table")
+require("utils.procedure.constants")
 require("utils.procedure.iterate")
 require("utils.struct.queue")
-
-local U_INT_MAX = 0x7FFFFFFF
 
 local function get_region_by_mapid(tiFieldRegion, iMapid)
     return tiFieldRegion[iMapid]
 end
 
 local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestRegionid)
-    local piQueueFrontierNodeids = SQueue:new()
+    local pQueueFrontierNodeids = SQueue:new()
     local tiVisitedNodeid = {}
 
-    piQueueFrontierNodeids:push(iSrcRegionid)
+    pQueueFrontierNodeids:push(iSrcRegionid)
     tiVisitedNodeid[iSrcRegionid] = -1
 
     local tiPathedFrom = {}
     local iCurPath = nil
     while #rgiFrontierNodeids > 0 do
-        local iRegionid = piQueueFrontierNodeids:poll()
+        local iRegionid = pQueueFrontierNodeids:poll()
 
         for iLinkedRegionid, _ in pairs(tWorldNodes[iRegionid]) do
             if tiVisitedNodeid[iLinkedRegionid] == nil then         -- first visited is shortest path
-                piQueueFrontierNodeids:push(iLinkedRegionid)
+                pQueueFrontierNodeids:push(iLinkedRegionid)
                 tiVisitedNodeid[iLinkedRegionid] = iRegionid
             end
         end

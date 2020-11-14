@@ -14,8 +14,8 @@ require("utils.struct.class")
 
 CQuestPath = createClass({
     rgpPath = SArray:new(),
-    tpPathSet = {},
-    tsPathSet = {},
+    tpSetPath = {},
+    tsSetPath = {},
     tpPathCount = {},
     iPathValue = 0.0,
 
@@ -35,8 +35,8 @@ function CQuestPath:add(pQuestProp)
         local bStart = pQuestProp:is_start()
 
         local sQuestState = self:_fetch_identifier(iQuestid, bStart)
-        self.tsPathSet[sQuestState] = pQuestProp
-        self.tpPathSet[pQuestProp] = pQuestProp
+        self.tsSetPath[sQuestState] = pQuestProp
+        self.tpSetPath[pQuestProp] = pQuestProp
     end
 
     self.rgpPath:add(pQuestProp)
@@ -53,8 +53,8 @@ function CQuestPath:remove(pQuestProp)
     if iPathCount ~= nil then
         if iPathCount < 2 then
             local sQuestState = self:_fetch_identifier(pQuestProp:get_quest_id(), pQuestProp:is_start())
-            self.tsPathSet[sQuestState] = nil
-            self.tpPathSet[pQuestProp] = nil
+            self.tsSetPath[sQuestState] = nil
+            self.tpSetPath[pQuestProp] = nil
             self.tpPathCount[pQuestProp] = nil
         else
             self.tpPathCount[pQuestProp] = iPathCount - 1
@@ -79,7 +79,7 @@ end
 function CQuestPath:remove_by_quest_state(iQuestid, bStart)
     local sQuestState = self:_fetch_identifier(iQuestid, bStart)
 
-    local pQuestProp = self.tsPathSet[sQuestState]
+    local pQuestProp = self.tsSetPath[sQuestState]
     if pQuestProp ~= nil then
         return self:remove(pQuestProp)
     end
@@ -93,11 +93,11 @@ end
 
 function CQuestPath:is_quest_state_in_path(iQuestid, bStart)
     local sQuestState = self:_fetch_identifier(iQuestid, bStart)
-    return self.tsPathSet[sQuestState] ~= nil
+    return self.tsSetPath[sQuestState] ~= nil
 end
 
 function CQuestPath:is_in_path(pQuestProp)
-    return self.tpPathSet[pQuestProp] ~= nil
+    return self.tpSetPath[pQuestProp] ~= nil
 end
 
 function CQuestPath:list()

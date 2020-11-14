@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-local U_INT_MAX = 0x7FFFFFFF
+require("utils.procedure.constants")
 
 local function init_distance_table(rgiMapids, trgiNeighborMapids)
     local ttiDistances = {}
