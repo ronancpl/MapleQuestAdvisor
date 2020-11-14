@@ -25,8 +25,11 @@ local function read_field_distances(ctFieldsDist, pMapNeighborsNode)
         for _, pFieldNeighborNode in pairs(pFieldNode:get_children()) do
             local iToMapid = pFieldNeighborNode:get_value()
 
-            if iMapid ~= iToMapid then
+            if iMapid > iToMapid then
+                -- bidirectional graph, accept as neighbors if referenced mapid is lower (unlink FM rooms)
+
                 ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
+                ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
             end
         end
     end
