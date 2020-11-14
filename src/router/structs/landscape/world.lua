@@ -77,9 +77,10 @@ function CFieldLandscape:_init_world_nodes()
     end
 end
 
-function CFieldLandscape:_build_world_nodes()
+function CFieldLandscape:_build_world_nodes(ctFieldsLink)
     local m_tWorldNodes = self.tWorldNodes
 
+    local tpRegionLinks = ctFieldsLink:get_hub_entries()
     for iSrcMapid, rgiDestMapids in pairs(tpRegionLinks) do
         local iSrcRegionId = self:get_region_by_mapid(iSrcMapid)
         for _, iDestMapid in ipairs(rgiDestMapids) do
@@ -89,9 +90,9 @@ function CFieldLandscape:_build_world_nodes()
     end
 end
 
-function CFieldLandscape:build_interconnection_overworld()
+function CFieldLandscape:build_interconnection_overworld(ctFieldsLink)
     self:_init_world_nodes()
-    self:_build_world_nodes()
+    self:_build_world_nodes(ctFieldsLink)
 end
 
 function CFieldLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsLink)

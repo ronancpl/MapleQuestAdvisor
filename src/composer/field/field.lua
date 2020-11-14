@@ -15,12 +15,16 @@ require("composer.containers.fields.field_meta_table")
 require("router.filters.path")
 require("utils.provider.text.table")
 
-local function read_field_distances(ctFieldsDist, pMapNeighborsNode)
-    local pNeighborsImgNode = pMapNeighborsNode:get_child_by_name("MapNeighbors.img")
-
+local function init_field_entries(ctFieldsDist, pNeighborsImgNode)
     for _, pFieldNode in pairs(pNeighborsImgNode:get_children()) do
         local iMapid = pFieldNode:get_name_tonumber()
         ctFieldsDist:add_field_entry(iMapid)
+    end
+end
+
+local function read_field_distances(ctFieldsDist, pNeighborsImgNode)
+    for _, pFieldNode in pairs(pNeighborsImgNode:get_children()) do
+        local iMapid = pFieldNode:get_name_tonumber()
 
         for _, pFieldNeighborNode in pairs(pFieldNode:get_children()) do
             local iToMapid = pFieldNeighborNode:get_value()
@@ -37,7 +41,11 @@ end
 
 function init_field_distances(pMapNeighborsNode)
     local ctFieldsDist = CFieldDistanceTable:new()
-    read_field_distances(ctFieldsDist, pMapNeighborsNode)
+
+    local pNeighborsImgNode = pMapNeighborsNode:get_child_by_name("MapNeighbors.img")
+    init_field_entries(ctFieldsDist, pNeighborsImgNode)
+    read_field_distances(ctFieldsDist, pNeighborsImgNode)
+
     return ctFieldsDist
 end
 
