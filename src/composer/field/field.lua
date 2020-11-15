@@ -23,7 +23,7 @@ local function init_field_entries(ctFieldsDist, pNeighborsImgNode)
 end
 
 local function in_same_region(iMapid, iToMapid)
-    return math.floor(iMapid / 10000000) == math.floor(iToMapid / 10000000)
+    return math.floor(iMapid / 10000000) == math.floor(iToMapid / 10000000) and iMapid > iToMapid
 end
 
 local function read_field_distances(ctFieldsDist, pNeighborsImgNode)
@@ -43,7 +43,7 @@ local function read_field_distances(ctFieldsDist, pNeighborsImgNode)
     end
 end
 
-function init_field_distances(pMapNeighborsNode)
+local function init_field_distances(pMapNeighborsNode)
     local ctFieldsDist = CFieldDistanceTable:new()
 
     local pNeighborsImgNode = pMapNeighborsNode:get_child_by_name("MapNeighbors.img")
@@ -65,7 +65,7 @@ function load_resources_fields()
     return ctFieldsDist
 end
 
-function load_field_return_areas(ctFieldsMeta, sFilePath)
+local function load_field_return_areas(ctFieldsMeta, sFilePath)
     local tFieldOverworld = read_plain_table(sFilePath)
 
     for _, pFieldEntry in ipairs(tFieldOverworld) do
@@ -76,7 +76,7 @@ function load_field_return_areas(ctFieldsMeta, sFilePath)
     end
 end
 
-function load_field_overworld_areas(ctFieldsMeta, sFilePath)
+local function load_field_overworld_areas(ctFieldsMeta, sFilePath)
     local tFieldOverworld = read_plain_table(sFilePath)
 
     for _, pFieldEntry in ipairs(tFieldOverworld) do
@@ -90,6 +90,32 @@ function load_field_overworld_areas(ctFieldsMeta, sFilePath)
     end
 end
 
+local function load_field_names(ctFieldsMeta, pMapStringNode)
+    local pMapStringNode = pMapStringNode:get_child_by_name("Map.img")
+
+    for _, pRegionNode in pairs(pMapStringNode:get_children()) do
+
+        for _, pFieldNode in pairs(pRegionNode:get_children()) do
+            local iMapid = pFieldNode:get_name_tonumber()
+
+            local sStreetName = pFieldNode:get_child_by_name("streetName")
+            local sMapName = pFieldNode:get_child_by_name("mapName")
+
+            ctFieldsMeta:set_field_name(iMapid, sStreetName, sMapName)
+        end
+    end
+end
+
+local function load_field_string(ctFieldsMeta)
+    local sDirPath = RPath.RSC_STRINGS
+    local sMapStringsPath = sDirPath .. "/Map.img.xml"
+
+    local pMapStringNode = SXmlProvider:load_xml(sMapStringsPath)
+    load_field_names(ctFieldsMeta, pMapStringNode)
+
+    SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: String
+end
+
 function load_more_resources_fields()
     local sDirPath = RPath.RSC_META_FIELDS
     local sMapOverworldPath = sDirPath .. "/map_overworld.txt"
@@ -98,6 +124,7 @@ function load_more_resources_fields()
     local ctFieldsMeta = CFieldMetaTable:new()
     load_field_overworld_areas(ctFieldsMeta, sMapOverworldPath)
     load_field_return_areas(ctFieldsMeta, sMapReturnPath)
+    load_field_string(ctFieldsMeta)
 
     return ctFieldsMeta
 end

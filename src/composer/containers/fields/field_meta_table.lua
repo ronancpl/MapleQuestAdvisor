@@ -15,6 +15,7 @@ require("utils.struct.class")
 CFieldMetaTable = createClass({
     tFieldReturn = {},
     tFieldOverworld = {},
+    tFieldStrings = {},
     tTownFields = {}
 })
 
@@ -48,4 +49,18 @@ end
 
 function CFieldMetaTable:get_field_overworld(iSrcid)
     return self.tFieldOverworld[iSrcid]
+end
+
+function CFieldMetaTable:set_field_name(iMapid, sStreetName, sMapName)
+    self.tFieldStrings[iMapid] = {sStreetName, sMapName}
+end
+
+function CFieldMetaTable:get_street_name(iMapid)
+    local pFieldName = self.tFieldStrings[iMapid]
+    return pFieldName and pFieldName[2] or ""
+end
+
+function CFieldMetaTable:get_map_name(iMapid)
+    local pFieldName = self.tFieldStrings[iMapid]
+    return pFieldName and pFieldName[1] or ""
 end
