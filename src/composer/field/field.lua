@@ -99,8 +99,8 @@ local function load_field_names(ctFieldsMeta, pMapStringNode)
         for _, pFieldNode in pairs(pRegionNode:get_children()) do
             local iMapid = pFieldNode:get_name_tonumber()
 
-            local sStreetName = pFieldNode:get_child_by_name("streetName")
-            local sMapName = pFieldNode:get_child_by_name("mapName")
+            local sStreetName = pFieldNode:get_child_by_name("streetName"):get_value()
+            local sMapName = pFieldNode:get_child_by_name("mapName"):get_value()
 
             ctFieldsMeta:set_field_name(iMapid, sStreetName, sMapName)
         end

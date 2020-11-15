@@ -31,7 +31,7 @@ function CWorldmapRegion:get_nodes()
 end
 
 function CWorldmapRegion:set_nodes(rgpNodes)
-    return self.rgpNodes = rgpNodes
+    self.rgpNodes = rgpNodes
 end
 
 function CWorldmapRegion:get_links()

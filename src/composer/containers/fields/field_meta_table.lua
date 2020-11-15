@@ -64,3 +64,7 @@ function CFieldMetaTable:get_map_name(iMapid)
     local pFieldName = self.tFieldStrings[iMapid]
     return pFieldName and pFieldName[1] or ""
 end
+
+function CFieldMetaTable:get_area_name(iMapid)
+    return self:get_street_name(iMapid) .. " - " .. self:get_map_name(iMapid)
+end

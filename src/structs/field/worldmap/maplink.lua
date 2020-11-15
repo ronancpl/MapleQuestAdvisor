@@ -16,10 +16,10 @@ CWorldmapLink = createClass({
     sRegionName
 })
 
-function CFieldWorldmapNode:get_region_name()
+function CWorldmapLink:get_region_name()
     return self.sRegionName
 end
 
-function CFieldWorldmapNode:set_region_name(sRegionName)
+function CWorldmapLink:set_region_name(sRegionName)
     self.sRegionName = sRegionName
 end

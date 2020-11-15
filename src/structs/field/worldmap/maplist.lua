@@ -18,26 +18,26 @@ CWorldmapNode = createClass({
     rgiMapNo
 })
 
-function CFieldWorldmapNode:get_description()
+function CWorldmapNode:get_description()
     return self.sDesc
 end
 
-function CFieldWorldmapNode:set_description(sDesc)
+function CWorldmapNode:set_description(sDesc)
     self.sDesc = sDesc
 end
 
-function CFieldWorldmapNode:get_title()
+function CWorldmapNode:get_title()
     return self.sTitle
 end
 
-function CFieldWorldmapNode:set_title(sTitle)
+function CWorldmapNode:set_title(sTitle)
     self.sTitle = sTitle
 end
 
-function CFieldWorldmapNode:get_mapno_list()
+function CWorldmapNode:get_mapno_list()
     return self.rgiMapNo
 end
 
-function CFieldWorldmapNode:set_mapno_list(rgiMapNo)
+function CWorldmapNode:set_mapno_list(rgiMapNo)
     self.rgiMapNo = rgiMapNo
 end

@@ -49,11 +49,26 @@ function CFieldLandscape:make_index_area_region()    -- builds inverted index fo
     end
 end
 
-function CFieldLandscape:calc_region_distances(ctFieldsDist)
+local function debug_region_areas(rgiRegionAreas, ctFieldsMeta)
+    local str = ""
+    for _, iMapid in pairs(rgiRegionAreas) do
+        str = str .. ctFieldsMeta:get_area_name(iMapid) .. " | "
+    end
+    print("[" .. str .. "]")
+end
+
+function CFieldLandscape:calc_region_distances(ctFieldsDist, ctFieldsMeta)
     local m_rgpRegionFields = self.rgpRegionFields
 
     for _, pRegion in ipairs(m_rgpRegionFields) do
         local rgiRegionAreas = pRegion:get_areas()
+
+        if #rgiRegionAreas > 2 then
+            print("Load region #" .. _ .. " " .. #rgiRegionAreas)
+            debug_region_areas(rgiRegionAreas, ctFieldsMeta)
+            print()
+        end
+
         find_region_distances(rgiRegionAreas, ctFieldsDist)
     end
 end

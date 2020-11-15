@@ -12,6 +12,7 @@
 
 require("composer.field.field")
 require("composer.field.station")
+require("composer.field.worldmap")
 require("composer.loot.loot")
 require("composer.loot.maker")
 require("composer.quest.quest")

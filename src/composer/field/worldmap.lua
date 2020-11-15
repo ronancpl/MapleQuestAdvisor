@@ -59,12 +59,12 @@ local function load_worldmap_body(pWorldmapFileNode)
 end
 
 local function load_worldmap_file(sWmapDirPath, sWmapName)
-    local pWorldmapFileNode = SXmlProvider:load_xml(sMapNeighborsPath)
+    local pWorldmapFileNode = SXmlProvider:load_xml(sWmapDirPath .. sWmapName .. ".img.xml")
 
     local sName
     local rgpNodes
     local rgpLinks
-    sName, rgpNodes, rgpLinks = load_worldmap_body(pWorldmapFileNode)
+    sName, rgpNodes, rgpLinks = load_worldmap_body(pWorldmapFileNode:get_child_by_name(sWmapName .. ".img"))
 
     local pWmapRegion = CWorldmapRegion:new()
     pWmapRegion:set_name(sName)
@@ -96,7 +96,7 @@ end
 
 function load_resources_worldmap()
     local sDirPath = RPath.RSC_FIELDS
-    local sWmapDirPath = sDirPath .. "/WorldMap"
+    local sWmapDirPath = sDirPath .. "/WorldMap/"
 
     local ctFieldsWmap = init_worldmap(sWmapDirPath)
 
