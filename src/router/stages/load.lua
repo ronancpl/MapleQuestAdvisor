@@ -37,7 +37,10 @@ local function load_resources_internal()
     --printable(ctFieldsDist)
 
     ctFieldsLink = load_resources_stations()
-    --printable(ctFieldsDist)
+    --printable(ctFieldsLink)
+
+    ctFieldsWmap = load_resources_worldmap()
+    --printable(ctFieldsWmap)
 
     ctFieldsMeta = load_more_resources_fields()
     --printable(ctFieldsMeta)

@@ -14,6 +14,7 @@ require("composer.containers.fields.field_distance_table")
 require("composer.containers.fields.field_meta_table")
 require("router.filters.path")
 require("utils.provider.text.table")
+require("utils.provider.xml.provider")
 
 local function init_field_entries(ctFieldsDist, pNeighborsImgNode)
     for _, pFieldNode in pairs(pNeighborsImgNode:get_children()) do

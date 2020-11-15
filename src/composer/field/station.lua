@@ -11,6 +11,7 @@
 --]]
 
 require("composer.containers.fields.field_station_table")
+require("utils.provider.xml.provider")
 
 local function read_station_links(ctStationsDist, pMapStationsNode)
     local pStationsImgNode = pMapStationsNode:get_child_by_name("MapStations.img")
