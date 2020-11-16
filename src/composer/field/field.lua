@@ -54,15 +54,20 @@ local function init_field_distances(pMapNeighborsNode)
     return ctFieldsDist
 end
 
+local function fetch_script_name(sScriptPath)
+    local iIdx = (sScriptPath:reverse()):find("/")
+    return (sScriptPath:sub(-iIdx+1))
+end
+
 local function load_field_script_file(sFilePath)
     local tScriptMaps = read_plain_table(sFilePath)
 
     local trgpScriptMapids = {}
     for _, pScriptEntry in ipairs(tScriptMaps) do
-        local sScriptPath = pScriptEntry[1]
+        local sScriptName = fetch_script_name(pScriptEntry[1])
 
         local rgpMapids = {}
-        trgpScriptMapids[sScriptPath] = rgpMapids
+        trgpScriptMapids[sScriptName] = rgpMapids
 
         for i = 2, #pScriptEntry, 1 do
             local iMapId = tonumber(pScriptEntry[i])
