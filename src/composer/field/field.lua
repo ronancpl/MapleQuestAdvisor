@@ -13,6 +13,7 @@
 require("composer.containers.fields.field_distance_table")
 require("composer.containers.fields.field_meta_table")
 require("router.filters.path")
+require("utils.procedure.unpack")
 require("utils.provider.text.table")
 require("utils.provider.xml.provider")
 
@@ -23,8 +24,12 @@ local function init_field_entries(ctFieldsDist, pNeighborsImgNode)
     end
 end
 
+local function get_region_by_mapid(iMapid)
+    return math.floor(iMapid / 10000000)
+end
+
 local function in_same_region(iMapid, iToMapid)
-    return math.floor(iMapid / 10000000) == math.floor(iToMapid / 10000000) and iMapid > iToMapid
+    return get_region_by_mapid(iMapid) == get_region_by_mapid(iToMapid) and iMapid > iToMapid
 end
 
 local function read_field_distances(ctFieldsDist, pNeighborsImgNode)
@@ -78,19 +83,33 @@ local function load_field_script_file(sFilePath)
     return trgpScriptMapids
 end
 
-local function load_field_scripts(ctFieldsDist)
+local function is_valid_area_script(rgpAreas)
+    if #rgpAreas > 10 then
+        return false
+    end
+
+    local tpRegions = {}
+    for _, iMapid in pairs(rgpAreas) do
+        local iRegionid = get_region_by_mapid(iMapid)
+        tpRegions[iRegionid] = 1
+    end
+
+    if #keys(tpRegions) > 1 then
+        return false
+    end
+
+    return true
+end
+
+local function load_field_scripts(ctFieldsDist, sFileName)
     local sDirPath = RPath.RSC_META_PORTALS
-    local sMapPortalSendPath = sDirPath .. "/portal_ex.txt"
-    local sMapPortalPath = sDirPath .. "/portal_map.txt"
+    local sFilePath = sDirPath .. "/" .. sFileName
 
-    local trgpPortalTo = load_field_script_file(sMapPortalSendPath)
-    local trgpPortalArea = load_field_script_file(sMapPortalPath)
-
-    for sScriptName, rgpAreas in ipairs(trgpPortalArea) do
-        local rgpToAreas = trgpPortalTo[sScriptName]
-        if rgpToAreas ~= nil then
+    local trgpScriptAreas = load_field_script_file(sFilePath)
+    for _, rgpAreas in pairs(trgpScriptAreas) do
+        if is_valid_area_script(rgpAreas) then
             for _, iMapid in ipairs(rgpAreas) do
-                for _, iToMapid in ipairs(rgpToAreas) do
+                for _, iToMapid in ipairs(rgpAreas) do
                     if in_same_region(iMapid, iToMapid) then
                         ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
                         ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
@@ -108,7 +127,8 @@ function load_resources_fields()
     local pMapNeighborsNode = SXmlProvider:load_xml(sMapNeighborsPath)
 
     local ctFieldsDist = init_field_distances(pMapNeighborsNode)
-    load_field_scripts(ctFieldsDist)
+    load_field_scripts(ctFieldsDist, "portal_ex.txt")
+    load_field_scripts(ctFieldsDist, "map_ex.txt")
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Neighbors
     return ctFieldsDist
