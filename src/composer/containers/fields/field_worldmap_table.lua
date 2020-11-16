@@ -20,3 +20,8 @@ function CFieldWorldmapTable:add_region_entry(sName, pWmapRegion)
     local m_tpWmapRegions = self.tpWmapRegions
     m_tpWmapRegions[sName] = pWmapRegion
 end
+
+function CFieldWorldmapTable:get_region_entry(sName)
+    local m_tpWmapRegions = self.tpWmapRegions
+    return m_tpWmapRegions[sName]
+end

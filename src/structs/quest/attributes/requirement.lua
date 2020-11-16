@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.constant")
 require("structs.quest.attributes.property")
-require("utils.procedure.constants")
 require("utils.struct.class")
 
 CQuestRequirement = createClass({CQuestProperty, {

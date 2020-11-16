@@ -71,6 +71,8 @@ function CFieldLandscape:calc_region_distances(ctFieldsDist, ctFieldsMeta)
 
         find_region_distances(rgiRegionAreas, ctFieldsDist)
     end
+
+    print("Load regions finished.")
 end
 
 function CFieldLandscape:get_region_count()

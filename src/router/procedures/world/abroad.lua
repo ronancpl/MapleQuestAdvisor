@@ -10,9 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.constant")
 require("router.procedures.world.path.distance")
 require("router.procedures.world.path.table")
-require("utils.procedure.constants")
 require("utils.procedure.iterate")
 require("utils.struct.queue")
 

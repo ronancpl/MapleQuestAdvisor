@@ -34,17 +34,20 @@ local function load_resources_internal()
     ctQuests = load_resources_quests()
     --printable(ctQuests)
 
-    ctFieldsDist = load_resources_fields()
+    ctFieldsWmap = load_resources_worldmap()
+    --printable(ctFieldsWmap)
+
+    ctFieldsMeta = load_meta_resources_fields()
+    --printable(ctFieldsMeta)
+
+    ctFieldsDist = load_resources_fields(ctFieldsMeta, ctFieldsWmap)
     --printable(ctFieldsDist)
 
     ctFieldsLink = load_resources_stations()
     --printable(ctFieldsLink)
 
-    ctFieldsWmap = load_resources_worldmap()
-    --printable(ctFieldsWmap)
-
-    ctFieldsMeta = load_more_resources_fields()
-    --printable(ctFieldsMeta)
+    load_script_resources_fields(ctFieldsDist, ctFieldsMeta, ctFieldsWmap)
+    clear_redundant_resources_fields(ctFieldsDist)
 
     ctNpcs, ctMobs, ctReactors = load_resources_units(ctFieldsMeta)
     --printable(ctNpcs)

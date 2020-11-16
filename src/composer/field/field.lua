@@ -12,36 +12,46 @@
 
 require("composer.containers.fields.field_distance_table")
 require("composer.containers.fields.field_meta_table")
+require("router.filters.constant")
 require("router.filters.path")
 require("utils.procedure.unpack")
 require("utils.provider.text.table")
 require("utils.provider.xml.provider")
 
 local function init_field_entries(ctFieldsDist, pNeighborsImgNode)
+    local tiMapid = {}
+
     for _, pFieldNode in pairs(pNeighborsImgNode:get_children()) do
         local iMapid = pFieldNode:get_name_tonumber()
+        tiMapid[iMapid] = 1
+
+        for _, pFieldNeighborNode in pairs(pFieldNode:get_children()) do
+            local iToMapid = pFieldNeighborNode:get_value()
+            tiMapid[iToMapid] = 1
+        end
+    end
+
+    for iMapid, _ in pairs(tiMapid) do
         ctFieldsDist:add_field_entry(iMapid)
     end
 end
 
-local function get_region_by_mapid(iMapid)
-    return math.floor(iMapid / 10000000)
+local function in_same_world_map_node(ctFieldsMeta, pWmapRegion, iMapid, iToMapid)
+    local iRetMapid = ctFieldsMeta:get_field_return(iMapid)
+    local iRetToMapid = ctFieldsMeta:get_field_return(iToMapid)
+
+    return pWmapRegion:get_node_by_mapid(iRetMapid) == pWmapRegion:get_node_by_mapid(iRetToMapid)
 end
 
-local function in_same_region(iMapid, iToMapid)
-    return get_region_by_mapid(iMapid) == get_region_by_mapid(iToMapid) and iMapid > iToMapid
-end
+local function read_field_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, pNeighborsImgNode)
+    local pWmapRegion = ctFieldsWmap:get_region_entry(S_WORLDMAP_BASE)
 
-local function read_field_distances(ctFieldsDist, pNeighborsImgNode)
     for _, pFieldNode in pairs(pNeighborsImgNode:get_children()) do
         local iMapid = pFieldNode:get_name_tonumber()
 
         for _, pFieldNeighborNode in pairs(pFieldNode:get_children()) do
             local iToMapid = pFieldNeighborNode:get_value()
-
-            if in_same_region(iMapid, iToMapid) then
-                -- bidirectional graph, accept as neighbors if referenced mapid share region (unlink FM rooms)
-
+            if in_same_world_map_node(ctFieldsMeta, pWmapRegion, iMapid, iToMapid) then    -- accept as neighbors if referenced mapid share region (unlink FM rooms)
                 ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
                 ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
             end
@@ -49,12 +59,12 @@ local function read_field_distances(ctFieldsDist, pNeighborsImgNode)
     end
 end
 
-local function init_field_distances(pMapNeighborsNode)
+local function init_field_distances(ctFieldsMeta, ctFieldsWmap, pMapNeighborsNode)
     local ctFieldsDist = CFieldDistanceTable:new()
 
     local pNeighborsImgNode = pMapNeighborsNode:get_child_by_name("MapNeighbors.img")
     init_field_entries(ctFieldsDist, pNeighborsImgNode)
-    read_field_distances(ctFieldsDist, pNeighborsImgNode)
+    read_field_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, pNeighborsImgNode)
 
     return ctFieldsDist
 end
@@ -83,52 +93,52 @@ local function load_field_script_file(sFilePath)
     return trgpScriptMapids
 end
 
-local function is_valid_area_script(rgpAreas)
-    if #rgpAreas > 10 then
-        return false
+local function fetch_valid_area_script(ctFieldsDist, rgiAreas)
+    local rgiValidAreas = {}
+    if #rgiAreas <= 10 then
+        for _, iMapid in ipairs(rgiAreas) do
+            if ctFieldsDist:get_field_distances(iMapid) ~= nil then
+                table.insert(rgiValidAreas, iMapid)
+            end
+        end
     end
 
-    local tpRegions = {}
-    for _, iMapid in pairs(rgpAreas) do
-        local iRegionid = get_region_by_mapid(iMapid)
-        tpRegions[iRegionid] = 1
-    end
-
-    if #keys(tpRegions) > 1 then
-        return false
-    end
-
-    return true
+    return rgiValidAreas
 end
 
-local function load_field_scripts(ctFieldsDist, sFileName)
+local function load_field_scripts(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, sFileName)
     local sDirPath = RPath.RSC_META_PORTALS
     local sFilePath = sDirPath .. "/" .. sFileName
 
+    local pWmapRegion = ctFieldsWmap:get_region_entry(S_WORLDMAP_BASE)
+
     local trgpScriptAreas = load_field_script_file(sFilePath)
-    for _, rgpAreas in pairs(trgpScriptAreas) do
-        if is_valid_area_script(rgpAreas) then
-            for _, iMapid in ipairs(rgpAreas) do
-                for _, iToMapid in ipairs(rgpAreas) do
-                    if in_same_region(iMapid, iToMapid) then
-                        ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
-                        ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
-                    end
+    for _, rgiAreas in pairs(trgpScriptAreas) do
+        local rgiValidAreas = fetch_valid_area_script(ctFieldsDist, rgiAreas)
+        for _, iMapid in ipairs(rgiValidAreas) do
+            for _, iToMapid in ipairs(rgiValidAreas) do
+                if in_same_world_map_node(ctFieldsMeta, pWmapRegion, iMapid, iToMapid) then
+                    ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
+                    ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
                 end
             end
         end
     end
 end
 
-function load_resources_fields()
+local function clear_redundant_field_links(ctFieldsDist)
+    for _, iMapid in ipairs(ctFieldsDist:get_field_entries()) do
+        ctFieldsDist:remove_field_distance(iMapid, iMapid)
+    end
+end
+
+function load_resources_fields(ctFieldsMeta, ctFieldsWmap)
     local sDirPath = RPath.RSC_FIELDS
     local sMapNeighborsPath = sDirPath .. "/MapNeighbors.img.xml"
 
     local pMapNeighborsNode = SXmlProvider:load_xml(sMapNeighborsPath)
 
-    local ctFieldsDist = init_field_distances(pMapNeighborsNode)
-    load_field_scripts(ctFieldsDist, "portal_ex.txt")
-    load_field_scripts(ctFieldsDist, "map_ex.txt")
+    local ctFieldsDist = init_field_distances(ctFieldsMeta, ctFieldsWmap, pMapNeighborsNode)
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Neighbors
     return ctFieldsDist
@@ -185,7 +195,7 @@ local function load_field_string(ctFieldsMeta)
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: String
 end
 
-function load_more_resources_fields()
+function load_meta_resources_fields()
     local sDirPath = RPath.RSC_META_FIELDS
     local sMapOverworldPath = sDirPath .. "/map_overworld.txt"
     local sMapReturnPath = sDirPath .. "/map_return_areas.txt"
@@ -196,4 +206,15 @@ function load_more_resources_fields()
     load_field_string(ctFieldsMeta)
 
     return ctFieldsMeta
+end
+
+function load_script_resources_fields(ctFieldsDist, ctFieldsMeta, ctFieldsWmap)
+    load_field_scripts(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, "portal_ex.txt")
+    load_field_scripts(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, "map_ex.txt")
+    load_field_scripts(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, "npc_ex.txt")
+    load_field_scripts(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, "reactor_ex.txt")
+end
+
+function clear_redundant_resources_fields(ctFieldsDist)
+    clear_redundant_field_links(ctFieldsDist)
 end

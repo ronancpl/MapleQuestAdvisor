@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.procedure.constants")
+require("router.filters.constant")
 
 function fn_get_player_state_exp(pPlayerState)
     return pPlayerState:get_exp()

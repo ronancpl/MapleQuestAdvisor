@@ -18,11 +18,11 @@ CWorldmapNode = createClass({
     rgiMapNo
 })
 
-function CWorldmapNode:get_description()
+function CWorldmapNode:get_desc()
     return self.sDesc
 end
 
-function CWorldmapNode:set_description(sDesc)
+function CWorldmapNode:set_desc(sDesc)
     self.sDesc = sDesc
 end
 

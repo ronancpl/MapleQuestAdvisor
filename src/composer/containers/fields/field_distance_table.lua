@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.procedure.constants")
+require("router.filters.constant")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
@@ -26,8 +26,16 @@ function CFieldDistanceTable:get_field_entries()
     return keys(self.tFieldDistance)
 end
 
+function CFieldDistanceTable:has_field_entry(iSrcid)
+    return self.tFieldDistance[iSrcid] ~= nil
+end
+
 function CFieldDistanceTable:add_field_distance(iSrcid, iDestId, iDistance)
     self.tFieldDistance[iSrcid][iDestId] = iDistance     -- srcid entry already added
+end
+
+function CFieldDistanceTable:remove_field_distance(iSrcid, iDestId)
+    self.tFieldDistance[iSrcid][iDestId] = nil
 end
 
 function CFieldDistanceTable:get_field_distances(iSrcid)

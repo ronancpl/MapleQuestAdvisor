@@ -14,8 +14,9 @@ require("utils.struct.class")
 
 CWorldmapRegion = createClass({
     sName,
-    rgpNodes,
-    rgpLinks
+    tpNodes,
+    tpAreaNodes,
+    tpLinks
 })
 
 function CWorldmapRegion:get_name()
@@ -26,18 +27,39 @@ function CWorldmapRegion:set_name(sName)
     self.sName = sName
 end
 
-function CWorldmapRegion:get_nodes()
-    return self.rgpNodes
+function CWorldmapRegion:get_node(iNodeId)
+    return self.tpNodes[iNodeId]
 end
 
-function CWorldmapRegion:set_nodes(rgpNodes)
-    self.rgpNodes = rgpNodes
+function CWorldmapRegion:get_nodes()
+    return self.tpNodes
+end
+
+function CWorldmapRegion:set_nodes(tpNodes)
+    self.tpNodes = tpNodes
 end
 
 function CWorldmapRegion:get_links()
-    return self.rgpLinks
+    return self.tpLinks
 end
 
-function CWorldmapRegion:set_links(rgpLinks)
-    self.rgpLinks = rgpLinks
+function CWorldmapRegion:set_links(tpLinks)
+    self.tpLinks = tpLinks
+end
+
+function CWorldmapRegion:make_remissive_index_area_region()
+    self.tpAreaNodes = {}
+    local m_tpAreaNodes = self.tpAreaNodes
+
+    for iNodeid, pWmapNode in pairs(self.tpNodes) do
+        local rgiMapids = pWmapNode:get_mapno_list()
+        for _, iMapid in ipairs(rgiMapids) do
+            m_tpAreaNodes[iMapid] = iNodeid
+        end
+    end
+end
+
+function CWorldmapRegion:get_node_by_mapid(iMapid)
+    local m_tpAreaNodes = self.tpAreaNodes
+    return m_tpAreaNodes[iMapid]
 end

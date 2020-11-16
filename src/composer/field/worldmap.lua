@@ -11,6 +11,7 @@
 --]]
 
 require("composer.containers.fields.field_worldmap_table")
+require("router.filters.constant")
 require("router.filters.path")
 require("structs.field.worldmap.maplink")
 require("structs.field.worldmap.maplist")
@@ -20,56 +21,70 @@ require("utils.provider.xml.provider")
 local function load_worldmap_node(pWorldmapElementNode)
     local pWmapNode = CWorldmapNode:new()
 
+    local iNodeid = pWorldmapElementNode:get_name_tonumber()
+
     pWmapNode:set_title(pWorldmapElementNode:get_child_by_name("title"))
     pWmapNode:set_desc(pWorldmapElementNode:get_child_by_name("desc"))
 
     local rgiMapnos = {}
-    for _, pMapnoNode in ipairs(pWorldmapElementNode:get_child_by_name("mapNo"):get_children()) do
+    for _, pMapnoNode in pairs(pWorldmapElementNode:get_child_by_name("mapNo"):get_children()) do
         table.insert(rgiMapnos, pMapnoNode:get_value())
     end
     pWmapNode:set_mapno_list(rgiMapnos)
 
-    return pWmapNode
+    return iNodeid, pWmapNode
 end
 
 local function load_worldmap_link(pWorldmapLinkNode)
     local pWmapLink = CWorldmapLink:new()
 
-    pWmapLink:set_region(pWorldmapLinkNode:get_child_by_name("linkMap"))
+    local iNodeid = pWorldmapLinkNode:get_name_tonumber()
 
-    return pWmapLink
+    local sRegionName = pWorldmapLinkNode:get_child_by_name("link"):get_child_by_name("linkMap"):get_value()
+    pWmapLink:set_region_name(sRegionName)
+
+    return iNodeid, pWmapLink
 end
 
 local function load_worldmap_body(pWorldmapFileNode)
     local sName = pWorldmapFileNode:get_name()
 
-    local rgpNodes = {}
-    for _, pWorldmapElementNode in ipairs(pWorldmapFileNode:get_child_by_name("MapList"):get_children()) do
-        local pWmapNode = load_worldmap_node(pWorldmapElementNode)
-        table.insert(rgpNodes, pWmapNode)
+    local tpNodes = {}
+    for _, pWorldmapElementNode in pairs(pWorldmapFileNode:get_child_by_name("MapList"):get_children()) do
+        local iNodeid
+        local pWmapNode
+
+        iNodeid, pWmapNode = load_worldmap_node(pWorldmapElementNode)
+        tpNodes[iNodeid] = pWmapNode
     end
 
-    local rgpLinks = {}
-    for _, pWorldmapLinkNode in ipairs(pWorldmapFileNode:get_child_by_name("MapLink"):get_children()) do
-        local pWmapLink = load_worldmap_link(pWorldmapLinkNode)
-        table.insert(rgpLinks, pWmapLink)
+    local tpLinks = {}
+    local pWorldmapFileLinkNode = pWorldmapFileNode:get_child_by_name("MapLink")
+    if pWorldmapFileLinkNode ~= nil then
+        for _, pWorldmapLinkNode in pairs(pWorldmapFileLinkNode:get_children()) do
+            local iNodeid
+            local pWmapLink
+
+            iNodeid, pWmapLink = load_worldmap_link(pWorldmapLinkNode)
+            tpLinks[iNodeid] = pWmapLink
+        end
     end
 
-    return sName, rgpNodes, rgpLinks
+    return sName, tpNodes, tpLinks
 end
 
 local function load_worldmap_file(sWmapDirPath, sWmapName)
     local pWorldmapFileNode = SXmlProvider:load_xml(sWmapDirPath .. sWmapName .. ".img.xml")
 
     local sName
-    local rgpNodes
-    local rgpLinks
-    sName, rgpNodes, rgpLinks = load_worldmap_body(pWorldmapFileNode:get_child_by_name(sWmapName .. ".img"))
+    local tpNodes
+    local tpLinks
+    sName, tpNodes, tpLinks = load_worldmap_body(pWorldmapFileNode:get_child_by_name(sWmapName .. ".img"))
 
     local pWmapRegion = CWorldmapRegion:new()
     pWmapRegion:set_name(sName)
-    pWmapRegion:set_nodes(rgpNodes)
-    pWmapRegion:set_links(rgpLinks)
+    pWmapRegion:set_nodes(tpNodes)
+    pWmapRegion:set_links(tpLinks)
 
     return pWmapRegion
 end
@@ -78,12 +93,13 @@ local function init_worldmap(sWmapDirPath)
     local ctFieldsWmap = CFieldWorldmapTable:new()
 
     local rgsWmapsToLoad = {}
-    table.insert(rgsWmapsToLoad, "WorldMap")
+    table.insert(rgsWmapsToLoad, S_WORLDMAP_BASE)
 
     while #rgsWmapsToLoad > 0 do
         local sWmapName = table.remove(rgsWmapsToLoad)
 
         local pWmapRegion = load_worldmap_file(sWmapDirPath, sWmapName)
+        pWmapRegion:make_remissive_index_area_region()
         ctFieldsWmap:add_region_entry(sWmapName, pWmapRegion)
 
         for _, pWmapLink in ipairs(pWmapRegion:get_links()) do

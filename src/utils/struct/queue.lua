@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.procedure.constants")
+require("router.filters.constant")
 require("utils.struct.class")
 
 SQueue = createClass({

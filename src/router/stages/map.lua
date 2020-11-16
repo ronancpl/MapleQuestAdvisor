@@ -15,8 +15,12 @@ require("router.structs.landscape.world")
 function load_regions_overworld(ctFieldsDist, ctFieldsLink)
     ctFieldsLandscape = CFieldLandscape:new()
 
+    print("scan region")
     ctFieldsLandscape:scan_region_areas(ctFieldsDist)
+    print("create index")
     ctFieldsLandscape:make_remissive_index_area_region()
+
+    print("create index travel")
     ctFieldsLink:make_index_travel_region(ctFieldsLandscape)
 end
 

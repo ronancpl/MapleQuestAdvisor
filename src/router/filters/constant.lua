@@ -14,7 +14,12 @@ U_INT_MAX = 0x7FFFFFFF
 
 U_QUEUE_SIZE_INC = 25
 
+S_WORLDMAP_BASE = "WorldMap"
+
 function get_continent_id(iMapid)
     return math.floor(iMapid / 100000000)
 end
 
+function get_region_id(iMapid)
+    return math.floor(iMapid / 10000000)
+end

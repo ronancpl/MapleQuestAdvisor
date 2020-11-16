@@ -16,12 +16,10 @@ local SSet = require("pl.class").Set
 local function outline_area_outskirts(iMapid, tiExploredMapids, tFrontierMapids, ctFieldsDist)
     tiExploredMapids[iMapid] = 1
 
-    local tiNeighborMapids = ctFieldsDist:get_field_distances(iMapid)   -- TODO check nil necessary?
-    if tiNeighborMapids ~= nil then
-        for iMapid, _ in pairs(tiNeighborMapids) do
-            if tiExploredMapids[iMapid] == nil then
-                table.insert(tFrontierMapids, iMapid)
-            end
+    local tiNeighborMapids = ctFieldsDist:get_field_distances(iMapid)
+    for iMapid, _ in pairs(tiNeighborMapids) do
+        if tiExploredMapids[iMapid] == nil then
+            table.insert(tFrontierMapids, iMapid)
         end
     end
 end
