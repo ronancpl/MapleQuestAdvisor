@@ -16,7 +16,7 @@ function load_regions_overworld(ctFieldsDist, ctFieldsLink)
     ctFieldsLandscape = CFieldLandscape:new()
 
     ctFieldsLandscape:scan_region_areas(ctFieldsDist)
-    ctFieldsLandscape:make_index_area_region()
+    ctFieldsLandscape:make_remissive_index_area_region()
     ctFieldsLink:make_index_travel_region(ctFieldsLandscape)
 end
 

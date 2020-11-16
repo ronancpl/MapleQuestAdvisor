@@ -54,6 +54,48 @@ local function init_field_distances(pMapNeighborsNode)
     return ctFieldsDist
 end
 
+local function load_field_script_file(sFilePath)
+    local tScriptMaps = read_plain_table(sFilePath)
+
+    local trgpScriptMapids = {}
+    for _, pScriptEntry in ipairs(tScriptMaps) do
+        local sScriptPath = pScriptEntry[1]
+
+        local rgpMapids = {}
+        trgpScriptMapids[sScriptPath] = rgpMapids
+
+        for i = 2, #pScriptEntry, 1 do
+            local iMapId = tonumber(pScriptEntry[i])
+            table.insert(rgpMapids, iMapId)
+        end
+    end
+
+    return trgpScriptMapids
+end
+
+local function load_field_scripts(ctFieldsDist)
+    local sDirPath = RPath.RSC_META_PORTALS
+    local sMapPortalSendPath = sDirPath .. "/portal_ex.txt"
+    local sMapPortalPath = sDirPath .. "/portal_map.txt"
+
+    local trgpPortalTo = load_field_script_file(sMapPortalSendPath)
+    local trgpPortalArea = load_field_script_file(sMapPortalPath)
+
+    for sScriptName, rgpAreas in ipairs(trgpPortalArea) do
+        local rgpToAreas = trgpPortalTo[sScriptName]
+        if rgpToAreas ~= nil then
+            for _, iMapid in ipairs(rgpAreas) do
+                for _, iToMapid in ipairs(rgpToAreas) do
+                    if in_same_region(iMapid, iToMapid) then
+                        ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
+                        ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
+                    end
+                end
+            end
+        end
+    end
+end
+
 function load_resources_fields()
     local sDirPath = RPath.RSC_FIELDS
     local sMapNeighborsPath = sDirPath .. "/MapNeighbors.img.xml"
@@ -61,6 +103,7 @@ function load_resources_fields()
     local pMapNeighborsNode = SXmlProvider:load_xml(sMapNeighborsPath)
 
     local ctFieldsDist = init_field_distances(pMapNeighborsNode)
+    load_field_scripts(ctFieldsDist)
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Neighbors
     return ctFieldsDist

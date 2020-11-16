@@ -38,7 +38,7 @@ function CFieldLandscape:scan_region_areas(ctFieldsDist)
     end
 end
 
-function CFieldLandscape:make_index_area_region()    -- builds inverted index for region areas
+function CFieldLandscape:make_remissive_index_area_region()    -- builds inverted index for region areas
     local m_rgpRegionFields = self.rgpRegionFields
 
     local m_tiFieldRegion = self.tiFieldRegion
