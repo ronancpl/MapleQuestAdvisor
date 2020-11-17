@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CWorldmapRegion = createClass({
@@ -62,4 +63,9 @@ end
 function CWorldmapRegion:get_node_by_mapid(iMapid)
     local m_tpAreaNodes = self.tpAreaNodes
     return m_tpAreaNodes[iMapid]
+end
+
+function CWorldmapRegion:get_areas()
+    local m_tpAreaNodes = self.tpAreaNodes
+    return keys(m_tpAreaNodes)
 end

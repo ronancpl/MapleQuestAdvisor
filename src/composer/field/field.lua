@@ -36,22 +36,25 @@ local function init_field_entries(ctFieldsDist, pNeighborsImgNode)
     end
 end
 
-local function in_same_world_map_node(ctFieldsMeta, pWmapRegion, iMapid, iToMapid)
-    local iRetMapid = ctFieldsMeta:get_field_return(iMapid)
-    local iRetToMapid = ctFieldsMeta:get_field_return(iToMapid)
+local function get_world_map_section_id(ctFieldsWmap, iMapid)
+    local iWmapid = ctFieldsWmap:get_worldmapid_by_area(iMapid) or -10
+    return math.floor(iWmapid / 10)
+end
 
-    return pWmapRegion:get_node_by_mapid(iRetMapid) == pWmapRegion:get_node_by_mapid(iRetToMapid)
+local function in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid)
+    local iRetMapid = ctFieldsMeta:get_field_return(iMapid) or iMapid
+    local iRetToMapid = ctFieldsMeta:get_field_return(iToMapid) or iToMapid
+
+    return get_world_map_section_id(ctFieldsWmap, iRetMapid) == get_world_map_section_id(ctFieldsWmap, iRetToMapid)
 end
 
 local function read_field_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, pNeighborsImgNode)
-    local pWmapRegion = ctFieldsWmap:get_region_entry(S_WORLDMAP_BASE)
-
     for _, pFieldNode in pairs(pNeighborsImgNode:get_children()) do
         local iMapid = pFieldNode:get_name_tonumber()
 
         for _, pFieldNeighborNode in pairs(pFieldNode:get_children()) do
             local iToMapid = pFieldNeighborNode:get_value()
-            if in_same_world_map_node(ctFieldsMeta, pWmapRegion, iMapid, iToMapid) then    -- accept as neighbors if referenced mapid share region (unlink FM rooms)
+            if in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid) then    -- accept as neighbors if referenced mapid share region (unlink FM rooms)
                 ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
                 ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
             end
@@ -95,11 +98,10 @@ end
 
 local function fetch_valid_area_script(ctFieldsDist, rgiAreas)
     local rgiValidAreas = {}
-    if #rgiAreas <= 10 then
-        for _, iMapid in ipairs(rgiAreas) do
-            if ctFieldsDist:get_field_distances(iMapid) ~= nil then
-                table.insert(rgiValidAreas, iMapid)
-            end
+
+    for _, iMapid in ipairs(rgiAreas) do
+        if ctFieldsDist:get_field_distances(iMapid) ~= nil then
+            table.insert(rgiValidAreas, iMapid)
         end
     end
 
@@ -110,14 +112,12 @@ local function load_field_scripts(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, sFil
     local sDirPath = RPath.RSC_META_PORTALS
     local sFilePath = sDirPath .. "/" .. sFileName
 
-    local pWmapRegion = ctFieldsWmap:get_region_entry(S_WORLDMAP_BASE)
-
     local trgpScriptAreas = load_field_script_file(sFilePath)
     for _, rgiAreas in pairs(trgpScriptAreas) do
         local rgiValidAreas = fetch_valid_area_script(ctFieldsDist, rgiAreas)
         for _, iMapid in ipairs(rgiValidAreas) do
             for _, iToMapid in ipairs(rgiValidAreas) do
-                if in_same_world_map_node(ctFieldsMeta, pWmapRegion, iMapid, iToMapid) then
+                if in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid) then
                     ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
                     ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
                 end

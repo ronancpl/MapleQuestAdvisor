@@ -86,6 +86,8 @@ local function load_worldmap_file(sWmapDirPath, sWmapName)
     pWmapRegion:set_nodes(tpNodes)
     pWmapRegion:set_links(tpLinks)
 
+    pWmapRegion:make_remissive_index_area_region()
+
     return pWmapRegion
 end
 
@@ -99,7 +101,6 @@ local function init_worldmap(sWmapDirPath)
         local sWmapName = table.remove(rgsWmapsToLoad)
 
         local pWmapRegion = load_worldmap_file(sWmapDirPath, sWmapName)
-        pWmapRegion:make_remissive_index_area_region()
         ctFieldsWmap:add_region_entry(sWmapName, pWmapRegion)
 
         for _, pWmapLink in ipairs(pWmapRegion:get_links()) do
@@ -107,6 +108,7 @@ local function init_worldmap(sWmapDirPath)
         end
     end
 
+    ctFieldsWmap:make_remissive_index_area_region()
     return ctFieldsWmap
 end
 

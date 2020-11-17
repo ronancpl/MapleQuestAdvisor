@@ -13,7 +13,8 @@
 require("utils.struct.class")
 
 CFieldWorldmapTable = createClass({
-    tpWmapRegions = {}
+    tpWmapRegions = {},
+    tiAreaWmapId = {}
 })
 
 function CFieldWorldmapTable:add_region_entry(sName, pWmapRegion)
@@ -24,4 +25,29 @@ end
 function CFieldWorldmapTable:get_region_entry(sName)
     local m_tpWmapRegions = self.tpWmapRegions
     return m_tpWmapRegions[sName]
+end
+
+function CFieldWorldmapTable:_get_worldmap_id(sWmapName)
+    return tonumber(sWmapName:sub(9, 11))
+end
+
+function CFieldWorldmapTable:make_remissive_index_area_region()
+    local m_tpWmapRegions = self.tpWmapRegions
+    local m_tiAreaWmapId = self.tiAreaWmapId
+
+    for _, pPair in ipairs(spairs(m_tpWmapRegions, function (a, b) return a < b end)) do
+        local sWmapName
+        local pWmapRegion
+        sWmapName, pWmapRegion = unpack(pPair)
+
+        local iWmapId = self:_get_worldmap_id(sWmapName)
+        for _, iMapid in ipairs(pWmapRegion:get_areas()) do
+            m_tiAreaWmapId[iMapid] = iWmapId
+        end
+    end
+end
+
+function CFieldWorldmapTable:get_worldmapid_by_area(iMapid)
+    local m_tiAreaWmapId = self.tiAreaWmapId
+    return m_tiAreaWmapId[iMapid]
 end
