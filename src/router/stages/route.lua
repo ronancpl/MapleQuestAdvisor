@@ -169,12 +169,13 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
     local rgPoolQuests = make_pool_list(tQuests)
     local pLeadingPath = CQuestPath:new()
 
+    print("Total of quests to search: " .. tQuests:size())
     while not rgPoolQuests:is_empty() do
         local pQuest = rgPoolQuests:remove_last()
         route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders)
     end
 
-    print("Total of quests searched: " .. tQuests:size())
+    print("Search finished.")
     print_path_search_counts()
     return pLeadingPath
 end

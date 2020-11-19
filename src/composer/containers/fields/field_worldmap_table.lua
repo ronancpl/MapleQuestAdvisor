@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.sort")
 require("utils.struct.class")
 
 CFieldWorldmapTable = createClass({
@@ -48,6 +49,11 @@ function CFieldWorldmapTable:make_remissive_index_area_region()
 end
 
 function CFieldWorldmapTable:get_worldmapid_by_area(iMapid)
+    local m_tiAreaWmapId = self.tiAreaWmapId
+    return m_tiAreaWmapId[iMapid]
+end
+
+function CFieldWorldmapTable:contains(iMapid)
     local m_tiAreaWmapId = self.tiAreaWmapId
     return m_tiAreaWmapId[iMapid]
 end

@@ -108,8 +108,19 @@ local function calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRe
     return iTransitDist
 end
 
-function fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsLink, tiFieldRegion, tWorldNodes)
-    local rgiTowns = ctFieldsMeta:get_towns()
+local function is_actual_town_map(iMapid)
+    return iMapid % 10000 == 0 and math.floor(iMapid / 10000) % 10 == 0
+end
+
+function fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
+    local rgiTowns = {}
+
+    for _, iMapid in ipairs(ctFieldsMeta:get_towns()) do
+        if is_actual_town_map(iMapid) and ctFieldsWmap:contains(iMapid) then
+            table.insert(rgiTowns, iMapid)
+        end
+    end
+
     for _, iTownA in ipairs(rgiTowns) do
         for _, iTownB in ipairs(rgiTowns) do
             local iDistance = calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iTownA, iTownB)

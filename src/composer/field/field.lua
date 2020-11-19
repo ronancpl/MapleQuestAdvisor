@@ -13,6 +13,7 @@
 require("composer.containers.fields.field_distance_table")
 require("composer.containers.fields.field_meta_table")
 require("router.filters.constant")
+require("router.filters.graph")
 require("router.filters.path")
 require("utils.procedure.unpack")
 require("utils.provider.text.table")
@@ -99,9 +100,11 @@ end
 local function fetch_valid_area_script(ctFieldsDist, rgiAreas)
     local rgiValidAreas = {}
 
-    for _, iMapid in ipairs(rgiAreas) do
-        if ctFieldsDist:get_field_distances(iMapid) ~= nil then
-            table.insert(rgiValidAreas, iMapid)
+    if #rgiAreas <= RGraph.REGION_AREAS_SCRIPT_THRESHOLD then
+        for _, iMapid in ipairs(rgiAreas) do
+            if ctFieldsDist:get_field_distances(iMapid) ~= nil then
+                table.insert(rgiValidAreas, iMapid)
+            end
         end
     end
 

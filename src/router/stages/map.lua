@@ -20,9 +20,9 @@ function load_regions_overworld(ctFieldsDist, ctFieldsLink)
     ctFieldsLink:make_index_travel_region(ctFieldsLandscape)
 end
 
-function load_distances_overworld(ctFieldsLandscape, ctFieldsDist, ctFieldsMeta, ctFieldsLink)
+function load_distances_overworld(ctFieldsLandscape, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
     ctFieldsLandscape:calc_region_distances(ctFieldsDist, ctFieldsMeta)   -- calc distance between each pair of same-region areas
 
     ctFieldsLandscape:build_interconnection_overworld(ctFieldsLink)
-    ctFieldsLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsLink)
+    ctFieldsLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
 end

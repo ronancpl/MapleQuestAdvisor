@@ -112,9 +112,10 @@ function CFieldLandscape:build_interconnection_overworld(ctFieldsLink)
     self:_build_world_nodes(ctFieldsLink)
 end
 
-function CFieldLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsLink)
+function CFieldLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
     local m_tiFieldRegion = self.tiFieldRegion
     local m_tWorldNodes = self.tWorldNodes
 
-    fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsLink, m_tiFieldRegion, m_tWorldNodes)
+    fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, m_tiFieldRegion, m_tWorldNodes)
+    print("Calc interregional town distance finished.")
 end
