@@ -110,6 +110,8 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
             break
         end
 
+        pFrontierQuests:fetch()
+
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
             rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
             pFrontierArranger:rollback_visit(ctAccessors, pQuestProp)
@@ -121,7 +123,6 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
 
     for _, pBcktQuestProp in ipairs(rgpBcktQuests) do
         route_quest_suppress_complete(rgpPoolProps, pBcktQuestProp, pPlayerState)
-        pFrontierQuests:fetch()
     end
 end
 
@@ -134,8 +135,6 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
         if pQuestProp == nil then
             break
         end
-
-        pFrontierQuests:fetch()
 
         route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
 
