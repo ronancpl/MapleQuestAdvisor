@@ -25,6 +25,10 @@ local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestR
     local tiVisitedNodeid = {}
 
     pQueueFrontierNodeids:push(iSrcRegionid)
+
+    for iRegionid, _ in pairs(tWorldNodes) do
+        tiVisitedNodeid[iRegionid] = -2
+    end
     tiVisitedNodeid[iSrcRegionid] = -1
 
     local tiPathedFrom = {}
@@ -36,7 +40,7 @@ local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestR
         end
 
         for iLinkedRegionid, _ in pairs(tWorldNodes[iRegionid]) do
-            if tiVisitedNodeid[iLinkedRegionid] == nil then         -- first visited is shortest path
+            if tiVisitedNodeid[iLinkedRegionid] < -1 then         -- first visited is shortest path
                 pQueueFrontierNodeids:push(iLinkedRegionid)
                 tiVisitedNodeid[iLinkedRegionid] = iRegionid
             end
@@ -45,9 +49,13 @@ local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestR
 
     local rgiRevVisitedRegions = {}
     local iRegionid = iDestRegionid
-    while tiVisitedNodeid[iRegionid] ~= -1 do
+    while tiVisitedNodeid[iRegionid] > -1 do
         table.insert(rgiRevVisitedRegions, iRegionid)
         iRegionid = tiVisitedNodeid[iRegionid]
+    end
+
+    if tiVisitedNodeid[iRegionid] == -2 then
+        print("[FATAL] Could not establish connection between regions #" .. iSrcRegionid .. "|#" .. iDestRegionid)
     end
 
     return rpairs(rgiRevVisitedRegions)
@@ -69,15 +77,15 @@ end
 local function fetch_nearby_region_station(ctFieldsDist, ctFieldsLink, tiFieldRegion, iSrcMapid, iDestRegionid)
     local iStationDist = U_INT_MAX
     local iStationMapid = nil
-    local iNextMapid = nil
+    local iNextMapid = iSrcMapid
 
     local rgpMapLinks = ctFieldsLink:get_stations_to_region(tiFieldRegion, iSrcMapid, iDestRegionid)
     for _, pStationMapLink in ipairs(rgpMapLinks) do
         local iCurStationMapid
         local iCurNextMapid
-        iCurStationMapid, iCurNextMapid = pStationMapLink
+        iCurStationMapid, iCurNextMapid = unpack(pStationMapLink)
 
-        local iDist = ctFieldsDist:get_field_distance(iSrcMapid, iCurStationMapid)
+        local iDist = ctFieldsDist:get_field_distance(iNextMapid, iCurStationMapid)
         if iDist < iStationDist then
             iStationDist = iDist
 
@@ -90,11 +98,11 @@ local function fetch_nearby_region_station(ctFieldsDist, ctFieldsLink, tiFieldRe
 end
 
 local function calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iSrcMapid, iDestMapid)
-    local rgpTransitRegionids = get_interregional_path(tWorldNodes, tiFieldRegion, iSrcMapid, iDestMapid)
+    local rgiTransitRegionids = get_interregional_path(tWorldNodes, tiFieldRegion, iSrcMapid, iDestMapid)
 
     local iTransitDist = 0
     local iCurMapid = iSrcMapid
-    for _, iNextRegionid in ipairs(rgpTransitRegionids) do
+    for _, iNextRegionid in ipairs(rgiTransitRegionids) do
         local iStationMapid     -- prioritizes going to nearest station
         local iNextMapid
         local iDist
