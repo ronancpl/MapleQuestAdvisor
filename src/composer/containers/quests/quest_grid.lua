@@ -186,3 +186,10 @@ end
 function CQuestGrid:ignore_underleveled_quests(iLevel)
     self:_ignore_quests_from_level(iLevel - RGraph.POOL_BEHIND_QUEST_LEVEL)
 end
+
+function CQuestGrid:length()
+    local m_rgQuests = self.rgQuests
+    m_rgQuests:add(pQuest)
+
+    return m_rgQuests:size()
+end

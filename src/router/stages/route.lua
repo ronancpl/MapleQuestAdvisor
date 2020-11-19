@@ -166,6 +166,8 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
 end
 
 function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
+    print("Route quest board... (" .. tQuests:size() .. " quests)")
+
     local rgPoolQuests = make_pool_list(tQuests)
     local pLeadingPath = CQuestPath:new()
 

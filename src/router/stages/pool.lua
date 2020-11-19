@@ -15,6 +15,8 @@ require("router.filters.graph")
 require("utils.struct.table")
 
 function pool_select_graph_quests(pGridQuests, pPlayer)
+    print("Select quests to board... (total " .. pGridQuests:length() .. " quests loaded)")
+
     local tQuests = pGridQuests:fetch_top_quests_by_player(pPlayer, RGraph.POOL_MIN_QUESTS)
     return tQuests
 end

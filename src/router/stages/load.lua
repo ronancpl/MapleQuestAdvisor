@@ -65,6 +65,8 @@ local function load_resources_internal()
 end
 
 function load_resources()
+    print("Load quest resources...")
+
     load_resources_internal()
     post_process_resources(ctQuests, ctNpcs, ctFieldsMeta)
 end
