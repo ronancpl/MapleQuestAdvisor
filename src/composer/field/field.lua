@@ -98,17 +98,25 @@ local function load_field_script_file(sFilePath)
 end
 
 local function fetch_valid_area_script(ctFieldsDist, rgiAreas)
-    local rgiValidAreas = {}
+    local trgiValidAreas = {}
 
     if #rgiAreas <= RGraph.REGION_AREAS_SCRIPT_THRESHOLD then
         for _, iMapid in ipairs(rgiAreas) do
+            local iRegionid = get_region_id(iMapid)
+
+            local rgiValidAreas = trgiValidAreas[iRegionid]
+            if rgiValidAreas == nil then
+                rgiValidAreas = {}
+                trgiValidAreas[iRegionid] = rgiValidAreas
+            end
+
             if ctFieldsDist:get_field_distances(iMapid) ~= nil then
                 table.insert(rgiValidAreas, iMapid)
             end
         end
     end
 
-    return rgiValidAreas
+    return trgiValidAreas
 end
 
 local function load_field_scripts(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, sFileName)
@@ -118,11 +126,13 @@ local function load_field_scripts(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, sFil
     local trgpScriptAreas = load_field_script_file(sFilePath)
     for _, rgiAreas in pairs(trgpScriptAreas) do
         local rgiValidAreas = fetch_valid_area_script(ctFieldsDist, rgiAreas)
-        for _, iMapid in ipairs(rgiValidAreas) do
-            for _, iToMapid in ipairs(rgiValidAreas) do
-                if in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid) then
-                    ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
-                    ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
+        for _, rgiValidSectionAreas in pairs(rgiValidAreas) do
+            for _, iMapid in ipairs(rgiValidSectionAreas) do
+                for _, iToMapid in ipairs(rgiValidSectionAreas) do
+                    if in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid) then
+                        ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
+                        ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
+                    end
                 end
             end
         end
