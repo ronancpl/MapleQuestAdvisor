@@ -10,16 +10,17 @@
     provide an express grant of patent rights.
 --]]
 
-RPath = {
+require("utils.struct.class")
 
-    RSC_QUESTS = "lib/xml/Quest.wz",
-    RSC_FIELDS = "lib/xml/Map.wz",
-    RSC_STRINGS = "lib/xml/String.wz",
-    RSC_META_FIELDS = "lib/scan",
-    RSC_META_PORTALS = "lib/scan",
-    RSC_META_UNITS = "lib/scan",
-    RSC_META_REFINES = "lib/scan",
-    RSC_META_UNITS_CSV = "lib/csv",
-    RSC_META_LOOTS = "lib/csv"
+CRefineEntry = createClass({
+    iItemid,
+    tiComposition
+})
 
-}
+function CRefineEntry:get_itemid()
+    return self.iItemid
+end
+
+function CRefineEntry:get_composition()
+    return self.tiComposition
+end

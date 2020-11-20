@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.structs.inventory.inventory_ex")
 require("structs.storage.inventory")
 require("utils.struct.class")
 
@@ -21,7 +22,7 @@ CPlayer = createClass({
     iMapid = 0,
     iMeso = 0,
     siFame = 0,
-    ivtItems = CInventory:new(),
+    ivtItems = CCompositeInventory:new(),
     ivtSkills = CInventory:new(),
     ivtQuests = CInventory:new(),
     ivtMobs = CInventory:new()

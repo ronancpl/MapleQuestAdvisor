@@ -11,6 +11,7 @@
 --]]
 
 require("router.filters.constant")
+require("router.procedures.inventory.handle")
 
 function fn_get_player_state_exp(pPlayerState)
     return pPlayerState:get_exp()
@@ -29,7 +30,7 @@ function fn_get_player_state_skills(pPlayerState)
 end
 
 function fn_get_player_state_items(pPlayerState)
-    return pPlayerState:get_items()
+    return pPlayerState:get_items():get_inventory()
 end
 
 function fn_get_player_state_mobs(pPlayerState)

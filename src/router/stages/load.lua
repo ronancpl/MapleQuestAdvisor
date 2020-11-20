@@ -62,6 +62,9 @@ local function load_resources_internal()
 
     ctMaker = load_resources_maker()
     --printable(ctMaker)
+
+    ctRefine = load_resources_refine()
+    --printable(ctRefine)
 end
 
 function load_resources()

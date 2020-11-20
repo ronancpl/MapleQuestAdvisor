@@ -10,10 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.containers.loots.loot")
+require("composer.containers.loots.table.loot")
 require("utils.provider.text.csv")
 
-local function load_loot_entries(ctLoots, fnLootEntry, sEntryKey, tLootRs)
+local function load_loot_entries(ctLoots, fn_loot_entry, sEntryKey, tLootRs)
     local tLootEntries = {}
 
     for _, tRow in ipairs(tLootRs) do
@@ -22,11 +22,11 @@ local function load_loot_entries(ctLoots, fnLootEntry, sEntryKey, tLootRs)
     end
 
     for _, iSrcid in ipairs(tLootEntries) do
-        fnLootEntry(ctLoots, iSrcid)
+        fn_loot_entry(ctLoots, iSrcid)
     end
 end
 
-local function load_loot_body(ctLoots, fnLootAdd, tLootRs, tLoadKeys)
+local function load_loot_body(ctLoots, fn_loot_add, tLootRs, tLoadKeys)
     for _, tRow in ipairs(tLootRs) do
         local iSrcid = tonumber(tRow[tLoadKeys[1]])
         local iItemid = tonumber(tRow[tLoadKeys[2]])
@@ -34,17 +34,17 @@ local function load_loot_body(ctLoots, fnLootAdd, tLootRs, tLoadKeys)
         local siMaxItems = type(tLoadKeys[4]) == "number" and tLoadKeys[4] or tonumber(tRow[tLoadKeys[4]])
         local iChance = tonumber(tRow[tLoadKeys[5]])
 
-        fnLootAdd(ctLoots, iSrcid, iItemid, iChance, siMinItems, siMaxItems)
+        fn_loot_add(ctLoots, iSrcid, iItemid, iChance, siMinItems, siMaxItems)
     end
 end
 
-local function load_loot_by_type(ctLoots, fnLootEntry, fnLootAdd, sEntryKey, rgsRsKeys, sFilePath)
+local function load_loot_by_type(ctLoots, fn_loot_entry, fn_loot_add, sEntryKey, rgsRsKeys, sFilePath)
     local tLootRs = read_result_set(sFilePath, rgsRsKeys)
     if #tLootRs > 1 then
-        load_loot_entries(ctLoots, fnLootEntry, sEntryKey, tLootRs)
+        load_loot_entries(ctLoots, fn_loot_entry, sEntryKey, tLootRs)
 
         local tLoadKeys = rgsRsKeys
-        load_loot_body(ctLoots, fnLootAdd, tLootRs, tLoadKeys)
+        load_loot_body(ctLoots, fn_loot_add, tLootRs, tLoadKeys)
     end
 end
 

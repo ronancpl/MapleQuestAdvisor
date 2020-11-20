@@ -70,3 +70,10 @@ function CInventory:set_item(iId, iCount)
         self.nSize = self.nSize + 1
     end
 end
+
+function CInventory:include_inventory(ivtInventory)
+    local rgEntries = ivtInventory:get_items()
+    for iId, iCount in pairs(rgEntries) do
+        self:add_item(iId, iCount)
+    end
+end

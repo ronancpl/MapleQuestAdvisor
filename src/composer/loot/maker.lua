@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.containers.loots.maker")
+require("composer.containers.loots.table.maker")
 require("utils.provider.text.csv")
 
 local function init_maker_table(sFilePath)

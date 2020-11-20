@@ -11,6 +11,7 @@
 --]]
 
 local bit = require("bit")
+require("router.procedures.inventory.handle")
 
 function fn_award_player_state_exp(pPlayerState, iGain)
     pPlayerState:add_exp(iGain)
@@ -36,7 +37,7 @@ function fn_award_player_state_items(pPlayerState, rgpGet)
     local pItems = pPlayerState:get_items()
 
     for iId, iGain in pairs(rgpGet:get_items()) do
-        pItems:add_item(iId, iGain)
+        pItems:add_item(pItems, iId, iGain)
     end
 end
 
