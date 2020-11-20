@@ -60,13 +60,32 @@ local function handlify(ctRefines, ivtEx, iId, iQty)
     end
 end
 
+local function fetch_item_exchange_batch(ivtRaw, ivtComp, iId, iQty)
+    if iQty > -1 do
+        ivtRaw:add_item(iId, iQty)
+    else
+        local iRawCount = ivtRaw:get_item(iId)
+        local iNextCount = iRawCount + iQty
+
+        if iNextCount < 0 then
+            ivtRaw:add_item(iId, -iRawCount)
+            ivtComp:add_item(iId, iNextCount)
+        else
+            ivtRaw:add_item(iId, iQty)
+        end
+    end
+end
+
 function add_item(ivtEx, iId, iQty)
+    ivtEx:commit_reload()
+
     local ivtRaw
     local ivtComp
     ivtRaw, ivtComp = unpack_inventories(ivtEx)
 
-    ivtRaw:add_item(iId, iQty)
-    handlify(ctRefines, ivtEx, iId, iQty)
+    for iItemid, iCount in pairs(fetch_item_exchange_batch(ivtRaw, ivtComp, iId, iQty)) do
+        handlify(ctRefines, ivtEx, iItemid, iCount)
+    end
 end
 
 function count_item(ivtEx, iId)

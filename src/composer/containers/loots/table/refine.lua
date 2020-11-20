@@ -10,9 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.containers.loot.node.refine")
-require("containers.loots.node.composition")
-require("containers.loots.node.refine")
+require("composer.containers.loots.node.composition")
+require("composer.containers.loots.node.refine")
 require("utils.struct.class")
 
 CRefineTable = createClass({

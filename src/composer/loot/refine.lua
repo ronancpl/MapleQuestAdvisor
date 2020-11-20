@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.containers.loots.table.refine")
 require("utils.provider.text.table")
-require("containers.loots.table.refine")
 
 local function load_refines_table(sFilePath)
     local ctRefines = CRefineTable:new()

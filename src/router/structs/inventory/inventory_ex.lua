@@ -29,6 +29,14 @@ function CCompositeInventory:get_composite()
     return self.ivtComp
 end
 
+function CCompositeInventory:get_item(iId)
+    return count_item(ivtEx, iId)
+end
+
+function CCompositeInventory:add_item(iId, iCount)
+    add_item(self, iId, iCount)
+end
+
 function CCompositeInventory:get_limit(rgiItemids)
     local iCompLimit = U_INT_MAX
 
@@ -46,7 +54,7 @@ function CCompositeInventory:apply_limit(iItemid, iQty)
     self.ttiCompLimits[iItemid] = iQty
 end
 
-function CCompositeInventory:set_reload_inventory()
+function CCompositeInventory:commit_reload()
     self.ivtExport = nil
 end
 
