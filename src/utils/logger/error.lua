@@ -10,48 +10,30 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.logger.file")
+local function get_system_directory_path(sFileDir)
+    return sFileDir:gsub("%s", ""):gsub("%p", "\\\\")
+end
 
-local function create_directory_path_advance(sPath)
-    local iResp = os.execute("cd " .. sPath)
-    if iResp == 1 then
-        iResp = os.execute("mkdir " .. sPath)
+local function get_directory_path(sPath)
+    local iIdx = (sPath:reverse()):find("/")
+    return (sPath:sub(1, -iIdx-1))
+end
+
+local function create_directory_if_not_exists(sPath)
+    local sFileDir = get_directory_path(sPath)
+
+    local sSysPath = get_system_directory_path(sFileDir)
+    local iResp = os.execute("cd " .. sSysPath .. "")
+    if iResp == 1 then   -- path not exists
+        iResp = os.execute("mkdir " .. sSysPath)
         if iResp ~= 0 then
             error(iResp)
         end
 
-        os.execute("cd " .. sPath)
-    end
-end
-
-local function create_directory_path_return()
-    os.execute("cd ..")
-end
-
-local create_directory_path_split(sPath)
-    local rgsPathItems = sPath:split("/")
-
-    for _, sPathItem in ipairs(rgsPathItems) do
-        create_directory_path_advance(sPathItem)
+        os.execute("cd " .. sSysPath)
     end
 
-    for _, sPathItem in ipairs(rgsPathItems) do
-        create_directory_path_return()
-    end
-end
-
-local function get_system_directory_path(sFileDir)
-    return sFileDir:gsub(" ", ""):gsub("%p", "/")
-end
-
-local function create_directory_if_not_exists(sPath)
-    local iResp = os.execute("cd '" .. sPath .. "'")
-    if iResp == 1 then   -- path not exists
-        sPath = get_system_directory_path(sPath)
-        create_directory_path_split(sPath)
-    end
-
-    return sPath
+    return sSysPath
 end
 
 function pcall_log(sPath)
@@ -64,7 +46,7 @@ function pcall_log(sPath)
     if bResult then
         return oRet
     else
-        log(LPath.FALLBACK, "io.txt", "[ERROR] Could not access path '" .. sPath .. "'")
+        print("[ERROR] Could not access log path '" .. sPath .. "'")
         return ""
     end
 end

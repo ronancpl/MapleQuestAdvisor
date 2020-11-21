@@ -14,7 +14,7 @@ require("utils.logger.error")
 
 LPath = {
 
-    LOG_DIR = "./logs/",
+    LOG_DIR = "logs/",
 
     FALLBACK = "digression/",
     OVERALL = "overall/",
@@ -23,7 +23,7 @@ LPath = {
 }
 
 local function fetch_catalog_name(sFileDir, sFileName)
-    return LPath.LOG_DIR .. sFileDir .. os.date("%Y-%b-%d") .. "/", sFileName .. ".txt"
+    return LPath.LOG_DIR .. sFileDir .. os.date("%Y-%b-%d") .. "/", sFileName
 end
 
 local function fetch_log_line(...)
@@ -47,7 +47,7 @@ function log(sFileDir, sFileName, ...)
     sLogDirPath, sLogFilePath = fetch_catalog_name(sFileDir, sFileName)
 
     sLogDirPath = pcall_log(sLogDirPath)
-    local fOut = io.open(sLogDirPath .. sLogFilePath, "a")
+    local fOut = io.open("./" .. sLogDirPath .. "/" .. sLogFilePath, "a")
 
     local sLogLine = os.date("[%X] ") .. fetch_log_line(...)
     fOut:write(sLogLine)
