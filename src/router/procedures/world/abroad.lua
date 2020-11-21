@@ -13,6 +13,7 @@
 require("router.filters.constant")
 require("router.procedures.world.path.distance")
 require("router.procedures.world.path.table")
+require("utils.logger.file")
 require("utils.procedure.iterate")
 require("utils.struct.queue")
 
@@ -55,7 +56,7 @@ local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestR
     end
 
     if tiVisitedNodeid[iRegionid] == -2 then
-        print("[FATAL] Could not establish connection between regions #" .. iSrcRegionid .. "|#" .. iDestRegionid)
+        log(LPath.PROCEDURES, "pathfind_interregional.txt", "[FATAL] Could not establish connection between regions #" .. iSrcRegionid .. "|#" .. iDestRegionid)
     end
 
     return rpairs(rgiRevVisitedRegions)

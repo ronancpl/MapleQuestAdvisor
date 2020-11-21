@@ -19,6 +19,7 @@ require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")
 require("structs.quest.properties")
 require("structs.quest.quest")
+require("utils.logger.file")
 require("utils.provider.xml.provider")
 require("utils.struct.table")
 
@@ -176,7 +177,7 @@ local function read_quests(ctQuests, pActNode, pChkNode)
             local pQuest = read_quest_node(pActQuestNode, pChkQuestNode, rgfn_req_get, rgfn_act_get)
             ctQuests:add_quest(pQuest)
         else
-            -- print("[WARNING] Missing questid " .. pActQuestNode:get_name())
+            log(LPath.FALLBACK, "quest.txt", "[WARNING] Missing questid " .. pActQuestNode:get_name())
         end
     end
 end
@@ -248,7 +249,7 @@ local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcFie
             -- pNpcMapid: [integer - 1 value][dict - 1 per region]
             pNpcMapid = tpNpcField[iStartNpc]
         else
-            --print("[WARNING] NPC locations not found for NPCID " .. iStartNpc)
+            log(LPath.FALLBACK, "npc.txt", "[WARNING] NPC locations not found for NPCID " .. iStartNpc)
         end
     end
 

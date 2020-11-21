@@ -12,6 +12,7 @@
 
 require("router.filters.constant")
 require("router.filters.graph")
+require("utils.logger.file")
 require("utils.struct.array")
 require("utils.struct.class")
 
@@ -52,7 +53,7 @@ function CQuestTable:dispose_inoperative_quests()
     local tiToRemove = {}
     for iQuestid, pQuest in pairs(m_tpQuests) do
         if is_inoperative_quest(pQuest) then
-            -- print("[WARNING] Disposed questid " .. iQuestid)
+            log(LPath.FALLBACK, "quest.txt", "[WARNING] Disposed questid " .. iQuestid)
             table.insert(tiToRemove, iQuestid)
         end
     end

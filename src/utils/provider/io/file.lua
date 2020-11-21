@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.logger.file")
+
 function pcall_read_file(sFilePath)
     local bResult, oRet = pcall(
         function ()
@@ -25,7 +27,7 @@ function pcall_read_file(sFilePath)
     if bResult then
         return oRet
     else
-        print("[ERROR] Could not access file " .. sFilePath)
+        log(LPath.FALLBACK, "io.txt", "[ERROR] Could not access file " .. sFilePath)
         return ""
     end
 

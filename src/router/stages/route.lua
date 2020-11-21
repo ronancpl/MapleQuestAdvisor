@@ -19,6 +19,7 @@ require("router.structs.neighbor.arranger")
 require("router.structs.recall.milestone")
 require("structs.player")
 require("structs.quest.properties")
+require("utils.logger.file")
 require("utils.struct.array")
 require("utils.struct.table")
 
@@ -70,9 +71,9 @@ end
 local tPathSearched = {}
 
 local function print_path_search_counts()
-    print("Path length observed:")
+    log(LPath.OVERALL, "log.txt", "Path length observed:")
     for k, v in pairs(tPathSearched) do
-        print("", k, v)
+        log(LPath.OVERALL, "log.txt", "", k, v)
     end
 end
 
@@ -165,18 +166,18 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
 end
 
 function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
-    print("Route quest board... (" .. tQuests:size() .. " quests)")
+    log(LPath.OVERALL, "log.txt", "Route quest board... (" .. tQuests:size() .. " quests)")
 
     local rgPoolQuests = make_pool_list(tQuests)
     local pLeadingPath = CQuestPath:new()
 
-    print("Total of quests to search: " .. tQuests:size())
+    log(LPath.OVERALL, "log.txt", "Total of quests to search: " .. tQuests:size())
     while not rgPoolQuests:is_empty() do
         local pQuest = rgPoolQuests:remove_last()
         route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders)
     end
 
-    print("Search finished.")
+    log(LPath.OVERALL, "log.txt", "Search finished.")
     print_path_search_counts()
     return pLeadingPath
 end

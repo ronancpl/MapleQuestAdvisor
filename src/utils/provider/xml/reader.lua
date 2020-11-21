@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.logger.file")
 require("utils.provider.io.file")
 local xml2lua = require("xml2lua")
 local pXmlHandler = require("xmlhandler.dom")
@@ -28,7 +29,7 @@ local function pcall_parse_xml(sContent, sXmlPath)
     if bResult then
         return oRet
     else
-        print("[ERROR] Could not parse content from '" .. sXmlPath .. "'")
+        log(LPath.FALLBACK, "io.txt", "[ERROR] Could not parse content from '" .. sXmlPath .. "'")
         return nil
     end
 end

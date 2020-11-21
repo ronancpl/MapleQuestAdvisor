@@ -15,6 +15,7 @@ require("router.procedures.world.abroad")
 require("router.procedures.world.outline")
 require("router.procedures.world.regional")
 require("router.structs.landscape.region")
+require("utils.logger.file")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
@@ -54,7 +55,7 @@ local function debug_region_areas(rgiRegionAreas, ctFieldsMeta)
     for _, iMapid in pairs(rgiRegionAreas) do
         str = str .. ctFieldsMeta:get_area_name(iMapid) .. " | "
     end
-    print("[" .. str .. "]")
+    log(LPath.PROCEDURES, "log.txt", "[" .. str .. "]")
 end
 
 function CFieldLandscape:calc_region_distances(ctFieldsDist, ctFieldsMeta)
@@ -63,18 +64,16 @@ function CFieldLandscape:calc_region_distances(ctFieldsDist, ctFieldsMeta)
     for _, pRegion in ipairs(m_rgpRegionFields) do
         local rgiRegionAreas = pRegion:get_areas()
 
-        --[[
         if #rgiRegionAreas > 2 then
-            print("Load region #" .. _ .. " " .. #rgiRegionAreas)
+            log(LPath.PROCEDURES, "log.txt", "Load region #" .. _ .. " " .. #rgiRegionAreas)
             debug_region_areas(rgiRegionAreas, ctFieldsMeta)
-            print()
+            log(LPath.PROCEDURES, "log.txt", "")
         end
-        ]]--
 
         find_region_distances(rgiRegionAreas, ctFieldsDist)
     end
 
-    print("Load regions finished.")
+    log(LPath.OVERALL, "log.txt", "Load regions finished.")
 end
 
 function CFieldLandscape:get_region_count()
@@ -119,5 +118,5 @@ function CFieldLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsM
     local m_tWorldNodes = self.tWorldNodes
 
     fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, m_tiFieldRegion, m_tWorldNodes)
-    print("Calc interregional town distance finished.")
+    log(LPath.OVERALL, "log.txt", "Calc interregional town distance finished.")
 end
