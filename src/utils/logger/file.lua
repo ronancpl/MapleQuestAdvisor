@@ -10,7 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.logger.error")
+
 LPath = {
+
+    LOG_DIR = "./logs/",
 
     FALLBACK = "digression/",
     OVERALL = "overall/",
@@ -18,18 +22,8 @@ LPath = {
 
 }
 
-local function create_directory_if_not_exists(sPath)
-    local response = os.execute("cd " .. sPath)
-    print(response)
-    os.execute("pause")
-
-    if response ~= 0 then
-        os.execute("mkdir " .. sPath)
-    end
-end
-
 local function fetch_catalog_name(sFileDir, sFileName)
-    return sFileDir .. os.date("%Y-%b-%d") .. "/" .. sFileName .. ".txt"
+    return LPath.LOG_DIR .. sFileDir .. os.date("%Y-%b-%d") .. "/", sFileName .. ".txt"
 end
 
 local function fetch_log_line(...)
@@ -48,10 +42,12 @@ local function fetch_log_line(...)
 end
 
 function log(sFileDir, sFileName, ...)
-    create_directory_if_not_exists(sFileDir)
+    local sLogFilePath
+    local sLogDirPath
+    sLogDirPath, sLogFilePath = fetch_catalog_name(sFileDir, sFileName)
 
-    local sFilePath = fetch_catalog_name(sFileDir, sFileName)
-    local fOut = io.open(sFilePath,'a')
+    sLogDirPath = pcall_log(sLogDirPath)
+    local fOut = io.open(sLogDirPath .. sLogFilePath, "a")
 
     local sLogLine = os.date("[%X] ") .. fetch_log_line(...)
     fOut:write(sLogLine)
