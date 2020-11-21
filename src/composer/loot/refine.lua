@@ -13,9 +13,7 @@
 require("composer.containers.loots.table.refine")
 require("utils.provider.text.table")
 
-local function load_refines_table(sFilePath)
-    local ctRefines = CRefineTable:new()
-
+local function load_refines_table(ctRefines, sFilePath)
     local tRefineEntries = read_plain_table(sFilePath)
     for _, rgpRefineEntry in ipairs(tRefineEntries) do
         local iItemidToCreate = tonumber(rgpRefineEntry[1])
@@ -31,16 +29,16 @@ local function load_refines_table(sFilePath)
 
         ctRefines:add_refine_entry(iItemidToCreate, rgpComposition)
     end
-
-    ctRefines:make_remissive_index_item_referrer()
-
-    return ctRefines
 end
 
 function load_resources_refine()
     local sDirPath = RPath.RSC_META_REFINES
-    local sFilePath = sDirPath .. "/ore_refine.txt"
 
-    local ctRefines = load_refines_table(sFilePath)
+    local ctRefines = CRefineTable:new()
+    load_refines_table(ctRefines, sDirPath .. "/refine_ore.txt")
+    load_refines_table(ctRefines, sDirPath .. "/refine_material.txt")
+
+    ctRefines:make_remissive_index_item_referrer()
+
     return ctRefines
 end
