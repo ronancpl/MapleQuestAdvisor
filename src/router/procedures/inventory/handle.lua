@@ -20,7 +20,7 @@ local function unpack_inventories(ivtEx)
     return ivtEx:get_raw(), ivtEx:get_composite()
 end
 
-local function handlify(ctRefines, ivtEx, iId, iQty)
+local function handlify_upper(ctRefines, ivtEx, iId, iQty)
     local rgpUpdated = {}
     table.insert(rgpUpdated, {iId, iQty})
 
@@ -47,20 +47,24 @@ local function handlify(ctRefines, ivtEx, iId, iQty)
             local tiComp = pRefineEntry:get_composition()
             local iReqCount = tiComp[iItemid]
 
-            local iCount = get_item_count(ivtRaw, ivtComp, iItemid)
+            iCount = get_item_count(ivtRaw, ivtComp, iItemid)
             local iCompCount = math.floor(iCount / iReqCount)
 
             if iCompCount ~= ivtComp:get_item(iRefid) then
                 local iRefCount = ivtEx:get_limit(keys(tiComp))
 
-                ivtComp:set_item(iRefid, iRefCount)
-                table.insert(rgpUpdated, {iRefid, iRefCount})
+                if iCompCount ~= iRefCount then
+                    ivtComp:set_item(iRefid, iRefCount)
+                    table.insert(rgpUpdated, {iRefid, iRefCount})
+                end
             end
         end
     end
 end
 
-local function fetch_item_exchange_batch(ivtRaw, ivtComp, iId, iQty)
+local function handlify_lower(ctRefines, ivtRaw, ivtComp, iId, iQty)
+    local tpCompUpdt = {}
+
     if iQty > -1 then
         ivtRaw:add_item(iId, iQty)
     else
@@ -70,10 +74,17 @@ local function fetch_item_exchange_batch(ivtRaw, ivtComp, iId, iQty)
         if iNextCount < 0 then
             ivtRaw:add_item(iId, -iRawCount)
             ivtComp:add_item(iId, iNextCount)
+
+            local pRefineEntry = get_refine_entry(iId)
+            for iReqId, iReqCount in pairs(pRefineEntry:get_composition()) do
+                tpCompUpdt[iReqId] = ((tpCompUpdt[iReqId] or 0) + iNextCount) * iReqCount
+            end
         else
             ivtRaw:add_item(iId, iQty)
         end
     end
+
+    return tpCompUpdt
 end
 
 function add_item(ivtEx, iId, iQty)
@@ -83,8 +94,25 @@ function add_item(ivtEx, iId, iQty)
     local ivtComp
     ivtRaw, ivtComp = unpack_inventories(ivtEx)
 
-    for iItemid, iCount in pairs(fetch_item_exchange_batch(ivtRaw, ivtComp, iId, iQty)) do
-        handlify(ctRefines, ivtEx, iItemid, iCount)
+    local rgpUpdated = {}
+    table.insert(rgpUpdated, {iId, iQty})
+
+    while true do
+        local pItemUpdate = table.remove(rgpUpdated)
+        if pItemUpdate == nil then
+            break
+        end
+
+        local iItemid
+        local iCount
+        iItemid, iCount = pItemUpdate
+
+        local tpCompRmvd = handlify_lower(ctRefines, ivtRaw, ivtComp, iItemid, iCount)
+        handlify_upper(ctRefines, ivtEx, iItemid, iCount)
+
+        for iCompItemid, iCompCount in pairs(tpCompRmvd) do
+            table.insert(rgpUpdated, {iCompItemid, iCompCount})
+        end
     end
 end
 
