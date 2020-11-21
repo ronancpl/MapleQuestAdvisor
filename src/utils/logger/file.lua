@@ -29,12 +29,9 @@ end
 local function fetch_log_line(...)
     local sLine = ""
 
-    if type(...) == "table" then
-        for _, sArg in ipairs(...) do
-            sLine = sLine .. sArg .. "\t"
-        end
-    else
-        sLine = ...
+    local args = {...}
+    for _, sArg in ipairs(args) do
+        sLine = sLine .. sArg .. "\t"
     end
 
     sLine:gsub("\t$", "")
@@ -47,7 +44,7 @@ function log(sFileDir, sFileName, ...)
     sLogDirPath, sLogFilePath = fetch_catalog_name(sFileDir, sFileName)
 
     sLogDirPath = pcall_log(sLogDirPath)
-    local fOut = io.open("./" .. sLogDirPath .. "/" .. sLogFilePath, "a")
+    local fOut = io.open(sLogDirPath .. "/" .. sLogFilePath, "a")
 
     local sLogLine = os.date("[%X] ") .. fetch_log_line(...)
     fOut:write(sLogLine)

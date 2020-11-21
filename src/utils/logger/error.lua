@@ -11,7 +11,7 @@
 --]]
 
 local function get_system_directory_path(sFileDir)
-    return sFileDir:gsub("%s", ""):gsub("%p", "\\\\")
+    return "..\\\\" .. sFileDir:gsub("%s", ""):gsub("[%,%?%!%:%;%@%[%]%_%{%}%~%/]", "\\\\")
 end
 
 local function get_directory_path(sPath)
