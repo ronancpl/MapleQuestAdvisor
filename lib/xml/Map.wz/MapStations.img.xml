@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<imgdir name="MapStations.img">
+  <imgdir name="2000000">
+    <int name="0" value="104000000"/>
+  </imgdir>
+  <imgdir name="100000000">
+    <int name="0" value="680000000"/>
+  </imgdir>
+  <imgdir name="101000300">
+    <int name="0" value="200000111"/>
+  </imgdir>
+  <imgdir name="101000400">
+    <int name="0" value="130000210"/>
+  </imgdir>
+  <imgdir name="103000000">
+    <int name="0" value="540010000"/>
+  </imgdir>
+  <imgdir name="103000100">
+    <int name="0" value="103000310"/>
+    <int name="1" value="600010001"/>
+  </imgdir>
+  <imgdir name="103000310">
+    <int name="0" value="103000100"/>
+  </imgdir>  
+  <imgdir name="104000000">
+    <int name="0" value="2000000"/>
+    <int name="1" value="110000000"/>
+    <int name="2" value="140020300"/>
+  </imgdir>
+  <imgdir name="110000000">
+    <int name="0" value="104000000"/>
+    <int name="1" value="200000000"/>
+    <int name="2" value="220000000"/>
+  </imgdir>
+  <imgdir name="130000210">
+    <int name="0" value="200000161"/>
+    <int name="1" value="101000400"/>
+  </imgdir>
+  <imgdir name="140020300">
+    <int name="0" value="104000000"/>
+  </imgdir>
+  <imgdir name="200000000">
+    <int name="0" value="110000000"/>
+    <int name="1" value="800000000"/>
+  </imgdir>
+  <imgdir name="200000111">
+    <int name="0" value="101000300"/>
+  </imgdir>
+  <imgdir name="200000121">
+    <int name="0" value="220000110"/>
+  </imgdir>
+  <imgdir name="200000131">
+    <int name="0" value="240000100"/>
+  </imgdir>
+  <imgdir name="200000141">
+    <int name="0" value="250000100"/>
+  </imgdir>
+  <imgdir name="200000151">
+    <int name="0" value="260000100"/>
+  </imgdir>
+  <imgdir name="200000161">
+    <int name="0" value="130000210"/>
+  </imgdir>
+  <imgdir name="200082300">
+    <int name="0" value="230010000"/>
+  </imgdir>
+  <imgdir name="220000000">
+    <int name="0" value="110000000"/>
+  </imgdir>
+  <imgdir name="220000110">
+    <int name="0" value="200000121"/>
+  </imgdir>
+  <imgdir name="222000001">
+    <int name="0" value="230030200"/>
+  </imgdir>
+  <imgdir name="222020100">
+    <int name="0" value="222020200"/>
+  </imgdir>
+  <imgdir name="222020200">
+    <int name="0" value="222020100"/>
+  </imgdir>
+  <imgdir name="230000000">
+    <int name="0" value="251000100"/>
+  </imgdir>
+  <imgdir name="230010000">
+    <int name="0" value="200082300"/>
+  </imgdir>
+  <imgdir name="230030200">
+    <int name="0" value="222000001"/>
+    <int name="1" value="251000100"/>
+  </imgdir>
+  <imgdir name="240000100">
+    <int name="0" value="200000131"/>
+  </imgdir>
+  <imgdir name="240000110">
+    <int name="0" value="270000100"/>
+  </imgdir>
+  <imgdir name="250000100">
+    <int name="0" value="200000141"/>
+  </imgdir>
+  <imgdir name="251000100">
+    <int name="0" value="230000000"/>
+    <int name="1" value="230030200"/>
+  </imgdir>
+  <imgdir name="260000100">
+    <int name="0" value="200000151"/>
+  </imgdir>
+  <imgdir name="270000100">
+    <int name="0" value="240000110"/>
+  </imgdir>
+  <imgdir name="540000000">
+    <int name="0" value="103000000"/>
+    <int name="1" value="550000000"/>
+    <int name="2" value="551000000"/>
+  </imgdir>
+  <imgdir name="540010000">
+    <int name="0" value="103000000"/>
+  </imgdir>
+  <imgdir name="550000000">
+    <int name="0" value="540000000"/>
+  </imgdir>
+  <imgdir name="551000000">
+    <int name="0" value="540000000"/>
+  </imgdir>
+  <imgdir name="600000000">
+    <int name="0" value="682000000"/>
+  </imgdir>
+  <imgdir name="600010001">
+    <int name="0" value="103000100"/>
+  </imgdir>
+  <imgdir name="680000000">
+    <int name="0" value="100000000"/>
+  </imgdir>
+  <imgdir name="682000000">
+    <int name="0" value="600000000"/>
+  </imgdir>
+  <imgdir name="800000000">
+    <int name="0" value="200000000"/>
+  </imgdir>
+</imgdir>

@@ -61,7 +61,7 @@ local function handlify(ctRefines, ivtEx, iId, iQty)
 end
 
 local function fetch_item_exchange_batch(ivtRaw, ivtComp, iId, iQty)
-    if iQty > -1 do
+    if iQty > -1 then
         ivtRaw:add_item(iId, iQty)
     else
         local iRawCount = ivtRaw:get_item(iId)

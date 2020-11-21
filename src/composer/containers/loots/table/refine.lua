@@ -44,9 +44,7 @@ function CRefineTable:make_remissive_index_item_referrer()
     local m_tRefineItems = self.tRefineItems
 
     for iItemidToCreate, pRefineEntry in pairs(m_tRefineItems) do
-        for _, pNode in ipairs(pRefineEntry:get_composition()) do
-            local iItemid = pNode:get_itemid()
-
+        for iItemid, _ in pairs(pRefineEntry:get_composition()) do
             local rgiRefs = m_tRefineReferrers[iItemid]
             if rgiRefs == nil then
                 rgiRefs = {}

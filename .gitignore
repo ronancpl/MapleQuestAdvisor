@@ -1,4 +1,5 @@
-lib/xml
+lib/xml/*
+!lib/xml/Map.wz
 
 # Compiled Lua sources
 luac.out

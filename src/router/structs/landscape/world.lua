@@ -63,11 +63,13 @@ function CFieldLandscape:calc_region_distances(ctFieldsDist, ctFieldsMeta)
     for _, pRegion in ipairs(m_rgpRegionFields) do
         local rgiRegionAreas = pRegion:get_areas()
 
+        --[[
         if #rgiRegionAreas > 2 then
             print("Load region #" .. _ .. " " .. #rgiRegionAreas)
             debug_region_areas(rgiRegionAreas, ctFieldsMeta)
             print()
         end
+        ]]--
 
         find_region_distances(rgiRegionAreas, ctFieldsDist)
     end
