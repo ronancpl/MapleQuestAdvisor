@@ -33,14 +33,6 @@ function fn_award_player_state_skills(pPlayerState, rgpGet)
     end
 end
 
-function fn_award_player_state_items(pPlayerState, rgpGet)
-    local pItems = pPlayerState:get_items()
-
-    for iId, iGain in pairs(rgpGet:get_items()) do
-        pItems:add_item(pItems, iId, iGain)
-    end
-end
-
 local function update_quest_status(pQuests, iId, iGain)
     local iStatus = pQuests:get_item(iId)
     return bit.bor(iStatus, iGain)

@@ -20,7 +20,10 @@ local function init_maker_table(sFilePath)
     if #tMakerRs > 1 then
         for _, tRow in ipairs(tMakerRs) do
             local iSrcid = tonumber(tRow["itemid"])
-            ctMaker:add_maker_create_item(iSrcid)
+            local iReqid = tonumber(tRow["req_item"])
+            local iReqQty = tonumber(tRow["quantity"])
+
+            ctMaker:add_maker_create_item(iSrcid, iReqid, iReqQty)
         end
     end
 

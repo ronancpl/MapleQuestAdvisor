@@ -10,21 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.storage.inventory")
+require("utils.struct.class")
 
-function fn_undo_unit(iGet)
-    return -iGet
+CMakerNode = createClass({
+    iSrcid,
+    iReqid,
+    iReqQty
+})
+
+function CMakerNode:get_itemid()
+    return self.iSrcid
 end
 
-function fn_undo_invt_insert(rgpGet)
-    local rgpNew = CInventory:new()
-    for iId, _ in pairs(rgpGet:get_items()) do
-        rgpNew:add(iId, 0)
-    end
-
-    return rgpNew
+function CMakerNode:get_requirement_id()
+    return self.iReqid
 end
 
-function fn_undo_no_change(rgpGet)
-    return rgpGet
+function CMakerNode:get_requirement_quantity()
+    return self.iReqQty
 end

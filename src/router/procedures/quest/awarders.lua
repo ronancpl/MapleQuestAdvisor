@@ -13,6 +13,8 @@
 require("router.procedures.quest.awarder.awarder")
 require("router.procedures.quest.awarder.property")
 require("router.procedures.quest.awarder.update")
+require("router.procedures.quest.awarder.item.property")
+require("router.procedures.quest.awarder.item.update")
 require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")
 require("utils.struct.class")
@@ -78,7 +80,7 @@ function init_quest_awarders()
 
     local tfn_ivt_acts = ctAwarders.tfn_ivt_acts
     ctAwarders:_add_award_accessor(tfn_ivt_acts, "_QUEST_AWARD_SKILLS", CQuestProperty.get_skills, fn_undo_invt_insert, fn_award_player_state_skills)
-    ctAwarders:_add_award_accessor(tfn_ivt_acts, "_QUEST_AWARD_ITEMS", CQuestProperty.get_items, fn_undo_invt_add, fn_award_player_state_items)
+    ctAwarders:_add_award_accessor(tfn_ivt_acts, "_QUEST_AWARD_ITEMS", CQuestProperty.get_items, fn_undo_invt_item_add, fn_award_player_state_items)
     ctAwarders:_add_award_accessor(tfn_ivt_acts, "_QUEST_AWARD_QUESTS", CQuestProperty.get_quests, fn_undo_no_change, fn_award_player_state_quests)
     ctAwarders:_add_award_accessor(tfn_ivt_acts, "_QUEST_AWARD_JOBS", CQuestRequirement.has_job_access, fn_undo_invt_insert, fn_award_player_state_jobs)
 

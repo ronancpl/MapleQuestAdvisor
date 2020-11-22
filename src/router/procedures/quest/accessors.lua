@@ -13,6 +13,7 @@
 require("router.procedures.quest.accessor.accessor")
 require("router.procedures.quest.accessor.compare")
 require("router.procedures.quest.accessor.diff")
+require("router.procedures.quest.accessor.item.diff")
 require("router.procedures.quest.requirement.access")
 require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")
@@ -147,7 +148,7 @@ function init_quest_accessors()
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_SCRIPT", CQuestRequirement.has_script, fn_get_player_state_scripts, fn_diff_zero, fn_is_attainable_unit)
 
     tfn_weak_reqs = ctAccessors.tfn_weak_ivt_reqs
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_ITEMS", CQuestProperty.get_items, fn_get_player_state_items, fn_diff_pending_list, fn_is_attainable_list)
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_ITEMS", CQuestProperty.get_items, fn_get_player_state_items, fn_diff_pending_item_list, fn_is_attainable_list)
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, "_QUEST_GET_MOBS", CQuestProperty.get_mobs, fn_get_player_state_mobs, fn_diff_pending_list, fn_is_attainable_list)
 
     return ctAccessors

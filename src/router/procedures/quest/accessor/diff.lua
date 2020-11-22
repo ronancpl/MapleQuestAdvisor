@@ -30,9 +30,9 @@ function fn_diff_pending(pQuestAcc, pQuestProps, iSeized)
     return iPending
 end
 
-local function fn_property_diff_pending_list(rgReqItems, ivtSeized)
+local function fn_property_diff_pending_list(tiReqItems, ivtSeized)
     local tPending = {}
-    for iId, iCount in ipairs(rgReqItems) do
+    for iId, iCount in pairs(tiReqItems) do
         local iLeft = iCount - ivtSeized:get_item(iId)
         if iLeft > 0 then
             tPending[iId] = iLeft
@@ -44,9 +44,11 @@ end
 
 function fn_diff_pending_list(pQuestAcc, pQuestProps, ivtSeized)
     local fn_req_prop = pQuestAcc:get_fn_property()
-    local rgReqItems = fn_req_prop(pQuestProps)
 
-    local tPending = fn_property_diff_pending_list(rgReqItems, ivtSeized)
+    local ivtReqItems = fn_req_prop(pQuestProps)
+    local tiReqItems = ivtReqItems:get_items()
+
+    local tPending = fn_property_diff_pending_list(tiReqItems, ivtSeized)
     return tPending
 end
 

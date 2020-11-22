@@ -10,21 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.storage.inventory")
+require("router.procedures.inventory.maker")
 
-function fn_undo_unit(iGet)
-    return -iGet
-end
+function fn_award_player_state_items(pPlayerState, rgpGet)
+    local pItems = pPlayerState:get_items()
 
-function fn_undo_invt_insert(rgpGet)
-    local rgpNew = CInventory:new()
-    for iId, _ in pairs(rgpGet:get_items()) do
-        rgpNew:add(iId, 0)
+    for iId, iGain in pairs(rgpGet:get_items()) do
+        maker_add_item(pItems, iId, iGain)
     end
-
-    return rgpNew
-end
-
-function fn_undo_no_change(rgpGet)
-    return rgpGet
 end

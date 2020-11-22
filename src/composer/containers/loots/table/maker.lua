@@ -16,10 +16,17 @@ CMakerTable = createClass({
     tCreateItems = {}
 })
 
-function CMakerTable:add_maker_create_item(iSrcid)
-    self.tCreateItems[iSrcid] = 1
+function CMakerTable:add_maker_create_item(iSrcid, iReqid, iReqQty)
+    local pMakerEntry = CMakerNode:new({iSrcid = iSrcid, iReqid = iReqid, iReqQty = iReqQty})
+    self.tCreateItems[iSrcid] = pMakerEntry
 end
 
-function CMakerTable:is_maker_create_item(iSrcid)
-    return self.tCreateItems[iSrcid] ~= nil
+function CMakerTable:get_maker_requirement(iSrcid)
+    local pMakerEntry = self.tCreateItems[iSrcid]
+
+    if pMakerEntry ~= nil then
+        return pMakerEntry:get_requirement_id(), pMakerEntry:get_requirement_quantity()
+    else
+        return nil
+    end
 end
