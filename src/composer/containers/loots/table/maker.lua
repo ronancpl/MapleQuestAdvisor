@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.containers.loots.node.maker")
 require("utils.struct.class")
 
 CMakerTable = createClass({

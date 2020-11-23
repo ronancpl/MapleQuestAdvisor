@@ -20,14 +20,14 @@ CGraphMilestone = createClass({
 
 function CGraphMilestone:get_subpath(rgpNeighbors)
     local m_pStorage = self.pStorage
-    local pSetNeighbors = m_pStorage:get(rgpNeighbors)
+    local iOidNeighbors = m_pStorage:get(rgpNeighbors)
 
-    return self.tMilestone[pSetNeighbors]
+    return self.tMilestone[iOidNeighbors]
 end
 
 function CGraphMilestone:add_subpath(rgpNeighbors)
     local m_pStorage = self.pStorage
-    local pSetNeighbors = m_pStorage:get(rgpNeighbors)
+    local iOidNeighbors = m_pStorage:get(rgpNeighbors)
 
-    self.tMilestone[pSetNeighbors] = 1
+    self.tMilestone[iOidNeighbors] = 1
 end
