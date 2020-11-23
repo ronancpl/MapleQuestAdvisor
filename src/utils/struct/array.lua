@@ -206,7 +206,43 @@ function SArray:_find_last_from(fn_compare, iIdx, pToFind)
     return i - 1
 end
 
+local U_INT_MIN = 0x80000000
+
+function SArray:verify_bsearch_validity(fn_compare, pToFind)
+    local m_apItems = self.apItems
+    local napItems = #m_apItems
+
+    local last_val = U_INT_MIN
+    local bRet = true
+
+    local rgiRets = {}
+    for m = 1, napItems, 1 do
+        local pItem = m_apItems[m]
+        local iVal = fn_compare(pItem, pToFind)
+
+        if last_val > iVal then
+            print("error " .. iVal)
+            bRet = false
+        end
+
+        last_val = iVal
+        table.insert(rgiRets, iVal)
+    end
+
+    local st = ""
+    for _, v in ipairs(rgiRets) do
+        st = st .. v .. ", "
+    end
+    print("{" .. st .. "}")
+
+    return bRet
+end
+
 function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
+    if not self:verify_bsearch_validity(fn_compare, pToFind) then
+        error("bsearch unordered")
+    end
+
     local m_apItems = self.apItems
     local napItems = #m_apItems
 

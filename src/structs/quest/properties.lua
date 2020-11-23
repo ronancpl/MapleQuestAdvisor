@@ -61,7 +61,7 @@ function CQuestProperties:is_active_on_grid()
 end
 
 function CQuestProperties:set_active_on_grid(bActive)
-    return self.bActive = bActive
+    self.bActive = bActive
 end
 
 function CQuestProperties:get_rgfn_active_requirements()
