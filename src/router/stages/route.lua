@@ -44,9 +44,11 @@ local function make_quest_pool_list(tQuests)
         local pQuestProp
 
         pQuestProp = pQuest:get_start()
+        pQuestProp:set_active_on_grid(true)
         rgpPool:add(pQuestProp)
 
         pQuestProp = pQuest:get_end()
+        pQuestProp:set_active_on_grid(false)
         rgpPool:add(pQuestProp)
     end
 
@@ -57,11 +59,13 @@ local function make_quest_pool_list(tQuests)
 end
 
 local function route_quest_permit_complete(rgpQuestProps, pQuestProp, pPlayerState)
-
+    local pQuestEndProp = ctQuests:get_quest_by_id(pQuestProp:get_quest_id()):get_end()
+    pQuestEndProp:set_active_on_grid(true)
 end
 
 local function route_quest_suppress_complete(rgpQuestProps, pQuestProp, pPlayerState)
-
+    local pQuestEndProp = ctQuests:get_quest_by_id(pQuestProp:get_quest_id()):get_end()
+    pQuestEndProp:set_active_on_grid(false)
 end
 
 local function is_quest_attainable(ctAccessors, pQuestProp, pPlayerState)

@@ -11,12 +11,12 @@
 --]]
 
 local function is_array(m_apItems)
-    local ret = true
+    local bRet = true
     if next(m_apItems) ~= nil then
-        ret = (m_apItems[1] ~= nil)
+        bRet = (m_apItems[1] ~= nil)
     end
 
-    return ret
+    return bRet
 end
 
 local function fetch_array_values(m_apItems)

@@ -70,11 +70,11 @@ function CQuestFrontier:count()
     local m_pRangeCount = self.pSelect:count()
     local m_pHoldCount = self.pHold:count()
 
-    local ret = {}
+    local tRet = {}
     for i = 1, #m_pRangeCount, 1 do
         local iCount = m_pRangeCount[i] + m_pHoldCount[i]
-        table.insert(ret, iCount)
+        table.insert(tRet, iCount)
     end
 
-    return ret
+    return tRet
 end

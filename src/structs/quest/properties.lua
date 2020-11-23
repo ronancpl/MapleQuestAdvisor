@@ -17,6 +17,7 @@ CQuestProperties = createClass({
     bStart,
     pPropCheck,
     pPropAct,
+    bActive,
     rgfn_active_check_unit,
     rgfn_active_check_invt,
     rgfn_active_act_unit,
@@ -53,6 +54,14 @@ function CQuestProperties:set_action(pAction, rgfn_get)
     self.pPropAct = pAction
     self.rgfn_active_act_unit, self.rgfn_active_act_invt = pAction:fetch_active_elements(rgfn_get)
     pAction:set_default_on_empty_actions()
+end
+
+function CQuestProperties:is_active_on_grid()
+    return self.bActive
+end
+
+function CQuestProperties:set_active_on_grid(bActive)
+    return self.bActive = bActive
 end
 
 function CQuestProperties:get_rgfn_active_requirements()

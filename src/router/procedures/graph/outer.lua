@@ -20,6 +20,10 @@ local function is_route_quest_in_path(pQuestProp, pCurrentPath)
 end
 
 local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState)
+    if not pQuestProp:is_active_on_grid() then
+        return false
+    end
+
     if is_quest_state_achieved(pPlayerState, pQuestProp) then
         return false
     end

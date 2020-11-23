@@ -144,11 +144,11 @@ end
 function CQuestFrontierRange:count()
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
-    local ret = {}
+    local tRet = {}
     for pAcc, m_pNode in pairs(m_tpPropTypeQuests) do
         local iCount = m_pNode:count()
-        table.insert(ret, iCount)
+        table.insert(tRet, iCount)
     end
 
-    return ret
+    return tRet
 end
