@@ -49,6 +49,21 @@ function CQuestFrontierNode:size()
     return self.rgpItems:size()
 end
 
+local fn_sample = function(v) return v:get_property():get_quest_id() end
+local fn_upd = function(v) return v:get_property():get_quest_id() end
+
+function CQuestFrontierNode:debug_info(m_rgpItems, fn_compare, pFrontierProp, sAny, fn_info)
+    local st = ""
+    for _, v in ipairs(m_rgpItems:list()) do
+        if fn_info then
+            st = st .. fn_info(v) .. "|"
+        end
+
+        st = st .. fn_compare(v, pFrontierProp) .. ", "
+    end
+    print(sAny, m_rgpItems, "[" .. st .. "]")
+end
+
 function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
     local m_pQuestAcc = self.pQuestAcc
     local fn_create = self:get_fn_create()
@@ -57,9 +72,17 @@ function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
     local pFrontierProp = fn_create(m_pQuestAcc, pQuestProp, pQuestChkProp)
 
     local m_rgpItems = self.rgpItems
+
+    self:debug_info(m_rgpItems, fn_compare, pFrontierProp, "<<", fn_sample)
+
     local iInsIdx = m_rgpItems:bsearch(fn_compare, pFrontierProp, true, true)
 
+    print("ins: " .. iInsIdx, fn_compare, pFrontierProp:get_property():get_quest_id())
+
     m_rgpItems:insert(pFrontierProp, iInsIdx)
+
+    self:debug_info(m_rgpItems, fn_compare, pFrontierProp, ">>", fn_sample)
+    print("----------")
 end
 
 function CQuestFrontierNode:find(pQuestProp)
@@ -112,6 +135,9 @@ function CQuestFrontierNode:update_take(pPlayerState, bSelect)
     local fn_attainable = m_pQuestAcc:get_fn_attainable()
 
     local m_rgpItems = self.rgpItems
+    self:debug_info(m_rgpItems, fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, ">>>", fn_upd)
+
+    m_rgpItems:sort(function(a, b) return fn_attainable(m_fn_diff, m_pQuestAcc)(a, b) > 0 end)
     local iIdx = m_rgpItems:bsearch(fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, true, true)
 
     local iStart
@@ -119,10 +145,23 @@ function CQuestFrontierNode:update_take(pPlayerState, bSelect)
     iStart, iEnd = fetch_update_iterator_step(m_rgpItems, bSelect, iIdx)
 
     local rgpFrontierProps = m_rgpItems:remove(iStart, iEnd)
+
+    self:debug_info(m_rgpItems, fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, "<<<", fn_upd)
+
     return rgpFrontierProps
 end
 
-function CQuestFrontierNode:update_put(rgpFrontierProps)
+function CQuestFrontierNode:update_put(rgpFrontierProps, pPlayerState)
     local m_rgpItems = self.rgpItems
+    local m_pQuestAcc = self.pQuestAcc
+    local m_fn_diff = self:get_fn_diff()
+
+    local fn_attainable = m_pQuestAcc:get_fn_attainable()
+
+    self:debug_info(m_rgpItems, fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, "+++", fn_upd)
+
     m_rgpItems:add_all(rgpFrontierProps)
+
+    self:debug_info(m_rgpItems, fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, "|||", fn_upd)
+    print("----------------")
 end

@@ -206,7 +206,7 @@ function SArray:_find_last_from(fn_compare, iIdx, pToFind)
     return i - 1
 end
 
-local U_INT_MIN = 0x80000000
+local U_INT_MIN = -2147483648
 
 function SArray:verify_bsearch_validity(fn_compare, pToFind)
     local m_apItems = self.apItems
@@ -233,7 +233,7 @@ function SArray:verify_bsearch_validity(fn_compare, pToFind)
     for _, v in ipairs(rgiRets) do
         st = st .. v .. ", "
     end
-    print("{" .. st .. "}")
+    print(rgiRets, "(" .. st .. ")")
 
     return bRet
 end

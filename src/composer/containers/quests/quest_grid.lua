@@ -161,7 +161,7 @@ function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nQuests)
     for k, v in pairs(m_rgQuests:list()) do
         st = st .. v:get_starting_level() .. ", "
     end
-    print("[" .. st .. "]")
+    print(m_rgQuests, "[" .. st .. "]")
 
     local iIdx = m_rgQuests:bsearch(fn_compare_quest_level, nLevel, true, true)
     local iToIdx = m_rgQuests:bsearch(fn_compare_quest_level, pPlayer:get_level(), true, true)

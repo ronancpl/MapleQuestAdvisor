@@ -202,6 +202,6 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
     end
 
     log(LPath.OVERALL, "log.txt", "Search finished.")
-    print_path_search_counts()
+    --print_path_search_counts()
     return pLeadingPath
 end

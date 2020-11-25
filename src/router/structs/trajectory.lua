@@ -36,6 +36,13 @@ end
 function CGraphTree:_push_neighbors(pQuestProp, rgpNeighbors)
     local rgpNeighborsCopy = SArray:new()
     rgpNeighborsCopy:add_all(rgpNeighbors)
+
+    local st = ""
+    for k, v in pairs(rgpNeighborsCopy:list()) do
+        st = st .. v:get_quest_id() .. (v:is_start() and "S" or "E") .. ", "
+    end
+    print(">> [" .. st .. "]")
+
     self.tpActiveNeighbors[pQuestProp] = rgpNeighborsCopy
 end
 
@@ -62,7 +69,19 @@ function CGraphTree:_pop_from(pQuestProp)
             local fn_compare_active_neighbor = CQuestProperties.compare
             local iIdx = rgFromActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
             if iIdx > 0 then
+                local st = ""
+                for k, v in pairs(rgFromActiveNeighbors:list()) do
+                    st = st .. v:get_quest_id() .. "|" .. fn_compare_active_neighbor(v, pQuestProp) .. ", "
+                end
+                print("<< [" .. st .. "], RMV: " .. iIdx)
+
                 rgFromActiveNeighbors:remove(iIdx, iIdx)
+
+                local st = ""
+                for k, v in pairs(rgFromActiveNeighbors:list()) do
+                    st = st .. v:get_quest_id() .. "|" .. fn_compare_active_neighbor(v, pQuestProp) .. ", "
+                end
+                print("<< [" .. st .. "]")
             end
         end
     end

@@ -36,7 +36,7 @@ end
 
 local function fn_attain_prop_invt(pAcc, pFrontierProp, pPlayerState)
     local pRet = fn_diff_prop_invt(pAcc, pFrontierProp, pPlayerState)
-    return next(pRet) ~= nil
+    return next(pRet) ~= nil and 0 or 1
 end
 
 local function fn_make_prop_invt(pAcc, pQuestProp, pQuestChkProp)

@@ -75,12 +75,12 @@ function CQuestFrontierRange:update_take(pPlayerState, bSelect)
     return tpTakeQuestProps
 end
 
-function CQuestFrontierRange:update_put(tpTakeQuestProps)
+function CQuestFrontierRange:update_put(tpTakeQuestProps, pPlayerState)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
     for pAcc, rgpQuestProps in pairs(tpTakeQuestProps:get_entry_set()) do
         local tpQuestProps = m_tpPropTypeQuests[pAcc]
-        tpQuestProps:update_put(rgpQuestProps)
+        tpQuestProps:update_put(rgpQuestProps, pPlayerState)
     end
 end
 
