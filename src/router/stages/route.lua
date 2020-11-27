@@ -102,6 +102,8 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
 
     local rgpFrontierPoolProps = pFrontierArranger:update_visit(ctAccessors, pPlayerState, pQuestProp)
+    table.sort(rgpFrontierPoolProps, fn_compare_quest_id)
+
     local rgpNeighbors = fetch_neighbors(rgpFrontierPoolProps, pCurrentPath, pPlayerState, ctAccessors)
 
     local pNeighborsMilestone = pQuestMilestone:get_subpath(rgpNeighbors)

@@ -109,10 +109,14 @@ end
 function SArray:remove_all()
     local m_apItems = self.apItems
 
+    local rgpItems = {}
     local nItems = #m_apItems
     for i = 1, nItems, 1 do
+        rgpItems = m_apItems[i]
         m_apItems[i] = nil
     end
+
+    return rgpItems
 end
 
 function SArray:sort(fn_sort)

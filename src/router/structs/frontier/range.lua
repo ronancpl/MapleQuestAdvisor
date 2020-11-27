@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.structs.frontier.list")
 require("router.structs.frontier.node.list")
 require("router.structs.frontier.node.unit")
 require("utils.struct.array")
@@ -18,7 +19,7 @@ require("utils.struct.table")
 
 CQuestFrontierRange = createClass({
     tpPropTypeQuests = {},
-    rgpQuestStack = {}
+    pAvailableQuests = CQuestFrontierQuestList:new()
 })
 
 function CQuestFrontierRange:_init_accessor_type(pAcc, CQuestRangeType)
@@ -40,7 +41,6 @@ end
 
 function CQuestFrontierRange:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestRangeType)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
-
     local pTypeRange = m_tpPropTypeQuests[pAcc]
     pTypeRange:add(pQuestProp, pQuestChkProp)
 end
@@ -60,7 +60,8 @@ function CQuestFrontierRange:add(pQuestProp, ctAccessors)
         end
     end
 
-    table.insert(self.rgpQuestStack, pQuestProp)
+    local m_pAvailableQuests = self.pAvailableQuests
+    m_pAvailableQuests:add(pQuestProp)
 end
 
 function CQuestFrontierRange:update_take(pPlayerState, bSelect)
@@ -75,12 +76,12 @@ function CQuestFrontierRange:update_take(pPlayerState, bSelect)
     return tpTakeQuestProps
 end
 
-function CQuestFrontierRange:update_put(tpTakeQuestProps, pPlayerState)
+function CQuestFrontierRange:update_put(tpTakeQuestProps, bSelect)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
     for pAcc, rgpQuestProps in pairs(tpTakeQuestProps:get_entry_set()) do
         local tpQuestProps = m_tpPropTypeQuests[pAcc]
-        tpQuestProps:update_put(rgpQuestProps, pPlayerState)
+        tpQuestProps:update_put(rgpQuestProps)
     end
 end
 
@@ -96,9 +97,11 @@ function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
         local m_tpPropTypeQuests = self.tpPropTypeQuests
 
         for _, pAcc in pairs(rgpAccs) do
-            local pNode = m_tpPropTypeQuests[pAcc]
-            if not pNode:contains(pCurQuestProp) then     -- meaning this requisite has not been met by player
-                return false
+            if ctAccessors:is_prerequisite_strong(pAcc) then
+                local pNode = m_tpPropTypeQuests[pAcc]
+                if not pNode:contains(pCurQuestProp) then     -- meaning this requisite has not been met by player
+                    return false
+                end
             end
         end
     end
@@ -107,16 +110,8 @@ function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
 end
 
 function CQuestFrontierRange:peek()
-    local m_rgpQuestStack = self.rgpQuestStack
-    local pCurQuestProp = m_rgpQuestStack[#m_rgpQuestStack]
-
-    local pQuestProp = nil
-    if pCurQuestProp ~= nil then
-        local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pCurQuestProp, nil)
-        if self:_should_fetch_quest(pCurQuestProp, rgpAccs) then
-            pQuestProp = pCurQuestProp
-        end
-    end
+    local m_pAvailableQuests = self.pAvailableQuests
+    local pQuestProp = m_pAvailableQuests:peek()
 
     return pQuestProp
 end
@@ -131,9 +126,8 @@ function CQuestFrontierRange:_fetch_from_nodes(pCurQuestProp, rgpAccs)
 end
 
 function CQuestFrontierRange:fetch()
-    local m_rgpQuestStack = self.rgpQuestStack
-
-    local pQuestProp = table.remove(m_rgpQuestStack)
+    local m_pAvailableQuests = self.pAvailableQuests
+    local pQuestProp = m_pAvailableQuests:fetch()
 
     local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp, nil)
     self:_fetch_from_nodes(pQuestProp, rgpAccs)

@@ -40,8 +40,8 @@ function CQuestFrontier:add(pQuestProp, pPlayerState, ctAccessors)
 end
 
 function CQuestFrontier:_update_range(pPlayerState, m_pRangeFrom, m_pRangeTo, bFromIsSelect)
-    local tpTakeQuestProps = m_pRangeFrom:update_take(pPlayerState, bSelect)
-    m_pRangeTo:update_put(tpTakeQuestProps, pPlayerState)
+    local tpTakeQuestProps = m_pRangeFrom:update_take(pPlayerState, bFromIsSelect)
+    m_pRangeTo:update_put(tpTakeQuestProps, bFromIsSelect)
 end
 
 function CQuestFrontier:update(pPlayerState)

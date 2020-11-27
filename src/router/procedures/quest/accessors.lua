@@ -35,6 +35,11 @@ local function fn_unit_pending(pRet)
     return pRet > 0
 end
 
+function CQuestAccessors:is_prerequisite_strong(pReqAcc)
+    local fn_req = pReqAcc:get_fn_property()
+    return self.tfn_strong_reqs[fn_req] or self.tfn_strong_ivt_reqs[fn_req]
+end
+
 function CQuestAccessors:is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProps)
     local fn_req = pReqAcc:get_fn_pending_property()
 
@@ -47,7 +52,7 @@ function CQuestAccessors:is_player_have_prerequisite(pReqAcc, fn_pending, pPlaye
 end
 
 function CQuestAccessors:_is_player_have_prerequisites(fn_pending, tfn_reqs, pPlayerState, pQuestProps)
-    for _, pReqAcc in ipairs(tfn_reqs) do
+    for _, pReqAcc in pairs(tfn_reqs) do
         if not self:is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProps) then
             return false
         end
@@ -59,8 +64,8 @@ end
 function CQuestAccessors:is_player_have_prerequisites(bStrong, pPlayerState, pQuestProp)
     local pQuestProps = pQuestProp:get_requirement()
 
-    return self._is_player_have_prerequisites(fn_unit_pending, bStrong and self.tfn_strong_reqs or self.tfn_weak_reqs, pPlayerState, pQuestProps)
-                and self._is_player_have_prerequisites(fn_invt_pending, bStrong and self.tfn_strong_ivt_reqs or self.tfn_weak_ivt_reqs, pPlayerState, pQuestProps)
+    return self:_is_player_have_prerequisites(fn_unit_pending, bStrong and self.tfn_strong_reqs or self.tfn_weak_reqs, pPlayerState, pQuestProps)
+                and self:_is_player_have_prerequisites(fn_invt_pending, bStrong and self.tfn_strong_ivt_reqs or self.tfn_weak_ivt_reqs, pPlayerState, pQuestProps)
 end
 
 function CQuestAccessors:_get_prerequisite_range_keys(bStrong, bInventory)
@@ -120,7 +125,7 @@ function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_quest
 
     local pAcc = CQuestAccessor:new({sName = sAccName, fn_get_property = fn_get_acc_property(fn_quest_property), fn_get_player_property = fn_get_player_state_property, fn_diff_pending_property = fn_diff_acc_pending, fn_diff_pending_type = fn_diff_pending_type, fn_is_attainable = fn_is_attainable})
 
-    table.insert(tfn_reqs, pAcc)
+    tfn_reqs[fn_quest_property] = pAcc
     self.tsAllReqs[fn_quest_property] = pAcc
 end
 

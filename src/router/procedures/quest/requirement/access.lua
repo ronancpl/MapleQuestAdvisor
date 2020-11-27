@@ -38,12 +38,12 @@ end
 local function fetch_accessors_select(btAllow, btDontCare, ctAccessors)
     local rgpAccs = {}
 
-    for i, rgpTableAccs in ipairs(get_accessors_table(ctAccessors)) do
+    for i, tpTableAccs in ipairs(get_accessors_table(ctAccessors)) do
         local iIdx = i - 1
 
         local btPass = xnor(btAllow, iIdx)
         if bit.band(btPass, btDontCare) <= 0 then
-            for _, pAcc in ipairs(rgpTableAccs) do
+            for _, pAcc in pairs(tpTableAccs) do
                 table.insert(rgpAccs, pAcc)
             end
         end
