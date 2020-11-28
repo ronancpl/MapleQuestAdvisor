@@ -175,12 +175,13 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
     local pCurrentPath = CQuestPath:new()
 
     if is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
+        local rgpPoolProps = make_quest_pool_list(tQuests)
+        apply_initial_player_state(pPlayerState, rgpPoolProps)  -- set up quest properties for graphing
+
         local pFrontierQuests = CQuestFrontier:new()
         pFrontierQuests:init(ctAccessors)
 
         pFrontierQuests:add(pQuestProp, pPlayerState, ctAccessors)
-
-        local rgpPoolProps = make_quest_pool_list(tQuests)
 
         local pFrontierArranger = CNeighborArranger:new()
         pFrontierArranger:init(ctAccessors, rgpPoolProps)

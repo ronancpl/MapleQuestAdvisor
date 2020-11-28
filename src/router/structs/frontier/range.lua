@@ -49,15 +49,11 @@ function CQuestFrontierRange:add(pQuestProp, ctAccessors)
     local pQuestChkProp = pQuestProp:get_requirement()
 
     for _, pAcc in ipairs(ctAccessors:get_accessors_by_active_requirements(pQuestProp, true)) do
-        if pAcc ~= nil then
-            self:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestFrontierList)
-        end
+        self:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestFrontierList)
     end
 
     for _, pAcc in ipairs(ctAccessors:get_accessors_by_active_requirements(pQuestProp, false)) do
-        if pAcc ~= nil then
-            self:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestFrontierUnit)
-        end
+        self:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestFrontierUnit)
     end
 
     local m_pAvailableQuests = self.pAvailableQuests
@@ -111,7 +107,21 @@ end
 
 function CQuestFrontierRange:peek()
     local m_pAvailableQuests = self.pAvailableQuests
-    local pQuestProp = m_pAvailableQuests:peek()
+
+    local pQuestProp
+    while true do
+        local pCurQuestProp = m_pAvailableQuests:peek()
+        if pCurQuestProp == nil then
+            break
+        end
+
+        pQuestProp = nil
+        local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pCurQuestProp, nil)
+        if self:_should_fetch_quest(pCurQuestProp, rgpAccs) then
+            pQuestProp = pCurQuestProp
+            break
+        end
+    end
 
     return pQuestProp
 end
@@ -141,7 +151,7 @@ function CQuestFrontierRange:count()
     local tRet = {}
     for pAcc, m_pNode in pairs(m_tpPropTypeQuests) do
         local iCount = m_pNode:count()
-        table.insert(tRet, iCount)
+        tRet[pAcc] = iCount
     end
 
     return tRet

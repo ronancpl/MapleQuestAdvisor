@@ -38,7 +38,8 @@ local function process_player_job_update(pPlayerState, rgpPoolProps)
     local siJobid = pPlayerState:get_job()
 
     for _, pQuestProp in ipairs(rgpPoolProps:list()) do
-        pQuestProp:set_job_access(siJobid)
+        local pQuestChkProp = pQuestProp:get_requirement()
+        pQuestChkProp:set_job_access(siJobid)
     end
 end
 
@@ -69,4 +70,8 @@ end
 
 function rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
     process_player_state_update(undo_award_player, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+end
+
+function apply_initial_player_state(pPlayerState, rgpPoolProps)
+    process_player_job_update(pPlayerState, rgpPoolProps)
 end

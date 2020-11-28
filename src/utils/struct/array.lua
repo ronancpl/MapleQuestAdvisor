@@ -233,11 +233,13 @@ function SArray:verify_bsearch_validity(fn_compare, pToFind)
         table.insert(rgiRets, iVal)
     end
 
-    local st = ""
-    for _, v in ipairs(rgiRets) do
-        st = st .. v .. ", "
+    if not bRet then
+        local st = ""
+        for _, v in ipairs(rgiRets) do
+            st = st .. v .. ", "
+        end
+        print(rgiRets, "(" .. st .. ")")
     end
-    print(rgiRets, "(" .. st .. ")")
 
     return bRet
 end

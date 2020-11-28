@@ -52,18 +52,6 @@ end
 local fn_sample = function(v) return v:get_property():get_quest_id() end
 local fn_upd = function(v) return v:get_property():get_quest_id() end
 
-function CQuestFrontierNode:debug_info(m_rgpItems, fn_compare, pFrontierProp, sAny, fn_info)
-    local st = ""
-    for _, v in ipairs(m_rgpItems:list()) do
-        if fn_info then
-            st = st .. fn_info(v) .. "|"
-        end
-
-        st = st .. fn_compare(v, pFrontierProp) .. ", "
-    end
-    print(sAny, m_rgpItems, "[" .. st .. "]")
-end
-
 function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
     local m_pQuestAcc = self.pQuestAcc
     local fn_create = self:get_fn_create()
@@ -90,8 +78,8 @@ function CQuestFrontierNode:find(pQuestProp)
 end
 
 function CQuestFrontierNode:contains(pQuestProp)
-    local iRmvIdx = self:find(pQuestProp)
-    return iRmvIdx > 0
+    local iIdx = self:find(pQuestProp)
+    return iIdx > 0
 end
 
 function CQuestFrontierNode:count()

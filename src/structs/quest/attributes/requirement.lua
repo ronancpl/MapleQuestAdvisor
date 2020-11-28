@@ -86,7 +86,7 @@ function CQuestRequirement:has_job_access()
 end
 
 local function fn_compare_job(siJobid, siPlayerJobid)
-    return siPlayerJobid - siJobid
+    return siJobid - siPlayerJobid
 end
 
 local function is_in_job_class_tree(siBaseJobBranch, siJobBranch, depth)
@@ -127,11 +127,11 @@ function CQuestRequirement:_in_job_tree(siPlayerJob)
 
     local bRet
     if m_rgpJobs:size() > 0 then
-        bRet = false
-
         local iIdx = m_rgpJobs:bsearch(fn_compare_job, siPlayerJob, true, true)
         if iIdx >= 1 and iIdx <= m_rgpJobs:size() then
             bRet = is_in_job_tree(m_rgpJobs:get(iIdx), siPlayerJob)
+        else
+            bRet = false
         end
     else
         bRet = true

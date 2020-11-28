@@ -24,7 +24,8 @@ CQuestAccessors = createClass({
     tfn_strong_ivt_reqs = {},
     tfn_weak_reqs = {},
     tfn_weak_ivt_reqs = {},
-    tsAllReqs = {}
+    tsAllReqs = {},
+    tsAllAccReqs = {}
 })
 
 local function fn_invt_pending(pRet)
@@ -36,8 +37,8 @@ local function fn_unit_pending(pRet)
 end
 
 function CQuestAccessors:is_prerequisite_strong(pReqAcc)
-    local fn_req = pReqAcc:get_fn_property()
-    return self.tfn_strong_reqs[fn_req] or self.tfn_strong_ivt_reqs[fn_req]
+    local fn_acc_req = pReqAcc:get_fn_property()
+    return self.tfn_strong_reqs[fn_acc_req] ~= nil or self.tfn_strong_ivt_reqs[fn_acc_req] ~= nil
 end
 
 function CQuestAccessors:is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProps)
@@ -80,8 +81,12 @@ function CQuestAccessors:get_accessor_range_keys()
     return rgpInvtKeys, rgpUnitKeys
 end
 
-function CQuestAccessors:get_accessor_by_fn_get(fn_get_acc_property)
-    return self.tsAllReqs[fn_get_acc_property]
+function CQuestAccessors:get_accessor_by_fn_get(fn_get_property)
+    return self.tsAllReqs[fn_get_property]
+end
+
+function CQuestAccessors:get_accessor_by_fn_acc_get(fn_get_acc_property)
+    return self.tsAllAccReqs[fn_get_acc_property]
 end
 
 function CQuestAccessors:get_accessors_by_active_requirements(pQuestProp, bInvt)
@@ -112,7 +117,7 @@ function CQuestAccessors:get_accessors_by_active_requirements(pQuestProp, bInvt)
     return rgpAccs
 end
 
-local function fn_get_acc_property(fn_quest_property)
+local function fn_acc_quest_property(fn_quest_property)
     return function(pQuestProps)
         return fn_quest_property(pQuestProps)
     end
@@ -123,10 +128,12 @@ function CQuestAccessors:_add_prerequisite_accessor(tfn_reqs, sAccName, fn_quest
         return fn_diff_pending_type(pQuestAcc, pQuestProps, fn_get_player_state_property(pPlayerState))
     end
 
-    local pAcc = CQuestAccessor:new({sName = sAccName, fn_get_property = fn_get_acc_property(fn_quest_property), fn_get_player_property = fn_get_player_state_property, fn_diff_pending_property = fn_diff_acc_pending, fn_diff_pending_type = fn_diff_pending_type, fn_is_attainable = fn_is_attainable})
+    local fn_get_acc_property = fn_acc_quest_property(fn_quest_property)
+    local pAcc = CQuestAccessor:new({sName = sAccName, fn_get_property = fn_get_acc_property, fn_get_player_property = fn_get_player_state_property, fn_diff_pending_property = fn_diff_acc_pending, fn_diff_pending_type = fn_diff_pending_type, fn_is_attainable = fn_is_attainable})
 
-    tfn_reqs[fn_quest_property] = pAcc
+    tfn_reqs[fn_get_acc_property] = pAcc
     self.tsAllReqs[fn_quest_property] = pAcc
+    self.tsAllAccReqs[fn_get_acc_property] = pAcc   -- accessors don't keep fn_quest_property
 end
 
 function init_quest_accessors()

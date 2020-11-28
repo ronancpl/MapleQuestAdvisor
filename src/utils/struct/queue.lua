@@ -114,6 +114,25 @@ function SQueue:poll()
     return pItem
 end
 
+local function append_items_to_list(rgpToAdd, tpItems, iFromIdx, iToIdx)
+    for i = iFromIdx, iToIdx, 1 do
+        table.insert(rgpToAdd, tpItems[i])
+    end
+end
+
+function SQueue:list()
+    local rgpItems = {}
+
+    if self.__ST <= self.__EN then
+        append_items_to_list(rgpItems, self.tpItems, self.__ST, self.__EN - 1)
+    else
+        append_items_to_list(rgpItems, self.tpItems, self.__ST, self.__LENGTH)
+        append_items_to_list(rgpItems, self.tpItems, 1, self.__EN - 1)
+    end
+
+    return rgpItems
+end
+
 function SQueue:printable()
     local iEnL
     local iEnR

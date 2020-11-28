@@ -17,33 +17,15 @@ CQuestFrontierQuestList = createClass({
     rgpQuestList = SBeltQueue:new()
 })
 
-function CQuestFrontierQuestList:add(pItem)
+function CQuestFrontierQuestList:add(pQuestProp)
     local m_rgpQuestList = self.rgpQuestList
-    m_rgpQuestList:push(pItem)
+    m_rgpQuestList:push(pQuestProp)
 end
 
 function CQuestFrontierQuestList:peek()
     local m_rgpQuestList = self.rgpQuestList
-    local pCurQuestProp = m_rgpQuestList:peek()
 
-    while true do
-        if pCurQuestProp == nil then
-            break
-        end
-
-        local st = ""
-        for k, v in pairs(m_rgpQuestList) do
-            st = st .. v:get_quest_id() .. ", "
-        end
-
-        local pQuestProp = nil
-        local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pCurQuestProp, nil)
-        if self:_should_fetch_quest(pCurQuestProp, rgpAccs) then
-            pQuestProp = pCurQuestProp
-            break
-        end
-    end
-
+    local pQuestProp = m_rgpQuestList:peek()
     return pQuestProp
 end
 
@@ -51,7 +33,11 @@ function CQuestFrontierQuestList:fetch()
     local m_rgpQuestList = self.rgpQuestList
 
     local rgpQuestsFetched = m_rgpQuestList:export()     -- removes all quests already fetched
-    local pQuestProp = rgpQuestsFetched[#rgpQuestsFetched]
+
+    local pQuestProp = table.remove(rgpQuestsFetched)
+    for _, pQuestPropToRetry in ipairs(rgpQuestsFetched) do
+        m_rgpQuestList:push(pQuestPropToRetry)
+    end
 
     local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp, nil)
     self:_fetch_from_nodes(pQuestProp, rgpAccs)
