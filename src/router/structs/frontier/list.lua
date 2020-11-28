@@ -14,7 +14,7 @@ require("utils.struct.belt")
 require("utils.struct.class")
 
 CQuestFrontierQuestList = createClass({
-    rgpQuestList = SBeltQueue:new()
+    rgpQuestList = SBeltStack:new()
 })
 
 function CQuestFrontierQuestList:add(pQuestProp)

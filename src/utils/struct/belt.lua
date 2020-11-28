@@ -12,33 +12,34 @@
 
 require("utils.struct.class")
 require("utils.struct.queue")
+require("utils.struct.stack")
 
-SBeltQueue = createClass({
-    pQueue = SQueue:new(),
+SBeltStack = createClass({
+    pStack = SStack:new(),
     pRunning = SQueue:new()
 })
 
-function SBeltQueue:push(pItem)
-    self.pQueue:push(pItem)
+function SBeltStack:push(pItem)
+    self.pStack:push(pItem)
 end
 
-function SBeltQueue:poll()
+function SBeltStack:poll()
     local pItem = self.pRunning:poll()
     if pItem == nil then
-        pItem = self.pQueue:poll()
+        pItem = self.pStack:pop()
     end
 
     return pItem
 end
 
-function SBeltQueue:peek()
-    local pItem = self.pQueue:poll()
+function SBeltStack:peek()
+    local pItem = self.pStack:pop()
     self.pRunning:push(pItem)
 
     return pItem
 end
 
-function SBeltQueue:export()
+function SBeltStack:export()
     local rgpItems = {}
 
     local m_pRunning = self.pRunning

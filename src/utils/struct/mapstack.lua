@@ -10,29 +10,31 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.struct.class")
+require("utils.struct.stack")
+
 SMapStack = createClass({
     tpStacks = {}
 })
 
-function SMapStack:get_top(pKey)
+function SMapStack:_get_stack(pKey)
     local m_tpStacks = self.tpStacks
+    return m_tpStacks[pKey]
+end
 
-    local rgpStack = m_tpStacks[pKey]
-    return rgpStack[#rgpStack]
+function SMapStack:get_top(pKey)
+    local pStack = self:_get_stack(pKey)
+    return pStack:get_top()
 end
 
 function SMapStack:push(pKey, pItem)
-    local m_tpStacks = self.tpStacks
-
-    local rgpStack = m_tpStacks[pKey]
-    table.insert(rgpStack, pItem)
+    local pStack = self:_get_stack(pKey)
+    pStack:push(pItem)
 end
 
 function SMapStack:pop(pKey)
-    local m_tpStacks = self.tpStacks
-
-    local rgpStack = m_tpStacks[pKey]
-    local pItem = table.remove(rgpStack)
+    local pStack = self:_get_stack(pKey)
+    local pItem = pStack:pop()
 
     return pItem
 end
