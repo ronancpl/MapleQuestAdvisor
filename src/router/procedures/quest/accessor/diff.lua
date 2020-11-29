@@ -11,15 +11,15 @@
 --]]
 
 local function fn_property_diff_pending(iRequired, iSeized)
-    return iSeized - iRequired
+    return iRequired - iSeized
 end
 
 function fn_diff_exceeded(pQuestAcc, pQuestProps, iSeized)
     local fn_req_prop = pQuestAcc:get_fn_property()
     local iRequired = fn_req_prop(pQuestProps)
 
-    local iExceeded = fn_property_diff_pending(iSeized, iRequired)
-    return iExceeded
+    local iPending = fn_property_diff_pending(iSeized, iRequired)
+    return -iPending
 end
 
 function fn_diff_pending(pQuestAcc, pQuestProps, iSeized)

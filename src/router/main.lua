@@ -21,7 +21,7 @@ require("router.stages.route")
 require("structs.player")
 
 local function create_player()
-    local pPlayer = CPlayer:new({iMapid = 2000000, siLevel = 50})
+    local pPlayer = CPlayer:new({iMapid = 2000000, siLevel = 50, siJob = 122})
 
     return pPlayer
 end

@@ -34,13 +34,6 @@ function CQuestFrontierQuestList:fetch()
 
     local rgpQuestsFetched = m_rgpQuestList:export()     -- removes all quests already fetched
 
-    local pQuestProp = table.remove(rgpQuestsFetched)
-    for _, pQuestPropToRetry in ipairs(rgpQuestsFetched) do
-        m_rgpQuestList:push(pQuestPropToRetry)
-    end
-
-    local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp, nil)
-    self:_fetch_from_nodes(pQuestProp, rgpAccs)
-
+    local pQuestProp = rgpQuestsFetched[#rgpQuestsFetched]
     return pQuestProp
 end

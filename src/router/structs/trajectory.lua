@@ -53,9 +53,11 @@ function CGraphTree:_is_empty_active_neighbors(pQuestProp)
 end
 
 function CGraphTree:_pop_from(pQuestProp)
-    local rgpFroms = self.tpActiveFroms[pQuestProp]
+    local m_tpActiveFroms = self.tpActiveFroms
+
+    local rgpFroms = m_tpActiveFroms[pQuestProp]
     if rgpFroms ~= nil then
-        self.tpActiveFroms[pQuestProp] = nil
+        m_tpActiveFroms[pQuestProp] = nil
 
         for _, pFromProp in ipairs(rgpFroms) do
             local rgFromActiveNeighbors = self.tpActiveNeighbors[pFromProp]
