@@ -173,7 +173,7 @@ local function read_quests(ctQuests, pActNode, pChkNode)
 
     for _, pActQuestNode in pairs(pActImgNode:get_children()) do
         local pChkQuestNode = pChkImgNode:get_child_by_name(pActQuestNode:get_name())
-        if (pChkQuestNode ~= nil) then
+        if pChkQuestNode ~= nil then
             local pQuest = read_quest_node(pActQuestNode, pChkQuestNode, rgfn_req_get, rgfn_act_get)
             ctQuests:add_quest(pQuest)
         else

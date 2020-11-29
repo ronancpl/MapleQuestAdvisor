@@ -18,7 +18,7 @@ local function retrieveClassMembers(c)
 
     local classMembers = c.classMembers
     local innerMembers = classMembers["classMembers"]
-    if (innerMembers ~= nil) then
+    if innerMembers ~= nil then
         for k, v in pairs(retrieveClassMembers(classMembers)) do
             retMembers[k] = v
         end
@@ -49,7 +49,7 @@ end
 local function initClassMembers(...)
     local retMembers = {}                    -- raw members definition
 
-    if (#... > 0) then
+    if #... > 0 then
         for _, c in ipairs(...) do
             local cMembers = initClassMembersInternal(c)
             insertClassMembers(retMembers, cMembers)

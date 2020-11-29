@@ -173,7 +173,7 @@ local function load_field_overworld_areas(ctFieldsMeta, sFilePath)
 
     for _, pFieldEntry in ipairs(tFieldOverworld) do
         local nEntries = #pFieldEntry
-        if (nEntries <= 2) then    -- ignore not-in-overworld areas
+        if nEntries <= 2 then    -- ignore not-in-overworld areas
             local iSrcid = tonumber(pFieldEntry[1])
             local iDestId = tonumber(pFieldEntry[2])
 

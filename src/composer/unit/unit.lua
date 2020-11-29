@@ -30,7 +30,7 @@ local function load_units_table(sFilePath, CBaseUnitTable, fn_add_entry, fn_add_
 
         for i = 2, #pUnitEntry, 1 do
             local iMapId = ctFieldsMeta:get_field_overworld(tonumber(pUnitEntry[i]))
-            if (iMapId ~= nil) then
+            if iMapId ~= nil then
                 fn_add_location(ctUnits, iSrcid, iMapId)
             end
         end

@@ -113,7 +113,7 @@ end
 
 function CQuestTable:_apply_quest_starting_level(pQuest, tiQuestSearchers)
     local siStartLevel = pQuest:get_start():get_requirement():get_level_min()
-    if (siStartLevel < 0) then
+    if siStartLevel < 0 then
         siStartLevel = self:_find_prequest_starting_level(pQuest, tiQuestSearchers)
     end
 
