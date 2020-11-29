@@ -135,14 +135,16 @@ function CQuestFrontierRange:_fetch_from_nodes(pCurQuestProp, rgpAccs)
     end
 end
 
-function CQuestFrontierRange:fetch()
+function CQuestFrontierRange:fetch(iQuestCount)
     local m_pAvailableQuests = self.pAvailableQuests
-    local pQuestProp = m_pAvailableQuests:fetch()
+    local rgpQuestProps = m_pAvailableQuests:fetch(iQuestCount)
 
-    local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp, nil)
-    self:_fetch_from_nodes(pQuestProp, rgpAccs)
+    for _, pQuestProp in ipairs(rgpQuestProps) do
+        local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp, nil)
+        self:_fetch_from_nodes(pQuestProp, rgpAccs)
+    end
 
-    return pQuestProp
+    return rgpQuestProps
 end
 
 function CQuestFrontierRange:count()

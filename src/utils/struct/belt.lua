@@ -39,11 +39,11 @@ function SBeltStack:peek()
     return pItem
 end
 
-function SBeltStack:export()
+function SBeltStack:export(iLimitCount)
     local rgpItems = {}
 
     local m_pRunning = self.pRunning
-    while true do
+    for i = 1, iLimitCount, 1 do
         local pItem = m_pRunning:poll()
         if pItem == nil then
             break

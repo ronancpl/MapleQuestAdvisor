@@ -29,11 +29,9 @@ function CQuestFrontierQuestList:peek()
     return pQuestProp
 end
 
-function CQuestFrontierQuestList:fetch()
+function CQuestFrontierQuestList:fetch(iQuestCount)
     local m_rgpQuestList = self.rgpQuestList
 
-    local rgpQuestsFetched = m_rgpQuestList:export()     -- removes all quests already fetched
-
-    local pQuestProp = rgpQuestsFetched[#rgpQuestsFetched]
-    return pQuestProp
+    local rgpQuestsFetched = m_rgpQuestList:export(iQuestCount)     -- removes all quests already fetched
+    return rgpQuestsFetched
 end

@@ -148,8 +148,9 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
 
     for _, pBcktQuestProp in ipairs(rgpBcktQuests) do
         route_quest_suppress_complete(rgpPoolProps, pBcktQuestProp, pPlayerState)
-        pFrontierQuests:fetch()
     end
+
+    return #rgpBcktQuests
 end
 
 local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
@@ -162,12 +163,10 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
             break
         end
 
-        pFrontierQuests:fetch()
-
         route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
+        local iBcktCount = route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
 
-        route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
-
+        pFrontierQuests:fetch(iBcktCount)       -- retrieve all nodes from frontier that have been backtracked
         pFrontierQuests:update(pPlayerState)
     end
 end

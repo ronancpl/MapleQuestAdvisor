@@ -100,7 +100,7 @@ local function fetch_update_iterator_step(rgpItems, bSelect, iIdx)
     local iEnd
 
     if bSelect then
-        iStart = iIdx - 1
+        iStart = iIdx
         iEnd = rgpItems:size()
     else
         iStart = 1

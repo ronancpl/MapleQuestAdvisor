@@ -70,8 +70,8 @@ function SQueue:_resize()
         iIdxRightEn = 0
     end
 
-    local rgpItemsRight = self:remove(iIdxSt, iIdxLeftEn)
-    local rgpItemsLeft = self:remove(1, iIdxRightEn)
+    local rgpItemsRight = self:_remove(iIdxSt, iIdxLeftEn)
+    local rgpItemsLeft = self:_remove(1, iIdxRightEn)
 
     self:_clear()     -- reestablish elements in a bigger queue
     self.__LENGTH = self.__LENGTH + U_QUEUE_SIZE_INC

@@ -59,9 +59,9 @@ function CQuestFrontier:peek()
     return pQuestProp
 end
 
-function CQuestFrontier:fetch()
+function CQuestFrontier:fetch(iQuestCount)
     local m_pRange = self.pSelect
-    local pQuestProp = m_pRange:fetch()
+    local pQuestProp = m_pRange:fetch(iQuestCount)
 
     return pQuestProp
 end
