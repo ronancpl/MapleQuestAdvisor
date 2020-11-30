@@ -48,6 +48,7 @@ function log(sFileDir, sFileName, ...)
 
     local sLogLine = os.date("[%X] ") .. fetch_log_line(...)
     fOut:write(sLogLine)
+    fOut:write("\r\n")
     print(sLogLine)
 
     io.close(fOut)

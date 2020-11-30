@@ -100,11 +100,11 @@ local function fetch_update_iterator_step(rgpItems, bSelect, iIdx)
     local iEnd
 
     if bSelect then
-        iStart = iIdx
-        iEnd = rgpItems:size()
-    else
         iStart = 1
-        iEnd = iIdx
+        iEnd = iIdx - 1
+    else
+        iStart = iIdx > 0 and iIdx or rgpItems:size() + 1
+        iEnd = rgpItems:size()
     end
 
     return iStart, iEnd
@@ -137,10 +137,6 @@ end
 
 function CQuestFrontierNode:update_put(rgpFrontierProps, bSelect)
     local m_rgpItems = self.rgpItems
-    local m_pQuestAcc = self.pQuestAcc
-    local m_fn_diff = self:get_fn_diff()
-
-    local nVal = m_rgpItems:size()
 
     local rgpCurItems
     if bSelect then

@@ -112,7 +112,7 @@ function SArray:remove_all()
     local rgpItems = {}
     local nItems = #m_apItems
     for i = 1, nItems, 1 do
-        rgpItems = m_apItems[i]
+        table.insert(rgpItems, m_apItems[i])
         m_apItems[i] = nil
     end
 

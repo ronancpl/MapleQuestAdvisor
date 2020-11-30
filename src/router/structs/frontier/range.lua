@@ -95,7 +95,7 @@ function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
         for _, pAcc in pairs(rgpAccs) do
             if ctAccessors:is_prerequisite_strong(pAcc) then
                 local pNode = m_tpPropTypeQuests[pAcc]
-                if not pNode:contains(pCurQuestProp) then     -- meaning this requisite has not been met by player
+                if not pNode:contains(pCurQuestProp) then     -- meaning any of the strong requisites have not been met by player
                     return false
                 end
             end

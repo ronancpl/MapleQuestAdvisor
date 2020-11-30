@@ -141,7 +141,7 @@ function init_quest_accessors()
 
     local tfn_strong_reqs = ctAccessors.tfn_strong_reqs
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_FAME", CQuestProperty.get_fame, fn_get_player_state_fame, fn_diff_pending, fn_is_attainable_unit)
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_DATE", CQuestRequirement.has_date_access, fn_get_player_state_date, fn_diff_zero, fn_is_attainable_unit)
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_DATE", CQuestRequirement.has_date_access, fn_get_player_state_date, fn_diff_avail, fn_is_attainable_unit)
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_LVMIN", CQuestRequirement.get_level_min, fn_get_player_state_level_min, fn_diff_pending, fn_is_attainable_unit)
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_LVMAX", CQuestRequirement.get_level_max, fn_get_player_state_level_max, fn_diff_exceeded, fn_is_attainable_unit)
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, "_QUEST_GET_JOB", CQuestRequirement.has_job_access, fn_get_player_state_job, fn_diff_avail, fn_is_attainable_unit)

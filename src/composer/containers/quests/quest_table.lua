@@ -13,6 +13,7 @@
 require("router.filters.constant")
 require("router.filters.graph")
 require("utils.logger.file")
+require("utils.procedure.unpack")
 require("utils.struct.array")
 require("utils.struct.class")
 
@@ -127,4 +128,26 @@ function CQuestTable:apply_starting_level()
     for _, pQuest in pairs(m_tpQuests) do
         self:_apply_quest_starting_level(pQuest, {})
     end
+end
+
+function CQuestTable:fetch_prerequisited_quests(pQuest)
+    local rgpQuests = {}
+    table.insert(rgpQuests, pQuest)
+
+    local tiQuestSearchers = {}
+    while true do
+        local pQuestProp = table.remove(rgpQuests)
+        if pQuestProp == nil then
+            break
+        end
+
+        for iPreQuestId, iPreQuestStatus in pairs(pQuestProp:get_start():get_requirement():get_quests():get_items()) do
+            if tiQuestSearchers[iPreQuestId] == nil or tiQuestSearchers[iPreQuestId] < iPreQuestStatus then
+                tiQuestSearchers[iPreQuestId] = iPreQuestStatus
+                table.insert(rgpQuests, ctQuests:get_quest_by_id(iPreQuestId))
+            end
+        end
+    end
+
+    return keys(tiQuestSearchers)
 end
