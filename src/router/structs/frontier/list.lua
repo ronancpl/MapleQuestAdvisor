@@ -12,20 +12,29 @@
 
 require("utils.struct.belt")
 require("utils.struct.class")
+local SSet = require("pl.class").Set
 
 CQuestFrontierQuestList = createClass({
-    rgpQuestList = SBeltStack:new()
+    rgpQuestList = SBeltStack:new(),
+    pQuestsSet = SSet{}
 })
 
 function CQuestFrontierQuestList:add(pQuestProp)
     local m_rgpQuestList = self.rgpQuestList
     m_rgpQuestList:push(pQuestProp)
+
+    self.pQuestsSet = self.pQuestsSet + SSet{pQuestProp}
+end
+
+function CQuestFrontierQuestList:contains(pQuestProp)
+    return SSet{pQuestProp}:issubset(self.pQuestsSet)
 end
 
 function CQuestFrontierQuestList:peek()
     local m_rgpQuestList = self.rgpQuestList
 
     local pQuestProp = m_rgpQuestList:peek()
+    self.pQuestsSet = self.pQuestsSet - SSet{pQuestProp}
     return pQuestProp
 end
 

@@ -28,12 +28,19 @@ function CQuestFrontier:init(ctAccessors)
     self.pSelect:init(rgpAccUnits, rgpAccInvts)
 end
 
-function CQuestFrontier:_is_quest_attainable(pQuestProp, pPlayerState)
+function CQuestFrontier:_is_quest_attainable(pQuestProp, pPlayerState, ctAccessors)
     return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end
 
+function CQuestFrontier:contains(pQuestProp, pPlayerState, ctAccessors)
+    local bSelect = self:_is_quest_attainable(pQuestProp, pPlayerState, ctAccessors)
+    local m_pRange = bSelect and self.pSelect or self.pHold
+
+    return m_pRange:contains(pQuestProp)
+end
+
 function CQuestFrontier:add(pQuestProp, pPlayerState, ctAccessors)
-    local bSelect = self:_is_quest_attainable(pQuestProp, pPlayerState)
+    local bSelect = self:_is_quest_attainable(pQuestProp, pPlayerState, ctAccessors)
     local m_pRange = bSelect and self.pSelect or self.pHold
 
     m_pRange:add(pQuestProp, ctAccessors)
@@ -50,6 +57,11 @@ function CQuestFrontier:update(pPlayerState)
 
     self:_update_range(pPlayerState, m_pRangeSelect, m_pRangeHold, true)
     self:_update_range(pPlayerState, m_pRangeHold, m_pRangeSelect, false)
+end
+
+function CQuestFrontier:debug_front()
+    self.pSelect:debug_front("slt")
+    self.pHold:debug_front("hld")
 end
 
 function CQuestFrontier:peek()

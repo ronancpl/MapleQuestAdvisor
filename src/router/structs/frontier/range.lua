@@ -60,6 +60,11 @@ function CQuestFrontierRange:add(pQuestProp, ctAccessors)
     m_pAvailableQuests:add(pQuestProp)
 end
 
+function CQuestFrontierRange:contains(pQuestProp)
+    local m_pAvailableQuests = self.pAvailableQuests
+    return m_pAvailableQuests:contains(pQuestProp)
+end
+
 function CQuestFrontierRange:update_take(pPlayerState, bSelect)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
     local tpTakeQuestProps = STable:new()
@@ -103,6 +108,27 @@ function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
     end
 
     return true
+end
+
+function CQuestFrontierRange:debug_front(sType)
+    local m_pAvailableQuests = self.pAvailableQuests
+
+    local tpQuests = {}
+
+    local m_tpPropTypeQuests = self.tpPropTypeQuests
+    for _, pNode in pairs(m_tpPropTypeQuests) do
+        for _, pFrontierProp in ipairs(pNode.rgpItems:list()) do
+            tpQuests[pFrontierProp:get_property()] = 1
+        end
+    end
+
+    local st = ""
+    for _, pPair in ipairs(spairs(tpQuests, function (a, b) return CQuestProperties.compare(a, b) < 0 end)) do
+        local pQuestProp = pPair[1]
+        st = st .. pQuestProp:get_name(true) .. ", "
+    end
+    print(sType .. "HAVE [" .. st .. "]")
+
 end
 
 function CQuestFrontierRange:peek()

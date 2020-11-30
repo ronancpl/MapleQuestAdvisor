@@ -75,10 +75,6 @@ local function route_quest_suppress_complete(rgpQuestProps, pQuestProp, pPlayerS
     pQuestEndProp:set_active_on_grid(false)
 end
 
-local function is_quest_attainable(ctAccessors, pQuestProp, pPlayerState)
-    return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
-end
-
 local tPathSearched = {}
 
 local function print_path_search_counts()
@@ -122,7 +118,9 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     table.insert(pRerouteCheckerTable, pRerouteCheckerNode)
 
     for _, pNeighborProp in ipairs(rgpNeighbors) do
-        pFrontierQuests:add(pNeighborProp, pPlayerState, ctAccessors)
+        if not pFrontierQuests:contains(pNeighborProp, pPlayerState, ctAccessors) then
+            pFrontierQuests:add(pNeighborProp, pPlayerState, ctAccessors)
+        end
     end
 end
 
