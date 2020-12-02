@@ -50,8 +50,13 @@ function fetch_neighbors(rgpPoolProps, pFrontierQuests, pCurrentPath, pPlayerSta
     local rgpNeighbors = {}
 
     for _, pQuestProp in ipairs(rgpPoolProps) do
-        if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) and not pFrontierQuests:contains(pQuestProp, pPlayerState, ctAccessors) then
-            table.insert(rgpNeighbors, pQuestProp)
+        -- same as is_eligible_root_quest
+
+        if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
+            local bMetReqs = pFrontierQuests:is_quest_accessible(pQuestProp) or is_route_quest_accessible(pQuestProp, pPlayerState, ctAccessors)
+            if bMetReqs then
+                table.insert(rgpNeighbors, pQuestProp)
+            end
         end
     end
 

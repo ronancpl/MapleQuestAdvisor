@@ -39,6 +39,11 @@ function CQuestFrontier:contains(pQuestProp, pPlayerState, ctAccessors)
     return m_pRange:contains(pQuestProp)
 end
 
+function CQuestFrontier:is_quest_accessible(pQuestProp)
+    local m_pRange = self.pSelect
+    return m_pRange:contains(pQuestProp)
+end
+
 function CQuestFrontier:add(pQuestProp, pPlayerState, ctAccessors)
     local bSelect = self:_is_quest_attainable(pQuestProp, pPlayerState, ctAccessors)
     local m_pRange = bSelect and self.pSelect or self.pHold

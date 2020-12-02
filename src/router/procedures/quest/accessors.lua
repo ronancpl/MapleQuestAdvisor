@@ -29,7 +29,7 @@ CQuestAccessors = createClass({
 })
 
 local function fn_invt_pending(pRet)
-    return #pRet > 0
+    return next(pRet) ~= nil
 end
 
 local function fn_unit_pending(pRet)
