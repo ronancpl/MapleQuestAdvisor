@@ -12,29 +12,29 @@
 
 require("utils.struct.belt")
 require("utils.struct.class")
-local SSet = require("pl.class").Set
 
 CQuestFrontierQuestList = createClass({
     rgpQuestList = SBeltStack:new(),
-    pQuestsSet = SSet{}
+    tpQuests = {}
 })
 
 function CQuestFrontierQuestList:add(pQuestProp)
     local m_rgpQuestList = self.rgpQuestList
     m_rgpQuestList:push(pQuestProp)
 
-    self.pQuestsSet = self.pQuestsSet + SSet{pQuestProp}
+    local m_tpQuests = self.tpQuests
+    m_tpQuests[pQuestProp] = (m_tpQuests[pQuestProp] or 0) + 1
 end
 
 function CQuestFrontierQuestList:contains(pQuestProp)
-    return SSet{pQuestProp}:issubset(self.pQuestsSet)
+    local m_rgpQuestList = self.rgpQuestList
+    return m_rgpQuestList[pQuestProp] ~= nil
 end
 
 function CQuestFrontierQuestList:peek()
     local m_rgpQuestList = self.rgpQuestList
-
     local pQuestProp = m_rgpQuestList:peek()
-    self.pQuestsSet = self.pQuestsSet - SSet{pQuestProp}
+
     return pQuestProp
 end
 
@@ -42,5 +42,15 @@ function CQuestFrontierQuestList:fetch(iQuestCount)
     local m_rgpQuestList = self.rgpQuestList
 
     local rgpQuestsFetched = m_rgpQuestList:export(iQuestCount)     -- removes all quests already fetched
+
+    for _, pQuestProp in ipairs(rgpQuestsFetched) do
+        local m_tpQuests = self.tpQuests
+        if m_tpQuests[pQuestProp] > 1 then
+            m_tpQuests[pQuestProp] = m_tpQuests[pQuestProp] - 1
+        else
+            m_tpQuests[pQuestProp] = nil
+        end
+    end
+
     return rgpQuestsFetched
 end

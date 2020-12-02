@@ -43,10 +43,6 @@ function CGraphMilestoneStorage:_insert(pInsNode, iIdx, rgpSearch, pSetSearch)
     return pCurNode
 end
 
-local function fn_storage_sort(a, b)
-    return a:get_quest_id() < b:get_quest_id()
-end
-
 function CGraphMilestoneStorage:_get_node(rgpNeighbors)
     local pSetSearch = make_subpath_set(rgpNeighbors)
     local rgpNeighborVals = pSetSearch:values()

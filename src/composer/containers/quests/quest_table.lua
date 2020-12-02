@@ -130,21 +130,21 @@ function CQuestTable:apply_starting_level()
     end
 end
 
-function CQuestTable:fetch_prerequisited_quests(pQuest)
-    local rgpQuests = {}
-    table.insert(rgpQuests, pQuest)
+function CQuestTable:fetch_prerequisited_quests(pFromQuestProp)
+    local rgpQuestProps = {}
+    table.insert(rgpQuestProps, pFromQuestProp)
 
     local tiQuestSearchers = {}
     while true do
-        local pQuestProp = table.remove(rgpQuests)
+        local pQuestProp = table.remove(rgpQuestProps)
         if pQuestProp == nil then
             break
         end
 
-        for iPreQuestId, iPreQuestStatus in pairs(pQuestProp:get_start():get_requirement():get_quests():get_items()) do
+        for iPreQuestId, iPreQuestStatus in pairs(pQuestProp:get_requirement():get_quests():get_items()) do
             if tiQuestSearchers[iPreQuestId] == nil or tiQuestSearchers[iPreQuestId] < iPreQuestStatus then
                 tiQuestSearchers[iPreQuestId] = iPreQuestStatus
-                table.insert(rgpQuests, ctQuests:get_quest_by_id(iPreQuestId))
+                table.insert(rgpQuestProps, ctQuests:get_quest_by_id(iPreQuestId):get_start())
             end
         end
     end

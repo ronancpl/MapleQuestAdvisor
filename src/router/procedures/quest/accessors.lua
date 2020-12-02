@@ -41,7 +41,26 @@ function CQuestAccessors:is_prerequisite_strong(pReqAcc)
     return self.tfn_strong_reqs[fn_acc_req] ~= nil or self.tfn_strong_ivt_reqs[fn_acc_req] ~= nil
 end
 
-function CQuestAccessors:is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProps)
+function CQuestAccessors:is_prerequisite_inventory(pReqAcc)
+    local fn_acc_req = pReqAcc:get_fn_property()
+    return self.tfn_weak_ivt_reqs[fn_acc_req] ~= nil or self.tfn_strong_ivt_reqs[fn_acc_req] ~= nil
+end
+
+function CQuestAccessors:_is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProps)
+    local fn_req = pReqAcc:get_fn_pending_property()
+
+    local pRet = fn_req(pReqAcc, pQuestProps, pPlayerState)
+    if fn_pending(pRet) then
+        return false
+    end
+
+    return true
+end
+
+function CQuestAccessors:is_player_have_prerequisite(pReqAcc, pPlayerState, pQuestProp)
+    local pQuestProps = pQuestProp:get_requirement()
+
+    local fn_pending = self:is_prerequisite_inventory(pReqAcc) and fn_invt_pending or fn_unit_pending
     local fn_req = pReqAcc:get_fn_pending_property()
 
     local pRet = fn_req(pReqAcc, pQuestProps, pPlayerState)
@@ -54,7 +73,7 @@ end
 
 function CQuestAccessors:_is_player_have_prerequisites(fn_pending, tfn_reqs, pPlayerState, pQuestProps)
     for _, pReqAcc in pairs(tfn_reqs) do
-        if not self:is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProps) then
+        if not self:_is_player_have_prerequisite(pReqAcc, fn_pending, pPlayerState, pQuestProps) then
             return false
         end
     end

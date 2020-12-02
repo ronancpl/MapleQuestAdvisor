@@ -19,7 +19,11 @@ local function is_route_quest_in_path(pQuestProp, pCurrentPath)
     return pCurrentPath:is_in_path(pQuestProp)
 end
 
-local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState)
+local function is_route_quest_accessible(pQuestProp, pPlayerState, ctAccessors)
+    return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
+end
+
+local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
     if not pQuestProp:is_active_on_grid() then
         return false
     end
@@ -35,15 +39,18 @@ local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState)
     return true
 end
 
-function is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState)
-    return is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState)
+function is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
+    local bEligible = is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)
+    local bMetReqs = is_route_quest_accessible(pQuestProp, pPlayerState, ctAccessors)
+
+    return bEligible and bMetReqs
 end
 
-function fetch_neighbors(rgpPoolProps, pCurrentPath, pPlayerState)
+function fetch_neighbors(rgpPoolProps, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
     local rgpNeighbors = {}
 
     for _, pQuestProp in ipairs(rgpPoolProps) do
-        if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState) then
+        if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) and not pFrontierQuests:contains(pQuestProp, pPlayerState, ctAccessors) then
             table.insert(rgpNeighbors, pQuestProp)
         end
     end

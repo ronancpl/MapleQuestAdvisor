@@ -134,21 +134,7 @@ end
 function CQuestFrontierRange:peek()
     local m_pAvailableQuests = self.pAvailableQuests
 
-    local pQuestProp
-    while true do
-        local pCurQuestProp = m_pAvailableQuests:peek()
-        if pCurQuestProp == nil then
-            break
-        end
-
-        pQuestProp = nil
-        local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pCurQuestProp, nil)
-        if self:_should_fetch_quest(pCurQuestProp, rgpAccs) then
-            pQuestProp = pCurQuestProp
-            break
-        end
-    end
-
+    local pQuestProp = m_pAvailableQuests:peek()
     return pQuestProp
 end
 

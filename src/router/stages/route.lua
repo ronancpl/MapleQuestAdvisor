@@ -29,10 +29,6 @@ local function make_pool_list(tQuests)
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
         local pQuestProp
         pQuestProp = pQuest:get_start()
-        pQuestProp:set_active_on_grid(true)
-
-        pQuestProp = pQuest:get_end()
-        pQuestProp:set_active_on_grid(false)
 
         rgpQuests:add(pQuest)
     end
@@ -100,7 +96,7 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     local rgpFrontierPoolProps = pFrontierArranger:update_visit(ctAccessors, pPlayerState, pQuestProp)
     table.sort(rgpFrontierPoolProps, fn_compare_quest_id)
 
-    local rgpNeighbors = fetch_neighbors(rgpFrontierPoolProps, pCurrentPath, pPlayerState, ctAccessors)
+    local rgpNeighbors = fetch_neighbors(rgpFrontierPoolProps, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
 
     local pNeighborsMilestone = pQuestMilestone:get_subpath(rgpNeighbors)
     if pNeighborsMilestone ~= nil then  -- already found result for this subset of neighbors
@@ -118,9 +114,7 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     table.insert(pRerouteCheckerTable, pRerouteCheckerNode)
 
     for _, pNeighborProp in ipairs(rgpNeighbors) do
-        if not pFrontierQuests:contains(pNeighborProp, pPlayerState, ctAccessors) then
-            pFrontierQuests:add(pNeighborProp, pPlayerState, ctAccessors)
-        end
+        pFrontierQuests:add(pNeighborProp, pPlayerState, ctAccessors)
     end
 end
 
@@ -174,10 +168,10 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
     local pQuestProp = pQuest:get_start()
     local pCurrentPath = CQuestPath:new()
 
-    if is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
-        local rgpPoolProps = make_quest_pool_list(tQuests)
-        apply_initial_player_state(pPlayerState, rgpPoolProps)  -- set up quest properties for graphing
+    local rgpPoolProps = make_quest_pool_list(tQuests)
+    apply_initial_player_state(pPlayerState, rgpPoolProps)  -- set up quest properties for graphing
 
+    if is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
         local pFrontierQuests = CQuestFrontier:new()
         pFrontierQuests:init(ctAccessors)
 
