@@ -61,9 +61,7 @@ function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
 
     local m_rgpItems = self.rgpItems
 
-    m_rgpItems:sort(function(a, b) return fn_compare(a, b) < 0 end)
     local iInsIdx = m_rgpItems:bsearch(fn_compare, pFrontierProp, true, true)
-
     m_rgpItems:insert(pFrontierProp, iInsIdx)
 end
 
@@ -123,8 +121,6 @@ function CQuestFrontierNode:update_take(pPlayerState, bSelect)
     local fn_attainable = m_pQuestAcc:get_fn_attainable()
 
     local m_rgpItems = self.rgpItems
-
-    m_rgpItems:sort(fn_sort_attainable(fn_attainable, m_fn_diff, m_pQuestAcc, pPlayerState))
     local iIdx = m_rgpItems:bsearch(fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, true, true)
 
     local iStart

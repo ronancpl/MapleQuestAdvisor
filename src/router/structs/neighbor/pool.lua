@@ -181,13 +181,17 @@ function CNeighborPool:_fetch_accessor_neighbor_candidates(pAcc, fn_compare_play
 
     local rgAccPool = self.tAccQuests[pAcc]
 
-    local iStateIdx = rgAccPool:bsearch(fn_compare_player_prop(pAcc), iCurProp, true, false)
-    local iLastIdx = rgAccPool:bsearch(fn_compare_player_prop(pAcc), iLastProp, true, true)
+    local iStateIdx
+    local iLastIdx
 
     local iSt
     local iEn
     local bReverse
-    if iStateIdx >= iLastIdx then
+
+    if iLastProp <= iCurProp then
+        iStateIdx = rgAccPool:bsearch(fn_compare_player_prop(pAcc), iCurProp, true, false)
+        iLastIdx = rgAccPool:bsearch(fn_compare_player_prop(pAcc), iLastProp, true, true)
+
         iSt = iLastIdx
         iEn = iStateIdx
         bReverse = false

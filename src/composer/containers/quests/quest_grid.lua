@@ -184,6 +184,17 @@ function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
     return tpPoolQuests
 end
 
+function CQuestGrid:fetch_quests_by_list(rgiQuests)
+    local tpPoolQuests = STable:new()
+
+    for _, iQuestid in ipairs(rgiQuests) do
+        local pQuest = ctQuests:get_quest_by_id(iQuestid)
+        tpPoolQuests:insert(pQuest, 1)
+    end
+
+    return tpPoolQuests
+end
+
 function CQuestGrid:ignore_underleveled_quests(iLevel)
     self:_ignore_quests_from_level(iLevel - RGraph.POOL_BEHIND_QUEST_LEVEL)
 end

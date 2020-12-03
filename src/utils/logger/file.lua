@@ -16,6 +16,7 @@ LPath = {
 
     LOG_DIR = "logs/",
 
+    QUEST_BOARD = "pool/",
     FALLBACK = "digression/",
     OVERALL = "overall/",
     PROCEDURES = "procedures/"

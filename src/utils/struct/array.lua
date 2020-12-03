@@ -77,18 +77,20 @@ function SArray:remove(iIdxStart, iIdxEnd)
     iIdxEnd = (iIdxEnd or nItems) <= nItems and iIdxEnd or nItems
 
     local apRemoved = SArray:new()
-    for i = iIdxStart, iIdxEnd, 1 do
-        apRemoved:add(m_apItems[i])
-    end
+    if iIdxStart <= iIdxEnd then
+        for i = iIdxStart, iIdxEnd, 1 do
+            apRemoved:add(m_apItems[i])
+        end
 
-    local iIdxRight = iIdxEnd + 1
-    local nLeft = nItems - iIdxRight + 1
-    for i = 0, nLeft - 1, 1 do
-        m_apItems[iIdxStart + i] = m_apItems[iIdxRight + i]
-    end
+        local iIdxRight = iIdxEnd + 1
+        local nLeft = nItems - iIdxRight + 1
+        for i = 0, nLeft - 1, 1 do
+            m_apItems[iIdxStart + i] = m_apItems[iIdxRight + i]
+        end
 
-    for i = iIdxStart + nLeft, nItems, 1 do
-        m_apItems[i] = nil
+        for i = iIdxStart + nLeft, nItems, 1 do
+            m_apItems[i] = nil
+        end
     end
 
     return apRemoved
