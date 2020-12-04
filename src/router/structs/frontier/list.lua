@@ -10,39 +10,45 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.constant")
 require("utils.struct.belt")
 require("utils.struct.class")
+require("utils.struct.stack")
 
 CQuestFrontierQuestList = createClass({
-    rgpQuestList = SBeltStack:new(),
+    pQuestStack = SBeltStack:new(),
+    pExploredQuests = SStack:new(),
     tpQuests = {}
 })
 
 function CQuestFrontierQuestList:add(pQuestProp)
-    local m_rgpQuestList = self.rgpQuestList
-    m_rgpQuestList:push(pQuestProp)
+    local m_pQuestStack = self.pQuestStack
+    m_pQuestStack:push(pQuestProp)
 
     local m_tpQuests = self.tpQuests
     m_tpQuests[pQuestProp] = (m_tpQuests[pQuestProp] or 0) + 1
 end
 
 function CQuestFrontierQuestList:contains(pQuestProp)
-    local m_rgpQuestList = self.rgpQuestList
-    return m_rgpQuestList[pQuestProp] ~= nil
+    local m_tpQuests = self.tpQuests
+    return m_tpQuests[pQuestProp] ~= nil
 end
 
 function CQuestFrontierQuestList:peek()
-    local m_rgpQuestList = self.rgpQuestList
-    local pQuestProp = m_rgpQuestList:peek()
+    local m_pQuestStack = self.pQuestStack
+    local pQuestProp = m_pQuestStack:peek()
 
     return pQuestProp
 end
 
 function CQuestFrontierQuestList:fetch(iQuestCount)
-    local m_rgpQuestList = self.rgpQuestList
+    local m_pQuestStack = self.pQuestStack
+    local m_pExploredQuests = self.pExploredQuests
 
-    local rgpQuestsFetched = m_rgpQuestList:export(iQuestCount)     -- removes all quests already fetched
+    local rgpQuestsExplored = m_pQuestStack:export(U_INT_MAX)       -- removes all quests already explored on belt
+    m_pExploredQuests:push_all(rgpQuestsExplored)
 
+    local rgpQuestsFetched = m_pExploredQuests:export(iQuestCount)    -- returns backtracked quests from the present tree frame
     for _, pQuestProp in ipairs(rgpQuestsFetched) do
         local m_tpQuests = self.tpQuests
         if m_tpQuests[pQuestProp] > 1 then

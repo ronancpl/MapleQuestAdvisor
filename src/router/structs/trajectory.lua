@@ -84,3 +84,23 @@ function CGraphTree:try_pop_node()
         return nil
     end
 end
+
+function CGraphTree:debug_tree()
+    print(" --- CURRENT TREE PATH ---")
+
+    local l = self.rgpPath:list()
+    for i = math.max(1, #l - 5), #l, 1 do
+        local s = ""
+        local pQuestProp = l[i]
+
+        local s = pQuestProp:get_name(true) .. " -> ["
+        for _, v in pairs(self.tpActiveNeighbors[pQuestProp]:list()) do
+            s = s .. v:get_name(true) .. ", "
+        end
+        s = s .. "]"
+
+        print(s)
+    end
+
+    print()
+end

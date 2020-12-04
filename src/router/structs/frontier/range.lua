@@ -10,7 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.structs.frontier.list")
 require("router.structs.frontier.node.list")
 require("router.structs.frontier.node.unit")
 require("utils.struct.array")
@@ -19,7 +18,7 @@ require("utils.struct.table")
 
 CQuestFrontierRange = createClass({
     tpPropTypeQuests = {},
-    pAvailableQuests = CQuestFrontierQuestList:new()
+    tpQuests = {}
 })
 
 function CQuestFrontierRange:_init_accessor_type(pAcc, CQuestRangeType)
@@ -45,6 +44,15 @@ function CQuestFrontierRange:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQues
     pTypeRange:add(pQuestProp, pQuestChkProp)
 end
 
+function CQuestFrontierRange:_exchange_quests(rgpQuestProps, bCheckIn)
+    local iCheckInVal = bCheckIn and 1 or nil   -- insert or remove from table
+
+    local m_tpQuests = self.tpQuests
+    for _, pQuestProp in ipairs(rgpQuestProps) do
+        m_tpQuests[pQuestProp] = iCheckInVal
+    end
+end
+
 function CQuestFrontierRange:add(pQuestProp, ctAccessors)
     local pQuestChkProp = pQuestProp:get_requirement()
 
@@ -56,13 +64,12 @@ function CQuestFrontierRange:add(pQuestProp, ctAccessors)
         self:_add_to_node(pAcc, pQuestProp, pQuestChkProp, CQuestFrontierUnit)
     end
 
-    local m_pAvailableQuests = self.pAvailableQuests
-    m_pAvailableQuests:add(pQuestProp)
+    self:_exchange_quests({pQuestProp}, true)
 end
 
 function CQuestFrontierRange:contains(pQuestProp)
-    local m_pAvailableQuests = self.pAvailableQuests
-    return m_pAvailableQuests:contains(pQuestProp)
+    local m_tpQuests = self.tpQuests
+    return m_tpQuests[pQuestProp] ~= nil
 end
 
 function CQuestFrontierRange:update_take(pPlayerState, bSelect)
@@ -71,7 +78,9 @@ function CQuestFrontierRange:update_take(pPlayerState, bSelect)
 
     for pAcc, tpQuestProps in pairs(m_tpPropTypeQuests) do
         local rgpQuestProps = tpQuestProps:update_take(pPlayerState, bSelect)
+
         tpTakeQuestProps:insert(pAcc, rgpQuestProps)
+        self:_exchange_quests(rgpQuestProps, false)
     end
 
     return tpTakeQuestProps
@@ -82,7 +91,9 @@ function CQuestFrontierRange:update_put(tpTakeQuestProps, bSelect)
 
     for pAcc, rgpQuestProps in pairs(tpTakeQuestProps:get_entry_set()) do
         local tpQuestProps = m_tpPropTypeQuests[pAcc]
+
         tpQuestProps:update_put(rgpQuestProps)
+        self:_exchange_quests(rgpQuestProps, true)
     end
 end
 
@@ -111,31 +122,22 @@ function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
 end
 
 function CQuestFrontierRange:debug_front(sType)
-    local m_pAvailableQuests = self.pAvailableQuests
-
-    local tpQuests = {}
+    local tQuests = {}
 
     local m_tpPropTypeQuests = self.tpPropTypeQuests
-    for _, pNode in pairs(m_tpPropTypeQuests) do
-        for _, pFrontierProp in ipairs(pNode.rgpItems:list()) do
-            tpQuests[pFrontierProp:get_property()] = 1
+    for pAcc, tpQuestProps in pairs(m_tpPropTypeQuests) do
+        for _, pFrontierProp in ipairs(tpQuestProps:list()) do
+            local pQuestProp = pFrontierProp:get_property()
+            tQuests[pQuestProp] = 1
         end
     end
 
     local st = ""
-    for _, pPair in ipairs(spairs(tpQuests, function (a, b) return CQuestProperties.compare(a, b) < 0 end)) do
-        local pQuestProp = pPair[1]
+    for pQuestProp, _ in pairs(tQuests) do
         st = st .. pQuestProp:get_name(true) .. ", "
     end
+
     print(sType .. "HAVE [" .. st .. "]")
-
-end
-
-function CQuestFrontierRange:peek()
-    local m_pAvailableQuests = self.pAvailableQuests
-
-    local pQuestProp = m_pAvailableQuests:peek()
-    return pQuestProp
 end
 
 function CQuestFrontierRange:_fetch_from_nodes(pCurQuestProp, rgpAccs)
@@ -147,16 +149,9 @@ function CQuestFrontierRange:_fetch_from_nodes(pCurQuestProp, rgpAccs)
     end
 end
 
-function CQuestFrontierRange:fetch(iQuestCount)
-    local m_pAvailableQuests = self.pAvailableQuests
-    local rgpQuestProps = m_pAvailableQuests:fetch(iQuestCount)
-
-    for _, pQuestProp in ipairs(rgpQuestProps) do
-        local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp, nil)
-        self:_fetch_from_nodes(pQuestProp, rgpAccs)
-    end
-
-    return rgpQuestProps
+function CQuestFrontierRange:fetch(pQuestProp)
+    local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp, nil)
+    self:_fetch_from_nodes(pQuestProp, rgpAccs)
 end
 
 function CQuestFrontierRange:count()

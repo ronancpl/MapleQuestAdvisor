@@ -10,12 +10,14 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.structs.frontier.list")
 require("router.structs.frontier.range")
 require("utils.struct.class")
 
 CQuestFrontier = createClass({
     pHold = CQuestFrontierRange:new(),
-    pSelect = CQuestFrontierRange:new()
+    pSelect = CQuestFrontierRange:new(),
+    pQuestStack = CQuestFrontierQuestList:new()
 })
 
 function CQuestFrontier:init(ctAccessors)
@@ -32,11 +34,9 @@ function CQuestFrontier:_is_quest_attainable(pQuestProp, pPlayerState, ctAccesso
     return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
 end
 
-function CQuestFrontier:contains(pQuestProp, pPlayerState, ctAccessors)
-    local bSelect = self:_is_quest_attainable(pQuestProp, pPlayerState, ctAccessors)
-    local m_pRange = bSelect and self.pSelect or self.pHold
-
-    return m_pRange:contains(pQuestProp)
+function CQuestFrontier:contains(pQuestProp)
+    local m_pQuestStack = self.ppQuestStack
+    return m_pQuestStack:contains(pQuestProp)
 end
 
 function CQuestFrontier:is_quest_accessible(pQuestProp)
@@ -49,6 +49,9 @@ function CQuestFrontier:add(pQuestProp, pPlayerState, ctAccessors)
     local m_pRange = bSelect and self.pSelect or self.pHold
 
     m_pRange:add(pQuestProp, ctAccessors)
+
+    local m_pQuestStack = self.pQuestStack
+    m_pQuestStack:add(pQuestProp)
 end
 
 function CQuestFrontier:_update_range(pPlayerState, m_pRangeFrom, m_pRangeTo, bFromIsSelect)
@@ -70,17 +73,32 @@ function CQuestFrontier:debug_front()
 end
 
 function CQuestFrontier:peek()
+    local m_pQuestStack = self.pQuestStack
     local m_pRange = self.pSelect
-    local pQuestProp = m_pRange:peek()
+
+    local pQuestProp
+    while true do
+        pQuestProp = m_pQuestStack:peek()
+
+        -- keeps exploring the frontier stack, in search for a selectable quest for the player
+        if pQuestProp == nil or m_pRange:contains(pQuestProp) then
+            break
+        end
+    end
 
     return pQuestProp
 end
 
 function CQuestFrontier:fetch(iQuestCount)
-    local m_pRange = self.pSelect
-    local pQuestProp = m_pRange:fetch(iQuestCount)
+    local m_pQuestStack = self.pQuestStack
+    local rgpQuestProps = m_pQuestStack:fetch(iQuestCount)
 
-    return pQuestProp
+    local m_pRange = self.pSelect
+    for _, pQuestProp in ipairs(rgpQuestProps) do
+        m_pRange:fetch(pQuestProp)
+    end
+
+    return rgpQuestProps
 end
 
 function CQuestFrontier:count()

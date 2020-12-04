@@ -17,10 +17,10 @@ require("utils.provider.text.csv")
 require("utils.struct.table")
 
 local function route_csvify_quest_pool(tQuests)
-    local sQuests = "quest,"
-    for pPair, _ in ipairs(spairs(tQuests:get_entry_set(), function (a, b) return a:get_quest_id() < b:get_quest_id() end)) do
+    local sQuests = ",\"quest\"\n"
+    for _, pPair in ipairs(spairs(tQuests:get_entry_set(), function (a, b) return a:get_quest_id() < b:get_quest_id() end)) do
         local pQuest = pPair[1]
-        sQuests = sQuests .. pQuest:get_quest_id() .. ",\n"
+        sQuests = sQuests .. "0," .. pQuest:get_quest_id() .. "\n"
     end
 
     return sQuests
@@ -37,7 +37,7 @@ end
 local function pool_load_graph_quests_from_file(pGridQuests, sFilePath)
     local rgiQuests = {}
 
-    local tPoolRs = read_result_set(sFilePath, "quest")
+    local tPoolRs = read_result_set(sFilePath, {"quest"})
     if #tPoolRs > 1 then
         for _, tRow in ipairs(tPoolRs) do
             local iQuestid = tonumber(tRow["quest"])
@@ -50,7 +50,7 @@ local function pool_load_graph_quests_from_file(pGridQuests, sFilePath)
 end
 
 function pool_load_graph_quests(pGridQuests, pPlayer, sDatePath, sTimePath)
-    local sFilePath = LPath.QUEST_BOARD .. "/" .. sDatePath .. "/" .. sTimePath .. ".txt"
+    local sFilePath = LPath.LOG_DIR .. LPath.QUEST_BOARD .. sDatePath .. "/pool-" .. sTimePath .. ".txt"
     log(LPath.OVERALL, "log.txt", "Load quests to board... (file '" .. sFilePath .. ")'")
 
     local tQuests = pool_load_graph_quests_from_file(pGridQuests, sFilePath)

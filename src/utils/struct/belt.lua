@@ -43,12 +43,9 @@ function SBeltStack:export(iLimitCount)
     local rgpItems = {}
 
     local m_pRunning = self.pRunning
+    iLimitCount = math.min(iLimitCount, m_pRunning:size())
     for i = 1, iLimitCount, 1 do
         local pItem = m_pRunning:poll()
-        if pItem == nil then
-            break
-        end
-
         table.insert(rgpItems, pItem)
     end
 

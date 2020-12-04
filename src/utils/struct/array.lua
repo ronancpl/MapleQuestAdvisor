@@ -247,9 +247,11 @@ function SArray:verify_bsearch_validity(fn_compare, pToFind)
 end
 
 function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
+    --[[
     if not self:verify_bsearch_validity(fn_compare, pToFind) then
         error("bsearch unordered")
     end
+    ]]--
 
     local m_apItems = self.apItems
     local napItems = #m_apItems

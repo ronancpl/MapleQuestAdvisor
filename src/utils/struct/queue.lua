@@ -133,6 +133,17 @@ function SQueue:list()
     return rgpItems
 end
 
+function SQueue:size()
+    if self.__ST <= self.__EN then
+        local nRhs = self.__EN - self.__ST
+        return nRhs
+    else
+        local nLhs = self.__EN - 1
+        local nRhs = (self.__LENGTH + 1) - self.__ST
+        return nLhs + nRhs
+    end
+end
+
 function SQueue:printable()
     local iEnL
     local iEnR

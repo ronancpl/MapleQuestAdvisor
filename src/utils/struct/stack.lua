@@ -21,9 +21,23 @@ function SStack:get_top()
     return m_rgpItems[#m_rgpItems]
 end
 
+function SStack:size()
+    local m_rgpItems = self.rgpItems
+    return #m_rgpItems
+end
+
 function SStack:push(pItem)
     local m_rgpItems = self.rgpItems
     table.insert(m_rgpItems, pItem)
+end
+
+function SStack:push_all(rgpItems)
+    if type(rgpItems) == "table" then
+        local rgpList = rgpItems.apItems ~= nil and rgpItems:list() or rgpItems
+        for _, pItem in ipairs(rgpList) do
+            self:push(pItem)
+        end
+    end
 end
 
 function SStack:pop()
@@ -31,4 +45,16 @@ function SStack:pop()
     local pItem = table.remove(m_rgpItems)
 
     return pItem
+end
+
+function SStack:export(iLimitCount)
+    iLimitCount = math.min(iLimitCount, self:size())
+
+    local rgpItems = {}
+    for i = 1, iLimitCount, 1 do
+        local pItem = self:pop()
+        table.insert(rgpItems, pItem)
+    end
+
+    return rgpItems
 end

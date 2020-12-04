@@ -11,6 +11,7 @@
 --]]
 
 require("router.structs.frontier.properties")
+require("structs.quest.properties")
 require("utils.struct.array")
 require("utils.struct.class")
 
@@ -66,12 +67,12 @@ function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
 end
 
 function CQuestFrontierNode:find(pQuestProp)
-    local fn_select = function(pOtherProp)
-        return pQuestProp:compare(pOtherProp:get_property()) == 0
+    local fn_select_quest_id = function(pFrontierProp)
+        return CQuestProperties.compare(pQuestProp, pFrontierProp:get_property()) == 0
     end
 
     local m_rgpItems = self.rgpItems
-    local iIdx = m_rgpItems:index_of(fn_select, false)
+    local iIdx = m_rgpItems:index_of(fn_select_quest_id, false)
     return iIdx
 end
 
@@ -83,6 +84,11 @@ end
 function CQuestFrontierNode:count()
     local m_rgpItems = self.rgpItems
     return m_rgpItems:size()
+end
+
+function CQuestFrontierNode:list()
+    local m_rgpItems = self.rgpItems
+    return m_rgpItems:list()
 end
 
 function CQuestFrontierNode:remove(pQuestProp)
