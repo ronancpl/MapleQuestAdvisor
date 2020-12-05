@@ -35,7 +35,7 @@ function CQuestFrontier:_is_quest_attainable(pQuestProp, pPlayerState, ctAccesso
 end
 
 function CQuestFrontier:contains(pQuestProp)
-    local m_pQuestStack = self.ppQuestStack
+    local m_pQuestStack = self.pQuestStack
     return m_pQuestStack:contains(pQuestProp)
 end
 
@@ -89,9 +89,9 @@ function CQuestFrontier:peek()
     return pQuestProp
 end
 
-function CQuestFrontier:fetch(iQuestCount)
+function CQuestFrontier:fetch(pQuestTree, iQuestCount)
     local m_pQuestStack = self.pQuestStack
-    local rgpQuestProps = m_pQuestStack:fetch(iQuestCount)
+    local rgpQuestProps = m_pQuestStack:fetch(pQuestTree, iQuestCount)
 
     local m_pRange = self.pSelect
     for _, pQuestProp in ipairs(rgpQuestProps) do
@@ -102,13 +102,15 @@ function CQuestFrontier:fetch(iQuestCount)
 end
 
 function CQuestFrontier:count()
-    local m_pRangeCount = self.pSelect:count()
-    local m_pHoldCount = self.pHold:count()
+    local tSelectCount = self.pSelect:count()
+    local tHoldCount = self.pHold:count()
 
     local tRet = {}
-    for i = 1, #m_pRangeCount, 1 do
-        local iCount = m_pRangeCount[i] + m_pHoldCount[i]
-        table.insert(tRet, iCount)
+    for pAcc, iSlctCount in pairs(tSelectCount) do
+        local iHoldCount = tHoldCount[pAcc]
+
+        local iCount = iSlctCount + iHoldCount
+        tRet[pAcc] = iCount
     end
 
     return tRet

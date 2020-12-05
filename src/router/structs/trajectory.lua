@@ -16,7 +16,8 @@ require("utils.struct.table")
 
 CGraphTree = createClass({CQuestPath, {
     tpActiveNeighbors = {},
-    tpActiveFroms = {}
+    tpActiveFroms = {},
+    tiResolvedFroms = {}
 }})
 
 function CGraphTree:_push_from(pQuestProp, rgpNeighbors)
@@ -54,13 +55,14 @@ end
 
 function CGraphTree:_pop_from(pQuestProp)
     local m_tpActiveFroms = self.tpActiveFroms
+    local m_tiResolvedFroms = self.tiResolvedFroms
 
     local rgpFroms = m_tpActiveFroms[pQuestProp]
     if rgpFroms ~= nil then
-        m_tpActiveFroms[pQuestProp] = nil
+        local m_tpActiveNeighbors = self.tpActiveNeighbors
 
         for _, pFromProp in ipairs(rgpFroms) do
-            local rgFromActiveNeighbors = self.tpActiveNeighbors[pFromProp]
+            local rgFromActiveNeighbors = m_tpActiveNeighbors[pFromProp]
 
             local fn_compare_active_neighbor = CQuestProperties.compare
             local iIdx = rgFromActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
@@ -68,7 +70,19 @@ function CGraphTree:_pop_from(pQuestProp)
                 rgFromActiveNeighbors:remove(iIdx, iIdx)
             end
         end
+
+        m_tpActiveNeighbors[pQuestProp] = nil
+        m_tpActiveFroms[pQuestProp] = nil
+
+        m_tiResolvedFroms[pQuestProp] = #rgpFroms
+    else
+        m_tiResolvedFroms[pQuestProp] = 1
     end
+end
+
+function CGraphTree:get_from_count(pQuestProp)
+    local m_tiResolvedFroms = self.tiResolvedFroms
+    return m_tiResolvedFroms[pQuestProp]
 end
 
 function CGraphTree:try_pop_node()

@@ -41,7 +41,7 @@ function CQuestFrontierQuestList:peek()
     return pQuestProp
 end
 
-function CQuestFrontierQuestList:fetch(iQuestCount)
+function CQuestFrontierQuestList:fetch(pQuestTree, iQuestCount)
     local m_pQuestStack = self.pQuestStack
     local m_pExploredQuests = self.pExploredQuests
 
@@ -49,13 +49,29 @@ function CQuestFrontierQuestList:fetch(iQuestCount)
     m_pExploredQuests:push_all(rgpQuestsExplored)
 
     local rgpQuestsFetched = m_pExploredQuests:export(iQuestCount)    -- returns backtracked quests from the present tree frame
+
+    local iUndertowCount = 0
     for _, pQuestProp in ipairs(rgpQuestsFetched) do
+        local iResolvedCount = pQuestTree:get_from_count(pQuestProp)
+        iUndertowCount = iUndertowCount + (iResolvedCount - 1)
+
         local m_tpQuests = self.tpQuests
-        if m_tpQuests[pQuestProp] > 1 then
-            m_tpQuests[pQuestProp] = m_tpQuests[pQuestProp] - 1
-        else
-            m_tpQuests[pQuestProp] = nil
+        local iRemainingCount = m_tpQuests[pQuestProp]
+        if iRemainingCount ~= nil then
+            if iRemainingCount > iResolvedCount then
+                m_tpQuests[pQuestProp] = iRemainingCount - iResolvedCount
+            else
+                m_tpQuests[pQuestProp] = nil
+            end
         end
+    end
+
+    if iUndertowCount > 0 then
+        for i = 1, iUndertowCount, 1 do     -- to seek further the frontier (readded neighbors in routing)
+            local pQuestProp = self:peek()
+            table.insert(rgpQuestsFetched, pQuestProp)
+        end
+        m_pExploredQuests:export(iUndertowCount)
     end
 
     return rgpQuestsFetched

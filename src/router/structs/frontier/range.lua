@@ -128,13 +128,13 @@ function CQuestFrontierRange:debug_front(sType)
     for pAcc, tpQuestProps in pairs(m_tpPropTypeQuests) do
         for _, pFrontierProp in ipairs(tpQuestProps:list()) do
             local pQuestProp = pFrontierProp:get_property()
-            tQuests[pQuestProp] = 1
+            tQuests[pQuestProp] = (tQuests[pQuestProp] or 0) + 1
         end
     end
 
     local st = ""
     for pQuestProp, _ in pairs(tQuests) do
-        st = st .. pQuestProp:get_name(true) .. ", "
+        st = st .. pQuestProp:get_name(true) .. ":" .. (_ / #ctAccessors:get_accessors_by_active_requirements(pQuestProp)) .. ", "
     end
 
     print(sType .. "HAVE [" .. st .. "]")

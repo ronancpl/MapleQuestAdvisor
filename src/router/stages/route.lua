@@ -89,7 +89,7 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     pCurrentPath:add(pQuestProp)
 
     local iPathSize = pCurrentPath:size()
-    tPathSearched[iPathSize] = tPathSearched[iPathSize] and (tPathSearched[iPathSize] + 1) or 1
+    tPathSearched[iPathSize] = (tPathSearched[iPathSize] or 0) + 1
 
     progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
 
@@ -158,7 +158,7 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
         route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
         local iBcktCount = route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
 
-        pFrontierQuests:fetch(iBcktCount)       -- retrieve all nodes from frontier that have been backtracked
+        pFrontierQuests:fetch(pQuestTree, iBcktCount)       -- retrieve all nodes from frontier that have been backtracked
         pFrontierQuests:update(pPlayerState)
     end
 end
