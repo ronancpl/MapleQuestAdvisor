@@ -27,6 +27,11 @@ function SMapStack:get_top(pKey)
     return pStack:get_top()
 end
 
+function SMapStack:get_size(pKey)
+    local pStack = self:_get_stack(pKey)
+    return pStack:size()
+end
+
 function SMapStack:push(pKey, pItem)
     local pStack = self:_get_stack(pKey)
     pStack:push(pItem)
@@ -43,7 +48,7 @@ function SMapStack:init(rgpKeys)
     local m_tpStacks = self.tpStacks
 
     for _, pKey in pairs(rgpKeys) do
-        local rgpStack = {}
+        local rgpStack = SStack:new()
         m_tpStacks[pKey] = rgpStack
     end
 end

@@ -118,6 +118,20 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     end
 end
 
+local function route_quest_log_returned_path(pCurrentPath, rgpBcktQuests)
+    local sPath = "{"
+    for _, pQuestProp in pairs(pCurrentPath:list()) do
+        sPath = sPath .. pQuestProp:get_name(true) .. ", "
+    end
+    for i = #rgpBcktQuests, 1, -1 do
+        local pQuestProp = rgpBcktQuests[i]
+        sPath = sPath .. pQuestProp:get_name(true) .. ", "
+    end
+    sPath = sPath .. "}\n"
+
+    log(LPath.QUEST_PATH, "path-" .. pCurrentPath:get_fetch_time() .. ".txt", sPath)
+end
+
 local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
     local rgpBcktQuests = {}
 
@@ -138,16 +152,23 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
         end
     end
 
-    for _, pBcktQuestProp in ipairs(rgpBcktQuests) do
-        route_quest_suppress_complete(rgpPoolProps, pBcktQuestProp, pPlayerState)
+    local nBcktQuests = #rgpBcktQuests
+    if nBcktQuests > 0 then
+        route_quest_log_returned_path(pCurrentPath, rgpBcktQuests)
+
+        for _, pBcktQuestProp in ipairs(rgpBcktQuests) do
+            route_quest_suppress_complete(rgpPoolProps, pBcktQuestProp, pPlayerState)
+        end
     end
 
-    return #rgpBcktQuests
+    return nBcktQuests
 end
 
 local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
     local pQuestTree = CGraphTree:new()
     local pQuestMilestone = CGraphMilestone:new()
+
+    pQuestTree:install_entries(rgpPoolProps:list())
 
     while true do
         local pQuestProp = pFrontierQuests:peek()

@@ -12,71 +12,44 @@
 
 require("structs.quest.properties")
 require("router.structs.path")
+require("router.structs.stack.graph")
 require("utils.struct.table")
 
 CGraphTree = createClass({CQuestPath, {
-    tpActiveNeighbors = {},
-    tpActiveFroms = {},
+    pDeck = CGraphDeckArranger:new(),
     tiResolvedFroms = {}
 }})
 
-function CGraphTree:_push_from(pQuestProp, rgpNeighbors)
-    local m_tpActiveFroms = self.tpActiveFroms
-
-    for _, pNeighborProp in ipairs(rgpNeighbors) do
-        local pNeighborFroms = m_tpActiveFroms[pNeighborProp]
-        if pNeighborFroms == nil then
-            pNeighborFroms = {}
-            m_tpActiveFroms[pNeighborProp] = pNeighborFroms
-        end
-
-        table.insert(pNeighborFroms, pQuestProp)
-    end
-end
-
-function CGraphTree:_push_neighbors(pQuestProp, rgpNeighbors)
-    local rgpNeighborsCopy = SArray:new()
-    rgpNeighborsCopy:add_all(rgpNeighbors)
-
-    self.tpActiveNeighbors[pQuestProp] = rgpNeighborsCopy
+function CGraphTree:install_entries(rgpPoolProps)
+    local m_pDeck = self.pDeck
+    m_pDeck:init(rgpPoolProps)
 end
 
 function CGraphTree:push_node(pQuestProp, rgpNeighbors)
     self:add(pQuestProp)
 
-    self:_push_neighbors(pQuestProp, rgpNeighbors)
-    self:_push_from(pQuestProp, rgpNeighbors)
+    local m_rgpPath = self.rgpPath
+    local iCurPathLen = m_rgpPath:size()
+
+    local m_pDeck = self.pDeck
+    m_pDeck:push_node(pQuestProp, iCurPathLen, rgpNeighbors)
 end
 
-function CGraphTree:_is_empty_active_neighbors(pQuestProp)
-    local rgpNeighbors = self.tpActiveNeighbors[pQuestProp]
-    return rgpNeighbors:size() == 0
-end
+function CGraphTree:try_pop_node()
+    local m_rgpPath = self.rgpPath
+    local pQuestProp = m_rgpPath:get_last()
+    local iCurPathLen = m_rgpPath:size()
 
-function CGraphTree:_pop_from(pQuestProp)
-    local m_tpActiveFroms = self.tpActiveFroms
-    local m_tiResolvedFroms = self.tiResolvedFroms
+    local m_pDeck = self.pDeck
+    if m_pDeck:try_pop_node(pQuestProp, iCurPathLen) then
+        m_rgpPath:remove_last()
 
-    local rgpFroms = m_tpActiveFroms[pQuestProp]
-    if rgpFroms ~= nil then
-        local m_tpActiveNeighbors = self.tpActiveNeighbors
+        local m_tiResolvedFroms = self.tiResolvedFroms
+        m_tiResolvedFroms[pQuestProp] = (m_tiResolvedFroms[pQuestProp] or 0) + 1
 
-        for _, pFromProp in ipairs(rgpFroms) do
-            local rgFromActiveNeighbors = m_tpActiveNeighbors[pFromProp]
-
-            local fn_compare_active_neighbor = CQuestProperties.compare
-            local iIdx = rgFromActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
-            if iIdx > 0 then
-                rgFromActiveNeighbors:remove(iIdx, iIdx)
-            end
-        end
-
-        m_tpActiveNeighbors[pQuestProp] = nil
-        m_tpActiveFroms[pQuestProp] = nil
-
-        m_tiResolvedFroms[pQuestProp] = #rgpFroms
+        return pQuestProp
     else
-        m_tiResolvedFroms[pQuestProp] = 1
+        return nil
     end
 end
 
@@ -85,36 +58,10 @@ function CGraphTree:get_from_count(pQuestProp)
     return m_tiResolvedFroms[pQuestProp]
 end
 
-function CGraphTree:try_pop_node()
-    local m_rgpPath = self.rgpPath
-    local pQuestProp = m_rgpPath:get_last()
-
-    if self:_is_empty_active_neighbors(pQuestProp) then
-        m_rgpPath:remove_last()
-        self:_pop_from(pQuestProp)
-
-        return pQuestProp
-    else
-        return nil
-    end
-end
-
 function CGraphTree:debug_tree()
+    local m_pDeck = self.pDeck
+    local rgpPath = self:list()
+
     print(" --- CURRENT TREE PATH ---")
-
-    local l = self.rgpPath:list()
-    for i = math.max(1, #l - 5), #l, 1 do
-        local s = ""
-        local pQuestProp = l[i]
-
-        local s = pQuestProp:get_name(true) .. " -> ["
-        for _, v in pairs(self.tpActiveNeighbors[pQuestProp]:list()) do
-            s = s .. v:get_name(true) .. ", "
-        end
-        s = s .. "]"
-
-        print(s)
-    end
-
-    print()
+    m_pDeck:debug_tree_deck(rgpPath)
 end

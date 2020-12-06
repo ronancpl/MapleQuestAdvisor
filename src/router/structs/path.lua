@@ -21,7 +21,9 @@ CQuestPath = createClass({
 
     pPathTree = {},
     pPathNow = {},
-    pPathStack = {}
+    pPathStack = {},
+
+    sFetchTime = os.date("%H-%M-%S")
 })
 
 function CQuestPath:_fetch_identifier(iQuestid, bStart)
@@ -108,6 +110,16 @@ function CQuestPath:size()
     return #(self.pPathStack)
 end
 
-local function fn_value_start_property(pQuestProp)
-    return pQuestProp:is_start() and 0 or 1
+function CQuestPath:get_fetch_time()
+    return self.sFetchTime
+end
+
+function CQuestPath:debug_path()
+    local st = "["
+    for _, pQuestProp in pairs(self.rgpPath:list()) do
+        st = st .. pQuestProp:get_name(true) .. ", "
+    end
+    st = st .. "]"
+
+    print(st)
 end
