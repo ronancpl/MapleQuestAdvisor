@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.quest")
 require("router.procedures.quest.awarder.awarder")
 require("router.procedures.quest.awarder.property")
 require("router.procedures.quest.awarder.update")
@@ -64,7 +65,7 @@ local function fn_get_awd_property(fn_quest_reward)
 end
 
 function CQuestAwarders:_add_award_accessor(tfn_acts, sAccName, fn_quest_reward, fn_player_quest_rollback, fn_award_player_state_property)
-    local pAwd = CQuestAwarder:new({sName = sAccName, fn_quest_property = fn_get_awd_property(fn_quest_reward), fn_quest_rollback = fn_player_quest_rollback, fn_award_property = fn_award_player_state_property})
+    local pAwd = CQuestAwarder:new({sName = "_QUEST_AWARD_" .. sAccName, fn_quest_property = fn_get_awd_property(fn_quest_reward), fn_quest_rollback = fn_player_quest_rollback, fn_award_property = fn_award_player_state_property})
 
     table.insert(tfn_acts, pAwd)
     self.tsAllActs[fn_award_player_state_property] = pAwd
@@ -74,15 +75,15 @@ function init_quest_awarders()
     local ctAwarders = CQuestAwarders:new()
 
     local tfn_acts = ctAwarders.tfn_acts
-    ctAwarders:_add_award_accessor(tfn_acts, "_QUEST_AWARD_EXP", CQuestProperty.get_exp, fn_undo_unit, fn_award_player_state_exp)
-    ctAwarders:_add_award_accessor(tfn_acts, "_QUEST_AWARD_MESO", CQuestProperty.get_meso, fn_undo_unit, fn_award_player_state_meso)
-    ctAwarders:_add_award_accessor(tfn_acts, "_QUEST_AWARD_FAME", CQuestProperty.get_fame, fn_undo_unit, fn_award_player_state_fame)
+    ctAwarders:_add_award_accessor(tfn_acts, RQuest.EXP.name, CQuestProperty.get_exp, fn_undo_unit, fn_award_player_state_exp)
+    ctAwarders:_add_award_accessor(tfn_acts, RQuest.MESO.name, CQuestProperty.get_meso, fn_undo_unit, fn_award_player_state_meso)
+    ctAwarders:_add_award_accessor(tfn_acts, RQuest.FAME.name, CQuestProperty.get_fame, fn_undo_unit, fn_award_player_state_fame)
 
     local tfn_ivt_acts = ctAwarders.tfn_ivt_acts
-    ctAwarders:_add_award_accessor(tfn_ivt_acts, "_QUEST_AWARD_SKILLS", CQuestProperty.get_skills, fn_undo_invt_insert, fn_award_player_state_skills)
-    ctAwarders:_add_award_accessor(tfn_ivt_acts, "_QUEST_AWARD_ITEMS", CQuestProperty.get_items, fn_undo_invt_item_add, fn_award_player_state_items)
-    ctAwarders:_add_award_accessor(tfn_ivt_acts, "_QUEST_AWARD_QUESTS", CQuestProperty.get_quests, fn_undo_no_change, fn_award_player_state_quests)
-    ctAwarders:_add_award_accessor(tfn_ivt_acts, "_QUEST_AWARD_JOBS", CQuestRequirement.has_job_access, fn_undo_invt_insert, fn_award_player_state_jobs)
+    ctAwarders:_add_award_accessor(tfn_ivt_acts, RQuest.SKILLS.name, CQuestProperty.get_skills, fn_undo_invt_insert, fn_award_player_state_skills)
+    ctAwarders:_add_award_accessor(tfn_ivt_acts, RQuest.ITEMS.name, CQuestProperty.get_items, fn_undo_invt_item_add, fn_award_player_state_items)
+    ctAwarders:_add_award_accessor(tfn_ivt_acts, RQuest.QUESTS.name, CQuestProperty.get_quests, fn_undo_no_change, fn_award_player_state_quests)
+    ctAwarders:_add_award_accessor(tfn_ivt_acts, RQuest.JOBS.name, CQuestRequirement.has_job_access, fn_undo_invt_insert, fn_award_player_state_jobs)
 
     return ctAwarders
 end

@@ -23,6 +23,8 @@ CQuestPath = createClass({
     pPathNow = {},
     pPathStack = {},
 
+    pPathValStack = {},
+
     sFetchTime = os.date("%H-%M-%S")
 })
 
@@ -30,7 +32,7 @@ function CQuestPath:_fetch_identifier(iQuestid, bStart)
     return "" .. iQuestid .. (bStart and "s" or "e")
 end
 
-function CQuestPath:add(pQuestProp)
+function CQuestPath:add(pQuestProp, iValue)
     local iPathCount = self.tpPathCount[pQuestProp] or 0
     if iPathCount < 1 then
         local iQuestid = pQuestProp:get_quest_id()
@@ -46,6 +48,8 @@ function CQuestPath:add(pQuestProp)
     self.pPathNow[pQuestProp] = {}
     table.insert(self.pPathStack, self.pPathNow)
     self.pPathNow = self.pPathNow[pQuestProp]
+
+    table.insert(self.pPathValStack, iValue)
 end
 
 function CQuestPath:remove(pQuestProp)
@@ -73,6 +77,7 @@ function CQuestPath:remove(pQuestProp)
         bRet = true
 
         self.pPathNow = table.remove(self.pPathStack)
+        table.remove(self.pPathValStack)
     end
 
     return bRet

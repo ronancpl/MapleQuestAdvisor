@@ -80,10 +80,11 @@ local function print_path_search_counts()
     end
 end
 
-local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
+local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctPlayersMeta)
     route_quest_permit_complete(rgpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
-    pCurrentPath:add(pQuestProp)
+    local iValue = evaluate_quest_utility(ctPlayersMeta, pQuestProp, pPlayerState)
+    pCurrentPath:add(pQuestProp, iValue)
 
     local iPathSize = pCurrentPath:size()
     tPathSearched[iPathSize] = (tPathSearched[iPathSize] or 0) + 1
@@ -151,7 +152,7 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
     return nBcktQuests
 end
 
-local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
+local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctPlayersMeta)
     local pQuestTree = CGraphTree:new()
     local pQuestMilestone = CGraphMilestone:new()
 
@@ -163,7 +164,7 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
             break
         end
 
-        route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
+        route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctPlayersMeta)
         local iBcktCount = route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
 
         pFrontierQuests:fetch(pQuestTree, iBcktCount)       -- retrieve all nodes from frontier that have been backtracked
@@ -171,7 +172,7 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
     end
 end
 
-local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders)
+local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders, ctPlayersMeta)
     local pPlayerState = CPlayer:new(pPlayer)
     local pQuestProp = pQuest:get_start()
     local pCurrentPath = CQuestPath:new()
@@ -188,11 +189,11 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
         local pFrontierArranger = CNeighborArranger:new()
         pFrontierArranger:init(ctAccessors, rgpPoolProps)
 
-        route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders)
+        route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctPlayersMeta)
     end
 end
 
-function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
+function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctPlayersMeta)
     log(LPath.OVERALL, "log.txt", "Route quest board... (" .. tQuests:size() .. " quests)")
 
     local rgPoolQuests = make_pool_list(tQuests)
@@ -201,7 +202,7 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
     log(LPath.OVERALL, "log.txt", "Total of quests to search: " .. tQuests:size())
     while not rgPoolQuests:is_empty() do
         local pQuest = rgPoolQuests:remove_last()
-        route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders)
+        route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders, ctPlayersMeta)
     end
 
     log(LPath.OVERALL, "log.txt", "Search finished.")

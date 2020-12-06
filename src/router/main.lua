@@ -40,5 +40,5 @@ for i = 1, 100, 1 do
 
     ctAccessors = init_quest_accessors()
     ctAwarders = init_quest_awarders()
-    local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
+    local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctPlayersMeta)
 end
