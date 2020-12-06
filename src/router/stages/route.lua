@@ -80,9 +80,6 @@ local function print_path_search_counts()
     end
 end
 
-local pRerouteCheckerNode
-local pRerouteCheckerTable
-
 local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders)
     route_quest_permit_complete(rgpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
@@ -104,14 +101,6 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
     end
 
     pQuestTree:push_node(pQuestProp, rgpNeighbors)
-
-    if pRerouteCheckerNode[pQuestProp] ~= nil then
-        print("reroute")
-        os.execute("pause")
-    end
-    pRerouteCheckerNode[pQuestProp] = {}
-    pRerouteCheckerNode = pRerouteCheckerNode[pQuestProp]
-    table.insert(pRerouteCheckerTable, pRerouteCheckerNode)
 
     for _, pNeighborProp in ipairs(rgpNeighbors) do
         pFrontierQuests:add(pNeighborProp, pPlayerState, ctAccessors)
@@ -140,8 +129,6 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
         if pQuestProp == nil then
             break
         end
-
-        pRerouteCheckerNode = table.remove(pRerouteCheckerTable)
 
         if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
             rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
@@ -212,8 +199,6 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
     local pLeadingPath = CQuestPath:new()
 
     log(LPath.OVERALL, "log.txt", "Total of quests to search: " .. tQuests:size())
-    pRerouteCheckerNode = {}
-    pRerouteCheckerTable = {}
     while not rgPoolQuests:is_empty() do
         local pQuest = rgPoolQuests:remove_last()
         route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders)

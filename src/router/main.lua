@@ -31,12 +31,14 @@ load_resources()
 load_regions_overworld(ctFieldsDist, ctFieldsLink)
 load_distances_overworld(ctFieldsLandscape, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
 
-local pGridQuests = load_grid_quests(ctQuests)
-local pPlayer = create_player()
+for i = 1, 100, 1 do
+    local pGridQuests = load_grid_quests(ctQuests)
+    local pPlayer = create_player()
 
-local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
--- local tQuests = pool_load_graph_quests(pGridQuests, pPlayer, sDatePath, sTimePath)
+    print("Generation graph #" .. i)
+    local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
 
-ctAccessors = init_quest_accessors()
-ctAwarders = init_quest_awarders()
-local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
+    ctAccessors = init_quest_accessors()
+    ctAwarders = init_quest_awarders()
+    local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders)
+end

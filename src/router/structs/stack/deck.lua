@@ -109,6 +109,8 @@ function CGraphDeckQuest:init(rgpPoolProps)
         m_tpPendingFroms:push(pQuestProp, {})
 
         local pQuestStage = self:_create_quest_stage(pFromStage, pQuestProp)
+        pQuestStage:set_stage_from(pElementarStage)
+
         table.insert(rgpPoolStages, pQuestStage)
     end
 

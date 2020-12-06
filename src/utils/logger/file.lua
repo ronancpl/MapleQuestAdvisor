@@ -51,7 +51,10 @@ function log(sFileDir, sFileName, ...)
     local sLogLine = os.date("[%X] ") .. fetch_log_line(...)
     fOut:write(sLogLine)
     fOut:write("\r\n")
-    print(sLogLine)
+
+    if sFileDir == LPath.OVERALL then
+        print(sLogLine)
+    end
 
     io.close(fOut)
 end
