@@ -10,7 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-
 require("utils.procedure.unpack")
 require("utils.struct.class")
 

@@ -15,9 +15,10 @@ require("solver.requisites")
 require("solver.distances")
 
 function evaluate_quest_utility(ctPlayersMeta, pQuestProp, pPlayerState)
+    local iDistReqs = evaluate_quest_distance(pQuestProp, pPlayerState)
     local iWeightReqs = evaluate_quest_requisites(ctPlayersMeta, pQuestProp, pPlayerState)
     local iUtilGains = evaluate_quest_fitness(ctPlayersMeta, pQuestProp, pPlayerState)
 
-    local iUtilQuest = iUtilGains - iWeightReqs
+    local iUtilQuest = iUtilGains - iWeightReqs - iDistReqs
     return iUtilQuest
 end

@@ -121,6 +121,20 @@ local function is_actual_town_map(iMapid)
     return iMapid % 10000 == 0 and math.floor(iMapid / 10000) % 10 == 0
 end
 
+local function fetch_field_distance(iMapidA, iMapidB, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
+    local iDistance = calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iMapidA, iMapidB)
+    ctFieldsDist:add_field_distance(iMapidA, iMapidB, iDistance)
+end
+
+function get_field_distance(iSrcid, iDestid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
+    local iDistance = ctFieldsDist:get_field_distance(iSrcid, iDestid)
+    if iDistance >= U_INT_MAX then
+        iDistance = fetch_field_distance(iSrcid, iDestid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
+    end
+
+    return iDistance
+end
+
 function fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
     local rgiTowns = {}
 
@@ -132,8 +146,32 @@ function fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFields
 
     for _, iTownA in ipairs(rgiTowns) do
         for _, iTownB in ipairs(rgiTowns) do
-            local iDistance = calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iTownA, iTownB)
-            ctFieldsDist:add_field_distance(iTownA, iTownB, iDistance)
+            fetch_map_distance(iTownA, iTownB, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
         end
     end
+end
+
+function fetch_interregional_trajectory(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iSrcMapid, iDestMapid)
+    local rgiTransitRegionids = get_interregional_path(tWorldNodes, tiFieldRegion, iSrcMapid, iDestMapid)
+
+    local rgpPathMapids = {}
+
+    local iCurMapid = iSrcMapid
+    for _, iNextRegionid in ipairs(rgiTransitRegionids) do
+        local iStationMapid     -- prioritizes going to nearest station
+        local iNextMapid
+        local iDist
+        iStationMapid, iNextMapid, iDist = fetch_nearby_region_station(ctFieldsDist, ctFieldsLink, tiFieldRegion, iCurMapid, iNextRegionid)
+
+        table.insert(rgpPathMapids, {iCurMapid, iStationMapid})
+
+        iCurMapid = iNextMapid
+    end
+
+    table.insert(rgpPathMapids, {iCurMapid, iDestMapid})
+
+    local iSrcRegionid = get_region_by_mapid(tiFieldRegion, iSrcMapid)
+    table.insert(rgiTransitRegionids, 1, iSrcRegionid)
+
+    return rgpPathMapids, rgiTransitRegionids
 end

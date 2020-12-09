@@ -50,6 +50,10 @@ function CFieldLandscape:make_remissive_index_area_region()    -- builds inverte
     end
 end
 
+function CFieldLandscape:get_field_regions()
+    return self.tiFieldRegion
+end
+
 local function debug_region_areas(rgiRegionAreas, ctFieldsMeta)
     local str = ""
     for _, iMapid in pairs(rgiRegionAreas) do
@@ -106,6 +110,10 @@ function CFieldLandscape:_build_world_nodes(ctFieldsLink)
             m_tWorldNodes[iSrcRegionId][iDestRegionId] = 1
         end
     end
+end
+
+function CFieldLandscape:get_world_nodes()
+    return self.tWorldNodes
 end
 
 function CFieldLandscape:build_interconnection_overworld(ctFieldsLink)

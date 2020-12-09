@@ -11,7 +11,15 @@
 --]]
 
 require("router.filters.quest")
+require("solver.graph.build")
 
-function evaluate_quest_distance(pCurrentPath, pLeadingPath, pQuestProp)
+local function generate_quest_resource_graph(ivtItems, ivtMobs, iPlayerMapid, iQuestNpcMapid)
+    local pQuestResource = build_quest_resource_bean(ivtItems, ivtMobs)
+
+    local pRscTree = build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, ctLoots, ctMobs, ctReactors, iPlayerMapid, iQuestNpcMapid)
+    return pRscTree
+end
+
+function evaluate_quest_distance(pQuestProp, pPlayerState)
     PLAYER_MAP -> START_MAP -> START_REQS -> START_FIELD_ENTER -> END_MAP -> END_REQS -> END_FIELD_ENTER
 end

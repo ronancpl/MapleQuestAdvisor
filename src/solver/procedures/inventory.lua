@@ -10,10 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
+local function fetch_effective_unit_count_to_item(iId, iCount)
+
+end
+
 function fetch_inventory_split_count(ivtItems)
     local tiTypeCount = {}
 
     for iId, iCount in pairs(ivtItems:get_items()) do
+        local iEffCount = fetch_effective_unit_count_to_item(iId, iCount)
+
         local iType = math.floor(iId / 1000000)
         tiTypeCount[iType] = (tiTypeCount[iType] or 0) + iCount
     end

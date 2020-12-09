@@ -121,13 +121,25 @@ function CLootTable:add_mob_loot(iSrcid, iItemid, iChance, siMinItems, siMaxItem
     insert_loot(self.tMobItems, pLoot)
 end
 
-function CLootTable:add_reactor_entry(iSrcid)
-    self.tReactorItems[iSrcid] = {}
+function CLootTable:get_mob_entry(iSrcid)
+    return self.tMobItems[iSrcid]
+end
+
+function CLootTable:get_mob_entries()
+    return self.tMobItems
 end
 
 function CLootTable:add_reactor_loot(iSrcid, iItemid, iChance, siMinItems, siMaxItems)
     local pLoot = create_loot(iItemid, iChance, "reactor", siMinItems, siMaxItems)
     insert_loot(self.tReactorItems, pLoot)
+end
+
+function CLootTable:get_reactor_entry(iSrcid)
+    return self.tReactorItems[iSrcid]
+end
+
+function CLootTable:get_reactor_entries()
+    return self.tReactorItems
 end
 
 local function squash_type_loots(tItems)
