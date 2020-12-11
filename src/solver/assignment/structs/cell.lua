@@ -12,30 +12,28 @@
 
 require("utils.struct.class")
 
-CSolverQuestResource = createClass({
-    ivtMobs,
-    ivtItems,
-    iFieldPlayer,
-    iFieldEnter,
-    iFieldNpc
+CApTableCell = createClass(CApTableElement, {
+    iCol,
+    iRow,
+    iValue = 0
 })
 
-function CSolverQuestResource:get_mobs()
-    return self.ivtMobs
+function CApTableCell:get_column()
+    return self.iCol
 end
 
-function CSolverQuestResource:get_items()
-    return self.ivtItems
+function CApTableCell:get_row()
+    return self.iRow
 end
 
-function CSolverQuestResource:get_field_current()
-    return self.iFieldPlayer
+function CApTableCell:get_value()
+    return self.iVal
 end
 
-function CSolverQuestResource:get_field_enter()
-    return self.iFieldEnter
+function CApTableCell:set_value(iVal)
+    self.iVal = iVal
 end
 
-function CSolverQuestResource:get_field_npc()
-    return self.iFieldNpc
+function CApTableCell:adjust_value(iValAdd)
+    self.iVal = math.max(self.iVal + iValAdd, 0)
 end

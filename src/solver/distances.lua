@@ -13,8 +13,8 @@
 require("router.filters.quest")
 require("solver.graph.build")
 
-local function generate_quest_resource_graph(ivtItems, ivtMobs, iPlayerMapid, iQuestNpcMapid)
-    local pQuestResource = build_quest_resource_bean(ivtItems, ivtMobs)
+local function generate_quest_resource_graph(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
+    local pQuestResource = build_quest_resource_bean(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
 
     local pRscTree = build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, ctLoots, ctMobs, ctReactors, iPlayerMapid, iQuestNpcMapid)
     return pRscTree

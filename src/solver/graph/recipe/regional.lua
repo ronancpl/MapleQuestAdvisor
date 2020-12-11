@@ -12,30 +12,20 @@
 
 require("utils.struct.class")
 
-CSolverQuestResource = createClass({
-    ivtMobs,
-    ivtItems,
-    iFieldPlayer,
-    iFieldEnter,
-    iFieldNpc
+CSolverRegionResource = createClass({
+    trgpMobRscs,
+    trgpItemRscs,
+    iFieldEnter
 })
 
-function CSolverQuestResource:get_mobs()
-    return self.ivtMobs
+function CSolverRegionResource:get_mobs()
+    return self.trgpMobRscs
 end
 
-function CSolverQuestResource:get_items()
-    return self.ivtItems
+function CSolverRegionResource:get_items()
+    return self.trgpItemRscs
 end
 
-function CSolverQuestResource:get_field_current()
-    return self.iFieldPlayer
-end
-
-function CSolverQuestResource:get_field_enter()
+function CSolverRegionResource:get_field_enter()
     return self.iFieldEnter
-end
-
-function CSolverQuestResource:get_field_npc()
-    return self.iFieldNpc
 end

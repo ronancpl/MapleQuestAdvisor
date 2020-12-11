@@ -13,6 +13,7 @@
 require("router.filters.constant")
 require("router.procedures.world.abroad")
 require("solver.graph.component")
+require("solver.graph.recipe.regional")
 require("solver.graph.recipe.resource")
 require("solver.procedures.lookup")
 require("utils.struct.array")
@@ -85,7 +86,13 @@ local function fetch_regional_resources(iRegionid, pQuestResource, pLandscape, c
     local pLkupItemsTable = pLookupTable:get_items()
     local trgpRegionItemRscs = pLkupItemsTable:get_field_resources_by_region_id(iRegionid, ivtItems)
 
-    return trgpRegionMobRscs, trgpRegionItemRscs
+    local iFieldEnter = pQuestResource:get_field_enter()
+    if pLandscape:get_region_by_mapid(iFieldEnter) ~= iRegionid then
+        iFieldEnter = -1
+    end
+
+    local pRegionResource = CSolverRegionResource:new({trgpMobRscs = trgpRegionMobRscs, trgpItemRscs = trgpRegionItemRscs, iFieldEnter = iFieldEnter})
+    return pRegionResource
 end
 
 local function create_interregional_resources_descriptor(pQuestResource, rgpPathMapids, rgiTransitRegionids, pLandscape, ctLoots, ctMobs, ctReactors)
@@ -97,8 +104,8 @@ local function create_interregional_resources_descriptor(pQuestResource, rgpPath
         for i = 1, nTransitRegionids, 1 do
             local iRegionid = rgiTransitRegionids[i]
 
-            local trgpRegionResources = fetch_regional_resources(iRegionid, pQuestResource, pLandscape, ctLoots, ctMobs, ctReactors)
-            ttpRegionResources[iRegionid] = trgpRegionResources
+            local pRegionResource = fetch_regional_resources(iRegionid, pQuestResource, pLandscape, ctLoots, ctMobs, ctReactors)
+            ttpRegionResources[iRegionid] = pRegionResource
 
             local pRegionSrcDest = rgpPathMapids[i]
             tpPathMapids[iRegionid] = pRegionSrcDest
@@ -110,8 +117,8 @@ local function create_interregional_resources_descriptor(pQuestResource, rgpPath
     return ttpRegionResources, tpPathMapids
 end
 
-function build_quest_resource_bean(ivtItems, ivtMobs)
-    local pQuestResource = CSolverQuestResource:new({ivtMobs = ivtMobs, ivtItems = ivtItems})
+function build_quest_resource_bean(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
+    local pQuestResource = CSolverQuestResource:new({ivtMobs = ivtMobs, ivtItems = ivtItems, iFieldPlayer = iPlayerMapid, iFieldEnter = iFieldEnter, iFieldNpc = iQuestNpcMapid})
     return pQuestResource
 end
 
