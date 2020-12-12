@@ -10,17 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.struct.class")
-
-CSolverRegionResource = createClass({
-    iRegionid,
-    tResourceFields
-})
-
-function CSolverRegionResource:get_regionid()
-    return self.iRegionid
-end
-
-function CSolverRegionResource:get_resource_fields()
-    return self.tResourceFields
-end
+RLookupCategory = {
+    MOBS = 1,
+    ITEMS = 2,
+    FIELD_ENTER = 3,
+    FIELD_NPC = 4
+}

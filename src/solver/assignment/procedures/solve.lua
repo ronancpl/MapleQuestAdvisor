@@ -433,6 +433,9 @@ end
 
 local function collect_assigned_agent_tasks(pTable)
     local trgiAgentTasks = {}
+    for i = 1, pTable:get_num_agents(), 1 do
+        trgiAgentTasks[i] = {}
+    end
 
     for _, pRow in ipairs(pTable:get_rows()) do
         for _, pCell in ipairs(pTable:get_row_elements(pRow)) do

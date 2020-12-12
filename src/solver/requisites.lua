@@ -64,19 +64,19 @@ local function evaluate_cost_inventory(pReqAcc, pPlayerState, pQuestActProp)
     return iValue
 end
 
-function evaluate_quest_requisites(ctPlayersMeta, pQuestProp, pPlayerState)
+function evaluate_quest_requisites(ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
     local pQuestActProp = pQuestProp:get_action()
     local iPlayerLevel = pPlayerState:get_level()
 
     local iValue = 0.0
-    iValue = iValue + evaluate_cost_exp(pReqAcc, pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
-    iValue = iValue + evaluate_cost_meso(pReqAcc, pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
-    iValue = iValue + evaluate_cost_fame(pReqAcc, pPlayerState, pQuestActProp)
-    iValue = iValue + evaluate_cost_skill(pReqAcc, pPlayerState, pQuestActProp)
-    --iValue = iValue + evaluate_cost_job_adv(pReqAcc, pPlayerState, pQuestActProp)
-    iValue = iValue + evaluate_cost_mob(pReqAcc, pPlayerState, pQuestActProp)
-    iValue = iValue + evaluate_cost_quest(pReqAcc, pPlayerState, pQuestActProp)
-    iValue = iValue + evaluate_cost_inventory(pReqAcc, pPlayerState, pQuestActProp)
+    iValue = iValue + evaluate_cost_exp(ctAccessors:get_accessor_by_type(RQuest.EXP.name), pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
+    iValue = iValue + evaluate_cost_meso(ctAccessors:get_accessor_by_type(RQuest.MESO.name), pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
+    iValue = iValue + evaluate_cost_fame(ctAccessors:get_accessor_by_type(RQuest.FAME.name), pPlayerState, pQuestActProp)
+    iValue = iValue + evaluate_cost_skill(ctAccessors:get_accessor_by_type(RQuest.SKILLS.name), pPlayerState, pQuestActProp)
+    --iValue = iValue + evaluate_cost_job_adv(ctAccessors:get_accessor_by_type(RQuest.JOBS.name), pPlayerState, pQuestActProp)
+    iValue = iValue + evaluate_cost_mob(ctAccessors:get_accessor_by_type(RQuest.MOBS.name), pPlayerState, pQuestActProp)
+    iValue = iValue + evaluate_cost_quest(ctAccessors:get_accessor_by_type(RQuest.QUESTS.name), pPlayerState, pQuestActProp)
+    iValue = iValue + evaluate_cost_inventory(ctAccessors:get_accessor_by_type(RQuest.ITEMS.name), pPlayerState, pQuestActProp)
 
     return iValue
 end

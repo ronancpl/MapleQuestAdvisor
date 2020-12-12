@@ -10,23 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-local function fetch_loot_fields(rgpLoots, ctResources)
-    local tFields = {}
-    for _, pLoot in ipairs(rgpLoots) do
-        local pLootid = pLoot:get_sourceid()
-
-        local rgiMapids = ctResources:get_locations(pLootid)
-        for _, iMapid in ipairs(rgiMapids) do
-            tFields[iMapid] = 1
-        end
+function fn_get_static_fields()
+    return function(tRscItems, iRscid)
+        local pFieldsSet = return SSet{tRscItems[iRscid]}
+        return pFieldsSet
     end
-
-    return SSet{keys(tFields)}
 end
 
-function fn_get_item_fields(ctItems, tRscItems)
-    return function(iId)
-        local pFieldsSet = fetch_loot_fields(tRscItems[iId], ctItems)
+function fn_get_item_fields(ctItems)
+    return function(tRscItems, iRscid)
+        local pFieldsSet = fetch_loot_fields(tRscItems[iRscid], ctItems)
         return pFieldsSet
     end
 end

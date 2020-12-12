@@ -80,10 +80,10 @@ local function print_path_search_counts()
     end
 end
 
-local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctPlayersMeta)
+local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     route_quest_permit_complete(rgpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
-    local iValue = evaluate_quest_utility(ctPlayersMeta, pQuestProp, pPlayerState)
+    local iValue = evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
     pCurrentPath:add(pQuestProp, iValue)
 
     local iPathSize = pCurrentPath:size()
@@ -152,7 +152,7 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
     return nBcktQuests
 end
 
-local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctPlayersMeta)
+local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     local pQuestTree = CGraphTree:new()
     local pQuestMilestone = CGraphMilestone:new()
 
@@ -164,7 +164,7 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
             break
         end
 
-        route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctPlayersMeta)
+        route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
         local iBcktCount = route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
 
         pFrontierQuests:fetch(pQuestTree, iBcktCount)       -- retrieve all nodes from frontier that have been backtracked
@@ -172,7 +172,7 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
     end
 end
 
-local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders, ctPlayersMeta)
+local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     local pPlayerState = CPlayer:new(pPlayer)
     local pQuestProp = pQuest:get_start()
     local pCurrentPath = CQuestPath:new()
@@ -189,11 +189,11 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
         local pFrontierArranger = CNeighborArranger:new()
         pFrontierArranger:init(ctAccessors, rgpPoolProps)
 
-        route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctPlayersMeta)
+        route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     end
 end
 
-function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctPlayersMeta)
+function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     log(LPath.OVERALL, "log.txt", "Route quest board... (" .. tQuests:size() .. " quests)")
 
     local rgPoolQuests = make_pool_list(tQuests)
@@ -202,7 +202,7 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctPlayers
     log(LPath.OVERALL, "log.txt", "Total of quests to search: " .. tQuests:size())
     while not rgPoolQuests:is_empty() do
         local pQuest = rgPoolQuests:remove_last()
-        route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders, ctPlayersMeta)
+        route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     end
 
     log(LPath.OVERALL, "log.txt", "Search finished.")

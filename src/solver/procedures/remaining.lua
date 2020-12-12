@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-function fetch_accessor_remaining_requirement(pReqAcc, fn_pending, pPlayerState, pQuestProps)
+function fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestProps)
     local fn_req = pReqAcc:get_fn_pending_property()
 
     local pRet = fn_req(pReqAcc, pQuestProps, pPlayerState)

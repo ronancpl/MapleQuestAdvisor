@@ -12,17 +12,18 @@
 
 require("solver.lookup.category")
 require("solver.lookup.category.loot.fields")
+require("solver.lookup.constant")
 
 local function install_lookup_category_entries(pLookupTab, tpEntries, ctItems, pLandscape)
-    local fn_item_fields = fn_get_item_fields(ctItems, tpEntries)
+    local fn_item_fields = fn_get_item_fields(ctItems)
     pLookupTab:init(tpEntries, fn_item_fields, pLandscape)
 end
 
 function init_lookup_category_item_table(ctLoots, ctMobs, ctReactors, pLandscape)
-    local pLookupTab = CSolverLookupCategory:new()
+    local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.ITEMS})
 
-    install_lookup_category_entries(pLookupTab, ctLoots:get_mob_entries(), ctMobs)
-    install_lookup_category_entries(pLookupTab, ctLoots:get_reactor_entries(), ctReactors)
+    install_lookup_category_entries(pLookupTab, ctLoots:get_mob_entries(), ctMobs, pLandscape)
+    install_lookup_category_entries(pLookupTab, ctLoots:get_reactor_entries(), ctReactors, pLandscape)
 
     return pLookupTab
 end

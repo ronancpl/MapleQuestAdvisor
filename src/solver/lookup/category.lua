@@ -13,9 +13,14 @@
 require("utils.struct.class")
 
 CSolverLookupCategory = createClass({
+    iTabId = 0,
     tRscItems = {},
     tRscRegionFields = {}
 })
+
+function CSolverLookupCategory:_get_tab_resource_id(iRscid)
+    return (self.iTabId * 1000000000) + iRscid
+end
 
 function CSolverLookupCategory:_init_entries(tpEntries)
     local m_tRscItems = self.tRscItems
@@ -89,4 +94,30 @@ function CSolverLookupCategory:get_field_resources_by_region_id(iRegionid, ivtIt
     end
 
     return trgpFieldRscs
+end
+
+function CSolverLookupCategory:get_resource_fields(iRegionid)
+    local tResourceFields = {}
+
+    local m_tRscRegionFields = self.tRscRegionFields
+    for iRscid, tRegionFields in pairs(m_tRscRegionFields) do
+        local iExtRscid = self:_get_tab_resource_id(iRscid)     -- differentiates from resources of other tables
+
+        local rgiFields = {}
+        tResourceFields[iExtRscid] = rgiFields
+
+        if iRegionid ~= nil then
+            for _, iMapid in ipairs(tRegionFields[iRegionid]) do
+                table.insert(rgiFields, iMapid)
+            end
+        else
+            for _, rgiMapids in pairs(tRegionFields) do
+                for _, iMapid in ipairs(rgiMapids) do
+                    table.insert(rgiFields, iMapid)
+                end
+            end
+        end
+    end
+
+    return tResourceFields
 end
