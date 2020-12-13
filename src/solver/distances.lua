@@ -24,7 +24,7 @@ local function generate_quest_resource_graph(ivtItems, ivtMobs, iFieldEnter, iQu
     return pRscTree
 end
 
-local function get_npc_return_locations(iNpcid, iPlayerMapid)
+local function get_npc_return_locations(iNpcid)
     local tReturnMapids = {}
 
     for _, iMapid in ipairs(ctNpcs:get_locations()) do
@@ -42,7 +42,7 @@ local function get_npc_location(iNpcid, iPlayerMapid)
 
     local iNpcMapid = nil
     local iNpcFieldDist = U_INT_MAX
-    for _, iMapid in pairs(get_npc_return_locations(iNpcid, iPlayerMapid)) do
+    for _, iMapid in pairs(get_npc_return_locations(iNpcid)) do
         local iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
 
         if iRegionid == iPlayerRegionid then
@@ -82,5 +82,5 @@ function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerS
     local trgiFieldRscs = fetch_field_scope_quest_resource_graph(ctFieldsDist, pRscTree)
     local iDist = evaluate_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs)
 
-    return iDist
+    return iDist * RQuest.FIELD.Curb
 end

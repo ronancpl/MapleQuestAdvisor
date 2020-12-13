@@ -12,11 +12,11 @@
 
 require("utils.struct.class")
 
-CApTableCell = createClass(CApTableElement, {
+CApTableCell = createClass({CApTableElement, {
     iCol,
     iRow,
     iValue = 0
-})
+}})
 
 function CApTableCell:get_column()
     return self.iCol

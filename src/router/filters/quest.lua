@@ -30,7 +30,7 @@ RQuest = {
         name = "LVMAX"
     },
 
-    JOB = {
+    JOBS = {
         name = "JOB",
         Boost = 100,
         Curb = 100

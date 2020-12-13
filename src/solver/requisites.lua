@@ -34,11 +34,10 @@ local function evaluate_cost_skill(pReqAcc, pPlayerState, pQuestActProp)
     return (next(pRet) ~= nil and 1 or 0) * RQuest.Curb.SKILL
 end
 
---[[
-local function evaluate_cost_job_adv(pReqAcc, pPlayerState, pQuestActProp)
-
+local function evaluate_cost_job(pReqAcc, pPlayerState, pQuestActProp)
+    local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+    return iRet * RQuest.Curb.JOB
 end
-]]--
 
 local function evaluate_cost_mob(pReqAcc, pPlayerState, pQuestActProp)
     local pRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
@@ -73,7 +72,7 @@ function evaluate_quest_requisites(ctAccessors, ctPlayersMeta, pQuestProp, pPlay
     iValue = iValue + evaluate_cost_meso(ctAccessors:get_accessor_by_type(RQuest.MESO.name), pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
     iValue = iValue + evaluate_cost_fame(ctAccessors:get_accessor_by_type(RQuest.FAME.name), pPlayerState, pQuestActProp)
     iValue = iValue + evaluate_cost_skill(ctAccessors:get_accessor_by_type(RQuest.SKILLS.name), pPlayerState, pQuestActProp)
-    --iValue = iValue + evaluate_cost_job_adv(ctAccessors:get_accessor_by_type(RQuest.JOBS.name), pPlayerState, pQuestActProp)
+    iValue = iValue + evaluate_cost_job(ctAccessors:get_accessor_by_type(RQuest.JOBS.name), pPlayerState, pQuestActProp)
     iValue = iValue + evaluate_cost_mob(ctAccessors:get_accessor_by_type(RQuest.MOBS.name), pPlayerState, pQuestActProp)
     iValue = iValue + evaluate_cost_quest(ctAccessors:get_accessor_by_type(RQuest.QUESTS.name), pPlayerState, pQuestActProp)
     iValue = iValue + evaluate_cost_inventory(ctAccessors:get_accessor_by_type(RQuest.ITEMS.name), pPlayerState, pQuestActProp)

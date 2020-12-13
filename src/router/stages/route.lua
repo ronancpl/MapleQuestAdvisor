@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.graph.inner")
 require("router.procedures.graph.outer")
 require("router.procedures.player.update")
 require("router.structs.path")

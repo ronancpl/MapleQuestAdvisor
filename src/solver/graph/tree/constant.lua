@@ -10,18 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-local SSet = require("pl.class").Set
-
-function fn_get_static_fields()
-    return function(tRscItems, iRscid)
-        local pFieldsSet = SSet{tRscItems[iRscid]}
-        return pFieldsSet
-    end
-end
-
-function fn_get_item_fields(ctItems)
-    return function(tRscItems, iRscid)
-        local pFieldsSet = fetch_loot_fields(tRscItems[iRscid], ctItems)
-        return pFieldsSet
-    end
-end
+RQuestResource = {
+    DISTANCE_EXAMINE_REGION_COUNT = 2
+}

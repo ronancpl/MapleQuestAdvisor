@@ -126,7 +126,7 @@ local function fetch_field_distance(iMapidA, iMapidB, ctFieldsDist, ctFieldsMeta
     ctFieldsDist:add_field_distance(iMapidA, iMapidB, iDistance)
 end
 
-function get_field_distance(iSrcid, iDestid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
+function fetch_map_distance(iSrcid, iDestid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
     local iDistance = ctFieldsDist:get_field_distance(iSrcid, iDestid)
     if iDistance >= U_INT_MAX then
         iDistance = fetch_field_distance(iSrcid, iDestid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)

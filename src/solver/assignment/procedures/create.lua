@@ -64,7 +64,7 @@ local function normalize_table(pTable)
             for i = 1, iDummyCols, 1 do
                 pTable:add_column(rgiZeroedCol)
             end
-        else if nCols > nRows then
+        elseif nCols > nRows then
             local rgiZeroedRow = {}
             for i = 1, nCols, 1 do table.insert(rgiZeroedRow, 0) end
 

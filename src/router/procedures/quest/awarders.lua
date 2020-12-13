@@ -30,32 +30,32 @@ function CQuestAwarders:get_awarder_by_fn_award(fn_award_player_state_property)
     return self.tsAllActs[fn_award_player_state_property]
 end
 
-function CQuestAwarders:get_accessors_by_active_awards(pQuestProp, bInvt)
+function CQuestAwarders:get_awarders_by_active_awards(pQuestProp, bInvt)
     local rgfn_active_act_unit
     local rgfn_active_act_invt
     rgfn_active_act_unit, rgfn_active_act_invt, _ = pQuestProp:get_rgfn_active_awards()
 
-    local rgpAccs = {}
+    local rgpAwds = {}
 
     if bInvt ~= false then
         for _, fn_get in ipairs(rgfn_active_act_invt) do
-            local pAcc = self:get_awarder_by_fn_award(fn_get)
-            if pAcc ~= nil then
-                table.insert(rgpAccs, pAcc)
+            local pAwd = self:get_awarder_by_fn_award(fn_get)
+            if pAwd ~= nil then
+                table.insert(rgpAwds, pAwd)
             end
         end
     end
 
     if bInvt ~= true then
         for _, fn_get in ipairs(rgfn_active_act_unit) do
-            local pAcc = self:get_awarder_by_fn_award(fn_get)
-            if pAcc ~= nil then
-                table.insert(rgpAccs, pAcc)
+            local pAwd = self:get_awarder_by_fn_award(fn_get)
+            if pAwd ~= nil then
+                table.insert(rgpAwds, pAwd)
             end
         end
     end
 
-    return rgpAccs
+    return rgpAwds
 end
 
 local function fn_get_awd_property(fn_quest_reward)
@@ -83,7 +83,7 @@ function init_quest_awarders()
     ctAwarders:_add_award_accessor(tfn_ivt_acts, RQuest.SKILLS.name, CQuestProperty.get_skills, fn_undo_invt_insert, fn_award_player_state_skills)
     ctAwarders:_add_award_accessor(tfn_ivt_acts, RQuest.ITEMS.name, CQuestProperty.get_items, fn_undo_invt_item_add, fn_award_player_state_items)
     ctAwarders:_add_award_accessor(tfn_ivt_acts, RQuest.QUESTS.name, CQuestProperty.get_quests, fn_undo_no_change, fn_award_player_state_quests)
-    ctAwarders:_add_award_accessor(tfn_ivt_acts, RQuest.JOBS.name, CQuestRequirement.has_job_access, fn_undo_invt_insert, fn_award_player_state_jobs)
+    --ctAwarders:_add_award_accessor(tfn_ivt_acts, RQuest.JOBS.name, CQuestRequirement.has_job_access, fn_undo_invt_insert, fn_award_player_state_jobs)
 
     return ctAwarders
 end

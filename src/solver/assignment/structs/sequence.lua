@@ -10,10 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-CApTableSequence = createClass(CApTableElement, {
+CApTableSequence = createClass({CApTableElement, {
     iAgentid,
     iIdx
-})
+}})
 
 function CApTableSequence:get_index()
     return self.iIdx

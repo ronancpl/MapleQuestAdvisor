@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("solver.assignment.procedure.solve")
+require("solver.assignment.procedures.solve")
 
 local function make_model_row_values(nCols, rgiFieldCols, iRscCost)
     local rgiRowValues = {}

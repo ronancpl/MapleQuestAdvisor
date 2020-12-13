@@ -11,6 +11,7 @@
 --]]
 
 require("router.filters.constant")
+require("solver.graph.tree.constant")
 require("utils.procedure.unpack")
 require("utils.struct.priority_queue")
 local SSet = require("pl.class").Set
@@ -75,10 +76,42 @@ local function calc_distance_model_quest_resource(ctFieldsDist, trgiFieldRscs, i
     return iMstDist
 end
 
-function evaluate_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs)
+local function evaluate_regions_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs, pRegionRscTreeQueue)
+    local iExamineCount = math.min(pRegionRscTreeQueue:size(), RQuestResource.DISTANCE_EXAMINE_REGION_COUNT)
+
+    local iDist = 0
+    for i = 1, iExamineCount, 1 do
+        local pRscRegionTree = pRegionRscTreeQueue:pop()
+
+        local iRegionSrcMapid = pRscRegionTree:get_field_source()
+        local iRegionDestMapid = pRscRegionTree:get_field_destination()
+
+        iDist = iDist + calc_distance_model_quest_resource(ctFieldsDist, trgiFieldRscs, iRegionSrcMapid, iRegionDestMapid)
+    end
+
     local iSrcMapid = pRscTree:get_field_source()
     local iDestMapid = pRscTree:get_field_destination()
+    iDist = iDist + ctFieldsDist:get_field_distance(iSrcMapid, iDestMapid)
 
-    local iDist = calc_distance_model_quest_resource(ctFieldsDist, trgiFieldRscs, iSrcMapid, iDestMapid)
+    -- an estimative of reaching resource fields in the top 2 region + the quest's overall wire-to-wire field distance
+    return iDist
+end
+
+local function fetch_quest_resource_regions(pRegionRscTreeQueue, pRscTree)
+    if pRscTree:is_region_tree() then
+        pRegionRscTreeQueue:put(pRscTree, pRscTree:get_resources():len())
+    else
+        local tpChildRscTrees = pRscTree:get_field_nodes()
+        for _, pChildRscTree in pairs(tpChildRscTrees) do
+            fetch_quest_resource_regions(pRegionRscTreeQueue, pChildRscTree)
+        end
+    end
+end
+
+function evaluate_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs)
+    local pRegionRscTreeQueue = PriorityQueue:initialize()
+    fetch_quest_resource_regions(pRegionRscTreeQueue, pRscTree)
+
+    local iDist = evaluate_regions_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs, pRegionRscTreeQueue)
     return iDist
 end

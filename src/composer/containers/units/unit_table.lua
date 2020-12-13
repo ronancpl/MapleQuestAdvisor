@@ -21,9 +21,24 @@ function CUnitTable:add_entry(iSrcid)
 end
 
 function CUnitTable:add_location(iSrcid, iMapid)
-    self.tUnitFields[iSrcid][iMapid] = 1
+    local tFields = self.tUnitFields[iSrcid]
+    tFields[iMapid] = 1
+    tFields["TABLE"] = nil
 end
 
 function CUnitTable:get_locations(iSrcid)
-    return self.tUnitFields[iSrcid]
+    print("fetch " .. tostring(iSrcid))
+    local tFields = self.tUnitFields[iSrcid]
+
+    local rgiFields = tFields["TABLE"]
+    if rgiFields == nil then
+        rgiFields = {}
+        for iMapid, _ in pairs(tFields) do
+            table.insert(rgiFields, iMapid)
+        end
+
+        tFields["TABLE"] = rgiFields
+    end
+
+    return rgiFields
 end

@@ -13,11 +13,11 @@
 require("solver.graph.tree.resource")
 require("utils.struct.class")
 
-CSolverTree = createClass(CSolverResource, {
+CSolverTree = createClass({CSolverResource, {
     iSrcMapid,
     iDestMapid,
     tpResourceNodes = {}
-})
+}})
 
 function CSolverTree:get_field_source()
     return self.iSrcMapid
