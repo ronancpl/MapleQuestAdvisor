@@ -65,6 +65,28 @@ function CStationConnectionTable:make_index_travel_region(pLandscape)
     end
 end
 
+function CStationConnectionTable:determine_regional_station_area_neighbors(pLandscape, ctFieldsDist)
+    self:_create_travel_region_entries(pLandscape)
+
+    local m_tFieldStations = self.tFieldStations
+    local m_tTravelRegions = self.tTravelRegions
+    for iSrcMapid, rgiDestMapids in pairs(m_tFieldStations) do
+        local iSrcRegionid = pLandscape:get_region_by_mapid(iSrcMapid)
+        local tDestStationMapids = m_tTravelRegions[iSrcRegionid]
+
+        for _, iDestMapid in ipairs(rgiDestMapids) do
+            local iDestRegionid = pLandscape:get_region_by_mapid(iDestMapid)
+
+            if iSrcRegionid == iDestRegionid then
+                if iSrcRegionid ~= nil then
+                    ctFieldsDist:add_field_distance(iSrcMapid, iDestMapid, 1)
+                    ctFieldsDist:add_field_distance(iDestMapid, iSrcMapid, 1)
+                end
+            end
+        end
+    end
+end
+
 function CStationConnectionTable:get_stations_to_region(tiFieldRegion, iSrcMapid, iDestRegionid)
     local m_tTravelRegions = self.tTravelRegions
     local iSrcRegionid = tiFieldRegion[iSrcMapid]

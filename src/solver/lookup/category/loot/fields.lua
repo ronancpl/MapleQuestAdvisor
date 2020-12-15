@@ -19,6 +19,18 @@ function fn_get_static_fields()
     end
 end
 
+local function fetch_loot_fields(tpSrcLoots, ctResources)
+    local tFields = {}
+    for iLootid, _ in pairs(tpSrcLoots) do
+        local rgiMapids = ctResources:get_locations(iLootid)
+        for _, iMapid in ipairs(rgiMapids) do
+            tFields[iMapid] = 1
+        end
+    end
+
+    return SSet{keys(tFields)}
+end
+
 function fn_get_item_fields(ctItems)
     return function(tRscItems, iRscid)
         local pFieldsSet = fetch_loot_fields(tRscItems[iRscid], ctItems)

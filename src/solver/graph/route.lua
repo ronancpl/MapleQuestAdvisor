@@ -20,7 +20,7 @@ local function get_field_priority(iVal)
     return U_INT_MAX - iVal
 end
 
-local function mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid, iDestMapid)
+local function mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid)
     local tExploredFields = {}  -- finds minimum spanning tree
 
     local tpFrom = {}
@@ -66,7 +66,7 @@ end
 
 local function calc_distance_model_quest_resource(ctFieldsDist, trgiFieldRscs, iSrcMapid, iDestMapid)
     local rgiMapids = keys(trgiFieldRscs)
-    local tpMstPath = mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid, iDestMapid)
+    local tpMstPath = mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid)
 
     local iMstDist = 0
     for _, pFrom in pairs(tpMstPath) do

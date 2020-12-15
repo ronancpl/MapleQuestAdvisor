@@ -13,4 +13,4 @@
 require("composer.containers.units.unit_table")
 require("utils.struct.class")
 
-CReactorTable = createClass({CUnitTable, {}})
+CReactorTable = createClass({CUnitTable, {sRscName = "reactor"}})

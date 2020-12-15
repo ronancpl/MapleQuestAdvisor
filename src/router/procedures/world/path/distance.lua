@@ -19,13 +19,13 @@ local function init_distance_table(rgiMapids, trgiNeighborMapids)
         local tiAreaDistances = {}
         ttiDistances[iMapid] = tiAreaDistances
 
-        for _, iMapid in ipairs(rgiMapids) do
-            tiAreaDistances[iMapid] = U_INT_MAX
+        for _, iNeighborMapid in ipairs(rgiMapids) do
+            tiAreaDistances[iNeighborMapid] = U_INT_MAX
         end
 
         tiAreaDistances[iMapid] = 0     -- self area
-        for _, iMapid in ipairs(trgiNeighborMapids[iMapid]) do
-            tiAreaDistances[iMapid] = 1   -- neighbor area
+        for _, iNeighborMapid in ipairs(trgiNeighborMapids[iMapid]) do
+            tiAreaDistances[iNeighborMapid] = 1   -- neighbor area
         end
     end
 
@@ -35,9 +35,9 @@ end
 function determine_distances(rgiMapids, trgiNeighborMapids)
     local ttiDistances = init_distance_table(rgiMapids, trgiNeighborMapids)
 
-    for _, iMapidA in ipairs(rgiMapids) do
+    for _, iMapidC in ipairs(rgiMapids) do
         for _, iMapidB in ipairs(rgiMapids) do
-            for _, iMapidC in ipairs(rgiMapids) do
+            for _, iMapidA in ipairs(rgiMapids) do
                 local iCurDistAB = ttiDistances[iMapidA][iMapidB]
                 local iCurDistAC = ttiDistances[iMapidA][iMapidC]
                 local iCurDistCB = ttiDistances[iMapidC][iMapidB]

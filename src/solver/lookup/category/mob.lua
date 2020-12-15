@@ -16,12 +16,11 @@ require("solver.lookup.constant")
 
 local function install_lookup_category_entries(pLookupTab, tpEntries, ctItems, pLandscape)
     local fn_item_fields = fn_get_item_fields(ctItems)
-    pLookupTab:init(tpEntries, fn_item_fields, pLandscape)
+    pLookupTab:init(tpEntries, fn_item_fields, pLandscape, false)
 end
 
 function init_lookup_category_mob_table(ctLoots, ctMobs, pLandscape)
     local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.MOBS})
-
     install_lookup_category_entries(pLookupTab, ctLoots:get_mob_entries(), ctMobs)
 
     return pLookupTab

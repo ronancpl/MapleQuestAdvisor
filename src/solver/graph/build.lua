@@ -59,7 +59,7 @@ local function build_descriptor_tree(pRscTree, tpRegionResources, tpPathMapids)
 
         local iSrcMapid
         local iDestMapid
-        iSrcMapid, iDestMapid = unpack(tpPathMapids[iRegionid])
+        iSrcMapid, iDestMapid = unpack(tpPathMapids)
 
         pRscTree:set_field_source(iSrcMapid)
         pRscTree:set_field_destination(iDestMapid)

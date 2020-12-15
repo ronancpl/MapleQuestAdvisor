@@ -27,7 +27,7 @@ end
 local function get_npc_return_locations(iNpcid)
     local tReturnMapids = {}
 
-    for _, iMapid in ipairs(ctNpcs:get_locations()) do
+    for _, iMapid in ipairs(ctNpcs:get_locations(iNpcid)) do
         local iRetMapid = ctFieldsMeta:get_field_return(iMapid) or iMapid
         tReturnMapids[iRetMapid] = iMapid
     end
@@ -44,9 +44,8 @@ local function get_npc_location(iNpcid, iPlayerMapid)
     local iNpcFieldDist = U_INT_MAX
     for _, iMapid in pairs(get_npc_return_locations(iNpcid)) do
         local iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
-
         if iRegionid == iPlayerRegionid then
-            local iDist = ctFieldsDist:get_field_distance(iPlayerMapid, iMapid)
+            local iDist = ctFieldsLandscape:fetch_field_distance(iPlayerMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
             if iDist < iNpcFieldDist then
                 iNpcMapid = iMapid
                 iNpcFieldDist = iDist
@@ -58,7 +57,7 @@ local function get_npc_location(iNpcid, iPlayerMapid)
 
     if iNpcMapid == nil then
         for _, iMapid in ipairs(rgiAbroadMapids) do
-            local iDist = ctFieldsDist:get_field_distance(iPlayerMapid, iMapid)
+            local iDist = ctFieldsLandscape:fetch_field_distance(iPlayerMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
             if iDist < iNpcFieldDist then
                 iNpcMapid = iMapid
                 iNpcFieldDist = iDist

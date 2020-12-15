@@ -128,3 +128,11 @@ function CFieldLandscape:calc_interregion_town_distances(ctFieldsDist, ctFieldsM
     fetch_interregional_town_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, m_tiFieldRegion, m_tWorldNodes)
     log(LPath.OVERALL, "log.txt", "Calc interregional town distance finished.")
 end
+
+function CFieldLandscape:fetch_field_distance(iSrcMapid, iDestMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
+    local m_tiFieldRegion = self.tiFieldRegion
+    local m_tWorldNodes = self.tWorldNodes
+
+    local iDistance = fetch_map_distance(iSrcMapid, iDestMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, m_tiFieldRegion, m_tWorldNodes)
+    return iDistance
+end

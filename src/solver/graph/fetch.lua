@@ -46,7 +46,8 @@ local function create_model_quest_resource_graph(ctFieldsDist, iSrcMapid, tpFiel
             table.insert(rgiFieldCols, iRscIdx)
         end
 
-        local iRscCost = ctFieldsDist:get_field_distance(iSrcMapid, iMapid)
+        print("locate rsc ", iSrcMapid, iMapid)
+        local iRscCost = ctFieldsLandscape:fetch_field_distance(iSrcMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
         local rgiRowValues = make_model_row_values(nCols, rgiFieldCols, iRscCost)
         table.insert(rgpTableValues, rgiRowValues)
 

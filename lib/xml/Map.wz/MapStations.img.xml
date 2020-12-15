@@ -109,9 +109,8 @@
     <int name="0" value="240000110"/>
   </imgdir>
   <imgdir name="540000000">
-    <int name="0" value="103000000"/>
-    <int name="1" value="550000000"/>
-    <int name="2" value="551000000"/>
+    <int name="0" value="550000000"/>
+    <int name="1" value="551000000"/>
   </imgdir>
   <imgdir name="540010000">
     <int name="0" value="103000000"/>

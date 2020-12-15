@@ -19,15 +19,28 @@ require("composer.loot.refine")
 require("composer.quest.quest")
 require("composer.unit.unit")
 require("composer.unit.player")
+require("router.structs.landscape.world")
 require("utils.logger.file")
 --require("utils.procedure.print")
 require("utils.provider.xml.provider")
 
-function post_process_resources(ctQuests, ctNpcs, ctFieldsMeta)
+local function post_process_quests(ctQuests, ctNpcs, ctFieldsMeta)
     ctQuests:dispose_inoperative_quests()
     ctQuests:dispose_missing_prequests()
     ctQuests:apply_starting_level()
     apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
+end
+
+local function post_process_fields(ctFieldsDist, ctFieldsLink)
+    local ctFieldsLandscape = CFieldLandscape:new()
+    ctFieldsLandscape:scan_region_areas(ctFieldsDist)
+    ctFieldsLandscape:make_remissive_index_area_region()
+    ctFieldsLink:determine_regional_station_area_neighbors(ctFieldsLandscape, ctFieldsDist)
+end
+
+local function post_process_resources(ctQuests, ctNpcs, ctFieldsDist, ctFieldsMeta, ctFieldsLink)
+    post_process_quests(ctQuests, ctNpcs, ctFieldsMeta)
+    post_process_fields(ctFieldsDist, ctFieldsLink)
 end
 
 local function load_resources_internal()
@@ -73,5 +86,5 @@ function load_resources()
     log(LPath.OVERALL, "log.txt", "Load quest resources...")
 
     load_resources_internal()
-    post_process_resources(ctQuests, ctNpcs, ctFieldsMeta)
+    post_process_resources(ctQuests, ctNpcs, ctFieldsDist, ctFieldsMeta, ctFieldsLink)
 end

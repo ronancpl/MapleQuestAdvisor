@@ -10,9 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.logger.file")
 require("utils.struct.class")
 
 CUnitTable = createClass({
+    sRscName = "",
     tUnitFields = {}
 })
 
@@ -27,17 +29,25 @@ function CUnitTable:add_location(iSrcid, iMapid)
 end
 
 function CUnitTable:get_locations(iSrcid)
-    print("fetch " .. tostring(iSrcid))
     local tFields = self.tUnitFields[iSrcid]
 
-    local rgiFields = tFields["TABLE"]
-    if rgiFields == nil then
-        rgiFields = {}
-        for iMapid, _ in pairs(tFields) do
-            table.insert(rgiFields, iMapid)
-        end
+    local rgiFields
+    if tFields ~= nil then
+        rgiFields = tFields["TABLE"]
+        if rgiFields == nil then
+            rgiFields = {}
+            for iMapid, _ in pairs(tFields) do
+                table.insert(rgiFields, iMapid)
+            end
 
-        tFields["TABLE"] = rgiFields
+            tFields["TABLE"] = rgiFields
+        end
+    else
+        rgiFields = {}
+    end
+
+    if #rgiFields == 0 then
+        log(LPath.FALLBACK .. LPath.RESOURCE_LOCATION .. self.sRscName .. "/", tostring(iSrcid) .. ".txt", "[WARNING] Empty locations found for sourceid " .. iSrcid)
     end
 
     return rgiFields

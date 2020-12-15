@@ -13,4 +13,4 @@
 require("utils.struct.class")
 require("composer.containers.units.unit_table")
 
-CNpcTable = createClass({CUnitTable, {}})
+CNpcTable = createClass({CUnitTable, {sRscName = "npc"}})

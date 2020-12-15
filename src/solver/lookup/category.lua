@@ -22,20 +22,18 @@ function CSolverLookupCategory:_get_tab_resource_id(iRscid)
     return (self.iTabId * 1000000000) + iRscid
 end
 
-function CSolverLookupCategory:_init_entries(tpEntries)
+function CSolverLookupCategory:_init_entries(tpEntries, fn_get_rscid)
     local m_tRscItems = self.tRscItems
 
-    for iSrcid, rgpLoots in pairs(tpEntries) do
-        for _, pLoot in ipairs(rgpLoots) do
-            local iLootid = pLoot:get_sourceid()
-            local rgiLootRscs = m_tRscItems[iLootid]
-
-            if rgiLootRscs == nil then
-                rgiLootRscs = {}
-                m_tRscItems[iLootid] = rgiLootRscs
+    for iSrcid, tpRscLoots in pairs(tpEntries) do
+        for iRscid, _ in pairs(tpRscLoots) do
+            local rgiSrcids = m_tRscItems[iRscid]
+            if rgiSrcids == nil then
+                rgiSrcids = {}
+                m_tRscItems[iRscid] = rgiSrcids
             end
 
-            table.insert(rgiLootRscs, iSrcid)
+            table.insert(rgiSrcids, iSrcid)
         end
     end
 end
@@ -65,8 +63,13 @@ function CSolverLookupCategory:_locate_resources(pLandscape, tpEntries, fn_get_r
     end
 end
 
-function CSolverLookupCategory:init(tpEntries, fn_get_rsc_fields, pLandscape)
-    self:_init_entries(tpEntries)
+function CSolverLookupCategory:init(tpEntries, fn_get_rsc_fields, pLandscape, bRscInt)
+    if bRscInt then
+        self:_init_entries(tpEntries, function(pRsc) return pRsc end)
+    else
+        self:_init_entries(tpEntries, function(pRsc) return pRsc:get_sourceid() end)
+    end
+
     self:_locate_resources(pLandscape, tpEntries, fn_get_rsc_fields)
 end
 
@@ -107,8 +110,11 @@ function CSolverLookupCategory:get_resource_fields(iRegionid)
         tResourceFields[iExtRscid] = rgiFields
 
         if iRegionid ~= nil then
-            for _, iMapid in ipairs(tRegionFields[iRegionid]) do
-                table.insert(rgiFields, iMapid)
+            local rgiMapids = tRegionFields[iRegionid]
+            if rgiMapids ~= nil then
+                for _, iMapid in ipairs(rgiMapids) do
+                    table.insert(rgiFields, iMapid)
+                end
             end
         else
             for _, rgiMapids in pairs(tRegionFields) do

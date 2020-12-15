@@ -143,8 +143,32 @@ function CLootTable:get_reactor_entries()
 end
 
 local function squash_type_loots(tItems)
-    for k, v in pairs(tItems) do
-        tItems[k] = squash_entry_loots(k, v)
+    local tEntries = {}
+
+    for iSrcid, rgpLoots in pairs(tItems) do
+        local tItemEntries = {}
+        tEntries[iSrcid] = tItemEntries
+
+        for _, pLoot in ipairs(rgpLoots) do
+            local iRscid = pLoot:get_sourceid()
+
+            local rgpRscLoots = tItemEntries[iRscid]
+            if rgpRscLoots == nil then
+                rgpRscLoots = {}
+                tItemEntries[iRscid] = rgpRscLoots
+            end
+
+            table.insert(rgpRscLoots, pLoot)
+        end
+    end
+
+    for iSrcid, tItemEntries in pairs(tEntries) do
+        local tRscItems = {}
+        tItems[iSrcid] = tRscItems
+
+        for iRscid, rgpRscLoots in pairs(tItemEntries) do
+            tRscItems[iRscid] = squash_entry_loots(iRscid, rgpRscLoots)
+        end
     end
 end
 

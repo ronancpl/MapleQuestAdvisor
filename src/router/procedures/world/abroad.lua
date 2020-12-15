@@ -23,13 +23,13 @@ end
 
 local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestRegionid)
     local pQueueFrontierNodeids = SQueue:new()
+
     local tiVisitedNodeid = {}
-
-    pQueueFrontierNodeids:push(iSrcRegionid)
-
     for iRegionid, _ in pairs(tWorldNodes) do
         tiVisitedNodeid[iRegionid] = -2
     end
+
+    pQueueFrontierNodeids:push(iSrcRegionid)
     tiVisitedNodeid[iSrcRegionid] = -1
 
     local tiPathedFrom = {}
@@ -50,6 +50,7 @@ local function pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestR
 
     local rgiRevVisitedRegions = {}
     local iRegionid = iDestRegionid
+
     while tiVisitedNodeid[iRegionid] > -1 do
         table.insert(rgiRevVisitedRegions, iRegionid)
         iRegionid = tiVisitedNodeid[iRegionid]
@@ -86,7 +87,7 @@ local function fetch_nearby_region_station(ctFieldsDist, ctFieldsLink, tiFieldRe
         local iCurNextMapid
         iCurStationMapid, iCurNextMapid = unpack(pStationMapLink)
 
-        local iDist = ctFieldsDist:get_field_distance(iNextMapid, iCurStationMapid)
+        local iDist = ctFieldsDist:get_field_distance(iSrcMapid, iCurStationMapid)
         if iDist < iStationDist then
             iStationDist = iDist
 
@@ -113,7 +114,9 @@ local function calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRe
         iCurMapid = iNextMapid
     end
 
-    iTransitDist = iTransitDist + ctFieldsDist:get_field_distance(iCurMapid, iDestMapid)
+    local iDist = ctFieldsDist:get_field_distance(iCurMapid, iDestMapid)
+    iTransitDist = iTransitDist + iDist
+
     return iTransitDist
 end
 
@@ -124,6 +127,8 @@ end
 local function fetch_field_distance(iMapidA, iMapidB, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
     local iDistance = calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iMapidA, iMapidB)
     ctFieldsDist:add_field_distance(iMapidA, iMapidB, iDistance)
+
+    return iDistance
 end
 
 function fetch_map_distance(iSrcid, iDestid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)

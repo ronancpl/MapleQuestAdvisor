@@ -19,7 +19,8 @@ CFieldDistanceTable = createClass({
 })
 
 function CFieldDistanceTable:add_field_entry(iSrcid)
-    self.tFieldDistance[iSrcid] = {}
+    local m_tFieldDistance = self.tFieldDistance
+    m_tFieldDistance[iSrcid] = {}
 end
 
 function CFieldDistanceTable:get_field_entries()
@@ -27,21 +28,40 @@ function CFieldDistanceTable:get_field_entries()
 end
 
 function CFieldDistanceTable:has_field_entry(iSrcid)
-    return self.tFieldDistance[iSrcid] ~= nil
+    local tFieldDists = self.tFieldDistance[iSrcid]
+    return tFieldDists ~= nil
 end
 
-function CFieldDistanceTable:add_field_distance(iSrcid, iDestId, iDistance)
-    self.tFieldDistance[iSrcid][iDestId] = iDistance     -- srcid entry already added
+function CFieldDistanceTable:add_field_distance(iSrcid, iDestid, iDistance)
+    local tFieldDists = self.tFieldDistance[iSrcid]     -- srcid entry already added
+    tFieldDists[iDestid] = iDistance
 end
 
-function CFieldDistanceTable:remove_field_distance(iSrcid, iDestId)
-    self.tFieldDistance[iSrcid][iDestId] = nil
+function CFieldDistanceTable:remove_field_distance(iSrcid, iDestid)
+    local tFieldDists = self.tFieldDistance[iSrcid]
+    tFieldDists[iDestid] = nil
 end
 
 function CFieldDistanceTable:get_field_distances(iSrcid)
-    return self.tFieldDistance[iSrcid]
+    local tFieldDists = self.tFieldDistance[iSrcid]
+    return tFieldDists
 end
 
 function CFieldDistanceTable:get_field_distance(iSrcid, iDestid)
-    return self.tFieldDistance[iSrcid][iDestid] or U_INT_MAX
+    local tFieldDists = self.tFieldDistance[iSrcid]
+    return tFieldDists[iDestid] or U_INT_MAX
+end
+
+function CFieldDistanceTable:debug_field_distance()
+    print("FIELD DISTS:")
+
+    for iSrcid, tFieldDists in pairs(self.tFieldDistance) do
+        local st = "["
+        for iDestid, iDist in pairs(tFieldDists) do
+            st = st .. iDestid .. ":" .. iDist .. ", "
+        end
+        st = st .. "]"
+        print(iSrcid .. " -> " .. st)
+    end
+    print("---------")
 end

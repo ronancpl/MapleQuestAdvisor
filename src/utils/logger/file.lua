@@ -18,6 +18,7 @@ LPath = {
 
     QUEST_BOARD = "pool/",
     QUEST_PATH = "path/",
+    RESOURCE_LOCATION = "location/",
     FALLBACK = "digression/",
     OVERALL = "overall/",
     PROCEDURES = "procedures/"

@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("solver.lookup.category.field")
 require("solver.lookup.category.item")
 require("solver.lookup.category.mob")
 require("solver.lookup.table")
@@ -26,10 +27,8 @@ function solver_resource_lookup_init(pLandscape, ctLoots, ctMobs, ctReactors, iF
     local pLookupFieldEnterTab = init_lookup_category_field_enter_table(iFieldEnter, pLandscape)
     table.insert(rgpCategoryTables, pLookupFieldEnterTab)
 
-    --[[
     local pLookupFieldNpcTab = init_lookup_category_field_npc_table(iFieldNpc, pLandscape)
     table.insert(rgpCategoryTables, pLookupFieldNpcTab)
-    ]]--
 
     local pLookupTable = CSolverLookupTable:new()
     pLookupTable:init_tables(rgpCategoryTables)

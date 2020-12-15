@@ -15,15 +15,16 @@ require("solver.lookup.category.loot.fields")
 require("solver.lookup.constant")
 
 local function install_lookup_category_entries(pLookupTab, tpEntries, pLandscape)
-    local fn_item_fields = fn_get_static_fields()
-    pLookupTab:init(tpEntries, fn_item_fields, pLandscape)
+    local fn_static_fields = fn_get_static_fields()
+    pLookupTab:init(tpEntries, fn_static_fields, pLandscape, true)
 end
 
 function init_lookup_category_field_enter_table(iFieldEnter, pLandscape)
     local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.FIELD_ENTER})
 
     local tpEntries = {}
-    tpEntries[iFieldEnter] = iFieldEnter
+    tpEntries[iFieldEnter] = {}
+    tpEntries[iFieldEnter][iFieldEnter] = 1
 
     install_lookup_category_entries(pLookupTab, tpEntries, pLandscape)
 
@@ -34,7 +35,8 @@ function init_lookup_category_field_npc_table(iFieldNpc, pLandscape)
     local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.FIELD_NPC})
 
     local tpEntries = {}
-    tpEntries[iFieldNpc] = iFieldNpc
+    tpEntries[iFieldNpc] = {}
+    tpEntries[iFieldNpc][iFieldNpc] = 1
 
     install_lookup_category_entries(pLookupTab, tpEntries, pLandscape)
 
