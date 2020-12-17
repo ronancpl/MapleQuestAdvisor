@@ -10,6 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
+require("solver.assignment.structs.element")
+require("utils.struct.class")
+
 CApTableSequence = createClass({CApTableElement, {
     iAgentid,
     iIdx

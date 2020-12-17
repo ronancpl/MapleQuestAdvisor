@@ -18,8 +18,8 @@ CApTableElement = createClass({
     siFlag = 0
 })
 
-function CApTableElement:flag_set(siFlag)
-    self.siFlag = siFlag
+function CApTableElement:clear_flag()
+    self.siFlag = 0
 end
 
 function CApTableElement:_flag_disable(siFlagType)
@@ -31,7 +31,11 @@ function CApTableElement:_flag_enable(siFlagType)
 end
 
 function CApTableElement:set_flag(siFlagType, bActive)
-    bActive and self:_flag_enable(siFlagType) or self:_flag_disable(siFlagType)
+    if bActive then
+        self:_flag_enable(siFlagType)
+    else
+        self:_flag_disable(siFlagType)
+    end
 end
 
 function CApTableElement:has_flag(siFlagType)

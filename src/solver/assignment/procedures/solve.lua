@@ -16,13 +16,13 @@ require("solver.assignment.procedures.create")
 require("utils.struct.class")
 
 local function get_table_dimensions(rgpTableValues)
-    local iRows = U_INT_MAX
-    local iCols = #rgpTableValues
+    local iCols = U_INT_MAX
+    local iRows = #rgpTableValues
 
     for _, rgiRow in ipairs(rgpTableValues) do
-        local nRow = #rgiRow
-        if nRow < iRows then
-            nRow = iRows
+        local nCols = #rgiRow
+        if nCols < iCols then
+            iCols = nCols
         end
     end
 
@@ -95,15 +95,19 @@ local function reduce_oct_columns(pTable)
     reduce_oct_column_elements(pTable, rgiMinVals)
 end
 
-local function reset_oct_row_assigned(pTable)
+local function reset_oct_flags(pTable)
     local rgpCols = pTable:get_columns()
     for _, pCol in ipairs(rgpCols) do
-        pCol:flag_set(RSolver.AP_SEQUENCE_ASSIGN, false)
+        pCol:clear_flag()
     end
 
     local rgpRows = pTable:get_rows()
     for _, pRow in ipairs(rgpRows) do
-        pRow:flag_set(RSolver.AP_SEQUENCE_ASSIGN, false)
+        pRow:clear_flag()
+
+        for _, pCell in ipairs(pTable:get_row_elements(pRow)) do
+            pCell:clear_flag()
+        end
     end
 end
 
@@ -132,20 +136,20 @@ local function strike_list_zeros_on_oct_assignment(rgpCells)
     for _, pCell in ipairs(rgpCells) do
         local iVal = pCell:get_value()
         if iVal == 0 then
-            pCell:set_flag(RSolve.AP_CELL_STRIKE, true)
+            pCell:set_flag(RSolver.AP_CELL_STRIKE, true)
         end
     end
 end
 
 local function cross_list_zeros_on_oct_assignment(pTable, pCell)
-    local rgpRowCells = pCell:get_row_elements(pCell:get_row())
-    local rgpColCells = pCell:get_column_elements(pCell:get_column())
+    local rgpRowCells = pTable:get_row_elements(pCell:get_row())
+    local rgpColCells = pTable:get_column_elements(pCell:get_column())
 
     strike_list_zeros_on_oct_assignment(rgpRowCells)
     strike_list_zeros_on_oct_assignment(rgpColCells)
 end
 
-local function examine_oct_assign_cell(rgpCellsAssigned, iRowIdx, iColIdx)
+local function examine_oct_assign_cell(pTable, rgpCellsAssigned, iRowIdx, iColIdx)
     local pCell = pTable:get_cell(iRowIdx, iColIdx)
     pCell:set_flag(RSolver.AP_CELL_ASSIGN, true)
 
@@ -155,7 +159,6 @@ end
 local function cross_list_oct_assigned_cells(pTable, rgpCellsAssigned)
     for _, pCell in ipairs(rgpCellsAssigned) do
         pTable:add_unassigned_count(-1)
-
         cross_list_zeros_on_oct_assignment(pTable, pCell)
 
         local pCol = pTable:get_column(pCell:get_column())
@@ -174,7 +177,7 @@ local function assign_on_multi_arbitrarily_oct_assignment(pTable)
             local rgpCells = pTable:get_row_elements(pRow, true)
             for _, pCell in ipairs(rgpCells) do
                 if pCell:get_value() == 0 then
-                    examine_oct_assign_cell(rgpCellsAssigned, pCell:get_row(), pCell:get_column())
+                    examine_oct_assign_cell(pTable, rgpCellsAssigned, pCell:get_row(), pCell:get_column())
                     table.insert(rgpCellsAssigned, pCell)
 
                     break
@@ -189,9 +192,9 @@ local function assign_on_multi_arbitrarily_oct_assignment(pTable)
 end
 
 local function examine_oct_assignments(pTable)
-    reset_oct_row_assigned(pTable)
+    reset_oct_flags(pTable)
 
-    local nCols = pTable:get_num_cols()
+    local nCols = pTable:get_num_columns()
     local nRows = pTable:get_num_rows()
 
     pTable:set_unassigned_count(nCols)
@@ -203,7 +206,7 @@ local function examine_oct_assignments(pTable)
             for iRowIdx = 1, nRows, 1 do
                 local iAsgnColIdx = examine_oct_assignable_row(pTable, iRowIdx)
                 if iAsgnColIdx ~= nil then
-                    examine_oct_assign_cell(rgpCellsAssigned, iRowIdx, iAsgnColIdx)
+                    examine_oct_assign_cell(pTable, rgpCellsAssigned, iRowIdx, iAsgnColIdx)
                 end
             end
 
@@ -267,45 +270,53 @@ local function fetch_columns_zero_oct_revise(pTable)
     end
 end
 
-local function find_zero_in_sequence(pTable, rgpCells)
-    local rgpCells = {}
+local function fetch_unstriked_zero_in_sequence(rgpCells)
+    local rgpCellsZero = {}
 
-    for _, pCell in ipairs(rgpCells) do
-        local iVal = pCell:get_value()
-        if iVal == 0 then
-            table.insert(rgpCells, pCell)
+    for _, pCell in pairs(rgpCells) do
+        if pCell:get_value() == 0 then
+            if not pCell:has_flag(RSolver.AP_CELL_STRIKE) or pCell:has_flag(RSolver.AP_CELL_ASSIGN) then
+                -- accepts either clean or assigned
+
+                table.insert(rgpCellsZero, pCell)
+            end
         end
     end
 
-    return rgpCells
+    return rgpCellsZero
 end
 
 local function examine_rows_zero_oct_revise(pTable, rgpUasgnRows)
     local rgpRows = rgpUasgnRows
-    for _, pRow in ipairs(rgpRows) do
-        pRow:set_flag(RSolver.AP_SEQUENCE_TICK, true)
-    end
 
     while #rgpRows > 0 do
         local rgpNextRows = {}
 
         for _, pRow in ipairs(rgpRows) do
+            local iRowIdx = pRow:get_index()
             for _, pRowCell in ipairs(pTable:get_row_elements(pRow)) do
-                local iColIdx = pRowCell:get_column()
-                local pCurCol = pTable:get_column(iColIdx)
+                if pRowCell:get_value() == 0 then
+                    local iColIdx = pRowCell:get_column()
+                    local pCurCol = pTable:get_column(iColIdx)
 
-                if not pCurCol:has_flag(RSolver.AP_SEQUENCE_TICK) then
-                    pCurCol:set_flag(RSolver.AP_SEQUENCE_TICK, true)
+                    if not pCurCol:has_flag(RSolver.AP_SEQUENCE_TICK) then
+                        local rgpColCells = pTable:get_column_elements(pCurCol)
 
-                    local rgpColCells = pTable:get_column_elements(pCurCol)
-                    local rgpCells = find_zero_in_sequence(pTable, rgpColCells)
-                    for _, pCell in ipairs(rgpCells) do
-                        local iCurRowIdx = pCell:get_row()
-                        local pCurRow = pTable:get_row(iCurRowIdx)
+                        local rgpCells = fetch_unstriked_zero_in_sequence(rgpColCells)
+                        if #rgpCells > 0 then
+                            pCurCol:set_flag(RSolver.AP_SEQUENCE_TICK, true)
 
-                        if not pCurRow:has_flag(RSolver.AP_SEQUENCE_TICK) then
-                            pCurRow:set_flag(RSolver.AP_SEQUENCE_TICK, true)
-                            table.insert(rgpNextRows, pCurRow)
+                            for _, pCell in ipairs(rgpCells) do
+                                local iCurRowIdx = pCell:get_row()
+                                local pCurRow = pTable:get_row(iCurRowIdx)
+
+                                if pCurRow:has_flag(RSolver.AP_SEQUENCE_ASSIGN) then
+                                    if not pCurRow:has_flag(RSolver.AP_SEQUENCE_TICK) then
+                                        pCurRow:set_flag(RSolver.AP_SEQUENCE_TICK, true)
+                                        table.insert(rgpNextRows, pCurRow)
+                                    end
+                                end
+                            end
                         end
                     end
                 end
@@ -347,7 +358,7 @@ local function fiddle_revised_oct_headers(pTable)
         end
     end
 
-    return iLineCol == iLineRow
+    return iLineCol + iLineRow == pTable:get_num_columns()
 end
 
 local function find_shortest_revised_oct_value(pTable)
@@ -393,7 +404,6 @@ local function fetch_coverage_on_oct_headers(pTable)
                     table.insert(rgpNoneCells, pCell)
                 end
             end
-
         end
     end
 
@@ -418,9 +428,11 @@ end
 
 local function revise_oct_contents(pTable)
     while true do
+        find_opportunity_cost_table(pTable)
+
         local rgpUasgnRows = tick_rows_not_assigned_oct_revise(pTable)
+
         examine_rows_zero_oct_revise(pTable, rgpUasgnRows)
-        examine_rows_zero_oct_revise(pTable)
 
         local bFinished = fiddle_revised_oct_headers(pTable)
         if bFinished then

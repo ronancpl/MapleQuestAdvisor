@@ -13,6 +13,7 @@
 require("solver.assignment.constant")
 require("solver.assignment.structs.cell")
 require("solver.assignment.structs.sequence")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CApTable = createClass({
@@ -28,20 +29,35 @@ function CApTable:_create_cell(iVal, iRowIdx, iColIdx)
     return CApTableCell:new({iValue = iVal, iCol = iColIdx, iRow = iRowIdx})
 end
 
+function CApTable:_create_column()
+    local m_rgpCols = self.rgpCols
+
+    local pCol = CApTableSequence:new()
+    table.insert(m_rgpCols, pCol)
+
+    return pCol
+end
+
+function CApTable:set_columns(iCols)
+    clear_table(self.rgpCols)
+
+    for i = 1, iCols, 1 do
+        self:_create_column()
+    end
+end
+
 function CApTable:add_column(rgValues)
     local m_rgpTable = self.rgpTable
     local m_rgpCols = self.rgpCols
-    local m_rgpRows = self.rgpRows
 
     local nValues = #rgValues
     local iCol = #m_rgpCols + 1
     for iRow = 1, nValues, 1 do
-        local rgpRowValues = m_rgpRows[iRow]
+        local rgpRowValues = m_rgpTable[iRow]
         table.insert(rgpRowValues, self:_create_cell(rgValues[iCol], iRow, iCol))
     end
 
-    local pCol = CApTableSequence:new()
-    table.insert(m_rgpCols, pCol)
+    self:_create_column()
 end
 
 function CApTable:get_column(iIdx)
@@ -55,12 +71,12 @@ function CApTable:add_row(iAgentid, rgValues)
 
     local iRow = #m_rgpRows + 1
 
-    local pRow = {}
-    table.insert(m_rgpTable, pRow)
+    local rgpCells = {}
+    table.insert(m_rgpTable, rgpCells)
 
     local nValues = #rgValues
     for iCol = 1, nValues, 1 do
-        table.insert(pRow, self:_create_cell(rgValues[iCol], iRow, iCol))
+        table.insert(rgpCells, self:_create_cell(rgValues[iCol], iRow, iCol))
     end
 
     local pRow = CApTableSequence:new({iAgentid = iAgentid})
@@ -194,4 +210,8 @@ end
 
 function CApTable:set_unassigned_count(iCount)
     self.iUnassigned = iCount
+end
+
+function CApTable:add_unassigned_count(iCount)
+    self.iUnassigned = self.iUnassigned + iCount
 end

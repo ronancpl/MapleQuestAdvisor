@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("solver.assignment.structs.element")
 require("utils.struct.class")
 
 CApTableCell = createClass({CApTableElement, {
@@ -27,13 +28,13 @@ function CApTableCell:get_row()
 end
 
 function CApTableCell:get_value()
-    return self.iVal
+    return self.iValue
 end
 
 function CApTableCell:set_value(iVal)
-    self.iVal = iVal
+    self.iValue = iVal
 end
 
 function CApTableCell:adjust_value(iValAdd)
-    self.iVal = math.max(self.iVal + iValAdd, 0)
+    self.iValue = math.max(self.iValue + iValAdd, 0)
 end

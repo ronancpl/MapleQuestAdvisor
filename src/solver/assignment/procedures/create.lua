@@ -27,6 +27,8 @@ local function init_table(iRows, iCols, rgpTableValues)
         pTable:add_row(i, rgiRowVals)
     end
 
+    pTable:set_columns(iCols)
+
     pTable:set_num_agents(iRows)
     pTable:set_num_tasks(iCols)
 
@@ -54,6 +56,9 @@ local function normalize_table(pTable)
         if nRows < nCols then
             local nAgentClones = math.ceil((nCols - nRows) / nAgents)
             clone_agent_task_table(pTable, nAgentClones)
+
+            nRows = pTable:get_num_rows()
+            nCols = pTable:get_num_columns()
         end
 
         if nCols < nRows then
@@ -70,7 +75,7 @@ local function normalize_table(pTable)
 
             local iDummyRows = nCols - nRows
             for i = 1, iDummyRows, 1 do
-                pTable:add_row(-1, rgiZeroedCol)
+                pTable:add_row(-1, rgiZeroedRow)
             end
         end
     end
@@ -82,30 +87,96 @@ local function init_sequence_metadata(rgpSequences)
         local pLine = rgpSequences[i]
 
         pLine:set_index(i)
-        pLine:flag_set(nil, false)
+        pLine:clear_flag()
     end
 end
 
 local function init_table_cell_metadata(pTable)
     local rgpRows = pTable:get_rows()
     for _, pRow in ipairs(rgpRows) do
-        local rgpCells = pTable:get_column_elements(pRow)
+        local rgpCells = pTable:get_row_elements(pRow)
 
         for _, pCell in ipairs(rgpCells) do
-            pCell:flag_set(nil, false)
+            pCell:clear_flag()
         end
     end
 end
 
 local function init_table_metadata(pTable)
-    init_table_cell_metadata(pTable)
-
     init_sequence_metadata(pTable:get_rows())
     init_sequence_metadata(pTable:get_columns())
+
+    init_table_cell_metadata(pTable)
 end
 
 local function assemble_agent_task_table(pTable)
     clone_agent_task_table(pTable, RSolver.AP_NUM_TASKS_PER_AGENT - 1)
+end
+
+local function debug_flag_value(pElem, bCell)
+    local sFlag = ""
+    if bCell then
+        if pElem:has_flag(RSolver.AP_CELL_ASSIGN) then
+            sFlag = sFlag .. "A"
+        end
+        if pElem:has_flag(RSolver.AP_CELL_STRIKE) then
+            sFlag = sFlag .. "S"
+        end
+    else
+        if pElem:has_flag(RSolver.AP_SEQUENCE_TICK) then
+            sFlag = sFlag .. "t"
+        end
+        if pElem:has_flag(RSolver.AP_SEQUENCE_STRIKE) then
+            sFlag = sFlag .. "s"
+        end
+        if pElem:has_flag(RSolver.AP_SEQUENCE_ASSIGN) then
+            sFlag = sFlag .. "a"
+        end
+    end
+
+    return sFlag
+end
+
+function debug_assignment_table(pTable)
+    local st = "\t|| "
+    for _, pCol in pairs(pTable:get_columns()) do
+        st = st .. pCol:get_index() .. "\t| "
+    end
+    print(st)
+    print("==================== Values ========================")
+
+    for _, pRow in pairs(pTable:get_rows()) do
+        local st = ""
+        st = st .. "#" .. pRow:get_index() .. "\t|| "
+
+        for _, pCell in pairs(pTable:get_row_elements(pRow)) do
+            st = st .. pCell:get_value() .. "\t| "
+        end
+        print(st)
+    end
+
+    print()
+    print("===================== Flags ========================")
+
+    local st = "\t|| "
+    for _, pCol in pairs(pTable:get_columns()) do
+        st = st .. debug_flag_value(pCol, false) .. "\t| "
+    end
+    print(st)
+    print("====================================================")
+
+    for _, pRow in pairs(pTable:get_rows()) do
+        local st = ""
+        st = st .. "#" .. debug_flag_value(pRow, false) .. "\t|| "
+
+        for _, pCell in pairs(pTable:get_row_elements(pRow)) do
+            st = st .. debug_flag_value(pCell, true) .. "\t| "
+        end
+        print(st)
+    end
+
+    print("====================================================")
+    os.execute("pause")
 end
 
 function create_assignment_table(iRows, iCols, rgpTableValues)
