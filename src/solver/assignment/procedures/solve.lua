@@ -178,7 +178,6 @@ local function assign_on_multi_arbitrarily_oct_assignment(pTable)
             for _, pCell in ipairs(rgpCells) do
                 if pCell:get_value() == 0 then
                     examine_oct_assign_cell(pTable, rgpCellsAssigned, pCell:get_row(), pCell:get_column())
-                    table.insert(rgpCellsAssigned, pCell)
 
                     break
                 end

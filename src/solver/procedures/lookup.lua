@@ -15,7 +15,7 @@ require("solver.lookup.category.item")
 require("solver.lookup.category.mob")
 require("solver.lookup.table")
 
-function solver_resource_lookup_init(pLandscape, ctLoots, ctMobs, ctReactors, iFieldEnter, iFieldNpc)
+function load_solver_resource_lookup(pLandscape, ctLoots, ctMobs, ctReactors, ctQuests, ctNpcs)
     local rgpCategoryTables = {}
 
     local pLookupMobTab = init_lookup_category_mob_table(ctLoots, ctMobs, pLandscape)
@@ -24,10 +24,10 @@ function solver_resource_lookup_init(pLandscape, ctLoots, ctMobs, ctReactors, iF
     local pLookupItemTab = init_lookup_category_item_table(ctLoots, ctMobs, ctReactors, pLandscape)
     table.insert(rgpCategoryTables, pLookupItemTab)
 
-    local pLookupFieldEnterTab = init_lookup_category_field_enter_table(iFieldEnter, pLandscape)
+    local pLookupFieldEnterTab = init_lookup_category_field_enter_table(ctQuests, pLandscape)
     table.insert(rgpCategoryTables, pLookupFieldEnterTab)
 
-    local pLookupFieldNpcTab = init_lookup_category_field_npc_table(iFieldNpc, pLandscape)
+    local pLookupFieldNpcTab = init_lookup_category_field_npc_table(ctNpcs, pLandscape)
     table.insert(rgpCategoryTables, pLookupFieldNpcTab)
 
     local pLookupTable = CSolverLookupTable:new()

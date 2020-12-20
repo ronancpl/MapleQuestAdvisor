@@ -11,6 +11,7 @@
 --]]
 
 require("utils.logger.file")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CUnitTable = createClass({
@@ -51,4 +52,8 @@ function CUnitTable:get_locations(iSrcid)
     end
 
     return rgiFields
+end
+
+function CUnitTable:get_keys()
+    return keys(self.tUnitFields)
 end

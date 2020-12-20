@@ -14,10 +14,10 @@ local function fetch_effective_unit_count_to_item(iId, iCount)
 
 end
 
-function fetch_inventory_split_count(ivtItems)
+function fetch_inventory_split_count(tiItems)
     local tiTypeCount = {}
 
-    for iId, iCount in pairs(ivtItems:get_items()) do
+    for iId, iCount in pairs(tiItems) do
         local iEffCount = fetch_effective_unit_count_to_item(iId, iCount)
 
         local iType = math.floor(iId / 1000000)
@@ -27,10 +27,10 @@ function fetch_inventory_split_count(ivtItems)
     return tiTypeCount
 end
 
-function fetch_inventory_count(ivtItems)
+function fetch_inventory_count(tiItems)
     local iRetCount = 0
 
-    for _, iCount in pairs(ivtItems:get_items()) do
+    for _, iCount in pairs(tiItems) do
         iRetCount = iRetCount + iCount
     end
 

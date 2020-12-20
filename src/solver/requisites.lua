@@ -31,12 +31,12 @@ end
 
 local function evaluate_cost_skill(pReqAcc, pPlayerState, pQuestActProp)
     local pRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
-    return (next(pRet) ~= nil and 1 or 0) * RQuest.Curb.SKILL
+    return (next(pRet) ~= nil and 1 or 0) * RQuest.SKILLS.Curb
 end
 
 local function evaluate_cost_job(pReqAcc, pPlayerState, pQuestActProp)
     local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
-    return iRet * RQuest.Curb.JOB
+    return iRet * RQuest.JOBS.Curb
 end
 
 local function evaluate_cost_mob(pReqAcc, pPlayerState, pQuestActProp)
@@ -50,9 +50,9 @@ local function evaluate_cost_quest(pReqAcc, pPlayerState, pQuestActProp)
 end
 
 local function evaluate_cost_inventory(pReqAcc, pPlayerState, pQuestActProp)
-    local ivtItems = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+    local tiItems = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
 
-    local tiTypeCount = fetch_inventory_split_count(ivtItems)
+    local tiTypeCount = fetch_inventory_split_count(tiItems)
     local rgpCurbMod = {RQuest.ITEMS.EQUIP.Curb, RQuest.ITEMS.USE.Curb, RQuest.ITEMS.SETUP.Curb, RQuest.ITEMS.ETC.Curb}
 
     local iValue = 0.0

@@ -40,6 +40,25 @@ local function make_remissive_index_field_resources(tpResourceFields)
     return trgiFieldResources
 end
 
+local function debug_descriptor_region(iRegionid, pRsc)
+    local iSrcMapid = pRscTree:get_field_source()
+    local iDestMapid = pRscTree:get_field_destination()
+
+    local rgiRscs = pRscTree:get_resources():values()
+end
+
+local function debug_descriptor_tree(pRscTree)
+    local iSrcMapid = pRscTree:get_field_source()
+    local iDestMapid = pRscTree:get_field_destination()
+
+    local tpFieldRscs = pRscTree:get_field_nodes()
+    local rgiRscs = pRscTree:get_resources():values()
+
+    for iRegionid, pRegionResource in pairs(tpFieldRscs) do
+        debug_descriptor_region(iRegionid, pRegionResource)
+    end
+end
+
 local function build_descriptor_tree(pRscTree, tpRegionResources, tpPathMapids)
     local rgiTreeResourceids = SArray:new()
 
@@ -96,18 +115,17 @@ local function create_tree_interregional_resources(tpRegionResources, tpPathMapi
     return pRscTree
 end
 
-local function fetch_regional_resources(iRegionid, pQuestResource, pLandscape, ctLoots, ctMobs, ctReactors)
+local function fetch_regional_resources(pLookupTable, iRegionid, pQuestResource)
     local iFieldEnter = pQuestResource:get_field_enter()
     local iFieldNpc = pQuestResource:get_field_npc()
 
-    local pLookupTable = solver_resource_lookup_init(pLandscape, ctLoots, ctMobs, ctReactors, iFieldEnter, iFieldNpc)
     local tResourceFields = pLookupTable:get_resource_fields(iRegionid)
 
     local pRegionResource = CSolverRegionResource:new({iRegionid = iRegionid, tResourceFields = tResourceFields})
     return pRegionResource
 end
 
-local function create_interregional_resources_descriptor(pQuestResource, rgpPathMapids, rgiTransitRegionids, pLandscape, ctLoots, ctMobs, ctReactors)
+local function create_interregional_resources_descriptor(pQuestResource, rgpPathMapids, rgiTransitRegionids, pLookupTable)
     local tpRegionResources = {}
     local tpPathMapids = {}
 
@@ -116,7 +134,7 @@ local function create_interregional_resources_descriptor(pQuestResource, rgpPath
         for i = 1, nTransitRegionids, 1 do
             local iRegionid = rgiTransitRegionids[i]
 
-            local pRegionResource = fetch_regional_resources(iRegionid, pQuestResource, pLandscape, ctLoots, ctMobs, ctReactors)
+            local pRegionResource = fetch_regional_resources(pLookupTable, iRegionid, pQuestResource)
 
             local pRegionNode = {}
             pRegionNode["resource"] = pRegionResource
@@ -128,7 +146,7 @@ local function create_interregional_resources_descriptor(pQuestResource, rgpPath
             tpPathMapids[iRegionid] = pRegionSrcDest
         end
     else
-        local pRegionResource = fetch_regional_resources(rgiTransitRegionids[1], pQuestResource, pLandscape, ctLoots, ctMobs, ctReactors)
+        local pRegionResource = fetch_regional_resources(pLookupTable, rgiTransitRegionids[1], pQuestResource)
 
         tpRegionResources["resource"] = pRegionResource
         tpRegionResources["regional"] = 1
@@ -142,7 +160,7 @@ function build_quest_resource_bean(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapi
     return pQuestResource
 end
 
-function build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, ctLoots, ctMobs, ctReactors, iSrcMapid, iDestMapid)
+function build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, pLookupTable, iSrcMapid, iDestMapid)
     local tiFieldRegion = ctFieldsLandscape:get_field_regions()
     local tWorldNodes = ctFieldsLandscape:get_world_nodes()
 
@@ -152,7 +170,7 @@ function build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsD
 
     local tpRegionResources
     local tpPathMapids
-    tpRegionResources, tpPathMapids = create_interregional_resources_descriptor(pQuestResource, rgpPathMapids, rgiTransitRegionids, ctFieldsLandscape, ctLoots, ctMobs, ctReactors)
+    tpRegionResources, tpPathMapids = create_interregional_resources_descriptor(pQuestResource, rgpPathMapids, rgiTransitRegionids, pLookupTable)
 
     local pRscTree = create_tree_interregional_resources(tpRegionResources, tpPathMapids)
     return pRscTree

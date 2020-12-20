@@ -38,7 +38,7 @@ end
 
 local function evaluate_fitness_inventory(ctPlayersMeta, pQuestActProp, iPlayerLevel)
     local ivtItems = pQuestActProp:get_items()
-    local tiTypeCount = fetch_inventory_split_count(ivtItems)
+    local tiTypeCount = fetch_inventory_split_count(ivtItems:get_items())
     local rgpFitMod = {RQuest.ITEMS.EQUIP.Boost, RQuest.ITEMS.USE.Boost, RQuest.ITEMS.SETUP.Boost, RQuest.ITEMS.ETC.Boost}
 
     local iValue = 0.0

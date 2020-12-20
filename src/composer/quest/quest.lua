@@ -220,8 +220,7 @@ local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcFie
     local pNpcMapid = tpNpcField[iStartNpc]
     if pNpcMapid == nil then
         local tpNpcFields = ctNpcs:get_locations(iStartNpc)
-
-        if tpNpcFields ~= nil then
+        if next(tpNpcFields) ~= nil then
             local tpNpcMapid = STable:new()
             local bHasTown = false
             for iMapid, _ in pairs(tpNpcFields) do

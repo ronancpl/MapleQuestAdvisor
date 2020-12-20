@@ -49,16 +49,16 @@ function CSolverLookupCategory:_locate_resources(pLandscape, tpEntries, fn_get_r
             m_tRscRegionFields[iRscid] = trgiRegionFields
         end
 
-        for _, iMapid in ipairs(fn_get_rsc_fields(m_tRscItems, iRscid)) do
-            local iRegionid = pLandscape:get_region_by_mapid(iMapid)
-
+        for iRegionid, rgiMapids in pairs(fn_get_rsc_fields(m_tRscItems, iRscid)) do
             local rgiRscFields = trgiRegionFields[iRegionid]
             if rgiRscFields == nil then
                 rgiRscFields = {}
                 trgiRegionFields[iRegionid] = rgiRscFields
             end
 
-            table.insert(rgiRscFields, iMapid)
+            for _, iMapid in ipairs(rgiMapids) do
+                table.insert(rgiRscFields, iMapid)
+            end
         end
     end
 end

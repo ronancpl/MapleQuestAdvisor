@@ -20,7 +20,7 @@ require("solver.procedures.remaining")
 local function generate_quest_resource_graph(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
     local pQuestResource = build_quest_resource_bean(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
 
-    local pRscTree = build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, ctLoots, ctMobs, ctReactors, iPlayerMapid, iQuestNpcMapid)
+    local pRscTree = build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, pLookupTable, iPlayerMapid, iQuestNpcMapid)
     return pRscTree
 end
 
@@ -77,9 +77,14 @@ function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerS
     local iPlayerMapid = pPlayerState:get_mapid()
     local iQuestNpcMapid = get_npc_location(pQuestReqProp:get_npc(), iPlayerMapid)
 
-    local pRscTree = generate_quest_resource_graph(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
-    local trgiFieldRscs = fetch_field_scope_quest_resource_graph(ctFieldsDist, pRscTree)
-    local iDist = evaluate_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs)
+    local iDist
+    if iQuestNpcMapid ~= nil then
+        local pRscTree = generate_quest_resource_graph(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
+        local trgiFieldRscs = fetch_field_scope_quest_resource_graph(ctFieldsDist, pRscTree)
+        iDist = evaluate_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs)
+    else
+        iDist = U_INT_MAX
+    end
 
     return iDist * RQuest.FIELD.Curb
 end
