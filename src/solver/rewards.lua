@@ -27,7 +27,7 @@ local function evaluate_fitness_fame(ctPlayersMeta, pQuestActProp, iPlayerLevel)
 end
 
 local function evaluate_fitness_skill(ctPlayersMeta, pQuestActProp, iPlayerLevel)
-    return pQuestActProp:get_skills():size() * RQuest.SKILL.Boost
+    return pQuestActProp:get_skills():size() * RQuest.SKILLS.Boost
 end
 
 --[[

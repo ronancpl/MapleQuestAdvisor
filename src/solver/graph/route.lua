@@ -28,19 +28,19 @@ local function mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid)
         tpFrom[iMapid] = {-1, U_INT_MAX, 0}
     end
 
-    local pFrontierFields = PriorityQueue:initialize()
-    pFrontierFields:put(iSrcMapid, 0)
+    local pQueueFrontierFields = SPriorityQueue:new()
+    pQueueFrontierFields:put(iSrcMapid, 0)
 
-    local pToExploreSet = SSet{unpack(rgiMapids)}
+    local pSetToExplore = SSet{unpack(rgiMapids)}
 
-    while not pToExploreSet:isempty() do
-        local iCurMapid = pFrontierFields:pop()
-        pToExploreSet = pToExploreSet - SSet{iCurMapid}
+    while pSetToExplore:len() > 0 do
+        local iCurMapid = pQueueFrontierFields:pop()
+        pSetToExplore = pSetToExplore - SSet{iCurMapid}
 
         local rgiNextMapids = {}
         for _, iMapid in ipairs(rgiMapids) do
             local pSetMapid = SSet{iMapid}
-            if pSetMapid:issubset(pToExploreSet) then
+            if pSetMapid:issubset(pSetToExplore) then
                 table.insert(rgiNextMapids, iMapid)
             end
         end
@@ -76,12 +76,12 @@ local function calc_distance_model_quest_resource(ctFieldsDist, trgiFieldRscs, i
     return iMstDist
 end
 
-local function evaluate_regions_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs, pRegionRscTreeQueue)
-    local iExamineCount = math.min(pRegionRscTreeQueue:size(), RQuestResource.DISTANCE_EXAMINE_REGION_COUNT)
+local function evaluate_regions_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs, pQueueRegionRscTree)
+    local iExamineCount = math.min(pQueueRegionRscTree:size(), RQuestResource.DISTANCE_EXAMINE_REGION_COUNT)
 
     local iDist = 0
     for i = 1, iExamineCount, 1 do
-        local pRscRegionTree = pRegionRscTreeQueue:pop()
+        local pRscRegionTree = pQueueRegionRscTree:pop()
 
         local iRegionSrcMapid = pRscRegionTree:get_field_source()
         local iRegionDestMapid = pRscRegionTree:get_field_destination()
@@ -97,21 +97,10 @@ local function evaluate_regions_quest_resource_graph(ctFieldsDist, pRscTree, trg
     return iDist
 end
 
-local function fetch_quest_resource_regions(pRegionRscTreeQueue, pRscTree)
-    if pRscTree:is_region_tree() then
-        pRegionRscTreeQueue:put(pRscTree, pRscTree:get_resources():len())
-    else
-        local tpChildRscTrees = pRscTree:get_field_nodes()
-        for _, pChildRscTree in pairs(tpChildRscTrees) do
-            fetch_quest_resource_regions(pRegionRscTreeQueue, pChildRscTree)
-        end
-    end
-end
+function evaluate_regional_field_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs)
+    local pQueueRegionRscTree = SPriorityQueue:new()
+    pQueueRegionRscTree:put(pRscTree, pRscTree:get_num_resources())
 
-function evaluate_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs)
-    local pRegionRscTreeQueue = PriorityQueue:initialize()
-    fetch_quest_resource_regions(pRegionRscTreeQueue, pRscTree)
-
-    local iDist = evaluate_regions_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs, pRegionRscTreeQueue)
+    local iDist = evaluate_regions_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs, pQueueRegionRscTree)
     return iDist
 end

@@ -31,7 +31,6 @@ load_resources()
 
 load_regions_overworld(ctFieldsDist, ctFieldsLink)
 load_distances_overworld(ctFieldsLandscape, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
-load_solver_resource_lookup(ctFieldsLandscape, ctLoots, ctMobs, ctReactors, ctQuests, ctNpcs)
 
 for i = 1, 100, 1 do
     local pGridQuests = load_grid_quests(ctQuests)

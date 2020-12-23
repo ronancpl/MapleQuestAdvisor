@@ -10,21 +10,24 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.struct.class")
-local SSet = require("pl.class").Set
+require("utils.procedure.unpack")
 
-CSolverResource = createClass({
-    pSetResources = SSet{}
-})
-
-function CSolverResource:get_resources()
-    return self.pSetResources:values()
+function list_resources_from_entries_inventory(tiEntries)
+    return keys(tiEntries)
 end
 
-function CSolverResource:get_num_resources()
-    return self.pSetResources:len()
+function list_resources_from_entries_unit(iItemid)
+    return {iItemid}
 end
 
-function CSolverResource:set_resources(rgiResourceids)
-    self.pSetResources = SSet{unpack(rgiResourceids)}
+function filter_resource_table_entries(tpEntries, rgiResources)
+    local tpFilteredEntries = {}
+
+    for _, iRscid in ipairs(rgiResources) do
+        local rgpLoots = tpEntries[iRscid]
+        tpFilteredEntries[iRscid] = rgpLoots
+    end
+
+    return tpFilteredEntries
 end
+

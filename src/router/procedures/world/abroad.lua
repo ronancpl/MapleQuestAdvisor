@@ -165,8 +165,7 @@ function fetch_interregional_trajectory(ctFieldsDist, ctFieldsLink, tiFieldRegio
     for _, iNextRegionid in ipairs(rgiTransitRegionids) do
         local iStationMapid     -- prioritizes going to nearest station
         local iNextMapid
-        local iDist
-        iStationMapid, iNextMapid, iDist = fetch_nearby_region_station(ctFieldsDist, ctFieldsLink, tiFieldRegion, iCurMapid, iNextRegionid)
+        iStationMapid, iNextMapid, _ = fetch_nearby_region_station(ctFieldsDist, ctFieldsLink, tiFieldRegion, iCurMapid, iNextRegionid)
 
         table.insert(rgpPathMapids, {iCurMapid, iStationMapid})
 

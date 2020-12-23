@@ -47,9 +47,13 @@ function CFieldDistanceTable:get_field_distances(iSrcid)
     return tFieldDists
 end
 
-function CFieldDistanceTable:get_field_distance(iSrcid, iDestid)
+function CFieldDistanceTable:_get_field_distance(iSrcid, iDestid)
     local tFieldDists = self.tFieldDistance[iSrcid]
-    return tFieldDists[iDestid] or U_INT_MAX
+    return tFieldDists[iDestid] or nil
+end
+
+function CFieldDistanceTable:get_field_distance(iSrcid, iDestid)
+    return (self:has_field_entry(iSrcid) and self:_get_field_distance(iSrcid, iDestid)) or U_INT_MAX
 end
 
 function CFieldDistanceTable:debug_field_distance()

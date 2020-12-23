@@ -15,28 +15,28 @@ require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CSolverLookupTable = createClass({
-    rgpTables = {}
+    rgpLookupTabs = {},
+    tpRegionalFields = {}
 })
 
-function CSolverLookupTable:init_tables(rgpTables)
-    local m_rgpTables = self.rgpTables
+function CSolverLookupTable:init_tables(rgpLookupTabs)
+    local m_rgpLookupTabs = self.rgpLookupTabs
 
-    local nTables = #m_rgpTables
-    for i = 1, nTables, 1 do
-        m_rgpTables[i] = nil
-    end
+    clear_table(m_rgpLookupTabs)
 
-    for _, pTable in ipairs(rgpTables) do
-        table.insert(m_rgpTables, pTable)
+    for _, pLookupTab in ipairs(rgpLookupTabs) do
+        table.insert(m_rgpLookupTabs, pLookupTab)
     end
 end
 
 function CSolverLookupTable:_fetch_resources_fields(iRegionid)
     local tResourceFields = {}
 
-    local m_rgpTables = self.rgpTables
-    for _, pTable in ipairs(m_rgpTables) do
-        for iRscid, rgiMapids in pairs(pTable:get_resource_fields(iRegionid)) do
+    local m_rgpLookupTabs = self.rgpLookupTabs
+    for _, pLookupTab in ipairs(m_rgpLookupTabs) do
+        local trgiRscFields = pLookupTab:get_resource_fields(iRegionid)
+
+        for iRscid, rgiMapids in pairs(trgiRscFields) do
             local tRscMapids = {}
             tResourceFields[iRscid] = tRscMapids
 
@@ -50,14 +50,24 @@ function CSolverLookupTable:_fetch_resources_fields(iRegionid)
 end
 
 function CSolverLookupTable:_list_resource_fields(tResourceFields)
+    local trgiRscFields = {}
     for iRscid, tRscMapids in pairs(tResourceFields) do
-        tResourceFields[iRscid] = keys(tRscMapids)
+        trgiRscFields[iRscid] = keys(tRscMapids)
     end
+
+    return trgiRscFields
 end
 
 function CSolverLookupTable:get_resource_fields(iRegionid)
-    local tResourceFields = self:_fetch_resources_fields(iRegionid)
-    self:_list_resource_fields(tResourceFields)
+    local m_tpRegionalFields = self.tpRegionalFields
+
+    local tResourceFields = m_tpRegionalFields[iRegionid]
+    if tResourceFields == nil then
+        tResourceFields = self:_fetch_resources_fields(iRegionid)
+        tResourceFields = self:_list_resource_fields(tResourceFields)
+
+        m_tpRegionalFields[iRegionid] = tResourceFields
+    end
 
     return tResourceFields
 end

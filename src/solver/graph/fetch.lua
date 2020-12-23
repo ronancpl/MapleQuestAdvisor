@@ -41,12 +41,11 @@ local function create_model_quest_resource_graph(ctFieldsDist, iSrcMapid, tpFiel
     local nCols = #rgiMetaRscs
     for iMapid, pResource in pairs(tpFieldRscs) do
         local rgiFieldCols = {}
-        for _, iRsc in pairs(pResource:get_resources():values()) do
+        for _, iRsc in ipairs(pResource:get_resources()) do
             local iRscIdx = tiRscIdxs[iRsc]
             table.insert(rgiFieldCols, iRscIdx)
         end
 
-        print("locate rsc ", iSrcMapid, iMapid)
         local iRscCost = ctFieldsLandscape:fetch_field_distance(iSrcMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
         local rgiRowValues = make_model_row_values(nCols, rgiFieldCols, iRscCost)
         table.insert(rgpTableValues, rgiRowValues)
@@ -76,11 +75,11 @@ local function traverse_model_quest_resource_graph(rgpTableValues, rgiMetaFields
     return trgiFieldRscs
 end
 
-function fetch_field_scope_quest_resource_graph(ctFieldsDist, pRscTree)
+function fetch_regional_field_resource_graph(ctFieldsDist, pRscTree)
     local iSrcMapid = pRscTree:get_field_source()
 
     local tpFieldRscs = pRscTree:get_field_nodes()
-    local rgiRscs = pRscTree:get_resources():values()
+    local rgiRscs = pRscTree:get_resources()
 
     local rgpTableValues
     local rgiMetaFields

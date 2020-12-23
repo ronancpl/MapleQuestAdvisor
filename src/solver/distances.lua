@@ -15,12 +15,27 @@ require("router.filters.quest")
 require("solver.graph.build")
 require("solver.graph.fetch")
 require("solver.graph.route")
+require("solver.lookup.category.loot.tables")
+require("solver.lookup.constant")
 require("solver.procedures.remaining")
 
-local function generate_quest_resource_graph(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
-    local pQuestResource = build_quest_resource_bean(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
+local function create_descriptor_lookup_resources(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid)
+    local pLookupRscs = {}
+    pLookupRscs[RLookupCategory.ITEMS] = list_resources_from_entries_inventory(tiItems)
+    pLookupRscs[RLookupCategory.MOBS] = list_resources_from_entries_inventory(tiMobs)
+    pLookupRscs[RLookupCategory.FIELD_ENTER] = list_resources_from_entries_unit(iFieldEnter)
+    pLookupRscs[RLookupCategory.FIELD_NPC] = list_resources_from_entries_unit(iQuestNpcMapid)
 
+    return pLookupRscs
+end
+
+local function generate_quest_resource_graph(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
+    local pLookupRscs = create_descriptor_lookup_resources(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid)
+    local pLookupTable = load_solver_resource_lookup(ctFieldsLandscape, ctLoots, ctMobs, ctReactors, ctQuests, ctNpcs, pLookupRscs)
+
+    local pQuestResource = build_quest_resource_bean(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
     local pRscTree = build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, pLookupTable, iPlayerMapid, iQuestNpcMapid)
+
     return pRscTree
 end
 
@@ -71,17 +86,23 @@ end
 function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerState)
     local pQuestReqProp = pQuestProp:get_requirement()
 
-    local ivtItems = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.ITEMS.name), pPlayerState, pQuestReqProp)
-    local ivtMobs = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.MOBS.name), pPlayerState, pQuestReqProp)
+    local tiItems = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.ITEMS.name), pPlayerState, pQuestReqProp)
+    local tiMobs = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.MOBS.name), pPlayerState, pQuestReqProp)
+
     local iFieldEnter = pQuestReqProp:get_field_enter()
     local iPlayerMapid = pPlayerState:get_mapid()
     local iQuestNpcMapid = get_npc_location(pQuestReqProp:get_npc(), iPlayerMapid)
 
-    local iDist
+    local iDist = 0
     if iQuestNpcMapid ~= nil then
-        local pRscTree = generate_quest_resource_graph(ivtItems, ivtMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
-        local trgiFieldRscs = fetch_field_scope_quest_resource_graph(ctFieldsDist, pRscTree)
-        iDist = evaluate_quest_resource_graph(ctFieldsDist, pRscTree, trgiFieldRscs)
+        local pRscTree = generate_quest_resource_graph(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
+
+        for _, pRegionRscTree in ipairs(pRscTree:get_field_nodes()) do
+            local trgiFieldRscs = fetch_regional_field_resource_graph(ctFieldsDist, pRegionRscTree)
+
+            local iRegionDist = evaluate_regional_field_resource_graph(ctFieldsDist, pRegionRscTree, trgiFieldRscs)
+            iDist = iDist + iRegionDist
+        end
     else
         iDist = U_INT_MAX
     end

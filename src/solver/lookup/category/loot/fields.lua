@@ -14,9 +14,9 @@ local SSet = require("pl.class").Set
 
 function fn_get_static_fields()
     return function(tRscItems, iRscid)
-        local pFieldsSet = SSet{tRscItems[iRscid]}
+        local pSetFields = SSet{tRscItems[iRscid]}
 
-        local rgiVals = pFieldsSet:values()
+        local rgiVals = pSetFields:values()
         return rgiVals
     end
 end
@@ -35,9 +35,9 @@ end
 
 function fn_get_item_fields(ctItems)
     return function(tRscItems, iRscid)
-        local pFieldsSet = fetch_loot_fields(tRscItems[iRscid], ctItems)
+        local pSetFields = fetch_loot_fields(tRscItems[iRscid], ctItems)
 
-        local rgiVals = pFieldsSet:values()
+        local rgiVals = pSetFields:values()
         return rgiVals
     end
 end

@@ -13,25 +13,41 @@
 require("solver.lookup.category.field")
 require("solver.lookup.category.item")
 require("solver.lookup.category.mob")
+require("solver.lookup.constant")
 require("solver.lookup.table")
 
-function load_solver_resource_lookup(pLandscape, ctLoots, ctMobs, ctReactors, ctQuests, ctNpcs)
+local function fetch_lookup_resources(pLandscape, ctLoots, ctMobs, ctReactors, ctQuests, ctNpcs, pLookupRscs)
+    local rgiRscids
     local rgpCategoryTables = {}
 
-    local pLookupMobTab = init_lookup_category_mob_table(ctLoots, ctMobs, pLandscape)
+    rgiRscids = pLookupRscs[RLookupCategory.MOBS]
+
+    local pLookupMobTab = init_lookup_category_mob_table(ctLoots, ctMobs, pLandscape, rgiRscids)
     table.insert(rgpCategoryTables, pLookupMobTab)
 
-    local pLookupItemTab = init_lookup_category_item_table(ctLoots, ctMobs, ctReactors, pLandscape)
+    rgiRscids = pLookupRscs[RLookupCategory.ITEMS]
+
+    local pLookupItemTab = init_lookup_category_item_table(ctLoots, ctMobs, ctReactors, pLandscape, rgiRscids)
     table.insert(rgpCategoryTables, pLookupItemTab)
 
-    local pLookupFieldEnterTab = init_lookup_category_field_enter_table(ctQuests, pLandscape)
+    rgiRscids = pLookupRscs[RLookupCategory.FIELD_ENTER]
+
+    local pLookupFieldEnterTab = init_lookup_category_field_enter_table(ctQuests, pLandscape, rgiRscids)
     table.insert(rgpCategoryTables, pLookupFieldEnterTab)
 
-    local pLookupFieldNpcTab = init_lookup_category_field_npc_table(ctNpcs, pLandscape)
+    rgiRscids = pLookupRscs[RLookupCategory.FIELD_NPC]
+
+    local pLookupFieldNpcTab = init_lookup_category_field_npc_table(ctNpcs, pLandscape, rgiRscids)
     table.insert(rgpCategoryTables, pLookupFieldNpcTab)
 
-    local pLookupTable = CSolverLookupTable:new()
-    pLookupTable:init_tables(rgpCategoryTables)
+    return rgpCategoryTables
+end
 
-    return pLookupTable
+function load_solver_resource_lookup(pLandscape, ctLoots, ctMobs, ctReactors, ctQuests, ctNpcs, pLookupRscs)
+    local rgpCategoryTables = fetch_lookup_resources(pLandscape, ctLoots, ctMobs, ctReactors, ctQuests, ctNpcs, pLookupRscs)
+
+    local pSolverLookup = CSolverLookupTable:new()
+    pSolverLookup:init_tables(rgpCategoryTables)
+
+    return pSolverLookup
 end

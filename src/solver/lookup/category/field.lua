@@ -12,7 +12,15 @@
 
 require("solver.lookup.category")
 require("solver.lookup.category.loot.fields")
+require("solver.lookup.category.loot.tables")
 require("solver.lookup.constant")
+
+local function install_lookup_category_entries(pLookupTab, tpEntries, pLandscape, rgiRscids)
+    local fn_static_fields = fn_get_static_fields()
+
+    local tpFilteredEntries = filter_resource_table_entries(tpEntries, rgiRscids)
+    pLookupTab:init(tpFilteredEntries, fn_static_fields, pLandscape, true)
+end
 
 local function add_lookup_entry_if_exists(fn_get_lookup_entry, tpEntries, pEntry)
     local iSrcid
@@ -42,6 +50,15 @@ local function fetch_lookup_entries_field_enter(ctQuests)
     end
 
     return tpEntries
+end
+
+function init_lookup_category_field_enter_table(ctQuests, pLandscape, rgiRscids)
+    local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.FIELD_ENTER})
+
+    local tpEntries = fetch_lookup_entries_field_enter(ctQuests)
+    install_lookup_category_entries(pLookupTab, tpEntries, pLandscape, rgiRscids)
+
+    return pLookupTab
 end
 
 local function fetch_lookup_entry_field_npc(ctNpcs)
@@ -97,25 +114,11 @@ local function fetch_lookup_entries_field_npc(ctNpcs)
     return tpEntries
 end
 
-local function install_lookup_category_entries(pLookupTab, tpEntries, pLandscape)
-    local fn_static_fields = fn_get_static_fields()
-    pLookupTab:init(tpEntries, fn_static_fields, pLandscape, true)
-end
-
-function init_lookup_category_field_enter_table(ctQuests, pLandscape)
-    local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.FIELD_ENTER})
-
-    local tpEntries = fetch_lookup_entries(ctQuests)
-    install_lookup_category_entries(pLookupTab, tpEntries, pLandscape)
-
-    return pLookupTab
-end
-
-function init_lookup_category_field_npc_table(ctNpcs, pLandscape)
+function init_lookup_category_field_npc_table(ctNpcs, pLandscape, rgiRscids)
     local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.FIELD_NPC})
 
     local tpEntries = fetch_lookup_entries_field_npc(ctNpcs)
-    install_lookup_category_entries(pLookupTab, tpEntries, pLandscape)
+    install_lookup_category_entries(pLookupTab, tpEntries, pLandscape, rgiRscids)
 
     return pLookupTab
 end

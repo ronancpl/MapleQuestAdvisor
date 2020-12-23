@@ -19,11 +19,16 @@ local function get_table_dimensions(rgpTableValues)
     local iCols = U_INT_MAX
     local iRows = #rgpTableValues
 
-    for _, rgiRow in ipairs(rgpTableValues) do
-        local nCols = #rgiRow
-        if nCols < iCols then
-            iCols = nCols
+    if iRows > 0 then
+        for _, rgiRow in ipairs(rgpTableValues) do
+            local nCols = #rgiRow
+            if nCols < iCols then
+                iCols = nCols
+            end
         end
+    else
+        iRows = 0
+        iCols = 0
     end
 
     return iRows, iCols

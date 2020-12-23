@@ -21,44 +21,24 @@ License: zlib
   3. This notice may not be removed or altered from any source distribution.
 ]]--
 
+require("utils.struct.class")
+
 local floor = math.floor
 
+SPriorityQueue = createClass({
+    heap = {},
+    current_size = 0
+})
 
-local PriorityQueue = {}
-PriorityQueue.__index = PriorityQueue
-
-setmetatable(
-    PriorityQueue,
-    {
-        __call = function (self)
-            setmetatable({}, self)
-            self:initialize()
-            return self
-        end
-    }
-)
-
-
-function PriorityQueue:initialize()
-    --[[  Initialization.
-
-    Example:
-        PriorityQueue = require("priority_queue")
-        pq = PriorityQueue()
-    ]]--
-    self.heap = {}
-    self.current_size = 0
-end
-
-function PriorityQueue:empty()
+function SPriorityQueue:empty()
     return self.current_size == 0
 end
 
-function PriorityQueue:size()
+function SPriorityQueue:size()
     return self.current_size
 end
 
-function PriorityQueue:swim()
+function SPriorityQueue:swim()
     -- Swim up on the tree and fix the order heap property.
     local heap = self.heap
     local floor = floor
@@ -73,7 +53,7 @@ function PriorityQueue:swim()
     end
 end
 
-function PriorityQueue:put(v, p)
+function SPriorityQueue:put(v, p)
     --[[ Put an item on the queue.
 
     Args:
@@ -87,7 +67,7 @@ function PriorityQueue:put(v, p)
     self:swim()
 end
 
-function PriorityQueue:sink()
+function SPriorityQueue:sink()
     -- Sink down on the tree and fix the order heap property.
     local size = self.current_size
     local heap = self.heap
@@ -102,7 +82,7 @@ function PriorityQueue:sink()
     end
 end
 
-function PriorityQueue:min_child(i)
+function SPriorityQueue:min_child(i)
     if (i * 2) + 1 > self.current_size then
         return i * 2
     else
@@ -114,7 +94,7 @@ function PriorityQueue:min_child(i)
     end
 end
 
-function PriorityQueue:pop()
+function SPriorityQueue:pop()
     -- Remove and return the top priority item
     local heap = self.heap
     local retval = heap[1][1]
@@ -124,5 +104,3 @@ function PriorityQueue:pop()
     self:sink()
     return retval
 end
-
-return PriorityQueue

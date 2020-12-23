@@ -13,6 +13,7 @@
 require("utils.struct.class")
 require("utils.procedure.print")
 require("utils.procedure.sort")
+require("utils.procedure.unpack")
 
 SArray = createClass({apItems = {}})
 
@@ -112,11 +113,11 @@ function SArray:remove_all()
     local m_apItems = self.apItems
 
     local rgpItems = {}
-    local nItems = #m_apItems
-    for i = 1, nItems, 1 do
-        table.insert(rgpItems, m_apItems[i])
-        m_apItems[i] = nil
+    for _, pItem in ipairs(m_apItems) do
+        table.insert(rgpItems, pItem)
     end
+
+    clear_table(m_apItems)
 
     return rgpItems
 end
