@@ -454,15 +454,16 @@ local function collect_assigned_agent_tasks(pTable)
     end
 
     for _, pRow in ipairs(pTable:get_rows()) do
-        for _, pCell in ipairs(pTable:get_row_elements(pRow)) do
-            if pCell:has_flag(RSolver.AP_CELL_ASSIGN) then
-                local iColIdx = pCell:get_column()
+        local iAgentid = pRow:get_agent_id()
+        if iAgentid > -1 then
+            for _, pCell in ipairs(pTable:get_row_elements(pRow)) do
+                if pCell:has_flag(RSolver.AP_CELL_ASSIGN) then
+                    local iColIdx = pCell:get_column()
+                    local iTaskid = iColIdx
 
-                local iTaskid = iColIdx
-                local iAgentid = pRow:get_agent_id()
-
-                local rgiTasks = trgiAgentTasks[iAgentid]
-                table.insert(rgiTasks, iTaskid)
+                    local rgiTasks = trgiAgentTasks[iAgentid]
+                    table.insert(rgiTasks, iTaskid)
+                end
             end
         end
     end

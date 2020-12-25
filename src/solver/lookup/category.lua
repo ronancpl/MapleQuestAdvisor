@@ -11,6 +11,7 @@
 --]]
 
 require("utils.struct.class")
+require("utils.procedure.unpack")
 
 CSolverLookupCategory = createClass({
     iTabId = 0,
@@ -22,11 +23,21 @@ function CSolverLookupCategory:_get_tab_resource_id(iRscid)
     return (self.iTabId * 1000000000) + iRscid
 end
 
-function CSolverLookupCategory:_init_entries(tpEntries, fn_get_rscid)
+function CSolverLookupCategory:_reset_entries()
+    local m_tRscItems = self.tRscItems
+    clear_table(m_tRscItems)
+
+    local m_tRegionRscFields = self.tRegionRscFields
+    clear_table(m_tRegionRscFields)
+end
+
+function CSolverLookupCategory:_init_entries(trgpEntries, fn_get_rscid)
     local m_tRscItems = self.tRscItems
 
-    for iSrcid, tpRscLoots in pairs(tpEntries) do
-        for iRscid, _ in pairs(tpRscLoots) do
+    for iSrcid, rgpRscLoots in pairs(trgpEntries) do
+        for _, pLoot in ipairs(rgpRscLoots) do
+            local iRscid = fn_get_rscid(pLoot)
+
             local rgiSrcids = m_tRscItems[iRscid]
             if rgiSrcids == nil then
                 rgiSrcids = {}
@@ -38,12 +49,32 @@ function CSolverLookupCategory:_init_entries(tpEntries, fn_get_rscid)
     end
 end
 
-function CSolverLookupCategory:_locate_resources(pLandscape, tpEntries, fn_get_rsc_fields)
+function CSolverLookupCategory:_fetch_resource_regions(pLandscape, rgiFields)
+    local trgiRegionFields = {}
+
+    for _, iMapid in ipairs(rgiFields) do
+        local iRegionid = pLandscape:get_region_by_mapid(iMapid)
+
+        local rgiFields = trgiRegionFields[iRegionid]
+        if rgiFields == nil then
+            rgiFields = {}
+            trgiRegionFields[iRegionid] = rgiFields
+        end
+
+        table.insert(rgiFields, iMapid)
+    end
+
+    return trgiRegionFields
+end
+
+function CSolverLookupCategory:_locate_resources(pLandscape, fn_get_rsc_fields)
     local m_tRegionRscFields = self.tRegionRscFields
     local m_tRscItems = self.tRscItems
 
-    for _, iRscid in ipairs(keys(tpEntries)) do
-        for iRegionid, rgiMapids in pairs(fn_get_rsc_fields(m_tRscItems, iRscid)) do
+    for _, iRscid in ipairs(keys(m_tRscItems)) do
+        local rgiFields = fn_get_rsc_fields(m_tRscItems, iRscid)
+
+        for iRegionid, rgiMapids in pairs(self:_fetch_resource_regions(pLandscape, rgiFields)) do
             local trgiRegionRscs = m_tRegionRscFields[iRegionid]
             if trgiRegionRscs == nil then
                 trgiRegionRscs = {}
@@ -75,11 +106,11 @@ local function get_fn_rscid(bRscInt)
     return fn_get_rscid
 end
 
-function CSolverLookupCategory:init(tpEntries, fn_get_rsc_fields, pLandscape, bRscInt)
-    local fn_get_rscid = get_fn_rscid(bRscInt)
+function CSolverLookupCategory:init(trgpEntries, fn_get_rsc_fields, pLandscape, bRscInt)
+    self:_reset_entries()
 
-    self:_init_entries(tpEntries, fn_get_rscid)
-    self:_locate_resources(pLandscape, tpEntries, fn_get_rsc_fields)
+    self:_init_entries(trgpEntries, get_fn_rscid(bRscInt))
+    self:_locate_resources(pLandscape, fn_get_rsc_fields)
 end
 
 function CSolverLookupCategory:get_resource_fields(iRegionid)

@@ -15,16 +15,16 @@ require("router.filters.quest")
 require("solver.graph.build")
 require("solver.graph.fetch")
 require("solver.graph.route")
-require("solver.lookup.category.loot.tables")
+require("solver.lookup.category.entries.tables")
 require("solver.lookup.constant")
 require("solver.procedures.remaining")
 
 local function create_descriptor_lookup_resources(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid)
     local pLookupRscs = {}
-    pLookupRscs[RLookupCategory.ITEMS] = list_resources_from_entries_inventory(tiItems)
-    pLookupRscs[RLookupCategory.MOBS] = list_resources_from_entries_inventory(tiMobs)
-    pLookupRscs[RLookupCategory.FIELD_ENTER] = list_resources_from_entries_unit(iFieldEnter)
-    pLookupRscs[RLookupCategory.FIELD_NPC] = list_resources_from_entries_unit(iQuestNpcMapid)
+    pLookupRscs[RLookupCategory.ITEMS] = list_resources_from_entries_item(tiItems)
+    pLookupRscs[RLookupCategory.MOBS] = list_resources_from_entries_item(tiMobs)
+    pLookupRscs[RLookupCategory.FIELD_ENTER] = list_resources_from_entries_static(iFieldEnter)
+    pLookupRscs[RLookupCategory.FIELD_NPC] = list_resources_from_entries_static(iQuestNpcMapid)
 
     return pLookupRscs
 end

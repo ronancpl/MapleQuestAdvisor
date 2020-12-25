@@ -12,8 +12,11 @@
 
 function keys(tTable)           -- keys as list
     local rgpKeys = {}
-    for k, _ in pairs(tTable) do
-        table.insert(rgpKeys, k)
+
+    if tTable ~= nil then
+        for k, _ in pairs(tTable) do
+            table.insert(rgpKeys, k)
+        end
     end
 
     return rgpKeys

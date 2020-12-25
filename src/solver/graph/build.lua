@@ -19,7 +19,7 @@ require("solver.procedures.lookup")
 require("utils.struct.array")
 
 local function is_resource_leaf(tpRegionResources)
-    return tpRegionResources["regional"] ~= nil     -- has an array table
+    return tpRegionResources["regional"] ~= nil     -- contains regional descriptor node
 end
 
 local function make_remissive_index_field_resources(tpResourceFields)
@@ -40,7 +40,7 @@ local function make_remissive_index_field_resources(tpResourceFields)
     return trgiFieldResources
 end
 
-local function debug_descriptor_region(iRegionid, pRsc)
+local function debug_descriptor_region(iRegionid, pRscTree)
     print("Regionid:", iRegionid)
 
     local iSrcMapid = pRscTree:get_field_source()
@@ -74,20 +74,20 @@ local function debug_descriptor_tree(pRscTree)
     local tpFieldRscs = pRscTree:get_field_nodes()
     local rgiRscs = pRscTree:get_resources()
 
-    for iRegionid, pRegionResource in pairs(tpFieldRscs) do
-        debug_descriptor_region(iRegionid, pRegionResource)
+    for iRegionid, pRegionRscTree in pairs(tpFieldRscs) do
+        debug_descriptor_region(iRegionid, pRegionRscTree)
     end
 end
 
-local function build_descriptor_tree(pRscTree, tpRegionResources, tpPathMapids)
+local function build_descriptor_tree(pRscTree, tpTreeResources, tpPathMapids)
     local rgiTreeResourceids = SArray:new()
 
-    if is_resource_leaf(tpRegionResources) then
-        local pRegionResource = tpRegionResources["resource"]
+    if is_resource_leaf(tpTreeResources) then
+        local pRegionResource = tpTreeResources["resource"]
         local iRegionid = pRegionResource:get_regionid()
-        local tpSubregionResources = pRegionResource:get_resource_fields()
+        local tpRegionResources = pRegionResource:get_resource_fields()
 
-        for iMapid, rgiResourceids in pairs(make_remissive_index_field_resources(tpSubregionResources)) do
+        for iMapid, rgiResourceids in pairs(make_remissive_index_field_resources(tpRegionResources)) do
             local pRsc = CSolverResource:new()
             pRsc:set_resources(rgiResourceids)
 
@@ -106,7 +106,7 @@ local function build_descriptor_tree(pRscTree, tpRegionResources, tpPathMapids)
         local iSrcMapid = U_INT_MAX
         local iDestMapid = -1
 
-        for iRegionid, pRegionNode in pairs(tpRegionResources) do
+        for iRegionid, pRegionNode in pairs(tpTreeResources) do
             local pChildRscTree = CSolverTree:new()
 
             local tpChildPathMapids = tpPathMapids[iRegionid]
@@ -131,7 +131,6 @@ end
 local function create_tree_interregional_resources(tpRegionResources, tpPathMapids)
     local pRscTree = CSolverTree:new()
 
-    --debug_descriptor_tree(pRscTree)
     build_descriptor_tree(pRscTree, tpRegionResources, tpPathMapids)
 
     return pRscTree
@@ -139,11 +138,11 @@ end
 
 local function fetch_regional_resources(pLookupTable, iRegionid, pQuestResource)
     --[[
-        unneeded as pLookupTable holds region specific quest reqs
+        'pQuestResource' filtering unneeded as 'pLookupTable' holds quest reqs specifically
 
         local tiMobs = pQuestResource:get_field_npc()
         local tiItems = pQuestResource:get_field_npc()
-        local iFieldCur = get_field_current()
+        local iFieldCur = pQuestResource:get_field_current()
         local iFieldEnter = pQuestResource:get_field_enter()
         local iFieldNpc = pQuestResource:get_field_npc()
     ]]--

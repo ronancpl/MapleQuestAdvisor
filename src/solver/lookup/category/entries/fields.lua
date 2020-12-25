@@ -10,32 +10,39 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.unpack")
+
 local SSet = require("pl.class").Set
 
+local function fetch_static_fields(rgiSrcLoots)
+    local pSetFields = SSet{unpack(rgiSrcLoots)}
+    return pSetFields
+end
+
 function fn_get_static_fields()
-    return function(tRscItems, iRscid)
-        local pSetFields = SSet{tRscItems[iRscid]}
+    return function(trgiRscItems, iRscid)
+        local pSetFields = fetch_static_fields(trgiRscItems[iRscid])
 
         local rgiVals = pSetFields:values()
         return rgiVals
     end
 end
 
-local function fetch_loot_fields(tpSrcLoots, ctResources)
+local function fetch_item_fields(rgiSrcLoots, ctResources)
     local tFields = {}
-    for iLootid, _ in pairs(tpSrcLoots) do
-        local rgiMapids = ctResources:get_locations(iLootid)
+    for _, iSrcid in ipairs(rgiSrcLoots) do
+        local rgiMapids = ctResources:get_locations(iSrcid)
         for _, iMapid in ipairs(rgiMapids) do
             tFields[iMapid] = 1
         end
     end
 
-    return SSet{keys(tFields)}
+    return SSet{unpack(keys(tFields))}
 end
 
 function fn_get_item_fields(ctItems)
-    return function(tRscItems, iRscid)
-        local pSetFields = fetch_loot_fields(tRscItems[iRscid], ctItems)
+    return function(trgiRscItems, iRscid)
+        local pSetFields = fetch_item_fields(trgiRscItems[iRscid], ctItems)
 
         local rgiVals = pSetFields:values()
         return rgiVals

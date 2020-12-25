@@ -12,19 +12,19 @@
 
 require("utils.procedure.unpack")
 
-function list_resources_from_entries_inventory(tiEntries)
+function list_resources_from_entries_item(tiEntries)
     return keys(tiEntries)
 end
 
-function list_resources_from_entries_unit(iItemid)
+function list_resources_from_entries_static(iItemid)
     return {iItemid}
 end
 
-function filter_resource_table_entries(tpEntries, rgiResources)
+function filter_resource_table_entries(trgpEntries, rgiResources)
     local tpFilteredEntries = {}
 
     for _, iRscid in ipairs(rgiResources) do
-        local rgpLoots = tpEntries[iRscid]
+        local rgpLoots = trgpEntries[iRscid]
         tpFilteredEntries[iRscid] = rgpLoots
     end
 
