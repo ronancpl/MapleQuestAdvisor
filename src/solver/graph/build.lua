@@ -40,45 +40,6 @@ local function make_remissive_index_field_resources(tpResourceFields)
     return trgiFieldResources
 end
 
-local function debug_descriptor_region(iRegionid, pRscTree)
-    print("Regionid:", iRegionid)
-
-    local iSrcMapid = pRscTree:get_field_source()
-    local iDestMapid = pRscTree:get_field_destination()
-    print("Src: " .. iSrcMapid .. " Dest: " .. iDestMapid)
-
-    local rgiRscs = pRscTree:get_resources()
-
-    local st = ""
-    for _, iRscid in ipairs(rgiRscs) do
-        st = st .. iRscid .. ", "
-    end
-    print("Rscs: [" .. st .. "]")
-
-    local tpFieldRscs = pRscTree:get_field_nodes()
-    for iMapid, pRsc in pairs(tpFieldRscs) do
-        local st = ""
-        for _, iRscid in pairs(pRsc:get_resources()) do
-            st = st .. iRscid .. ", "
-        end
-
-        print("  " .. iMapid .. " : " .. st)
-    end
-    print("---------")
-end
-
-local function debug_descriptor_tree(pRscTree)
-    local iSrcMapid = pRscTree:get_field_source()
-    local iDestMapid = pRscTree:get_field_destination()
-
-    local tpFieldRscs = pRscTree:get_field_nodes()
-    local rgiRscs = pRscTree:get_resources()
-
-    for iRegionid, pRegionRscTree in pairs(tpFieldRscs) do
-        debug_descriptor_region(iRegionid, pRegionRscTree)
-    end
-end
-
 local function build_descriptor_tree(pRscTree, tpTreeResources, tpPathMapids)
     local rgiTreeResourceids = SArray:new()
 
@@ -158,7 +119,7 @@ local function create_interregional_resources_descriptor(pQuestResource, rgpPath
     local tpPathMapids = {}
 
     local nTransitRegionids = #rgiTransitRegionids
-    if nTransitRegionids > 1 then
+    if nTransitRegionids > 0 then
         for i = 1, nTransitRegionids, 1 do
             local iRegionid = rgiTransitRegionids[i]
 
