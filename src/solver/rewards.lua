@@ -43,7 +43,10 @@ local function evaluate_fitness_inventory(ctPlayersMeta, pQuestActProp, iPlayerL
 
     local iValue = 0.0
     for iType, iCount in pairs(tiTypeCount) do
-        iValue = iValue + (iCount * rgpFitMod[iType])
+        local iTypeMult = rgpFitMod[iType]
+        if iTypeMult ~= nil then
+            iValue = iValue + (iCount * iTypeMult)
+        end
     end
 
     return iValue

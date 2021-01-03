@@ -69,6 +69,14 @@ local function get_interregional_path(tWorldNodes, tiFieldRegion, iSrcMapid, iDe
 
     local rgiTransitRegionids = {}
 
+    if iSrcRegionid == nil then
+        print("[ERROR] NULL region for mapid " .. iSrcMapid)
+    end
+
+    if iDestRegionid == nil then
+        print("[ERROR] NULL region for mapid " .. iDestMapid)
+    end
+
     for _, iRegionid in pathfind_interregional_entryset(tWorldNodes, iSrcRegionid, iDestRegionid) do
         table.insert(rgiTransitRegionids, iRegionid)
     end

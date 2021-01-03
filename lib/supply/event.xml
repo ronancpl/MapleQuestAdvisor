@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<imgdir name="event.img">
+  <imgdir name="AreaBossTaeRoon.js">
+  </imgdir>
+  <imgdir name="CafePQ_1.js">
+  </imgdir>
+  <imgdir name="ZakumBattle.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="2030010" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="AreaBossDoor2.js">
+  </imgdir>
+  <imgdir name="BalrogBattle.js">
+  </imgdir>
+  <imgdir name="RockSpiritVIP.js">
+  </imgdir>
+  <imgdir name="KerningPQ.js">
+  </imgdir>
+  <imgdir name="ShowaBattle.js">
+  </imgdir>
+  <imgdir name="Subway.js">
+  </imgdir>
+  <imgdir name="HolidayPQ_1.js">
+  </imgdir>
+  <imgdir name="2xEvent.js">
+  </imgdir>
+  <imgdir name="NineSpirit.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="2406000" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="TD_Battle1.js">
+  </imgdir>
+  <imgdir name="Hak.js">
+  </imgdir>
+  <imgdir name="HorntailPQ.js">
+  </imgdir>
+  <imgdir name="CafePQ_4.js">
+  </imgdir>
+  <imgdir name="MK_PrimeMinister.js">
+  </imgdir>
+  <imgdir name="AreaBossBamboo.js">
+  </imgdir>
+  <imgdir name="AreaBossDoor5.js">
+  </imgdir>
+  <imgdir name="PinkBeanBattle.js">
+  </imgdir>
+  <imgdir name="Cygnus_Magic_Library.js">
+  </imgdir>
+  <imgdir name="s4aWorld.js">
+  </imgdir>
+  <imgdir name="AreaBossFaust1.js">
+  </imgdir>
+  <imgdir name="PapulatusBattle.js">
+  </imgdir>
+  <imgdir name="MagatiaPQ_A.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="926110600" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="926110500" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="926110401" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="926110203" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="2112005" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="CafePQ_3.js">
+  </imgdir>
+  <imgdir name="OrbisPQ.js">
+  </imgdir>
+  <imgdir name="3rdJob_pirate.js">
+  </imgdir>
+  <imgdir name="HolidayPQ_3.js">
+  </imgdir>
+  <imgdir name="AreaBossFaust2.js">
+  </imgdir>
+  <imgdir name="Puppeteer.js">
+  </imgdir>
+  <imgdir name="AreaBossLeviathan.js">
+  </imgdir>
+  <imgdir name="AreaBossMano.js">
+  </imgdir>
+  <imgdir name="WeddingCathedral.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000313" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="0_EXAMPLE.js">
+  </imgdir>
+  <imgdir name="CafePQ_6.js">
+  </imgdir>
+  <imgdir name="WeddingChapel.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000313" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="MagatiaPQ_Z.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="926100600" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="926100500" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="926100401" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="926100203" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="2112006" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="AreaBossKimera.js">
+  </imgdir>
+  <imgdir name="AreaBossDoor3.js">
+  </imgdir>
+  <imgdir name="EllinPQ.js">
+  </imgdir>
+  <imgdir name="AreaBossTimer2.js">
+  </imgdir>
+  <imgdir name="AreaBossCentipede.js">
+  </imgdir>
+  <imgdir name="TD_Battle4.js">
+  </imgdir>
+  <imgdir name="3rdJob_bowman.js">
+  </imgdir>
+  <imgdir name="AreaBossZeno.js">
+  </imgdir>
+  <imgdir name="3rdJob_mount.js">
+  </imgdir>
+  <imgdir name="AirPlane.js">
+  </imgdir>
+  <imgdir name="AreaBossDoor6.js">
+  </imgdir>
+  <imgdir name="KingPepeAndYetis.js">
+  </imgdir>
+  <imgdir name="CafePQ_5.js">
+  </imgdir>
+  <imgdir name="AreaBossKingSageCat.js">
+  </imgdir>
+  <imgdir name="TD_Battle5.js">
+  </imgdir>
+  <imgdir name="3rdJob_warrior.js">
+  </imgdir>
+  <imgdir name="AreaBossStumpy.js">
+  </imgdir>
+  <imgdir name="AreaBossTimer1.js">
+  </imgdir>
+  <imgdir name="LatanicaBattle.js">
+  </imgdir>
+  <imgdir name="RescueGaga.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="922240100" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="ScargaBattle.js">
+  </imgdir>
+  <imgdir name="ZakumPQ.js">
+  </imgdir>
+  <imgdir name="4jaerial.js">
+  </imgdir>
+  <imgdir name="RockSpirit.js">
+  </imgdir>
+  <imgdir name="GuardianNex.js">
+  </imgdir>
+  <imgdir name="AreaBossDoor1.js">
+  </imgdir>
+  <imgdir name="GuildQuest.js">
+  </imgdir>
+  <imgdir name="Aran_2ndmount.js">
+  </imgdir>
+  <imgdir name="HolidayPQ_2.js">
+  </imgdir>
+  <imgdir name="BalrogBattle_Easy.js">
+  </imgdir>
+  <imgdir name="ElementalBattle.js">
+  </imgdir>
+  <imgdir name="LudiMazePQ.js">
+  </imgdir>
+  <imgdir name="MK_PrimeMinister2.js">
+  </imgdir>
+  <imgdir name="TD_Battle2.js">
+  </imgdir>
+  <imgdir name="BossRushPQ.js">
+  </imgdir>
+  <imgdir name="AreaBossDyle.js">
+  </imgdir>
+  <imgdir name="HenesysPQ.js">
+  </imgdir>
+  <imgdir name="KerningTrain.js">
+  </imgdir>
+  <imgdir name="Elevator.js">
+  </imgdir>
+  <imgdir name="3rdJob_thief.js">
+  </imgdir>
+  <imgdir name="MahaBattle.js">
+  </imgdir>
+  <imgdir name="4jship.js">
+  </imgdir>
+  <imgdir name="AreaBossTimer3.js">
+  </imgdir>
+  <imgdir name="AreaBossDoor4.js">
+  </imgdir>
+  <imgdir name="LudiPQ.js">
+  </imgdir>
+  <imgdir name="AreaBossNineTailedFox.js">
+  </imgdir>
+  <imgdir name="4jsuper.js">
+  </imgdir>
+  <imgdir name="3rdJob_magician.js">
+  </imgdir>
+  <imgdir name="AreaBossSeruf.js">
+  </imgdir>
+  <imgdir name="HorntailBattle.js">
+  </imgdir>
+  <imgdir name="ElnathPQ.js">
+  </imgdir>
+  <imgdir name="TreasurePQ.js">
+  </imgdir>
+  <imgdir name="TD_Battle3.js">
+  </imgdir>
+  <imgdir name="AreaBossSnackBar.js">
+  </imgdir>
+  <imgdir name="Genie.js">
+  </imgdir>
+  <imgdir name="AreaBossEliza1.js">
+  </imgdir>
+  <imgdir name="CafePQ_2.js">
+  </imgdir>
+  <imgdir name="AreaBossDeo.js">
+  </imgdir>
+  <imgdir name="DollHouse.js">
+  </imgdir>
+  <imgdir name="AmoriaPQ.js">
+  </imgdir>
+  <imgdir name="PiratePQ.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="2094001" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="CWKPQ.js">
+  </imgdir>
+  <imgdir name="Trains.js">
+  </imgdir>
+  <imgdir name="BalrogQuest.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="1061015" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="Cabin.js">
+  </imgdir>
+  <imgdir name="DelliBattle.js">
+  </imgdir>
+  <imgdir name="AreaBossKingClang.js">
+  </imgdir>
+  <imgdir name="Boats.js">
+  </imgdir>
+  <imgdir name="Aran_3rdmount.js">
+  </imgdir>
+</imgdir>

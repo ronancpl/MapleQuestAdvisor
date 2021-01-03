@@ -20,6 +20,7 @@ RPath = {
     RSC_META_UNITS = "lib/scan",
     RSC_META_REFINES = "lib/scan",
     RSC_META_UNITS_CSV = "lib/csv",
-    RSC_META_LOOTS = "lib/csv"
+    RSC_META_LOOTS = "lib/csv",
+    RSC_META_SCRIPTS = "lib/supply"
 
 }

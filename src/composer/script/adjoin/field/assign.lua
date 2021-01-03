@@ -10,7 +10,18 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.containers.units.unit_table")
-require("utils.struct.class")
+function apply_script_field_resources(iScriptid, sRscType, rgpRscs, fn_locate, tfn_dir_ct)
+    local rgiMapids = fn_locate(iScriptid)
 
-CMobTable = createClass({CUnitTable, {sRscName = "mob"}})
+    local ctItem = tfn_dir_ct[sRscType]
+    if ctItem ~= nil then
+        for _, pRsc in ipairs(rgpRscs) do
+            local iSrcid = pRsc:get_id()
+            ctItem:add_entry(iSrcid)
+
+            for _, iMapid in ipairs(rgiMapids) do
+                ctItem:add_location(iSrcid, iMapid)
+            end
+        end
+    end
+end

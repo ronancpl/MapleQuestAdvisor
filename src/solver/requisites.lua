@@ -57,7 +57,10 @@ local function evaluate_cost_inventory(pReqAcc, pPlayerState, pQuestActProp)
 
     local iValue = 0.0
     for iType, iCount in pairs(tiTypeCount) do
-        iValue = iValue + (iCount * rgpCurbMod[iType])
+        local iTypeMult = rgpCurbMod[iType]
+        if iTypeMult ~= nil then
+            iValue = iValue + (iCount * iTypeMult)
+        end
     end
 
     return iValue

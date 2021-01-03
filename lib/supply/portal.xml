@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<imgdir name="portal.img">
+  <imgdir name="advice01.js">
+  </imgdir>
+  <imgdir name="mc_out.js">
+  </imgdir>
+  <imgdir name="Pianus.js">
+  </imgdir>
+  <imgdir name="inNix1.js">
+  </imgdir>
+  <imgdir name="go_secretroom.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032405" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="1300002" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="enterDisguise4.js">
+  </imgdir>
+  <imgdir name="raidout.js">
+  </imgdir>
+  <imgdir name="secretgate3_open.js">
+  </imgdir>
+  <imgdir name="market03.js">
+  </imgdir>
+  <imgdir name="rienCaveEnter.js">
+  </imgdir>
+  <imgdir name="market26.js">
+  </imgdir>
+  <imgdir name="lpq5.js">
+  </imgdir>
+  <imgdir name="NextMap.js">
+  </imgdir>
+  <imgdir name="enterRider.js">
+  </imgdir>
+  <imgdir name="ariantMout.js">
+  </imgdir>
+  <imgdir name="jnr4_r4.js">
+  </imgdir>
+  <imgdir name="Masteria_CM2_C.js">
+  </imgdir>
+  <imgdir name="glpqPortal1.js">
+  </imgdir>
+  <imgdir name="party6_stage508.js">
+  </imgdir>
+  <imgdir name="glpqPortal00.js">
+  </imgdir>
+  <imgdir name="s4resurrection.js">
+  </imgdir>
+  <imgdir name="Spacegaga_out2.js">
+  </imgdir>
+  <imgdir name="davy3_hd1.js">
+  </imgdir>
+  <imgdir name="evantalk40.js">
+  </imgdir>
+  <imgdir name="jail_out.js">
+  </imgdir>
+  <imgdir name="nets_out.js">
+  </imgdir>
+  <imgdir name="rnj3_out.js">
+  </imgdir>
+  <imgdir name="party3_r4pt1.js">
+  </imgdir>
+  <imgdir name="rienTutor4.js">
+  </imgdir>
+  <imgdir name="MCRevive4.js">
+  </imgdir>
+  <imgdir name="outSpecialSchool.js">
+  </imgdir>
+  <imgdir name="jnr4_r3.js">
+  </imgdir>
+  <imgdir name="MD_sand.js">
+  </imgdir>
+  <imgdir name="in2159011.js">
+  </imgdir>
+  <imgdir name="infoSkill.js">
+  </imgdir>
+  <imgdir name="party3_room2.js">
+  </imgdir>
+  <imgdir name="glpqPortal01.js">
+  </imgdir>
+  <imgdir name="aranTutorGuide1.js">
+  </imgdir>
+  <imgdir name="MD_drakeroom.js">
+  </imgdir>
+  <imgdir name="ariantMout2.js">
+  </imgdir>
+  <imgdir name="gryphius.js">
+  </imgdir>
+  <imgdir name="inDragonEgg.js">
+  </imgdir>
+  <imgdir name="party3_gardenin.js">
+  </imgdir>
+  <imgdir name="aranTutorArrow1.js">
+  </imgdir>
+  <imgdir name="subway_in2.js">
+  </imgdir>
+  <imgdir name="ghostgate_open.js">
+  </imgdir>
+  <imgdir name="market14.js">
+  </imgdir>
+  <imgdir name="enterWarehouse.js">
+  </imgdir>
+  <imgdir name="davy_next3.js">
+  </imgdir>
+  <imgdir name="MD_error.js">
+  </imgdir>
+  <imgdir name="MD_roundTable.js">
+  </imgdir>
+  <imgdir name="enterDollcave.js">
+  </imgdir>
+  <imgdir name="apqClosed.js">
+  </imgdir>
+  <imgdir name="gendergo.js">
+  </imgdir>
+  <imgdir name="kpq1.js">
+  </imgdir>
+  <imgdir name="Masteria_U5_2.js">
+  </imgdir>
+  <imgdir name="enterGym.js">
+  </imgdir>
+  <imgdir name="lpq6.js">
+  </imgdir>
+  <imgdir name="hontale_Bopen.js">
+  </imgdir>
+  <imgdir name="Masteria_CC6_A.js">
+  </imgdir>
+  <imgdir name="davy_next2.js">
+  </imgdir>
+  <imgdir name="glpqPortal0.js">
+  </imgdir>
+  <imgdir name="rienTutor6.js">
+  </imgdir>
+  <imgdir name="enterNepenthes.js">
+  </imgdir>
+  <imgdir name="Masteria_CM2_D.js">
+  </imgdir>
+  <imgdir name="infoWorldmap.js">
+  </imgdir>
+  <imgdir name="rnj5_rp.js">
+  </imgdir>
+  <imgdir name="lpq4.js">
+  </imgdir>
+  <imgdir name="MCRevive5.js">
+  </imgdir>
+  <imgdir name="Masteria_U5_1.js">
+  </imgdir>
+  <imgdir name="magatia_dark0.js">
+  </imgdir>
+  <imgdir name="evantalk50.js">
+  </imgdir>
+  <imgdir name="market16.js">
+  </imgdir>
+  <imgdir name="enterAchter.js">
+  </imgdir>
+  <imgdir name="q3367in.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="rnj1_pt00.js">
+  </imgdir>
+  <imgdir name="aranTutorGuide2.js">
+  </imgdir>
+  <imgdir name="08_xmas_out.js">
+  </imgdir>
+  <imgdir name="Masteria_CM1_A.js">
+  </imgdir>
+  <imgdir name="s4super_out.js">
+  </imgdir>
+  <imgdir name="watergate_open.js">
+  </imgdir>
+  <imgdir name="aranTutorAloneX.js">
+  </imgdir>
+  <imgdir name="evanGarden0.js">
+  </imgdir>
+  <imgdir name="metro_Chat00.js">
+  </imgdir>
+  <imgdir name="market15.js">
+  </imgdir>
+  <imgdir name="Masteria_B1_1.js">
+  </imgdir>
+  <imgdir name="party6_stage507.js">
+  </imgdir>
+  <imgdir name="aranTutorArrow0.js">
+  </imgdir>
+  <imgdir name="evanRoom0.js">
+  </imgdir>
+  <imgdir name="Spacegaga_out1.js">
+  </imgdir>
+  <imgdir name="evanEntrance.js">
+  </imgdir>
+  <imgdir name="MD_golem.js">
+  </imgdir>
+  <imgdir name="kpq0.js">
+  </imgdir>
+  <imgdir name="minar_elli.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031346" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031346" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="MD_treasure.js">
+  </imgdir>
+  <imgdir name="rienTutor5.js">
+  </imgdir>
+  <imgdir name="advice02.js">
+  </imgdir>
+  <imgdir name="enterBackStreet.js">
+  </imgdir>
+  <imgdir name="infoPickup.js">
+  </imgdir>
+  <imgdir name="TD_MC_enterboss1.js">
+  </imgdir>
+  <imgdir name="Depart_goBack01.js">
+  </imgdir>
+  <imgdir name="party3_room1.js">
+  </imgdir>
+  <imgdir name="stonegate_open.js">
+  </imgdir>
+  <imgdir name="enterDisguise3.js">
+  </imgdir>
+  <imgdir name="q2073.js">
+  </imgdir>
+  <imgdir name="jnr3_in0.js">
+  </imgdir>
+  <imgdir name="dojang_exit.js">
+  </imgdir>
+  <imgdir name="Masteria_CM2_E.js">
+  </imgdir>
+  <imgdir name="s4rush.js">
+  </imgdir>
+  <imgdir name="MD_cakeEnter.js">
+  </imgdir>
+  <imgdir name="market04.js">
+  </imgdir>
+  <imgdir name="moveNext.js">
+  </imgdir>
+  <imgdir name="space_return.js">
+  </imgdir>
+  <imgdir name="MCRevive6.js">
+  </imgdir>
+  <imgdir name="enterEvanRoom.js">
+  </imgdir>
+  <imgdir name="glpqPortal4.js">
+  </imgdir>
+  <imgdir name="enter_earth00.js">
+  </imgdir>
+  <imgdir name="MD_high.js">
+  </imgdir>
+  <imgdir name="jnr4_r1.js">
+  </imgdir>
+  <imgdir name="market17.js">
+  </imgdir>
+  <imgdir name="apq2.js">
+  </imgdir>
+  <imgdir name="skyrom.js">
+  </imgdir>
+  <imgdir name="Masteria_B3_1.js">
+  </imgdir>
+  <imgdir name="entertraining.js">
+  </imgdir>
+  <imgdir name="bedroom_out.js">
+  </imgdir>
+  <imgdir name="DragonEggNotice.js">
+  </imgdir>
+  <imgdir name="s4nest.js">
+  </imgdir>
+  <imgdir name="evantalk60.js">
+  </imgdir>
+  <imgdir name="aranTutorOut1.js">
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="20000018" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="20000018" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="20000017" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="20000017" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="Depart_TopFloor.js">
+  </imgdir>
+  <imgdir name="cannon_tuto_07.js">
+  </imgdir>
+  <imgdir name="party6_stage511.js">
+  </imgdir>
+  <imgdir name="outDarkEreb.js">
+  </imgdir>
+  <imgdir name="davy_next1.js">
+  </imgdir>
+  <imgdir name="kinggate2_open.js">
+  </imgdir>
+  <imgdir name="market06.js">
+  </imgdir>
+  <imgdir name="advice04.js">
+  </imgdir>
+  <imgdir name="Masteria_U2_1.js">
+  </imgdir>
+  <imgdir name="enterDisguise1.js">
+  </imgdir>
+  <imgdir name="raid_stage.js">
+  </imgdir>
+  <imgdir name="aranTutorArrow3.js">
+  </imgdir>
+  <imgdir name="Masteria_CC1_A.js">
+  </imgdir>
+  <imgdir name="timeQuest.js">
+  </imgdir>
+  <imgdir name="rienTutor7.js">
+  </imgdir>
+  <imgdir name="jnr1_out.js">
+  </imgdir>
+  <imgdir name="aranTutorMono1.js">
+  </imgdir>
+  <imgdir name="evantalk02.js">
+  </imgdir>
+  <imgdir name="party6_stage.js">
+  </imgdir>
+  <imgdir name="davy_next0.js">
+  </imgdir>
+  <imgdir name="minar_job4.js">
+  </imgdir>
+  <imgdir name="advice03.js">
+  </imgdir>
+  <imgdir name="ariant_queens.js">
+  </imgdir>
+  <imgdir name="stageBogo.js">
+  </imgdir>
+  <imgdir name="evanFarmCT.js">
+  </imgdir>
+  <imgdir name="TD_MC_enterboss2.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001318" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="1300002" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="outMagiclib.js">
+  </imgdir>
+  <imgdir name="market53.js">
+  </imgdir>
+  <imgdir name="enterDisguise2.js">
+  </imgdir>
+  <imgdir name="inERShip.js">
+  </imgdir>
+  <imgdir name="secretgate2_open.js">
+  </imgdir>
+  <imgdir name="jnr5_rp.js">
+  </imgdir>
+  <imgdir name="s4tornado_enter.js">
+  </imgdir>
+  <imgdir name="ariant_castle.js">
+  </imgdir>
+  <imgdir name="market05.js">
+  </imgdir>
+  <imgdir name="aranTutorMono0.js">
+  </imgdir>
+  <imgdir name="halloween_enter.js">
+  </imgdir>
+  <imgdir name="enterRienFirst.js">
+  </imgdir>
+  <imgdir name="glpqPortal3.js">
+  </imgdir>
+  <imgdir name="evanGarden1.js">
+  </imgdir>
+  <imgdir name="hontale_BtoB1.js">
+  </imgdir>
+  <imgdir name="in_xmas_party.js">
+  </imgdir>
+  <imgdir name="rnj_exit.js">
+  </imgdir>
+  <imgdir name="enterWitch.js">
+  </imgdir>
+  <imgdir name="dojang_up.js">
+  </imgdir>
+  <imgdir name="rnj2_out.js">
+  </imgdir>
+  <imgdir name="MD_protect.js">
+  </imgdir>
+  <imgdir name="aranTutorOut2.js">
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="20000015" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="20000015" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="20000014" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="20000014" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="evanFall.js">
+  </imgdir>
+  <imgdir name="Populatus00.js">
+  </imgdir>
+  <imgdir name="party6_stage512.js">
+  </imgdir>
+  <imgdir name="TD_chat_enter.js">
+  </imgdir>
+  <imgdir name="exit_puppeteer.js">
+  </imgdir>
+  <imgdir name="gotocastle.js">
+  </imgdir>
+  <imgdir name="advice05.js">
+  </imgdir>
+  <imgdir name="market07.js">
+  </imgdir>
+  <imgdir name="enterInfo.js">
+  </imgdir>
+  <imgdir name="enterDisguise0.js">
+  </imgdir>
+  <imgdir name="secretgate1_open.js">
+  </imgdir>
+  <imgdir name="ariant_Agit.js">
+  </imgdir>
+  <imgdir name="party6_stage509.js">
+  </imgdir>
+  <imgdir name="aranTutorArrow2.js">
+  </imgdir>
+  <imgdir name="party3_room8.js">
+  </imgdir>
+  <imgdir name="Spacegaga_out3.js">
+  </imgdir>
+  <imgdir name="tutorialNPC.js">
+  </imgdir>
+  <imgdir name="aranTutorMono2.js">
+  </imgdir>
+  <imgdir name="s4berserk.js">
+  </imgdir>
+  <imgdir name="tutoChatNPC.js">
+  </imgdir>
+  <imgdir name="cannon_tuto_06.js">
+  </imgdir>
+  <imgdir name="TD_MC_first.js">
+  </imgdir>
+  <imgdir name="rnj_202.js">
+  </imgdir>
+  <imgdir name="eliza_Garden.js">
+  </imgdir>
+  <imgdir name="captinsg00.js">
+  </imgdir>
+  <imgdir name="enter_nautil.js">
+  </imgdir>
+  <imgdir name="outNix1.js">
+  </imgdir>
+  <imgdir name="halloween_Omni1.js">
+  </imgdir>
+  <imgdir name="party6_stage510.js">
+  </imgdir>
+  <imgdir name="guild1F00.js">
+  </imgdir>
+  <imgdir name="party3_jail2.js">
+  </imgdir>
+  <imgdir name="glpqPortal2.js">
+  </imgdir>
+  <imgdir name="foxLaidy_map.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="23647" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="Masteria_CM2_B.js">
+  </imgdir>
+  <imgdir name="rienTutor8.js">
+  </imgdir>
+  <imgdir name="outtestWolf.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001193" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="outNix2.js">
+  </imgdir>
+  <imgdir name="mayong.js">
+  </imgdir>
+  <imgdir name="guild1F01.js">
+  </imgdir>
+  <imgdir name="lpq7.js">
+  </imgdir>
+  <imgdir name="evantalk01.js">
+  </imgdir>
+  <imgdir name="party3_jail3.js">
+  </imgdir>
+  <imgdir name="tutorMinimap.js">
+  </imgdir>
+  <imgdir name="apq1.js">
+  </imgdir>
+  <imgdir name="MD_remember.js">
+  </imgdir>
+  <imgdir name="inNix2.js">
+  </imgdir>
+  <imgdir name="female00.js">
+  </imgdir>
+  <imgdir name="jnr4_r2.js">
+  </imgdir>
+  <imgdir name="market18.js">
+  </imgdir>
+  <imgdir name="market52.js">
+  </imgdir>
+  <imgdir name="speargate_open.js">
+  </imgdir>
+  <imgdir name="enterFirstDH.js">
+  </imgdir>
+  <imgdir name="lionCastle_enter.js">
+  </imgdir>
+  <imgdir name="Depart_topOut.js">
+  </imgdir>
+  <imgdir name="rnj3_in0.js">
+  </imgdir>
+  <imgdir name="guildwaitingenter.js">
+  </imgdir>
+  <imgdir name="reundodraco.js">
+  </imgdir>
+  <imgdir name="s4hitman.js">
+  </imgdir>
+  <imgdir name="apqDoor.js">
+  </imgdir>
+  <imgdir name="market55.js">
+  </imgdir>
+  <imgdir name="moveBefore.js">
+  </imgdir>
+  <imgdir name="party6_stage800.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001198" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="dracoout.js">
+  </imgdir>
+  <imgdir name="outRider.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001193" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="enterPort.js">
+  </imgdir>
+  <imgdir name="party3_jail1.js">
+  </imgdir>
+  <imgdir name="hontale_BR.js">
+  </imgdir>
+  <imgdir name="rnj12_in.js">
+  </imgdir>
+  <imgdir name="jail_in.js">
+  </imgdir>
+  <imgdir name="rnj4_r2.js">
+  </imgdir>
+  <imgdir name="OBoat1.js">
+  </imgdir>
+  <imgdir name="Zakum03.js">
+  </imgdir>
+  <imgdir name="rnj1_out.js">
+  </imgdir>
+  <imgdir name="templeenter.js">
+  </imgdir>
+  <imgdir name="s4resur_enter.js">
+  </imgdir>
+  <imgdir name="guyfawkes0_esc.js">
+  </imgdir>
+  <imgdir name="infoReactor.js">
+  </imgdir>
+  <imgdir name="lpq0.js">
+  </imgdir>
+  <imgdir name="Masteria_B2_1.js">
+  </imgdir>
+  <imgdir name="party6_stage514.js">
+  </imgdir>
+  <imgdir name="glpqPortal6.js">
+  </imgdir>
+  <imgdir name="TD_MC_jump.js">
+  </imgdir>
+  <imgdir name="aranTutorMono3.js">
+  </imgdir>
+  <imgdir name="jnr_201_0.js">
+  </imgdir>
+  <imgdir name="outChild.js">
+  </imgdir>
+  <imgdir name="market19.js">
+  </imgdir>
+  <imgdir name="party6_stage503.js">
+  </imgdir>
+  <imgdir name="MC2revive.js">
+  </imgdir>
+  <imgdir name="infoAttack.js">
+  </imgdir>
+  <imgdir name="evantalk11.js">
+  </imgdir>
+  <imgdir name="tristanEnter.js">
+  </imgdir>
+  <imgdir name="market20.js">
+  </imgdir>
+  <imgdir name="thief_in1.js">
+  </imgdir>
+  <imgdir name="cannon_tuto_09.js">
+  </imgdir>
+  <imgdir name="rnj3_in1.js">
+  </imgdir>
+  <imgdir name="enterthirdDH.js">
+    <imgdir name="SpawnMob">
+      <imgdir name="0">
+        <int name="id" value="9300289" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="MD_rabbit.js">
+  </imgdir>
+  <imgdir name="Depart_ToKerning.js">
+  </imgdir>
+  <imgdir name="met_out.js">
+  </imgdir>
+  <imgdir name="market08.js">
+  </imgdir>
+  <imgdir name="advice06.js">
+  </imgdir>
+  <imgdir name="dojang_tuto.js">
+  </imgdir>
+  <imgdir name="jnr_exit.js">
+  </imgdir>
+  <imgdir name="cannon_tuto_10.js">
+  </imgdir>
+  <imgdir name="hontale_morph2.js">
+  </imgdir>
+  <imgdir name="market56.js">
+  </imgdir>
+  <imgdir name="jnr2_out.js">
+  </imgdir>
+  <imgdir name="jnr6_out.js">
+  </imgdir>
+  <imgdir name="glpqEnter.js">
+  </imgdir>
+  <imgdir name="Masteria_U3_1.js">
+  </imgdir>
+  <imgdir name="evantalk00.js">
+  </imgdir>
+  <imgdir name="guild1F02.js">
+  </imgdir>
+  <imgdir name="metro_in00.js">
+  </imgdir>
+  <imgdir name="gaga_success.js">
+  </imgdir>
+  <imgdir name="highposition.js">
+  </imgdir>
+  <imgdir name="Masteria_U6_1.js">
+  </imgdir>
+  <imgdir name="market22.js">
+  </imgdir>
+  <imgdir name="party6_stage501.js">
+  </imgdir>
+  <imgdir name="infoMinimap.js">
+  </imgdir>
+  <imgdir name="EBoat1.js">
+  </imgdir>
+  <imgdir name="out_pepeking.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032388" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="guild1F03.js">
+  </imgdir>
+  <imgdir name="enter_earth01.js">
+  </imgdir>
+  <imgdir name="curseforest.js">
+  </imgdir>
+  <imgdir name="balogTemple.js">
+  </imgdir>
+  <imgdir name="evanlivingRoom.js">
+  </imgdir>
+  <imgdir name="glpqPortal5.js">
+  </imgdir>
+  <imgdir name="outArchterMap.js">
+  </imgdir>
+  <imgdir name="advice08.js">
+  </imgdir>
+  <imgdir name="market54.js">
+  </imgdir>
+  <imgdir name="glpqPortal04.js">
+  </imgdir>
+  <imgdir name="apq3.js">
+  </imgdir>
+  <imgdir name="tamepig_out2.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031508" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031507" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="enter_td.js">
+  </imgdir>
+  <imgdir name="enterDollWay.js">
+  </imgdir>
+  <imgdir name="kinggate_open.js">
+  </imgdir>
+  <imgdir name="market09.js">
+  </imgdir>
+  <imgdir name="contactDragon.js">
+  </imgdir>
+  <imgdir name="guildwaitingexit.js">
+  </imgdir>
+  <imgdir name="advice07.js">
+  </imgdir>
+  <imgdir name="rnj4_r1.js">
+  </imgdir>
+  <imgdir name="enterSecondDH.js">
+  </imgdir>
+  <imgdir name="party3_room6.js">
+  </imgdir>
+  <imgdir name="q3366in.js">
+  </imgdir>
+  <imgdir name="rankRoom.js">
+  </imgdir>
+  <imgdir name="TD_neo_inTree.js">
+  </imgdir>
+  <imgdir name="rankDeveloperRoom.js">
+  </imgdir>
+  <imgdir name="s4mind_end.js">
+  </imgdir>
+  <imgdir name="aranTutorLost.js">
+  </imgdir>
+  <imgdir name="aranTutorOut3.js">
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="20000016" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="20000016" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="party6_stage513.js">
+  </imgdir>
+  <imgdir name="jnr_202.js">
+  </imgdir>
+  <imgdir name="Pinkin.js">
+  </imgdir>
+  <imgdir name="party6_out.js">
+  </imgdir>
+  <imgdir name="evantalk21.js">
+  </imgdir>
+  <imgdir name="party3_r6pt.js">
+  </imgdir>
+  <imgdir name="party3_roomout.js">
+  </imgdir>
+  <imgdir name="market10.js">
+  </imgdir>
+  <imgdir name="party6_stage502.js">
+  </imgdir>
+  <imgdir name="evantalk10.js">
+  </imgdir>
+  <imgdir name="TD_MC_Egate.js">
+  </imgdir>
+  <imgdir name="glpqPortalDummy.js">
+  </imgdir>
+  <imgdir name="market21.js">
+  </imgdir>
+  <imgdir name="balog_end.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001261" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="dragonNest.js">
+  </imgdir>
+  <imgdir name="catPriest_map.js">
+  </imgdir>
+  <imgdir name="rnj_201_0.js">
+  </imgdir>
+  <imgdir name="tutorquest.js">
+  </imgdir>
+  <imgdir name="advice09.js">
+  </imgdir>
+  <imgdir name="glpqPortal03.js">
+  </imgdir>
+  <imgdir name="party3_room4.js">
+  </imgdir>
+  <imgdir name="rienTutor2.js">
+  </imgdir>
+  <imgdir name="enterfourthDH.js">
+    <imgdir name="SpawnMob">
+      <imgdir name="0">
+        <int name="id" value="9300294" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="evanRoom1.js">
+  </imgdir>
+  <imgdir name="party6_stage505.js">
+  </imgdir>
+  <imgdir name="s4ship_out.js">
+  </imgdir>
+  <imgdir name="Depart_goFoward1.js">
+  </imgdir>
+  <imgdir name="dragoneyes.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="22012" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="MD_mushroom.js">
+  </imgdir>
+  <imgdir name="s4iceeagle.js">
+  </imgdir>
+  <imgdir name="jnr12_in.js">
+  </imgdir>
+  <imgdir name="tutorHelper.js">
+  </imgdir>
+  <imgdir name="market12.js">
+  </imgdir>
+  <imgdir name="statuegate_open.js">
+  </imgdir>
+  <imgdir name="market23.js">
+  </imgdir>
+  <imgdir name="jnr3_out.js">
+  </imgdir>
+  <imgdir name="kpq3.js">
+  </imgdir>
+  <imgdir name="MCRevive1.js">
+  </imgdir>
+  <imgdir name="enterMagiclibrar.js">
+  </imgdir>
+  <imgdir name="guild1F04.js">
+  </imgdir>
+  <imgdir name="lpq3.js">
+  </imgdir>
+  <imgdir name="evantalk20.js">
+  </imgdir>
+  <imgdir name="kpq4.js">
+  </imgdir>
+  <imgdir name="undodraco.js">
+  </imgdir>
+  <imgdir name="dojang_next.js">
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="market11.js">
+  </imgdir>
+  <imgdir name="q3367out.js">
+  </imgdir>
+  <imgdir name="apq02.js">
+  </imgdir>
+  <imgdir name="Depart_goBack00.js">
+  </imgdir>
+  <imgdir name="mapleMarket7_out.js">
+  </imgdir>
+  <imgdir name="guyfawkes0_floor.js">
+  </imgdir>
+  <imgdir name="obstacle.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000507" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="aqua_pq_boss_0.js">
+  </imgdir>
+  <imgdir name="jnr3_in1.js">
+  </imgdir>
+  <imgdir name="s4resur_out.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031448" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="Masteria_CM1_B.js">
+  </imgdir>
+  <imgdir name="adviceMap.js">
+  </imgdir>
+  <imgdir name="enterMCave.js">
+  </imgdir>
+  <imgdir name="outPerrion_1.js">
+  </imgdir>
+  <imgdir name="Zakum05.js">
+  </imgdir>
+  <imgdir name="evantalk42.js">
+  </imgdir>
+  <imgdir name="s4common1_exit.js">
+  </imgdir>
+  <imgdir name="party6_stage506.js">
+  </imgdir>
+  <imgdir name="rienTutor1.js">
+  </imgdir>
+  <imgdir name="q3366out.js">
+  </imgdir>
+  <imgdir name="hontale_C.js">
+  </imgdir>
+  <imgdir name="Spacegaga_out0.js">
+  </imgdir>
+  <imgdir name="glTutoMsg0.js">
+  </imgdir>
+  <imgdir name="babyPigOut.js">
+  </imgdir>
+  <imgdir name="party3_room5.js">
+  </imgdir>
+  <imgdir name="davy2_hd1.js">
+  </imgdir>
+  <imgdir name="market00.js">
+  </imgdir>
+  <imgdir name="mirtalk01.js">
+  </imgdir>
+  <imgdir name="EBoat2.js">
+  </imgdir>
+  <imgdir name="end_cow.js">
+  </imgdir>
+  <imgdir name="raid_rest.js">
+  </imgdir>
+  <imgdir name="rnj6_out.js">
+  </imgdir>
+  <imgdir name="q3368in.js">
+  </imgdir>
+  <imgdir name="PPinkOut.js">
+  </imgdir>
+  <imgdir name="market13.js">
+  </imgdir>
+  <imgdir name="rnj4_r3.js">
+  </imgdir>
+  <imgdir name="party3_r4pt.js">
+  </imgdir>
+  <imgdir name="apq00.js">
+  </imgdir>
+  <imgdir name="Masteria_CM1_D.js">
+  </imgdir>
+  <imgdir name="kpq2.js">
+  </imgdir>
+  <imgdir name="evantalk41.js">
+  </imgdir>
+  <imgdir name="MCRevive2.js">
+  </imgdir>
+  <imgdir name="lpq1.js">
+  </imgdir>
+  <imgdir name="party3_jailin.js">
+  </imgdir>
+  <imgdir name="party6_stage515.js">
+  </imgdir>
+  <imgdir name="q3368out.js">
+  </imgdir>
+  <imgdir name="male00.js">
+  </imgdir>
+  <imgdir name="enterDisguise5.js">
+  </imgdir>
+  <imgdir name="advice00.js">
+  </imgdir>
+  <imgdir name="party3_room3.js">
+  </imgdir>
+  <imgdir name="move_elin.js">
+  </imgdir>
+  <imgdir name="rienTutor3.js">
+  </imgdir>
+  <imgdir name="party6_stage504.js">
+  </imgdir>
+  <imgdir name="magatia_alc0.js">
+  </imgdir>
+  <imgdir name="nets_in.js">
+  </imgdir>
+  <imgdir name="market02.js">
+  </imgdir>
+  <imgdir name="outTemple.js">
+  </imgdir>
+  <imgdir name="MD_pig.js">
+  </imgdir>
+  <imgdir name="secretDoor.js">
+  </imgdir>
+  <imgdir name="outPerrion_2.js">
+  </imgdir>
+  <imgdir name="metalgate_open.js">
+  </imgdir>
+  <imgdir name="elevator.js">
+  </imgdir>
+  <imgdir name="OBoat2.js">
+  </imgdir>
+  <imgdir name="davy_next4.js">
+  </imgdir>
+  <imgdir name="outMaha.js">
+  </imgdir>
+  <imgdir name="market24.js">
+  </imgdir>
+  <imgdir name="market01.js">
+  </imgdir>
+  <imgdir name="TD_Boss_enter.js">
+  </imgdir>
+  <imgdir name="mirtalk00.js">
+  </imgdir>
+  <imgdir name="s4firehawk.js">
+  </imgdir>
+  <imgdir name="jnr1_pt00.js">
+  </imgdir>
+  <imgdir name="hontale_out1.js">
+  </imgdir>
+  <imgdir name="MCRevive3.js">
+  </imgdir>
+  <imgdir name="under30gate.js">
+  </imgdir>
+  <imgdir name="glpqPortal02.js">
+  </imgdir>
+  <imgdir name="glpqPortal7.js">
+  </imgdir>
+  <imgdir name="rnj4_r4.js">
+  </imgdir>
+  <imgdir name="met_in.js">
+  </imgdir>
+  <imgdir name="s4berserk_move.js">
+  </imgdir>
+  <imgdir name="apq01.js">
+  </imgdir>
+  <imgdir name="aranTutorGuide0.js">
+  </imgdir>
+  <imgdir name="Masteria_CM1_C.js">
+  </imgdir>
+  <imgdir name="Depart_goFoward0.js">
+  </imgdir>
+  <imgdir name="aMatchMove2.js">
+  </imgdir>
+  <imgdir name="lpq2.js">
+  </imgdir>
+</imgdir>

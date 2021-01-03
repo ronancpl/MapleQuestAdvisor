@@ -13,4 +13,4 @@
 require("composer.containers.units.unit_table")
 require("utils.struct.class")
 
-CMobTable = createClass({CUnitTable, {sRscName = "mob"}})
+CEventTable = createClass({CUnitTable, {sRscName = "event_script"}})

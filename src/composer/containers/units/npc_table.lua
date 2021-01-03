@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.struct.class")
 require("composer.containers.units.unit_table")
+require("utils.struct.class")
 
 CNpcTable = createClass({CUnitTable, {sRscName = "npc"}})

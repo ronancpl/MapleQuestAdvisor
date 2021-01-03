@@ -20,7 +20,7 @@ function fetch_inventory_split_count(tiItems)
     for iId, iCount in pairs(tiItems) do
         local iEffCount = fetch_effective_unit_count_to_item(iId, iCount)
 
-        local iType = math.floor(iId / 1000000)
+        local iType = math.floor(iId / 1000000) + 1
         tiTypeCount[iType] = (tiTypeCount[iType] or 0) + iCount
     end
 

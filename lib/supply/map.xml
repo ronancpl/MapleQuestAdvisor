@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<imgdir name="map.img">
+  <imgdir name="108010201.js">
+  </imgdir>
+  <imgdir name="677000003.js">
+  </imgdir>
+  <imgdir name="600010004.js">
+  </imgdir>
+  <imgdir name="cannon_tuto_direction2.js">
+  </imgdir>
+  <imgdir name="240000111.js">
+  </imgdir>
+  <imgdir name="Resi_tutor10.js">
+  </imgdir>
+  <imgdir name="cygnusJobTutorial.js">
+  </imgdir>
+  <imgdir name="explorationPoint.js">
+  </imgdir>
+  <imgdir name="go1010300.js">
+  </imgdir>
+  <imgdir name="highposition.js">
+  </imgdir>
+  <imgdir name="getDragonEgg.js">
+  </imgdir>
+  <imgdir name="babyPigMap.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="22015" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="200000112.js">
+  </imgdir>
+  <imgdir name="108010101.js">
+  </imgdir>
+  <imgdir name="108010640.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="1104104" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="dojang_Eff.js">
+  </imgdir>
+  <imgdir name="rien.js">
+  </imgdir>
+  <imgdir name="cannon_tuto_direction1.js">
+  </imgdir>
+  <imgdir name="108010630.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="1104103" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="677000012.js">
+  </imgdir>
+  <imgdir name="Resi_tutor30.js">
+  </imgdir>
+  <imgdir name="go10000.js">
+  </imgdir>
+  <imgdir name="go30000.js">
+  </imgdir>
+  <imgdir name="go50000.js">
+  </imgdir>
+  <imgdir name="108010620.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="1104102" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="130030001.js">
+  </imgdir>
+  <imgdir name="crash_Dragon.js">
+  </imgdir>
+  <imgdir name="Resi_tutor20.js">
+  </imgdir>
+  <imgdir name="922000000.js">
+  </imgdir>
+  <imgdir name="aranDirection.js">
+  </imgdir>
+  <imgdir name="go1010200.js">
+  </imgdir>
+  <imgdir name="914000100.js">
+  </imgdir>
+  <imgdir name="goMagician.js">
+  </imgdir>
+  <imgdir name="dojang_1st.js">
+  </imgdir>
+  <imgdir name="677000009.js">
+  </imgdir>
+  <imgdir name="677000005.js">
+  </imgdir>
+  <imgdir name="677000001.js">
+  </imgdir>
+  <imgdir name="926120300.js">
+  </imgdir>
+  <imgdir name="goPirate.js">
+  </imgdir>
+  <imgdir name="cannon_tuto_direction.js">
+  </imgdir>
+  <imgdir name="108010610.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="1104101" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="200090000.js">
+  </imgdir>
+  <imgdir name="600010002.js">
+  </imgdir>
+  <imgdir name="go1000000.js">
+  </imgdir>
+  <imgdir name="go1010000.js">
+  </imgdir>
+  <imgdir name="go1020000.js">
+  </imgdir>
+  <imgdir name="220000111.js">
+  </imgdir>
+  <imgdir name="926000000.js">
+  </imgdir>
+  <imgdir name="Massacre_result.js">
+  </imgdir>
+  <imgdir name="evanleaveD.js">
+  </imgdir>
+  <imgdir name="goArcher.js">
+  </imgdir>
+  <imgdir name="108010501.js">
+  </imgdir>
+  <imgdir name="Resi_tutor50.js">
+  </imgdir>
+  <imgdir name="130030000.js">
+  </imgdir>
+  <imgdir name="925040100.js">
+  </imgdir>
+  <imgdir name="200000152.js">
+  </imgdir>
+  <imgdir name="540010100.js">
+  </imgdir>
+  <imgdir name="rienArrow.js">
+  </imgdir>
+  <imgdir name="108010600.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="1104100" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="540010001.js">
+  </imgdir>
+  <imgdir name="cannon_tuto_01.js">
+  </imgdir>
+  <imgdir name="goLith.js">
+  </imgdir>
+  <imgdir name="meetWithDragon.js">
+  </imgdir>
+  <imgdir name="PromiseDragon.js">
+  </imgdir>
+  <imgdir name="108010401.js">
+  </imgdir>
+  <imgdir name="iceCave.js">
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="20000018" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="20000017" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="20000016" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="20000015" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="20000014" />
+        <int name="count" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="Resi_tutor40.js">
+  </imgdir>
+  <imgdir name="goSwordman.js">
+  </imgdir>
+  <imgdir name="200000122.js">
+  </imgdir>
+  <imgdir name="Resi_tutor80.js">
+  </imgdir>
+  <imgdir name="100000006.js">
+  </imgdir>
+  <imgdir name="goAdventure.js">
+  </imgdir>
+  <imgdir name="101000301.js">
+  </imgdir>
+  <imgdir name="goRogue.js">
+  </imgdir>
+  <imgdir name="910510000.js">
+  </imgdir>
+  <imgdir name="dojang_Msg.js">
+  </imgdir>
+  <imgdir name="go1010100.js">
+  </imgdir>
+  <imgdir name="go20000.js">
+  </imgdir>
+  <imgdir name="go40000.js">
+  </imgdir>
+  <imgdir name="200090010.js">
+  </imgdir>
+  <imgdir name="200000132.js">
+  </imgdir>
+  <imgdir name="pepeking_effect.js">
+  </imgdir>
+  <imgdir name="Resi_tutor70.js">
+  </imgdir>
+  <imgdir name="spaceGaGa_sMap.js">
+    <imgdir name="SpawnMob">
+      <imgdir name="0">
+        <int name="id" value="9300331" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="108010301.js">
+  </imgdir>
+  <imgdir name="677000007.js">
+  </imgdir>
+  <imgdir name="926000010.js">
+  </imgdir>
+  <imgdir name="Resi_tutor60.js">
+  </imgdir>
+  <imgdir name="startEreb.js">
+  </imgdir>
+  <imgdir name="260000110.js">
+  </imgdir>
+</imgdir>

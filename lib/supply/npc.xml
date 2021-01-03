@@ -1,0 +1,4941 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<imgdir name="npc.img">
+  <imgdir name="2131003.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000437" />
+        <int name="count" value="100" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2081100.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2280003" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="1321007" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1321002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="1321001" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="1320009" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="1320008" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="1320005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="1221009" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="1221004" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="8">
+        <int name="id" value="1221003" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="9">
+        <int name="id" value="1221002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="10">
+        <int name="id" value="1221001" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="11">
+        <int name="id" value="1220005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="12">
+        <int name="id" value="1121010" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="13">
+        <int name="id" value="1121008" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="14">
+        <int name="id" value="1121002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="15">
+        <int name="id" value="1121001" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="16">
+        <int name="id" value="1120005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="17">
+        <int name="id" value="1120004" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2030006.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031058" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4005004" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2083006.js">
+  </imgdir>
+  <imgdir name="1022101.js">
+  </imgdir>
+  <imgdir name="2003.js">
+  </imgdir>
+  <imgdir name="2133001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001169" />
+        <int name="count" value="-20" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2270004" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2012033.js">
+  </imgdir>
+  <imgdir name="9201056.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2103009.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031579" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000009.js">
+  </imgdir>
+  <imgdir name="9040009.js">
+  </imgdir>
+  <imgdir name="9201010.js">
+  </imgdir>
+  <imgdir name="9201033.js">
+  </imgdir>
+  <imgdir name="9040010.js">
+  </imgdir>
+  <imgdir name="1104200.js">
+  </imgdir>
+  <imgdir name="2041008.js">
+  </imgdir>
+  <imgdir name="2101000.js">
+  </imgdir>
+  <imgdir name="2040038.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001022" />
+        <int name="count" value="-32" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000010.js">
+  </imgdir>
+  <imgdir name="1012115.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="20706" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2141000.js">
+  </imgdir>
+  <imgdir name="2090104.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152042" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152027" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201022.js">
+  </imgdir>
+  <imgdir name="2040003.js">
+  </imgdir>
+  <imgdir name="9201102.js">
+  </imgdir>
+  <imgdir name="1052012.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9977777.js">
+  </imgdir>
+  <imgdir name="1012104.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151000" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151000" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150010" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150010" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5150000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1013200.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="22015" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2023000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2112013.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001130" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1061016.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001261" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2082002.js">
+  </imgdir>
+  <imgdir name="9201113.js">
+  </imgdir>
+  <imgdir name="1032110.js">
+  </imgdir>
+  <imgdir name="2012021.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031331" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9270043.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5451000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2100006.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151022" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5150027" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1002003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111009.js">
+  </imgdir>
+  <imgdir name="9120202.js">
+  </imgdir>
+  <imgdir name="1052001.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100011" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100009" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031059" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031012" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031011" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="2070015" />
+        <int name="count" value="500" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="1472061" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="1332063" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2020010.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100201" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100200" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031058" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2020008.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100201" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100200" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031058" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201021.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031217" />
+        <int name="count" value="-7" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1063002.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031028" />
+        <int name="count" value="30" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201101.js">
+  </imgdir>
+  <imgdir name="9201124.js">
+  </imgdir>
+  <imgdir name="2042002.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4010007" />
+        <int name="count" value="1001" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2041211" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="1122007" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2060008.js">
+  </imgdir>
+  <imgdir name="2101011.js">
+  </imgdir>
+  <imgdir name="9001105.js">
+  </imgdir>
+  <imgdir name="1103000.js">
+  </imgdir>
+  <imgdir name="2090103.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152041" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5152028" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012103.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151001" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151001" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150001" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150001" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052013.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2091006.js">
+  </imgdir>
+  <imgdir name="1202000.js">
+  </imgdir>
+  <imgdir name="2010001.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151005" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151005" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150005" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150005" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2012009.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152004" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1072006.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100001" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100002" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1002004.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052115.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="29931" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="29931" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001321" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001321" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="1142141" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111008.js">
+  </imgdir>
+  <imgdir name="9120203.js">
+  </imgdir>
+  <imgdir name="9209001.js">
+  </imgdir>
+  <imgdir name="1032006.js">
+  </imgdir>
+  <imgdir name="2131004.js">
+  </imgdir>
+  <imgdir name="1022101_old.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5030000" />
+        <int name="count" value="1000" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001126" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001126" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4001126" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4001126" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4001126" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="2022273" />
+        <int name="count" value="2" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="2022179" />
+        <int name="count" value="2" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2082014.js">
+  </imgdir>
+  <imgdir name="1092094.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031850" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031849" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031848" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031847" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2083005.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031455" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031454" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040026.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001020" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000021.js">
+  </imgdir>
+  <imgdir name="2093003.js">
+  </imgdir>
+  <imgdir name="1063013.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032263" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2103010.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031579" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111020.js">
+  </imgdir>
+  <imgdir name="mapleTV.js">
+  </imgdir>
+  <imgdir name="2040037.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001022" />
+        <int name="count" value="-15" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201044.js">
+  </imgdir>
+  <imgdir name="1061006.js">
+  </imgdir>
+  <imgdir name="1092095.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031850" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031849" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031848" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031847" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2100008.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152047" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5152030" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201126.js">
+  </imgdir>
+  <imgdir name="2040002.js">
+  </imgdir>
+  <imgdir name="2042000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4010007" />
+        <int name="count" value="1001" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2041211" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="1122007" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201103.js">
+  </imgdir>
+  <imgdir name="2040025.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001020" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040048.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9270018.js">
+  </imgdir>
+  <imgdir name="2101013.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9270033.js">
+  </imgdir>
+  <imgdir name="1096010.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012105.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5153000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2081010.js">
+  </imgdir>
+  <imgdir name="2103011.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031579" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1002002.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2082003.js">
+  </imgdir>
+  <imgdir name="9201135.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1032111.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032142" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2110005.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052002.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201043.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031593" />
+        <int name="count" value="-10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031592" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031592" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9120201.js">
+  </imgdir>
+  <imgdir name="1092000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031847" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201081.js">
+  </imgdir>
+  <imgdir name="9030000.js">
+  </imgdir>
+  <imgdir name="1032008.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031045" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2112003.js">
+  </imgdir>
+  <imgdir name="9020002.js">
+  </imgdir>
+  <imgdir name="9102101.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031922" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2041029.js">
+  </imgdir>
+  <imgdir name="1063001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031026" />
+        <int name="count" value="20" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2020011.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100201" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100200" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031058" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2133000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001198" />
+        <int name="count" value="-10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001198" />
+        <int name="count" value="-10" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001198" />
+        <int name="count" value="-10" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="1032072" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="1032061" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="1032061" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="1032060" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="1032060" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1032100.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031042" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4021009" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4021000" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4011007" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4011000" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4001006" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2013002.js">
+  </imgdir>
+  <imgdir name="1094000.js">
+  </imgdir>
+  <imgdir name="9201070.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152033" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201008.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5251100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5251002" />
+        <int name="count" value="5251001" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031406" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031377" />
+        <int name="count" value="15" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4031377" />
+        <int name="count" value="15" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4031377" />
+        <int name="count" value="3" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2081009.js">
+  </imgdir>
+  <imgdir name="2010002.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152005" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9120009.js">
+  </imgdir>
+  <imgdir name="10200.js">
+  </imgdir>
+  <imgdir name="2040014.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1104201.js">
+    <imgdir name="SpawnNpc">
+      <imgdir name="0">
+        <int name="id" value="1104002" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111022.js">
+  </imgdir>
+  <imgdir name="2012008.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5153001" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2131005.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000436" />
+        <int name="count" value="100" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2095000.js">
+  </imgdir>
+  <imgdir name="1072005.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100007" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100008" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052114.js">
+  </imgdir>
+  <imgdir name="1032007.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031045" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040052.js">
+  </imgdir>
+  <imgdir name="2112004.js">
+  </imgdir>
+  <imgdir name="1100000.js">
+  </imgdir>
+  <imgdir name="2083004.js">
+  </imgdir>
+  <imgdir name="2013001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001048" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001045" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001044" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052125.js">
+  </imgdir>
+  <imgdir name="2071012.js">
+    <imgdir name="GainFame">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031793" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201054.js">
+  </imgdir>
+  <imgdir name="1063012.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032263" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201009.js">
+  </imgdir>
+  <imgdir name="9201114.js">
+  </imgdir>
+  <imgdir name="1104202.js">
+  </imgdir>
+  <imgdir name="2040047_old.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001454" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040036.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001022" />
+        <int name="count" value="-25" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111021.js">
+  </imgdir>
+  <imgdir name="2120003.js">
+  </imgdir>
+  <imgdir name="1012000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052113.js">
+  </imgdir>
+  <imgdir name="1061007.js">
+  </imgdir>
+  <imgdir name="2103000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2210005" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2210005" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201093.js">
+  </imgdir>
+  <imgdir name="2032003.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031062" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2100007.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5153007" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201125.js">
+  </imgdir>
+  <imgdir name="2042001.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4010007" />
+        <int name="count" value="1001" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2041211" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="1122007" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2080005.js">
+  </imgdir>
+  <imgdir name="9000000.js">
+  </imgdir>
+  <imgdir name="2060009.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031242" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040047.js">
+  </imgdir>
+  <imgdir name="2111010.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031708" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9270017.js">
+  </imgdir>
+  <imgdir name="1052014.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001158" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001009" />
+        <int name="count" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9040008.js">
+  </imgdir>
+  <imgdir name="2090102.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5153006" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2082004.js">
+  </imgdir>
+  <imgdir name="9201082.js">
+  </imgdir>
+  <imgdir name="2081500.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2280003" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="5221009" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5221008" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5221007" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5221006" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5221004" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="5221003" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="5220011" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="5220002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="8">
+        <int name="id" value="5220001" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="9">
+        <int name="id" value="5121010" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="10">
+        <int name="id" value="5121009" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="11">
+        <int name="id" value="5121007" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="12">
+        <int name="id" value="5121005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="13">
+        <int name="id" value="5121004" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="14">
+        <int name="id" value="5121003" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="15">
+        <int name="id" value="5121002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="16">
+        <int name="id" value="5121001" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1061018.js">
+  </imgdir>
+  <imgdir name="2041007.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151007" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151007" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150007" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150007" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2101001.js">
+  </imgdir>
+  <imgdir name="9000011.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9102100.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031921" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012116.js">
+  </imgdir>
+  <imgdir name="1052003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201065.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5153009" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9209000.js">
+  </imgdir>
+  <imgdir name="1012118.js">
+  </imgdir>
+  <imgdir name="1032009.js">
+  </imgdir>
+  <imgdir name="9040001.js">
+  </imgdir>
+  <imgdir name="2102002.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031045" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2103001.js">
+  </imgdir>
+  <imgdir name="2101003.js">
+  </imgdir>
+  <imgdir name="1063017.js">
+  </imgdir>
+  <imgdir name="9120102.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152045" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5152009" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2090101.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151019" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151019" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150024" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150024" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201013.js">
+  </imgdir>
+  <imgdir name="1100006.js">
+  </imgdir>
+  <imgdir name="1052101.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151002" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151002" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150011" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150011" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5150002" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040041.js">
+  </imgdir>
+  <imgdir name="2050015.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031117" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111023.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031741" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031740" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031739" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111000.js">
+  </imgdir>
+  <imgdir name="2131006.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000440" />
+        <int name="count" value="100" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1002006.js">
+  </imgdir>
+  <imgdir name="2012024.js">
+  </imgdir>
+  <imgdir name="1072004.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100004" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100005" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9010004.js">
+  </imgdir>
+  <imgdir name="1052004.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152001" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1300014.js">
+  </imgdir>
+  <imgdir name="1096005.js">
+  </imgdir>
+  <imgdir name="2010009.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201127.js">
+  </imgdir>
+  <imgdir name="9201001.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031367" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2012001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031047" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="11000.js">
+  </imgdir>
+  <imgdir name="9201099.js">
+  </imgdir>
+  <imgdir name="2101014.js">
+  </imgdir>
+  <imgdir name="2111012.js">
+  </imgdir>
+  <imgdir name="9000041.js">
+  </imgdir>
+  <imgdir name="cpqchallenge.js">
+  </imgdir>
+  <imgdir name="1052015.js">
+  </imgdir>
+  <imgdir name="2103012.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031579" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2020000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1013002.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="22011" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2081005.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2000005" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201025.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031367" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9220020.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032118" />
+        <int name="count" value="-15" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1300013.js">
+  </imgdir>
+  <imgdir name="1052112.js">
+  </imgdir>
+  <imgdir name="2030008.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100201" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031062" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031061" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001017" />
+        <int name="count" value="5" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4000082" />
+        <int name="count" value="-30" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2112000.js">
+  </imgdir>
+  <imgdir name="2012031.js">
+  </imgdir>
+  <imgdir name="9250045.js">
+  </imgdir>
+  <imgdir name="2050004.js">
+  </imgdir>
+  <imgdir name="2111011.js">
+  </imgdir>
+  <imgdir name="12101.js">
+  </imgdir>
+  <imgdir name="9000007.js">
+  </imgdir>
+  <imgdir name="9040012.js">
+  </imgdir>
+  <imgdir name="1052016.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2012012.js">
+  </imgdir>
+  <imgdir name="2042005.js">
+  </imgdir>
+  <imgdir name="2100003.js">
+  </imgdir>
+  <imgdir name="2101002.js">
+  </imgdir>
+  <imgdir name="1032113.js">
+  </imgdir>
+  <imgdir name="2001000.js">
+  </imgdir>
+  <imgdir name="9201024.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031367" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2103013.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012117.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5150044" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5150040" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201047.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031595" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1022000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100005" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100003" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031059" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031012" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031008" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="1302077" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2013000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001158" />
+        <int name="count" value="-10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1082232" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="ThiefPassword.js">
+  </imgdir>
+  <imgdir name="9201104.js">
+  </imgdir>
+  <imgdir name="1090000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031059" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031012" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="2330000" />
+        <int name="count" value="1000" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="1492000" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="1482000" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="6370" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="6330" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="5221006" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5121003" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9120101.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151008" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151008" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150008" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150008" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1063016.js">
+  </imgdir>
+  <imgdir name="2041017.js">
+  </imgdir>
+  <imgdir name="1092010.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4220153" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1022104.js">
+  </imgdir>
+  <imgdir name="1032102.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5380000" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5000033" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5000032" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5000031" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5000030" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="5000029" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="5000029" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="5000028" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2112011.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="7770" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1104203.js">
+  </imgdir>
+  <imgdir name="2040040.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001022" />
+        <int name="count" value="-24" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201115.js">
+  </imgdir>
+  <imgdir name="credits.js">
+  </imgdir>
+  <imgdir name="2090004.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031554" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2131007.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000438" />
+        <int name="count" value="100" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1061014.js">
+  </imgdir>
+  <imgdir name="9201002.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2012023.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031476" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031456" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9270041.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031731" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1072003.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100009" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100010" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031011" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052005.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1209005.js">
+  </imgdir>
+  <imgdir name="1202009.js">
+  </imgdir>
+  <imgdir name="9201023.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031367" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201069.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152034" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100400" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9220018.js">
+  </imgdir>
+  <imgdir name="2002000.js">
+  </imgdir>
+  <imgdir name="2012000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111013.js">
+  </imgdir>
+  <imgdir name="9000021_old.js">
+  </imgdir>
+  <imgdir name="1022105.js">
+  </imgdir>
+  <imgdir name="cpqchallenge2.js">
+  </imgdir>
+  <imgdir name="1092008.js">
+  </imgdir>
+  <imgdir name="1104101.js">
+  </imgdir>
+  <imgdir name="1104204.js">
+  </imgdir>
+  <imgdir name="2090005.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1200000.js">
+  </imgdir>
+  <imgdir name="2100005.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151021" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5150026" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9270042.js">
+  </imgdir>
+  <imgdir name="1012002.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052111.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032136" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040028.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="3230" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031094" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2101004.js">
+  </imgdir>
+  <imgdir name="1081001.js">
+  </imgdir>
+  <imgdir name="1092019.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="6400" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="5221003" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1202010.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2042003.js">
+  </imgdir>
+  <imgdir name="9201106.js">
+  </imgdir>
+  <imgdir name="2090100.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151020" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151020" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150025" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150025" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2012032.js">
+  </imgdir>
+  <imgdir name="2103002.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031578" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9001102.js">
+  </imgdir>
+  <imgdir name="1100007.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000020.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201011.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052100.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151003" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151003" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150003" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150003" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040039.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001022" />
+        <int name="count" value="-6" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1032114.js">
+  </imgdir>
+  <imgdir name="2001001.js">
+  </imgdir>
+  <imgdir name="9201046.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031597" />
+        <int name="count" value="-35" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031597" />
+        <int name="count" value="-35" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9209000_old.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="-1" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201128.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032478" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001341" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040027.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001020" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111001.js">
+  </imgdir>
+  <imgdir name="9201105.js">
+  </imgdir>
+  <imgdir name="2093004.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2103003.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031580" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9270031.js">
+  </imgdir>
+  <imgdir name="2101015.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="3010018" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9120100.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151009" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151009" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150009" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150009" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2030006_old.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031058" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4005004" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201057.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031711" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201012.js">
+  </imgdir>
+  <imgdir name="9270054.js">
+  </imgdir>
+  <imgdir name="2012022.js">
+  </imgdir>
+  <imgdir name="1072002.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100000" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100001" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031010" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201045.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031597" />
+        <int name="count" value="-50" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031594" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2020009.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100201" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100200" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031058" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2112001.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="7770" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9040000.js">
+  </imgdir>
+  <imgdir name="1012119.js">
+  </imgdir>
+  <imgdir name="1052006.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031036" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201068.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031713" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9220019.js">
+  </imgdir>
+  <imgdir name="1100008.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="MagatiaPassword.js">
+  </imgdir>
+  <imgdir name="1300012.js">
+  </imgdir>
+  <imgdir name="9000008.js">
+  </imgdir>
+  <imgdir name="1300001.js">
+  </imgdir>
+  <imgdir name="2010000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="0" />
+        <int name="count" value="-100" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="0" />
+        <int name="count" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052017.js">
+  </imgdir>
+  <imgdir name="9040011.js">
+  </imgdir>
+  <imgdir name="2050014.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031117" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201079.js">
+  </imgdir>
+  <imgdir name="2040016.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1104100.js">
+  </imgdir>
+  <imgdir name="2040050.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2042004.js">
+  </imgdir>
+  <imgdir name="2110002.js">
+  </imgdir>
+  <imgdir name="1002005.js">
+  </imgdir>
+  <imgdir name="changeName.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2430026" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1022001.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000019.js">
+  </imgdir>
+  <imgdir name="2091005.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142033" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2012027.js">
+  </imgdir>
+  <imgdir name="9270037.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151027" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5150032" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111003.js">
+  </imgdir>
+  <imgdir name="9201107.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001259" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2010006.js">
+  </imgdir>
+  <imgdir name="2132002.js">
+  </imgdir>
+  <imgdir name="1092018.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031839" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9010001.js">
+  </imgdir>
+  <imgdir name="1040000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032479" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2101017.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2270002" />
+        <int name="count" value="50" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2100067" />
+        <int name="count" value="5" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201142.js">
+  </imgdir>
+  <imgdir name="9310058.js">
+  </imgdir>
+  <imgdir name="2042007.js">
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012006.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031035" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2100001.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9101001.js">
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2001002.js">
+  </imgdir>
+  <imgdir name="9201062.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152036" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1209004.js">
+  </imgdir>
+  <imgdir name="2040032.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031128" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2041025.js">
+  </imgdir>
+  <imgdir name="2094002.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001122" />
+        <int name="count" value="-20" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001121" />
+        <int name="count" value="-20" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001120" />
+        <int name="count" value="-20" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201131.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032483" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032482" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032481" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2101.js">
+  </imgdir>
+  <imgdir name="9201039.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031528" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2112007.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001131" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1104000.js">
+  </imgdir>
+  <imgdir name="2043000.js">
+  </imgdir>
+  <imgdir name="2012015.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001019" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2083000.js">
+  </imgdir>
+  <imgdir name="10204.js">
+  </imgdir>
+  <imgdir name="1102001.js">
+  </imgdir>
+  <imgdir name="9270026.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152040" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5152039" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1100003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1104102.js">
+  </imgdir>
+  <imgdir name="1104205.js">
+  </imgdir>
+  <imgdir name="2040021.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4130001" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1101008.js">
+  </imgdir>
+  <imgdir name="1022003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201004.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052110.js">
+  </imgdir>
+  <imgdir name="2111026.js">
+  </imgdir>
+  <imgdir name="9000038.js">
+  </imgdir>
+  <imgdir name="1032001.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100008" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100006" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031059" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031012" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031009" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="1372043" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1072001.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100006" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100007" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031009" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2070000.js">
+  </imgdir>
+  <imgdir name="2101005.js">
+  </imgdir>
+  <imgdir name="2041026.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4220046" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9209100.js">
+  </imgdir>
+  <imgdir name="9200102.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152015" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5152015" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5152012" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5152012" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000049.js">
+  </imgdir>
+  <imgdir name="9201050.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="4900" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040043.js">
+  </imgdir>
+  <imgdir name="10203.js">
+  </imgdir>
+  <imgdir name="1094004.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031855" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031854" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031853" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1100004.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1200006.js">
+  </imgdir>
+  <imgdir name="1104206.js">
+  </imgdir>
+  <imgdir name="2040020.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4130000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2100.js">
+  </imgdir>
+  <imgdir name="2081300.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2280003" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="3221007" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="3221006" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="3221005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="3221002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="3221001" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="3220004" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="3121008" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="3121007" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="8">
+        <int name="id" value="3121006" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="9">
+        <int name="id" value="3121004" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="10">
+        <int name="id" value="3121002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="11">
+        <int name="id" value="3120005" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1096003.js">
+  </imgdir>
+  <imgdir name="9201005.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5251100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5251003" />
+        <int name="count" value="5251000" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031407" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031395" />
+        <int name="count" value="15" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4031395" />
+        <int name="count" value="15" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4031395" />
+        <int name="count" value="3" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111025.js">
+  </imgdir>
+  <imgdir name="MaybeItsGrendel_end.js">
+  </imgdir>
+  <imgdir name="1072000.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100003" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100004" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031008" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1032000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032288" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2012028.js">
+  </imgdir>
+  <imgdir name="9270038.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031732" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9010002.js">
+  </imgdir>
+  <imgdir name="9201129.js">
+  </imgdir>
+  <imgdir name="2030011.js">
+  </imgdir>
+  <imgdir name="9201097.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="0" />
+        <int name="count" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2010007.js">
+  </imgdir>
+  <imgdir name="1103005.js">
+  </imgdir>
+  <imgdir name="2103004.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031580" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9040004.js">
+  </imgdir>
+  <imgdir name="9201016.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151016" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151016" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150019" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150019" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1002100.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052109.js">
+  </imgdir>
+  <imgdir name="2111014.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031697" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2132001.js">
+  </imgdir>
+  <imgdir name="2101016.js">
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000004.js">
+  </imgdir>
+  <imgdir name="2050018.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031117" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201143.js">
+  </imgdir>
+  <imgdir name="2042008.js">
+  </imgdir>
+  <imgdir name="2030000.js">
+  </imgdir>
+  <imgdir name="1061000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2020002.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9120013.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031064" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2020001" />
+        <int name="count" value="-300" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2001003.js">
+  </imgdir>
+  <imgdir name="9201027.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031367" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012007.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031035" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052007.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031711" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031035" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1092007.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2030019" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201061.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152035" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2100000.js">
+  </imgdir>
+  <imgdir name="2040031.js">
+  </imgdir>
+  <imgdir name="2101007.js">
+  </imgdir>
+  <imgdir name="2030013_old.js">
+  </imgdir>
+  <imgdir name="9120003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201098.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="3992041" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1061012.js">
+  </imgdir>
+  <imgdir name="2094001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001158" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001158" />
+        <int name="count" value="-20" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001158" />
+        <int name="count" value="-20" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4001158" />
+        <int name="count" value="-20" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="1003267" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="1002573" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="1002573" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="1002572" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="8">
+        <int name="id" value="1002572" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="gachaponRemote.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5451000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2103005.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031580" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1094006.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031855" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031854" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031853" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2007.js">
+  </imgdir>
+  <imgdir name="9000040.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9103000.js">
+  </imgdir>
+  <imgdir name="rank_user.js">
+  </imgdir>
+  <imgdir name="2012014.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001019" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040019.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152006" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1013104.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1032002.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201003.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100400" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1013001.js">
+  </imgdir>
+  <imgdir name="9201026.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100401" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031367" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9220004.js">
+  </imgdir>
+  <imgdir name="1052008.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031039" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4020000" />
+        <int name="count" value="5" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="commands.js">
+  </imgdir>
+  <imgdir name="9201049.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2102001.js">
+  </imgdir>
+  <imgdir name="9040002.js">
+  </imgdir>
+  <imgdir name="9120103.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152046" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152008" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012100.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100000" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031059" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031012" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031010" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="2060000" />
+        <int name="count" value="1000" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="1452051" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201014.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031424" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031423" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9220005_old.js">
+  </imgdir>
+  <imgdir name="2101018.js">
+  </imgdir>
+  <imgdir name="2050016.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031117" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111016.js">
+  </imgdir>
+  <imgdir name="2040042.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001022" />
+        <int name="count" value="-3" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9120015.js">
+  </imgdir>
+  <imgdir name="1012005.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4160011" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1002007.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032313" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2110000.js">
+  </imgdir>
+  <imgdir name="2100002.js">
+  </imgdir>
+  <imgdir name="2012029.js">
+  </imgdir>
+  <imgdir name="2041001.js">
+  </imgdir>
+  <imgdir name="9000017.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2080000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1209003.js">
+  </imgdir>
+  <imgdir name="9010003.js">
+  </imgdir>
+  <imgdir name="2010008.js">
+  </imgdir>
+  <imgdir name="2012002.js">
+  </imgdir>
+  <imgdir name="2030010.js">
+  </imgdir>
+  <imgdir name="9201130.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032485" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001355" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201015.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151017" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151017" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150020" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150020" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9040003.js">
+  </imgdir>
+  <imgdir name="1061100.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2102000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031045" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2132000.js">
+  </imgdir>
+  <imgdir name="2041013.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5153002" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2050017.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031117" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111015.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2022198" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9900001.js">
+  </imgdir>
+  <imgdir name="1022004.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1104103.js">
+  </imgdir>
+  <imgdir name="2112010.js">
+  </imgdir>
+  <imgdir name="2001004.js">
+  </imgdir>
+  <imgdir name="2101006.js">
+  </imgdir>
+  <imgdir name="2096000.js">
+  </imgdir>
+  <imgdir name="2012030.js">
+  </imgdir>
+  <imgdir name="2111004.js">
+  </imgdir>
+  <imgdir name="9201108.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001258" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040030.js">
+  </imgdir>
+  <imgdir name="2131000.js">
+  </imgdir>
+  <imgdir name="1092090.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031850" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031849" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031849" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031848" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4031848" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4031847" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1094005.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031855" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031854" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031853" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1100005.js">
+  </imgdir>
+  <imgdir name="2012013.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031074" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1104207.js">
+  </imgdir>
+  <imgdir name="9220005.js">
+  </imgdir>
+  <imgdir name="2041024.js">
+  </imgdir>
+  <imgdir name="9201048.js">
+  </imgdir>
+  <imgdir name="1012009.js">
+  </imgdir>
+  <imgdir name="9020001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001008" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001008" />
+        <int name="count" value="-10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201094.js">
+  </imgdir>
+  <imgdir name="1043000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031020" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9105005.js">
+  </imgdir>
+  <imgdir name="2022004.js">
+  </imgdir>
+  <imgdir name="1063000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031025" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1092091.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031850" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031849" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031849" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031848" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4031848" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4031847" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000001.js">
+  </imgdir>
+  <imgdir name="9200100.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152013" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5152013" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5152010" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5152010" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201071.js">
+  </imgdir>
+  <imgdir name="10201.js">
+  </imgdir>
+  <imgdir name="1094002.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031855" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031854" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031853" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1200004.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111017.js">
+  </imgdir>
+  <imgdir name="9201007.js">
+  </imgdir>
+  <imgdir name="2112016.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031797" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2010003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="waterOfLife.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5180000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1209001.js">
+  </imgdir>
+  <imgdir name="2012007.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5154000" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151004" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5151004" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150013" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5150013" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="5150004" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9270023.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152037" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2081000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9110002.js">
+  </imgdir>
+  <imgdir name="2100009.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152048" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152029" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111006.js">
+  </imgdir>
+  <imgdir name="2032001.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4004004" />
+        <int name="count" value="-10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040024.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001020" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9040006.js">
+  </imgdir>
+  <imgdir name="9201110.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001256" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1092015.js">
+  </imgdir>
+  <imgdir name="9103001.js">
+  </imgdir>
+  <imgdir name="9201018.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152022" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9010021.js">
+  </imgdir>
+  <imgdir name="2103006.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031580" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052107.js">
+  </imgdir>
+  <imgdir name="2133004.js">
+  </imgdir>
+  <imgdir name="PupeteerPassword.js">
+  </imgdir>
+  <imgdir name="1095001.js">
+  </imgdir>
+  <imgdir name="2040000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031045" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000013.js">
+  </imgdir>
+  <imgdir name="9201134.js">
+  </imgdir>
+  <imgdir name="gachapon.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5220000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052009.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031040" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040035.js">
+  </imgdir>
+  <imgdir name="9201042.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2131001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000439" />
+        <int name="count" value="100" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1061008.js">
+  </imgdir>
+  <imgdir name="2012025.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031576" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111005.js">
+  </imgdir>
+  <imgdir name="2012006.js">
+  </imgdir>
+  <imgdir name="2032002.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031061" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031061" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001018" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4001015" />
+        <int name="count" value="-30" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="2030007" />
+        <int name="count" value="5" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1204001.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="21719" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1092016.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="2166" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9010022.js">
+  </imgdir>
+  <imgdir name="9201109.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001257" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040046.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2081400.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2280003" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="4221007" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4221004" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4221001" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4220005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4220002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4121008" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="4121006" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="4121004" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="8">
+        <int name="id" value="4120005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="9">
+        <int name="id" value="4120002" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9040007.js">
+  </imgdir>
+  <imgdir name="9103002.js">
+  </imgdir>
+  <imgdir name="9201019.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152021" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201083.js">
+  </imgdir>
+  <imgdir name="unidentifiedNpc.js">
+  </imgdir>
+  <imgdir name="9120010.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="0" />
+        <int name="count" value="-100" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="0" />
+        <int name="count" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1095000.js">
+  </imgdir>
+  <imgdir name="2094000.js">
+  </imgdir>
+  <imgdir name="9000012.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201064.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151026" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151026" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150031" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150031" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9105004.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032092" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2041000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031045" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2041023.js">
+  </imgdir>
+  <imgdir name="2101008.js">
+  </imgdir>
+  <imgdir name="1104002.js">
+  </imgdir>
+  <imgdir name="1209002.js">
+  </imgdir>
+  <imgdir name="2020013.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100201" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100200" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031058" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031057" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040034.js">
+  </imgdir>
+  <imgdir name="9020000.js">
+  </imgdir>
+  <imgdir name="2141002.js">
+  </imgdir>
+  <imgdir name="9060000.js">
+  </imgdir>
+  <imgdir name="2020005.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="gachaponold.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5220000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2060005.js">
+  </imgdir>
+  <imgdir name="2112005.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001160" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001135" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001134" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4001130" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052010.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031041" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201072.js">
+  </imgdir>
+  <imgdir name="1200003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9270024.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152038" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2082000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031045" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1104104.js">
+  </imgdir>
+  <imgdir name="2030014.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031450" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2280011" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2091005_old.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142033" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012112.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001158" />
+        <int name="count" value="-20" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1002798" />
+        <int name="count" value="20" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1032003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1022005.js">
+  </imgdir>
+  <imgdir name="1102003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9900000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2091009.js">
+  </imgdir>
+  <imgdir name="9120200.js">
+  </imgdir>
+  <imgdir name="9201132.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4220153" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032489" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032488" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4032486" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4001363" />
+        <int name="count" value="4001363" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4001362" />
+        <int name="count" value="4001362" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1052011.js">
+  </imgdir>
+  <imgdir name="9040005.js">
+  </imgdir>
+  <imgdir name="9201052.js">
+  </imgdir>
+  <imgdir name="2112006.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001159" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001135" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001134" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4001131" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1092014.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201017.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152026" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5152026" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5152025" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5152025" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2083002.js">
+  </imgdir>
+  <imgdir name="9103003.js">
+  </imgdir>
+  <imgdir name="1101001.js">
+  </imgdir>
+  <imgdir name="22000.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031801" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040045.js">
+  </imgdir>
+  <imgdir name="2040022.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2050019.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031117" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9030100.js">
+  </imgdir>
+  <imgdir name="1095002.js">
+  </imgdir>
+  <imgdir name="9201112.js">
+  </imgdir>
+  <imgdir name="1096001.js">
+  </imgdir>
+  <imgdir name="1300006.js">
+  </imgdir>
+  <imgdir name="9000037.js">
+  </imgdir>
+  <imgdir name="9201100.js">
+  </imgdir>
+  <imgdir name="1072008.js">
+  </imgdir>
+  <imgdir name="2131002.js">
+  </imgdir>
+  <imgdir name="9270036.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151028" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5150033" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1061009.js">
+  </imgdir>
+  <imgdir name="9201095.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012008.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4080100" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4030012" />
+        <int name="count" value="-15" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4030009" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2101010.js">
+  </imgdir>
+  <imgdir name="1043001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031032" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2030013.js">
+  </imgdir>
+  <imgdir name="1091003.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4003000" />
+        <int name="count" value="15" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2010005.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201123.js">
+  </imgdir>
+  <imgdir name="9200101.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152100" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5152014" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5152014" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5152011" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5152011" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2132003.js">
+  </imgdir>
+  <imgdir name="9000002.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2111019.js">
+  </imgdir>
+  <imgdir name="1094003.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031855" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031854" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031853" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201084.js">
+  </imgdir>
+  <imgdir name="9270047.js">
+  </imgdir>
+  <imgdir name="1200005.js">
+  </imgdir>
+  <imgdir name="gachaponInfo.js">
+  </imgdir>
+  <imgdir name="1209000.js">
+  </imgdir>
+  <imgdir name="2041009.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151006" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151006" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150012" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150012" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="5150006" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1032005.js">
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012114.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001101" />
+        <int name="count" value="-10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201063.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5151025" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5151025" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="5150030" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="5150030" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2141001.js">
+  </imgdir>
+  <imgdir name="2090000.js">
+  </imgdir>
+  <imgdir name="9201096.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040033.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031128" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1061010.js">
+  </imgdir>
+  <imgdir name="1091004.js">
+  </imgdir>
+  <imgdir name="2020004.js">
+  </imgdir>
+  <imgdir name="9201111.js">
+  </imgdir>
+  <imgdir name="9201073.js">
+  </imgdir>
+  <imgdir name="2111018.js">
+  </imgdir>
+  <imgdir name="2042009.js">
+  </imgdir>
+  <imgdir name="9270025.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5153010" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2082001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031045" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2112018.js">
+  </imgdir>
+  <imgdir name="scroll_generator.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="1012113.js">
+  </imgdir>
+  <imgdir name="1102002.js">
+  </imgdir>
+  <imgdir name="1032004.js">
+  </imgdir>
+  <imgdir name="1002000.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="10" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201133.js">
+  </imgdir>
+  <imgdir name="9120023.js">
+  </imgdir>
+  <imgdir name="1032109.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="1103003" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9201051.js">
+  </imgdir>
+  <imgdir name="2133002.js">
+  </imgdir>
+  <imgdir name="2041010.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5152007" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2083001.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001093" />
+        <int name="count" value="-6" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001093" />
+        <int name="count" value="-6" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001092" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4001092" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4001091" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4001090" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="4001089" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="4001088" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="8">
+        <int name="id" value="4001087" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="10202.js">
+  </imgdir>
+  <imgdir name="2060100.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000175" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2081200.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2280003" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="2321008" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2321006" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="2321005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="2321002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="2321001" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="2221007" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="2221006" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="2221005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="8">
+        <int name="id" value="2221003" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="9">
+        <int name="id" value="2221002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="10">
+        <int name="id" value="2221001" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="11">
+        <int name="id" value="2121007" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="12">
+        <int name="id" value="2121006" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="13">
+        <int name="id" value="2121005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="14">
+        <int name="id" value="2121005" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="15">
+        <int name="id" value="2121002" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="16">
+        <int name="id" value="2121001" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2040044.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001023" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1072007.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="100010" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="100011" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9000036.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="9010022_old.js">
+  </imgdir>
+  <imgdir name="2101009.js">
+  </imgdir>
+  <imgdir name="2111007.js">
+  </imgdir>
+  <imgdir name="9201006.js">
+  </imgdir>
+</imgdir>

@@ -20,7 +20,9 @@ CUnitTable = createClass({
 })
 
 function CUnitTable:add_entry(iSrcid)
-    self.tUnitFields[iSrcid] = {}
+    if self.tUnitFields[iSrcid] == nil then
+        self.tUnitFields[iSrcid] = {}
+    end
 end
 
 function CUnitTable:add_location(iSrcid, iMapid)
@@ -48,7 +50,7 @@ function CUnitTable:get_locations(iSrcid)
     end
 
     if #rgiFields == 0 then
-        log(LPath.FALLBACK .. LPath.RESOURCE_LOCATION .. self.sRscName .. "/", tostring(iSrcid) .. ".txt", "[WARNING] Empty locations found for sourceid " .. iSrcid)
+        log(LPath.FALLBACK .. LPath.RESOURCE_LOCATION .. self.sRscName .. "/", tostring(iSrcid) .. ".txt", "[WARNING] Empty locations found for sourceid " .. tostring(iSrcid))
     end
 
     return rgiFields

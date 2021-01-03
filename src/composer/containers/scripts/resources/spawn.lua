@@ -10,7 +10,18 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.containers.units.unit_table")
+require("composer.containers.scripts.resources.base")
 require("utils.struct.class")
 
-CMobTable = createClass({CUnitTable, {sRscName = "mob"}})
+CScriptSpawn = createClass({CScriptResource, {
+    iId,
+    bMob
+}})
+
+function CScriptSpawn:get_id()
+    return self.iId
+end
+
+function CScriptSpawn:is_mob()
+    return self.bMob
+end

@@ -1,0 +1,2804 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<imgdir name="quest.img">
+  <imgdir name="2238.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3833.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000294" />
+        <int name="count" value="-1000" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4000294" />
+        <int name="count" value="-600" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4000294" />
+        <int name="count" value="-500" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4000294" />
+        <int name="count" value="-100" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4000294" />
+        <int name="count" value="-50" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4000294" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="6">
+        <int name="id" value="2040501" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="7">
+        <int name="id" value="2020013" />
+        <int name="count" value="50" />
+      </imgdir>
+      <imgdir name="8">
+        <int name="id" value="2020007" />
+        <int name="count" value="50" />
+      </imgdir>
+      <imgdir name="9">
+        <int name="id" value="2000005" />
+        <int name="count" value="50" />
+      </imgdir>
+      <imgdir name="10">
+        <int name="id" value="2000000" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2318.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000499" />
+        <int name="count" value="-50" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2430014" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2215.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031894" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21618.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1902018" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1902017" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3529.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20522.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4220137" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21303.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2301.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20201.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032096" />
+        <int name="count" value="-30" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142067" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="22004.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21011.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1302000" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8221.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="29925.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142130" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142130" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2291.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032521" />
+        <int name="count" value="-10" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20012.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000483" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21200.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="29902.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="29908.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142068" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20104.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2070000" />
+        <int name="count" value="800" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1472061" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="1142066" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21017.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="22503.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8238.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21401.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2280003" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2306.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20001.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1052177" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8255.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21739.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21704.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2313.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20103.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2060000" />
+        <int name="count" value="2000" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1452051" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="1142066" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21016.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="6033.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="3" />
+        <int name="count" value="2" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20017.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="20020" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="20100" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20315.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142068" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="21767.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032423" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="1021.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2010009" />
+        <int name="count" value="3" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2010007" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="2010000" />
+        <int name="count" value="3" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8233.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20527.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20000.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142065" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21750.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3382.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001160" />
+        <int name="count" value="-25" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001160" />
+        <int name="count" value="-10" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001159" />
+        <int name="count" value="-25" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4001159" />
+        <int name="count" value="-10" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="2041212" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="1122010" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8227.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032032" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032032" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2335.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032405" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2307.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21738.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3301.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3414.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031106" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031105" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031104" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4031103" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20408.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142069" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2312.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000499" />
+        <int name="count" value="-50" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3507.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20700.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2216.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031894" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21716.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21000.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8219.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="3992040" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21600.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21733.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="21100000" />
+        <int name="count" value="20" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="3524.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="21201.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="21100005" />
+        <int name="count" value="20" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="21100004" />
+        <int name="count" value="20" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="21100002" />
+        <int name="count" value="30" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="21100000" />
+        <int name="count" value="20" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="4659.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5380000" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="5000048" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20105.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1482014" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142066" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="22504.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2561.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2305.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8231.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8225.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2228.js">
+    <imgdir name="GainFame">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20710.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2186.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031855" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031854" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031853" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="2030019" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="2030019" />
+        <int name="count" value="5" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20016.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3525.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2257.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21720.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="21001003" />
+        <int name="count" value="21001003" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20400.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2570.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2945" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="29900" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="111" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="110" />
+        <int name="count" value="0" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="109" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="21703.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="21000000" />
+        <int name="count" value="21000000" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20406.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21749.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21766.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20314.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142068" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="medalQuest.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2245.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3454.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031928" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4031927" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4031926" />
+        <int name="count" value="-10" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4000125" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="4000119" />
+        <int name="count" value="-30" />
+      </imgdir>
+      <imgdir name="5">
+        <int name="id" value="4000118" />
+        <int name="count" value="-30" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21302.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032312" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="21110002" />
+        <int name="count" value="20" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2334.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20011.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1052177" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1002869" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="4647.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5460000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="8" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="22003.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20202.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032097" />
+        <int name="count" value="-30" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142067" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2317.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000500" />
+        <int name="count" value="-100" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="29903.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3414_free10rate.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2322.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2322" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21400.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="21748.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="21100002" />
+        <int name="count" value="30" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2217.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031894" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21754.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032328" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="3239.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031092" />
+        <int name="count" value="-10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2040708" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="2040707" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="2040705" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="4">
+        <int name="id" value="2040704" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3514.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="3514" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="3514" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2022337" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2022337" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21301.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2152.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8237.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2251.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032399" />
+        <int name="count" value="-20" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3437.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000122" />
+        <int name="count" value="-120" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20010.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2000021" />
+        <int name="count" value="5" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2000020" />
+        <int name="count" value="5" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20203.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032098" />
+        <int name="count" value="-30" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142067" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20610.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8189.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5380000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="21202.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2316.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21015.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2197.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8232.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2560.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2300.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8226.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20313.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142068" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="3933.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21010.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2000023" />
+        <int name="count" value="3" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2000022" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="2000022" />
+        <int name="count" value="3" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2124.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031619" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20401.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="29909.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142069" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="29926.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142131" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142131" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21100.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="6031.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="29928.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142133" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142133" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20204.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032099" />
+        <int name="count" value="-30" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142067" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2150.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8235.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2309.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2310.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21604.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21736.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2333.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2230.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5000054" />
+        <int name="count" value="1000" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032086" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032086" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3303.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8229.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032018" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032018" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3320.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2218.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031894" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21753.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2327.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8224.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2338.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2430014" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20720.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20600.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="22007.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032451" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3526.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2126.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031619" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21742.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4220151" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4220151" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032342" />
+        <int name="count" value="-8" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3314.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2050004" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2022224" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="22500.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="10940.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2430191" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2001.js">
+    <imgdir name="GainFame">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4003001" />
+        <int name="count" value="-30" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4003000" />
+        <int name="count" value="-30" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4001004" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="4000022" />
+        <int name="count" value="-100" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20405.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21719.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3321.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="22002.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2022622" />
+        <int name="count" value="5" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2022621" />
+        <int name="count" value="5" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="1003028" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8230.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20312.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142068" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="21741.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="29900.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3527.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20100.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="6036.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031980" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="3" />
+        <int name="count" value="3" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="29927.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142132" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142132" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="6030.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21747.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2321.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20020.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="22008.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2022622" />
+        <int name="count" value="25" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2022621" />
+        <int name="count" value="25" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3108.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2304.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3360.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2151.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21300.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8236.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3354.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2332.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2315.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2258.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21746.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4220151" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032342" />
+        <int name="count" value="-8" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20002.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2000021" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2000020" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="1002869" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2320.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032389" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032389" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="22000.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3714.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001094" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2041200" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21001.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001271" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4001271" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2219.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031894" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3539.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="22507.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2314.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2314" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20102.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1372043" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142066" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2148.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="22501.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21101.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="21001003" />
+        <int name="count" value="20" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="21000000" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="2214.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031894" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="29906.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142066" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3941.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="23011.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8185.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="5380000" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="7103.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4031179" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="8234.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20205.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032100" />
+        <int name="count" value="-30" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142067" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20526.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4220137" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1902005" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2302.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20008.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21735.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032323" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032323" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20311.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142068" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="29924.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142129" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142129" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21729.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21012.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="2000023" />
+        <int name="count" value="10" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2000022" />
+        <int name="count" value="10" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8228.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032032" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032032" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21700.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1442000" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="29907.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1142067" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2034.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000007" />
+        <int name="count" value="-150" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2573.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2232.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2303.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20520.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21734.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="21100005" />
+        <int name="count" value="20" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="3523.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="21757.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032330" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3953.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4011008" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2293.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21013.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032310" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032309" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="3010062" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="8223.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2127.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2259.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3353.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="6032.js">
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21613.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2260.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2319.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032389" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032389" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="3452.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4000099" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="2000011" />
+        <int name="count" value="50" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2568.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2342.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4001318" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2325.js">
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21712.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="20200.js">
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="0" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="22001.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2308.js">
+    <imgdir name="StartQuest">
+      <imgdir name="0">
+        <int name="id" value="2312" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032375" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="4032375" />
+        <int name="count" value="-1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="28004.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="29901.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="21740.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+    <imgdir name="GainSkill">
+      <imgdir name="0">
+        <int name="id" value="21100004" />
+        <int name="count" value="20" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20013.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="4032268" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="4032267" />
+        <int name="count" value="-1" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="3010060" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="GainExp">
+    </imgdir>
+    <imgdir name="CompleteQuest">
+      <imgdir name="0">
+        <int name="id" value="20015" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="20002" />
+      </imgdir>
+      <imgdir name="2">
+        <int name="id" value="20001" />
+      </imgdir>
+      <imgdir name="3">
+        <int name="id" value="20000" />
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="20514.js">
+  </imgdir>
+  <imgdir name="20101.js">
+    <imgdir name="GainItem">
+      <imgdir name="0">
+        <int name="id" value="1302077" />
+        <int name="count" value="1" />
+      </imgdir>
+      <imgdir name="1">
+        <int name="id" value="1142066" />
+        <int name="count" value="1" />
+      </imgdir>
+    </imgdir>
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="unidentifiedQuest.js">
+  </imgdir>
+  <imgdir name="21018.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="2149.js">
+    <imgdir name="CompleteQuest">
+    </imgdir>
+  </imgdir>
+  <imgdir name="22502.js">
+    <imgdir name="StartQuest">
+    </imgdir>
+  </imgdir>
+</imgdir>

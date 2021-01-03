@@ -17,6 +17,9 @@ require("composer.loot.loot")
 require("composer.loot.maker")
 require("composer.loot.refine")
 require("composer.quest.quest")
+require("composer.script.script")
+require("composer.script.adjoin.field")
+require("composer.script.adjoin.quest")
 require("composer.unit.unit")
 require("composer.unit.player")
 require("router.structs.landscape.world")
@@ -64,10 +67,13 @@ local function load_resources_internal()
     load_script_resources_fields(ctFieldsDist, ctFieldsMeta, ctFieldsWmap)
     clear_redundant_resources_fields(ctFieldsDist)
 
-    ctNpcs, ctMobs, ctReactors = load_resources_units(ctFieldsMeta)
+    ctNpcs, ctMobs, ctReactors, ctExEvents, ctExMaps, ctExPortals = load_resources_units(ctFieldsMeta)
     --printable(ctNpcs)
     --printable(ctMobs)
     --printable(ctReactors)
+    --printable(ctExEvents)
+    --printable(ctExMaps)
+    --printable(ctExPortals)
 
     ctPlayersMeta = load_resources_player()
     --printable(ctPlayersMeta)
@@ -87,4 +93,11 @@ function load_resources()
 
     load_resources_internal()
     post_process_resources(ctQuests, ctNpcs, ctFieldsDist, ctFieldsMeta, ctFieldsLink)
+end
+
+function load_script_resources()
+    local tpDirScriptRscs = load_script_directory_resources()
+
+    append_quest_script_resources(tpDirScriptRscs)
+    append_field_script_resources(tpDirScriptRscs)
 end
