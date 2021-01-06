@@ -10,13 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("solver.lookup.category")
-require("solver.lookup.category.entries.resources")
-require("solver.lookup.constant")
+require("composer.containers.units.unit_table")
+require("utils.struct.class")
 
-function init_lookup_category_mob_table(ctLoots, ctMobs, ctMobsGroup, pLandscape, rgiRscids)
-    local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.MOBS})
-    install_lookup_category_entries_mob(pLookupTab, ctLoots:get_loot_mob_entries(), rgiRscids, ctMobs, ctMobsGroup, pLandscape)
-
-    return pLookupTab
-end
+CMobGroupTable = createClass({CUnitTable, {sRscName = "mob_group"}})

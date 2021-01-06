@@ -16,13 +16,13 @@ require("solver.lookup.category.mob")
 require("solver.lookup.constant")
 require("solver.lookup.table")
 
-local function fetch_lookup_resources(pLandscape, ctLoots, ctMobs, ctReactors, ctQuests, pLookupRscs)
+local function fetch_lookup_resources(pLandscape, ctLoots, ctMobs, ctMobsGroup, ctReactors, ctQuests, pLookupRscs)
     local rgiRscids
     local rgpCategoryTables = {}
 
     rgiRscids = pLookupRscs[RLookupCategory.MOBS]
 
-    local pLookupMobTab = init_lookup_category_mob_table(ctLoots, ctMobs, pLandscape, rgiRscids)
+    local pLookupMobTab = init_lookup_category_mob_table(ctLoots, ctMobs, ctMobsGroup, pLandscape, rgiRscids)
     table.insert(rgpCategoryTables, pLookupMobTab)
 
     rgiRscids = pLookupRscs[RLookupCategory.ITEMS]
@@ -43,8 +43,8 @@ local function fetch_lookup_resources(pLandscape, ctLoots, ctMobs, ctReactors, c
     return rgpCategoryTables
 end
 
-function load_solver_resource_lookup(pLandscape, ctLoots, ctMobs, ctReactors, ctQuests, pLookupRscs)
-    local rgpCategoryTables = fetch_lookup_resources(pLandscape, ctLoots, ctMobs, ctReactors, ctQuests, pLookupRscs)
+function load_solver_resource_lookup(pLandscape, ctLoots, ctMobs, ctMobsGroup, ctReactors, ctQuests, pLookupRscs)
+    local rgpCategoryTables = fetch_lookup_resources(pLandscape, ctLoots, ctMobs, ctMobsGroup, ctReactors, ctQuests, pLookupRscs)
 
     local pSolverLookup = CSolverLookupTable:new()
     pSolverLookup:init_tables(rgpCategoryTables)

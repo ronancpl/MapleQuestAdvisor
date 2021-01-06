@@ -31,7 +31,7 @@ end
 
 local function generate_quest_resource_graph(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
     local pLookupRscs = create_descriptor_lookup_resources(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid)
-    local pLookupTable = load_solver_resource_lookup(ctFieldsLandscape, ctLoots, ctMobs, ctReactors, ctQuests, pLookupRscs)
+    local pLookupTable = load_solver_resource_lookup(ctFieldsLandscape, ctLoots, ctMobs, ctMobsGroup, ctReactors, ctQuests, pLookupRscs)
 
     local pQuestResource = build_quest_resource_bean(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
     local pRscTree = build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, pLookupTable, iPlayerMapid, iQuestNpcMapid)
@@ -97,7 +97,7 @@ function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerS
     if iQuestNpcMapid ~= nil then
         local pRscTree = generate_quest_resource_graph(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
 
-        for _, pRegionRscTree in ipairs(pRscTree:get_field_nodes()) do
+        for _, pRegionRscTree in pairs(pRscTree:get_field_nodes()) do
             local trgiFieldRscs = fetch_regional_field_resource_graph(ctFieldsDist, pRegionRscTree)
 
             local iRegionDist = evaluate_regional_field_resource_graph(ctFieldsDist, pRegionRscTree, trgiFieldRscs)

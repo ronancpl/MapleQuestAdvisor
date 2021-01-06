@@ -42,6 +42,26 @@ function fn_get_item_fields(ctItems)
     end
 end
 
+function fn_get_mob_fields(ctMobsGroup, ctItems)    -- usage of QuestCountGroup found thanks to Shavit, Arnah
+    return function(trgiRscItems, iRscid)
+        local fn_item_fields = fn_get_item_fields(ctItems)
+
+        local rgiMobs = ctMobsGroup:get_locations(iRscid)
+        if rgiMobs == nil then
+            rgiMobs = {iRscid}
+        end
+
+        local pSetFields = SSet{}
+        for _, iMobid in ipairs(rgiMobs) do
+            local rgiVals = fn_item_fields(trgiRscItems, iMobid)
+            pSetFields = pSetFields + SSet{unpack(rgiVals)}
+        end
+
+        local rgiVals = pSetFields:values()
+        return rgiVals
+    end
+end
+
 function fetch_item_regions(pLandscape, ctResources)
     local tpRegionRscs = {}
 

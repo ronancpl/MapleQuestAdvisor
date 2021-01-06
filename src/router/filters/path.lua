@@ -12,8 +12,9 @@
 
 RPath = {
 
-    RSC_QUESTS = "lib/xml/Quest.wz",
     RSC_FIELDS = "lib/xml/Map.wz",
+    RSC_MOBS = "lib/xml/Mob.wz",
+    RSC_QUESTS = "lib/xml/Quest.wz",
     RSC_STRINGS = "lib/xml/String.wz",
     RSC_META_FIELDS = "lib/scan",
     RSC_META_PORTALS = "lib/scan",

@@ -20,6 +20,13 @@ function install_lookup_category_entries_item(pLookupTab, trgpEntries, rgiRscids
     pLookupTab:init(tpFilteredEntries, fn_rsc_item_fields, pLandscape, false)
 end
 
+function install_lookup_category_entries_mob(pLookupTab, trgpEntries, rgiRscids, ctMobs, ctMobsGroup, pLandscape)
+    local fn_rsc_item_fields = fn_get_mob_fields(ctMobsGroup, ctMobs)
+
+    local tpFilteredEntries = filter_resource_table_entries(trgpEntries, rgiRscids)
+    pLookupTab:init(tpFilteredEntries, fn_rsc_item_fields, pLandscape, false)
+end
+
 function install_lookup_category_entries_static(pLookupTab, trgpEntries, pLandscape, rgiRscids)
     local fn_rsc_static_fields = fn_get_static_fields()
 
