@@ -71,3 +71,19 @@ function CSolverLookupTable:get_resource_fields(iRegionid)
 
     return tResourceFields
 end
+
+function CSolverLookupTable:debug_lookup_table()
+    local m_rgpLookupTabs = self.rgpLookupTabs
+
+    local rgpTabs = {"MOBS", "ITEMS", "FIELD_ENTER", "NPC"}
+
+    local i = 1
+    for _, pLookupTab in ipairs(m_rgpLookupTabs) do
+        print(" ==== LOOKUP " .. rgpTabs[i] .. " ====")
+        pLookupTab:debug_resources()
+        print("  =================================== ")
+        print()
+
+        i = i + 1
+    end
+end

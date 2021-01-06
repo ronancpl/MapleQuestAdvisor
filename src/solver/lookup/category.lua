@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.struct.class")
 require("utils.procedure.unpack")
+require("utils.struct.class")
 
 CSolverLookupCategory = createClass({
     iTabId = 0,
@@ -23,28 +23,15 @@ function CSolverLookupCategory:_get_tab_resource_id(iRscid)
     return (self.iTabId * 1000000000) + iRscid
 end
 
-function CSolverLookupCategory:_reset_entries()
-    local m_tRscItems = self.tRscItems
-    clear_table(m_tRscItems)
-
-    local m_tRegionRscFields = self.tRegionRscFields
-    clear_table(m_tRegionRscFields)
-end
-
 function CSolverLookupCategory:_init_entries(trgpEntries, fn_get_rscid)
     local m_tRscItems = self.tRscItems
 
-    for iSrcid, rgpRscLoots in pairs(trgpEntries) do
-        for _, pLoot in ipairs(rgpRscLoots) do
+    for _, rgpSrcLoots in pairs(trgpEntries) do
+        if #rgpSrcLoots > 0 then
+            local pLoot = rgpSrcLoots[1]
+
             local iRscid = fn_get_rscid(pLoot)
-
-            local rgiSrcids = m_tRscItems[iRscid]
-            if rgiSrcids == nil then
-                rgiSrcids = {}
-                m_tRscItems[iRscid] = rgiSrcids
-            end
-
-            table.insert(rgiSrcids, iSrcid)
+            m_tRscItems[iRscid] = deep_copy(rgpSrcLoots)
         end
     end
 end
@@ -94,6 +81,29 @@ function CSolverLookupCategory:_locate_resources(pLandscape, fn_get_rsc_fields)
     end
 end
 
+function CSolverLookupCategory:debug_resources()
+    local m_tRegionRscFields = self.tRegionRscFields
+
+    for iRegion, trgiRegionRscFields in pairs(m_tRegionRscFields) do
+        if next(trgiRegionRscFields) ~= nil then
+            print("REGIONAL #" .. iRegion)
+            for iRscid, rgiRegionRscFields in pairs(trgiRegionRscFields) do
+                local iRscUnit = iRscid % 1000000000
+
+                local st = " -- {".. iRscUnit .. "} : ["
+                for _, iMapid in ipairs(rgiRegionRscFields) do
+                    st = st .. iMapid .. ", "
+                end
+                st = st .. "]"
+                print(st)
+            end
+            print()
+        end
+    end
+
+    print("---------")
+end
+
 local function get_fn_rscid(bRscInt)
     local fn_get_rscid
 
@@ -107,8 +117,6 @@ local function get_fn_rscid(bRscInt)
 end
 
 function CSolverLookupCategory:init(trgpEntries, fn_get_rsc_fields, pLandscape, bRscInt)
-    self:_reset_entries()
-
     self:_init_entries(trgpEntries, get_fn_rscid(bRscInt))
     self:_locate_resources(pLandscape, fn_get_rsc_fields)
 end

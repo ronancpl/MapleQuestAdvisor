@@ -14,11 +14,20 @@ require("utils.struct.array")
 require("utils.struct.class")
 
 CLoot = createClass({
+    iItemid = -1,
     iSourceid = -1,
     fChance = 0.0,
     siMinItems = 0,
     siMaxItems = 0
 })
+
+function CLoot:get_itemid()
+    return self.iItemid
+end
+
+function CLoot:set_itemid(iItemid)
+    self.iItemid = iItemid
+end
 
 function CLoot:get_sourceid()
     return self.iSourceid

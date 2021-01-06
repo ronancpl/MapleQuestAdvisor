@@ -57,7 +57,7 @@ local function mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid)
                 pFrom[3] = iDist
             end
 
-            pFrontierFields:put(iNeighborMapid, get_field_priority(iDist))
+            pQueueFrontierFields:put(iNeighborMapid, get_field_priority(iDist))
         end
     end
 
@@ -66,6 +66,10 @@ end
 
 local function calc_distance_model_quest_resource(ctFieldsDist, trgiFieldRscs, iSrcMapid, iDestMapid)
     local rgiMapids = keys(trgiFieldRscs)
+    if trgiFieldRscs[iSrcMapid] == nil then
+        table.insert(rgiMapids, iSrcMapid)
+    end
+
     local tpMstPath = mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid)
 
     local iMstDist = 0

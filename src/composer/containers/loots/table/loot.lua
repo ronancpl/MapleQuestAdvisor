@@ -11,11 +11,15 @@
 --]]
 
 require("structs.loot.loot")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CLootTable = createClass({
     tMobItems = {},
-    tReactorItems = {}
+    tItemMobs = {},
+
+    tReactorItems = {},
+    tItemReactors = {}
 })
 
 local tfn_chance_ratio = {
@@ -27,11 +31,12 @@ local function get_chance_by_type(iChance, sTypeLoot)
     return tfn_chance_ratio[sTypeLoot](iChance)
 end
 
-local function create_loot(iItemid, iChance, sLootType, siMinItems, siMaxItems)
+local function create_loot(iSrcid, iItemid, iChance, sLootType, siMinItems, siMaxItems)
     local fChance = get_chance_by_type(iChance, sLootType)
 
     local pLoot = CLoot:new()
-    pLoot:set_sourceid(iItemid)
+    pLoot:set_sourceid(iSrcid)
+    pLoot:set_itemid(iItemid)
     pLoot:set_chance(fChance)
     pLoot:set_min_items(siMinItems)
     pLoot:set_max_items(siMaxItems)
@@ -94,8 +99,8 @@ local function apply_representative_loot(pSquashed, pRlvItem, fAvgChance, siAvgM
     pSquashed:set_max_items(math.ceil(siAvgMaxItems + math.sqrt(iDiffMaxItems)))
 end
 
-local function squash_entry_loots(iItemid, rgpLoots)
-    local pSquashed = create_loot(iItemid, 0, "mob", 0, 0)
+local function squash_entry_loots(iSrcid, iItemid, rgpLoots)
+    local pSquashed = create_loot(iSrcid, iItemid, 0, "mob", 0, 0)
 
     local nLoots = #rgpLoots
     if nLoots > 0 then
@@ -117,7 +122,7 @@ function CLootTable:add_mob_entry(iSrcid)
 end
 
 function CLootTable:add_mob_loot(iSrcid, iItemid, iChance, siMinItems, siMaxItems)
-    local pLoot = create_loot(iItemid, iChance, "mob", siMinItems, siMaxItems)
+    local pLoot = create_loot(iSrcid, iItemid, iChance, "mob", siMinItems, siMaxItems)
     insert_loot(self.tMobItems, pLoot)
 end
 
@@ -130,7 +135,7 @@ function CLootTable:get_mob_entries()
 end
 
 function CLootTable:add_reactor_loot(iSrcid, iItemid, iChance, siMinItems, siMaxItems)
-    local pLoot = create_loot(iItemid, iChance, "reactor", siMinItems, siMaxItems)
+    local pLoot = create_loot(iSrcid, iItemid, iChance, "reactor", siMinItems, siMaxItems)
     insert_loot(self.tReactorItems, pLoot)
 end
 
@@ -150,7 +155,7 @@ local function squash_type_loots(tItems)
         tEntries[iSrcid] = tItemEntries
 
         for _, pLoot in ipairs(rgpLoots) do
-            local iRscid = pLoot:get_sourceid()
+            local iRscid = pLoot:get_itemid()
 
             local rgpRscLoots = tItemEntries[iRscid]
             if rgpRscLoots == nil then
@@ -167,7 +172,7 @@ local function squash_type_loots(tItems)
         tItems[iSrcid] = tRscItems
 
         for iRscid, rgpRscLoots in pairs(tItemEntries) do
-            tRscItems[iRscid] = squash_entry_loots(iRscid, rgpRscLoots)
+            table.insert(tRscItems, squash_entry_loots(iSrcid, iRscid, rgpRscLoots))
         end
     end
 end
@@ -177,4 +182,35 @@ function CLootTable:squash_loots()
 
     squash_type_loots(self.tMobItems)
     squash_type_loots(self.tReactorItems)
+end
+
+function CLootTable:_make_remissive_index_table_loot_sources(tSrcItems, tItemSrcs)
+    clear_table(tItemSrcs)
+
+    for iSrcid, rgpLoots in pairs(tSrcItems) do
+        for _, pLoot in ipairs(rgpLoots) do
+            local iRscid = pLoot:get_itemid()
+
+            local rgpItemLoots = tItemSrcs[iRscid]
+            if rgpItemLoots == nil then
+                rgpItemLoots = {}
+                tItemSrcs[iRscid] = rgpItemLoots
+            end
+
+            table.insert(rgpItemLoots, pLoot)
+        end
+    end
+end
+
+function CLootTable:make_remissive_index_loot_sources()
+    self:_make_remissive_index_table_loot_sources(self.tMobItems, self.tItemMobs)
+    self:_make_remissive_index_table_loot_sources(self.tReactorItems, self.tItemReactors)
+end
+
+function CLootTable:get_loot_mob_entries()
+    return self.tItemMobs
+end
+
+function CLootTable:get_loot_reactor_entries()
+    return self.tItemReactors
 end

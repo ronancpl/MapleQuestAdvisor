@@ -15,20 +15,20 @@ require("solver.lookup.category.entries.resources")
 require("solver.lookup.constant")
 
 local function add_lookup_entry_if_exists(fn_get_lookup_entry, trgpEntries, pEntry)
-    local iSrcid
-    local rgpRscLoots
-    iSrcid, rgpRscLoots = fn_get_lookup_entry(pEntry)
+    local iRscid
+    local rgpLoots
+    iRscid, rgpLoots = fn_get_lookup_entry(pEntry)
 
-    if iSrcid > -1 then
-        trgpEntries[iSrcid] = rgpRscLoots
+    if iRscid > -1 then
+        trgpEntries[iRscid] = rgpLoots
     end
 end
 
 local function fn_get_lookup_entry_field_enter(pQuestProp)
-    local iSrcid = pQuestProp:get_requirement():get_field_enter()
-    local rgpLoots = {iSrcid}
+    local iRscid = pQuestProp:get_requirement():get_field_enter()
+    local rgpLoots = {iRscid}
 
-    return iSrcid, rgpLoots
+    return iRscid, rgpLoots
 end
 
 local function fetch_lookup_entries_field_enter(ctQuests)
@@ -51,58 +51,52 @@ function init_lookup_category_field_enter_table(ctQuests, pLandscape, rgiRscids)
     return pLookupTab
 end
 
-local function fetch_lookup_entry_field_npc(ctNpcs)
-    local rgiNpcids = ctNpcs:get_keys()
+local function fetch_lookup_entry_npc_fields(rgiRscids)
+    local rgiRscMapids = rgiRscids
 
-    local trgiFieldNpcs = {}
-    for _, iNpcid in ipairs(rgiNpcids) do
-        local rgiMapids = ctNpcs:get_locations(iNpcid)
-        for _, iMapid in ipairs(rgiMapids) do
-            local rgiNpcs = trgiFieldNpcs[iMapid]
-            if rgiNpcs == nil then
-                rgiNpcs = {}
-                trgiFieldNpcs[iMapid] = rgiNpcs
-            end
+    local trgiNpcFields = {}
+    for _, iMapid in ipairs(rgiRscMapids) do
+        local rgiMapids = {}
+        table.insert(rgiMapids, iMapid)
 
-            table.insert(rgiNpcs, iNpcid)
-        end
+        trgiNpcFields[iMapid] = rgiMapids
     end
 
-    return trgiFieldNpcs
+    return trgiNpcFields
 end
 
-local function fn_get_lookup_entry_field_npc(pEntry)
-    local iSrcid = pEntry["field"]
-    local rgiNpcs = pEntry["npcs"]
+local function fn_get_lookup_entry_npc_fields(pEntry)
+    local iRscid = pEntry["field_npc"]
+    local rgiFields = pEntry["fields"]
 
-    return iSrcid, rgiNpcs
+    return iRscid, rgiFields
 end
 
-local function create_descriptor_field_npc_entry(iMapid, rgiNpcs)
+local function create_descriptor_npc_fields_entry(iMapid, rgiFields)
     local pEntry = {}
-    pEntry["field"] = iMapid
-    pEntry["npcs"] = rgiNpcs
+    pEntry["field_npc"] = iMapid
+    pEntry["fields"] = rgiFields
 
     return pEntry
 end
 
-local function fetch_lookup_entries_field_npc(ctNpcs)
-    local trgiFieldNpcs = fetch_lookup_entry_field_npc(ctNpcs)
-    local rgiFields = keys(trgiFieldNpcs)
+local function fetch_lookup_entries_field_npc(rgiRscids)
+    local trgiFields = fetch_lookup_entry_npc_fields(rgiRscids)
+    local rgiFields = keys(trgiFields)
 
     local trgpEntries = {}
     for _, iMapid in ipairs(rgiFields) do
-        local pEntry = create_descriptor_field_npc_entry(iMapid, trgiFieldNpcs[iMapid])
-        add_lookup_entry_if_exists(fn_get_lookup_entry_field_npc, trgpEntries, pEntry)
+        local pEntry = create_descriptor_npc_fields_entry(iMapid, trgiFields[iMapid])
+        add_lookup_entry_if_exists(fn_get_lookup_entry_npc_fields, trgpEntries, pEntry)
     end
 
     return trgpEntries
 end
 
-function init_lookup_category_field_npc_table(ctNpcs, pLandscape, rgiRscids)
+function init_lookup_category_field_npc_table(pLandscape, rgiRscids)
     local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.FIELD_NPC})
 
-    local trgpEntries = fetch_lookup_entries_field_npc(ctNpcs)
+    local trgpEntries = fetch_lookup_entries_field_npc(rgiRscids)
     install_lookup_category_entries_static(pLookupTab, trgpEntries, pLandscape, rgiRscids)
 
     return pLookupTab

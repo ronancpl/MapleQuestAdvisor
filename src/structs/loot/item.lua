@@ -28,12 +28,12 @@ function CItem:set_itemid(iItemid)
 end
 
 function CItem:_add_loot(trgLoot, pLoot)
-    local iSourceid = pLoot:get_sourceid()
+    local iItemid = pLoot:get_itemid()
 
-    local rgIdLoot = trgLoot[iSourceid]
+    local rgIdLoot = trgLoot[iItemid]
     if rgIdLoot == nil then
         rgIdLoot = SArray:new()
-        trgLoot[iSourceid] = rgIdLoot
+        trgLoot[iItemid] = rgIdLoot
     end
 
     rgIdLoot:add(pLoot)

@@ -10,7 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.logger.file")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
@@ -49,13 +48,24 @@ function CUnitTable:get_locations(iSrcid)
         rgiFields = {}
     end
 
-    if #rgiFields == 0 then
-        log(LPath.FALLBACK .. LPath.RESOURCE_LOCATION .. self.sRscName .. "/", tostring(iSrcid) .. ".txt", "[WARNING] Empty locations found for sourceid " .. tostring(iSrcid))
-    end
-
     return rgiFields
 end
 
 function CUnitTable:get_keys()
     return keys(self.tUnitFields)
+end
+
+function CUnitTable:debug_locations()
+    print("Resource '" .. self.sRscName .. "' fields:")
+
+    for iSrcid, tFields in pairs(self.tUnitFields) do
+        local rgiFields = tFields
+
+        local st = ""
+        for iField, _ in pairs(rgiFields) do
+            st = st .. iField .. ", "
+        end
+        print(iSrcid .. " .. [" .. st .. "]")
+    end
+
 end

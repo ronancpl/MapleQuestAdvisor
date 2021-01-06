@@ -31,7 +31,7 @@ end
 
 local function generate_quest_resource_graph(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
     local pLookupRscs = create_descriptor_lookup_resources(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid)
-    local pLookupTable = load_solver_resource_lookup(ctFieldsLandscape, ctLoots, ctMobs, ctReactors, ctQuests, ctNpcs, pLookupRscs)
+    local pLookupTable = load_solver_resource_lookup(ctFieldsLandscape, ctLoots, ctMobs, ctReactors, ctQuests, pLookupRscs)
 
     local pQuestResource = build_quest_resource_bean(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
     local pRscTree = build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, pLookupTable, iPlayerMapid, iQuestNpcMapid)

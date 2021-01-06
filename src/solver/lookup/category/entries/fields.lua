@@ -28,23 +28,48 @@ function fn_get_static_fields()
     end
 end
 
-local function fetch_item_fields(rgiSrcLoots, ctResources)
-    local tFields = {}
-    for _, iSrcid in ipairs(rgiSrcLoots) do
-        local rgiMapids = ctResources:get_locations(iSrcid)
-        for _, iMapid in ipairs(rgiMapids) do
-            tFields[iMapid] = 1
-        end
-    end
-
-    return SSet{unpack(keys(tFields))}
+local function fetch_item_fields(iRscid, ctResources)
+    local rgiMapids = ctResources:get_locations(iRscid)
+    return SSet{unpack(rgiMapids)}
 end
 
 function fn_get_item_fields(ctItems)
     return function(trgiRscItems, iRscid)
-        local pSetFields = fetch_item_fields(trgiRscItems[iRscid], ctItems)
+        local pSetFields = fetch_item_fields(iRscid, ctItems)
 
         local rgiVals = pSetFields:values()
         return rgiVals
     end
+end
+
+function fetch_item_regions(pLandscape, ctResources)
+    local tpRegionRscs = {}
+
+    for _, iSrcid in pairs(ctResources:get_keys()) do
+        for _, iMapid in pairs(fetch_item_fields(iSrcid, ctResources):values()) do
+            local iRegionid = pLandscape:get_region_by_mapid(iMapid)
+            if iRegionid > -1 then
+                local rgiItems = tpRegionRscs[iRegionid]
+                if rgiItems == nil then
+                    rgiItems = {}
+                    tpRegionRscs[iRegionid] = rgiItems
+                end
+
+                local rgpLoots = ctLoots:get_mob_entry(iSrcid)
+                if rgpLoots ~= nil then
+                    for _, pLoot in pairs(rgpLoots) do
+                        local iRscid = pLoot:get_itemid()
+                        rgiItems[iRscid] = 1
+                    end
+                end
+            end
+        end
+    end
+
+    local trgiRegionRscs = {}
+    for iRegionid, tRscids in pairs(tpRegionRscs) do
+        trgiRegionRscs[iRegionid] = keys(tRscids)
+    end
+
+    return trgiRegionRscs
 end

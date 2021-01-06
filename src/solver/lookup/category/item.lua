@@ -17,8 +17,8 @@ require("solver.lookup.constant")
 function init_lookup_category_item_table(ctLoots, ctMobs, ctReactors, pLandscape, rgiRscids)
     local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.ITEMS})
 
-    install_lookup_category_entries_item(pLookupTab, ctLoots:get_mob_entries(), rgiRscids, ctMobs, pLandscape)
-    install_lookup_category_entries_item(pLookupTab, ctLoots:get_reactor_entries(), rgiRscids, ctReactors, pLandscape)
+    install_lookup_category_entries_item(pLookupTab, ctLoots:get_loot_mob_entries(), rgiRscids, ctMobs, pLandscape)
+    install_lookup_category_entries_item(pLookupTab, ctLoots:get_loot_reactor_entries(), rgiRscids, ctReactors, pLandscape)
 
     return pLookupTab
 end

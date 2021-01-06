@@ -55,6 +55,7 @@ local function init_loot_table(sDirPath)
     load_loot_by_type(ctLoots, CLootTable.add_reactor_entry, CLootTable.add_reactor_loot, "reactorid", {"reactorid", "itemid", 1, 1, "chance"}, sDirPath .. "/reactordrops.csv")
 
     ctLoots:squash_loots()
+    ctLoots:make_remissive_index_loot_sources()
 
     return ctLoots
 end

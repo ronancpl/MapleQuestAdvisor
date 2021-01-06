@@ -27,12 +27,14 @@ local function fn_apply_quest_rsc_item(pQuestProp, fn_quest_ivt, iId, iGain)
     bReq, iCount = fn_quest_rsc_value(iGain)
 
     if bReq then
+        --[[
         local pQuestChkProp = pQuestProp:get_requirement()
         local ivtValue = fn_quest_ivt(pQuestChkProp)
 
         if ivtValue:get_item(iId) < iCount then     -- only updates if the current scenario lacks in comparison
             ivtValue:set_item(iId, iCount)
         end
+        ]]--
     else
         local pQuestActProp = pQuestProp:get_action()
         local ivtValue = fn_quest_ivt(pQuestActProp)
@@ -48,10 +50,12 @@ local function fn_apply_quest_rsc_attr(pQuestProp, fn_quest_attr_get, fn_quest_a
     local iCount = fn_quest_rsc_value(iGain)
 
     if bReq then
+        --[[
         local pQuestChkProp = pQuestProp:get_requirement()
         if fn_quest_attr_get(pQuestChkProp) < iCount then
             fn_quest_attr_set(pQuestChkProp, iCount)
         end
+        ]]--
     else
         local pQuestActProp = pQuestProp:get_action()
         if fn_quest_attr_get(pQuestActProp) < iCount then

@@ -18,6 +18,9 @@ require("composer.script.adjoin.util")
 function append_quest_script_resources(tpDirRscs)
     -- adds functional resources on top of quest prerequisite/reward properties, if non-existent
 
+    -- assumption: only script rewards are being accounted, as scripts report resources to START,
+    -- even though resource progress flow linearly within START/END questing frame.
+
     local tpFieldQuests = make_remissive_index_unit_quests(ctQuests, fn_get_quest_fields)
     local tpNpcQuests = make_remissive_index_unit_quests(ctQuests, fn_get_quest_npcs)
 
