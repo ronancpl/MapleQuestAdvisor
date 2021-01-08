@@ -10,20 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-U_INT_MAX = 0x7FFFFFFF
+RFlags = {
 
-U_QUEUE_SIZE_INC = 25
+    EXP_RATE = 10.0,
+    MESO_RATE = 10.0,
+    DROP_RATE = 10.0
 
-S_WORLDMAP_BASE = "WorldMap"
-
-function get_continent_id(iMapid)
-    return math.floor(iMapid / 100000000)
-end
-
-function get_region_id(iMapid)
-    return math.floor(iMapid / 10000000)
-end
-
-function math.clamp(val, min, max)
-    return math.min(math.max(val, min), max)
-end
+}

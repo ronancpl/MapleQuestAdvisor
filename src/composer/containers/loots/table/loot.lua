@@ -178,7 +178,7 @@ local function squash_type_loots(tItems)
 end
 
 function CLootTable:squash_loots()
-    -- after inserting all loots, unify loots into one representative for each srcid
+    -- after inserting all loots, unify into one representative for each srcid
 
     squash_type_loots(self.tMobItems)
     squash_type_loots(self.tReactorItems)
@@ -211,6 +211,14 @@ function CLootTable:get_loot_mob_entries()
     return self.tItemMobs
 end
 
+function CLootTable:get_loot_mob_entry(iRscid)
+    return self.tItemMobs[iRscid]
+end
+
 function CLootTable:get_loot_reactor_entries()
     return self.tItemReactors
+end
+
+function CLootTable:get_loot_reactor_entry(iRscid)
+    return self.tItemReactors[iRscid]
 end

@@ -32,3 +32,14 @@ function clear_table(tTable)
         tTable[pKey] = nil
     end
 end
+
+function create_inner_table_if_not_exists(tTable, pKey)
+    local tInnerTable = tTable[pKey]
+
+    if tInnerTable == nil then
+        tInnerTable = {}
+        tTable[pKey] = tInnerTable
+    end
+
+    return tInnerTable
+end

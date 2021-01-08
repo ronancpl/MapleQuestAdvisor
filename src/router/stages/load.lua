@@ -13,6 +13,7 @@
 require("composer.field.field")
 require("composer.field.station")
 require("composer.field.worldmap")
+require("composer.loot.acquisition")
 require("composer.loot.loot")
 require("composer.loot.maker")
 require("composer.loot.refine")
@@ -23,6 +24,7 @@ require("composer.script.adjoin.quest")
 require("composer.unit.mob_group")
 require("composer.unit.player")
 require("composer.unit.unit")
+require("router.filters.server")
 require("router.structs.landscape.world")
 require("utils.logger.file")
 --require("utils.procedure.print")
@@ -89,6 +91,7 @@ local function load_resources_internal()
 
     ctRefine = load_resources_refine()
     --printable(ctRefine)
+
 end
 
 function load_resources()
@@ -103,4 +106,12 @@ function load_script_resources()
 
     append_quest_script_resources(tpDirScriptRscs)
     append_field_script_resources(tpDirScriptRscs)
+end
+
+function load_loot_retrieval_resources()
+    log(LPath.OVERALL, "log.txt", "Load loot retrieval resources...")
+
+    ctRetrieveLootMobs, ctRetrieveLootReactors = load_acquisition_loot_table(RFlags.DROP_RATE, ctFieldsLandscape, ctFieldsMeta, ctLoots)
+    --printable(ctRetrieveLootMobs)
+    --printable(ctRetrieveLootReactors)
 end

@@ -11,16 +11,33 @@
 --]]
 
 require("solver.assignment.procedures.solve")
+require("solver.graph.resource.measure")
 
-local function make_model_row_values(nCols, rgiFieldCols, iRscCost)
+local function fetch_model_resource_field_values(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iEntryMapid, pResource, tiRscIdxs)
+    local rgiFieldCols = {}
+    local rgiFieldCosts = {}
+
+    for _, iRsc in ipairs(pResource:get_resources()) do
+        local iRscIdx = tiRscIdxs[iRsc]
+        local iRscUtilCost = calc_resource_retrieve_utility_cost(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iEntryMapid, iRsc)
+
+        table.insert(rgiFieldCols, iRscIdx)
+        table.insert(rgiFieldCosts, iRscUtilCost)
+    end
+
+    return rgiFieldCols, rgiFieldCosts
+end
+
+local function make_model_row_values(nCols, rgiFieldCols, rgiFieldCosts, iRscDistCost)
     local rgiRowValues = {}
 
     for i = 1, nCols, 1 do
         rgiRowValues[i] = 0
     end
 
-    for _, iCol in ipairs(rgiFieldCols) do
-        rgiRowValues[iCol] = iRscCost
+    for i, iCol in ipairs(rgiFieldCols) do
+        local iRscUtilCost = rgiFieldCosts[i]
+        rgiRowValues[iCol] = calc_resource_retrieve_cost(iRscUtilCost, iRscDistCost)
     end
 
     return rgiRowValues
@@ -40,14 +57,14 @@ local function create_model_quest_resource_graph(ctFieldsDist, iSrcMapid, tpFiel
 
     local nCols = #rgiMetaRscs
     for iMapid, pResource in pairs(tpFieldRscs) do
-        local rgiFieldCols = {}
-        for _, iRsc in ipairs(pResource:get_resources()) do
-            local iRscIdx = tiRscIdxs[iRsc]
-            table.insert(rgiFieldCols, iRscIdx)
-        end
+        local rgiFieldCols
+        local rgiFieldCosts
+        rgiFieldCols, rgiFieldCosts = fetch_model_resource_field_values(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iSrcMapid, pResource, tiRscIdxs)
 
-        local iRscCost = ctFieldsLandscape:fetch_field_distance(iSrcMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
-        local rgiRowValues = make_model_row_values(nCols, rgiFieldCols, iRscCost)
+        local iRscDist = ctFieldsLandscape:fetch_field_distance(iSrcMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
+        local iRscDistCost = calc_resource_field_cost(iRscDist)
+
+        local rgiRowValues = make_model_row_values(nCols, rgiFieldCols, rgiFieldCosts, iRscDistCost)
         table.insert(rgpTableValues, rgiRowValues)
 
         table.insert(rgiMetaFields, iMapid)
