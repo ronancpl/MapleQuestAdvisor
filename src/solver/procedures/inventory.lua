@@ -10,9 +10,23 @@
     provide an express grant of patent rights.
 --]]
 
-local function fetch_effective_unit_count_to_item(iId, iCount)
+local function fetch_effective_unit_count_to_item(iId, iCount, pPlayerState)
+    local iRegionid = ctFieldsLandscape:get_region_by_mapid(pPlayerState:get_mapid())
 
-    return iCount
+    local fChance = ctRetrieveLootMobs:get_acquisition_chance(iId, iRegionid)
+    fChance = math.max(fChance, ctRetrieveLootReactors:get_acquisition_chance(iId, iRegionid))
+    fChance = fChance + 0.001
+
+    return math.ceil(iCount * (1.0 / fChance))
+end
+
+function fetch_effective_unit_count_to_inventory(tiItems, pPlayerState)
+    local tiEffItems = {}
+    for iId, iCount in pairs(tiItems) do
+        tiEffItems[iId] = fetch_effective_unit_count_to_item(iId, iCount, pPlayerState)
+    end
+
+    return tiEffItems
 end
 
 function fetch_inventory_split_count(tiItems)

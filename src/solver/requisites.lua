@@ -51,6 +51,7 @@ end
 
 local function evaluate_cost_inventory(pReqAcc, pPlayerState, pQuestActProp)
     local tiItems = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+    tiItems = fetch_effective_unit_count_to_inventory(tiItems, pPlayerState)
 
     local tiTypeCount = fetch_inventory_split_count(tiItems)
     local rgpCurbMod = {RQuest.ITEMS.EQUIP.Curb, RQuest.ITEMS.USE.Curb, RQuest.ITEMS.SETUP.Curb, RQuest.ITEMS.ETC.Curb}
