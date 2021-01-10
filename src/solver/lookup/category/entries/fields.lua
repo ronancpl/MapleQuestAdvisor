@@ -20,22 +20,22 @@ local function fetch_static_fields(rgiSrcLoots)
 end
 
 function fn_get_static_fields()
-    return function(trgiRscItems, iRscid)
-        local pSetFields = fetch_static_fields(trgiRscItems[iRscid])
+    return function(trgiSrcItems, iSrcid)
+        local pSetFields = fetch_static_fields(trgiSrcItems[iSrcid])
 
         local rgiVals = pSetFields:values()
         return rgiVals
     end
 end
 
-local function fetch_item_fields(iRscid, ctResources)
-    local rgiMapids = ctResources:get_locations(iRscid)
+local function fetch_item_fields(iSrcid, ctResources)
+    local rgiMapids = ctResources:get_locations(iSrcid)
     return SSet{unpack(rgiMapids)}
 end
 
 function fn_get_item_fields(ctItems)
-    return function(trgiRscItems, iRscid)
-        local pSetFields = fetch_item_fields(iRscid, ctItems)
+    return function(trgiSrcItems, iSrcid)
+        local pSetFields = fetch_item_fields(iSrcid, ctItems)
 
         local rgiVals = pSetFields:values()
         return rgiVals
@@ -43,53 +43,21 @@ function fn_get_item_fields(ctItems)
 end
 
 function fn_get_mob_fields(ctMobsGroup, ctItems)    -- usage of QuestCountGroup found thanks to Shavit, Arnah
-    return function(trgiRscItems, iRscid)
+    return function(trgiSrcItems, iSrcid)
         local fn_item_fields = fn_get_item_fields(ctItems)
 
-        local rgiMobs = ctMobsGroup:get_locations(iRscid)
+        local rgiMobs = ctMobsGroup:get_locations(iSrcid)
         if rgiMobs == nil then
-            rgiMobs = {iRscid}
+            rgiMobs = {iSrcid}
         end
 
         local pSetFields = SSet{}
         for _, iMobid in ipairs(rgiMobs) do
-            local rgiVals = fn_item_fields(trgiRscItems, iMobid)
+            local rgiVals = fn_item_fields(trgiSrcItems, iMobid)
             pSetFields = pSetFields + SSet{unpack(rgiVals)}
         end
 
         local rgiVals = pSetFields:values()
         return rgiVals
     end
-end
-
-function fetch_item_regions(pLandscape, ctResources)
-    local tpRegionRscs = {}
-
-    for _, iSrcid in pairs(ctResources:get_keys()) do
-        for _, iMapid in pairs(fetch_item_fields(iSrcid, ctResources):values()) do
-            local iRegionid = pLandscape:get_region_by_mapid(iMapid)
-            if iRegionid > -1 then
-                local rgiItems = tpRegionRscs[iRegionid]
-                if rgiItems == nil then
-                    rgiItems = {}
-                    tpRegionRscs[iRegionid] = rgiItems
-                end
-
-                local rgpLoots = ctLoots:get_mob_entry(iSrcid)
-                if rgpLoots ~= nil then
-                    for _, pLoot in pairs(rgpLoots) do
-                        local iRscid = pLoot:get_itemid()
-                        rgiItems[iRscid] = 1
-                    end
-                end
-            end
-        end
-    end
-
-    local trgiRegionRscs = {}
-    for iRegionid, tRscids in pairs(tpRegionRscs) do
-        trgiRegionRscs[iRegionid] = keys(tRscids)
-    end
-
-    return trgiRegionRscs
 end

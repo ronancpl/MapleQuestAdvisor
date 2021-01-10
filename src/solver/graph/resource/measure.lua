@@ -11,6 +11,7 @@
 --]]
 
 require("router.filters.constant")
+require("solver.graph.resource.retrieve.item")
 require("solver.lookup.constant")
 
 function calc_resource_retrieve_utility_cost(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iEntryMapid, iRscid)

@@ -11,12 +11,15 @@
 --]]
 
 require("solver.lookup.category")
-require("solver.lookup.category.entries.resources")
+require("solver.lookup.category.entries.resources.mob")
 require("solver.lookup.constant")
 
 function init_lookup_category_mob_table(ctLoots, ctMobs, ctMobsGroup, pLandscape, rgiRscids)
     local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.MOBS})
-    install_lookup_category_entries_mob(pLookupTab, ctLoots:get_loot_mob_entries(), rgiRscids, ctMobs, ctMobsGroup, pLandscape)
+
+    install_lookup_category_entries_mob(pLookupTab, ctLoots:get_loot_mob_entries(), rgiRscids)
+    locate_lookup_category_entries_mob(pLookupTab, ctMobs, ctMobsGroup, pLandscape)
+    array_lookup_category_entries_item(pLookupTab)
 
     return pLookupTab
 end

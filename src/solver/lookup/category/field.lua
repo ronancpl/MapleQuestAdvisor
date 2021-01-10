@@ -11,7 +11,7 @@
 --]]
 
 require("solver.lookup.category")
-require("solver.lookup.category.entries.resources")
+require("solver.lookup.category.entries.resources.static")
 require("solver.lookup.constant")
 
 local function add_lookup_entry_if_exists(fn_get_lookup_entry, trgpEntries, pEntry)
@@ -46,7 +46,10 @@ function init_lookup_category_field_enter_table(ctQuests, pLandscape, rgiRscids)
     local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.FIELD_ENTER})
 
     local trgpEntries = fetch_lookup_entries_field_enter(ctQuests)
-    install_lookup_category_entries_static(pLookupTab, trgpEntries, pLandscape, rgiRscids)
+
+    install_lookup_category_entries_static(pLookupTab, trgpEntries, rgiRscids)
+    locate_lookup_category_entries_static(pLookupTab, pLandscape)
+    array_lookup_category_entries_item(pLookupTab)
 
     return pLookupTab
 end
@@ -97,7 +100,10 @@ function init_lookup_category_field_npc_table(pLandscape, rgiRscids)
     local pLookupTab = CSolverLookupCategory:new({iTabId = RLookupCategory.FIELD_NPC})
 
     local trgpEntries = fetch_lookup_entries_field_npc(rgiRscids)
-    install_lookup_category_entries_static(pLookupTab, trgpEntries, pLandscape, rgiRscids)
+
+    install_lookup_category_entries_static(pLookupTab, trgpEntries, rgiRscids)
+    locate_lookup_category_entries_static(pLookupTab, pLandscape)
+    array_lookup_category_entries_item(pLookupTab)
 
     return pLookupTab
 end

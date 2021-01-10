@@ -215,3 +215,47 @@ end
 function CApTable:add_unassigned_count(iCount)
     self.iUnassigned = self.iUnassigned + iCount
 end
+
+function CApTable:debug_assignment_table()
+    local pTable = self
+
+    local st = "\t|| "
+    for _, pCol in pairs(pTable:get_columns()) do
+        st = st .. pCol:get_index() .. "\t| "
+    end
+    print(st)
+    print("==================== Values ========================")
+
+    for _, pRow in pairs(pTable:get_rows()) do
+        local st = ""
+        st = st .. "#" .. pRow:get_index() .. "\t|| "
+
+        for _, pCell in pairs(pTable:get_row_elements(pRow)) do
+            st = st .. pCell:get_value() .. "\t| "
+        end
+        print(st)
+    end
+
+    print()
+    print("===================== Flags ========================")
+
+    local st = "\t|| "
+    for _, pCol in pairs(pTable:get_columns()) do
+        st = st .. debug_flag_value(pCol, false) .. "\t| "
+    end
+    print(st)
+    print("====================================================")
+
+    for _, pRow in pairs(pTable:get_rows()) do
+        local st = ""
+        st = st .. "#" .. debug_flag_value(pRow, false) .. "\t|| "
+
+        for _, pCell in pairs(pTable:get_row_elements(pRow)) do
+            st = st .. debug_flag_value(pCell, true) .. "\t| "
+        end
+        print(st)
+    end
+
+    print("====================================================")
+    os.execute("pause")
+end

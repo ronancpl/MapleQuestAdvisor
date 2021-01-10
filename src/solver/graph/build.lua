@@ -40,47 +40,6 @@ local function make_remissive_index_field_resources(tpResourceFields)
     return trgiFieldResources
 end
 
-local function debug_descriptor_region(iRegionid, pRscTree)
-    print("Regionid:", iRegionid)
-
-    local iSrcMapid = pRscTree:get_field_source()
-    local iDestMapid = pRscTree:get_field_destination()
-    print("Src: " .. iSrcMapid .. " Dest: " .. iDestMapid)
-
-    local rgiRscs = pRscTree:get_resources()
-
-    print("Rscs:")
-    local tpFieldRscs = pRscTree:get_field_nodes()
-    for iMapid, pRsc in pairs(tpFieldRscs) do
-        local st = ""
-        for _, iRscid in pairs(pRsc:get_resources()) do
-            local iRscType = math.floor(iRscid / 1000000000)
-            local iRscUnit = iRscid % 1000000000
-
-            st = st .. "{" .. iRscType .. ":" .. iRscUnit .. "}" .. ", "
-        end
-
-        print("  " .. iMapid .. " : " .. st)
-    end
-    print("---------")
-end
-
-local function debug_descriptor_tree(pRscTree)
-    local iSrcMapid = pRscTree:get_field_source()
-    local iDestMapid = pRscTree:get_field_destination()
-
-    local tpFieldRscs = pRscTree:get_field_nodes()
-    local rgiRscs = pRscTree:get_resources()
-
-    print("DEBUG TREE")
-    for iRegionid, pRegionRscTree in pairs(tpFieldRscs) do
-        print("DEBUG REGION #" .. iRegionid)
-        debug_descriptor_region(iRegionid, pRegionRscTree)
-        print("-----")
-    end
-    print("=====")
-end
-
 local function build_descriptor_tree(pRscTree, tpTreeResources, tpPathMapids)
     local rgiTreeResourceids = SArray:new()
 

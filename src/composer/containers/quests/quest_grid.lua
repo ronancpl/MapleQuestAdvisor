@@ -157,7 +157,7 @@ function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nQuests)
 
     local nLevel = pPlayer:get_level() + RGraph.POOL_AHEAD_QUEST_LEVEL
 
-    local iIdx = m_rgQuests:bsearch(fn_compare_quest_level, nLevel, true, true)
+    local iIdx = math.max(m_rgQuests:bsearch(fn_compare_quest_level, nLevel, true, true), 1)
     local iToIdx = m_rgQuests:bsearch(fn_compare_quest_level, pPlayer:get_level(), true, true)
 
     if iToIdx - iIdx < nQuests then
