@@ -11,6 +11,7 @@
 --]]
 
 require("composer.containers.units.mob_group_table")
+require("router.filters.path")
 require("utils.procedure.directory")
 
 local function load_mob_group(sFileName, pMobGroupsNode)

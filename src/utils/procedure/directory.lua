@@ -13,7 +13,8 @@
 function scandir(sDirPath)
     local rgsFileNames = {}
 
-    for sFileName in io.popen('dir "' .. sDirPath .. '" /b'):lines() do
+    local sCurPath = io.popen"cd":read'*l'
+    for sFileName in io.popen('dir "' .. sCurPath .. "\\..\\" .. sDirPath .. '" /b'):lines() do
         table.insert(rgsFileNames, sFileName)
     end
 
