@@ -47,7 +47,7 @@ end
 function SMapStack:init(rgpKeys)
     local m_tpStacks = self.tpStacks
 
-    for _, pKey in pairs(rgpKeys) do
+    for _, pKey in ipairs(rgpKeys) do
         local rgpStack = SStack:new()
         m_tpStacks[pKey] = rgpStack
     end

@@ -59,15 +59,15 @@ local function make_quest_pool_list(tQuests)
     rgpPool:sort(fn_compare_quest_id)        -- in order to use bsearch with questid
     rgpPool:reverse()                        -- consumer takes item linearly
 
-    return rgpPool
+    return rgpPool:list()
 end
 
-local function route_quest_permit_complete(rgpQuestProps, pQuestProp, pPlayerState)
+local function route_quest_permit_complete(pQuestProp, pPlayerState)
     local pQuestEndProp = ctQuests:get_quest_by_id(pQuestProp:get_quest_id()):get_end()
     pQuestEndProp:set_active_on_grid(true)
 end
 
-local function route_quest_suppress_complete(rgpQuestProps, pQuestProp, pPlayerState)
+local function route_quest_suppress_complete(pQuestProp, pPlayerState)
     local pQuestEndProp = ctQuests:get_quest_by_id(pQuestProp:get_quest_id()):get_end()
     pQuestEndProp:set_active_on_grid(false)
 end
@@ -82,7 +82,7 @@ local function print_path_search_counts()
 end
 
 local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
-    route_quest_permit_complete(rgpPoolProps, pQuestProp, pPlayerState)      -- allows visibility of quest ending
+    route_quest_permit_complete(pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
     local iValue = evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
     pCurrentPath:add(pQuestProp, iValue)
@@ -92,7 +92,7 @@ local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQ
 
     progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
 
-    local rgpFrontierPoolProps = pFrontierArranger:update_visit(ctAccessors, pPlayerState, pQuestProp)
+    local rgpFrontierPoolProps = pFrontierArranger:update_visit(ctAccessors, pPlayerState, pQuestProp, rgpPoolProps)
     table.sort(rgpFrontierPoolProps, fn_compare_quest_id)
 
     local rgpNeighbors = fetch_neighbors(rgpFrontierPoolProps, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
@@ -146,7 +146,7 @@ local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontier
         route_quest_log_returned_path(pCurrentPath, rgpBcktQuests)
 
         for _, pBcktQuestProp in ipairs(rgpBcktQuests) do
-            route_quest_suppress_complete(rgpPoolProps, pBcktQuestProp, pPlayerState)
+            route_quest_suppress_complete(pBcktQuestProp, pPlayerState)
         end
     end
 
@@ -157,7 +157,7 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
     local pQuestTree = CGraphTree:new()
     local pQuestMilestone = CGraphMilestone:new()
 
-    pQuestTree:install_entries(rgpPoolProps:list())
+    pQuestTree:install_entries(rgpPoolProps)
 
     while true do
         local pQuestProp = pFrontierQuests:peek()

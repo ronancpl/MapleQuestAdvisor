@@ -70,7 +70,7 @@ function CNeighborArranger:_fetch_explored_updated_requirements(ctAccessors, pEx
     return rgpAccs
 end
 
-function CNeighborArranger:update_visit(ctAccessors, pPlayerState, pExploredQuestProp)
+function CNeighborArranger:update_visit(ctAccessors, pPlayerState, pExploredQuestProp, rgpPoolProps)
     local m_pQuestPool = self.pQuestPool
     local m_pSetCurrentNeighbors = self.pSetCurrentNeighbors
 
@@ -91,10 +91,10 @@ function CNeighborArranger:update_visit(ctAccessors, pPlayerState, pExploredQues
     local tpSetAccAdditional
     tpSetAccWithdrawn, tpSetAccAdditional = m_pQuestPool:fetch_updated_accessors_set(rgpInvtAccs, rgpUnitAccs, pPlayerState)
 
-    local pSetRemaining = m_pQuestPool:fetch_remaining_neighbors(m_pSetCurrentNeighbors, tpSetAccWithdrawn)
-    local pSetAdditional = m_pQuestPool:fetch_additional_neighbors(ctAccessors, tpSetAccAdditional)
+    local pSetQuestRemaining = m_pQuestPool:fetch_remaining_neighbors(m_pSetCurrentNeighbors, tpSetAccWithdrawn)
+    local pSetQuestAdditional = m_pQuestPool:fetch_additional_neighbors(ctAccessors, tpSetAccAdditional, rgpPoolProps)
 
-    self.pSetCurrentNeighbors = pSetRemaining + pSetAdditional
+    self.pSetCurrentNeighbors = pSetQuestRemaining + pSetQuestAdditional
     m_pQuestPool:update_player_props(pExploredQuestProp)
 
     return collection_values(self.pSetCurrentNeighbors)

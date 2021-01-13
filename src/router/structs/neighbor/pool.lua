@@ -42,7 +42,8 @@ function CNeighborPool:_init_quests(rgpPoolProps, ctAccessors)
     local m_tAccQuests = self.tAccQuests
     local m_rgpAllQuests = self.rgpAllQuests
     local m_tPropQuests = self.tPropQuests
-    for _, pQuestProp in ipairs(rgpPoolProps:list()) do
+
+    for _, pQuestProp in ipairs(rgpPoolProps) do
         local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp)
         for _, pAcc in ipairs(rgpAccs) do
             local pQuestChkProp = pQuestProp:get_requirement()
@@ -154,12 +155,12 @@ function CNeighborPool:_adjust_accessor_neighbor_limits(pAcc, bInvt, iSt, iEn, i
     end
 
     local fn_get_prop = fn_get_quest_property(pAcc)
-    local iStPoolProp = rgAccPool:get(iSt)
+    local pStPoolProp = rgAccPool:get(iSt)
     if pStPoolProp == nil or (bInvt and #fn_get_prop(pStPoolProp) or fn_get_prop(pStPoolProp)) < iStProp then     -- prop values are within range of iStProp ~ iEnProp
         iSt = iSt + 1
     end
 
-    local iEnPoolProp = rgAccPool:get(iEn)
+    local pEnPoolProp = rgAccPool:get(iEn)
     if pEnPoolProp == nil or (bInvt and #fn_get_prop(pEnPoolProp) or fn_get_prop(pEnPoolProp)) > iEnProp then
         iEn = iEn - 1
     end
@@ -264,22 +265,22 @@ function CNeighborPool:fetch_remaining_neighbors(pSetCurNeighbors, tpSetAccWithd
     return pSet
 end
 
-function CNeighborPool:_fetch_full_additional_set(tpSetAccAdditional)
+function CNeighborPool:_fetch_full_additional_set(tpSetAccProps)
     local pSetFull = SSet{}
-    for _, pSetAdditional in pairs(tpSetAccAdditional) do
-        pSetFull = pSetFull + pSetAdditional
+    for _, pSetProps in pairs(tpSetAccProps) do
+        pSetFull = pSetFull + pSetProps
     end
 
     return pSetFull
 end
 
-function CNeighborPool:_fetch_accessor_additionals_table(tpSetAccAdditional)
+function CNeighborPool:_fetch_accessor_additionals_table(tpSetAccProps)
     local tpAccAdditionals = {}
 
-    for pAcc, pSetAdditional in pairs(tpSetAccAdditional) do
+    for pAcc, pSetProps in pairs(tpSetAccProps) do
         local pAccAdditionals = {}
 
-        for _, pQuestProps in ipairs(pSetAdditional:values()) do
+        for _, pQuestProps in ipairs(pSetProps:values()) do
             pAccAdditionals[pQuestProps] = 1
         end
 

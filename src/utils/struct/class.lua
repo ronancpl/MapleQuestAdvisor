@@ -41,18 +41,29 @@ end
 
 function clearClassMethods(o)
     unassignClassMethods(o)
+
     o.classMethods = nil
+    o.classMembers.hasClassMethods = false
 end
 
 function getClassMethods(o)
-    local m = o.classMethods
-    if not m then
+    local b = o.classMembers.hasClassMethods
+
+    local m
+    if not b then
         m = {}
         getMetatableMethods(getmetatable(o), m)
         getMetatableMethods(o, m)
+        for _, c in ipairs(o.classAncestors) do
+            getMetatableMethods(c, m)
+        end
 
         o.classMethods = m
+        o.classMembers.hasClassMethods = true
+
         assignClassMethods(o)
+    else
+        m = o.classMethods
     end
 
     return m
@@ -106,6 +117,8 @@ local function initClassMembers(...)
     local retMembers = {}                    -- raw members definition
     local retSubclasses = {}
 
+    retMembers.hasClassMethods = false
+
     if #... > 0 then
         for _, c in ipairs(...) do
             local cMembers = initClassMembersInternal(c)
@@ -130,18 +143,19 @@ local function loadValues(o)
 end
 
 local function fn_index(tObj, sName)
-    return tObj.classMembers[sName] or tObj.classMethods[sName]
+    local classMembers = tObj.classMembers
+    return classMembers[sName] or (classMembers.hasClassMethods and tObj.classMethods[sName]) or nil
 end
 
 function createClass (...)
     local c = {}        -- new class
 
-    c.classMembers, c.classMethods = initClassMembers(...)
-    c.classMembers = retrieveClassMembers(c) -- members definition
-
     -- prepare `c' to be the metatable of its instances
     setmetatable(c, {__index = fn_index})
     c.__index = c
+
+    c.classMembers, c.classAncestors = initClassMembers(...)
+    c.classMembers = retrieveClassMembers(c) -- members definition
 
     -- define a new constructor for this new class
     function c:new (sv)

@@ -37,7 +37,7 @@ end
 local function process_player_job_update(pPlayerState, rgpPoolProps)
     local siJobid = pPlayerState:get_job()
 
-    for _, pQuestProp in ipairs(rgpPoolProps:list()) do
+    for _, pQuestProp in ipairs(rgpPoolProps) do
         local pQuestChkProp = pQuestProp:get_requirement()
         pQuestChkProp:set_job_access(siJobid)
     end
