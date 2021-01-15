@@ -86,12 +86,14 @@ function CGraphDeckQuest:debug_tree_deck_builder(rgpPath)
         local pQuestStage = m_tpQuestStages:get_top(pQuestProp)
         local nQuestDeckLen = m_tpQuestStages:get_size(pQuestProp)
 
-        local st = pQuestProp:get_name(true) .. " deck lv: " .. nQuestDeckLen .. " -> ["
-        for k, pNeighborProp in pairs(pQuestStage:get_active_neighbors()) do
-            st = st .. pNeighborProp:get_name(true) .. ", "
+        if nQuestDeckLen > 0 then
+            local st = pQuestProp:get_name(true) .. " deck lv: " .. nQuestDeckLen .. " -> ["
+            for k, pNeighborProp in pairs(pQuestStage:get_active_neighbors()) do
+                st = st .. pNeighborProp:get_name(true) .. ", "
+            end
+            st = st .. "]"
+            print(st)
         end
-        st = st .. "]"
-        print(st)
     end
 end
 

@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+U_INT_MIN = -0x80000000
 U_INT_MAX = 0x7FFFFFFF
 
 U_QUEUE_SIZE_INC = 25

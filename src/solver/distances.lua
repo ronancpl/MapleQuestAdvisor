@@ -97,7 +97,7 @@ function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerS
     if iQuestNpcMapid ~= nil then
         local pRscTree = generate_quest_resource_graph(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
 
-        for _, pRegionRscTree in pairs(pRscTree:get_field_nodes()) do
+        for iRegionid, pRegionRscTree in pairs(pRscTree:get_field_nodes()) do
             local trgiFieldRscs = fetch_regional_field_resource_graph(ctFieldsDist, pRegionRscTree)
 
             local iRegionDist = evaluate_regional_field_resource_graph(ctFieldsDist, pRegionRscTree, trgiFieldRscs)

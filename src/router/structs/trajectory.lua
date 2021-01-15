@@ -26,7 +26,7 @@ function CGraphTree:install_entries(rgpPoolProps)
 end
 
 function CGraphTree:push_node(pQuestProp, rgpNeighbors)
-    self:add(pQuestProp)
+    self:add(pQuestProp, 0.0)
 
     local m_rgpPath = self.rgpPath
     local iCurPathLen = m_rgpPath:size()

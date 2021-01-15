@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.constant")
 require("router.procedures.graph.inner")
 require("router.procedures.graph.outer")
 require("router.procedures.player.update")
@@ -84,8 +85,12 @@ end
 local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     route_quest_permit_complete(pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
-    local iValue = evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
-    pCurrentPath:add(pQuestProp, iValue)
+    local fValue = evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
+    pCurrentPath:add(pQuestProp, fValue)
+
+    if pCurrentPath:value() > pLeadingPath:value() then
+        pLeadingPath:set(pCurrentPath)
+    end
 
     local iPathSize = pCurrentPath:size()
     tPathSearched[iPathSize] = (tPathSearched[iPathSize] or 0) + 1
@@ -198,7 +203,7 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsD
     log(LPath.OVERALL, "log.txt", "Route quest board... (" .. tQuests:size() .. " quests)")
 
     local rgPoolQuests = make_pool_list(tQuests)
-    local pLeadingPath = CQuestPath:new()
+    local pLeadingPath = CQuestPath:new({fPathValue = U_INT_MIN})
 
     log(LPath.OVERALL, "log.txt", "Total of quests to search: " .. tQuests:size())
     while not rgPoolQuests:is_empty() do
@@ -207,6 +212,13 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsD
     end
 
     log(LPath.OVERALL, "log.txt", "Search finished.")
+
+    local st = ""
+    for _, pQuestProp in pairs(pLeadingPath:list()) do
+        st = st .. pQuestProp:get_name() .. ", "
+    end
+    print("PATH : " .. st)
+
     --print_path_search_counts()
     return pLeadingPath
 end

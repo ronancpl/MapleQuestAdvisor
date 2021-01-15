@@ -17,13 +17,13 @@ CQuestPath = createClass({
     tpSetPath = {},
     tsSetPath = {},
     tpPathCount = {},
-    iPathValue = 0.0,
 
     pPathTree = {},
     pPathNow = {},
     pPathStack = {},
 
     pPathValStack = {},
+    fPathValue = 0.0,
 
     sFetchTime = os.date("%H-%M-%S")
 })
@@ -32,7 +32,7 @@ function CQuestPath:_fetch_identifier(iQuestid, bStart)
     return "" .. iQuestid .. (bStart and "s" or "e")
 end
 
-function CQuestPath:add(pQuestProp, iValue)
+function CQuestPath:add(pQuestProp, fValue)
     local iPathCount = self.tpPathCount[pQuestProp] or 0
     if iPathCount < 1 then
         local iQuestid = pQuestProp:get_quest_id()
@@ -49,7 +49,8 @@ function CQuestPath:add(pQuestProp, iValue)
     table.insert(self.pPathStack, self.pPathNow)
     self.pPathNow = self.pPathNow[pQuestProp]
 
-    table.insert(self.pPathValStack, iValue)
+    table.insert(self.pPathValStack, fValue)
+    self.fPathValue = self.fPathValue + fValue
 end
 
 function CQuestPath:remove(pQuestProp)
@@ -77,7 +78,8 @@ function CQuestPath:remove(pQuestProp)
         bRet = true
 
         self.pPathNow = table.remove(self.pPathStack)
-        table.remove(self.pPathValStack)
+        local fValue = table.remove(self.pPathValStack)
+        self.fPathValue = self.fPathValue - fValue
     end
 
     return bRet
@@ -113,6 +115,40 @@ end
 
 function CQuestPath:size()
     return #(self.pPathStack)
+end
+
+function CQuestPath:get_node_value(iIdx)
+    local m_pPathValStack = self.pPathValStack
+    return m_pPathValStack[iIdx]
+end
+
+function CQuestPath:value()
+    return self.fPathValue
+end
+
+function CQuestPath:set(pOtherPath)
+    local rgpOtherQuests = pOtherPath:list()
+    local rgpQuests = self:list()
+
+    local nMaxQuests = math.min(#rgpQuests, #rgpOtherQuests)
+
+    local i = 1
+    while i < nMaxQuests and rgpQuests[i] == rgpOtherQuests[i] do
+        i = i + 1
+    end
+
+    local iBaseIdx = i
+    for i = #rgpQuests, iBaseIdx, -1 do
+        local pQuestProp = rgpQuests[i]
+        self:remove(pQuestProp)
+    end
+
+    for i = iBaseIdx, #rgpOtherQuests, 1 do
+        local pQuestProp = rgpOtherQuests[i]
+        local fValue = pOtherPath:get_node_value(i)
+
+        self:add(pQuestProp, fValue)
+    end
 end
 
 function CQuestPath:get_fetch_time()

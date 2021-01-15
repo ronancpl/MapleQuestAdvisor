@@ -52,7 +52,7 @@ function CQuestFrontierQuestList:fetch(pQuestTree, iQuestCount)
 
     local iUndertowCount = 0
     for _, pQuestProp in ipairs(rgpQuestsFetched) do
-        local iResolvedCount = pQuestTree:get_from_count(pQuestProp)
+        local iResolvedCount = pQuestTree:get_from_count(pQuestProp) or 0
         iUndertowCount = iUndertowCount + (iResolvedCount - 1)
 
         local m_tpQuests = self.tpQuests

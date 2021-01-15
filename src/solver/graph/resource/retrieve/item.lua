@@ -19,6 +19,5 @@ function calc_resource_retrieve_cost_item(ctFieldsLandscape, ctRetrieveLootMobs,
     local fChanceReactor = ctRetrieveLootReactors:get_acquisition_chance(iRscid, iEntryRegionid)
     local fChance = math.max(fChanceMob, fChanceReactor)
 
-    print(iEntryRegionid, fChance, " >> ", fChanceMob, fChanceReactor)
     return math.sin((1.0 - fChance) * (math.pi / 2))
 end
