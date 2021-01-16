@@ -12,6 +12,7 @@
 
 require("router.filters.quest")
 require("solver.procedures.coefficient")
+require("solver.procedures.curve")
 require("solver.procedures.inventory")
 
 local function evaluate_fitness_exp(ctPlayersMeta, pQuestActProp, iPlayerLevel)
@@ -27,7 +28,8 @@ local function evaluate_fitness_fame(ctPlayersMeta, pQuestActProp, iPlayerLevel)
 end
 
 local function evaluate_fitness_skill(ctPlayersMeta, pQuestActProp, iPlayerLevel)
-    return pQuestActProp:get_skills():size() * RQuest.SKILLS.Boost
+    local ivtSkills = pQuestActProp:get_skills()
+    return ivtSkills:size() * RQuest.SKILLS.Boost
 end
 
 --[[
@@ -39,14 +41,13 @@ end
 local function evaluate_fitness_inventory(ctPlayersMeta, pQuestActProp, iPlayerLevel)
     local ivtItems = pQuestActProp:get_items()
     local tiTypeCount = fetch_inventory_split_count(ivtItems:get_items())
-    local rgpFitMod = {RQuest.ITEMS.EQUIP.Boost, RQuest.ITEMS.USE.Boost, RQuest.ITEMS.SETUP.Boost, RQuest.ITEMS.ETC.Boost}
+
+    local rgpTypeFit = {RQuest.ITEMS.EQUIP, RQuest.ITEMS.USE, RQuest.ITEMS.SETUP, RQuest.ITEMS.ETC}
+    local sFitType = "Boost"
 
     local iValue = 0.0
     for iType, iCount in pairs(tiTypeCount) do
-        local iTypeMult = rgpFitMod[iType]
-        if iTypeMult ~= nil then
-            iValue = iValue + (iCount * iTypeMult)
-        end
+        iValue = iValue + calc_type_fitness(rgpTypeFit, sFitType, iType, iCount)
     end
 
     return iValue

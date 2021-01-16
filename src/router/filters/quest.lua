@@ -86,29 +86,44 @@ RQuest = {
 
         EQUIP = {
             Boost = 10,
-            Curb = 20
+            Curb = 20,
+            FitCorrelation = 30,
+            FitConstant = 25.157,
+            FitAngle = 16.827
         },
 
         USE = {
             Boost = 2.5,
-            Curb = 2.5
+            Curb = 2.5,
+            FitCorrelation = 1700,
+            FitConstant = 9.2828,
+            FitAngle = 8.203
         },
 
         SETUP = {
             Boost = 10,
-            Curb = 20
+            Curb = 20,
+            FitCorrelation = 3000,
+            FitConstant = 8.332,
+            FitAngle = 8.031
         },
 
         ETC = {
             Boost = 1,
-            Curb = 0.25
+            Curb = 0.25,
+            FitCorrelation = 200,
+            FitConstant = 14.387,
+            FitAngle = 10.8
         }
 
     },
 
     MOBS = {
         name = "MOBS",
-        Curb = 0.15
+        Curb = 0.15,
+        FitCorrelation = 200,
+        FitConstant = 14.387,
+        FitAngle = 10.8
     }
 
 }

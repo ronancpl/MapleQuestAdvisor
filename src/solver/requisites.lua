@@ -12,6 +12,7 @@
 
 require("router.filters.quest")
 require("solver.procedures.coefficient")
+require("solver.procedures.curve")
 require("solver.procedures.inventory")
 
 local function evaluate_cost_exp(pReqAcc, pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
@@ -41,7 +42,13 @@ end
 
 local function evaluate_cost_mob(pReqAcc, pPlayerState, pQuestActProp)
     local pRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
-    return fetch_inventory_count(pRet) * RQuest.MOBS.Curb
+    local iCount = fetch_inventory_count(pRet)
+
+    local rgpTypeFit = {RQuest.MOBS}
+    local sFitType = "Curb"
+
+    local iValue = calc_type_fitness(rgpTypeFit, sFitType, 1, iCount)
+    return iValue * RQuest.MOBS.Curb
 end
 
 local function evaluate_cost_quest(pReqAcc, pPlayerState, pQuestActProp)
@@ -54,14 +61,13 @@ local function evaluate_cost_inventory(pReqAcc, pPlayerState, pQuestActProp)
     tiItems = fetch_effective_unit_count_to_inventory(tiItems, pPlayerState)
 
     local tiTypeCount = fetch_inventory_split_count(tiItems)
-    local rgpCurbMod = {RQuest.ITEMS.EQUIP.Curb, RQuest.ITEMS.USE.Curb, RQuest.ITEMS.SETUP.Curb, RQuest.ITEMS.ETC.Curb}
+
+    local rgpTypeFit = {RQuest.ITEMS.EQUIP, RQuest.ITEMS.USE, RQuest.ITEMS.SETUP, RQuest.ITEMS.ETC}
+    local sFitType = "Curb"
 
     local iValue = 0.0
     for iType, iCount in pairs(tiTypeCount) do
-        local iTypeMult = rgpCurbMod[iType]
-        if iTypeMult ~= nil then
-            iValue = iValue + (iCount * iTypeMult)
-        end
+        iValue = iValue + calc_type_fitness(rgpTypeFit, sFitType, iType, iCount)
     end
 
     return iValue
