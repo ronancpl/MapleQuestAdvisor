@@ -20,7 +20,7 @@ local function unpack_inventories(ivtEx)
     return ivtEx:get_raw(), ivtEx:get_composite()
 end
 
-local function handlify_upper(ctRefines, ivtEx, iId, iQty)
+local function handlify_upper(ctRefine, ivtEx, iId, iQty)
     local rgpUpdated = {}
     table.insert(rgpUpdated, {iId, iQty})
 
@@ -40,29 +40,31 @@ local function handlify_upper(ctRefines, ivtEx, iId, iQty)
 
         ivtEx:apply_limit(iItemid, iCount)
 
-        local rgiRefs = ctRefines:get_item_referrers(iItemid)
-        for _, iRefid in ipairs(rgiRefs) do
-            local pRefineEntry = ctRefines:get_refine_entry(iRefid)
+        local rgiRefs = ctRefine:get_item_referrers(iItemid)
+        if rgiRefs ~= nil then
+            for _, iRefid in ipairs(rgiRefs) do
+                local pRefineEntry = ctRefine:get_refine_entry(iRefid)
 
-            local tiComp = pRefineEntry:get_composition()
-            local iReqCount = tiComp[iItemid]
+                local tiComp = pRefineEntry:get_composition()
+                local iReqCount = tiComp[iItemid]
 
-            iCount = get_item_count(ivtRaw, ivtComp, iItemid)
-            local iCompCount = math.floor(iCount / iReqCount)
+                iCount = get_item_count(ivtRaw, ivtComp, iItemid)
+                local iCompCount = math.floor(iCount / iReqCount)
 
-            if iCompCount ~= ivtComp:get_item(iRefid) then
-                local iRefCount = ivtEx:get_limit(keys(tiComp))
+                if iCompCount ~= ivtComp:get_item(iRefid) then
+                    local iRefCount = ivtEx:get_limit(keys(tiComp))
 
-                if iCompCount ~= iRefCount then
-                    ivtComp:set_item(iRefid, iRefCount)
-                    table.insert(rgpUpdated, {iRefid, iRefCount})
+                    if iCompCount ~= iRefCount then
+                        ivtComp:set_item(iRefid, iRefCount)
+                        table.insert(rgpUpdated, {iRefid, iRefCount})
+                    end
                 end
             end
         end
     end
 end
 
-local function handlify_lower(ctRefines, ivtRaw, ivtComp, iId, iQty)
+local function handlify_lower(ctRefine, ivtRaw, ivtComp, iId, iQty)
     local tpCompUpdt = {}
 
     if iQty > -1 then
@@ -75,9 +77,11 @@ local function handlify_lower(ctRefines, ivtRaw, ivtComp, iId, iQty)
             ivtRaw:add_item(iId, -iRawCount)
             ivtComp:add_item(iId, iNextCount)
 
-            local pRefineEntry = get_refine_entry(iId)
-            for iReqId, iReqCount in pairs(pRefineEntry:get_composition()) do
-                tpCompUpdt[iReqId] = ((tpCompUpdt[iReqId] or 0) + iNextCount) * iReqCount
+            local pRefineEntry = ctRefine:get_refine_entry(iId)
+            if pRefineEntry ~= nil then
+                for iReqId, iReqCount in pairs(pRefineEntry:get_composition()) do
+                    tpCompUpdt[iReqId] = ((tpCompUpdt[iReqId] or 0) + iNextCount) * iReqCount
+                end
             end
         else
             ivtRaw:add_item(iId, iQty)
@@ -105,10 +109,10 @@ function add_item(ivtEx, iId, iQty)
 
         local iItemid
         local iCount
-        iItemid, iCount = pItemUpdate
+        iItemid, iCount = unpack(pItemUpdate)
 
-        local tpCompRmvd = handlify_lower(ctRefines, ivtRaw, ivtComp, iItemid, iCount)
-        handlify_upper(ctRefines, ivtEx, iItemid, iCount)
+        local tpCompRmvd = handlify_lower(ctRefine, ivtRaw, ivtComp, iItemid, iCount)
+        handlify_upper(ctRefine, ivtEx, iItemid, iCount)
 
         for iCompItemid, iCompCount in pairs(tpCompRmvd) do
             table.insert(rgpUpdated, {iCompItemid, iCompCount})

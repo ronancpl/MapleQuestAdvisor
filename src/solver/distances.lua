@@ -83,15 +83,19 @@ local function get_npc_location(iNpcid, iPlayerMapid)
     return iNpcMapid
 end
 
+local function calc_cost_quest_distance(iDist)
+    return iDist * RQuest.FIELD.Curb
+end
+
 function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerState)
-    local pQuestReqProp = pQuestProp:get_requirement()
+    local pQuestChkProp = pQuestProp:get_requirement()
 
-    local tiItems = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.ITEMS.name), pPlayerState, pQuestReqProp)
-    local tiMobs = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.MOBS.name), pPlayerState, pQuestReqProp)
+    local tiItems = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.ITEMS.name), pPlayerState, pQuestChkProp)
+    local tiMobs = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.MOBS.name), pPlayerState, pQuestChkProp)
 
-    local iFieldEnter = pQuestReqProp:get_field_enter()
+    local iFieldEnter = pQuestChkProp:get_field_enter()
     local iPlayerMapid = pPlayerState:get_mapid()
-    local iQuestNpcMapid = get_npc_location(pQuestReqProp:get_npc(), iPlayerMapid)
+    local iQuestNpcMapid = get_npc_location(pQuestChkProp:get_npc(), iPlayerMapid)
 
     local iDist = 0
     if iQuestNpcMapid ~= nil then
@@ -107,5 +111,5 @@ function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerS
         iDist = U_INT_MAX
     end
 
-    return iDist * RQuest.FIELD.Curb
+    return calc_cost_quest_distance(iDist)
 end

@@ -11,12 +11,8 @@
 --]]
 
 local function calc_single_fitness(pTypeFit, sTypeTag)
-    local fA = pTypeFit.FitConstant
-    local fB = pTypeFit.FitAngle
     local iTypeBoost = pTypeFit[sTypeTag]
-
-    local fFitCoef = math.min(fA + fB * math.log(iTypeBoost), 100) / 100
-    return fFitCoef * pTypeFit.FitCorrelation
+    return iTypeBoost
 end
 
 function calc_type_fitness(rgpTypeFit, sTypeTag, iType, iCount)

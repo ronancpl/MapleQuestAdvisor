@@ -30,7 +30,7 @@ function CCompositeInventory:get_composite()
 end
 
 function CCompositeInventory:get_item(iId)
-    return count_item(ivtEx, iId)
+    return count_item(self, iId)
 end
 
 function CCompositeInventory:add_item(iId, iCount)

@@ -33,7 +33,7 @@ function fetch_inventory_split_count(tiItems)
     local tiTypeCount = {}
 
     for iId, iCount in pairs(tiItems) do
-        local iType = math.floor(iId / 1000000) + 1
+        local iType = math.floor(iId / 1000000)
         tiTypeCount[iType] = (tiTypeCount[iType] or 0) + iCount
     end
 

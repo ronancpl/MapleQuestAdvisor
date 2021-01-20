@@ -61,8 +61,8 @@ function CQuestRequirement:get_field_enter()
     return self.iMapidFieldEnter
 end
 
-function CQuestRequirement:set_field_enter(iMapidFieldEnter)
-    self.iMapidFieldEnter = iMapidFieldEnter
+function CQuestRequirement:set_field_enter(rgiMapidFieldEnter)
+    self.iMapidFieldEnter = rgiMapidFieldEnter[1] or -1
 end
 
 function CQuestRequirement:get_level_min()

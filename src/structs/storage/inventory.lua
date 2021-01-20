@@ -35,7 +35,7 @@ function CInventory:size()
     return self.nSize
 end
 
-function CInventory:add_item(iId, iCount)
+function CInventory:_add_item(iId, iCount)
     if self.rgEntries[iId] ~= nil then
         self.rgEntries[iId] = self.rgEntries[iId] + iCount
     else
@@ -44,7 +44,7 @@ function CInventory:add_item(iId, iCount)
     end
 end
 
-function CInventory:remove_item(iId, iCount)
+function CInventory:_remove_item(iId, iCount)
     if self.rgEntries[iId] ~= nil then
         if iCount == nil then
             iCount = self.rgEntries[iId]
@@ -54,6 +54,24 @@ function CInventory:remove_item(iId, iCount)
         if self.rgEntries[iId] <= 0 then
             self.rgEntries[iId] = nil
             self.nSize = self.nSize - 1
+        end
+    end
+end
+
+function CInventory:remove_item(iId, iCount)
+    if iCount ~= nil and iCount < 0 then
+        self:_add_item(iId, -iCount)
+    else
+        self:_remove_item(iId, iCount)
+    end
+end
+
+function CInventory:add_item(iId, iCount)
+    if iCount ~= nil then
+        if iCount > -1 then
+            self:_add_item(iId, iCount)
+        else
+            self:_remove_item(iId, -iCount)
         end
     end
 end

@@ -47,17 +47,17 @@ function maker_get_item(ivtItems, iId)
     local iQty = 0
 
     local iReqItemid = iId
-    local iReqQty = 1
+    local iReqQty
     while true do
-        local iCount = ivtItems:get_item(iReqItemid)
-        iQty = iQty + math.floor(iCount / iReqQty)
-
         local pReq = ctMaker:get_maker_requirement(iReqItemid)
         if pReq == nil then
             break
         end
 
         iReqItemid, iReqQty = pReq
+
+        local iCount = ivtItems:get_item(iReqItemid)
+        iQty = iQty + math.floor(iCount / iReqQty)
     end
 
     return iQty

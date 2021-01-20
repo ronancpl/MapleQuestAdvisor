@@ -15,49 +15,49 @@ require("solver.procedures.coefficient")
 require("solver.procedures.curve")
 require("solver.procedures.inventory")
 
-local function evaluate_cost_exp(pReqAcc, pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
-    local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+local function evaluate_cost_exp(pReqAcc, pPlayerState, pQuestChkProp, ctPlayersMeta, iPlayerLevel)
+    local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestChkProp)
     return get_fitness_level_coefficient(ctPlayersMeta, iPlayerLevel, iRet) * RQuest.EXP.Curb
 end
 
-local function evaluate_cost_meso(pReqAcc, pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
-    local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+local function evaluate_cost_meso(pReqAcc, pPlayerState, pQuestChkProp, ctPlayersMeta, iPlayerLevel)
+    local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestChkProp)
     return get_fitness_level_coefficient(ctPlayersMeta, iPlayerLevel, iRet) * RQuest.MESO.Curb
 end
 
-local function evaluate_cost_fame(pReqAcc, pPlayerState, pQuestActProp)
-    local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+local function evaluate_cost_fame(pReqAcc, pPlayerState, pQuestChkProp)
+    local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestChkProp)
     return iRet * RQuest.FAME.Curb
 end
 
-local function evaluate_cost_skill(pReqAcc, pPlayerState, pQuestActProp)
-    local pRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+local function evaluate_cost_skill(pReqAcc, pPlayerState, pQuestChkProp)
+    local pRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestChkProp)
     return (next(pRet) ~= nil and 1 or 0) * RQuest.SKILLS.Curb
 end
 
-local function evaluate_cost_job(pReqAcc, pPlayerState, pQuestActProp)
-    local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+local function evaluate_cost_job(pReqAcc, pPlayerState, pQuestChkProp)
+    local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestChkProp)
     return iRet * RQuest.JOBS.Curb
 end
 
-local function evaluate_cost_mob(pReqAcc, pPlayerState, pQuestActProp)
-    local pRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+local function evaluate_cost_mob(pReqAcc, pPlayerState, pQuestChkProp)
+    local pRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestChkProp)
     local iCount = fetch_inventory_count(pRet)
 
     local rgpTypeFit = {RQuest.MOBS}
     local sFitType = "Curb"
 
     local iValue = calc_type_fitness(rgpTypeFit, sFitType, 1, iCount)
-    return iValue * RQuest.MOBS.Curb
+    return iValue
 end
 
-local function evaluate_cost_quest(pReqAcc, pPlayerState, pQuestActProp)
-    local pRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+local function evaluate_cost_quest(pReqAcc, pPlayerState, pQuestChkProp)
+    local pRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestChkProp)
     return (next(pRet) ~= nil and 1 or 0) * RQuest.QUESTS.Curb
 end
 
-local function evaluate_cost_inventory(pReqAcc, pPlayerState, pQuestActProp)
-    local tiItems = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestActProp)
+local function evaluate_cost_inventory(pReqAcc, pPlayerState, pQuestChkProp)
+    local tiItems = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestChkProp)
     tiItems = fetch_effective_unit_count_to_inventory(tiItems, pPlayerState)
 
     local tiTypeCount = fetch_inventory_split_count(tiItems)
@@ -74,18 +74,18 @@ local function evaluate_cost_inventory(pReqAcc, pPlayerState, pQuestActProp)
 end
 
 function evaluate_quest_requisites(ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
-    local pQuestActProp = pQuestProp:get_action()
+    local pQuestChkProp = pQuestProp:get_requirement()
     local iPlayerLevel = pPlayerState:get_level()
 
     local iValue = 0.0
-    iValue = iValue + evaluate_cost_exp(ctAccessors:get_accessor_by_type(RQuest.EXP.name), pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
-    iValue = iValue + evaluate_cost_meso(ctAccessors:get_accessor_by_type(RQuest.MESO.name), pPlayerState, pQuestActProp, ctPlayersMeta, iPlayerLevel)
-    iValue = iValue + evaluate_cost_fame(ctAccessors:get_accessor_by_type(RQuest.FAME.name), pPlayerState, pQuestActProp)
-    iValue = iValue + evaluate_cost_skill(ctAccessors:get_accessor_by_type(RQuest.SKILLS.name), pPlayerState, pQuestActProp)
-    iValue = iValue + evaluate_cost_job(ctAccessors:get_accessor_by_type(RQuest.JOBS.name), pPlayerState, pQuestActProp)
-    iValue = iValue + evaluate_cost_mob(ctAccessors:get_accessor_by_type(RQuest.MOBS.name), pPlayerState, pQuestActProp)
-    iValue = iValue + evaluate_cost_quest(ctAccessors:get_accessor_by_type(RQuest.QUESTS.name), pPlayerState, pQuestActProp)
-    iValue = iValue + evaluate_cost_inventory(ctAccessors:get_accessor_by_type(RQuest.ITEMS.name), pPlayerState, pQuestActProp)
+    iValue = iValue + evaluate_cost_exp(ctAccessors:get_accessor_by_type(RQuest.EXP.name), pPlayerState, pQuestChkProp, ctPlayersMeta, iPlayerLevel)
+    iValue = iValue + evaluate_cost_meso(ctAccessors:get_accessor_by_type(RQuest.MESO.name), pPlayerState, pQuestChkProp, ctPlayersMeta, iPlayerLevel)
+    iValue = iValue + evaluate_cost_fame(ctAccessors:get_accessor_by_type(RQuest.FAME.name), pPlayerState, pQuestChkProp)
+    iValue = iValue + evaluate_cost_skill(ctAccessors:get_accessor_by_type(RQuest.SKILLS.name), pPlayerState, pQuestChkProp)
+    iValue = iValue + evaluate_cost_job(ctAccessors:get_accessor_by_type(RQuest.JOBS.name), pPlayerState, pQuestChkProp)
+    iValue = iValue + evaluate_cost_mob(ctAccessors:get_accessor_by_type(RQuest.MOBS.name), pPlayerState, pQuestChkProp)
+    iValue = iValue + evaluate_cost_quest(ctAccessors:get_accessor_by_type(RQuest.QUESTS.name), pPlayerState, pQuestChkProp)
+    iValue = iValue + evaluate_cost_inventory(ctAccessors:get_accessor_by_type(RQuest.ITEMS.name), pPlayerState, pQuestChkProp)
 
     return iValue
 end

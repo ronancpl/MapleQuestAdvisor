@@ -35,6 +35,7 @@ local tAttrUnit = {
     _lvmax = CQuestRequirement.set_level_max,
     _quest = 0,
     _job = 1,
+    _fieldEnter = 1,
     _interval = CQuestRequirement.set_repeatable,
     _end = CQuestRequirement.set_date_access,
     _startscript = CQuestRequirement.set_script,
@@ -46,7 +47,8 @@ local tAttrList = {
     _skill = CQuestProperty.add_skill,
     _mob = CQuestProperty.add_mob,
     _quest = CQuestProperty.add_quest,
-    _job = CQuestRequirement.set_jobs
+    _job = CQuestProperty.set_jobs,
+    _fieldEnter = CQuestRequirement.set_field_enter
 }
 
 local ttsAttrKey = {
