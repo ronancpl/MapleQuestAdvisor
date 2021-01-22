@@ -24,6 +24,7 @@ function init_lookup_category_item_table(ctLoots, ctMobs, ctReactors, pLandscape
     locate_lookup_category_entries_item(pLookupTab, ctReactors, pLandscape)
 
     array_lookup_category_entries_item(pLookupTab)
+    regional_lookup_category_entries_item(pLookupTab)
 
     return pLookupTab
 end

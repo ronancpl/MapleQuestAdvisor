@@ -21,9 +21,7 @@ local function get_field_priority(iVal)
 end
 
 local function mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid)
-    local tExploredFields = {}  -- finds minimum spanning tree
-
-    local tpFrom = {}
+    local tpFrom = {}     -- finds minimum spanning tree
     for _, iMapid in ipairs(rgiMapids) do
         tpFrom[iMapid] = {-1, U_INT_MAX, 0}
     end

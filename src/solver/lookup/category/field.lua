@@ -49,7 +49,8 @@ function init_lookup_category_field_enter_table(ctQuests, pLandscape, rgiRscids)
 
     install_lookup_category_entries_static(pLookupTab, trgpEntries, rgiRscids)
     locate_lookup_category_entries_static(pLookupTab, pLandscape)
-    array_lookup_category_entries_item(pLookupTab)
+    array_lookup_category_entries_static(pLookupTab)
+    regional_lookup_category_entries_static(pLookupTab)
 
     return pLookupTab
 end
@@ -103,7 +104,8 @@ function init_lookup_category_field_npc_table(pLandscape, rgiRscids)
 
     install_lookup_category_entries_static(pLookupTab, trgpEntries, rgiRscids)
     locate_lookup_category_entries_static(pLookupTab, pLandscape)
-    array_lookup_category_entries_item(pLookupTab)
+    array_lookup_category_entries_static(pLookupTab)
+    regional_lookup_category_entries_static(pLookupTab)
 
     return pLookupTab
 end

@@ -26,3 +26,7 @@ end
 function array_lookup_category_entries_static(pLookupTab)
     pLookupTab:array()
 end
+
+function regional_lookup_category_entries_static(pLookupTab)
+    pLookupTab:regionalize()
+end

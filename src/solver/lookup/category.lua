@@ -16,7 +16,8 @@ require("utils.struct.class")
 CSolverLookupCategory = createClass({
     iTabId = 0,
     tSrcItems = {},
-    tRegionRscFields = {}
+    tRegionRscFields = {},
+    tRscRegions = {}
 })
 
 function CSolverLookupCategory:_get_tab_resource_id(iRscid)
@@ -174,6 +175,44 @@ end
 
 function CSolverLookupCategory:array()
     self:_array_resources()
+end
+
+function CSolverLookupCategory:_make_remissive_index_regional_resources()
+    local tRscRegions = {}
+    local m_tRegionRscFields = self.tRegionRscFields
+
+    for iRegionid, tRscFields in pairs(m_tRegionRscFields) do
+        for iRscid, _ in pairs(tRscFields) do
+            local tRegions = tRscRegions[iRscid]
+            if tRegions == nil then
+                tRegions = {}
+                tRscRegions[iRscid] = tRegions
+            end
+
+            tRegions[iRegionid] = 1
+        end
+    end
+
+    local m_tRscRegions = self.tRscRegions
+    for iRscid, tRegions in pairs(tRscRegions) do
+        m_tRscRegions[iRscid] = keys(tRegions)
+    end
+end
+
+function CSolverLookupCategory:regionalize()
+    self:_make_remissive_index_regional_resources()
+end
+
+function CSolverLookupCategory:get_resource_regions()
+    local m_tRscRegions = self.tRscRegions
+    local tRscRegions = {}
+
+    for iRscid, rgiRegions in pairs(m_tRscRegions) do
+        local iExtRscid = self:_get_tab_resource_id(iRscid)
+        tRscRegions[iExtRscid] = rgiRegions
+    end
+
+    return tRscRegions
 end
 
 function CSolverLookupCategory:get_resource_fields(iRegionid)

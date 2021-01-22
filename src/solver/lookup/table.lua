@@ -13,6 +13,7 @@
 require("solver.lookup.category")
 require("utils.procedure.unpack")
 require("utils.struct.class")
+require("utils.struct.table")
 
 CSolverLookupTable = createClass({
     rgpLookupTabs = {},
@@ -70,6 +71,18 @@ function CSolverLookupTable:get_resource_fields(iRegionid)
     end
 
     return tResourceFields
+end
+
+function CSolverLookupTable:get_resource_regions()
+    local tResourceRegions = STable:new()
+
+    local m_rgpLookupTabs = self.rgpLookupTabs
+    for _, pLookupTab in ipairs(m_rgpLookupTabs) do
+        local tTabResourceRegions = pLookupTab:get_resource_regions()
+        tResourceRegions:insert_table(tTabResourceRegions)
+    end
+
+    return tResourceRegions:get_entry_set()
 end
 
 function CSolverLookupTable:debug_lookup_table()

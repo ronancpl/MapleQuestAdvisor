@@ -19,7 +19,8 @@ function init_lookup_category_mob_table(ctLoots, ctMobs, ctMobsGroup, pLandscape
 
     install_lookup_category_entries_mob(pLookupTab, ctLoots:get_loot_mob_entries(), rgiRscids)
     locate_lookup_category_entries_mob(pLookupTab, ctMobs, ctMobsGroup, pLandscape)
-    array_lookup_category_entries_item(pLookupTab)
+    array_lookup_category_entries_mob(pLookupTab)
+    regional_lookup_category_entries_mob(pLookupTab)
 
     return pLookupTab
 end
