@@ -65,12 +65,12 @@ RQuest = {
 
     FIELD = {
         name = "FIELD",
-        Curb = 2
+        Curb = 20
     },
 
     FIELD_ENTER = {
         name = "FIELD_ENTER",
-        Curb = 2
+        Curb = 20
     },
 
     REPEAT = {

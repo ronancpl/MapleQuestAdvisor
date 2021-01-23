@@ -13,7 +13,6 @@
 require("solver.lookup.category")
 require("solver.lookup.category.entries.resources.static")
 require("solver.lookup.constant")
-require("utils.procedure.copy")
 
 local function add_lookup_entry_if_exists(fn_get_lookup_entry, trgpEntries, pEntry)
     local iRscid
@@ -25,19 +24,25 @@ local function add_lookup_entry_if_exists(fn_get_lookup_entry, trgpEntries, pEnt
     end
 end
 
-local function fn_get_lookup_entry_field_enter(pQuestProp)
-    local rgiRscid = pQuestProp:get_requirement():get_field_enter()
-    local rgpLoots = deep_copy(rgiRscid)
+local function fn_get_lookup_entry_field_enter(iRscid)
+    local rgpLoots = {iRscid}
 
     return iRscid, rgpLoots
+end
+
+local function fn_add_lookup_entry_field_enter(fn_get_lookup_entry_field_enter, trgpEntries, pQuestProp)
+    local tiRscs = pQuestProp:get_requirement():get_field_enter():get_items()
+    for iRscid, _ in pairs(tiRscs) do
+        add_lookup_entry_if_exists(fn_get_lookup_entry_field_enter, trgpEntries, iRscid)
+    end
 end
 
 local function fetch_lookup_entries_field_enter(ctQuests)
     local trgpEntries = {}
 
-    for _, pQuest in ipairs(ctQuests:get_quests()) do
-        add_lookup_entry_if_exists(fn_get_lookup_entry_field_enter, trgpEntries, pQuest:get_start())
-        add_lookup_entry_if_exists(fn_get_lookup_entry_field_enter, trgpEntries, pQuest:get_end())
+    for _, pQuest in pairs(ctQuests:get_quests()) do
+        fn_add_lookup_entry_field_enter(fn_get_lookup_entry_field_enter, trgpEntries, pQuest:get_start())
+        fn_add_lookup_entry_field_enter(fn_get_lookup_entry_field_enter, trgpEntries, pQuest:get_end())
     end
 
     return trgpEntries

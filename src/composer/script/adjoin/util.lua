@@ -38,8 +38,8 @@ function fn_get_quest_fields(pQuestProp)
 
     local pQuestChkProp = pQuestProp:get_requirement()
 
-    local tiFieldsEnter = pQuestChkProp:get_field_enter()
-    for iFieldEnter, _ in ipairs(tiFieldsEnter) do
+    local tiFieldsEnter = pQuestChkProp:get_field_enter():get_items()
+    for iFieldEnter, _ in pairs(tiFieldsEnter) do
         tFields[iFieldEnter] = 1
     end
 
