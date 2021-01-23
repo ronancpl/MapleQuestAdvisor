@@ -48,7 +48,7 @@ local tAttrList = {
     _mob = CQuestProperty.add_mob,
     _quest = CQuestProperty.add_quest,
     _job = CQuestProperty.set_jobs,
-    _fieldEnter = CQuestRequirement.set_field_enter
+    _fieldEnter = CQuestProperty.set_field_enter
 }
 
 local ttsAttrKey = {

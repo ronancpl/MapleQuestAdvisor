@@ -23,6 +23,7 @@ CQuestProperty = createClass({
     ivtItems = CInventory:new(),
     ivtMobs = CInventory:new(),
     ivtQuests = CInventory:new(),
+    ivtFieldsEnter = CInventory:new(),
     rgpJobs = SArray:new()          -- not only requirement, really?
 })
 
@@ -93,6 +94,19 @@ function CQuestProperty:set_jobs(rgpQuestJobs)
     m_rgpJobs:add_all(rgpQuestJobs)
 
     m_rgpJobs:sort()
+end
+
+function CQuestProperty:get_field_enter()
+    return self.ivtFieldsEnter
+end
+
+function CQuestProperty:set_field_enter(rgiMapidFieldEnter)
+    local m_ivtFieldsEnter = self.ivtFieldsEnter
+
+    m_ivtFieldsEnter:empty()
+    for _, iMapid in ipairs(rgiMapidFieldEnter) do
+        m_ivtFieldsEnter:add_item(iMapid, 1)
+    end
 end
 
 function CQuestProperty:_is_active_element(fn_get)

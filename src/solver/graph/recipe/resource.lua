@@ -16,7 +16,7 @@ CSolverQuestResource = createClass({
     tiMobs,
     tiItems,
     iFieldPlayer,
-    rgiFieldEnter,
+    tiFieldsEnter,
     iFieldNpc
 })
 
@@ -33,7 +33,7 @@ function CSolverQuestResource:get_field_current()
 end
 
 function CSolverQuestResource:get_field_enter()
-    return self.rgiFieldEnter
+    return self.tiFieldsEnter
 end
 
 function CSolverQuestResource:get_field_npc()

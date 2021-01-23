@@ -181,11 +181,11 @@ function init_quest_accessors()
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, RQuest.MESO.name, CQuestProperty.get_meso, fn_get_player_state_meso, fn_diff_pending, fn_is_attainable_unit)
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, RQuest.NPC.name, CQuestRequirement.get_npc, fn_get_player_state_npc, fn_diff_zero, fn_is_attainable_unit)
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, RQuest.FIELD.name, CQuestRequirement.get_field, fn_get_player_state_field, fn_diff_zero, fn_is_attainable_unit)
-    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, RQuest.FIELD_ENTER.name, CQuestRequirement.get_field_enter, fn_get_player_state_field_enter, fn_diff_zero, fn_is_attainable_unit)
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, RQuest.REPEAT.name, CQuestRequirement.is_repeatable, fn_get_player_state_repeat, fn_diff_zero, fn_is_attainable_unit)
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, RQuest.SCRIPT.name, CQuestRequirement.has_script, fn_get_player_state_scripts, fn_diff_zero, fn_is_attainable_unit)
 
     tfn_weak_reqs = ctAccessors.tfn_weak_ivt_reqs
+    ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, RQuest.FIELD_ENTER.name, CQuestRequirement.get_field_enter, fn_get_player_state_field_enter, fn_diff_pending_list, fn_is_attainable_list)
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, RQuest.ITEMS.name, CQuestProperty.get_items, fn_get_player_state_items, fn_diff_pending_item_list, fn_is_attainable_list)
     ctAccessors:_add_prerequisite_accessor(tfn_weak_reqs, RQuest.MOBS.name, CQuestProperty.get_mobs, fn_get_player_state_mobs, fn_diff_pending_list, fn_is_attainable_list)
 

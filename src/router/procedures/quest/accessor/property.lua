@@ -12,6 +12,7 @@
 
 require("router.filters.constant")
 require("router.procedures.inventory.handle")
+require("structs.storage.inventory")
 
 function fn_get_player_state_exp(pPlayerState)
     return pPlayerState:get_exp()
@@ -50,7 +51,7 @@ function fn_get_player_state_field(pPlayerState)
 end
 
 function fn_get_player_state_field_enter(pPlayerState)
-    return U_INT_MAX
+    return CInventory:new() -- empty inventory, player needs to reach the area
 end
 
 function fn_get_player_state_level_min(pPlayerState)

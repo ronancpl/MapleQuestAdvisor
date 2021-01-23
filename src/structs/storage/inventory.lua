@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.unpack")
 require("utils.struct.array")
 require("utils.struct.class")
 
@@ -93,5 +94,11 @@ function CInventory:include_inventory(ivtInventory)
     local rgEntries = ivtInventory:get_items()
     for iId, iCount in pairs(rgEntries) do
         self:add_item(iId, iCount)
+    end
+end
+
+function CInventory:empty()
+    for _, iId in pairs(keys(self:get_items())) do
+        self:remove_item(iId)
     end
 end
