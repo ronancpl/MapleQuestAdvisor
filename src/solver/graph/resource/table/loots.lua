@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.constant")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
@@ -38,12 +39,12 @@ function CRetrieveItemTable:add_acquisition_loot(ctFieldsLandscape, ctFieldsMeta
     end
 end
 
-local function calc_loot_chance(pLoot, iDropRate, fn_get_drop_chance)
-    local fChance = fn_get_drop_chance(pLoot) * iDropRate
+local function calc_loot_chance(pLoot, iDropRate)
+    local fChance = pLoot:get_chance() * iDropRate
     return fChance
 end
 
-function CRetrieveItemTable:_calc_region_loot_chance(trgpAreaLoots, iDropRate, fn_get_drop_chance)
+function CRetrieveItemTable:_calc_region_loot_chance(trgpAreaLoots, iDropRate)
     local fRegionLootChance = 0.0
     local iTotalLoots = 0
 
@@ -53,9 +54,11 @@ function CRetrieveItemTable:_calc_region_loot_chance(trgpAreaLoots, iDropRate, f
 
         local fAvgChance = 0.0
         for _, pLoot in ipairs(rgpLoots) do
-            fAvgChance = fAvgChance + calc_loot_chance(pLoot, iDropRate, fn_get_drop_chance)
+            fAvgChance = fAvgChance + calc_loot_chance(pLoot, iDropRate)
         end
         fAvgChance = fAvgChance / nLoots
+        fAvgChance = math.clamp(fAvgChance, 0.0, 1.0)
+
         iTotalLoots = iTotalLoots + nLoots
 
         tpFieldAreaChances[iRetMapid] = {fAvgChance, nLoots}
@@ -91,7 +94,7 @@ local function split_area_loots_by_item(tpRegionAreaLoots)
     return tpAreaItemLoots
 end
 
-function CRetrieveItemTable:build_acquisition_loot_chances(iDropRate, fn_get_drop_chance)
+function CRetrieveItemTable:build_acquisition_loot_chances(iDropRate)
     local m_tpRegionLootChances = self.tpRegionLootChances
     clear_table(m_tpRegionLootChances)
 
@@ -100,7 +103,7 @@ function CRetrieveItemTable:build_acquisition_loot_chances(iDropRate, fn_get_dro
         local tpAreaItemLoots = split_area_loots_by_item(tpRegionAreaLoots)
         for iRscid, trgpAreaLoots in pairs(tpAreaItemLoots) do
             local tfItemAreaChances = create_inner_table_if_not_exists(m_tpRegionLootChances, iRegionid)
-            tfItemAreaChances[iRscid] = self:_calc_region_loot_chance(trgpAreaLoots, iDropRate, fn_get_drop_chance)
+            tfItemAreaChances[iRscid] = self:_calc_region_loot_chance(trgpAreaLoots, iDropRate)
         end
     end
 end

@@ -119,6 +119,12 @@ local function append_resource_table_regions(tRegions, iTabId, tiRscs, tRscRegio
     end
 end
 
+local function append_resource_array_regions(tRegions, iTabId, rgiRscs, tRscRegions)
+    for _, iRscid in pairs(rgiRscs) do
+        append_resource_regions(tRegions, iTabId, iRscid, tRscRegions)
+    end
+end
+
 local function fetch_regions_with_resources(pQuestResource, tRscRegions)
     local tRegions = {}
 
@@ -128,8 +134,8 @@ local function fetch_regions_with_resources(pQuestResource, tRscRegions)
     local tiItems = pQuestResource:get_items()
     append_resource_table_regions(tRegions, RLookupCategory.ITEMS, tiItems, tRscRegions)
 
-    local iFieldEnter = pQuestResource:get_field_enter()
-    append_resource_regions(tRegions, RLookupCategory.FIELD_ENTER, iFieldEnter, tRscRegions)
+    local rgiFieldEnter = pQuestResource:get_field_enter()
+    append_resource_array_regions(tRegions, RLookupCategory.FIELD_ENTER, rgiFieldEnter, tRscRegions)
 
     local iFieldNpc = pQuestResource:get_field_npc()
     append_resource_regions(tRegions, RLookupCategory.FIELD_NPC, iFieldNpc, tRscRegions)
@@ -290,7 +296,6 @@ local function trace_path_resources_descriptor(rgpPathMapids, rgiTransitRegionid
         tpPathMapids[iRegionid] = pRegionSrcDest
     end
 
-    end
     local rgiOutlyingRegionids = {}
     for _, iRegionid in ipairs(rgiResourceRegionids) do
         local pRegionSrcDest = tpPathMapids[iRegionid]
@@ -316,8 +321,8 @@ local function create_interregional_resources_descriptor(pQuestResource, rgpPath
     return tpRegionResources, tpPathMapids
 end
 
-function build_quest_resource_bean(tiItems, tiMobs, iFieldEnter, iQuestNpcMapid, iPlayerMapid)
-    local pQuestResource = CSolverQuestResource:new({tiMobs = tiMobs, tiItems = tiItems, iFieldPlayer = iPlayerMapid, iFieldEnter = iFieldEnter, iFieldNpc = iQuestNpcMapid})
+function build_quest_resource_bean(tiItems, tiMobs, rgiFieldEnter, iQuestNpcMapid, iPlayerMapid)
+    local pQuestResource = CSolverQuestResource:new({tiMobs = tiMobs, tiItems = tiItems, iFieldPlayer = iPlayerMapid, rgiFieldEnter = rgiFieldEnter, iFieldNpc = iQuestNpcMapid})
     return pQuestResource
 end
 

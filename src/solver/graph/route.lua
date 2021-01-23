@@ -25,6 +25,7 @@ local function mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid)
     for _, iMapid in ipairs(rgiMapids) do
         tpFrom[iMapid] = {-1, U_INT_MAX, 0}
     end
+    tpFrom[iSrcMapid] = {-1, 0, 0}
 
     local pQueueFrontierFields = SPriorityQueue:new()
     pQueueFrontierFields:put(iSrcMapid, 0)
@@ -64,6 +65,7 @@ end
 
 local function calc_distance_model_quest_resource(ctFieldsDist, trgiFieldRscs, iSrcMapid, iDestMapid)
     local rgiMapids = keys(trgiFieldRscs)
+
     if trgiFieldRscs[iSrcMapid] == nil then
         table.insert(rgiMapids, iSrcMapid)
     end

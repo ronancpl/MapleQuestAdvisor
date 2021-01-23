@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.constant")
 require("structs.loot.loot")
 require("utils.procedure.unpack")
 require("utils.struct.class")
@@ -28,7 +29,8 @@ local tfn_chance_ratio = {
 }
 
 local function get_chance_by_type(iChance, sTypeLoot)
-    return tfn_chance_ratio[sTypeLoot](iChance)
+    local fChance = tfn_chance_ratio[sTypeLoot](iChance)
+    return math.clamp(fChance, 0.0, 1.0)
 end
 
 local function create_loot(iSrcid, iItemid, iChance, sLootType, siMinItems, siMaxItems)

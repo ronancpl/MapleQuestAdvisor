@@ -11,5 +11,5 @@
 --]]
 
 RQuestResource = {
-    DISTANCE_EXAMINE_REGION_COUNT = 2
+    DISTANCE_EXAMINE_REGION_COUNT = 5
 }

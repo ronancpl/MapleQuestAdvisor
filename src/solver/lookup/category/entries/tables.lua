@@ -10,10 +10,15 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.copy")
 require("utils.procedure.unpack")
 
 function list_resources_from_entries_item(tiEntries)
     return keys(tiEntries)
+end
+
+function list_resources_from_entries_array(rgiItemids)
+    return deep_copy(rgiItemids)
 end
 
 function list_resources_from_entries_static(iItemid)

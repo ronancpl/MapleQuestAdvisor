@@ -17,7 +17,7 @@ require("utils.struct.class")
 CQuestRequirement = createClass({CQuestProperty, {
     iNpcid,
     pMapid,
-    iMapidFieldEnter,
+    rgiMapidFieldEnter,
     siLevelMin,
     siLevelMax,
     bJobAccess,
@@ -58,11 +58,11 @@ function CQuestRequirement:set_field(pMapid)
 end
 
 function CQuestRequirement:get_field_enter()
-    return self.iMapidFieldEnter
+    return self.rgiMapidFieldEnter
 end
 
 function CQuestRequirement:set_field_enter(rgiMapidFieldEnter)
-    self.iMapidFieldEnter = rgiMapidFieldEnter[1] or -1
+    self.rgiMapidFieldEnter = rgiMapidFieldEnter
 end
 
 function CQuestRequirement:get_level_min()
@@ -171,6 +171,6 @@ end
 function CQuestRequirement:set_default_on_empty_requirements()
     self:set_default_on_empty_properties()  -- calls super-method
 
-    local tsDef = {iNpcid = -1, pMapid = 10000, iMapidFieldEnter = -1, siLevelMin = -1, siLevelMax = -1, bJobAccess = false, rgpJobs = SArray:new(), bDateAccess = true, bRepeatable = false, bScripted = false}
+    local tsDef = {iNpcid = -1, pMapid = 10000, rgiMapidFieldEnter = {}, siLevelMin = -1, siLevelMax = -1, bJobAccess = false, rgpJobs = SArray:new(), bDateAccess = true, bRepeatable = false, bScripted = false}
     self:_set_default_on_empty_properties(tsDef)
 end

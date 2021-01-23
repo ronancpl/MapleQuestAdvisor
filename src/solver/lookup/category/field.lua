@@ -13,6 +13,7 @@
 require("solver.lookup.category")
 require("solver.lookup.category.entries.resources.static")
 require("solver.lookup.constant")
+require("utils.procedure.copy")
 
 local function add_lookup_entry_if_exists(fn_get_lookup_entry, trgpEntries, pEntry)
     local iRscid
@@ -25,8 +26,8 @@ local function add_lookup_entry_if_exists(fn_get_lookup_entry, trgpEntries, pEnt
 end
 
 local function fn_get_lookup_entry_field_enter(pQuestProp)
-    local iRscid = pQuestProp:get_requirement():get_field_enter()
-    local rgpLoots = {iRscid}
+    local rgiRscid = pQuestProp:get_requirement():get_field_enter()
+    local rgpLoots = deep_copy(rgiRscid)
 
     return iRscid, rgpLoots
 end
