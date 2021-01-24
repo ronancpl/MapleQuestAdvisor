@@ -10,13 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.procedures.inventory.maker")
 require("structs.storage.inventory")
 
 function fn_undo_invt_item_add(rgpGet)
     local rgpNew = CInventory:new()
     for iId, iCount in pairs(rgpGet:get_items()) do
-        maker_add_item(rgpNew, iId, -iCount)
+        rgpNew:set_item(iId, -iCount)
     end
 
     return rgpNew

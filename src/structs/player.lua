@@ -108,3 +108,31 @@ end
 function CPlayer:get_mobs()
     return self.ivtMobs
 end
+
+function CPlayer:debug_player_state()
+    local st = ""
+    st = st .. " JOB: " .. self.siJob
+    st = st .. " LVL: " .. self.siLevel
+    st = st .. " EXP: " .. self.liExp
+    st = st .. " EXP_T: " .. self.liExpAmass
+    st = st .. " MAPID: " .. self.iMapid
+    st = st .. " MESO: " .. self.iMeso
+    st = st .. " FAME: " .. self.siFame
+    print(st)
+    print("===============")
+
+    print("ITEMS:")
+    self.ivtItems:debug_inventory()
+
+    print("SKILLS:")
+    self.ivtSkills:debug_inventory()
+
+    print("QUESTS:")
+    self.ivtQuests:debug_inventory()
+
+    print("MOBS:")
+    self.ivtMobs:debug_inventory()
+
+    print("===============")
+    print()
+end

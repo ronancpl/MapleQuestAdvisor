@@ -52,12 +52,13 @@ local function handlify_upper(ctRefine, ivtEx, iId, iQty)
                 local iCompCount = math.floor(iCount / iReqCount)
 
                 if iCompCount ~= ivtComp:get_item(iRefid) then
-                    local iRefCount = ivtEx:get_limit(keys(tiComp))
+                    local rgiCompids = keys(tiComp)
 
-                    if iCompCount ~= iRefCount then
-                        ivtComp:set_item(iRefid, iRefCount)
-                        table.insert(rgpUpdated, {iRefid, iRefCount})
-                    end
+                    ivtEx:apply_limit_if_not_exists(rgiCompids, 0)
+                    local iRefCount = ivtEx:get_limit(tiComp, rgiCompids)
+
+                    ivtComp:set_item(iRefid, iRefCount)
+                    table.insert(rgpUpdated, {iRefid, iRefCount})
                 end
             end
         end
@@ -112,7 +113,7 @@ function add_item(ivtEx, iId, iQty)
         iItemid, iCount = unpack(pItemUpdate)
 
         local tpCompRmvd = handlify_lower(ctRefine, ivtRaw, ivtComp, iItemid, iCount)
-        handlify_upper(ctRefine, ivtEx, iItemid, iCount)
+        handlify_upper(ctRefine, ivtEx, iItemid, get_item_count(ivtRaw, ivtComp, iItemid))
 
         for iCompItemid, iCompCount in pairs(tpCompRmvd) do
             table.insert(rgpUpdated, {iCompItemid, iCompCount})

@@ -102,3 +102,11 @@ function CInventory:empty()
         self:remove_item(iId)
     end
 end
+
+function CInventory:debug_inventory()
+    local st = ""
+    for iId, iCount in pairs(self:get_items()) do
+        st = st .. iId .. ":" ..  iCount .. ", "
+    end
+    print("[" .. st .. "]")
+end

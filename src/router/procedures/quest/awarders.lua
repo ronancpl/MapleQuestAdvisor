@@ -68,7 +68,7 @@ function CQuestAwarders:_add_award_accessor(tfn_acts, sAccName, fn_quest_reward,
     local pAwd = CQuestAwarder:new({sName = "_QUEST_AWARD_" .. sAccName, fn_quest_property = fn_get_awd_property(fn_quest_reward), fn_quest_rollback = fn_player_quest_rollback, fn_award_property = fn_award_player_state_property})
 
     table.insert(tfn_acts, pAwd)
-    self.tsAllActs[fn_award_player_state_property] = pAwd
+    self.tsAllActs[fn_quest_reward] = pAwd
 end
 
 function init_quest_awarders()

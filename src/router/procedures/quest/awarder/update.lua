@@ -19,7 +19,7 @@ end
 function fn_undo_invt_insert(rgpGet)
     local rgpNew = CInventory:new()
     for iId, _ in pairs(rgpGet:get_items()) do
-        rgpNew:add(iId, 0)
+        rgpNew:add_item(iId, 0)
     end
 
     return rgpNew
