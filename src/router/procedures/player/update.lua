@@ -10,6 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.quest.awarder.property")
+require("structs.storage.inventory")
+
 local function award_player(ctAwarders, fn_award_key, pQuestProp, pPlayerState)
     local pAwd = ctAwarders:get_awarder_by_fn_award(fn_award_key)
     if pAwd ~= nil then
@@ -43,6 +46,13 @@ local function process_player_job_update(pPlayerState, rgpPoolProps)
     end
 end
 
+local function process_player_quest_update(pQuestProp, pPlayerState, bUndo)
+    local rgpGet = CInventory:new()
+    rgpGet:add_item(pQuestProp:get_quest_id(), pQuestProp:is_start() and 1 or 2)    -- updates this quest progress to the player
+
+    fn_award_player_state_quests(pPlayerState, rgpGet, bUndo)
+end
+
 local function process_player_state_update(fn_process_award, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
     local rgfn_active_act_unit
     local rgfn_active_act_invt
@@ -65,10 +75,12 @@ local function process_player_state_update(fn_process_award, ctAwarders, pQuestP
 end
 
 function progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+    process_player_quest_update(pQuestProp, pPlayerState, false)
     process_player_state_update(award_player, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
 end
 
 function rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+    process_player_quest_update(pQuestProp, pPlayerState, true)
     process_player_state_update(undo_award_player, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
 end
 
