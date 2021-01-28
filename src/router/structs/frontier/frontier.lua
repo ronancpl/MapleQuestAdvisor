@@ -59,12 +59,26 @@ function CQuestFrontier:_update_range(pPlayerState, m_pRangeFrom, m_pRangeTo, bF
     m_pRangeTo:update_put(tpTakeQuestProps, bFromIsSelect)
 end
 
+function CQuestFrontier:_prepare_range(m_pRangeFrom, pPlayerState)
+    m_pRangeFrom:prepare_range(pPlayerState)
+end
+
+function CQuestFrontier:_normalize_range(m_pRangeFrom)
+    m_pRangeFrom:normalize_range()
+end
+
 function CQuestFrontier:update(pPlayerState)
     local m_pRangeHold = self.pHold
     local m_pRangeSelect = self.pSelect
 
+    self:_prepare_range(m_pRangeSelect, pPlayerState)
+    self:_prepare_range(m_pRangeHold, pPlayerState)
+
     self:_update_range(pPlayerState, m_pRangeSelect, m_pRangeHold, true)
     self:_update_range(pPlayerState, m_pRangeHold, m_pRangeSelect, false)
+
+    self:_normalize_range(m_pRangeSelect)
+    self:_normalize_range(m_pRangeHold)
 end
 
 function CQuestFrontier:debug_front()

@@ -23,6 +23,7 @@ CQuestFrontierNode = createClass({
     fn_diff = nil,
     fn_player_property = nil,
     fn_compare = nil,
+    fn_sort = nil,
     fn_create = nil
 })
 
@@ -46,12 +47,24 @@ function CQuestFrontierNode:get_fn_create()
     return self.fn_create
 end
 
+local function fn_sort_attainable(m_fn_attainable, m_fn_diff, m_pQuestAcc, pPlayerState)
+    return function(a, b)
+        return m_fn_attainable(m_fn_diff, m_pQuestAcc)(a, pPlayerState) < m_fn_attainable(m_fn_diff, m_pQuestAcc)(b, pPlayerState)
+    end
+end
+
+function CQuestFrontierNode:get_fn_sort(pPlayerState)
+    local m_pQuestAcc = self.pQuestAcc
+    local m_fn_diff = self.fn_diff
+    local m_fn_attainable = m_pQuestAcc:get_fn_attainable()
+
+    local fn_sort = fn_sort_attainable(m_fn_attainable, m_fn_diff, m_pQuestAcc, pPlayerState)
+    return fn_sort
+end
+
 function CQuestFrontierNode:size()
     return self.rgpItems:size()
 end
-
-local fn_sample = function(v) return v:get_property():get_quest_id() end
-local fn_upd = function(v) return v:get_property():get_quest_id() end
 
 function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
     local m_pQuestAcc = self.pQuestAcc
@@ -122,22 +135,15 @@ local function fetch_update_iterator_step(rgpItems, bSelect, iIdx)
     return iStart, iEnd
 end
 
-local function fn_sort_attainable(fn_attainable, m_fn_diff, m_pQuestAcc, pPlayerState)
-    return function(a, b)
-        return fn_attainable(m_fn_diff, m_pQuestAcc)(a, pPlayerState) < fn_attainable(m_fn_diff, m_pQuestAcc)(b, pPlayerState)
-    end
-end
-
 function CQuestFrontierNode:update_take(pPlayerState, bSelect)
     local m_pQuestAcc = self.pQuestAcc
-    local m_fn_diff = self:get_fn_diff()
+    local m_fn_diff = self.fn_diff
+    local m_fn_attainable = m_pQuestAcc:get_fn_attainable()
 
     DB = 1
 
-    local fn_attainable = m_pQuestAcc:get_fn_attainable()
-
     local m_rgpItems = self.rgpItems
-    local iIdx = m_rgpItems:bsearch(fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, true, true)
+    local iIdx = m_rgpItems:bsearch(m_fn_attainable(m_fn_diff, m_pQuestAcc), pPlayerState, true, true)
 
     local iStart
     local iEnd
@@ -165,4 +171,18 @@ function CQuestFrontierNode:update_put(rgpFrontierProps, bSelect)
     m_rgpItems:add_all(rgpCurItems)
 
     DB = nil
+end
+
+function CQuestFrontierNode:update_prepare(pPlayerState)
+    local m_rgpItems = self.rgpItems
+    local fn_sort = self:get_fn_sort(pPlayerState)  -- sort array to attend playerstate order
+
+    m_rgpItems:sort(fn_sort)
+end
+
+function CQuestFrontierNode:update_normalize()
+    local m_rgpItems = self.rgpItems
+    local fn_sort = self:get_fn_compare()           -- sort array to playerstate-less order
+
+    m_rgpItems:sort(fn_sort)
 end

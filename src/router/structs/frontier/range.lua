@@ -76,8 +76,8 @@ function CQuestFrontierRange:update_take(pPlayerState, bSelect)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
     local tpTakeQuestProps = STable:new()
 
-    for pAcc, tpQuestProps in pairs(m_tpPropTypeQuests) do
-        local rgpQuestProps = tpQuestProps:update_take(pPlayerState, bSelect)
+    for pAcc, pTypeRange in pairs(m_tpPropTypeQuests) do
+        local rgpQuestProps = pTypeRange:update_take(pPlayerState, bSelect)
 
         tpTakeQuestProps:insert(pAcc, rgpQuestProps)
         self:_exchange_quests(rgpQuestProps, false)
@@ -90,10 +90,26 @@ function CQuestFrontierRange:update_put(tpTakeQuestProps, bSelect)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
     for pAcc, rgpQuestProps in pairs(tpTakeQuestProps:get_entry_set()) do
-        local tpQuestProps = m_tpPropTypeQuests[pAcc]
+        local pTypeRange = m_tpPropTypeQuests[pAcc]
 
-        tpQuestProps:update_put(rgpQuestProps)
+        pTypeRange:update_put(rgpQuestProps)
         self:_exchange_quests(rgpQuestProps, true)
+    end
+end
+
+function CQuestFrontierRange:prepare_range(pPlayerState)
+    local m_tpPropTypeQuests = self.tpPropTypeQuests
+
+    for _, pTypeRange in pairs(m_tpPropTypeQuests) do
+        pTypeRange:update_prepare(pPlayerState)
+    end
+end
+
+function CQuestFrontierRange:normalize_range()
+    local m_tpPropTypeQuests = self.tpPropTypeQuests
+
+    for _, pTypeRange in pairs(m_tpPropTypeQuests) do
+        pTypeRange:update_normalize()
     end
 end
 
@@ -110,8 +126,8 @@ function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
 
         for _, pAcc in pairs(rgpAccs) do
             if ctAccessors:is_prerequisite_strong(pAcc) then
-                local pNode = m_tpPropTypeQuests[pAcc]
-                if not pNode:contains(pCurQuestProp) then     -- meaning any of the strong requisites have not been met by player
+                local pTypeRange = m_tpPropTypeQuests[pAcc]
+                if not pTypeRange:contains(pCurQuestProp) then     -- meaning any of the strong requisites have not been met by player
                     return false
                 end
             end
@@ -125,8 +141,8 @@ function CQuestFrontierRange:debug_front(sType)
     local tQuests = {}
 
     local m_tpPropTypeQuests = self.tpPropTypeQuests
-    for pAcc, tpQuestProps in pairs(m_tpPropTypeQuests) do
-        for _, pFrontierProp in ipairs(tpQuestProps:list()) do
+    for pAcc, pTypeRange in pairs(m_tpPropTypeQuests) do
+        for _, pFrontierProp in ipairs(pTypeRange:list()) do
             local pQuestProp = pFrontierProp:get_property()
             tQuests[pQuestProp] = (tQuests[pQuestProp] or 0) + 1
         end
@@ -144,8 +160,8 @@ function CQuestFrontierRange:_fetch_from_nodes(pCurQuestProp, rgpAccs)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
     for _, pAcc in pairs(rgpAccs) do
-        local pNode = m_tpPropTypeQuests[pAcc]
-        pNode:remove(pCurQuestProp)
+        local pTypeRange = m_tpPropTypeQuests[pAcc]
+        pTypeRange:remove(pCurQuestProp)
     end
 end
 
@@ -158,8 +174,8 @@ function CQuestFrontierRange:count()
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
     local tRet = {}
-    for pAcc, m_pNode in pairs(m_tpPropTypeQuests) do
-        local iCount = m_pNode:count()
+    for pAcc, pTypeRange in pairs(m_tpPropTypeQuests) do
+        local iCount = pTypeRange:count()
         tRet[pAcc] = iCount
     end
 

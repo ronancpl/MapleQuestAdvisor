@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.constant")
 require("router.structs.frontier.node.node")
 require("utils.struct.array")
 require("utils.struct.class")
@@ -19,7 +20,7 @@ local function fn_default_player_property(pPlayerState)
 end
 
 local function fn_compare_prop_unit(pFrontierProp, pFrontierOther)
-    return pFrontierOther:get(1) - pFrontierProp:get(1)
+    return (pFrontierOther:get_entry_set()[1] or U_INT_MIN) - (pFrontierProp:get_entry_set()[1] or U_INT_MIN)
 end
 
 local function fn_diff_prop_unit(pAcc, pFrontierProp, pPlayerState)
