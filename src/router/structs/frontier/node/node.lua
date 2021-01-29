@@ -79,7 +79,6 @@ function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
     local iInsIdx = m_rgpItems:bsearch(fn_compare, pFrontierProp, true, true)
     m_rgpItems:insert(pFrontierProp, iInsIdx)
 
-    --DB = nil
 end
 
 function CQuestFrontierNode:find(pQuestProp)
@@ -108,7 +107,6 @@ function CQuestFrontierNode:list()
 end
 
 function CQuestFrontierNode:remove(pQuestProp)
-    --DB = 1
 
     local iRmvIdx = self:find(pQuestProp)
     if iRmvIdx > 0 then
@@ -187,18 +185,6 @@ function CQuestFrontierNode:update_put(pPlayerState, rgpFrontierProps, bSelect)
     m_rgpItems:add_all(rgpItemsLeft)
     m_rgpItems:add_all(rgpItemsRight)
 
-    if m_rgpItems:size() > 0 then
-        local fn_compare = self.fn_comparing
-
-        local st = ""
-        local pProp = m_rgpItems:get(1)
-        for k, v in pairs(m_rgpItems:list()) do
-            st = st .. fn_compare(v, pPlayerState) .. ", "
-        end
-        print(m_rgpItems, ">> UPPT [" .. st .. "]")
-    end
-
-    --DB = nil
 end
 
 function CQuestFrontierNode:update_prepare(pPlayerState)
@@ -214,7 +200,7 @@ end
 
 function CQuestFrontierNode:update_normalize()
     local m_rgpItems = self.rgpItems
-    local fn_sort = function (a, b) return (self:get_fn_compare())(a, b) > 0 end           -- sort array to playerstate-less order
+    local fn_sort = function (a, b) return (self:get_fn_compare())(a, b) < 0 end           -- sort array to playerstate-less order
 
     self.fn_comparing = self:get_fn_compare()
     m_rgpItems:sort(fn_sort)
