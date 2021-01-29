@@ -36,17 +36,20 @@ function spairs_table(m_apItems)
 end
 
 function spairs(tTable, fn_table_sort)
-    local rgKeys = {}
-    for k, _ in pairs(tTable) do
-        table.insert(rgKeys, k)
-    end
-
-    table.sort(rgKeys, fn_table_sort)
-
     local rgpPairs = {}
-    for _, k in pairs(rgKeys) do
-        local pPair = {k, tTable[k]}
-        table.insert(rgpPairs, pPair)
+
+    local rgKeys = {}
+    if next(tTable) ~= nil then
+        for k, _ in pairs(tTable) do
+            table.insert(rgKeys, k)
+        end
+
+        table.sort(rgKeys, fn_table_sort)
+
+        for _, k in pairs(rgKeys) do
+            local pPair = {k, tTable[k]}
+            table.insert(rgpPairs, pPair)
+        end
     end
 
     return rgpPairs

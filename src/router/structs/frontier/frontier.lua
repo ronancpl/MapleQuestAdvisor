@@ -56,7 +56,7 @@ end
 
 function CQuestFrontier:_update_range(pPlayerState, m_pRangeFrom, m_pRangeTo, bFromIsSelect)
     local tpTakeQuestProps = m_pRangeFrom:update_take(pPlayerState, bFromIsSelect)
-    m_pRangeTo:update_put(tpTakeQuestProps, bFromIsSelect)
+    m_pRangeTo:update_put(pPlayerState, tpTakeQuestProps, bFromIsSelect)
 end
 
 function CQuestFrontier:_prepare_range(m_pRangeFrom, pPlayerState)

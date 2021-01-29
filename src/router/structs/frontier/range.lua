@@ -29,12 +29,16 @@ function CQuestFrontierRange:_init_accessor_type(pAcc, CQuestRangeType)
 end
 
 function CQuestFrontierRange:init(rgpAccUnits, rgpAccInvts)
+    local m_tpPropTypeQuests = self.tpPropTypeQuests
+
     for _, pAcc in ipairs(rgpAccUnits) do
         self:_init_accessor_type(pAcc, CQuestFrontierUnit)
+        m_tpPropTypeQuests[pAcc].fn_comparing = m_tpPropTypeQuests[pAcc]:get_fn_compare()
     end
 
     for _, pAcc in ipairs(rgpAccInvts) do
         self:_init_accessor_type(pAcc, CQuestFrontierList)
+        m_tpPropTypeQuests[pAcc].fn_comparing = m_tpPropTypeQuests[pAcc]:get_fn_compare()
     end
 end
 
@@ -86,13 +90,13 @@ function CQuestFrontierRange:update_take(pPlayerState, bSelect)
     return tpTakeQuestProps
 end
 
-function CQuestFrontierRange:update_put(tpTakeQuestProps, bSelect)
+function CQuestFrontierRange:update_put(pPlayerState, tpTakeQuestProps, bSelect)
     local m_tpPropTypeQuests = self.tpPropTypeQuests
 
     for pAcc, rgpQuestProps in pairs(tpTakeQuestProps:get_entry_set()) do
         local pTypeRange = m_tpPropTypeQuests[pAcc]
 
-        pTypeRange:update_put(rgpQuestProps)
+        pTypeRange:update_put(pPlayerState, rgpQuestProps, bSelect)
         self:_exchange_quests(rgpQuestProps, true)
     end
 end

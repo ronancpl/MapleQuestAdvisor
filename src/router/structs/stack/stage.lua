@@ -9,7 +9,6 @@
 --]]
 
 require("structs.quest.properties")
-require("utils.procedure.iterate")
 require("utils.struct.array")
 require("utils.struct.class")
 
@@ -35,9 +34,8 @@ end
 function CGraphStageQuest:_push_neighbors(rgpNeighbors)
     local m_rgpNeighbors = self.rgpNeighbors
 
-    DB = 1
     m_rgpNeighbors:remove_all()
-    for _, pNeighborProp in rpairs(rgpNeighbors) do
+    for _, pNeighborProp in ipairs(rgpNeighbors) do
         m_rgpNeighbors:add(pNeighborProp)
     end
 
@@ -45,25 +43,20 @@ function CGraphStageQuest:_push_neighbors(rgpNeighbors)
     m_rgpActiveNeighbors:remove_all()
     m_rgpActiveNeighbors:add_all(m_rgpNeighbors)
 
-    DB = nil
 end
 
 function CGraphStageQuest:push_stage(pQuestProp, rgpNeighbors)
     self.pQuestProp = pQuestProp
-    DB = 1
     self:_push_neighbors(rgpNeighbors)
-    DB = nil
 end
 
 function CGraphStageQuest:remove_neighbor(pQuestProp)
-    DB = 1
     local m_rgpActiveNeighbors = self.rgpActiveNeighbors
     local fn_compare_active_neighbor = CQuestProperties.compare
     local iIdx = m_rgpActiveNeighbors:bsearch(fn_compare_active_neighbor, pQuestProp, false, true)
     if iIdx > 0 then
         m_rgpActiveNeighbors:remove(iIdx, iIdx)
     end
-    DB = nil
 end
 
 function CGraphStageQuest:_is_empty_active_neighbors()

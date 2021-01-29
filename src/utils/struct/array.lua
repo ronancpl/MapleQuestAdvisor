@@ -57,7 +57,7 @@ function SArray:add(pItem)
     m_apItems[nItems + 1] = pItem
 
     if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, pItem) then
-        error("bsearch unordered ADD")
+        print("[WRN] bsearch unordered ADD")
     end
 end
 
@@ -73,8 +73,8 @@ function SArray:add_all(rgpItems)
             m_apItems[nItems + i] = rgpList[i]
         end
 
-        if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, pItem) then
-            error("bsearch unordered ADD_ALL")
+        if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, m_apItems[1]) then
+            print("[WRN] bsearch unordered ADD_ALL")
         end
     end
 end
@@ -102,7 +102,7 @@ function SArray:remove(iIdxStart, iIdxEnd)
         end
 
         if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, apRemoved[1]) then
-            error("bsearch unordered RMV")
+            print("[WRN] bsearch unordered RMV")
         end
     end
 
@@ -135,7 +135,6 @@ function SArray:remove_all()
 end
 
 function SArray:sort(fn_sort)
-    self.m_fn_compare = fn_sort
     local m_apItems = self.apItems
 
     if fn_sort then
@@ -228,7 +227,7 @@ end
 
 local U_INT_MIN = -2147483648
 
-function SArray:verify_bsearch_validity(fn_compare, pToFind)
+function SArray:_verify_bsearch_validity(fn_compare, pToFind)
     local m_apItems = self.apItems
     local napItems = #m_apItems
 
@@ -260,7 +259,23 @@ function SArray:verify_bsearch_validity(fn_compare, pToFind)
     return bRet
 end
 
+function SArray:verify_bsearch_validity(fn_compare, pToFind)
+    local bResult, oRet = pcall(
+        function ()
+            return self:_verify_bsearch_validity(fn_compare, pToFind)
+        end
+    )
+
+    if bResult then
+        return oRet
+    else
+        return true
+    end
+end
+
 function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
+    self.m_fn_compare = fn_compare
+
     if not self:verify_bsearch_validity(fn_compare, pToFind) then
         error("bsearch unordered")
     end
@@ -324,8 +339,8 @@ function SArray:slice(iFromIdx, iToIdx)     -- creates a sub-list
         rgpNew:add(pItem)
     end
 
-    if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, rgpNew.get(1)) then
-        error("bsearch unordered RMV_SL")
+    if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, rgpNew:get(1)) then
+        print("[WRN] bsearch unordered RMV_SL")
     end
 
     return rgpNew
@@ -337,7 +352,7 @@ function SArray:insert(pItem, iFromIdx)
     self:add_all(rgpSlice)
 
     if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, pItem) then
-        error("bsearch unordered INS")
+        print("[WRN] bsearch unordered INS")
     end
 end
 
@@ -347,7 +362,7 @@ function SArray:insert_array(rgpArray, iFromIdx)
     self:add_all(rgpSlice)
 
     if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, self:get(1)) then
-        error("bsearch unordered INS_ARR")
+        print("[WRN] bsearch unordered INS_ARR")
     end
 end
 
