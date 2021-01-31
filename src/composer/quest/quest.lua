@@ -30,6 +30,7 @@ local tAttrUnit = {
     _skill = 0,    -- attribute: list
     _mob = 0,
     _pop = CQuestProperty.set_fame,
+    _fame = CQuestProperty.set_fame,
     _npc = CQuestRequirement.set_npc,
     _lvmin = CQuestRequirement.set_level_min,
     _lvmax = CQuestRequirement.set_level_max,
@@ -52,10 +53,17 @@ local tAttrList = {
 }
 
 local ttsAttrKey = {
-    _item = {id = 0, count = 0},
+    _item = {id = 0, count = 0, prop = 0, gender = -1, job = -1},
     _skill = {id = 0},
     _mob = {id = 0, count = 0},
     _quest = {id = 0, state = 0}
+}
+
+local trgsAttrArgs = {
+    _item = {"id", "count", "prop", "gender", "job"},
+    _skill = {"id"},
+    _mob = {"id", "count"},
+    _quest = {"id", "state"}
 }
 
 local function read_quest_attribute_value(fn_attr, pQuestProps, pNode)
@@ -76,10 +84,12 @@ local function read_quest_attribute_item_value(pTabListItemNode, sKey, iDef)
     return iVal
 end
 
-local function read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProps, pNode)
+local function read_quest_attribute_list(fn_attr, tsAttrKey, rgsAttrArgs, pQuestProps, pNode)
     for _, pTabListItemNode in pairs(pNode:get_children()) do
         local aiAttrList = {}
-        for sKey, iDef in pairs(tsAttrKey) do
+        for _, sKey in ipairs(rgsAttrArgs) do
+            local iDef = tsAttrKey[sKey]
+
             local iVal = read_quest_attribute_item_value(pTabListItemNode, sKey, iDef)
             table.insert(aiAttrList, iVal)
         end
@@ -115,8 +125,9 @@ local function read_quest_tab_node_attribute(pQuestProps, pNode)
         if fn_attr == 0 then
             fn_attr = tAttrList[sName]
             local tsAttrKey = ttsAttrKey[sName]
+            local rgsAttrArgs = trgsAttrArgs[sName]
 
-            read_quest_attribute_list(fn_attr, tsAttrKey, pQuestProps, pNode)
+            read_quest_attribute_list(fn_attr, tsAttrKey, rgsAttrArgs, pQuestProps, pNode)
         elseif fn_attr == 1 then
             fn_attr = tAttrList[sName]
 

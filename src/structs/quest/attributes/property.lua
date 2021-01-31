@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.storage.inventory")
+require("structs.storage.stash")
 require("utils.procedure.string")
 require("utils.struct.array")
 require("utils.struct.class")
@@ -19,11 +19,11 @@ CQuestProperty = createClass({
     iExp,
     iMeso,
     siFame,
-    ivtSkills = CInventory:new(),
-    ivtItems = CInventory:new(),
-    ivtMobs = CInventory:new(),
-    ivtQuests = CInventory:new(),
-    ivtFieldsEnter = CInventory:new(),
+    ivtSkills = CInventoryStash:new(),
+    ivtItems = CInventoryStash:new(),
+    ivtMobs = CInventoryStash:new(),
+    ivtQuests = CInventoryStash:new(),
+    ivtFieldsEnter = CInventoryStash:new(),
     rgpJobs = SArray:new()          -- not only requirement, really?
 })
 
@@ -63,7 +63,8 @@ function CQuestProperty:get_items()
     return self.ivtItems
 end
 
-function CQuestProperty:add_item(iId, iCount)
+function CQuestProperty:add_item(iId, iCount, iProp, siGender, siJob)
+    self.ivtItems:set_fn_access(iId, iCount, iProp, siGender, siJob)
     self.ivtItems:add_item(iId, iCount)
 end
 
@@ -155,6 +156,22 @@ end
 function CQuestProperty:set_default_on_empty_properties()
     local tsDef = {iExp = 0, iMeso = 0, siFame = 0}
     self:_set_default_on_empty_properties(tsDef)
+end
+
+function CQuestProperty:install_player_state(pPlayerState)
+    self.ivtSkills:install_player_state(pPlayerState)
+    self.ivtItems:install_player_state(pPlayerState)
+    self.ivtMobs:install_player_state(pPlayerState)
+    self.ivtQuests:install_player_state(pPlayerState)
+    self.ivtFieldsEnter:install_player_state(pPlayerState)
+end
+
+function CQuestProperty:extract_player_state()
+    self.ivtSkills:extract_player_state()
+    self.ivtItems:extract_player_state()
+    self.ivtMobs:extract_player_state()
+    self.ivtQuests:extract_player_state()
+    self.ivtFieldsEnter:extract_player_state()
 end
 
 function fetch_property_get_methods(CPropertyType)

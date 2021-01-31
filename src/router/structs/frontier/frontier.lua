@@ -84,6 +84,8 @@ end
 function CQuestFrontier:debug_front()
     self.pSelect:debug_front("slt")
     self.pHold:debug_front("hld")
+function CQuestFrontier:debug_front(pPlayerState)
+    self.pSelect:debug_req(pPlayerState)
 end
 
 function CQuestFrontier:peek()

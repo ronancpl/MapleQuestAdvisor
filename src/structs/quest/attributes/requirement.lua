@@ -11,6 +11,7 @@
 --]]
 
 require("router.filters.constant")
+require("structs.quest.attributes.category.job")
 require("structs.quest.attributes.property")
 require("utils.struct.class")
 
@@ -78,39 +79,6 @@ end
 
 local function fn_compare_job(siJobid, siPlayerJobid)
     return siJobid - siPlayerJobid
-end
-
-local function is_in_job_class_tree(siBaseJobBranch, siJobBranch, depth)
-    local siNextBaseBranch = math.floor(siBaseJobBranch / 10)
-    local siNextJobBranch = math.floor(siJobBranch / 10)
-    if siNextBaseBranch == siNextJobBranch then
-        return siNextJobBranch ~= 0 or depth < 3
-    elseif siNextJobBranch ~= 0 then
-        return is_in_job_tree_node(siNextBaseBranch, siNextJobBranch, depth + 1)
-    else
-        return false
-    end
-end
-
-local function is_in_job_tree(siBaseJobid, siJobid)
-    if siBaseJobid > siJobid then
-        return false
-    end
-
-    local siBaseBranch = math.floor(siBaseJobid / 10)
-    local siJobBranch = math.floor(siJobid / 10)
-    if siBaseBranch == siJobBranch then
-        return true
-    else
-        local siBaseClass = math.floor(siBaseJobid / 100)
-        local siJobClass = math.floor(siJobid / 100)
-
-        if siBaseClass ~= siJobClass and siBaseClass % 10 ~= 0 then
-            return false
-        else
-            return is_in_job_class_tree(siBaseBranch, siJobBranch, 1)
-        end
-    end
 end
 
 function CQuestRequirement:_in_job_tree(siPlayerJob)

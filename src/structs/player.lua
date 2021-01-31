@@ -22,6 +22,7 @@ CPlayer = createClass({
     iMapid = 0,
     iMeso = 0,
     siFame = 0,
+    siGender = -1,
     ivtItems = CCompositeInventory:new(),
     ivtSkills = CInventory:new(),
     ivtQuests = CInventory:new(),
@@ -91,6 +92,14 @@ end
 
 function CPlayer:add_fame(siFame)
     self.siFame = self.siFame + siFame
+end
+
+function CPlayer:get_gender()
+    return self.siGender
+end
+
+function CPlayer:set_gender(siGender)
+    self.siGender = siGender
 end
 
 function CPlayer:get_items()

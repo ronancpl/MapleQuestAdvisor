@@ -93,3 +93,13 @@ function CQuestProperties:compare(pOtherProp)
 
     return 2 * iQuestidDiff + iStartDiff
 end
+
+function CQuestProperties:install_player_state(pPlayerState)
+    self.pPropCheck:install_player_state(pPlayerState)
+    self.pPropAct:install_player_state(pPlayerState)
+end
+
+function CQuestProperties:extract_player_state()
+    self.pPropCheck:extract_player_state()
+    self.pPropAct:extract_player_state()
+end

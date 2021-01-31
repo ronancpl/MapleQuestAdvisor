@@ -145,8 +145,7 @@ function CQuestFrontierNode:update_take(pPlayerState, bSelect)
     iStart, iEnd = fetch_update_iterator_step(m_rgpItems, bSelect, iIdx)
 
     local rgpFrontierProps = m_rgpItems:remove(iStart, iEnd)
-
-    return rgpFrontierProps
+    return rgpFrontierProps:list()
 end
 
 function CQuestFrontierNode:_fetch_frontier_update_order(rgpFrontierProps, rgpCurItems)
@@ -157,8 +156,6 @@ function CQuestFrontierNode:_fetch_frontier_update_order(rgpFrontierProps, rgpCu
             bRes = true
         end
     end
-
-    local fn_compare = self.fn_comparing
 
     if bRes then
         return rgpFrontierProps, rgpCurItems
@@ -184,7 +181,6 @@ function CQuestFrontierNode:update_put(pPlayerState, rgpFrontierProps, bSelect)
 
     m_rgpItems:add_all(rgpItemsLeft)
     m_rgpItems:add_all(rgpItemsRight)
-
 end
 
 function CQuestFrontierNode:update_prepare(pPlayerState)
