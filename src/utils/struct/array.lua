@@ -15,7 +15,7 @@ require("utils.procedure.print")
 require("utils.procedure.sort")
 require("utils.procedure.unpack")
 
-SArray = createClass({apItems = {}, m_fn_compare = nil})
+SArray = createClass({apItems = {}})
 
 function SArray:is_empty()
     local m_apItems = self.apItems
@@ -55,10 +55,6 @@ function SArray:add(pItem)
     local nItems = #m_apItems
 
     m_apItems[nItems + 1] = pItem
-
-    if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, pItem) then
-        print("[WRN] bsearch unordered ADD")
-    end
 end
 
 function SArray:add_all(rgpItems)
@@ -71,10 +67,6 @@ function SArray:add_all(rgpItems)
         local nList = #rgpList
         for i = 1, nList, 1 do
             m_apItems[nItems + i] = rgpList[i]
-        end
-
-        if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, m_apItems[1]) then
-            print("[WRN] bsearch unordered ADD_ALL")
         end
     end
 end
@@ -99,10 +91,6 @@ function SArray:remove(iIdxStart, iIdxEnd)
 
         for i = iIdxStart + nLeft, nItems, 1 do
             m_apItems[i] = nil
-        end
-
-        if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, apRemoved[1]) then
-            print("[WRN] bsearch unordered RMV")
         end
     end
 
@@ -225,61 +213,7 @@ function SArray:_find_last_from(fn_compare, iIdx, pToFind)
     return i - 1
 end
 
-local U_INT_MIN = -2147483648
-
-function SArray:_verify_bsearch_validity(fn_compare, pToFind)
-    local m_apItems = self.apItems
-    local napItems = #m_apItems
-
-    local last_val = U_INT_MIN
-    local bRet = true
-
-    local rgiRets = {}
-    for m = 1, napItems, 1 do
-        local pItem = m_apItems[m]
-        local iVal = fn_compare(pItem, pToFind)
-
-        if last_val > iVal then
-            print("error " .. iVal)
-            bRet = false
-        end
-
-        last_val = iVal
-        table.insert(rgiRets, iVal)
-    end
-
-    if not bRet then
-        local st = ""
-        for _, v in ipairs(rgiRets) do
-            st = st .. v .. ", "
-        end
-        print(rgiRets, "(" .. st .. ")")
-    end
-
-    return bRet
-end
-
-function SArray:verify_bsearch_validity(fn_compare, pToFind)
-    local bResult, oRet = pcall(
-        function ()
-            return self:_verify_bsearch_validity(fn_compare, pToFind)
-        end
-    )
-
-    if bResult then
-        return oRet
-    else
-        return true
-    end
-end
-
 function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
-    self.m_fn_compare = fn_compare
-
-    if not self:verify_bsearch_validity(fn_compare, pToFind) then
-        error("bsearch unordered")
-    end
-
     local m_apItems = self.apItems
     local napItems = #m_apItems
 
@@ -339,10 +273,6 @@ function SArray:slice(iFromIdx, iToIdx)     -- creates a sub-list
         rgpNew:add(pItem)
     end
 
-    if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, rgpNew:get(1)) then
-        print("[WRN] bsearch unordered RMV_SL")
-    end
-
     return rgpNew
 end
 
@@ -350,20 +280,12 @@ function SArray:insert(pItem, iFromIdx)
     local rgpSlice = iFromIdx ~= nil and self:remove(iFromIdx) or SArray:new()
     self:add(pItem)
     self:add_all(rgpSlice)
-
-    if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, pItem) then
-        print("[WRN] bsearch unordered INS")
-    end
 end
 
 function SArray:insert_array(rgpArray, iFromIdx)
     local rgpSlice = iFromIdx ~= nil and self:remove(iFromIdx) or SArray:new()
     self:add_all(rgpArray)
     self:add_all(rgpSlice)
-
-    if DB == 1 and self.m_fn_compare ~= nil and not self:verify_bsearch_validity(self.m_fn_compare, self:get(1)) then
-        print("[WRN] bsearch unordered INS_ARR")
-    end
 end
 
 function SArray:printable()

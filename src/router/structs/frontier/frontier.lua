@@ -81,7 +81,6 @@ function CQuestFrontier:update(pPlayerState)
     self:_normalize_range(m_pRangeHold)
 end
 
-function CQuestFrontier:debug_front()
     self.pSelect:debug_front("slt")
     self.pHold:debug_front("hld")
 function CQuestFrontier:debug_front(pPlayerState)
@@ -92,14 +91,24 @@ function CQuestFrontier:peek()
     local m_pQuestStack = self.pQuestStack
     local m_pRange = self.pSelect
 
+    local rgpUnusedProps = {}
+
     local pQuestProp
     while true do
         pQuestProp = m_pQuestStack:peek()
 
         -- keeps exploring the frontier stack, in search for a selectable quest for the player
-        if pQuestProp == nil or m_pRange:contains(pQuestProp) then
+        if pQuestProp == nil then
+            break
+        elseif m_pRange:contains(pQuestProp) and m_pRange:should_fetch_quest(pQuestProp) then
             break
         end
+
+        table.insert(rgpUnusedProps, pQuestProp)
+    end
+
+    for _, pQuestProp in ipairs(rgpUnusedProps) do
+        m_pQuestStack:add(pQuestProp)
     end
 
     return pQuestProp

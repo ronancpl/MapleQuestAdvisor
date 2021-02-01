@@ -18,6 +18,7 @@ require("utils.struct.class")
 CQuestFrontierNode = createClass({
     bList = false,
     rgpItems = SArray:new(),
+    tpSetItems = {},
     pQuestAcc = nil,
     fn_attain = nil,
     fn_diff = nil,
@@ -47,6 +48,10 @@ function CQuestFrontierNode:get_fn_create()
     return self.fn_create
 end
 
+local function fn_compare_property(pFrontierProp, pQuestProp)
+    return CQuestProperties.compare(pFrontierProp:get_property(), pQuestProp)
+end
+
 local function fn_sort_attainable(m_fn_attainable, m_fn_diff, m_pQuestAcc, pPlayerState)
     return function(a, b)
         return m_fn_attainable(m_fn_diff, m_pQuestAcc)(a, pPlayerState) < m_fn_attainable(m_fn_diff, m_pQuestAcc)(b, pPlayerState)
@@ -62,6 +67,29 @@ function CQuestFrontierNode:get_fn_sort(pPlayerState)
     return fn_sort
 end
 
+function CQuestFrontierNode:_update_item_set(pQuestProp, iCount)
+    local m_tpSetItems = self.tpSetItems
+
+    local iPropCount = m_tpSetItems[pQuestProp]
+    if iCount > 0 then
+        m_tpSetItems[pQuestProp] = (m_tpSetItems[pQuestProp] or 0) + iCount
+    else
+        if iPropCount ~= nil then
+            iPropCount = iPropCount + iCount
+            if iPropCount > 0 then
+                m_tpSetItems[pQuestProp] = iPropCount
+            else
+                m_tpSetItems[pQuestProp] = nil
+            end
+        end
+    end
+end
+
+function CQuestFrontierNode:contains(pQuestProp)
+    local m_tpSetItems = self.tpSetItems
+    return m_tpSetItems[pQuestProp] ~= nil
+end
+
 function CQuestFrontierNode:size()
     return self.rgpItems:size()
 end
@@ -74,26 +102,17 @@ function CQuestFrontierNode:add(pQuestProp, pQuestChkProp)
     local pFrontierProp = fn_create(m_pQuestAcc, pQuestProp, pQuestChkProp)
 
     local m_rgpItems = self.rgpItems
-
-
     local iInsIdx = m_rgpItems:bsearch(fn_compare, pFrontierProp, true, true)
     m_rgpItems:insert(pFrontierProp, iInsIdx)
 
+    self:_update_item_set(pQuestProp, 1)
 end
 
 function CQuestFrontierNode:find(pQuestProp)
-    local fn_select_quest_id = function(pFrontierProp)
-        return CQuestProperties.compare(pQuestProp, pFrontierProp:get_property()) == 0
-    end
-
     local m_rgpItems = self.rgpItems
+    local fn_select_quest_id = function (pFrontierProp) return fn_compare_property(pFrontierProp, pQuestProp) end
     local iIdx = m_rgpItems:index_of(fn_select_quest_id, false)
     return iIdx
-end
-
-function CQuestFrontierNode:contains(pQuestProp)
-    local iIdx = self:find(pQuestProp)
-    return iIdx > 0
 end
 
 function CQuestFrontierNode:count()
@@ -107,13 +126,13 @@ function CQuestFrontierNode:list()
 end
 
 function CQuestFrontierNode:remove(pQuestProp)
-
     local iRmvIdx = self:find(pQuestProp)
     if iRmvIdx > 0 then
         local m_rgpItems = self.rgpItems
         m_rgpItems:remove(iRmvIdx, iRmvIdx)
-    end
 
+        self:_update_item_set(pQuestProp, -1)
+    end
 end
 
 local function fetch_update_iterator_step(rgpItems, bSelect, iIdx)
@@ -145,6 +164,11 @@ function CQuestFrontierNode:update_take(pPlayerState, bSelect)
     iStart, iEnd = fetch_update_iterator_step(m_rgpItems, bSelect, iIdx)
 
     local rgpFrontierProps = m_rgpItems:remove(iStart, iEnd)
+    for _, pFrontierProp in ipairs(rgpFrontierProps) do
+        local pQuestProp = pFrontierProp:get_property()
+        self:_update_item_set(pQuestProp, -1)
+    end
+
     return rgpFrontierProps:list()
 end
 
@@ -167,7 +191,6 @@ end
 function CQuestFrontierNode:update_put(pPlayerState, rgpFrontierProps, bSelect)
     local m_rgpItems = self.rgpItems
 
-
     local rgpCurItems
     if bSelect then
         rgpCurItems = m_rgpItems:remove_all()
@@ -179,8 +202,15 @@ function CQuestFrontierNode:update_put(pPlayerState, rgpFrontierProps, bSelect)
     local rgpItemsRight
     rgpItemsLeft, rgpItemsRight = self:_fetch_frontier_update_order(rgpFrontierProps, rgpCurItems)
 
+    local fn_compare = self.fn_comparing
+
     m_rgpItems:add_all(rgpItemsLeft)
     m_rgpItems:add_all(rgpItemsRight)
+
+    for _, pFrontierProp in ipairs(rgpFrontierProps) do
+        local pQuestProp = pFrontierProp:get_property()
+        self:_update_item_set(pQuestProp, 1)
+    end
 end
 
 function CQuestFrontierNode:update_prepare(pPlayerState)

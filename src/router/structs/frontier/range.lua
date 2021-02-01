@@ -81,10 +81,10 @@ function CQuestFrontierRange:update_take(pPlayerState, bSelect)
     local tpTakeQuestProps = STable:new()
 
     for pAcc, pTypeRange in pairs(m_tpPropTypeQuests) do
-        local rgpQuestProps = pTypeRange:update_take(pPlayerState, bSelect)
+        local rgpFrontierProps = pTypeRange:update_take(pPlayerState, bSelect)
 
-        tpTakeQuestProps:insert(pAcc, rgpQuestProps)
-        self:_exchange_quests(rgpQuestProps, false)
+        tpTakeQuestProps:insert(pAcc, rgpFrontierProps)
+        self:_exchange_quests(rgpFrontierProps, false)
     end
 
     return tpTakeQuestProps
@@ -124,14 +124,15 @@ function CQuestFrontierRange:_remove_from_nodes(pQuestProp)
     end
 end
 
-function CQuestFrontierRange:_should_fetch_quest(pCurQuestProp, rgpAccs)
+function CQuestFrontierRange:should_fetch_quest(pQuestProp)
+    local rgpAccs = ctAccessors:get_accessors_by_active_requirements(pQuestProp, nil)
     if #rgpAccs > 0 then
         local m_tpPropTypeQuests = self.tpPropTypeQuests
 
-        for _, pAcc in pairs(rgpAccs) do
+        for _, pAcc in ipairs(rgpAccs) do
             if ctAccessors:is_prerequisite_strong(pAcc) then
                 local pTypeRange = m_tpPropTypeQuests[pAcc]
-                if not pTypeRange:contains(pCurQuestProp) then     -- meaning any of the strong requisites have not been met by player
+                if not pTypeRange:contains(pQuestProp) then     -- meaning any of the strong requisites have not been met by player
                     return false
                 end
             end
