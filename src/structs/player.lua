@@ -18,7 +18,7 @@ CPlayer = createClass({
     siJob = -1,
     siLevel = 1,
     liExp = 0,
-    liExpAmass = 0,
+    liExpUpdt = 0,
     iMapid = 0,
     iMeso = 0,
     siFame = 0,
@@ -37,7 +37,40 @@ function CPlayer:set_job(siJob)
     self.siJob = siJob
 end
 
-function CPlayer:_update_exp_amass() end
+function CPlayer:_update_exp_over_level(bUndo, iExpOver)
+    if bUndo then
+        self.siLevel = self.siLevel - 1
+        iExpOver = iExpOver + ctPlayersMeta:get_exp_to_next_level(self.siLevel)
+    else
+        iExpOver = iExpOver - ctPlayersMeta:get_exp_to_next_level(self.siLevel)
+        self.siLevel = self.siLevel + 1
+    end
+
+    return iExpOver
+end
+
+function CPlayer:_update_exp()
+    if self.liExpUpdt >= 0 and self.liExpUpdt < ctPlayersMeta:get_exp_to_next_level(self.siLevel) then
+        self.liExp = self.liExpUpdt
+    else
+        local iExpOver = self.liExpUpdt - (self.liExpUpdt >= 0 and self.liExp or 0)
+
+        local iExpSt = self.liExp
+        while true do
+            if iExpOver < 0 then
+                iExpSt = 0
+                iExpOver = self:_update_exp_over_level(true, iExpOver)
+            elseif iExpSt + iExpOver >= ctPlayersMeta:get_exp_to_next_level(self.siLevel) then
+                iExpSt = 0
+                iExpOver = self:_update_exp_over_level(false, iExpOver)
+            else
+                break
+            end
+        end
+
+        self.liExp = iExpOver
+    end
+end
 
 function CPlayer:get_level()
     return self.siLevel
@@ -53,13 +86,13 @@ function CPlayer:get_exp()
 end
 
 function CPlayer:set_exp(liExp)
-    self.liExp = liExp
-    self:_update_exp_amass()
+    self.liExpUpdt = liExp
+    self:_update_exp()
 end
 
 function CPlayer:add_exp(liExp)
-    self.liExp = self.liExp + liExp
-    self:_update_exp_amass()
+    self.liExpUpdt = self.liExp + liExp
+    self:_update_exp()
 end
 
 function CPlayer:get_mapid()
@@ -123,7 +156,6 @@ function CPlayer:debug_player_state()
     st = st .. " JOB: " .. self.siJob
     st = st .. " LVL: " .. self.siLevel
     st = st .. " EXP: " .. self.liExp
-    st = st .. " EXP_T: " .. self.liExpAmass
     st = st .. " MAPID: " .. self.iMapid
     st = st .. " MESO: " .. self.iMeso
     st = st .. " FAME: " .. self.siFame
