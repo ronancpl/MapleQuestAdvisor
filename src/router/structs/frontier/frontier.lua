@@ -81,8 +81,6 @@ function CQuestFrontier:update(pPlayerState)
     self:_normalize_range(m_pRangeHold)
 end
 
-    self.pSelect:debug_front("slt")
-    self.pHold:debug_front("hld")
 function CQuestFrontier:debug_front(pPlayerState)
     self.pSelect:debug_req(pPlayerState)
 end
