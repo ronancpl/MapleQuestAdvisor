@@ -175,7 +175,10 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
         route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
         local iBcktCount = route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
 
-        pFrontierQuests:fetch(pQuestTree, iBcktCount)       -- retrieve all nodes from frontier that have been backtracked
+        local rgpRefeedQuests
+        _, rgpRefeedQuests = pFrontierQuests:fetch(pQuestTree, iBcktCount)      -- retrieve all nodes from frontier that have been backtracked
+        pFrontierQuests:restack_quests(rgpRefeedQuests)                         -- set skipped quests again for frontier checkout
+
         pFrontierQuests:update(pPlayerState)
 
         pQuestProp:extract_player_state()

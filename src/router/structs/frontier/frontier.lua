@@ -12,12 +12,14 @@
 
 require("router.structs.frontier.list")
 require("router.structs.frontier.range")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CQuestFrontier = createClass({
     pHold = CQuestFrontierRange:new(),
     pSelect = CQuestFrontierRange:new(),
-    pQuestStack = CQuestFrontierQuestList:new()
+    pQuestStack = CQuestFrontierQuestList:new(),
+    rgpUnusedQuests = {}
 })
 
 function CQuestFrontier:init(ctAccessors)
@@ -54,6 +56,13 @@ function CQuestFrontier:add(pQuestProp, pPlayerState, ctAccessors)
     m_pQuestStack:add(pQuestProp)
 end
 
+function CQuestFrontier:restack_quests(rgpQuestProps)
+    local m_pQuestStack = self.pQuestStack
+    for _, pQuestProp in ipairs(rgpQuestProps) do
+        m_pQuestStack:add(pQuestProp)
+    end
+end
+
 function CQuestFrontier:_update_range(pPlayerState, m_pRangeFrom, m_pRangeTo, bFromIsSelect)
     local tpTakeQuestProps = m_pRangeFrom:update_take(pPlayerState, bFromIsSelect)
     m_pRangeTo:update_put(pPlayerState, tpTakeQuestProps, bFromIsSelect)
@@ -87,9 +96,9 @@ end
 
 function CQuestFrontier:peek()
     local m_pQuestStack = self.pQuestStack
-    local m_pRange = self.pSelect
+    local m_rgpUnusedQuests = self.rgpUnusedQuests
 
-    local rgpUnusedProps = {}
+    local m_pRange = self.pSelect
 
     local pQuestProp
     while true do
@@ -102,26 +111,28 @@ function CQuestFrontier:peek()
             break
         end
 
-        table.insert(rgpUnusedProps, pQuestProp)
-    end
-
-    for _, pQuestProp in ipairs(rgpUnusedProps) do
-        m_pQuestStack:add(pQuestProp)
+        table.insert(m_rgpUnusedQuests, pQuestProp)
     end
 
     return pQuestProp
 end
 
 function CQuestFrontier:fetch(pQuestTree, iQuestCount)
+    local m_rgpUnusedQuests = self.rgpUnusedQuests
+    local iFetchCount = #m_rgpUnusedQuests + iQuestCount
+
+    local rgpUnusedProps = table_copy(m_rgpUnusedQuests)
+    clear_table(m_rgpUnusedQuests)
+
     local m_pQuestStack = self.pQuestStack
-    local rgpQuestProps = m_pQuestStack:fetch(pQuestTree, iQuestCount)
+    local rgpQuestProps = m_pQuestStack:fetch(pQuestTree, iFetchCount)
 
     local m_pRange = self.pSelect
     for _, pQuestProp in ipairs(rgpQuestProps) do
         m_pRange:fetch(pQuestProp)
     end
 
-    return rgpQuestProps
+    return rgpQuestProps, rgpUnusedProps
 end
 
 function CQuestFrontier:count()

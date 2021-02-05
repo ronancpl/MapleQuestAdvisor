@@ -21,3 +21,18 @@ function deep_copy(e)
 
     return ce
 end
+
+function table_copy(e)
+    local ce
+    if type(e) == "table" then
+        ce = {}
+        for k, v in pairs(e) do
+            ce[k] = v
+        end
+        setmetatable(ce, getmetatable(e))
+    else
+        ce = e  -- string, number, etc
+    end
+
+    return ce
+end

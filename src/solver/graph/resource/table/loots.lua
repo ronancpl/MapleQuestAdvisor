@@ -121,6 +121,7 @@ function CRetrieveItemTable:_get_acquisition_chance_overall(iLootSrc)
         end
     end
 
+    local fAvgLootChance
     if iLootRegions > 0 then
         fAvgLootChance = fLootChance / iLootRegions
     else

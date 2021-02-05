@@ -85,7 +85,10 @@ end
 function CQuestGrid:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, iExpectedStatus)
     if fn_filter_quests(pQuest, pPlayer) then
         tQuests[pQuest] = 1
-        self:_search_prequests(tQuests, fn_filter_quests, pQuest, pPlayer, iExpectedStatus)
+        if tQuests[pQuest] == nil and pQuest ~= nil then
+            tQuests[pQuest] = 1
+            self:_search_prequests(tQuests, fn_filter_quests, pQuest, pPlayer, iExpectedStatus)
+        end
     end
 end
 
@@ -110,8 +113,15 @@ function CQuestGrid:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuest
 
     local nParts = math.ceil(nAvailable / RGraph.POOL_QUEST_FETCH_PARTITIONS)
 
-    local nRows = math.ceil(nToPick / nParts)
-    local nCols = nParts
+    local nRows
+    local nCols
+    if nToPick >= nParts then
+        nRows = math.ceil(nToPick / nParts)
+        nCols = nParts
+    else
+        nRows = 1
+        nCols = nToPick
+    end
 
     local iIdxLastRowEnds = ((nToPick - 1) % nParts) + 1
 
@@ -158,7 +168,7 @@ function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nQuests)
     local iLevel = pPlayer:get_level() + RGraph.POOL_AHEAD_QUEST_LEVEL
 
     local iIdx = math.max(m_rgQuests:bsearch(fn_compare_quest_level, iLevel, true, true), 1)
-    local iToIdx = m_rgQuests:bsearch(fn_compare_quest_level, pPlayer:get_level(), true, true)
+    local iToIdx = m_rgQuests:bsearch(fn_compare_quest_level, pPlayer:get_level() - RGraph.POOL_BEHIND_QUEST_LEVEL, true, true)
 
     if iToIdx - iIdx < nQuests then
         iToIdx = math.min(m_rgQuests:size(), iIdx + nQuests)

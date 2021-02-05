@@ -38,6 +38,7 @@ load_loot_retrieval_resources()
 for i = 1, 100, 1 do
     local pGridQuests = load_grid_quests(ctQuests)
     local pPlayer = create_player()
+    pGridQuests:ignore_underleveled_quests(pPlayer:get_level())
 
     print("Generation graph #" .. i)
     local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
