@@ -36,3 +36,9 @@ function table_copy(e)
 
     return ce
 end
+
+function table_merge(tDest, tOrig)
+    for k, v in pairs(tOrig) do
+        tDest[k] = v
+    end
+end

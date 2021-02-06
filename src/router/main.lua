@@ -40,10 +40,11 @@ for i = 1, 100, 1 do
     local pPlayer = create_player()
     pGridQuests:ignore_underleveled_quests(pPlayer:get_level())
 
+    ctAccessors = init_quest_accessors()
+    ctAwarders = init_quest_awarders()
+
     print("Generation graph #" .. i)
     local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
 
-    ctAccessors = init_quest_accessors()
-    ctAwarders = init_quest_awarders()
     local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
 end

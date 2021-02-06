@@ -272,10 +272,19 @@ local function fetch_path_region_inbound_link(tpRegionBcktPath, tpPathMapids, iR
 end
 
 local function trace_outlying_path_resources(tpPathMapids, tpRegionBcktPath, rgiOutlyingRegionids)
-    table.sort(rgiOutlyingRegionids, function (iR1, iR2) return tpRegionBcktPath[iR1][2] - tpRegionBcktPath[iR2][2] end)
+    local fn_sort_regions_by_dest = function (iR1, iR2)
+        local iRegionBcktDest1 = tpRegionBcktPath[iR1] and tpRegionBcktPath[iR1][2] or -1
+        local iRegionBcktDest2 = tpRegionBcktPath[iR2] and tpRegionBcktPath[iR2][2] or -1
+
+        return iRegionBcktDest1 < iRegionBcktDest2
+    end
+
+    table.sort(rgiOutlyingRegionids, fn_sort_regions_by_dest)
 
     for _, iRegionid in ipairs(rgiOutlyingRegionids) do
-        fetch_path_region_inbound_link(tpRegionBcktPath, tpPathMapids, iRegionid, ctFieldsLandscape, ctFieldsLink)
+        if iRegionid > -1 then
+            fetch_path_region_inbound_link(tpRegionBcktPath, tpPathMapids, iRegionid, ctFieldsLandscape, ctFieldsLink)
+        end
     end
 end
 
