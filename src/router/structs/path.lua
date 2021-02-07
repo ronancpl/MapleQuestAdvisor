@@ -19,11 +19,9 @@ CQuestPath = createClass({
     tpPathCount = {},
 
     pPathTree = {},
-    pPathNow = {},
-    pPathStack = {},
 
     pPathValStack = {},
-    fPathValue = 0.0,
+    fAccPathValue = 0.0,
 
     sFetchTime = os.date("%H-%M-%S")
 })
@@ -45,12 +43,9 @@ function CQuestPath:add(pQuestProp, fValue)
 
     self.rgpPath:add(pQuestProp)
     self.tpPathCount[pQuestProp] = iPathCount + 1
-    self.pPathNow[pQuestProp] = {}
-    table.insert(self.pPathStack, self.pPathNow)
-    self.pPathNow = self.pPathNow[pQuestProp]
 
     table.insert(self.pPathValStack, fValue)
-    self.fPathValue = self.fPathValue + fValue
+    self.fAccPathValue = self.fAccPathValue + fValue
 end
 
 function CQuestPath:remove(pQuestProp)
@@ -77,9 +72,8 @@ function CQuestPath:remove(pQuestProp)
 
         bRet = true
 
-        self.pPathNow = table.remove(self.pPathStack)
-        local fValue = table.remove(self.pPathValStack)
-        self.fPathValue = self.fPathValue - fValue
+        local fValue = table.remove(self.pPathValStack, iIdx)
+        self.fAccPathValue = self.fAccPathValue - fValue
     end
 
     return bRet
@@ -114,7 +108,7 @@ function CQuestPath:list()
 end
 
 function CQuestPath:size()
-    return #(self.pPathStack)
+    return #(self.pPathValStack)
 end
 
 function CQuestPath:get_node_value(iIdx)
@@ -123,7 +117,7 @@ function CQuestPath:get_node_value(iIdx)
 end
 
 function CQuestPath:value()
-    return self.fPathValue
+    return self.fAccPathValue
 end
 
 function CQuestPath:set(pOtherPath)
@@ -156,11 +150,20 @@ function CQuestPath:get_fetch_time()
 end
 
 function CQuestPath:debug_path()
-    local st = "["
+    local i = 1
+    local st = ""
     for _, pQuestProp in pairs(self.rgpPath:list()) do
-        st = st .. pQuestProp:get_name(true) .. ", "
+        st = st .. pQuestProp:get_name(true) .. ":" .. self.pPathValStack[i] .. ", "
+        i = i + 1
     end
-    st = st .. "]"
+    st = "[" .. st .. "]"
 
+    print("ROUTE VAL : " .. self.fAccPathValue)
     print(st)
+
+    local fCount = 0.0
+    for k, v in pairs(self.pPathValStack) do
+        fCount = fCount + v
+    end
+    print("R: " .. tostring(fCount == self.fAccPathValue))
 end

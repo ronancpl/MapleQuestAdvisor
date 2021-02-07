@@ -85,7 +85,7 @@ end
 local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     route_quest_permit_complete(pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
-    local fValue = evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
+    local fValue = math.max(evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState), 0.001)
     pCurrentPath:add(pQuestProp, fValue)
 
     if pCurrentPath:value() > pLeadingPath:value() then
@@ -168,20 +168,20 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
         local pQuestProp = pFrontierQuests:peek()
         if pQuestProp == nil then
             break
+        elseif not pCurrentPath:is_in_path(pQuestProp) then
+            pQuestProp:install_player_state(pPlayerState)       -- allow find quest requisites and rewards player-state specific
+
+            route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+            local iBcktCount = route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
+
+            local rgpRefeedQuests
+            _, rgpRefeedQuests = pFrontierQuests:fetch(pQuestTree, iBcktCount)      -- retrieve all nodes from frontier that have been backtracked
+            pFrontierQuests:restack_quests(rgpRefeedQuests)                         -- set skipped quests again for frontier checkout
+
+            pFrontierQuests:update(pPlayerState)
+
+            pQuestProp:extract_player_state()
         end
-
-        pQuestProp:install_player_state(pPlayerState)       -- allow find quest requisites and rewards player-state specific
-
-        route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
-        local iBcktCount = route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
-
-        local rgpRefeedQuests
-        _, rgpRefeedQuests = pFrontierQuests:fetch(pQuestTree, iBcktCount)      -- retrieve all nodes from frontier that have been backtracked
-        pFrontierQuests:restack_quests(rgpRefeedQuests)                         -- set skipped quests again for frontier checkout
-
-        pFrontierQuests:update(pPlayerState)
-
-        pQuestProp:extract_player_state()
     end
 end
 
