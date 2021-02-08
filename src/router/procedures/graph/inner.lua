@@ -10,15 +10,18 @@
     provide an express grant of patent rights.
 --]]
 
+require("solver.allot")
+require("solver.distances")
 require("solver.rewards")
 require("solver.requisites")
-require("solver.distances")
 
 function evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
-    local iDistReqs = evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerState)
-    local iWeightReqs = evaluate_quest_requisites(ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
-    local iUtilGains = evaluate_quest_fitness(ctPlayersMeta, pQuestProp, pPlayerState)
+    local pQuestRoll = CQuestResult:new()
+
+    local iDistReqs = evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerState, pQuestRoll)
+    local iWeightReqs = evaluate_quest_requisites(ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState, pQuestRoll)
+    local iUtilGains = evaluate_quest_fitness(ctPlayersMeta, pQuestProp, pPlayerState, pQuestRoll)
 
     local iUtilQuest = iUtilGains - iWeightReqs - iDistReqs
-    return iUtilQuest
+    return iUtilQuest, pQuestRoll
 end

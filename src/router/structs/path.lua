@@ -20,6 +20,7 @@ CQuestPath = createClass({
 
     pPathTree = {},
 
+    pPathAllotStack = {},
     pPathValStack = {},
     fAccPathValue = 0.0,
 
@@ -30,7 +31,7 @@ function CQuestPath:_fetch_identifier(iQuestid, bStart)
     return "" .. iQuestid .. (bStart and "s" or "e")
 end
 
-function CQuestPath:add(pQuestProp, fValue)
+function CQuestPath:add(pQuestProp, pQuestRoll, fValue)
     local iPathCount = self.tpPathCount[pQuestProp] or 0
     if iPathCount < 1 then
         local iQuestid = pQuestProp:get_quest_id()
@@ -46,6 +47,8 @@ function CQuestPath:add(pQuestProp, fValue)
 
     table.insert(self.pPathValStack, fValue)
     self.fAccPathValue = self.fAccPathValue + fValue
+
+    table.insert(self.pPathAllotStack, pQuestRoll)
 end
 
 function CQuestPath:remove(pQuestProp)
@@ -74,6 +77,8 @@ function CQuestPath:remove(pQuestProp)
 
         local fValue = table.remove(self.pPathValStack, iIdx)
         self.fAccPathValue = self.fAccPathValue - fValue
+
+        table.remove(self.pPathAllotStack)
     end
 
     return bRet
@@ -120,6 +125,11 @@ function CQuestPath:value()
     return self.fAccPathValue
 end
 
+function CQuestPath:get_node_allot(iIdx)
+    local m_pPathAllotStack = self.pPathAllotStack
+    return m_pPathAllotStack[iIdx]
+end
+
 function CQuestPath:set(pOtherPath)
     local rgpOtherQuests = pOtherPath:list()
     local rgpQuests = self:list()
@@ -140,8 +150,9 @@ function CQuestPath:set(pOtherPath)
     for i = iBaseIdx, #rgpOtherQuests, 1 do
         local pQuestProp = rgpOtherQuests[i]
         local fValue = pOtherPath:get_node_value(i)
+        local pQuestRoll = pOtherPath:get_node_allot(i)
 
-        self:add(pQuestProp, fValue)
+        self:add(pQuestProp, pQuestRoll, fValue)
     end
 end
 

@@ -85,8 +85,12 @@ end
 local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     route_quest_permit_complete(pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
-    local fValue = math.max(evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState), 0.001)
-    pCurrentPath:add(pQuestProp, fValue)
+    local pQuestRoll
+    local fValue
+    fValue, pQuestRoll = evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
+    fValue = math.max(fValue, 0.001)
+
+    pCurrentPath:add(pQuestProp, pQuestRoll, fValue)
 
     if pCurrentPath:value() > pLeadingPath:value() then
         pLeadingPath:set(pCurrentPath)

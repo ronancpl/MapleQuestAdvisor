@@ -87,7 +87,7 @@ local function calc_cost_quest_distance(iDist)
     return iDist * RQuest.FIELD.Curb
 end
 
-function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerState)
+function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerState, pQuestRoll)
     local pQuestChkProp = pQuestProp:get_requirement()
 
     local tiItems = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.ITEMS.name), pPlayerState, pQuestChkProp)
@@ -107,6 +107,8 @@ function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerS
             local iRegionDist = evaluate_regional_field_resource_graph(ctFieldsDist, pRegionRscTree, trgiFieldRscs)
             iDist = iDist + iRegionDist
         end
+
+        pQuestRoll:set_resource_tree(pRscTree)
     else
         iDist = U_INT_MAX
     end
