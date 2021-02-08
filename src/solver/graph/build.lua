@@ -243,27 +243,28 @@ local function fetch_path_region_resources(rgiTransitRegionids, rgiRegionids, ct
 end
 
 local function fetch_path_region_inbound_link(tpRegionBcktPath, tpPathMapids, iRegionid, ctFieldsLandscape, ctFieldsLink)
+    local iToStationMapid = -1
+
     local pFrom = tpRegionBcktPath[iRegionid]
-    local iFromRegionid = pFrom[1]
+    if pFrom ~= nil then
+        local iFromRegionid = pFrom[1]
 
-    local pRegionSrcDest = tpPathMapids[iFromRegionid]
-    if pRegionSrcDest == nil then
-        tpPathMapids[iFromRegionid] = {-1, -1}
-        pRegionSrcDest = fetch_path_region_inbound_link(tpRegionBcktPath, tpPathMapids, iFromRegionid, ctFieldsLandscape, ctFieldsLink)
-    end
+        local pRegionSrcDest = tpPathMapids[iFromRegionid]
+        if pRegionSrcDest == nil then
+            tpPathMapids[iFromRegionid] = {-1, -1}
+            pRegionSrcDest = fetch_path_region_inbound_link(tpRegionBcktPath, tpPathMapids, iFromRegionid, ctFieldsLandscape, ctFieldsLink)
+        end
 
-    local iFromRegionSrcMapid = pRegionSrcDest[1]  -- fetch station to access the path-unbound region
+        local iFromRegionSrcMapid = pRegionSrcDest[1]  -- fetch station to access the path-unbound region
+        local tiFieldRegion = ctFieldsLandscape:get_field_regions()
 
-    local tiFieldRegion = ctFieldsLandscape:get_field_regions()
-
-    local rgpMapLinks = ctFieldsLink:get_stations_to_region(tiFieldRegion, iFromRegionSrcMapid, iRegionid)
-
-    local iToStationMapid
-    if #rgpMapLinks > 0 then
-        local pStationMapLink = rgpMapLinks[1]
-        _, iToStationMapid = unpack(pStationMapLink)
-    else
-        iToStationMapid = -1
+        local rgpMapLinks = ctFieldsLink:get_stations_to_region(tiFieldRegion, iFromRegionSrcMapid, iRegionid)
+        if #rgpMapLinks > 0 then
+            local pStationMapLink = rgpMapLinks[1]
+            _, iToStationMapid = unpack(pStationMapLink)
+        else
+            iToStationMapid = -1
+        end
     end
 
     local pCurRegionSrcDest = {iToStationMapid, iToStationMapid}    -- same ingress station is the leaving one
