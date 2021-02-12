@@ -1,6 +1,7 @@
 logs/
 lib/xml/*
 !lib/xml/Map.wz
+images/
 
 # Compiled Lua sources
 luac.out
