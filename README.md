@@ -35,4 +35,6 @@ This tool is designed to be a standalone, running in Lua.
 
 At the moment, this tool provides route skimming through a group of quests around the player's level, and displays volume measurement from quests traveled.
 
-Quest evaluation, and by consequence path evaluation, is currently WIP.
+It currently runs in route generations. Basing on a player entry (with level, job, current map and inventory/quest/skill data), each generation loads a __board of quests__ that the player is very likely to try. Within the board, quests are selected arbitrarily but in an arranged way, to build a "desirable" path for the player to track.
+
+User-friendly view of quest pathing is WIP.

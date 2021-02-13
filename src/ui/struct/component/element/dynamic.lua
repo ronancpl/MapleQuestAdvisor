@@ -10,6 +10,24 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.struct.component.basic.anima")
+require("ui.struct.component.basic.base")
 require("utils.struct.class")
 
-CWmapComponent = createClass({})
+CDynamicElem = createClass({
+    eElem,
+    eAnima
+})
+
+function CDynamicElem:load(rX, rY)
+    self.eElem = CBasicElem:new(rX, rY)
+    self.eAnima = CBasicAnima:new()
+end
+
+function CDynamicElem:update(dt)
+
+end
+
+function CDynamicElem:draw()
+
+end

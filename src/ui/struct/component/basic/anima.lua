@@ -10,19 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
 require("utils.struct.class")
 
-CWmapCanvas = createClass({})
+CBasicAnima = createClass({
+    rgpQuads
+})
 
-function CWmapCanvas:load()
-    self.bg = love.graphics.newImage(RInterface.BG_WORLDMAP)
+function CBasicAnima:load()
+    self.rgpQuads = {}
 end
 
-function CWmapCanvas:update(dt)
-    -- do nothing
+function CBasicAnima:update(dt)
+
 end
 
-function CWmapCanvas:draw()
-    love.graphics.draw{drawable=self.bg}
+function CBasicAnima:draw()
+
 end

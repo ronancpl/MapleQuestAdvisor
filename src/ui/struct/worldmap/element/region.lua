@@ -10,19 +10,21 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
+require("ui.struct.component.element.static")
 require("utils.struct.class")
 
-CWmapCanvas = createClass({})
+CWmapElemRegionLink = createClass({
+    eConst
+})
 
-function CWmapCanvas:load()
-    self.bg = love.graphics.newImage(RInterface.BG_WORLDMAP)
+function CWmapElemRegionLink:load(pImg, iOx, iOy, iZ, rX, rY)
+    self.eConst = CStaticElem:new(pImg, iOx, iOy, iZ, rX, rY)
 end
 
-function CWmapCanvas:update(dt)
-    -- do nothing
+function CWmapElemRegionLink:update(dt)
+
 end
 
-function CWmapCanvas:draw()
-    love.graphics.draw{drawable=self.bg}
+function CWmapElemRegionLink:draw()
+
 end

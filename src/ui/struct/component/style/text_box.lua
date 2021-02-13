@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.struct.worldmap.components.base")
 require("utils.struct.class")
 
 local SBOX_CRLF = 5
@@ -20,13 +21,15 @@ local SBOX_UPD_X = 200
 
 local SBOX_MIN_Y = 80
 local SBOX_MAX_Y = 200
-local SBOX_FIL_X = 10
+local SBOX_FIL_Y = 10
 local SBOX_UPD_Y = SBOX_CRLF    -- + font height
 
 local WND_X = 640
 local WND_Y = 470
 
-CStyleBoxText = createClass(CWmapComponent, {
+CStyleBoxText = createClass({
+    eBase,
+
     sTitle,
     pFontTitle,
     pTxtTitle,
@@ -149,7 +152,9 @@ function CStyleBoxText:validate_box_boundary()
     end
 end
 
-function CStyleBoxText:load(sTitle, sDesc)
+function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
+    self.eBase = CBasicElem:new(iRx, iRy)
+
     self:load_graphics()
     self:load_fonts()
 
@@ -171,9 +176,16 @@ end
 
 function CStyleBoxText:update(dt)
     local iX, iY = fetch_box_body_placement(unpack(love.mouse.getPosition()))
+    self.iRx = iX
+    self.iRy = iY
+end
 
+function CStyleBoxText:_draw_text_box()
+    love.graphics.draw{drawable=self.bg, x=self.iRx, y=self.iRy}
+    love.graphics.draw{drawable=self.pTxtTitle, x=self.iRx + SBOX_FIL_X, y=self.iRy + SBOX_FIL_Y}
+    love.graphics.draw{drawable=self.pTxtDesc, x=self.iRx + SBOX_FIL_X, y=self.iRy + SBOX_FIL_Y}
 end
 
 function CStyleBoxText:draw()
-    love.graphics.draw(self.bg)
+    self:_draw_text_box()
 end

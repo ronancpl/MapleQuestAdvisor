@@ -15,4 +15,6 @@ RInterface = {
     BG_WORLDMAP = "Map.wz/WorldMap/WorldMap.img/BaseImg.0.png"
     SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png"
 
+    IMG_MAP = "Map.wz"
+
 }

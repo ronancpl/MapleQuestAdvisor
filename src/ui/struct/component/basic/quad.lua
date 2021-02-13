@@ -10,19 +10,19 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
+require("ui.struct.component.basic.image")
 require("utils.struct.class")
 
-CWmapCanvas = createClass({})
+CBasicQuad = createClass({
+    eImg,
+    iDelay
+})
 
-function CWmapCanvas:load()
-    self.bg = love.graphics.newImage(RInterface.BG_WORLDMAP)
+function CBasicQuad:get_delay()
+    return self.iDelay
 end
 
-function CWmapCanvas:update(dt)
-    -- do nothing
-end
-
-function CWmapCanvas:draw()
-    love.graphics.draw{drawable=self.bg}
+function CBasicQuad:load(pImg, iOx, iOy, iZ, iDelay)
+    self.eImg = CBasicImage:new(pImg, iOx, iOy, iZ)
+    self.iDelay = iDelay
 end
