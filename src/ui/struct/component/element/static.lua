@@ -25,7 +25,7 @@ function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)
 end
 
 function CStaticElem:update(dt)
-
+    -- do nothing
 end
 
 function CStaticElem:draw()

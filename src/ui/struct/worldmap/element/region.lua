@@ -22,7 +22,7 @@ function CWmapElemRegionLink:load(pImg, iOx, iOy, iZ, rX, rY)
 end
 
 function CWmapElemRegionLink:update(dt)
-
+    self.eConst:update(dt)
 end
 
 function CWmapElemRegionLink:draw()

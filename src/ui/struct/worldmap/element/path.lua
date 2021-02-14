@@ -22,7 +22,7 @@ function CWmapElemPath:load(pImg, iOx, iOy, iZ, rX, rY)
 end
 
 function CWmapElemPath:update(dt)
-
+    self.eConst:update(dt)
 end
 
 function CWmapElemPath:draw()

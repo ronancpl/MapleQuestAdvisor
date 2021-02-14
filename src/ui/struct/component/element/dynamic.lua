@@ -16,16 +16,43 @@ require("utils.struct.class")
 
 CDynamicElem = createClass({
     eElem = CBasicElem:new(),
-    eAnima = CBasicAnima:new()
+    eAnima = CBasicAnima:new(),
+    iTimer,
+    rgpDrawingQuads
 })
 
 function CDynamicElem:load(rX, rY)
-    self.eElem:load(rX, rY)
-    self.eAnima:load()
+    local m_eElem = self.eElem
+    m_eElem:load(rX, rY)
+
+    local m_eAnima = self.eAnima
+    m_eAnima:load()
+    m_eAnima:update_quad()
+
+    self.iTimer = 0.0
+    self.rgpDrawingQuads = {}
+end
+
+function CDynamicElem:_update_animation()
+    local pQuad = m_eAnima:inspect_quad()
+
+    while true do
+        local iDelay = pQuad:get_delay()
+        if self.iTimer < iDelay then
+            break
+        end
+
+        self.iTimer = self.iTimer - iDelay
+
+        m_eAnima:update_quad()
+        pQuad = m_eAnima:inspect_quad()
+        table.insert(rgpDrawingQuads, pQuad)
+    end
 end
 
 function CDynamicElem:update(dt)
-
+    self.iTimer = self.iTimer + dt
+    self:_update_animation()
 end
 
 function CDynamicElem:draw()

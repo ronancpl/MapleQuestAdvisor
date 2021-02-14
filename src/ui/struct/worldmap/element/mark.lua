@@ -22,7 +22,7 @@ function CWmapElemMark:load(rX, rY)
 end
 
 function CWmapElemMark:update(dt)
-
+    self.eDynam:update(dt)
 end
 
 function CWmapElemMark:draw()

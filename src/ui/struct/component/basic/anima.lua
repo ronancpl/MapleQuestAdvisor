@@ -13,17 +13,22 @@
 require("utils.struct.class")
 
 CBasicAnima = createClass({
+    iCurQuad,
+    iLimQuad,
     rgpQuads
 })
 
 function CBasicAnima:load()
     self.rgpQuads = {}
+
+    self.iCurQuad = 0
+    self.iLimQuad = #self.rgpQuads + 1
 end
 
-function CBasicAnima:update(dt)
-
+function CBasicAnima:inspect_quad()
+    return self.rgpQuads[self.iCurQuad]
 end
 
-function CBasicAnima:draw()
-
+function CBasicAnima:update_quad()
+    self.iCurQuad = (self.iCurQuad % self.iLimQuad) + 1
 end
