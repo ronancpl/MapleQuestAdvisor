@@ -28,7 +28,7 @@ local WND_X = 640
 local WND_Y = 470
 
 CStyleBoxText = createClass({
-    eBase,
+    eBase = CBasicElem:new(),
 
     sTitle,
     pFontTitle,
@@ -153,7 +153,7 @@ function CStyleBoxText:validate_box_boundary()
 end
 
 function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
-    self.eBase = CBasicElem:new(iRx, iRy)
+    self.eBase:load(iRx, iRy)
 
     self:load_graphics()
     self:load_fonts()

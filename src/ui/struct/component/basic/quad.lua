@@ -14,7 +14,7 @@ require("ui.struct.component.basic.image")
 require("utils.struct.class")
 
 CBasicQuad = createClass({
-    eImg,
+    eImg = CBasicImage:new(),
     iDelay
 })
 

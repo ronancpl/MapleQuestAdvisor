@@ -14,11 +14,11 @@ require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 
 CWmapElemMark = createClass({
-    eDynam
+    eDynam = CDynamicElem:new()
 })
 
 function CWmapElemMark:load(rX, rY)
-    self.eDynam = CDynamicElem:new(rX, rY)
+    self.eDynam:load(rX, rY)
 end
 
 function CWmapElemMark:update(dt)

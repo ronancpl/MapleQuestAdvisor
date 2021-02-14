@@ -12,16 +12,24 @@
 
 function string.starts_with(str, start_str)
     local i
-    local j
 
-    i, j = string.find(str, start_str)
+    i, _ = string.find(str, "^" .. start_str)
     return i == 1
 end
 
 function string.ends_with(str, end_str)
     local i
-    local j
 
-    i, j = string.find(str, end_str)
-    return j == string.len(str)
+    _, i = string.find(str, end_str .. "$")
+    return i == string.len(str)
+end
+
+function string.rfind(str, match_str)
+    local i
+
+    local r_str = str:reverse()
+    local r_match = match_str:reverse()
+
+    _, i = string.find(r_str, r_match)
+    return i
 end

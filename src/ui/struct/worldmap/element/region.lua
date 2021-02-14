@@ -14,11 +14,11 @@ require("ui.struct.component.element.static")
 require("utils.struct.class")
 
 CWmapElemRegionLink = createClass({
-    eConst
+    eConst = CStaticElem:new()
 })
 
 function CWmapElemRegionLink:load(pImg, iOx, iOy, iZ, rX, rY)
-    self.eConst = CStaticElem:new(pImg, iOx, iOy, iZ, rX, rY)
+    self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
 end
 
 function CWmapElemRegionLink:update(dt)

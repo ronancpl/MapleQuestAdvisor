@@ -15,13 +15,13 @@ require("ui.struct.component.basic.base")
 require("utils.struct.class")
 
 CDynamicElem = createClass({
-    eElem,
-    eAnima
+    eElem = CBasicElem:new(),
+    eAnima = CBasicAnima:new()
 })
 
 function CDynamicElem:load(rX, rY)
-    self.eElem = CBasicElem:new(rX, rY)
-    self.eAnima = CBasicAnima:new()
+    self.eElem:load(rX, rY)
+    self.eAnima:load()
 end
 
 function CDynamicElem:update(dt)

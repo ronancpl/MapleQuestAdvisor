@@ -15,13 +15,13 @@ require("ui.struct.component.basic.image")
 require("utils.struct.class")
 
 CStaticElem = createClass({
-    eBase,
-    eImg
+    eBase = CBasicElem:new(),
+    eImg = CBasicImage:new()
 })
 
 function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)
-    self.eBase = CBasicElem:new(rX, rY)
-    self.eImg = CBasicImage:new(pImg, iOx, iOy, iZ)
+    self.eBase:load(rX, rY)
+    self.eImg:load(pImg, iOx, iOy, iZ)
 end
 
 function CStaticElem:update(dt)
