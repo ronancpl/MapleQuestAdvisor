@@ -18,6 +18,10 @@ CBasicQuad = createClass({
     iDelay
 })
 
+function CBasicQuad:get_image()
+    return self.eImg
+end
+
 function CBasicQuad:get_delay()
     return self.iDelay
 end

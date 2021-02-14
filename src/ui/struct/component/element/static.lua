@@ -15,12 +15,12 @@ require("ui.struct.component.basic.image")
 require("utils.struct.class")
 
 CStaticElem = createClass({
-    eBase = CBasicElem:new(),
+    eElem = CBasicElem:new(),
     eImg = CBasicImage:new()
 })
 
 function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)
-    self.eBase:load(rX, rY)
+    self.eElem:load(rX, rY)
     self.eImg:load(pImg, iOx, iOy, iZ)
 end
 
@@ -29,5 +29,11 @@ function CStaticElem:update(dt)
 end
 
 function CStaticElem:draw()
+    local m_eElem = self.eElem
+    local iPx, iPy = m_eElem:get_pos()
 
+    local m_eImg = self.eImg
+    local iOx, iOy = m_eImg:get_origin()
+
+    love.graphics.draw{drawable=m_eImg:get_img(),x=iPx+iOx,y=iPy+iOy}
 end

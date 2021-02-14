@@ -13,12 +13,14 @@
 require("ui.struct.component.basic.anima")
 require("ui.struct.component.basic.base")
 require("utils.struct.class")
+require("utils.struct.queue")
 
 CDynamicElem = createClass({
     eElem = CBasicElem:new(),
     eAnima = CBasicAnima:new(),
     iTimer,
-    rgpDrawingQuads
+    pCurQuad,
+    pQueueDrawingQuads
 })
 
 function CDynamicElem:load(rX, rY)
@@ -30,7 +32,8 @@ function CDynamicElem:load(rX, rY)
     m_eAnima:update_quad()
 
     self.iTimer = 0.0
-    self.rgpDrawingQuads = {}
+    self.pCurQuad = nil
+    self.pQueueDrawingQuads = SQueue:new()
 end
 
 function CDynamicElem:_update_animation()
@@ -55,6 +58,23 @@ function CDynamicElem:update(dt)
     self:_update_animation()
 end
 
-function CDynamicElem:draw()
+function CDynamicElem:_update_drawing()
+    local pQuad = self.pQueueDrawingQuads:poll()
+    if pQuad ~= nil then
+        self.pCurQuad = pQuad
+    else
+        pQuad = self.pCurQuad
+    end
 
+    return pQuad:get_image()
+end
+
+function CDynamicElem:draw()
+    local pImg = self:_update_drawing()
+
+    local m_eElem = self.eElem
+    local iPx, iPy = m_eElem:get_pos()
+
+    local iOx, iOy = pImg:get_origin()
+    love.graphics.draw{drawable=pImg:get_img(),x=iPx+iOx,y=iPy+iOy}
 end
