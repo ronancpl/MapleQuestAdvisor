@@ -10,19 +10,29 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
+require("ui.struct.window.layer")
 require("utils.struct.class")
 
-CWmapCanvas = createClass({})
+CWmapNavMapList = createClass({CWndLayer, {
+    rgiMapNo
+}})
 
-function CWmapCanvas:load()
-    self.bg = love.graphics.newImage(RInterface.BG_WORLDMAP)
+function CWmapNavMapList:get_mapno()
+    return self.rgiMapNo
 end
 
-function CWmapCanvas:update(dt)
-    -- do nothing
+function CWmapNavMapList:set_mapno(rgiMapNo)
+    self.rgiMapNo = rgiMapNo
 end
 
-function CWmapCanvas:draw()
-    love.graphics.draw{drawable=self.bg}
+function CWmapNavMapList:load()
+
+end
+
+function CWmapNavMapList:update(dt)
+
+end
+
+function CWmapNavMapList:draw()
+
 end

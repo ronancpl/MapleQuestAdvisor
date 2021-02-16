@@ -32,3 +32,7 @@ end
 function split_csv(sText)
     return split_delimiter(sText, "[^,]+")
 end
+
+function split_path(sText)
+    return split_delimiter(sText, "[^/\\]+")
+end

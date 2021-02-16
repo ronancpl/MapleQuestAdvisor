@@ -10,21 +10,38 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.component.element.dynamic")
+require("ui.struct.window.layer")
 require("utils.struct.class")
 
-CWmapElemMark = createClass({
-    eDynam = CDynamicElem:new()
-})
+CWmapNavTextBox = createClass({CWndLayer, {
+    sTitle,
+    sDesc
+}})
 
-function CWmapElemMark:load(rX, rY)
-    self.eDynam:load(rX, rY)
+function CWmapNavTextBox:get_title()
+    return self.sTitle
 end
 
-function CWmapElemMark:update(dt)
-    self.eDynam:update(dt)
+function CWmapNavTextBox:set_title(sTitle)
+    self.sTitle = sTitle
 end
 
-function CWmapElemMark:draw()
-    self.eDynam:draw()
+function CWmapNavTextBox:get_desc()
+    return self.sDesc
+end
+
+function CWmapNavTextBox:set_desc(sDesc)
+    self.sDesc = sDesc
+end
+
+function CWmapNavTextBox:load()
+
+end
+
+function CWmapNavTextBox:update(dt)
+
+end
+
+function CWmapNavTextBox:draw()
+
 end

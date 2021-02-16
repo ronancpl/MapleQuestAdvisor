@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.provider.io.wordlist")
 require("utils.struct.class")
 
 CXmlNode = createClass({
@@ -68,6 +69,13 @@ function CXmlNode:get_children()
     return self.tChildren
 end
 
-function CXmlNode:get_child_by_name(sName)
-    return self.tChildren[sName]
+function CXmlNode:get_child_by_name(sPath)
+    local rgsPath = split_path(sPath)
+
+    local pRet = self.tChildren
+    for _, sName in ipairs(rgsPath) do
+        pRet = pRet[sName]
+    end
+
+    return pRet
 end

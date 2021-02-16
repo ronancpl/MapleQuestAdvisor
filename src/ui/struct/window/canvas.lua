@@ -13,21 +13,21 @@
 require("utils.struct.class")
 
 CWndCanvas = createClass({
-    rgpChannels
+    rgpLayers
 })
 
 function CWndCanvas:load()
-    self.rgpChannels = {}
+    self.rgpLayers = {}
 end
 
 function CWndCanvas:update(dt)
-    for _, pChn in ipairs(self.rgpChannels) do
-        pChn:update(dt)
+    for _, pLyr in ipairs(self.rgpLayers) do
+        pLyr:update(dt)
     end
 end
 
 function CWndCanvas:draw()
-    for _, pChn in ipairs(self.rgpChannels) do
+    for _, pChn in ipairs(self.rgpLayers) do
         pChn:draw()
     end
 end

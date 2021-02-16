@@ -10,21 +10,19 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.component.element.dynamic")
+require("ui.struct.window.layer")
 require("utils.struct.class")
 
-CWmapElemMark = createClass({
-    eDynam = CDynamicElem:new()
-})
+CWmapNavBackground = createClass({CWndLayer, {}})
 
-function CWmapElemMark:load(rX, rY)
-    self.eDynam:load(rX, rY)
+function CWmapNavBackground:load()
+    self.pImgBg = love.graphics.newImage(RInterface.BG_WORLDMAP)
 end
 
-function CWmapElemMark:update(dt)
-    self.eDynam:update(dt)
+function CWmapNavBackground:update(dt)
+    -- do nothing
 end
 
-function CWmapElemMark:draw()
-    self.eDynam:draw()
+function CWmapNavBackground:draw()
+    love.graphics.draw{drawable=self.pImgBg}
 end

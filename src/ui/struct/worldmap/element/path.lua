@@ -26,5 +26,5 @@ function CWmapElemPath:update(dt)
 end
 
 function CWmapElemPath:draw()
-
+    self.eConst:draw()
 end

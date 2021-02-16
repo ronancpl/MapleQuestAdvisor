@@ -10,21 +10,30 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 
-CWmapElemMark = createClass({
-    eDynam = CDynamicElem:new()
+CWndLayer = createClass({
+    rgpChannels
 })
 
-function CWmapElemMark:load(rX, rY)
-    self.eDynam:load(rX, rY)
+function CWndLayer:load()
+    self.rgpChannels = {}
 end
 
-function CWmapElemMark:update(dt)
-    self.eDynam:update(dt)
+function CWndLayer:update(dt)
+    for _, pChn in ipairs(self.rgpChannels) do
+        pChn:update(dt)
+    end
 end
 
-function CWmapElemMark:draw()
-    self.eDynam:draw()
+function CWndLayer:draw()
+    for _, pChn in ipairs(self.rgpChannels) do
+        pChn:draw()
+    end
 end
+
+function CWndLayer:add_elements(iChn, rgpElems)
+    local m_rgpChns = self.rgpChannels[iChn]
+    m_rgpChns:add_elements(rgpElems)
+end
+

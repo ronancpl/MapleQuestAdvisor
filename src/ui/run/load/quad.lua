@@ -10,32 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.run.load.image")
 require("ui.struct.component.basic.quad")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
 require("utils.provider.xml.provider")
-
-local function load_images_from_directory(sDirPath)
-    local tpImgs = {}
-
-    local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
-    for _, sFileName in ipairs(rgsFiles) do
-        local tImgPath = tpImgs
-
-        local rgsText = split_text(sText)
-        local nText = #rgsText
-        if nText > 0 then
-            for i = 1, nText - 1, 1 do  -- minus file extension
-                tImgPath = create_inner_table_if_not_exists(tImgPath, rgsText[i])
-            end
-
-            local pImg = love.graphics.newImage(sDirPath .. sFileName)
-            tImgPath["img"] = pImg
-        end
-    end
-
-    return tpImgs
-end
 
 local function is_path_img_node(tpImgs)
     return tpImgs["img"] ~= nil
@@ -44,6 +23,15 @@ end
 local function is_path_quad_node(tpImgs)
     local tpSub = next(tpImgs)
     return tpSub ~= nil and is_path_img_node(tpSub)
+end
+
+local function fetch_quad_xml_node(pXmlRoot, rgsPath)
+    local pXmlNode = pXmlRoot
+    for _, sName in ipairs(rgsPath) do
+        pXmlNode = pXmlNode:get_child_by_name(sName)
+    end
+
+    return pXmlNode
 end
 
 local function load_quad_img_set(pXmlQuad, tpImgs)
@@ -79,15 +67,6 @@ local function load_quad_img_set(pXmlQuad, tpImgs)
     end
 
     return rgpQuads
-end
-
-local function fetch_quad_xml_node(pXmlRoot, rgsPath)
-    local pXmlNode = pXmlRoot
-    for _, sName in ipairs(rgsPath) do
-        pXmlNode = pXmlNode:get_child_by_name(sName)
-    end
-
-    return pXmlNode
 end
 
 local function load_quad_img_sets_from_path(pXmlRoot, tpPathQuad, rgsPath, tpImgs)
@@ -126,7 +105,7 @@ local function load_xml_node_from_directory(sDirPath)
     return pXmlNode
 end
 
-function load_quad_img_sets_from_directory(sDirPath)
+local function load_quad_img_sets_from_directory(sDirPath)
     local tpImgs = load_images_from_directory(sDirPath)
     local pXmlRoot = load_xml_node_from_directory(sDirPath)
 

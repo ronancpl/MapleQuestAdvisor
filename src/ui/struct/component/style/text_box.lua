@@ -86,7 +86,7 @@ local function decompose_box_image(pImgBoxDim, rgiBoxOuter, rgiBoxInner)
     return rgpBoxParts
 end
 
-function CStyleBoxText:load_graphics()
+function CStyleBoxText:_load_graphics()
     local pImgBox = love.graphics.newImage(RInterface.SBOX_DESC)
 
     local rgiBoxOuter = { {0, 0}, {121, 0}, {121, 19}, {0, 19} }
@@ -96,7 +96,7 @@ function CStyleBoxText:load_graphics()
     self.rgpBoxParts = rgpBoxParts
 end
 
-function CStyleBoxText:load_fonts()
+function CStyleBoxText:_load_fonts()
     self.iGrowth = 0
     self.iWidth = SBOX_MIN_X
 
@@ -104,7 +104,7 @@ function CStyleBoxText:load_fonts()
     self.pFontDesc = love.graphics.newFont("fonts/font.ttf", 16)
 end
 
-function CStyleBoxText:compose_box_text()
+function CStyleBoxText:_compose_box_text()
     local pTxtTitle = love.graphics.newText(self.pFontTitle)
     self.pTxtTitle = pTxtTitle:setf({{1, 1, 1}, self.sTitle}, self.iWidth, "center")
 
@@ -112,11 +112,11 @@ function CStyleBoxText:compose_box_text()
     self.pTxtDesc = pTxtDesc:setf({{1, 1, 1}, self.sDesc}, self.iWidth, "justify")
 end
 
-function CStyleBoxText:set_box_text(sTitle, sDesc)
+function CStyleBoxText:_set_box_text(sTitle, sDesc)
     self.pFontTitle = sTitle
     self.pFontDesc = sDesc
 
-    self:compose_box_text()
+    self:_compose_box_text()
 end
 
 function CStyleBoxText:get_width()
@@ -130,7 +130,7 @@ function CStyleBoxText:get_height()
     return m_pTxtTitle:getHeight() + (2 * SBOX_CRLF) + m_pTxtDesc:getHeight()
 end
 
-function CStyleBoxText:adjust_box_boundary()
+function CStyleBoxText:_adjust_box_boundary()
     self.iGrowth = self.iGrowth + 1
 
     if self.iGrowth % 2 == 0 and self.iWidth < SBOX_MAX_X - (2 * SBOX_FIL_X) then
@@ -140,25 +140,25 @@ function CStyleBoxText:adjust_box_boundary()
     end
 end
 
-function CStyleBoxText:validate_box_boundary()
+function CStyleBoxText:_validate_box_boundary()
     while true do
         local iHeight = self:get_height()
         if iHeight < self.iHeight then
             break
         end
 
-        self:adjust_box_boundary()  -- accommodate text field in style box canvas
-        self:compose_box_text()
+        self:_adjust_box_boundary()  -- accommodate text field in style box canvas
+        self:_compose_box_text()
     end
 end
 
 function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
     self.eBase:load(iRx, iRy)
 
-    self:load_graphics()
-    self:load_fonts()
+    self:_load_graphics()
+    self:_load_fonts()
 
-    self:set_box_text(sTitle, sDesc)
+    self:_set_box_text(sTitle, sDesc)
     self:validate_box_boundary()
 end
 

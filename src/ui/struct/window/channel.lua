@@ -31,3 +31,8 @@ function CWndChannel:draw()
         pElem:draw()
     end
 end
+
+function CWndChannel:add_element(pElem)
+    local m_rgpRegisteredElements = self.rgpRegisteredElements
+    table.insert(m_rgpRegisteredElements, pElem)
+end

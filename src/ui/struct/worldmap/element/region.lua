@@ -26,5 +26,5 @@ function CWmapElemRegionLink:update(dt)
 end
 
 function CWmapElemRegionLink:draw()
-
+    self.eConst:draw()
 end

@@ -10,21 +10,29 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.component.element.dynamic")
+require("ui.struct.window.layer")
 require("utils.struct.class")
 
-CWmapElemMark = createClass({
-    eDynam = CDynamicElem:new()
-})
+CWmapNavMapLink = createClass({CWndLayer, {
+    sLinkMap
+}})
 
-function CWmapElemMark:load(rX, rY)
-    self.eDynam:load(rX, rY)
+function CWmapNavMapLink:get_link_map()
+    return self.sLinkMap
 end
 
-function CWmapElemMark:update(dt)
-    self.eDynam:update(dt)
+function CWmapNavMapLink:set_link_map(sLinkMap)
+    self.sLinkMap = sLinkMap
 end
 
-function CWmapElemMark:draw()
-    self.eDynam:draw()
+function CWmapNavMapLink:load()
+
+end
+
+function CWmapNavMapLink:update(dt)
+
+end
+
+function CWmapNavMapLink:draw()
+
 end
