@@ -10,24 +10,47 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.path.path")
+require("ui.struct.window.layer")
 require("utils.struct.class")
 
 CWndCanvas = createClass({
     rgpLayers
 })
 
-function CWndCanvas:load()
-    self.rgpLayers = {}
+function CWndCanvas:new(rgpLayerClass)
+    self:load(rgpLayerClass)
+    return self
+end
+
+function CWndCanvas:load(rgpLayerClass)
+    local m_rgpLayers = self.rgpLayers
+    m_rgpLayers = {}
+
+    if rgpLayerClass ~= nil then
+        for _, pLyrClass in ipairs(rgpLayerClass) do
+            local pLyr = pLyrClass:new(RInterface.CAPACITY.CHANNELS)
+            table.insert(m_rgpLayers, pLyr)
+        end
+    else
+        local iLyrs = RInterface.CAPACITY.LAYERS
+        for i = 1, iLyrs, 1 do
+            local pLyr = CWndLayer:new(RInterface.CAPACITY.CHANNELS)
+            table.insert(m_rgpLayers, pLyr)
+        end
+    end
 end
 
 function CWndCanvas:update(dt)
-    for _, pLyr in ipairs(self.rgpLayers) do
+    local m_rgpLayers = self.rgpLayers
+    for _, pLyr in ipairs(m_rgpLayers) do
         pLyr:update(dt)
     end
 end
 
 function CWndCanvas:draw()
-    for _, pChn in ipairs(self.rgpLayers) do
+    local m_rgpLayers = self.rgpLayers
+    for _, pChn in ipairs(m_rgpLayers) do
         pChn:draw()
     end
 end

@@ -10,14 +10,27 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.path.path")
+require("ui.struct.window.channel")
 require("utils.struct.class")
 
 CWndLayer = createClass({
     rgpChannels
 })
 
-function CWndLayer:load()
-    self.rgpChannels = {}
+function CWndLayer:new(nChns)
+    self:load(nChns)
+    return self
+end
+
+function CWndLayer:load(nChns)
+    local m_rgpChannels = self.rgpChannels
+
+    m_rgpChannels = {}
+    for i = 1, nChns, 1 do
+        local pChn = CWndChannel:new()
+        table.insert(m_rgpChannels, pChn)
+    end
 end
 
 function CWndLayer:update(dt)
@@ -33,7 +46,23 @@ function CWndLayer:draw()
 end
 
 function CWndLayer:add_elements(iChn, rgpElems)
-    local m_rgpChns = self.rgpChannels[iChn]
-    m_rgpChns:add_elements(rgpElems)
+    local pChn = self.rgpChannels[iChn]
+    if pChn ~= nil then
+        for _, pElem in ipairs(rgpElems) do
+            pChn:add_element(pElem)
+        end
+    end
 end
 
+function CWndLayer:reset_elements(iChn)
+    local pChn = self.rgpChannels[iChn]
+    if pChn ~= nil then
+        pChn:reset_elements()
+    end
+end
+
+function CWndLayer:reset()
+    for _, pChn in ipairs(self.rgpChannels) do
+        pChn:reset_elements()
+    end
+end

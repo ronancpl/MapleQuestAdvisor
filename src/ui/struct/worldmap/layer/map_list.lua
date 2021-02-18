@@ -25,14 +25,7 @@ function CWmapNavMapList:set_mapno(rgiMapNo)
     self.rgiMapNo = rgiMapNo
 end
 
-function CWmapNavMapList:load()
-
-end
-
-function CWmapNavMapList:update(dt)
-
-end
-
-function CWmapNavMapList:draw()
-
+function CWmapNavMapList:build()
+    self:reset()
+    -- add elements
 end

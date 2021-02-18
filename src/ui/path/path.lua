@@ -12,8 +12,13 @@
 
 RInterface = {
 
-    SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png"
+    SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
 
-    IMG_MAP = "Map.wz"
+    IMG_MAP = "Map.wz",
+
+    CAPACITY = {
+        LAYERS = 4,
+        CHANNELS = 4
+    }
 
 }

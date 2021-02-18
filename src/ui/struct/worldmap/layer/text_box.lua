@@ -34,14 +34,7 @@ function CWmapNavTextBox:set_desc(sDesc)
     self.sDesc = sDesc
 end
 
-function CWmapNavTextBox:load()
-
-end
-
-function CWmapNavTextBox:update(dt)
-
-end
-
-function CWmapNavTextBox:draw()
-
+function CWmapNavTextBox:build()
+    self:reset()
+    -- add elements
 end

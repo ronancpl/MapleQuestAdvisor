@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.struct.window.canvas")
 require("ui.struct.worldmap.layer.background")
 require("ui.struct.worldmap.layer.map_link")
 require("ui.struct.worldmap.layer.map_list")
@@ -17,29 +18,22 @@ require("ui.struct.worldmap.layer.text_box")
 require("utils.struct.class")
 
 CWndWmap = createClass({
-    pNavBg = CWmapNavBackground:new(),
-    pNavMapLink = CWmapNavMapLink:new(),
-    pNavMapList = CWmapNavMapList:new(),
-    pNavTextbox = CWmapNavTextBox:new()
+    pCanvas
 })
 
+function CWndWmap:new()
+    self:load()
+    return self
+end
+
 function CWndWmap:load()
-    self.pNavBg:load()
-    self.pNavMapLink:load()
-    self.pNavMapList:load()
-    self.pNavTextbox:load()
+    self.pCanvas = CWndCanvas:new({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavTextBox}),
 end
 
 function CWndWmap:update(dt)
-    self.pNavBg:update(dt)
-    self.pNavMapLink:update(dt)
-    self.pNavMapList:update(dt)
-    self.pNavTextbox:update(dt)
+    self.pCanvas:update(dt)
 end
 
 function CWndWmap:draw()
-    self.pNavBg:draw()
-    self.pNavMapLink:draw()
-    self.pNavMapList:draw()
-    self.pNavTextbox:draw()
+    self.pCanvas:draw()
 end

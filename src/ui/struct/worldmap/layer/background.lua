@@ -15,14 +15,7 @@ require("utils.struct.class")
 
 CWmapNavBackground = createClass({CWndLayer, {}})
 
-function CWmapNavBackground:load()
-    self.pImgBg = love.graphics.newImage(RInterface.BG_WORLDMAP)
-end
-
-function CWmapNavBackground:update(dt)
-    -- do nothing
-end
-
-function CWmapNavBackground:draw()
-    love.graphics.draw{drawable=self.pImgBg}
+function CWmapNavBackground:build()
+    self:reset()
+    -- add elements
 end

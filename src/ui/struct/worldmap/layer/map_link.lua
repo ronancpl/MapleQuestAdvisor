@@ -25,14 +25,7 @@ function CWmapNavMapLink:set_link_map(sLinkMap)
     self.sLinkMap = sLinkMap
 end
 
-function CWmapNavMapLink:load()
-
-end
-
-function CWmapNavMapLink:update(dt)
-
-end
-
-function CWmapNavMapLink:draw()
-
+function CWmapNavMapLink:build()
+    self:reset()
+    -- add elements
 end

@@ -10,24 +10,32 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CWndChannel = createClass({
     rgpRegisteredElements
 })
 
+function CWndChannel:new()
+    self:load()
+    return self
+end
+
 function CWndChannel:load()
     self.rgpRegisteredElements = {}
 end
 
 function CWndChannel:update(dt)
-    for _, pElem in ipairs(self.rgpRegisteredElements) do
+    local m_rgpRegisteredElements = self.rgpRegisteredElements
+    for _, pElem in ipairs(m_rgpRegisteredElements) do
         pElem:update(dt)
     end
 end
 
 function CWndChannel:draw()
-    for _, pElem in ipairs(self.rgpRegisteredElements) do
+    local m_rgpRegisteredElements = self.rgpRegisteredElements
+    for _, pElem in ipairs(m_rgpRegisteredElements) do
         pElem:draw()
     end
 end
@@ -35,4 +43,9 @@ end
 function CWndChannel:add_element(pElem)
     local m_rgpRegisteredElements = self.rgpRegisteredElements
     table.insert(m_rgpRegisteredElements, pElem)
+end
+
+function CWndChannel:reset_elements()
+    local m_rgpRegisteredElements = self.rgpRegisteredElements
+    clear_table(m_rgpRegisteredElements)
 end
