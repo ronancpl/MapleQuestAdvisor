@@ -18,16 +18,12 @@ require("ui.struct.worldmap.layer.text_box")
 require("utils.struct.class")
 
 CWndWmap = createClass({
-    pCanvas
+    pCanvas = CWndCanvas:new(),
+    pCache = CWndStorage:new()
 })
 
-function CWndWmap:new()
-    self:load()
-    return self
-end
-
 function CWndWmap:load()
-    self.pCanvas = CWndCanvas:new({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavTextBox}),
+    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavTextBox})
 end
 
 function CWndWmap:update(dt)

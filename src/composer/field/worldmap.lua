@@ -73,8 +73,8 @@ local function load_worldmap_body(pWorldmapFileNode)
     return sName, tpNodes, tpLinks
 end
 
-local function load_worldmap_file(sWmapDirPath, sWmapName)
-    local pWorldmapFileNode = SXmlProvider:load_xml(sWmapDirPath .. sWmapName .. ".img.xml")
+local function load_worldmap_file(sWmapSubPath, sWmapName)
+    local pWorldmapFileNode = SXmlProvider:load_xml(sWmapSubPath .. sWmapName .. ".img.xml")
 
     local sName
     local tpNodes
@@ -91,7 +91,7 @@ local function load_worldmap_file(sWmapDirPath, sWmapName)
     return pWmapRegion
 end
 
-local function init_worldmap(sWmapDirPath)
+local function init_worldmap(sWmapSubPath)
     local ctFieldsWmap = CFieldWorldmapTable:new()
 
     local rgsWmapsToLoad = {}
@@ -100,7 +100,7 @@ local function init_worldmap(sWmapDirPath)
     while #rgsWmapsToLoad > 0 do
         local sWmapName = table.remove(rgsWmapsToLoad)
 
-        local pWmapRegion = load_worldmap_file(sWmapDirPath, sWmapName)
+        local pWmapRegion = load_worldmap_file(sWmapSubPath, sWmapName)
         ctFieldsWmap:add_region_entry(sWmapName, pWmapRegion)
 
         for _, pWmapLink in ipairs(pWmapRegion:get_links()) do
@@ -114,9 +114,9 @@ end
 
 function load_resources_worldmap()
     local sDirPath = RPath.RSC_FIELDS
-    local sWmapDirPath = sDirPath .. "/WorldMap/"
+    local sWmapSubPath = sDirPath .. "/WorldMap/"
 
-    local ctFieldsWmap = init_worldmap(sWmapDirPath)
+    local ctFieldsWmap = init_worldmap(sWmapSubPath)
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Worldmap
     return ctFieldsWmap

@@ -1,6 +1,6 @@
 --[[
     This file is part of the MapleQuestAdvisor planning tool
-    Copyleft (L) 2020 RonanLana
+    Copyleft (L) 2020 - 2021 RonanLana
 
     GNU General Public License v3.0
 
@@ -10,16 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
-RInterface = {
+require("ui.struct.window.chart")
 
-    WMAP_DIR = "Map.wz/WorldMap",
-    SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
+function load_interface_worldmap()
+    local pWnd = CWndWmap:new()
+    pWnd:load()
 
-    IMG_MAP = "Map.wz",
-
-    CAPACITY = {
-        LAYERS = 4,
-        CHANNELS = 4
-    }
-
-}
+    return pWnd
+end

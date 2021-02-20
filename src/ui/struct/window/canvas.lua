@@ -15,17 +15,11 @@ require("ui.struct.window.layer")
 require("utils.struct.class")
 
 CWndCanvas = createClass({
-    rgpLayers
+    rgpLayers = {}
 })
-
-function CWndCanvas:new(rgpLayerClass)
-    self:load(rgpLayerClass)
-    return self
-end
 
 function CWndCanvas:load(rgpLayerClass)
     local m_rgpLayers = self.rgpLayers
-    m_rgpLayers = {}
 
     if rgpLayerClass ~= nil then
         for _, pLyrClass in ipairs(rgpLayerClass) do

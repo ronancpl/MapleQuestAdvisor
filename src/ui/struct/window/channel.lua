@@ -14,16 +14,12 @@ require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CWndChannel = createClass({
-    rgpRegisteredElements
+    rgpRegisteredElements = {}
 })
 
-function CWndChannel:new()
-    self:load()
-    return self
-end
-
 function CWndChannel:load()
-    self.rgpRegisteredElements = {}
+    local m_rgpRegisteredElements = self.rgpRegisteredElements
+    clear_table(m_rgpRegisteredElements)
 end
 
 function CWndChannel:update(dt)

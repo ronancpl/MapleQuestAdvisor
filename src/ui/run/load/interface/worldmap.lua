@@ -10,16 +10,15 @@
     provide an express grant of patent rights.
 --]]
 
-RInterface = {
+require("ui.run.load.image")
+require("utils.provider.xml.provider")
 
-    WMAP_DIR = "Map.wz/WorldMap",
-    SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
+function load_frame_worldmap(sWmapName)
+    local sWmapNodePath = RInterface.WMAP_DIR .. "/" .. sWmapName .. ".img"
+    local sWmapImgPath = "images/" .. sWmapNodePath
 
-    IMG_MAP = "Map.wz",
+    local pXmlWmapNode = SXmlProvider:load_xml(sWmapNodePath)
+    local tpWmapImgs = load_images_from_wz_sub(sWmapImgPath)
 
-    CAPACITY = {
-        LAYERS = 4,
-        CHANNELS = 4
-    }
-
-}
+    return pXmlWmapNode, tpWmapImgs
+end

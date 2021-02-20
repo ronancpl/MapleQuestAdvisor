@@ -15,18 +15,12 @@ require("ui.struct.window.channel")
 require("utils.struct.class")
 
 CWndLayer = createClass({
-    rgpChannels
+    rgpChannels = {}
 })
-
-function CWndLayer:new(nChns)
-    self:load(nChns)
-    return self
-end
 
 function CWndLayer:load(nChns)
     local m_rgpChannels = self.rgpChannels
 
-    m_rgpChannels = {}
     for i = 1, nChns, 1 do
         local pChn = CWndChannel:new()
         table.insert(m_rgpChannels, pChn)
