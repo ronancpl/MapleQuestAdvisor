@@ -13,26 +13,7 @@
 require("ui.struct.window.layer")
 require("utils.struct.class")
 
-CWmapNavTextBox = createClass({CWndLayer, {
-    sTitle,
-    sDesc
-}})
-
-function CWmapNavTextBox:get_title()
-    return self.sTitle
-end
-
-function CWmapNavTextBox:set_title(sTitle)
-    self.sTitle = sTitle
-end
-
-function CWmapNavTextBox:get_desc()
-    return self.sDesc
-end
-
-function CWmapNavTextBox:set_desc(sDesc)
-    self.sDesc = sDesc
-end
+CWmapNavTextBox = createClass({CWndLayer, {}})
 
 function CWmapNavTextBox:build()
     self:reset()

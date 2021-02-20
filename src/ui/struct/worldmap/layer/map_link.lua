@@ -13,17 +13,7 @@
 require("ui.struct.window.layer")
 require("utils.struct.class")
 
-CWmapNavMapLink = createClass({CWndLayer, {
-    sLinkMap
-}})
-
-function CWmapNavMapLink:get_link_map()
-    return self.sLinkMap
-end
-
-function CWmapNavMapLink:set_link_map(sLinkMap)
-    self.sLinkMap = sLinkMap
-end
+CWmapNavMapLink = createClass({CWndLayer, {}})
 
 function CWmapNavMapLink:build()
     self:reset()

@@ -1,6 +1,6 @@
 --[[
     This file is part of the MapleQuestAdvisor planning tool
-    Copyleft (L) 2020 RonanLana
+    Copyleft (L) 2020 - 2021 RonanLana
 
     GNU General Public License v3.0
 
@@ -11,14 +11,19 @@
 --]]
 
 require("ui.run.build.graphic.image")
-require("utils.provider.xml.provider")
+require("ui.run.build.graphic.media.image")
+require("ui.struct.worldmap.element.background")
 
-function load_frame_worldmap(sWmapName)
-    local sWmapNodePath = RInterface.WMAP_DIR .. "/" .. sWmapName .. ".img"
-    local sWmapImgPath = "images/" .. sWmapNodePath
+function load_xml_worldmap_base_img(pXmlBaseImg, tpPathImgs)
+    local pImg = fetch_image_from_container(tpPathImgs, "baseImg/0")
 
-    local pXmlWmapNode = SXmlProvider:load_xml(sWmapNodePath)
-    local tpWmapImgs = load_images_from_wz_sub(sWmapImgPath)
+    local iOx
+    local iOy
+    local iZ
+    iOx, iOy, iZ = load_xml_image(pXmlSpriteNode)
 
-    return pXmlWmapNode, tpWmapImgs
+    local pBaseImg = CWmapElemBackground:new()
+    pBaseImg:load(pImg, iOx, iOy, iZ, 0, 0)
+
+    return pBaseImg
 end

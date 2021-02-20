@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.load.image")
-require("ui.struct.component.basic.quad")
+require("ui.run.build.graphic.quad")
+require("ui.run.build.graphic.media.image")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
 require("utils.provider.xml.provider")
@@ -38,17 +38,7 @@ local function load_quad_img_set(pXmlQuad, tpImgs)
     local tpQuads = {}
     for sSprite, pImg in pairs(tpImgs) do
         local pXmlSpriteNode = pXmlQuad:get_child_by_name(sSprite)
-
-        local iDelay = pXmlSpriteNode:get_child_by_name("delay")
-
-        local pOrig = pXmlSpriteNode:get_child_by_name("origin")
-        local iX = tonumber(pOrig:get("x"))
-        local iY = tonumber(pOrig:get("y"))
-
-        local iZ = pXmlSpriteNode:get_child_by_name("z")
-
-        tpQuads[sSprite] = CBasicQuad:new()
-        tpQuads[sSprite]:load(pImg, iX, iY, iZ, iDelay)
+        tpQuads[sSprite] = load_quad(pXmlSpriteNode, pImg)
     end
 
     local rgpQuads = {}

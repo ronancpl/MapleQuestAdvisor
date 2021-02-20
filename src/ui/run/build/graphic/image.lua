@@ -1,6 +1,6 @@
 --[[
     This file is part of the MapleQuestAdvisor planning tool
-    Copyleft (L) 2020 RonanLana
+    Copyleft (L) 2020 - 2021 RonanLana
 
     GNU General Public License v3.0
 
@@ -10,12 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.layer")
-require("utils.struct.class")
+function load_xml_image(pXmlSpriteNode)
+    local pOrig = pXmlSpriteNode:get_child_by_name("origin")
+    local iOx = tonumber(pOrig:get("x"))
+    local iOy = tonumber(pOrig:get("y"))
 
-CWmapNavMapList = createClass({CWndLayer, {}})
+    local iZ = pXmlSpriteNode:get_child_by_name("z")
 
-function CWmapNavMapList:build()
-    self:reset()
-    -- add elements
+    return iOx, iOy, iZ
 end

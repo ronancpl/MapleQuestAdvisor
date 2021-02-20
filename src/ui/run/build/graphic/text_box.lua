@@ -1,6 +1,6 @@
 --[[
     This file is part of the MapleQuestAdvisor planning tool
-    Copyleft (L) 2020 RonanLana
+    Copyleft (L) 2020 - 2021 RonanLana
 
     GNU General Public License v3.0
 
@@ -10,12 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.layer")
-require("utils.struct.class")
+function load_xml_text_box(pXmlMapNode)
+    local sTitle = pXmlMapNode:get_child_by_name("title")
+    local sDesc = pXmlMapNode:get_child_by_name("desc")
 
-CWmapNavMapList = createClass({CWndLayer, {}})
-
-function CWmapNavMapList:build()
-    self:reset()
-    -- add elements
+    return sTitle, sDesc
 end

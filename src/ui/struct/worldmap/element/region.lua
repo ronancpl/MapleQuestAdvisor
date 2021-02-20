@@ -14,11 +14,21 @@ require("ui.struct.component.element.static")
 require("utils.struct.class")
 
 CWmapElemRegionLink = createClass({
-    eConst = CStaticElem:new()
+    eConst = CStaticElem:new(),
+    sLinkMap,
+    sTooltip
 })
 
 function CWmapElemRegionLink:load(pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
+end
+
+function CWmapElemRegionLink:set_link_map(sLinkMap)
+    self.sLinkMap = sLinkMap
+end
+
+function CWmapElemRegionLink:set_tooltip(sTooltip)
+    self.sTooltip = sTooltip
 end
 
 function CWmapElemRegionLink:update(dt)

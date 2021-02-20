@@ -14,8 +14,25 @@ require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 
 CWmapElemMark = createClass({
-    eDynam = CDynamicElem:new()
+    eDynam = CDynamicElem:new(),
+    rgiFields,
+    pPath,
+    sTitle,
+    sDesc
 })
+
+function CWmapElemMark:set_mapno(rgiFields)
+    self.rgiFields = rgiFields
+end
+
+function CWmapElemMark:set_path(pPath)
+    self.pPath = pPath
+end
+
+function CWmapElemMark:set_textbox(sTitle, sDesc)
+    self.sTitle = sTitle
+    self.sDesc = sDesc
+end
 
 function CWmapElemMark:load(rX, rY)
     self.eDynam:load(rX, rY)

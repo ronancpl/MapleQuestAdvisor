@@ -39,3 +39,14 @@ function load_images_from_wz_sub(sDirPath)
     local tpImgs = load_images_from_directory(sDirPath)
     return tpImgs
 end
+
+function fetch_image_from_container(tpPathImgs, sPath)
+    local rgsPath = split_path(sPath)
+
+    local tImgPath = tpPathImgs
+    local _, sName in ipairs(rgsPath) do
+        tImgPath = tImgPath[sName]
+    end
+
+    return tImgPath["img"]
+end

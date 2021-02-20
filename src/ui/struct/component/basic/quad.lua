@@ -27,6 +27,6 @@ function CBasicQuad:get_delay()
 end
 
 function CBasicQuad:load(pImg, iOx, iOy, iZ, iDelay)
-    self.eImg = CBasicImage:load(pImg, iOx, iOy, iZ)
+    self.eImg:load(pImg, iOx, iOy, iZ)
     self.iDelay = iDelay
 end

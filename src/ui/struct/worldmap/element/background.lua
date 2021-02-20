@@ -10,12 +10,21 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.layer")
+require("ui.struct.component.element.static")
 require("utils.struct.class")
 
-CWmapNavMapList = createClass({CWndLayer, {}})
+CWmapElemBackground = createClass({
+    eConst = CStaticElem:new()
+})
 
-function CWmapNavMapList:build()
-    self:reset()
-    -- add elements
+function CWmapElemBackground:load(pImg, iOx, iOy, iZ, rX, rY)
+    self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
+end
+
+function CWmapElemBackground:update(dt)
+    self.eConst:update(dt)
+end
+
+function CWmapElemBackground:draw()
+    self.eConst:draw()
 end
