@@ -12,7 +12,7 @@
 
 RInterface = {
 
-    WMAP_MARKER = "MapHelper.img/worldMap/mapImage",
+    WMAP_HELPER = "MapHelper.img/worldMap",
     WMAP_DIR = "Map.wz/WorldMap",
 
     SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",

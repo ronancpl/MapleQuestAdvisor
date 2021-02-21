@@ -10,14 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.run.load.interface.position")
 require("ui.run.load.interface.worldmap")
 require("utils.provider.xml.provider")
 require("utils.struct.class")
 
 CWndStorage = createClass({
     tpWmapImgsCache = {},
+    tpHelperQuadsCache,
     tpXmlWmapCache = {}
 })
+
+function CWndStorage:fetch_worldmap_helper()
+    self.tpHelperQuadsCache = load_frame_position_helper()
+end
 
 function CWndStorage:fetch_worldmap_region(sWmapName)
     local m_tpWmapImgsCache = self.tpWmapImgsCache

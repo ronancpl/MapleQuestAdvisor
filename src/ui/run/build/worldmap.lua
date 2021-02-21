@@ -26,6 +26,8 @@ function load_frame_worldmap_region(pWmapRegion, tpWmapImgs)
     local sWmapParent = pWmapRegion:get_parent_map()
     pWmapProps:set_parent_map(sWmapParent)
 
+    local sWmapRegion = pWmapRegion:get_name()
+
     local tpLinks = pWmapRegion:get_links()
     for _, pPair in ipairs(spairs(tpLinks, function (a, b) return a < b end)) do
         local pMapLink = pPair[2]
@@ -38,7 +40,7 @@ function load_frame_worldmap_region(pWmapRegion, tpWmapImgs)
     for _, pPair in ipairs(spairs(tpNodes, function (a, b) return a < b end)) do
         local pMapNode = pPair[2]
 
-        local pFieldList = load_node_worldmap_map_list(pMapNode, tpWmapImgs)
+        local pFieldList = load_node_worldmap_map_list(pMapNode, tpWmapImgs, sWmapRegion)
         pWmapProps:load_map_field(pFieldList)
     end
 
