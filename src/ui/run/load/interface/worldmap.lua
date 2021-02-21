@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.build.graphic.media.image")
+require("composer.field.node.media.image")
 require("utils.provider.xml.provider")
 
 function load_frame_worldmap(sWmapName)

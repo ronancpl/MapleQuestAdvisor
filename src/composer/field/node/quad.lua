@@ -10,17 +10,19 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.struct.class")
+require("composer.field.node.image")
+require("ui.struct.component.basic.quad")
 
-CWmapLink = createClass({
-    sTooltip,
-    pLinkNode
-})
+function load_xml_quad(pSpriteNode, pImg)
+    local iDelay = pSpriteNode:get_delay()
 
-function CWmapLink:get_tool_tip()
-    return self.sTooltip
-end
+    local iOx
+    local iOy
+    local iZ
+    iOx, iOy, iZ = pSpriteNode:get_image()
 
-function CWmapLink:get_link()
-    return self.pLinkNode
+    local pQuad = CBasicQuad:new()
+    pQuad:load(pImg, iOx, iOy, iZ, iDelay)
+
+    return pQuad
 end

@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.build.graphic.media.image")
+require("composer.field.node.media.image")
 require("ui.struct.worldmap.element.region")
 
 function load_xml_worldmap_map_link(pMapLinkNode, tpPathImgs, sXmlPath)

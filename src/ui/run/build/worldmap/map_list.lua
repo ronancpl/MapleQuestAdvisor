@@ -11,11 +11,11 @@
 --]]
 
 require("ui.path.path")
-require("ui.run.build.graphic.spot")
-require("ui.run.build.graphic.media.image")
+require("composer.field.node.spot")
+require("composer.field.node.media.image")
 require("ui.struct.worldmap.element.path")
 
-local function load_xml_map_path(pMapNode)
+local function load_xml_map_path(pMapNode, tpPathImgs)
     local sXmlPath = RInterface.WMAP_MARKER .. "/" .. iType
     local pImg = fetch_image_from_container(tpPathImgs, sXmlPath)   -- get marker image
 
@@ -65,7 +65,7 @@ end
 
 function load_xml_worldmap_map_list(pMapNode, tpPathImgs)
     local rgiFields = load_xml_mapno(pMapNode)
-    local pPath = load_xml_map_path(pMapNode)
+    local pPath = load_xml_map_path(pMapNode, tpPathImgs)
     local pTextbox = load_xml_text_box(pMapNode)
 
     local pFieldMarker = load_xml_map_marker(pMapNode, tpPathImgs)

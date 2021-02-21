@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.build.graphic.quad")
-require("ui.run.build.graphic.media.image")
+require("composer.field.node.quad")
+require("composer.field.node.media.image")
 require("ui.run.xml.directory")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")

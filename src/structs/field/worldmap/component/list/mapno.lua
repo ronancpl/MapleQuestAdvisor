@@ -10,19 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.field.worldmap.node.basic.spot")
 require("utils.struct.class")
 
-CWmapBasicImage = createClass({CWmapBasicSpot, {
-    iZ
-}})
+CWmapNodeMapno = createClass({
+    rgpNodes = {}
+})
 
-function CWmapBasicImage:get_image()
-    return self.iOx, self.iOy, self.iZ
+function CWmapNodeMapno:add(pNode)
+    table.insert(self.rgpNodes, pNode)
 end
 
-function CWmapBasicImage:new(iOx, iOy, iZ)
-    self.iOx = iOx
-    self.iOy = iOy
-    self.iZ = iZ
+function CWmapNodeMapno:list()
+    return self.rgpNodes
 end

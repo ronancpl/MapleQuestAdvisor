@@ -12,14 +12,16 @@
 
 require("utils.struct.class")
 
-CWmapNodeMapno = createClass({
-    rgpNodes = {}
+CWmapBasicTextbox = createClass({
+    sTitle,
+    sDesc
 })
 
-function CWmapNodeMapno:add_child(pNode)
-    table.insert(self.rgpNodes, pNode)
+function CWmapBasicTextbox:get_image()
+    return self.sTitle, self.sDesc
 end
 
-function CWmapNodeMapno:get_children()
-    return self.rgpNodes
+function CWmapBasicTextbox:new(sTitle, sDesc)
+    self.sTitle = sTitle
+    self.sDesc = sDesc
 end

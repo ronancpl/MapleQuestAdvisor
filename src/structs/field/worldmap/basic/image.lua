@@ -10,17 +10,19 @@
     provide an express grant of patent rights.
 --]]
 
+require("structs.field.worldmap.basic.spot")
 require("utils.struct.class")
 
-CWmapNodeLink = createClass({
-    pNodeLinkImg,
-    sLinkMap
-})
+CWmapBasicImage = createClass({CWmapBasicSpot, {
+    iZ
+}})
 
-function CWmapNodeLink:get_link_image()
-    return self.pNodeLinkImg
+function CWmapBasicImage:get_image()
+    return self.iOx, self.iOy, self.iZ
 end
 
-function CWmapNodeLink:get_link_map()
-    return self.sLinkMap
+function CWmapBasicImage:new(iOx, iOy, iZ)
+    self.iOx = iOx
+    self.iOy = iOy
+    self.iZ = iZ
 end

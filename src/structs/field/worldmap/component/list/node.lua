@@ -10,15 +10,23 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.field.worldmap.node.basic.spot")
+require("structs.field.worldmap.basic.spot")
 require("utils.struct.class")
 
 CWmapNodeMarker = createClass({CWmapBasicSpot, {
+    pImgPath,
     pNodeMapno,
-    pNodePath,
     pNodeTextbox,
     iType
 }})
+
+function CWmapNodeMarker:get_path()
+    return self.pImgPath
+end
+
+function CWmapNodeMarker:set_path(pImgPath)
+    self.pImgPath = pImgPath
+end
 
 function CWmapNodeMarker:get_mapno()
     return self.pNodeMapno
@@ -26,14 +34,6 @@ end
 
 function CWmapNodeMarker:set_mapno(pNodeMapno)
     self.pNodeMapno = pNodeMapno
-end
-
-function CWmapNodeMarker:get_path()
-    return self.pNodePath
-end
-
-function CWmapNodeMarker:set_path(pNodePath)
-    self.pNodePath = pNodePath
 end
 
 function CWmapNodeMarker:get_textbox()

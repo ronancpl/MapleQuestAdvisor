@@ -13,18 +13,27 @@
 require("utils.struct.class")
 
 CWmapNodeRegion = createClass({
-    pNodeBaseImg,
+    sName,
+    pImgBase,
     sParentMap,
     rgpNodeLinks,
     rgpNodeMarkers
 })
 
-function CWmapNodeRegion:get_base_img()
-    return self.pNodeBaseImg
+function CWmapNodeRegion:get_name()
+    return self.sName
 end
 
-function CWmapNodeRegion:set_base_img(pNodeBaseImg)
-    self.pNodeBaseImg = pNodeBaseImg
+function CWmapNodeRegion:set_name(sName)
+    self.sName = sName
+end
+
+function CWmapNodeRegion:get_base_img()
+    return self.pImgBase
+end
+
+function CWmapNodeRegion:set_base_img(pImgBase)
+    self.pImgBase = pImgBase
 end
 
 function CWmapNodeRegion:get_parent_map()

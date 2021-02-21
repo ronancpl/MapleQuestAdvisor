@@ -10,20 +10,23 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.node.image")
-require("composer.field.node.media.image")
-require("ui.struct.worldmap.element.background")
+require("structs.field.worldmap.basic.spot")
+require("utils.struct.class")
 
-function load_xml_worldmap_base_img(pBaseImgNode, tpPathImgs)
-    local pImg = fetch_image_from_container(tpPathImgs, "baseImg/0")
+CWmapBasicSprite = createClass({CWmapBasicSpot, {
+    iDelay
+}})
 
-    local iOx
-    local iOy
-    local iZ
-    iOx, iOy, iZ = pBaseImgNode:get_image()
+function CWmapBasicSprite:get_delay()
+    return self.iDelay
+end
 
-    local pBaseImg = CWmapElemBackground:new()
-    pBaseImg:load(pImg, iOx, iOy, iZ, 0, 0)
+function CWmapBasicSprite:get_image()
+    return self.iOx, self.iOy
+end
 
-    return pBaseImg
+function CWmapBasicSprite:new(iOx, iOy, iDelay)
+    self.iOx = iOx
+    self.iOy = iOy
+    self.iDelay = iDelay
 end
