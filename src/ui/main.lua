@@ -10,6 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.field.worldmap")
+
+ctFieldsWmap = load_resources_worldmap()
+
 function love.load()
 
 end

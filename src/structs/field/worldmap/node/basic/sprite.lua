@@ -10,16 +10,23 @@
     provide an express grant of patent rights.
 --]]
 
+require("structs.field.worldmap.node.basic.spot")
 require("utils.struct.class")
 
-CWorldmapLink = createClass({
-    sRegionName
-})
+CWmapBasicSprite = createClass({CWmapBasicSpot, {
+    iDelay
+}})
 
-function CWorldmapLink:get_region_name()
-    return self.sRegionName
+function CWmapBasicSprite:get_delay()
+    return self.iDelay
 end
 
-function CWorldmapLink:set_region_name(sRegionName)
-    self.sRegionName = sRegionName
+function CWmapBasicSprite:get_image()
+    return self.iOx, self.iOy
+end
+
+function CWmapBasicSprite:new(iOx, iOy, iDelay)
+    self.iOx = iOx
+    self.iOy = iOy
+    self.iDelay = iDelay
 end

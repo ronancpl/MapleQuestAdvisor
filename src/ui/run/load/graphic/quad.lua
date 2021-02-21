@@ -12,6 +12,7 @@
 
 require("ui.run.build.graphic.quad")
 require("ui.run.build.graphic.media.image")
+require("ui.run.xml.directory")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
 require("utils.provider.xml.provider")
@@ -74,25 +75,6 @@ local function load_quad_img_sets_from_path(pXmlRoot, tpPathQuad, rgsPath, tpImg
             table.remove(rgsPath)
         end
     end
-end
-
-local function load_xml_node_from_directory(sDirPath)
-    local sImgXmlPath
-    local sImgDirNodePath
-
-    local i = string.find(sDirPath, ".img")
-    sImgXmlPath = string.sub(sDirPath, 1, i)
-    sImgDirNodePath = string.sub(sDirPath, i + 4, -1)
-
-    local pImgXmlNode = SXmlProvider:load_xml(sImgXmlPath)
-    local rgsSubNames = split_text(sImgDirNodePath)
-
-    local pXmlNode = pImgXmlNode
-    for _, sName in ipairs(rgsSubNames) do
-        pXmlNode = pXmlNode:get_child_by_name(sName)
-    end
-
-    return pXmlNode
 end
 
 local function load_quad_img_sets_from_directory(sDirPath)

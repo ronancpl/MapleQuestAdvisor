@@ -17,8 +17,7 @@ CWmapElemMark = createClass({
     eDynam = CDynamicElem:new(),
     rgiFields,
     pPath,
-    sTitle,
-    sDesc
+    pTextbox
 })
 
 function CWmapElemMark:set_mapno(rgiFields)
@@ -29,9 +28,8 @@ function CWmapElemMark:set_path(pPath)
     self.pPath = pPath
 end
 
-function CWmapElemMark:set_textbox(sTitle, sDesc)
-    self.sTitle = sTitle
-    self.sDesc = sDesc
+function CWmapElemMark:set_textbox(pTextbox)
+    self.pTextbox = pTextbox
 end
 
 function CWmapElemMark:load(rX, rY)

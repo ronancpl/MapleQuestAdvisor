@@ -10,30 +10,35 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.build.graphic.worldmap")
-require("ui.run.build.graphic.media.image")
 require("ui.run.build.worldmap.base_img")
+require("ui.run.build.worldmap.map_link")
+require("ui.run.build.worldmap.map_list")
+require("ui.run.load.window.worldmap")
 
-function load_frame_worldmap_region(pXmlWmapNode, tpWmapImgs, sXmlPath)
+function load_frame_worldmap_region(pWmapRegion, tpWmapImgs)
     local pUiWmap = load_interface_worldmap()
     local pWmapProps = pUiWmap:get_properties()
 
-    local pXmlBaseImg = pXmlWmapNode:get_child_by_name("baseImg")
-    local pBaseImg = load_xml_worldmap_base_img(pXmlBaseImg, tpWmapImgs)
+    local pBaseImgNode = pWmapRegion:get_base_img()
+    local pBaseImg = load_xml_worldmap_base_img(pBaseImgNode, tpWmapImgs)
     pWmapProps:set_base_img(pBaseImg)
 
-    local sWmapStepOut = pXmlWmapNode:get_child_by_name("info/parentMap"):get_value()
-    pWmapProps:set_parent_map(sWmapStepOut)
+    local sWmapParent = pWmapRegion:get_parent_map()
+    pWmapProps:set_parent_map(sWmapParent)
 
-    local pXmlMapLinksNode = pXmlWmapNode:get_child_by_name("MapLink")
-    for _, pXmlMapLink in ipairs(pXmlMapLinksNode:get_children()) do
-        local pRegionLink = load_xml_worldmap_map_link(pXmlMapLink)
+    local tpLinks = pWmapRegion:get_links()
+    for _, pPair in ipairs(spairs(tpLinks, function (a, b) return a < b end)) do
+        local pMapLink = pPair[2]
+
+        local pRegionLink = load_xml_worldmap_map_link(pMapLink, tpWmapImgs)
         pWmapProps:load_map_link(pRegionLink)
     end
 
-    local pXmlMapListNode = pXmlWmapNode:get_child_by_name("MapList")
-    for _, pXmlMapNode in ipairs(pXmlMapListNode:get_children()) do
-        local pFieldList = load_xml_worldmap_map_list(pXmlMapNode)
+    local tpNodes = pWmapRegion:get_nodes()
+    for _, pPair in ipairs(spairs(tpNodes, function (a, b) return a < b end)) do
+        local pMapNode = pPair[2]
+
+        local pFieldList = load_xml_worldmap_map_list(pMapNode, tpWmapImgs)
         pWmapProps:load_map_field(pFieldList)
     end
 

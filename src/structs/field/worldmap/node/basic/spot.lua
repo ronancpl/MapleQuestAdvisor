@@ -10,20 +10,18 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.build.graphic.image")
-require("ui.run.build.graphic.media.image")
-require("ui.struct.worldmap.element.background")
+require("utils.struct.class")
 
-function load_xml_worldmap_base_img(pBaseImgNode, tpPathImgs)
-    local pImg = fetch_image_from_container(tpPathImgs, "baseImg/0")
+CWmapBasicSpot = createClass({
+    iOx,
+    iOy
+})
 
-    local iOx
-    local iOy
-    local iZ
-    iOx, iOy, iZ = pBaseImgNode:get_image()
+function CWmapBasicSpot:get_spot()
+    return self.iOx, self.iOy
+end
 
-    local pBaseImg = CWmapElemBackground:new()
-    pBaseImg:load(pImg, iOx, iOy, iZ, 0, 0)
-
-    return pBaseImg
+function CWmapBasicSpot:new(iOx, iOy)
+    self.iOx = iOx
+    self.iOy = iOy
 end

@@ -10,34 +10,31 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.struct.component.element.static")
 require("utils.struct.class")
 
-CWorldmapNode = createClass({
+CWmapElemTextBox = createClass({
+    eConst = CStaticElem:new(),
     sTitle,
-    sDesc,
-    rgiMapNo
+    sDesc
 })
 
-function CWorldmapNode:get_desc()
-    return self.sDesc
-end
-
-function CWorldmapNode:set_desc(sDesc)
-    self.sDesc = sDesc
-end
-
-function CWorldmapNode:get_title()
-    return self.sTitle
-end
-
-function CWorldmapNode:set_title(sTitle)
+function CWmapElemTextBox:set_title(sTitle)
     self.sTitle = sTitle
 end
 
-function CWorldmapNode:get_mapno_list()
-    return self.rgiMapNo
+function CWmapElemTextBox:set_desc(sDesc)
+    self.sDesc = sDesc
 end
 
-function CWorldmapNode:set_mapno_list(rgiMapNo)
-    self.rgiMapNo = rgiMapNo
+function CWmapElemTextBox:load(pImg, iOx, iOy, iZ, rX, rY)
+    self.eDynam:load(pImg, iOx, iOy, iZ, rX, rY)
+end
+
+function CWmapElemTextBox:update(dt)
+    self.eDynam:update(dt)
+end
+
+function CWmapElemTextBox:draw()
+    self.eDynam:draw()
 end

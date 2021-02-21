@@ -10,15 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.build.graphic.image")
+require("ui.run.build.graphic.media.image")
 require("utils.provider.xml.provider")
 
 function load_frame_worldmap(sWmapName)
     local sWmapNodePath = RInterface.WMAP_DIR .. "/" .. sWmapName .. ".img"
     local sWmapImgPath = "images/" .. sWmapNodePath
 
-    local pXmlWmapNode = SXmlProvider:load_xml(sWmapNodePath)
+    local pWmapRegion = ctFieldsWmap:get_region_entry(sWmapName)
     local tpWmapImgs = load_images_from_wz_sub(sWmapImgPath)
 
-    return pXmlWmapNode, tpWmapImgs
+    local pUiWmap = load_frame_worldmap_region(pWmapRegion, tpWmapImgs)
+    return pUiWmap
 end

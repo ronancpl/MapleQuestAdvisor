@@ -13,16 +13,16 @@
 require("ui.run.build.graphic.image")
 require("ui.struct.component.basic.quad")
 
-function load_xml_quad(pXmlSpriteNode, pImg)
-    local iDelay = pXmlSpriteNode:get_child_by_name("delay")
+function load_xml_quad(pSpriteNode, pImg)
+    local iDelay = pSpriteNode:get_delay()
 
-    local iX
-    local iY
+    local iOx
+    local iOy
     local iZ
-    iX, iY, iZ = load_xml_image(pXmlSpriteNode)
+    iOx, iOy, iZ = pSpriteNode:get_image()
 
     local pQuad = CBasicQuad:new()
-    pQuad:load(pImg, iX, iY, iZ, iDelay)
+    pQuad:load(pImg, iOx, iOy, iZ, iDelay)
 
     return pQuad
 end
