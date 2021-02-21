@@ -17,7 +17,7 @@ CWmapBasicTextbox = createClass({
     sDesc
 })
 
-function CWmapBasicTextbox:get_image()
+function CWmapBasicTextbox:get_text()
     return self.sTitle, self.sDesc
 end
 

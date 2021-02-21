@@ -20,8 +20,8 @@ require("structs.field.worldmap.basic.textbox")
 require("structs.field.worldmap.component.region")
 require("utils.provider.xml.provider")
 
-local function load_worldmap_base_img(pWorldmapFileNode)
-    local pXmlBaseImg = pWorldmapFileNode:get_child_by_name("BaseImg/0")
+local function load_worldmap_base_img(pXmlWorldmapFile)
+    local pXmlBaseImg = pXmlWorldmapFile:get_child_by_name("BaseImg/0")
 
     local iOx
     local iOy
@@ -32,15 +32,15 @@ local function load_worldmap_base_img(pWorldmapFileNode)
     return pImg
 end
 
-local function load_worldmap_body(pWorldmapFileNode)
-    local sName = pWorldmapFileNode:get_name()
+local function load_worldmap_body(pXmlWorldmapFile)
+    local sName = pXmlWorldmapFile:get_name()
 
-    local pImgBase = load_worldmap_base_img(pWorldmapFileNode)
+    local pImgBase = load_worldmap_base_img(pXmlWorldmapFile)
 
-    local sParentName = pWorldmapFileNode:get_child_by_name("info/parentMap"):get_value()
+    local sParentName = pXmlWorldmapFile:get_child_by_name("info/parentMap"):get_value()
 
     local tpNodes = {}
-    for _, pWorldmapElementNode in pairs(pWorldmapFileNode:get_child_by_name("MapList"):get_children()) do
+    for _, pWorldmapElementNode in pairs(pXmlWorldmapFile:get_child_by_name("MapList"):get_children()) do
         local iNodeid
         local pWmapNode
 
@@ -49,7 +49,7 @@ local function load_worldmap_body(pWorldmapFileNode)
     end
 
     local tpLinks = {}
-    local pWorldmapFileLinkNode = pWorldmapFileNode:get_child_by_name("MapLink")
+    local pWorldmapFileLinkNode = pXmlWorldmapFile:get_child_by_name("MapLink")
     if pWorldmapFileLinkNode ~= nil then
         for _, pWorldmapLinkNode in pairs(pWorldmapFileLinkNode:get_children()) do
             local iNodeid
@@ -64,14 +64,14 @@ local function load_worldmap_body(pWorldmapFileNode)
 end
 
 local function load_worldmap_file(sWmapSubPath, sWmapName)
-    local pWorldmapFileNode = SXmlProvider:load_xml(sWmapSubPath .. sWmapName .. ".img.xml")
+    local pXmlWorldmapFile = SXmlProvider:load_xml(sWmapSubPath .. sWmapName .. ".img.xml")
 
     local sName
     local pImgBase
     local sParentName
     local tpLinks
     local tpNodes
-    sName, pImgBase, sParentName, tpLinks, tpNodes = load_worldmap_body(pWorldmapFileNode:get_child_by_name(sWmapName .. ".img"))
+    sName, pImgBase, sParentName, tpLinks, tpNodes = load_worldmap_body(pXmlWorldmapFile:get_child_by_name(sWmapName .. ".img"))
 
     local pWmapRegion = CWmapNodeRegion:new()
     pWmapRegion:set_name(sName)

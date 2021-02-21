@@ -15,31 +15,31 @@ require("structs.field.worldmap.component.link.link")
 require("structs.field.worldmap.component.link.link_img")
 require("structs.field.worldmap.component.link.map_link")
 
-local function load_worldmap_comp_tooltip(pWorldmapLinkNode)
-    local sTooltip = pWorldmapLinkNode:get_child_by_name("toolTip"):get_value()
+local function load_worldmap_comp_tooltip(pXmlWorldmapLink)
+    local sTooltip = pXmlWorldmapLink:get_child_by_name("toolTip"):get_value()
     return sTooltip
 end
 
-local function load_worldmap_comp_link_region_image(pRegionLinkNode)
+local function load_worldmap_comp_link_region_image(pXmlRegionLink)
     local iOx
     local iOy
     local iZ
-    local iOx, iOy, iZ = load_xml_image(pRegionLinkNode:get_child_by_name("linkImg"))
+    local iOx, iOy, iZ = load_xml_image(pXmlRegionLink:get_child_by_name("linkImg"))
 
     local pImgLink = CWmapNodeLinkImage:new(iOx, iOy, iZ)
     return pImgLink
 end
 
-local function load_worldmap_comp_link_region_map(pRegionLinkNode)
-    local sRegionLink = pRegionLinkNode:get_child_by_name("linkMap"):get_value()
+local function load_worldmap_comp_link_region_map(pXmlRegionLink)
+    local sRegionLink = pXmlRegionLink:get_child_by_name("linkMap"):get_value()
     return sRegionLink
 end
 
-local function load_worldmap_comp_link(pWorldmapLinkNode)
-    local pRegionLinkNode = pWorldmapLinkNode:get_child_by_name("link")
+local function load_worldmap_comp_link(pXmlWorldmapLink)
+    local pXmlWorldmapLink = pWorldmapLinkNode:get_child_by_name("link")
 
-    local pImgLink = load_worldmap_comp_link_region_image(pRegionLinkNode)
-    local sRegionLink = load_worldmap_comp_link_region_map(pRegionLinkNode)
+    local pImgLink = load_worldmap_comp_link_region_image(pXmlWorldmapLink)
+    local sRegionLink = load_worldmap_comp_link_region_map(pXmlWorldmapLink)
 
     local pNodeLink = CWmapNodeLink:new()
     pNodeLink:set_link_image(pImgLink)
@@ -48,13 +48,13 @@ local function load_worldmap_comp_link(pWorldmapLinkNode)
     return pNodeLink
 end
 
-local function load_worldmap_link(pWorldmapLinkNode)
+local function load_worldmap_link(pXmlWorldmapLink)
     local pWmapLink = CWorldmapLink:new()
 
-    local iNodeid = pWorldmapLinkNode:get_name_tonumber()
+    local iNodeid = pXmlWorldmapLink:get_name_tonumber()
 
-    local pNodeLink = load_worldmap_comp_link(pWorldmapLinkNode)
-    local sTooltip = load_worldmap_comp_tooltip(pWorldmapLinkNode)
+    local pNodeLink = load_worldmap_comp_link(pXmlWorldmapLink)
+    local sTooltip = load_worldmap_comp_tooltip(pXmlWorldmapLink)
 
     pWmapLink = CWmapLink:new()
     pWmapLink:set_link(pNodeLink)

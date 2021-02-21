@@ -12,10 +12,11 @@
 
 require("ui.path.path")
 require("composer.field.node.spot")
+require("composer.field.node.text_box")
 require("composer.field.node.media.image")
 require("ui.struct.worldmap.element.path")
 
-local function load_xml_map_path(pMapNode, tpPathImgs)
+local function load_node_map_path(pMapNode, tpPathImgs)
     local sXmlPath = RInterface.WMAP_MARKER .. "/" .. iType
     local pImg = fetch_image_from_container(tpPathImgs, sXmlPath)   -- get marker image
 
@@ -31,7 +32,7 @@ local function load_xml_map_path(pMapNode, tpPathImgs)
     return pPath
 end
 
-local function load_xml_mapno(pMapNode)
+local function load_node_mapno(pMapNode)
     local rgiFields = {}
 
     local pMapnoNode = pMapNode:get_mapno()
@@ -43,7 +44,7 @@ local function load_xml_mapno(pMapNode)
     return rgiFields
 end
 
-local function load_xml_map_marker(pMapNode, tpPathImgs)
+local function load_node_map_marker(pMapNode, tpPathImgs)
     local iRx
     local iRy
     iRx, iRy = pMapNode:get_spot()
@@ -63,12 +64,12 @@ local function load_xml_map_marker(pMapNode, tpPathImgs)
     return pMarker
 end
 
-function load_xml_worldmap_map_list(pMapNode, tpPathImgs)
-    local rgiFields = load_xml_mapno(pMapNode)
-    local pPath = load_xml_map_path(pMapNode, tpPathImgs)
-    local pTextbox = load_xml_text_box(pMapNode)
+function load_node_worldmap_map_list(pMapNode, tpPathImgs)
+    local rgiFields = load_node_mapno(pMapNode)
+    local pPath = load_node_map_path(pMapNode, tpPathImgs)
+    local pTextbox = load_node_text_box(pMapNode)
 
-    local pFieldMarker = load_xml_map_marker(pMapNode, tpPathImgs)
+    local pFieldMarker = load_node_map_marker(pMapNode, tpPathImgs)
     pFieldMarker:set_mapno(rgiFields)
     pFieldMarker:set_path(pPath)
     pFieldMarker:set_textbox(pTextbox)

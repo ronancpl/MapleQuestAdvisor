@@ -13,7 +13,7 @@
 require("composer.field.node.media.image")
 require("ui.struct.worldmap.element.region")
 
-function load_xml_worldmap_map_link(pMapLinkNode, tpPathImgs, sXmlPath)
+function load_node_worldmap_map_link(pMapLinkNode, tpPathImgs, sXmlPath)
     local sTooltip = pMapLinkNode:get_tool_tip()
 
     local pLinkNode = pMapLinkNode:get_link()

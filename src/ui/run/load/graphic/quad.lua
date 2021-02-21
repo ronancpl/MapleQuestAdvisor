@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.node.quad")
 require("composer.field.node.media.image")
+require("ui.run.build.graphic.quad")
 require("ui.run.xml.directory")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
@@ -39,7 +39,7 @@ local function load_quad_img_set(pXmlQuad, tpImgs)
     local tpQuads = {}
     for sSprite, pImg in pairs(tpImgs) do
         local pXmlSpriteNode = pXmlQuad:get_child_by_name(sSprite)
-        tpQuads[sSprite] = load_quad(pXmlSpriteNode, pImg)
+        tpQuads[sSprite] = load_node_quad(pXmlSpriteNode, pImg)
     end
 
     local rgpQuads = {}

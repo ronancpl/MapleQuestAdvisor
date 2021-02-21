@@ -13,7 +13,7 @@
 require("composer.field.node.image")
 require("ui.struct.component.basic.quad")
 
-function load_xml_quad(pSpriteNode, pImg)
+function load_node_quad(pSpriteNode, pImg)
     local iDelay = pSpriteNode:get_delay()
 
     local iOx

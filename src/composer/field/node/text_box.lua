@@ -10,9 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-function load_xml_text_box(pXmlMapNode)
-    local sTitle = pXmlMapNode:get_child_by_name("title")
-    local sDesc = pXmlMapNode:get_child_by_name("desc")
+function load_node_text_box(pXmlNode)
+    local sTitle = pXmlNode:get_child_by_name("title")
+    local sDesc = pXmlNode:get_child_by_name("desc")
 
     return sTitle, sDesc
 end

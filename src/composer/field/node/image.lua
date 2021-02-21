@@ -10,12 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
-function load_xml_image(pXmlSpriteNode)
-    local pOrig = pXmlSpriteNode:get_child_by_name("origin")
+function load_xml_image(pXmlNode)
+    local pOrig = pXmlNode:get_child_by_name("origin")
     local iOx = tonumber(pOrig:get("x"))
     local iOy = tonumber(pOrig:get("y"))
 
-    local iZ = pXmlSpriteNode:get_child_by_name("z")
+    local iZ = pXmlNode:get_child_by_name("z")
 
     return iOx, iOy, iZ
 end

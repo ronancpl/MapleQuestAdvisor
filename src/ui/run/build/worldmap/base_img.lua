@@ -14,7 +14,7 @@ require("composer.field.node.image")
 require("composer.field.node.media.image")
 require("ui.struct.worldmap.element.background")
 
-function load_xml_worldmap_base_img(pBaseImgNode, tpPathImgs)
+function load_node_worldmap_base_img(pBaseImgNode, tpPathImgs)
     local pImg = fetch_image_from_container(tpPathImgs, "baseImg/0")
 
     local iOx
