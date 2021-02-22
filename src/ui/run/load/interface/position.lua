@@ -29,6 +29,18 @@ local function store_animation(tpWmapHelperAnims, sPos, rgpQuads)
     return tQuads
 end
 
+local function store_image(tpWmapHelperAnims, sPos, iIdx, pImage)
+    local rgsPath = split_path(sPos)
+
+    local tQuads = tpWmapHelperAnims
+    for _, sName in ipairs(rgsPath) do
+        tQuads = create_inner_table_if_not_exists(tQuads, sName)
+    end
+
+    tQuads[iIdx] = pImage
+    return tQuads
+end
+
 local function fetch_animation(tpWmapHelperQuads, sPos)
     local tpQuads = tpWmapHelperQuads
 
@@ -53,12 +65,31 @@ local function load_animations_position_helper(tpWmapHelperQuads)
     return tpWmapHelperAnims
 end
 
+local function load_images_position_helper(tpWmapHelperQuads)
+    local tpWmapHelperImgs = {}
+
+    local rgsPos = {"mapImage"}
+    for _, sPos in ipairs(rgsPos) do
+        local rgpQuads = fetch_animation(tpWmapHelperQuads, sPos)
+
+        for iIdx, pQuad in ipairs(rgpQuads) do
+            local iPosIdx = iIdx - 1
+
+            local pImage = pQuad:get_image()
+            store_image(tpWmapHelperImgs, sPos, iPosIdx, pImage)
+        end
+    end
+
+    return tpWmapHelperImgs
+end
+
 function load_frame_position_helper()
     local sWmapNodePath = RInterface.WMAP_HELPER
     local sWmapImgPath = "images/" .. sWmapNodePath
 
-    local tpWmapHelperQuads = load_quads_from_wz_sub(sWmapImgPath)
-    tpWmapHelperQuads = load_animations_position_helper(tpWmapHelperQuads)
+    local tpHelperQuads = load_quads_from_wz_sub(sWmapImgPath)
+    local tpWmapHelperQuads = load_animations_position_helper(tpHelperQuads)
+    local tpWmapHelperImages = load_images_position_helper(tpHelperQuads)
 
-    return tpWmapHelperQuads
+    return tpWmapHelperQuads, tpWmapHelperImages
 end

@@ -18,20 +18,22 @@ require("utils.struct.class")
 CWndStorage = createClass({
     tpWmapImgsCache = {},
     tpHelperQuadsCache,
+    tpHelperImagesCache,
     tpXmlWmapCache = {}
 })
 
 function CWndStorage:fetch_worldmap_helper()
-    self.tpHelperQuadsCache = load_frame_position_helper()
+    self.tpHelperQuadsCache, self.tpHelperImagesCache = load_frame_position_helper()
 end
 
 function CWndStorage:fetch_worldmap_region(sWmapName)
     local m_tpWmapImgsCache = self.tpWmapImgsCache
+    local m_tpHelperImagesCache = self.tpHelperImagesCache
 
     local pXmlWmapNode
     local tpWmapImgs
     if m_tpWmapImgsCache[sWmapName] == nil then
-        pXmlWmapNode, tpWmapImgs = load_frame_worldmap(sWmapName)
+        pXmlWmapNode, tpWmapImgs = load_frame_worldmap(sWmapName, m_tpHelperImagesCache)
 
         local m_tpXmlWmapCache = self.tpXmlWmapCache
 

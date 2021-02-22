@@ -23,12 +23,12 @@ CDynamicElem = createClass({
     pQueueDrawingQuads
 })
 
-function CDynamicElem:load(rX, rY)
+function CDynamicElem:load(rX, rY, rgpQuads)
     local m_eElem = self.eElem
     m_eElem:load(rX, rY)
 
     local m_eAnima = self.eAnima
-    m_eAnima:load()
+    m_eAnima:load(rgpQuads)
     m_eAnima:update_quad()
 
     self.iTimer = 0.0

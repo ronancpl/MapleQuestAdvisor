@@ -18,8 +18,8 @@ CBasicAnima = createClass({
     rgpQuads
 })
 
-function CBasicAnima:load()
-    self.rgpQuads = {}
+function CBasicAnima:load(rgpQuads)
+    self.rgpQuads = rgpQuads
 
     self.iCurQuad = 0
     self.iLimQuad = #self.rgpQuads + 1

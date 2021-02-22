@@ -44,32 +44,28 @@ local function load_node_mapno(pMapNode)
     return rgiFields
 end
 
-local function load_node_map_marker(pMapNode, tpPathImgs)
+local function load_node_map_marker(pMapNode, tpHelperImages)
     local iRx
     local iRy
     iRx, iRy = pMapNode:get_spot()
 
     local iType = pMapNode:get_type()
-    local sXmlPath = RInterface.WMAP_HELPER .. "/mapImage/" .. iType
-    local pImg = fetch_image_from_container(tpPathImgs, sXmlPath)   -- get marker image
 
-    local iOx
-    local iOy
-    local iZ
-    iOx, iOy, iZ = MARKER_NODE:get_image()   -- TODO
+    local sMarker = "mapImage/" .. iType
+    local rgpQuads = tpHelperImages[sMarker]
 
     local pMarker = CWmapElemMark:new()
-    pMarker:load(pImg, iOx, iOy, iZ, iRx, iRy)
+    pMarker:load(iRx, iRy, rgpQuads)
 
     return pMarker
 end
 
-function load_node_worldmap_map_list(pMapNode, tpPathImgs, sRegionName)
+function load_node_worldmap_map_list(pMapNode, tpHelperImages, tpPathImgs, sRegionName, iIdx)
     local rgiFields = load_node_mapno(pMapNode)
-    local pPath = load_node_map_path(pMapNode, tpPathImgs, sRegionName)
+    local pPath = load_node_map_path(pMapNode, tpHelperImages, tpPathImgs, sRegionName, iIdx)
     local pTextbox = load_node_text_box(pMapNode)
 
-    local pFieldMarker = load_node_map_marker(pMapNode, tpPathImgs)
+    local pFieldMarker = load_node_map_marker(pMapNode, tpHelperImages)
     pFieldMarker:set_mapno(rgiFields)
     pFieldMarker:set_path(pPath)
     pFieldMarker:set_textbox(pTextbox)

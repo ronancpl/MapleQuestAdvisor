@@ -15,7 +15,7 @@ require("ui.run.build.worldmap.map_link")
 require("ui.run.build.worldmap.map_list")
 require("ui.run.load.window.worldmap")
 
-function load_frame_worldmap_region(pWmapRegion, tpWmapImgs)
+function load_frame_worldmap_region(pWmapRegion, tpHelperImages, tpWmapImgs)
     local pUiWmap = load_interface_worldmap()
     local pWmapProps = pUiWmap:get_properties()
 
@@ -38,9 +38,10 @@ function load_frame_worldmap_region(pWmapRegion, tpWmapImgs)
 
     local tpNodes = pWmapRegion:get_nodes()
     for _, pPair in ipairs(spairs(tpNodes, function (a, b) return a < b end)) do
+        local iIdx = pPair[1]
         local pMapNode = pPair[2]
 
-        local pFieldList = load_node_worldmap_map_list(pMapNode, tpWmapImgs, sWmapRegion)
+        local pFieldList = load_node_worldmap_map_list(pMapNode, tpHelperImages, tpWmapImgs, sWmapRegion, iIdx)
         pWmapProps:load_map_field(pFieldList)
     end
 
