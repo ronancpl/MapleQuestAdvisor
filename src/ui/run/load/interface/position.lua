@@ -58,7 +58,8 @@ local function load_animations_position_helper(tpWmapHelperQuads)
 
     local rgsPos = {"curPos", "lovePos", "npcPos/0", "npcPos/1", "npcPos/2", "npcPos/3", "partyPos"}
     for _, sPos in ipairs(rgsPos) do
-        local rgpQuads = fetch_animation(tpWmapHelperQuads, sPos)
+        local sImgPos = sPos:gsub("/", "")
+        local rgpQuads = fetch_animation(tpWmapHelperQuads, sImgPos)
         store_animation(tpWmapHelperAnims, sPos, rgpQuads)
     end
 

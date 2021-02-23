@@ -11,17 +11,19 @@
 --]]
 
 require("composer.field.worldmap")
+require("ui.run.build.worldmap")
 
 ctFieldsWmap = load_resources_worldmap()
 
 function love.load()
-
+    pUiWmap = load_frame_worldmap()
+    pUiWmap:load()
 end
 
 function love.update(dt)
-
+    pUiWmap:update(dt)
 end
 
 function love.draw()
-
+    pUiWmap:draw()
 end

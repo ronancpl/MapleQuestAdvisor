@@ -28,9 +28,17 @@ function CWndWmap:get_properties()
     return self.pProp
 end
 
+function CWndWmap:update_region(sWmapName, pWmapRegion, tpWmapImgs, tpHelperImages)
+    local pWmapRegion
+    local tpWmapImgs
+    pWmapRegion, tpWmapImgs = self.pCache:load_region(sWmapName)
+
+    self.pProp:update_region(pWmapRegion, tpWmapImgs, tpHelperImages)
+end
+
 function CWndWmap:load()
     self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavTextBox})
-    self.pProp:load()
+    self.pCache:load()
 end
 
 function CWndWmap:update(dt)

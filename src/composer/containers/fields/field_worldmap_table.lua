@@ -28,6 +28,13 @@ function CFieldWorldmapTable:get_region_entry(sName)
     return m_tpWmapRegions[sName]
 end
 
+function CFieldWorldmapTable:get_region_entries()
+    local m_tpWmapRegions = self.tpWmapRegions
+
+    local rgsWmapNames = keys(m_tpWmapRegions)
+    return rgsWmapNames
+end
+
 function CFieldWorldmapTable:_get_worldmap_id(sWmapName)
     return tonumber(sWmapName:sub(9, 11))
 end

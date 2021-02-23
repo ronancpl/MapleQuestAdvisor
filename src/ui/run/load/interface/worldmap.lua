@@ -13,13 +13,12 @@
 require("composer.field.node.media.image")
 require("utils.provider.xml.provider")
 
-function load_frame_worldmap(sWmapName, tpHelperImages)
+function load_frame_worldmap_region(sWmapName, tpHelperImages, ctFieldsWmap)
     local sWmapNodePath = RInterface.WMAP_DIR .. "/" .. sWmapName .. ".img"
     local sWmapImgPath = "images/" .. sWmapNodePath
 
     local pWmapRegion = ctFieldsWmap:get_region_entry(sWmapName)
     local tpWmapImgs = load_images_from_wz_sub(sWmapImgPath)
 
-    local pUiWmap = load_frame_worldmap_region(pWmapRegion, tpHelperImages, tpWmapImgs)
-    return pUiWmap
+    return pWmapRegion, tpWmapImgs
 end

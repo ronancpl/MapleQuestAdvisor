@@ -22,8 +22,8 @@ function load_node_worldmap_base_img(pBaseImgNode, tpPathImgs)
     local iZ
     iOx, iOy, iZ = pBaseImgNode:get_image()
 
-    local pBaseImg = CWmapElemBackground:new()
-    pBaseImg:load(pImg, iOx, iOy, iZ, 0, 0)
+    local pImgBase = CWmapElemBackground:new()
+    pImgBase:load(pImg, iOx, iOy, iZ, 0, 0)
 
-    return pBaseImg
+    return pImgBase
 end

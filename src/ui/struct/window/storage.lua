@@ -19,30 +19,41 @@ CWndStorage = createClass({
     tpWmapImgsCache = {},
     tpHelperQuadsCache,
     tpHelperImagesCache,
-    tpXmlWmapCache = {}
+    tpWmapRegionCache = {}
 })
 
-function CWndStorage:fetch_worldmap_helper()
+function CWndStorage:_fetch_worldmap_helper()
     self.tpHelperQuadsCache, self.tpHelperImagesCache = load_frame_position_helper()
 end
 
-function CWndStorage:fetch_worldmap_region(sWmapName)
+function CWndStorage:_fetch_worldmap_region(pUiWmap, sWmapName, ctFieldsWmap)
     local m_tpWmapImgsCache = self.tpWmapImgsCache
     local m_tpHelperImagesCache = self.tpHelperImagesCache
 
-    local pXmlWmapNode
+    local pWmapRegion
     local tpWmapImgs
     if m_tpWmapImgsCache[sWmapName] == nil then
-        pXmlWmapNode, tpWmapImgs = load_frame_worldmap(sWmapName, m_tpHelperImagesCache)
+        pWmapRegion, tpWmapImgs = load_frame_worldmap_region(pUiWmap, sWmapName, m_tpHelperImagesCache, ctFieldsWmap)
 
-        local m_tpXmlWmapCache = self.tpXmlWmapCache
-
-        m_tpXmlWmapCache[sWmapName] = pXmlWmapNode
+        local m_tpWmapRegionCache = self.tpWmapRegionCache
+        m_tpWmapRegionCache[sWmapName] = pWmapRegion
         m_tpWmapImgsCache[sWmapName] = tpWmapImgs
     else
         tpWmapImgs = m_tpWmapImgsCache[sWmapName]
-        pXmlWmapNode = m_tpXmlWmapNode[sWmapName]
+        pWmapRegion = m_tpXmlWmapNode[sWmapName]
     end
 
-    return pXmlWmapNode, tpWmapImgs
+    return pWmapRegion, tpWmapImgs
+end
+
+function CWndStorage:load_region(pUiWmap, sWmapName)
+    local pWmapRegion
+    local tpWmapImgs
+    pWmapRegion, tpWmapImgs = self:_fetch_worldmap_region(pUiWmap, sWmapName, ctFieldsWmap)
+
+    return pWmapRegion, tpWmapImgs
+end
+
+function CWndStorage:load()
+    self:_fetch_worldmap_helper()
 end
