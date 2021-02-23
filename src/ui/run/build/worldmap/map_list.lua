@@ -36,7 +36,7 @@ local function load_node_mapno(pMapNode)
     local rgiFields = {}
 
     local pMapnoNode = pMapNode:get_mapno()
-    for _, pNode in ipairs(pMapnoNode:get_children()) do
+    for _, pNode in pairs(pMapnoNode:get_children()) do
         local iField = pNode:get_value()
         table.insert(rgiFields, iField)
     end

@@ -26,6 +26,10 @@ function CWndStorage:_fetch_worldmap_helper()
     self.tpHelperQuadsCache, self.tpHelperImagesCache = load_frame_position_helper()
 end
 
+function CWndStorage:get_worldmap_helper()
+    return self.tpHelperQuadsCache, self.tpHelperImagesCache
+end
+
 function CWndStorage:_fetch_worldmap_region(pUiWmap, sWmapName, ctFieldsWmap)
     local m_tpWmapImgsCache = self.tpWmapImgsCache
     local m_tpHelperImagesCache = self.tpHelperImagesCache

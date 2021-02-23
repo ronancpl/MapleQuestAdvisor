@@ -44,7 +44,7 @@ function fetch_image_from_container(tpPathImgs, sPath)
     local rgsPath = split_path(sPath)
 
     local tImgPath = tpPathImgs
-    local _, sName in ipairs(rgsPath) do
+    for _, sName in ipairs(rgsPath) do
         tImgPath = tImgPath[sName]
     end
 

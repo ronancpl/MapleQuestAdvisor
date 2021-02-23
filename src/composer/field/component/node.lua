@@ -18,14 +18,15 @@ require("structs.field.worldmap.component.list.mapno")
 require("structs.field.worldmap.component.list.node")
 
 local function load_worldmap_node_path(pXmlWorldmapElement)
-    local pImgPath = load_xml_image(pXmlWorldmapElement:get_child_by_name("path"))
-    return pImgPath
+    local pXmlNode = pXmlWorldmapElement:get_child_by_name("path")
+    return pXmlNode ~= nil and load_xml_image(pXmlNode) or nil
 end
 
 local function load_worldmap_node_mapno(pXmlWorldmapElement)
     local pNodeMapno = CWmapNodeMapno:new()
 
-    for _, pNode in pairs(pXmlWorldmapElement:get_child_by_name("mapNo"):get_children()) do
+    local pXmlMapnoNode = pXmlWorldmapElement:get_child_by_name("mapNo")
+    for _, pNode in pairs(pXmlMapnoNode:get_children()) do
         pNodeMapno:add(pNode)
     end
 
@@ -42,7 +43,8 @@ local function load_worldmap_comp_textbox(pXmlWorldmapElement)
 end
 
 local function load_worldmap_comp_type(pXmlWorldmapElement)
-    local iType = pXmlWorldmapElement:get_child_by_name("type"):get_value()
+    local pXmlNode = pXmlWorldmapElement:get_child_by_name("type")
+    local iType = pXmlNode:get_value()
     return iType
 end
 
@@ -63,7 +65,7 @@ function load_worldmap_node(pXmlWorldmapElement)
     local iType = load_worldmap_comp_type(pXmlWorldmapElement)
     local iOx, iOy = load_worldmap_comp_spot(pXmlWorldmapElement)
 
-    pWmapNode = CWmapNodeMarker:new(iOx, iOy)
+    local pWmapNode = CWmapNodeMarker:new(iOx, iOy)
     pWmapNode:set_path(pImgPath)
     pWmapNode:set_mapno(pNodeMapno)
     pWmapNode:set_textbox(pNodeTextbox)

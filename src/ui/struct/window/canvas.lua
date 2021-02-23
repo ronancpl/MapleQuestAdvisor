@@ -23,13 +23,17 @@ function CWndCanvas:load(rgpLayerClass)
 
     if rgpLayerClass ~= nil then
         for _, pLyrClass in ipairs(rgpLayerClass) do
-            local pLyr = pLyrClass:new(RInterface.CAPACITY.CHANNELS)
+            local pLyr = pLyrClass:new()
+            pLyr:load(RInterface.CAPACITY.CHANNELS)
+
             table.insert(m_rgpLayers, pLyr)
         end
     else
         local iLyrs = RInterface.CAPACITY.LAYERS
         for i = 1, iLyrs, 1 do
-            local pLyr = CWndLayer:new(RInterface.CAPACITY.CHANNELS)
+            local pLyr = CWndLayer:new()
+            pLyr:load(RInterface.CAPACITY.CHANNELS)
+
             table.insert(m_rgpLayers, pLyr)
         end
     end

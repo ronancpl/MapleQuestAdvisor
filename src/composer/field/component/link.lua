@@ -36,10 +36,10 @@ local function load_worldmap_comp_link_region_map(pXmlRegionLink)
 end
 
 local function load_worldmap_comp_link(pXmlWorldmapLink)
-    local pXmlWorldmapLink = pWorldmapLinkNode:get_child_by_name("link")
+    local pXmlWorldmapLinkNode = pXmlWorldmapLink:get_child_by_name("link")
 
-    local pImgLink = load_worldmap_comp_link_region_image(pXmlWorldmapLink)
-    local sRegionLink = load_worldmap_comp_link_region_map(pXmlWorldmapLink)
+    local pImgLink = load_worldmap_comp_link_region_image(pXmlWorldmapLinkNode)
+    local sRegionLink = load_worldmap_comp_link_region_map(pXmlWorldmapLinkNode)
 
     local pNodeLink = CWmapNodeLink:new()
     pNodeLink:set_link_image(pImgLink)
@@ -48,15 +48,13 @@ local function load_worldmap_comp_link(pXmlWorldmapLink)
     return pNodeLink
 end
 
-local function load_worldmap_link(pXmlWorldmapLink)
-    local pWmapLink = CWorldmapLink:new()
-
+function load_worldmap_link(pXmlWorldmapLink)
     local iNodeid = pXmlWorldmapLink:get_name_tonumber()
 
     local pNodeLink = load_worldmap_comp_link(pXmlWorldmapLink)
     local sTooltip = load_worldmap_comp_tooltip(pXmlWorldmapLink)
 
-    pWmapLink = CWmapLink:new()
+    local pWmapLink = CWmapLink:new()
     pWmapLink:set_link(pNodeLink)
     pWmapLink:set_tool_tip(sTooltip)
 

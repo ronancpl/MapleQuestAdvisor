@@ -11,6 +11,8 @@
 --]]
 
 require("composer.containers.fields.field_worldmap_table")
+require("composer.field.component.link")
+require("composer.field.component.node")
 require("router.filters.constant")
 require("router.filters.path")
 require("structs.field.worldmap.basic.image")
@@ -37,15 +39,19 @@ local function load_worldmap_body(pXmlWorldmapFile)
 
     local pImgBase = load_worldmap_base_img(pXmlWorldmapFile)
 
-    local sParentName = pXmlWorldmapFile:get_child_by_name("info/parentMap"):get_value()
+    local pXmlParentMap = pXmlWorldmapFile:get_child_by_name("info/parentMap")
+    local sParentName = pXmlParentMap ~= nil and pXmlParentMap:get_value() or ""
 
     local tpNodes = {}
-    for _, pWorldmapElementNode in pairs(pXmlWorldmapFile:get_child_by_name("MapList"):get_children()) do
-        local iNodeid
-        local pWmapNode
+    local pWorldmapFileListNode = pXmlWorldmapFile:get_child_by_name("MapList")
+    if pWorldmapFileListNode ~= nil then
+        for _, pWorldmapElementNode in pairs(pWorldmapFileListNode:get_children()) do
+            local iNodeid
+            local pWmapNode
 
-        iNodeid, pWmapNode = load_worldmap_node(pWorldmapElementNode)
-        tpNodes[iNodeid] = pWmapNode
+            iNodeid, pWmapNode = load_worldmap_node(pWorldmapElementNode)
+            tpNodes[iNodeid] = pWmapNode
+        end
     end
 
     local tpLinks = {}
@@ -71,7 +77,13 @@ local function load_worldmap_file(sWmapSubPath, sWmapName)
     local sParentName
     local tpLinks
     local tpNodes
-    sName, pImgBase, sParentName, tpLinks, tpNodes = load_worldmap_body(pXmlWorldmapFile:get_child_by_name(sWmapName .. ".img"))
+
+    local pXmlWorldmapBody = pXmlWorldmapFile:get_child_by_name(sWmapName .. ".img")
+    if pXmlWorldmapBody == nil then
+        print(">>" , sWmapName)
+    end
+
+    sName, pImgBase, sParentName, tpLinks, tpNodes = load_worldmap_body(pXmlWorldmapBody)
 
     local pWmapRegion = CWmapNodeRegion:new()
     pWmapRegion:set_name(sName)
@@ -96,7 +108,8 @@ local function init_worldmap(sWmapSubPath)
         ctFieldsWmap:add_region_entry(sWmapName, pWmapRegion)
 
         for _, pWmapLink in ipairs(pWmapRegion:get_links()) do
-            table.insert(rgsWmapsToLoad, pWmapLink:get_region_name())
+            local sRegionLink = pWmapLink:get_link():get_link_map()
+            table.insert(rgsWmapsToLoad, sRegionLink)
         end
     end
 

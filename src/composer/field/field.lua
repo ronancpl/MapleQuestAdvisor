@@ -186,7 +186,6 @@ local function load_field_names(ctFieldsMeta, pMapStringNode)
     local pMapStringNode = pMapStringNode:get_child_by_name("Map.img")
 
     for _, pRegionNode in pairs(pMapStringNode:get_children()) do
-
         for _, pFieldNode in pairs(pRegionNode:get_children()) do
             local iMapid = pFieldNode:get_name_tonumber()
 

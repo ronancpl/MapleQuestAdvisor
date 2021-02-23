@@ -10,14 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
+package.path = package.path .. ';?.lua'
+
 require("composer.field.worldmap")
 require("ui.run.build.worldmap")
-
-ctFieldsWmap = load_resources_worldmap()
+require("utils.logger.file")
 
 function love.load()
+    log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
+    ctFieldsWmap = load_resources_worldmap()
+
+    log(LPath.INTERFACE, "load.txt", "Loading user interface...")
     pUiWmap = load_frame_worldmap()
-    pUiWmap:load()
+
+    local sWmapName = "WorldMap"
+    log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
+    pUiWmap:update_region(sWmapName)
 end
 
 function love.update(dt)

@@ -10,15 +10,17 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.path")
+
 function load_xml_node_from_directory(sDirPath)
     local sImgXmlPath
     local sImgDirNodePath
 
     local i = string.find(sDirPath, ".img")
-    sImgXmlPath = string.sub(sDirPath, 1, i)
-    sImgDirNodePath = string.sub(sDirPath, i + 4, -1)
+    sImgXmlPath = string.sub(sDirPath, string.len("images/Map.wz/") + 1, i - 1)
+    sImgDirNodePath = string.sub(sDirPath, i + 12, -1)
 
-    local pImgXmlNode = SXmlProvider:load_xml(sImgXmlPath)
+    local pImgXmlNode = SXmlProvider:load_xml(RPath.RSC_FIELDS .. "/" .. sImgXmlPath .. ".img.xml")
     local rgsSubNames = split_text(sImgDirNodePath)
 
     local pXmlNode = pImgXmlNode

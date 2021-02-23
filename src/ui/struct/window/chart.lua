@@ -11,6 +11,7 @@
 --]]
 
 require("ui.struct.window.canvas")
+require("ui.struct.window.storage")
 require("ui.struct.worldmap.properties")
 require("ui.struct.worldmap.layer.background")
 require("ui.struct.worldmap.layer.map_link")
@@ -28,10 +29,13 @@ function CWndWmap:get_properties()
     return self.pProp
 end
 
-function CWndWmap:update_region(sWmapName, pWmapRegion, tpWmapImgs, tpHelperImages)
+function CWndWmap:update_region(sWmapName)
     local pWmapRegion
     local tpWmapImgs
     pWmapRegion, tpWmapImgs = self.pCache:load_region(sWmapName)
+
+    local tpHelperImages
+    _, tpHelperImages = self.pCache:get_worldmap_helper()
 
     self.pProp:update_region(pWmapRegion, tpWmapImgs, tpHelperImages)
 end

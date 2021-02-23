@@ -72,9 +72,17 @@ end
 function CXmlNode:get_child_by_name(sPath)
     local rgsPath = split_path(sPath)
 
-    local pRet = self.tChildren
-    for _, sName in ipairs(rgsPath) do
-        pRet = pRet[sName]
+    local pRet
+    if #rgsPath > 1 then
+        pRet = self
+        for _, sName in ipairs(rgsPath) do
+            pRet = pRet:get_child_by_name(sName)
+            if pRet == nil then
+                break
+            end
+        end
+    else
+        pRet = self.tChildren[sPath]
     end
 
     return pRet

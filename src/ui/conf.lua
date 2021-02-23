@@ -10,18 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-RInterface = {
-
-    WMAP_HELPER = "Map.wz/MapHelper.img/worldMap",
-    WMAP_DIR = "Map.wz/WorldMap",
-
-    SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
-
-    IMG_MAP = "Map.wz",
-
-    CAPACITY = {
-        LAYERS = 4,
-        CHANNELS = 4
-    }
-
-}
+function love.conf(t)
+	t.console = true
+end
