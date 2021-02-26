@@ -11,20 +11,16 @@
 --]]
 
 require("router.filters.path")
+require("ui.path.path")
 
-function load_xml_node_from_directory(sDirPath)
-    local sImgXmlPath
-    local sImgDirNodePath
+function load_xml_node_from_directory(sImgPath, sImgDirPath)
+    local pXmlRoot = SXmlProvider:load_xml(RPath.RSC_FIELDS .. "/" .. sImgPath .. ".xml")    -- Wz .img path
+    pXmlRoot = pXmlRoot:get_child_by_name("MapHelper.img")
 
-    local i = string.find(sDirPath, ".img")
-    sImgXmlPath = string.sub(sDirPath, string.len("images/Map.wz/") + 1, i - 1)
-    sImgDirNodePath = string.sub(sDirPath, i + 12, -1)
+    local pXmlNode = pXmlRoot
 
-    local pImgXmlNode = SXmlProvider:load_xml(RPath.RSC_FIELDS .. "/" .. sImgXmlPath .. ".img.xml")
-    local rgsSubNames = split_text(sImgDirNodePath)
-
-    local pXmlNode = pImgXmlNode
-    for _, sName in ipairs(rgsSubNames) do
+    local rgsPath = split_path(sImgDirPath)
+    for _, sName in ipairs(rgsPath) do
         pXmlNode = pXmlNode:get_child_by_name(sName)
     end
 

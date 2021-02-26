@@ -12,12 +12,12 @@
 
 RInterface = {
 
-    WMAP_HELPER = "Map.wz/MapHelper.img/worldMap",
-    WMAP_DIR = "Map.wz/WorldMap",
+    LOVE_IMAGE_DIR_PATH = "/media/images/",
+
+    WMAP_HELPER = "MapHelper.img",
+    WMAP_DIR = "WorldMap",
 
     SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
-
-    IMG_MAP = "Map.wz",
 
     CAPACITY = {
         LAYERS = 4,

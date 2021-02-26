@@ -43,3 +43,9 @@ function create_inner_table_if_not_exists(tTable, pKey)
 
     return tInnerTable
 end
+
+function merge_table(tInto, tFrom)
+    for pKey, pVal in pairs(tFrom) do
+        tInto[pKey] = pVal
+    end
+end

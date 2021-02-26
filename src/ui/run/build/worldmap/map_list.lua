@@ -10,10 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
 require("composer.field.node.spot")
 require("composer.field.node.text_box")
 require("composer.field.node.media.image")
+require("structs.field.worldmap.basic.sprite")
+require("ui.path.path")
+require("ui.run.build.graphic.quad")
 require("ui.struct.worldmap.element.path")
 
 local function load_node_map_path(pMapNode, tpPathImgs, sRegionName, iIdx)
@@ -44,7 +46,7 @@ local function load_node_mapno(pMapNode)
     return rgiFields
 end
 
-local function load_node_map_marker(pMapNode, tpHelperImages)
+local function load_node_map_marker(pMapNode, tpPathImgs, tpHelperImgs)
     local iRx
     local iRy
     iRx, iRy = pMapNode:get_spot()
@@ -52,7 +54,16 @@ local function load_node_map_marker(pMapNode, tpHelperImages)
     local iType = pMapNode:get_type()
 
     local sMarker = "mapImage/" .. iType
-    local rgpQuads = tpHelperImages[sMarker]
+    local pImg = fetch_image_from_container(tpPathImgs, sMarker)
+
+    local iOx
+    local iOy
+    local iDelay
+    iOx, iOy, iDelay = load_xml_image(pXmlWmapHelper:get_child_by_name(sMarker))
+
+    local rgpQuads = {}
+    local pSpriteNode = CWmapBasicSprite:new(iOx, iOy, iDelay)
+    table.insert(rgpQuads, load_node_quad(pSpriteNode, pImg))
 
     local pMarker = CWmapElemMark:new()
     pMarker:load(iRx, iRy, rgpQuads)
@@ -60,9 +71,9 @@ local function load_node_map_marker(pMapNode, tpHelperImages)
     return pMarker
 end
 
-function load_node_worldmap_map_list(pMapNode, tpHelperImages, tpPathImgs, sRegionName, iIdx)
+function load_node_worldmap_map_list(pMapNode, tpHelperImages, tpWmapImgs, sRegionName, iIdx)
     local rgiFields = load_node_mapno(pMapNode)
-    local pPath = load_node_map_path(pMapNode, tpHelperImages, tpPathImgs, sRegionName, iIdx)
+    local pPath = load_node_map_path(pMapNode, tpHelperImages, tpWmapImgs, sRegionName, iIdx)
     local pTextbox = load_node_text_box(pMapNode)
 
     local pFieldMarker = load_node_map_marker(pMapNode, tpHelperImages)

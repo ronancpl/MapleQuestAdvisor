@@ -13,53 +13,33 @@
 require("ui.run.load.graphic.quad")
 require("utils.procedure.unpack")
 require("utils.provider.io.wordlist")
-require("utils.provider.xml.provider")
 
-local function store_animation(tpWmapHelperAnims, sPos, rgpQuads)
-    local rgsPath = split_path(sPos)
-    local nPath = #rgsPath
-
-    local tQuads = tpWmapHelperAnims
-    for i = 1, nPath - 1, 1 do
-        local sName = rgsPath[i]
-        tQuads = create_inner_table_if_not_exists(tQuads, sName)
-    end
-
-    tQuads[rgsPath[nPath]] = rgpQuads
-    return tQuads
+local function store_animation(tQuads, sPath, rgpQuads)
+    tQuads[sPath] = rgpQuads
 end
 
-local function store_image(tpWmapHelperAnims, sPos, iIdx, pImage)
-    local rgsPath = split_path(sPos)
-
-    local tQuads = tpWmapHelperAnims
-    for _, sName in ipairs(rgsPath) do
-        tQuads = create_inner_table_if_not_exists(tQuads, sName)
-    end
-
+local function store_image(tQuads, sPath, iIdx, pImage)
+    tQuads = create_inner_table_if_not_exists(tQuads, sPath)
     tQuads[iIdx] = pImage
+
     return tQuads
 end
 
-local function fetch_animation(tpWmapHelperQuads, sPos)
+local function fetch_animation(tpWmapHelperQuads, sPath)
     local tpQuads = tpWmapHelperQuads
 
-    local rgsPath = split_path(sPos)
-    for _, sName in ipairs(rgsPath) do
-        tpQuads = tpQuads[sName]
-    end
-
-    local rgpQuads = tpQuads
+    local rgpQuads = tpQuads[sPath]
     return rgpQuads
 end
 
 local function load_animations_position_helper(tpWmapHelperQuads)
     local tpWmapHelperAnims = {}
 
-    local rgsPos = {"curPos", "lovePos", "npcPos/0", "npcPos/1", "npcPos/2", "npcPos/3", "partyPos"}
+    local rgsPos = {"curPos", "lovePos", "npcPos0", "npcPos1", "npcPos2", "npcPos3", "partyPos"}
     for _, sPos in ipairs(rgsPos) do
-        local sImgPos = sPos:gsub("/", "")
-        local rgpQuads = fetch_animation(tpWmapHelperQuads, sImgPos)
+        local rgpQuads = fetch_animation(tpWmapHelperQuads, sPos)
+        log_st(LPath.INTERFACE, "_anim.txt", ">>>> '" .. sPos .. "' " .. #rgpQuads)
+
         store_animation(tpWmapHelperAnims, sPos, rgpQuads)
     end
 
@@ -72,6 +52,7 @@ local function load_images_position_helper(tpWmapHelperQuads)
     local rgsPos = {"mapImage"}
     for _, sPos in ipairs(rgsPos) do
         local rgpQuads = fetch_animation(tpWmapHelperQuads, sPos)
+        log_st(LPath.INTERFACE, "_anim.txt", "<<<< '" .. sPos .. "' " .. #rgpQuads)
 
         for iIdx, pQuad in ipairs(rgpQuads) do
             local iPosIdx = iIdx - 1
@@ -86,9 +67,9 @@ end
 
 function load_frame_position_helper()
     local sWmapNodePath = RInterface.WMAP_HELPER
-    local sWmapImgPath = "images/" .. sWmapNodePath
+    local sWmapImgPath = sWmapNodePath
 
-    local tpHelperQuads = load_quads_from_wz_sub(sWmapImgPath)
+    local tpHelperQuads = load_quads_from_wz_sub(sWmapImgPath, "worldMap")
     local tpWmapHelperQuads = load_animations_position_helper(tpHelperQuads)
     local tpWmapHelperImages = load_images_position_helper(tpHelperQuads)
 

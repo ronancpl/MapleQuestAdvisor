@@ -10,25 +10,31 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.string")
 require("utils.procedure.unpack")
 require("utils.provider.io.wordlist")
 
-function load_images_from_directory(sDirPath)
+function load_images_from_path(sPath)
     local tpImgs = {}
 
-    local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
-    for _, sFileName in ipairs(rgsFiles) do
-        local tImgPath = tpImgs
-
-        local rgsText = split_text(sText)
-        local nText = #rgsText
-        if nText > 0 then
-            for i = 1, nText - 1, 1 do  -- minus file extension
-                tImgPath = create_inner_table_if_not_exists(tImgPath, rgsText[i])
+    local pInfo = love.filesystem.get_info(sPath)
+    if pInfo ~= nil then
+        local sInfoType = pInfo.type
+        if sInfoType == "directory" then
+            local sDirPath = sPath
+            local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
+            for _, sFileName in ipairs(rgsFiles) do
+                local tpDirImgs = load_images_from_path(sDirPath .. "/" .. sFileName)
+                merge_table(tpImgs, tpDirImgs)
             end
+        elseif sInfoType == "file" then
+            if string.ends_with(sPath, ".png") then
+                local sImgPath = sPath
+                log_st(LPath.INTERFACE, "_locator.txt", "IMG AS '" .. sImgPath .. "'")
 
-            local pImg = love.graphics.newImage(sDirPath .. sFileName)
-            tImgPath["img"] = pImg
+                local pImg = love.graphics.newImage(sImgPath)
+                tpImgs[sImgPath] = pImg
+            end
         end
     end
 
@@ -36,17 +42,10 @@ function load_images_from_directory(sDirPath)
 end
 
 function load_images_from_wz_sub(sDirPath)
-    local tpImgs = load_images_from_directory(sDirPath)
+    local tpImgs = load_images_from_path(sDirPath)
     return tpImgs
 end
 
-function fetch_image_from_container(tpPathImgs, sPath)
-    local rgsPath = split_path(sPath)
-
-    local tImgPath = tpPathImgs
-    for _, sName in ipairs(rgsPath) do
-        tImgPath = tImgPath[sName]
-    end
-
-    return tImgPath["img"]
+function fetch_image_from_container(tpImgs, sPath)
+    return tpImgs[sPath]
 end

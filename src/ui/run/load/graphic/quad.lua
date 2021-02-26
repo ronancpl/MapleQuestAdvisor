@@ -11,6 +11,8 @@
 --]]
 
 require("composer.field.node.media.image")
+require("composer.field.node.media.quad")
+require("ui.path.path")
 require("ui.run.build.graphic.quad")
 require("ui.run.xml.directory")
 require("utils.procedure.string")
@@ -23,11 +25,18 @@ end
 
 local function is_path_quad_node(tpImgs)
     local tpSub = next(tpImgs)
-    return tpSub ~= nil and is_path_img_node(tpSub)
+    return tpSub ~= nil and is_path_img_node(tpImgs)
 end
 
-local function fetch_quad_xml_node(pXmlRoot, rgsPath)
-    local pXmlNode = pXmlRoot
+local function fetch_quad_xml_node(pXmlBase, rgsPath)
+    local pXmlNode = pXmlBase
+
+    local st = ""
+    for _, sName in ipairs(rgsPath) do
+        st = st .. sName .. ", "
+    end
+
+    log_st(LPath.INTERFACE, "_locator.txt", ">>>> '" .. st .. "'")
     for _, sName in ipairs(rgsPath) do
         pXmlNode = pXmlNode:get_child_by_name(sName)
     end
@@ -35,59 +44,47 @@ local function fetch_quad_xml_node(pXmlRoot, rgsPath)
     return pXmlNode
 end
 
-local function load_quad_img_set(pXmlQuad, tpImgs)
-    local tpQuads = {}
-    for sSprite, pImg in pairs(tpImgs) do
-        local pXmlSpriteNode = pXmlQuad:get_child_by_name(sSprite)
-        tpQuads[sSprite] = load_node_quad(pXmlSpriteNode, pImg)
-    end
-
+local function load_quad_img_set(pXmlQuad, rgpImgs)
     local rgpQuads = {}
+    for iIdx, pImg in ipairs(tpImgs) do
+        local sIdx = "" .. i
+        local pXmlSpriteNode = pXmlQuad:get_child_by_name(sIdx)
 
-    local i = 0
-    while true do
-        local sIter = "" .. i
-        local pQuad = tpQuads[sIter]
-
-        if pQuad == nil then
-            break
-        end
-
+        local pQuad = load_node_quad(pXmlSpriteNode, pImg)
         table.insert(rgpQuads, pQuad)
-        i = i + 1
     end
 
     return rgpQuads
 end
 
-local function load_quad_img_sets_from_path(pXmlRoot, tpPathQuad, rgsPath, tpImgs)
-    if is_path_quad_node(tpImgs) then   -- quad set (aka sprite) index locates at last position in path
-        local sPath = table.concat(rgsPath, ".")
+local function load_quad_img_sets_from_path(pXmlBase, tpQuads)
+    local tpPathQuad = {}
 
-        local pXmlQuad = fetch_quad_xml_node(pXmlRoot, rgsPath)
-        local rgpQuads = load_quad_img_set(pXmlQuad, tpImgs)
+    for sPath, rgpImgs in pairs(tpQuads) do
+        log_st(LPath.INTERFACE, "result.txt", "SETQD '" .. sPath .. "'")
+
+        local pXmlQuad = fetch_quad_xml_node(pXmlBase, rgsPath)
+        local rgpQuads = load_quad_img_set(pXmlQuad, rgpImgs)
 
         tpPathQuad[sPath] = rgpQuads
-    else
-        for sKey, tpSub in pairs(tpImgs) do
-            table.insert(rgsPath, sKey)
-            load_quad_img_sets_from_path(pXmlRoot, tpPathQuad, rgsPath, tpSub)
-            table.remove(rgsPath)
-        end
+        log_st(LPath.INTERFACE, "_quad.txt", "SETQD '" .. sPath .. "' " .. #rgpQuads)
     end
-end
-
-local function load_quad_img_sets_from_directory(sDirPath)
-    local tpImgs = load_images_from_directory(sDirPath)
-    local pXmlRoot = load_xml_node_from_directory(sDirPath)
-
-    local tpPathQuad = {}
-    load_quad_img_sets_from_path(pXmlRoot, tpPathQuad, {}, tpImgs)
 
     return tpPathQuad
 end
 
-function load_quads_from_wz_sub(sDirPath)
-    local tpPathQuad = load_quad_img_sets_from_directory(sDirPath)
+local function load_quad_img_sets_from_directory(sImgPath, sDirPath)
+    local tpImgs = load_images_from_path(RInterface.LOVE_IMAGE_DIR_PATH .. sImgPath .. "/" .. sDirPath)
+    local tpQuads = load_quads_from_path(tpImgs)
+
+    log_st(LPath.INTERFACE, "_locator.txt", " HAVING '" .. sImgPath .. "' '" .. sDirPath .. "'")
+    local pXmlNode = load_xml_node_from_directory(sImgPath, sDirPath)
+
+    local tpPathQuad = load_quad_img_sets_from_path(pXmlNode, tpQuads)
+    return tpPathQuad
+end
+
+function load_quads_from_wz_sub(sImgPath, sDirPath)
+    local tpPathQuad = load_quad_img_sets_from_directory(sImgPath, sDirPath)
     return tpPathQuad
 end
