@@ -43,7 +43,7 @@ function CWmapProperties:load_map_field(pFieldNode)
     table.insert(self.rgpMapLink, pFieldNode)
 end
 
-function CWmapProperties:update_region(pWmapRegion, tpWmapImgs, tpHelperImages)
+function CWmapProperties:update_region(pWmapRegion, tpHelperImages, tpWmapImgs, tpWmapNodes)
     local pBaseImgNode = pWmapRegion:get_base_img()
     local pImgBase = load_node_worldmap_base_img(pBaseImgNode, tpWmapImgs)
     self:set_base_img(pImgBase)
@@ -66,7 +66,7 @@ function CWmapProperties:update_region(pWmapRegion, tpWmapImgs, tpHelperImages)
         local iIdx = pPair[1]
         local pMapNode = pPair[2]
 
-        local pFieldList = load_node_worldmap_map_list(pMapNode, tpHelperImages, tpWmapImgs, sWmapRegion, iIdx)
+        local pFieldList = load_node_worldmap_map_list(pMapNode, tpHelperImages, tpWmapImgs, tpWmapNodes, sWmapRegion, iIdx)
         self:load_map_field(pFieldList)
     end
 end

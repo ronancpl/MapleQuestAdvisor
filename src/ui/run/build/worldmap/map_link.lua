@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.node.media.image")
+require("ui.run.build.interface.storage.split")
 require("ui.struct.worldmap.element.region")
 
 function load_node_worldmap_map_link(pMapLinkNode, tpPathImgs, sXmlPath)
@@ -20,7 +20,7 @@ function load_node_worldmap_map_link(pMapLinkNode, tpPathImgs, sXmlPath)
     local pLinkImgNode = pLinkNode:get_link_image()
     local sLinkMap = pLinkNode:get_link_map()
 
-    local pImg = fetch_image_from_container(tpPathImgs, sXmlPath)
+    local pImg = find_image_on_storage(tpPathImgs, sXmlPath)
 
     local iOx
     local iOy

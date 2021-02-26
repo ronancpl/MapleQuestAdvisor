@@ -13,7 +13,7 @@
 package.path = package.path .. ';?.lua'
 
 require("composer.field.worldmap")
-require("ui.run.build.worldmap")
+require("ui.run.load.worldmap")
 require("utils.logger.file")
 require("utils.procedure.print")
 

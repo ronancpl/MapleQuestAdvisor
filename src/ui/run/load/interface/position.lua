@@ -10,68 +10,29 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.load.graphic.quad")
-require("utils.procedure.unpack")
-require("utils.provider.io.wordlist")
-
-local function store_animation(tQuads, sPath, rgpQuads)
-    tQuads[sPath] = rgpQuads
-end
-
-local function store_image(tQuads, sPath, iIdx, pImage)
-    tQuads = create_inner_table_if_not_exists(tQuads, sPath)
-    tQuads[iIdx] = pImage
-
-    return tQuads
-end
-
-local function fetch_animation(tpWmapHelperQuads, sPath)
-    local tpQuads = tpWmapHelperQuads
-
-    local rgpQuads = tpQuads[sPath]
-    return rgpQuads
-end
-
-local function load_animations_position_helper(tpWmapHelperQuads)
-    local tpWmapHelperAnims = {}
-
-    local rgsPos = {"curPos", "lovePos", "npcPos0", "npcPos1", "npcPos2", "npcPos3", "partyPos"}
-    for _, sPos in ipairs(rgsPos) do
-        local rgpQuads = fetch_animation(tpWmapHelperQuads, sPos)
-        log_st(LPath.INTERFACE, "_anim.txt", ">>>> '" .. sPos .. "' " .. #rgpQuads)
-
-        store_animation(tpWmapHelperAnims, sPos, rgpQuads)
-    end
-
-    return tpWmapHelperAnims
-end
-
-local function load_images_position_helper(tpWmapHelperQuads)
-    local tpWmapHelperImgs = {}
-
-    local rgsPos = {"mapImage"}
-    for _, sPos in ipairs(rgsPos) do
-        local rgpQuads = fetch_animation(tpWmapHelperQuads, sPos)
-        log_st(LPath.INTERFACE, "_anim.txt", "<<<< '" .. sPos .. "' " .. #rgpQuads)
-
-        for iIdx, pQuad in ipairs(rgpQuads) do
-            local iPosIdx = iIdx - 1
-
-            local pImage = pQuad:get_image()
-            store_image(tpWmapHelperImgs, sPos, iPosIdx, pImage)
-        end
-    end
-
-    return tpWmapHelperImgs
-end
+require("ui.path.path")
+require("ui.run.build.interface.storage.basic.quad")
+require("ui.run.build.interface.storage.split")
 
 function load_frame_position_helper()
-    local sWmapNodePath = RInterface.WMAP_HELPER
-    local sWmapImgPath = sWmapNodePath
+    local sWmapImgPath = RInterface.WMAP_HELPER
 
-    local tpHelperQuads = load_quads_from_wz_sub(sWmapImgPath, "worldMap")
-    local tpWmapHelperQuads = load_animations_position_helper(tpHelperQuads)
-    local tpWmapHelperImages = load_images_position_helper(tpHelperQuads)
+    local tpHelperQuads = load_quad_storage_from_wz_sub(sWmapImgPath, "worldMap")
 
-    return tpWmapHelperQuads, tpWmapHelperImages
+    local tpWmapHelperQuads = select_animations_from_storage(tpHelperQuads, {"curPos", "lovePos", "npcPos0", "npcPos1", "npcPos2", "npcPos3", "partyPos"})
+    local tpWmapHelperImgs = select_images_from_storage(tpHelperQuads, {"mapImage"})
+
+    return tpWmapHelperQuads, tpWmapHelperImgs
+end
+
+function load_nodes_position_helper(pXmlWmapHelper)
+    local tpWmapNodes = {}
+
+    for _, pXml in pairs(pXmlWmapHelper:get_children()) do
+
+    end
+
+    load_xml_sprite(pXmlNode)
+
+    return tpWmapNodes
 end

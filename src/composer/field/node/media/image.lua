@@ -40,12 +40,3 @@ function load_images_from_path(sPath)
 
     return tpImgs
 end
-
-function load_images_from_wz_sub(sDirPath)
-    local tpImgs = load_images_from_path(sDirPath)
-    return tpImgs
-end
-
-function fetch_image_from_container(tpImgs, sPath)
-    return tpImgs[sPath]
-end

@@ -10,10 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.field.node.media.image")
 require("utils.procedure.string")
 require("utils.procedure.unpack")
 
-local function load_quad_img_set(pXmlQuad, tpImgs)
+local function load_quad_img_set(tpImgs)
     local tpQuads = {}
     for sImgPath, pImg in pairs(tpImgs) do
         local iIdx = string.rfind(sImgPath, "/")
@@ -31,8 +32,36 @@ local function load_quad_img_set(pXmlQuad, tpImgs)
     return tpQuads
 end
 
-function load_quads_from_path(tpImgs)
-    local tpQuads = load_quad_img_set(pXmlQuad, tpImgs)
+local function array_quad_image_sets(tpQuads)
+    local tpQuads = {}
+    for sKey, tpImgs in pairs(tpQuads) do
+        local rgpImgs = {}
+
+        local i = 0
+        while true do
+            local sIdx = '' .. i
+            local pImg = tpImgs[sIdx]
+            if pImg == nil then
+                break
+            end
+
+            table.insert(rgpImgs, pImg)
+
+            i = i + 1
+        end
+
+        tpQuads[sKey] = rgpImgs
+    end
+
+    return tpQuads
+end
+
+function load_quads_from_path(sPath)
+    local tpImgs = load_images_from_path(sPath)
+
+    local tpQuads = load_quad_img_set(tpImgs)
+    tpQuads = array_quad_image_sets(tpQuads)
+
     return tpQuads
 end
 

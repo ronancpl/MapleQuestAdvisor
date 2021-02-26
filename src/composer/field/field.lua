@@ -15,6 +15,7 @@ require("composer.containers.fields.field_meta_table")
 require("router.filters.constant")
 require("router.filters.graph")
 require("router.filters.path")
+require("utils.procedure.string")
 require("utils.procedure.unpack")
 require("utils.provider.text.table")
 require("utils.provider.xml.provider")
@@ -74,7 +75,7 @@ local function init_field_distances(ctFieldsMeta, ctFieldsWmap, pMapNeighborsNod
 end
 
 local function fetch_script_name(sScriptPath)
-    local iIdx = (sScriptPath:reverse()):find("/")
+    local iIdx = string.rfind(sScriptPath, "/")
     return (sScriptPath:sub(-iIdx+1))
 end
 

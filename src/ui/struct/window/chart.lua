@@ -37,7 +37,8 @@ function CWndWmap:update_region(sWmapName)
     local tpHelperImages
     _, tpHelperImages = self.pCache:get_worldmap_helper()
 
-    self.pProp:update_region(pWmapRegion, tpWmapImgs, tpHelperImages)
+    local tpWmapNodes = self.pCache:get_worldmap_nodes()
+    self.pProp:update_region(pWmapRegion, tpHelperImages, tpWmapImgs, tpWmapNodes)
 end
 
 function CWndWmap:load()

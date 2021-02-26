@@ -12,10 +12,13 @@
 
 require("router.filters.path")
 require("ui.path.path")
+require("utils.procedure.string")
 
 function load_xml_node_from_directory(sImgPath, sImgDirPath)
     local pXmlRoot = SXmlProvider:load_xml(RPath.RSC_FIELDS .. "/" .. sImgPath .. ".xml")    -- Wz .img path
-    pXmlRoot = pXmlRoot:get_child_by_name("MapHelper.img")
+
+    local sImgName = sImgPath:sub(string.rfind(sImgPath, "/")+1, -1)
+    pXmlRoot = pXmlRoot:get_child_by_name(sImgName)
 
     local pXmlNode = pXmlRoot
 

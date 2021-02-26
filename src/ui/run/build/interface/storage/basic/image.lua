@@ -10,17 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.node.image")
-require("ui.struct.component.basic.quad")
+require("composer.field.node.media.image")
 
-function load_xml_sprite(pXmlNode)
-    local iOx
-    local iOy
-    local iZ
-    iOx, iOy, iZ = load_xml_image(pXmlNode)
-
-    local iDelay = pXmlNode:get_child_by_name("delay")
-
-    local pSpriteNode = CWmapBasicSprite:new(iOx, iOy, iZ, iDelay)
-    return pSpriteNode
+function load_image_storage_from_wz_sub(sDirPath)
+    local tpImgs = load_images_from_path(sDirPath)
+    return tpImgs
 end
