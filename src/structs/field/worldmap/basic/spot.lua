@@ -24,4 +24,5 @@ end
 function CWmapBasicSpot:new(iOx, iOy)
     self.iOx = iOx
     self.iOy = iOy
+    return self
 end

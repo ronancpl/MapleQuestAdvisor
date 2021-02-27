@@ -14,8 +14,7 @@ require("ui.path.path")
 require("ui.run.build.interface.storage.basic.image")
 
 function load_frame_worldmap_region(sWmapName, ctFieldsWmap)
-    local sWmapNodePath = RInterface.WMAP_DIR .. "/" .. sWmapName .. ".img"
-    local sWmapImgPath = RInterface.LOVE_IMAGE_DIR_PATH .. sWmapNodePath
+    local sWmapImgPath = RInterface.WMAP_DIR .. "/" .. sWmapName .. ".img"
 
     local pWmapRegion = ctFieldsWmap:get_region_entry(sWmapName)
     local tpWmapImgs = load_image_storage_from_wz_sub(sWmapImgPath)

@@ -30,13 +30,13 @@ function CWndStorage:get_worldmap_helper()
     return self.tpHelperQuadsCache, self.tpHelperImagesCache
 end
 
-function CWndStorage:_fetch_worldmap_region(pUiWmap, sWmapName, ctFieldsWmap)
+function CWndStorage:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
     local m_tpWmapImgsCache = self.tpWmapImgsCache
 
     local pWmapRegion
     local tpWmapImgs
     if m_tpWmapImgsCache[sWmapName] == nil then
-        pWmapRegion, tpWmapImgs = load_frame_worldmap_region(pUiWmap, sWmapName, ctFieldsWmap)
+        pWmapRegion, tpWmapImgs = load_frame_worldmap_region(sWmapName, ctFieldsWmap)
 
         local m_tpWmapRegionCache = self.tpWmapRegionCache
         m_tpWmapRegionCache[sWmapName] = pWmapRegion
@@ -49,10 +49,10 @@ function CWndStorage:_fetch_worldmap_region(pUiWmap, sWmapName, ctFieldsWmap)
     return pWmapRegion, tpWmapImgs
 end
 
-function CWndStorage:load_region(pUiWmap, sWmapName)
+function CWndStorage:load_region(sWmapName)
     local pWmapRegion
     local tpWmapImgs
-    pWmapRegion, tpWmapImgs = self:_fetch_worldmap_region(pUiWmap, sWmapName, ctFieldsWmap)
+    pWmapRegion, tpWmapImgs = self:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
 
     return pWmapRegion, tpWmapImgs
 end

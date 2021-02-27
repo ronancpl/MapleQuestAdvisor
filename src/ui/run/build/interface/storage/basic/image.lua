@@ -12,7 +12,12 @@
 
 require("composer.field.node.media.image")
 
-function load_image_storage_from_wz_sub(sDirPath)
-    local tpImgs = load_images_from_path(sDirPath)
+function load_image_storage_from_wz_sub(sImgPath, sDirPath)
+    local sImgDirPath = sImgPath
+    if sDirPath ~= nil then
+        sImgDirPath = sImgDirPath .. "/" .. sDirPath
+    end
+
+    local tpImgs = load_images_from_path(sImgDirPath)
     return tpImgs
 end

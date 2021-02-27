@@ -35,4 +35,5 @@ function CWmapBasicSprite:new(iOx, iOy, iZ, iDelay)
     self.iOy = iOy
     self.iZ = iZ
     self.iDelay = iDelay
+    return self
 end

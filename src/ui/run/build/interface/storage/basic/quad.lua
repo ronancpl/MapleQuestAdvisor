@@ -15,6 +15,7 @@ require("composer.field.node.media.quad")
 require("ui.path.path")
 require("ui.run.build.graphic.quad")
 require("ui.run.build.xml.directory")
+require("ui.run.load.graphic.quad")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
 require("utils.provider.xml.provider")
@@ -51,7 +52,7 @@ local function load_quad_img_set(pXmlQuadSub, rgpImgs)
 
     for iIdx, pImg in ipairs(rgpImgs) do
         local sIdx = "" .. (iIdx - 1)
-        local pXmlQuad = pXmlQuadSub:get_child(sIdx)
+        local pXmlQuad = pXmlQuadSub:get_child_by_name(sIdx)
 
         local pSpriteNode = load_xml_sprite(pXmlQuad)
 
@@ -62,29 +63,35 @@ local function load_quad_img_set(pXmlQuadSub, rgpImgs)
     return rgpQuads
 end
 
-local function load_quad_img_sets_from_path(pXmlBase, tpQuads)
+local function fetch_quad_subpath(sPath, sImgPath)
+    log_st(LPath.INTERFACE, "_verify.txt", "IN_VF '" .. sImgPath .. "' | '" .. sPath .. "'")
+    local i = sPath:find(sImgPath)
+    return sPath:sub(i+string.len(sImgPath)+1, -1)
+end
+
+local function load_quad_img_sets_from_dictionary(pXmlBase, tpQuads)
     local tpPathQuad = {}
 
     for sPath, rgpImgs in pairs(tpQuads) do
-        log_st(LPath.INTERFACE, "result.txt", "SETQD '" .. sPath .. "'")
-
         local pXmlQuad = fetch_quad_xml_node(pXmlBase, sPath)
+        log_st(LPath.INTERFACE, "_rebase.txt", "IN_QUA '" .. tostring(pXmlQuad ~= nil) .. "' | " .. sPath)
+
         local rgpQuads = load_quad_img_set(pXmlQuad, rgpImgs)
 
         tpPathQuad[sPath] = rgpQuads
-        log_st(LPath.INTERFACE, "_quad.txt", "SETQD '" .. sPath .. "' " .. #rgpQuads)
     end
 
     return tpPathQuad
 end
 
 local function load_quad_img_sets_from_directory(sImgPath, sDirPath)
-    local tpQuads = load_quads_from_path(RInterface.LOVE_IMAGE_DIR_PATH .. sImgPath .. "/" .. sDirPath)
+    local sImgDirPath = sImgPath .. "/" .. sDirPath
+    local tpQuads = load_quads_from_path(sImgDirPath)
 
     log_st(LPath.INTERFACE, "_locator.txt", " HAVING '" .. sImgPath .. "' '" .. sDirPath .. "'")
     local pXmlNode = load_xml_node_from_directory(sImgPath, sDirPath)
 
-    local tpPathQuad = load_quad_img_sets_from_path(pXmlNode, tpQuads)
+    local tpPathQuad = load_quad_img_sets_from_dictionary(pXmlNode, tpQuads)
     return tpPathQuad
 end
 

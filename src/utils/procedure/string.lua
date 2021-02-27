@@ -31,5 +31,9 @@ function string.rfind(str, match_str)
     local r_match = match_str:reverse()
 
     _, i = string.find(r_str, r_match)
+    if i ~= nil then
+        i = string.len(str) - i + 1     -- find from start
+    end
+
     return i
 end

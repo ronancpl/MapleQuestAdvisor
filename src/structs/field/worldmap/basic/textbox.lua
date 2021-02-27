@@ -24,4 +24,5 @@ end
 function CWmapBasicTextbox:new(sTitle, sDesc)
     self.sTitle = sTitle
     self.sDesc = sDesc
+    return self
 end

@@ -11,6 +11,7 @@
 --]]
 
 require("composer.field.node.image")
+require("structs.field.worldmap.basic.sprite")
 require("ui.struct.component.basic.quad")
 
 function load_xml_sprite(pXmlNode)

@@ -10,33 +10,45 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.path.path")
 require("utils.procedure.string")
 require("utils.procedure.unpack")
 require("utils.provider.io.wordlist")
 
-function load_images_from_path(sPath)
+local function fetch_figure_subpath(sPath, sBasePath)
+    local i = sPath:find(sBasePath)
+    return sPath:sub(i+string.len(sBasePath)+1, -1)
+end
+
+local function load_images_from_directory_path(sPath, sBasePath)
     local tpImgs = {}
 
-    local pInfo = love.filesystem.get_info(sPath)
+    local pInfo = love.filesystem.getInfo(sPath)
     if pInfo ~= nil then
         local sInfoType = pInfo.type
         if sInfoType == "directory" then
             local sDirPath = sPath
             local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
             for _, sFileName in ipairs(rgsFiles) do
-                local tpDirImgs = load_images_from_path(sDirPath .. "/" .. sFileName)
+                local tpDirImgs = load_images_from_directory_path(sDirPath .. "/" .. sFileName, sBasePath)
                 merge_table(tpImgs, tpDirImgs)
             end
         elseif sInfoType == "file" then
             if string.ends_with(sPath, ".png") then
                 local sImgPath = sPath
-                log_st(LPath.INTERFACE, "_locator.txt", "IMG AS '" .. sImgPath .. "'")
 
                 local pImg = love.graphics.newImage(sImgPath)
-                tpImgs[sImgPath] = pImg
+                log_st(LPath.INTERFACE, "_locator.txt", "IMG AS '" .. sImgPath .. "' " .. tostring(pImg ~= nil))
+
+                local sImgSubpath = fetch_figure_subpath(sImgPath, sBasePath)
+                tpImgs[sImgSubpath] = pImg
             end
         end
     end
 
     return tpImgs
+end
+
+function load_images_from_path(sPath)
+    return load_images_from_directory_path(RInterface.LOVE_IMAGE_DIR_PATH .. sPath, sPath)
 end

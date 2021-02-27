@@ -41,6 +41,12 @@ end
 function select_animations_from_storage(tpQuads, rgsPaths)
     local tpSlctQuads = {}
 
+    local st = ""
+    for sName, _ in pairs(tpQuads) do
+        st = st .. sName .. ", "
+    end
+    log_st(LPath.INTERFACE, "_quads.txt", ">>>> '" .. st .. "' ")
+
     for _, sPath in ipairs(rgsPaths) do
         local rgpQuads = fetch_animation(tpQuads, sPath)
         log_st(LPath.INTERFACE, "_anim.txt", ">>>> '" .. sPath .. "' " .. #rgpQuads)
@@ -54,7 +60,7 @@ end
 function select_images_from_storage(tpQuads, rgsPaths)
     local tpSlctImgs = {}
 
-    for _, sPath in ipairs(rgsPos) do
+    for _, sPath in ipairs(rgsPaths) do
         local rgpQuads = fetch_animation(tpQuads, sPath)
         log_st(LPath.INTERFACE, "_anim.txt", "<<<< '" .. sPath .. "' " .. #rgpQuads)
 
@@ -70,12 +76,17 @@ function select_images_from_storage(tpQuads, rgsPaths)
 end
 
 function find_image_on_storage(tpQuads, sPathImg)
+    local pImg = nil
+
     local i = string.rfind(sPathImg, "/")
+    if i ~= nil then
+        local sPath = sPathImg:sub(1, i-1)
+        local iIdx = tonumber(sPathImg:sub(i+1, -1))
 
-    local sPath = sPathImg:sub(1, i-1)
-    local iIdx = tonumber(sPathImg:sub(i+1, -1))
+        pImg = find_image(tpQuads, sPath, iIdx)
+    end
 
-    return find_image(tpQuads, sPath, iIdx)
+    return pImg
 end
 
 function find_animation_on_storage(tpQuads, sPathImg)

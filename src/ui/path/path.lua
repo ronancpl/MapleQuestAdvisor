@@ -13,9 +13,10 @@
 RInterface = {
 
     LOVE_IMAGE_DIR_PATH = "/media/images/",
+    WZ_IMAGE_PATH = "lib/xml/",
 
-    WMAP_HELPER = "MapHelper.img",
-    WMAP_DIR = "WorldMap",
+    WMAP_HELPER = "Map.wz/MapHelper.img",
+    WMAP_DIR = "Map.wz/WorldMap",
 
     SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
 

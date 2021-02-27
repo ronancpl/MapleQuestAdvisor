@@ -25,4 +25,5 @@ function CWmapBasicImage:new(iOx, iOy, iZ)
     self.iOx = iOx
     self.iOy = iOy
     self.iZ = iZ
+    return self
 end
