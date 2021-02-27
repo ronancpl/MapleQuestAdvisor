@@ -36,7 +36,7 @@ end
 local function load_worldmap_comp_textbox(pXmlWorldmapElement)
     local sTitle
     local sDesc
-    sTitle, sDesc = load_node_text_box(pXmlWorldmapElement)
+    sTitle, sDesc = load_xml_text_box(pXmlWorldmapElement)
 
     local pNodeTextbox = CWmapBasicTextbox:new(sTitle, sDesc)
     return pNodeTextbox
@@ -65,11 +65,11 @@ function load_worldmap_node(pXmlWorldmapElement)
     local iType = load_worldmap_comp_type(pXmlWorldmapElement)
     local iOx, iOy = load_worldmap_comp_spot(pXmlWorldmapElement)
 
-    local pWmapNode = CWmapNodeMarker:new(iOx, iOy)
-    pWmapNode:set_path(pImgPath)
-    pWmapNode:set_mapno(pNodeMapno)
-    pWmapNode:set_textbox(pNodeTextbox)
-    pWmapNode:set_type(iType)
+    local pNodeMarker = CWmapNodeMarker:new(iOx, iOy)
+    pNodeMarker:set_path(pImgPath)
+    pNodeMarker:set_mapno(pNodeMapno)
+    pNodeMarker:set_textbox(pNodeTextbox)
+    pNodeMarker:set_type(iType)
 
     return iNodeid, pWmapNode
 end

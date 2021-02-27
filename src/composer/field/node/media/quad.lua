@@ -20,11 +20,9 @@ local function load_quad_img_set(tpImgs)
         local sImgPath = sPath:sub(1,-5)    -- clear ".png" from name
 
         local iIdx = string.rfind(sImgPath, ".%")
-        log_st(LPath.INTERFACE, "_locator.txt", " IMG NAME '" .. sImgPath .. "' i:" .. iIdx)
         if iIdx ~= nil then
             local sQuadPath = sImgPath:sub(1,iIdx-1)
             local sSprite = sImgPath:sub(iIdx+1, -1)
-            log_st(LPath.INTERFACE, "_locator.txt", " IMG PATH '" .. sQuadPath .. "' d:" .. sSprite .. "| '" .. sImgPath .. "'")
 
             if tonumber(sSprite, 10) ~= nil then    -- is integer
                 local tQuad = create_inner_table_if_not_exists(tpQuads, sQuadPath)
@@ -55,7 +53,6 @@ local function array_quad_image_sets(tQuads)
         end
 
         tpQuads[sKey] = rgpImgs
-        log_st(LPath.INTERFACE, "_locator.txt", " ARR '" .. sKey .. "' '" .. #rgpImgs .. "'")
     end
 
     return tpQuads

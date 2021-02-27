@@ -19,8 +19,8 @@ require("utils.struct.class")
 CWmapProperties = createClass({
     sParentMap,
     pBaseImg,
-    rgpMapList,
-    rgpMapLink
+    rgpMapList = {},
+    rgpMapLink = {}
 })
 
 function CWmapProperties:reset()
@@ -38,12 +38,12 @@ function CWmapProperties:set_base_img(pBaseImg)
     self.pBaseImg = pBaseImg
 end
 
-function CWmapProperties:add_map_link(pRegionLink)
-    table.insert(self.rgpMapLink, pRegionLink)
+function CWmapProperties:add_map_link(pLinkNode)
+    table.insert(self.rgpMapLink, pLinkNode)
 end
 
-function CWmapProperties:load_map_field(pFieldNode)
-    table.insert(self.rgpMapLink, pFieldNode)
+function CWmapProperties:add_map_field(pFieldNode)
+    table.insert(self.rgpMapList, pFieldNode)
 end
 
 function CWmapProperties:update_region(pWmapRegion, tpHelperImages, tpWmapImgs)
@@ -58,10 +58,11 @@ function CWmapProperties:update_region(pWmapRegion, tpHelperImages, tpWmapImgs)
 
     local tpLinks = pWmapRegion:get_links()
     for _, pPair in ipairs(spairs(tpLinks, function (a, b) return a < b end)) do
+        local iIdx = pPair[1]
         local pMapLink = pPair[2]
 
-        local pRegionLink = load_node_worldmap_map_link(pMapLink, tpWmapImgs)
-        self:load_map_link(pRegionLink)
+        local pRegionLink = load_node_worldmap_map_link(pMapLink, tpWmapImgs, sWmapRegion, iIdx)
+        self:add_map_link(pRegionLink)
     end
 
     local tpNodes = pWmapRegion:get_nodes()
@@ -70,6 +71,6 @@ function CWmapProperties:update_region(pWmapRegion, tpHelperImages, tpWmapImgs)
         local pMapNode = pPair[2]
 
         local pFieldList = load_node_worldmap_map_list(pMapNode, tpHelperImages, tpWmapImgs, sWmapRegion, iIdx)
-        self:load_map_field(pFieldList)
+        self:add_map_field(pFieldList)
     end
 end

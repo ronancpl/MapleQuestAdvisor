@@ -34,12 +34,6 @@ local function fetch_quad_xml_node(pXmlBase, sPath)
 
     local rgsPath = split_path(sPath)
 
-    local st = ""
-    for _, sName in ipairs(rgsPath) do
-        st = st .. sName .. ", "
-    end
-    log_st(LPath.INTERFACE, "_locator.txt", ">>>> '" .. st .. "'")
-
     for _, sName in ipairs(rgsPath) do
         pXmlNode = pXmlNode:get_child_by_name(sName)
     end
@@ -64,7 +58,6 @@ local function load_quad_img_set(pXmlQuadSub, rgpImgs)
 end
 
 local function fetch_quad_subpath(sPath, sImgPath)
-    log_st(LPath.INTERFACE, "_verify.txt", "IN_VF '" .. sImgPath .. "' | '" .. sPath .. "'")
     local i = sPath:find(sImgPath)
     return sPath:sub(i+string.len(sImgPath)+1, -1)
 end
@@ -74,8 +67,6 @@ local function load_quad_img_sets_from_dictionary(pXmlBase, tpQuads)
 
     for sPath, rgpImgs in pairs(tpQuads) do
         local pXmlQuad = fetch_quad_xml_node(pXmlBase, sPath)
-        log_st(LPath.INTERFACE, "_rebase.txt", "IN_QUA '" .. tostring(pXmlQuad ~= nil) .. "' | " .. sPath)
-
         local rgpQuads = load_quad_img_set(pXmlQuad, rgpImgs)
 
         tpPathQuad[sPath] = rgpQuads
@@ -88,7 +79,6 @@ local function load_quad_img_sets_from_directory(sImgPath, sDirPath)
     local sImgDirPath = sImgPath .. "/" .. sDirPath
     local tpQuads = load_quads_from_path(sImgDirPath)
 
-    log_st(LPath.INTERFACE, "_locator.txt", " HAVING '" .. sImgPath .. "' '" .. sDirPath .. "'")
     local pXmlNode = load_xml_node_from_directory(sImgPath, sDirPath)
 
     local tpPathQuad = load_quad_img_sets_from_dictionary(pXmlNode, tpQuads)

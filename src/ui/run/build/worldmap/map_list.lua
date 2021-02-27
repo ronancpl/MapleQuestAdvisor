@@ -10,17 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.node.spot")
-require("composer.field.node.text_box")
 require("structs.field.worldmap.basic.sprite")
 require("ui.path.path")
-require("ui.run.build.graphic.quad")
 require("ui.run.build.interface.storage.split")
+require("ui.run.load.graphic.text_box")
 require("ui.struct.worldmap.element.path")
+require("utils.procedure.copy")
 
 local function load_node_map_path(pMapNode, tpPathImgs, sRegionName, iIdx)
     local sXmlPath = RInterface.WMAP_DIR .. "/" .. sRegionName .. ".img/MapList/" .. iIdx .. "/path"
+
     local pImg = find_image_on_storage(tpPathImgs, sXmlPath)
+    if pImg == nil then     -- empty content
+        return nil
+    end
 
     local iOx
     local iOy
@@ -35,15 +38,8 @@ local function load_node_map_path(pMapNode, tpPathImgs, sRegionName, iIdx)
 end
 
 local function load_node_mapno(pMapNode)
-    local rgiFields = {}
-
-    local pMapnoNode = pMapNode:get_mapno()
-    for _, pNode in pairs(pMapnoNode:get_children()) do
-        local iField = pNode:get_value()
-        table.insert(rgiFields, iField)
-    end
-
-    return rgiFields
+    local rgiFields = pMapNode:get_mapno()
+    return deep_copy(rgiFields)
 end
 
 local function load_node_map_marker(pMapNode, tpHelperImgs)
@@ -62,10 +58,17 @@ local function load_node_map_marker(pMapNode, tpHelperImgs)
     return pMarker
 end
 
+local function load_node_map_textbox(pMapNode)
+    local pMapTextbox = pMapNode:get_textbox()
+
+    local pTextbox = load_node_text_box(pMapTextbox)
+    return pTextbox
+end
+
 function load_node_worldmap_map_list(pMapNode, tpHelperImages, tpWmapImgs, sRegionName, iIdx)
     local rgiFields = load_node_mapno(pMapNode)
-    local pPath = load_node_map_path(pMapNode, tpHelperImages, tpWmapImgs, sRegionName, iIdx)
-    local pTextbox = load_node_text_box(pMapNode)
+    local pPath = load_node_map_path(pMapNode, tpWmapImgs, sRegionName, iIdx)
+    local pTextbox = load_node_map_textbox(pMapNode)
 
     local pFieldMarker = load_node_map_marker(pMapNode, tpHelperImages)
     pFieldMarker:set_mapno(rgiFields)

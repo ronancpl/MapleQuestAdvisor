@@ -38,8 +38,6 @@ local function load_images_from_directory_path(sPath, sBasePath)
                 local sImgPath = sPath
 
                 local pImg = love.graphics.newImage(sImgPath)
-                log_st(LPath.INTERFACE, "_locator.txt", "IMG AS '" .. sImgPath .. "' " .. tostring(pImg ~= nil))
-
                 local sImgSubpath = fetch_figure_subpath(sImgPath, sBasePath)
                 tpImgs[sImgSubpath] = pImg
             end

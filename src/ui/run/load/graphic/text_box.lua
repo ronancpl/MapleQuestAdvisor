@@ -10,13 +10,17 @@
     provide an express grant of patent rights.
 --]]
 
-function load_xml_text_box(pXmlNode)
-    local sTitle = pXmlNode:get_child_by_name("title")
-    local sDesc = pXmlNode:get_child_by_name("desc")
+require("ui.struct.worldmap.element.textbox")
 
-    if sTitle == nil and sDesc == nil then  -- empty content
+function load_node_text_box(pNodeTextbox)
+    if pNodeTextbox == nil then     -- empty content
         return nil
     end
 
-    return sTitle, sDesc
+    local sTitle
+    local sDesc
+    sTitle, sDesc = pNodeTextbox:get_text()
+
+    local pTextbox = CWmapElemTextBox:new(sTitle, sDesc)
+    return pTextbox
 end

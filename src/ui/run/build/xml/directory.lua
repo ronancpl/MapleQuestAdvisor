@@ -23,16 +23,8 @@ function load_xml_node_from_directory(sImgPath, sImgDirPath)
 
     local rgsPath = split_path(sImgDirPath)
     for _, sName in ipairs(rgsPath) do
-
-        local st = ""
-        for _, pNode in pairs(pXmlNode:get_children()) do
-            st = st .. pNode:get_name() .. ", "
-        end
-        log_st(LPath.INTERFACE, "_verify.txt", "'" .. sImgPath .. "' FETCH '" .. sName .. "' IN '" .. st .. "'")
-
         pXmlNode = pXmlNode:get_child_by_name(sName)
     end
-    log_st(LPath.INTERFACE, "_verify.txt", " DONE " .. tostring(pXmlNode ~= nil))
 
     return pXmlNode
 end
