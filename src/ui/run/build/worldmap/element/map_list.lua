@@ -10,10 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.field.worldmap.basic.sprite")
 require("ui.path.path")
 require("ui.run.build.interface.storage.split")
 require("ui.run.load.graphic.text_box")
+require("ui.struct.worldmap.basic.sprite")
 require("ui.struct.worldmap.element.path")
 require("utils.procedure.copy")
 

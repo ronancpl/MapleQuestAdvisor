@@ -11,89 +11,87 @@
 --]]
 
 require("composer.containers.fields.field_worldmap_table")
-require("composer.field.component.link")
-require("composer.field.component.node")
 require("router.filters.constant")
 require("router.filters.path")
-require("structs.field.worldmap.basic.image")
-require("structs.field.worldmap.basic.spot")
-require("structs.field.worldmap.basic.sprite")
-require("structs.field.worldmap.basic.textbox")
-require("structs.field.worldmap.component.region")
+require("structs.field.worldmap.maplink")
+require("structs.field.worldmap.maplist")
+require("structs.field.worldmap.worldmap")
 require("utils.provider.xml.provider")
 
-local function load_xml_worldmap_base_img(pXmlWorldmapFile)
-    local pXmlBaseImg = pXmlWorldmapFile:get_child_by_name("BaseImg/0")
+local function load_worldmap_node(pWorldmapElementNode)
+    local pWmapNode = CWorldmapNode:new()
 
-    local iOx
-    local iOy
-    local iZ
-    iOx, iOy, iZ = load_xml_image(pXmlBaseImg)
+    local iNodeid = pWorldmapElementNode:get_name_tonumber()
 
-    local pImg = CWmapBasicImage:new(iOx, iOy, iZ)
-    return pImg
+    pWmapNode:set_title(pWorldmapElementNode:get_child_by_name("title"))
+    pWmapNode:set_desc(pWorldmapElementNode:get_child_by_name("desc"))
+
+    local rgiMapnos = {}
+    for _, pMapnoNode in pairs(pWorldmapElementNode:get_child_by_name("mapNo"):get_children()) do
+        table.insert(rgiMapnos, pMapnoNode:get_value())
+    end
+    pWmapNode:set_mapno_list(rgiMapnos)
+
+    return iNodeid, pWmapNode
 end
 
-local function load_xml_worldmap_body(pXmlWorldmapFile)
-    local sName = pXmlWorldmapFile:get_name()
+local function load_worldmap_link(pWorldmapLinkNode)
+    local pWmapLink = CWorldmapLink:new()
 
-    local pImgBase = load_xml_worldmap_base_img(pXmlWorldmapFile)
+    local iNodeid = pWorldmapLinkNode:get_name_tonumber()
 
-    local pXmlParentMap = pXmlWorldmapFile:get_child_by_name("info/parentMap")
-    local sParentName = pXmlParentMap ~= nil and pXmlParentMap:get_value() or ""
+    local sRegionName = pWorldmapLinkNode:get_child_by_name("link"):get_child_by_name("linkMap"):get_value()
+    pWmapLink:set_region_name(sRegionName)
+
+    return iNodeid, pWmapLink
+end
+
+local function load_worldmap_body(pWorldmapFileNode)
+    local sName = pWorldmapFileNode:get_name()
 
     local tpNodes = {}
-    local pXmlWorldmapFileList = pXmlWorldmapFile:get_child_by_name("MapList")
-    if pXmlWorldmapFileList ~= nil then
-        for _, pXmlWorldmapElement in pairs(pXmlWorldmapFileList:get_children()) do
-            local iNodeid
-            local pWmapNode
+    for _, pWorldmapElementNode in pairs(pWorldmapFileNode:get_child_by_name("MapList"):get_children()) do
+        local iNodeid
+        local pWmapNode
 
-            iNodeid, pWmapNode = load_xml_worldmap_node(pXmlWorldmapElement)
-            tpNodes[iNodeid] = pWmapNode
-        end
+        iNodeid, pWmapNode = load_worldmap_node(pWorldmapElementNode)
+        tpNodes[iNodeid] = pWmapNode
     end
 
     local tpLinks = {}
-    local pXmlWorldmapFileLink = pXmlWorldmapFile:get_child_by_name("MapLink")
-    if pXmlWorldmapFileLink ~= nil then
-        for _, pXmlWorldmapLink in pairs(pXmlWorldmapFileLink:get_children()) do
+    local pWorldmapFileLinkNode = pWorldmapFileNode:get_child_by_name("MapLink")
+    if pWorldmapFileLinkNode ~= nil then
+        for _, pWorldmapLinkNode in pairs(pWorldmapFileLinkNode:get_children()) do
             local iNodeid
             local pWmapLink
 
-            iNodeid, pWmapLink = load_xml_worldmap_link(pXmlWorldmapLink)
+            iNodeid, pWmapLink = load_worldmap_link(pWorldmapLinkNode)
             tpLinks[iNodeid] = pWmapLink
         end
     end
 
-    return sName, pImgBase, sParentName, tpLinks, tpNodes
+    return sName, tpNodes, tpLinks
 end
 
-local function load_worldmap_file(sWmapSubPath, sWmapName)
-    local pXmlWorldmapFile = SXmlProvider:load_xml(sWmapSubPath .. sWmapName .. ".img.xml")
+local function load_worldmap_file(sWmapDirPath, sWmapName)
+    local pWorldmapFileNode = SXmlProvider:load_xml(sWmapDirPath .. sWmapName .. ".img.xml")
 
     local sName
-    local pImgBase
-    local sParentName
-    local tpLinks
     local tpNodes
+    local tpLinks
+    sName, tpNodes, tpLinks = load_worldmap_body(pWorldmapFileNode:get_child_by_name(sWmapName .. ".img"))
 
-    local pXmlWorldmapBody = pXmlWorldmapFile:get_child_by_name(sWmapName .. ".img")
-
-    sName, pImgBase, sParentName, tpLinks, tpNodes = load_xml_worldmap_body(pXmlWorldmapBody)
-
-    local pWmapRegion = CWmapNodeRegion:new()
+    local pWmapRegion = CWorldmapRegion:new()
     pWmapRegion:set_name(sName)
-    pWmapRegion:set_base_img(pImgBase)
-    pWmapRegion:set_parent_map(sParentName)
-    pWmapRegion:set_links(tpLinks)
     pWmapRegion:set_nodes(tpNodes)
+    pWmapRegion:set_links(tpLinks)
 
     pWmapRegion:make_remissive_index_area_region()
+
     return pWmapRegion
 end
 
-local function init_worldmap(sWmapSubPath)
+local function init_worldmap(sWmapDirPath)
     local ctFieldsWmap = CFieldWorldmapTable:new()
 
     local rgsWmapsToLoad = {}
@@ -102,12 +100,11 @@ local function init_worldmap(sWmapSubPath)
     while #rgsWmapsToLoad > 0 do
         local sWmapName = table.remove(rgsWmapsToLoad)
 
-        local pWmapRegion = load_worldmap_file(sWmapSubPath, sWmapName)
+        local pWmapRegion = load_worldmap_file(sWmapDirPath, sWmapName)
         ctFieldsWmap:add_region_entry(sWmapName, pWmapRegion)
 
         for _, pWmapLink in ipairs(pWmapRegion:get_links()) do
-            local sRegionLink = pWmapLink:get_link():get_link_map()
-            table.insert(rgsWmapsToLoad, sRegionLink)
+            table.insert(rgsWmapsToLoad, pWmapLink:get_region_name())
         end
     end
 
@@ -117,9 +114,9 @@ end
 
 function load_resources_worldmap()
     local sDirPath = RPath.RSC_FIELDS
-    local sWmapSubPath = sDirPath .. "/WorldMap/"
+    local sWmapDirPath = sDirPath .. "/WorldMap/"
 
-    local ctFieldsWmap = init_worldmap(sWmapSubPath)
+    local ctFieldsWmap = init_worldmap(sWmapDirPath)
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: Worldmap
     return ctFieldsWmap

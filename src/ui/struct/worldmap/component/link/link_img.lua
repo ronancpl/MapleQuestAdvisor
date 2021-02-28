@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.field.worldmap.basic.image")
+require("ui.struct.worldmap.basic.image")
 require("utils.struct.class")
 
 CWmapNodeLinkImage = createClass({CWmapBasicImage, {}})

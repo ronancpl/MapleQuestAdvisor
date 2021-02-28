@@ -10,18 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.node.image")
-require("ui.struct.component.basic.quad")
-require("ui.struct.worldmap.basic.sprite")
+require("utils.struct.class")
 
-function load_xml_sprite(pXmlNode)
-    local iOx
-    local iOy
-    local iZ
-    iOx, iOy, iZ = load_xml_image(pXmlNode)
+CWorldmapLink = createClass({
+    sRegionName
+})
 
-    local iDelay = pXmlNode:get_child_by_name("delay")
+function CWorldmapLink:get_region_name()
+    return self.sRegionName
+end
 
-    local pSpriteNode = CWmapBasicSprite:new(iOx, iOy, iZ, iDelay)
-    return pSpriteNode
+function CWorldmapLink:set_region_name(sRegionName)
+    self.sRegionName = sRegionName
 end

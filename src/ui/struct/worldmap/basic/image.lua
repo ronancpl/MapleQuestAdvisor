@@ -10,30 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.field.worldmap.basic.spot")
+require("ui.struct.worldmap.basic.spot")
 require("utils.struct.class")
 
-CWmapBasicSprite = createClass({CWmapBasicSpot, {
-    iZ,
-    iDelay
+CWmapBasicImage = createClass({CWmapBasicSpot, {
+    iZ
 }})
 
-function CWmapBasicSprite:get_z()
-    return self.iZ
+function CWmapBasicImage:get_image()
+    return self.iOx, self.iOy, self.iZ
 end
 
-function CWmapBasicSprite:get_delay()
-    return self.iDelay
-end
-
-function CWmapBasicSprite:get_image()
-    return self.iOx, self.iOy
-end
-
-function CWmapBasicSprite:new(iOx, iOy, iZ, iDelay)
+function CWmapBasicImage:new(iOx, iOy, iZ)
     self.iOx = iOx
     self.iOy = iOy
     self.iZ = iZ
-    self.iDelay = iDelay
     return self
 end

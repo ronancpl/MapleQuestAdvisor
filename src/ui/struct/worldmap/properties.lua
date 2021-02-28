@@ -10,9 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.build.worldmap.base_img")
-require("ui.run.build.worldmap.map_link")
-require("ui.run.build.worldmap.map_list")
+require("ui.run.build.worldmap.element.base_img")
+require("ui.run.build.worldmap.element.map_link")
+require("ui.run.build.worldmap.element.map_list")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 

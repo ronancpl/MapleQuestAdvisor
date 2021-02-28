@@ -11,9 +11,9 @@
 --]]
 
 require("composer.field.node.image")
-require("structs.field.worldmap.component.link.link")
-require("structs.field.worldmap.component.link.link_img")
-require("structs.field.worldmap.component.link.map_link")
+require("ui.struct.worldmap.component.link.link")
+require("ui.struct.worldmap.component.link.link_img")
+require("ui.struct.worldmap.component.link.map_link")
 
 local function load_xml_worldmap_comp_tooltip(pXmlWorldmapLink)
     local sTooltip = pXmlWorldmapLink:get_child_by_name("toolTip"):get_value()

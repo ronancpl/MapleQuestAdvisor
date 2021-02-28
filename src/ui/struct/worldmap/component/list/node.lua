@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.field.worldmap.basic.spot")
+require("ui.struct.worldmap.basic.spot")
 require("utils.struct.class")
 
 CWmapNodeMarker = createClass({CWmapBasicSpot, {
