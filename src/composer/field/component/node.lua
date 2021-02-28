@@ -13,16 +13,28 @@
 require("composer.field.node.image")
 require("composer.field.node.spot")
 require("composer.field.node.text_box")
+require("structs.field.worldmap.basic.image")
 require("structs.field.worldmap.basic.textbox")
 require("structs.field.worldmap.component.list.mapno")
 require("structs.field.worldmap.component.list.node")
 
-local function load_worldmap_node_path(pXmlWorldmapElement)
+local function load_xml_worldmap_node_path(pXmlWorldmapElement)
     local pXmlNode = pXmlWorldmapElement:get_child_by_name("path")
-    return pXmlNode ~= nil and load_xml_image(pXmlNode) or nil
+
+    local pImg = nil
+    if pXmlNode ~= nil then
+        local iOx
+        local iOy
+        local iZ
+        iOx, iOy, iZ = load_xml_image(pXmlNode)
+
+        pImg = CWmapBasicImage:new(iOx, iOy, iZ)
+    end
+
+    return pImg
 end
 
-local function load_worldmap_node_mapno(pXmlWorldmapElement)
+local function load_xml_worldmap_node_mapno(pXmlWorldmapElement)
     local pNodeMapno = CWmapNodeMapno:new()
 
     local pXmlMapnoNode = pXmlWorldmapElement:get_child_by_name("mapNo")
@@ -33,7 +45,7 @@ local function load_worldmap_node_mapno(pXmlWorldmapElement)
     return pNodeMapno
 end
 
-local function load_worldmap_comp_textbox(pXmlWorldmapElement)
+local function load_xml_worldmap_comp_textbox(pXmlWorldmapElement)
     local sTitle
     local sDesc
     sTitle, sDesc = load_xml_text_box(pXmlWorldmapElement)
@@ -42,13 +54,13 @@ local function load_worldmap_comp_textbox(pXmlWorldmapElement)
     return pNodeTextbox
 end
 
-local function load_worldmap_comp_type(pXmlWorldmapElement)
+local function load_xml_worldmap_comp_type(pXmlWorldmapElement)
     local pXmlNode = pXmlWorldmapElement:get_child_by_name("type")
     local iType = pXmlNode:get_value()
     return iType
 end
 
-local function load_worldmap_comp_spot(pXmlWorldmapElement)
+local function load_xml_worldmap_comp_spot(pXmlWorldmapElement)
     local iOx
     local iOy
     iOx, iOy = load_xml_spot(pXmlWorldmapElement)
@@ -56,14 +68,14 @@ local function load_worldmap_comp_spot(pXmlWorldmapElement)
     return iOx, iOy
 end
 
-function load_worldmap_node(pXmlWorldmapElement)
+function load_xml_worldmap_node(pXmlWorldmapElement)
     local iNodeid = pXmlWorldmapElement:get_name_tonumber()
 
-    local pImgPath = load_worldmap_node_path(pXmlWorldmapElement)
-    local pNodeMapno = load_worldmap_node_mapno(pXmlWorldmapElement)
-    local pNodeTextbox = load_worldmap_comp_textbox(pXmlWorldmapElement)
-    local iType = load_worldmap_comp_type(pXmlWorldmapElement)
-    local iOx, iOy = load_worldmap_comp_spot(pXmlWorldmapElement)
+    local pImgPath = load_xml_worldmap_node_path(pXmlWorldmapElement)
+    local pNodeMapno = load_xml_worldmap_node_mapno(pXmlWorldmapElement)
+    local pNodeTextbox = load_xml_worldmap_comp_textbox(pXmlWorldmapElement)
+    local iType = load_xml_worldmap_comp_type(pXmlWorldmapElement)
+    local iOx, iOy = load_xml_worldmap_comp_spot(pXmlWorldmapElement)
 
     local pNodeMarker = CWmapNodeMarker:new(iOx, iOy)
     pNodeMarker:set_path(pImgPath)

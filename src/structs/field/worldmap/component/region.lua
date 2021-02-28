@@ -10,14 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CWmapNodeRegion = createClass({
     sName,
     pImgBase,
     sParentMap,
-    rgpNodeLinks,
-    rgpNodeMarkers
+    tpNodeLinks,
+    tpNodeMarkers,
+    tpAreaNodes
 })
 
 function CWmapNodeRegion:get_name()
@@ -45,17 +47,39 @@ function CWmapNodeRegion:set_parent_map(sRegionName)
 end
 
 function CWmapNodeRegion:get_links()
-    return self.rgpNodeLinks
+    return self.tpNodeLinks
 end
 
-function CWmapNodeRegion:set_links(rgpNodeLinks)
-    self.rgpNodeLinks = rgpNodeLinks
+function CWmapNodeRegion:set_links(tpNodeLinks)
+    self.tpNodeLinks = tpNodeLinks
 end
 
 function CWmapNodeRegion:get_nodes()
-    return self.rgpNodeMarkers
+    return self.tpNodeMarkers
 end
 
-function CWmapNodeRegion:set_nodes(rgpNodeMarkers)
-    self.rgpNodeMarkers = rgpNodeMarkers
+function CWmapNodeRegion:set_nodes(tpNodeMarkers)
+    self.tpNodeMarkers = tpNodeMarkers
+end
+
+function CWmapNodeRegion:make_remissive_index_area_region()
+    self.tpAreaNodes = {}
+    local m_tpAreaNodes = self.tpAreaNodes
+
+    for iNodeid, pMarker in pairs(self:get_nodes()) do
+        local rgiMapids = pMarker:get_mapno():list()
+        for _, iMapid in ipairs(rgiMapids) do
+            m_tpAreaNodes[iMapid] = iNodeid
+        end
+    end
+end
+
+function CWmapNodeRegion:get_node_by_mapid(iMapid)
+    local m_tpAreaNodes = self.tpAreaNodes
+    return m_tpAreaNodes[iMapid]
+end
+
+function CWmapNodeRegion:get_areas()
+    local m_tpAreaNodes = self.tpAreaNodes
+    return keys(m_tpAreaNodes)
 end

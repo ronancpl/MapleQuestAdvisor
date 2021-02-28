@@ -22,7 +22,7 @@ require("structs.field.worldmap.basic.textbox")
 require("structs.field.worldmap.component.region")
 require("utils.provider.xml.provider")
 
-local function load_worldmap_base_img(pXmlWorldmapFile)
+local function load_xml_worldmap_base_img(pXmlWorldmapFile)
     local pXmlBaseImg = pXmlWorldmapFile:get_child_by_name("BaseImg/0")
 
     local iOx
@@ -34,34 +34,34 @@ local function load_worldmap_base_img(pXmlWorldmapFile)
     return pImg
 end
 
-local function load_worldmap_body(pXmlWorldmapFile)
+local function load_xml_worldmap_body(pXmlWorldmapFile)
     local sName = pXmlWorldmapFile:get_name()
 
-    local pImgBase = load_worldmap_base_img(pXmlWorldmapFile)
+    local pImgBase = load_xml_worldmap_base_img(pXmlWorldmapFile)
 
     local pXmlParentMap = pXmlWorldmapFile:get_child_by_name("info/parentMap")
     local sParentName = pXmlParentMap ~= nil and pXmlParentMap:get_value() or ""
 
     local tpNodes = {}
-    local pWorldmapFileListNode = pXmlWorldmapFile:get_child_by_name("MapList")
-    if pWorldmapFileListNode ~= nil then
-        for _, pWorldmapElementNode in pairs(pWorldmapFileListNode:get_children()) do
+    local pXmlWorldmapFileList = pXmlWorldmapFile:get_child_by_name("MapList")
+    if pXmlWorldmapFileList ~= nil then
+        for _, pXmlWorldmapElement in pairs(pXmlWorldmapFileList:get_children()) do
             local iNodeid
             local pWmapNode
 
-            iNodeid, pWmapNode = load_worldmap_node(pWorldmapElementNode)
+            iNodeid, pWmapNode = load_xml_worldmap_node(pXmlWorldmapElement)
             tpNodes[iNodeid] = pWmapNode
         end
     end
 
     local tpLinks = {}
-    local pWorldmapFileLinkNode = pXmlWorldmapFile:get_child_by_name("MapLink")
-    if pWorldmapFileLinkNode ~= nil then
-        for _, pWorldmapLinkNode in pairs(pWorldmapFileLinkNode:get_children()) do
+    local pXmlWorldmapFileLink = pXmlWorldmapFile:get_child_by_name("MapLink")
+    if pXmlWorldmapFileLink ~= nil then
+        for _, pXmlWorldmapLink in pairs(pXmlWorldmapFileLink:get_children()) do
             local iNodeid
             local pWmapLink
 
-            iNodeid, pWmapLink = load_worldmap_link(pWorldmapLinkNode)
+            iNodeid, pWmapLink = load_xml_worldmap_link(pXmlWorldmapLink)
             tpLinks[iNodeid] = pWmapLink
         end
     end
@@ -79,11 +79,8 @@ local function load_worldmap_file(sWmapSubPath, sWmapName)
     local tpNodes
 
     local pXmlWorldmapBody = pXmlWorldmapFile:get_child_by_name(sWmapName .. ".img")
-    if pXmlWorldmapBody == nil then
-        print(">>" , sWmapName)
-    end
 
-    sName, pImgBase, sParentName, tpLinks, tpNodes = load_worldmap_body(pXmlWorldmapBody)
+    sName, pImgBase, sParentName, tpLinks, tpNodes = load_xml_worldmap_body(pXmlWorldmapBody)
 
     local pWmapRegion = CWmapNodeRegion:new()
     pWmapRegion:set_name(sName)
@@ -92,6 +89,7 @@ local function load_worldmap_file(sWmapSubPath, sWmapName)
     pWmapRegion:set_links(tpLinks)
     pWmapRegion:set_nodes(tpNodes)
 
+    pWmapRegion:make_remissive_index_area_region()
     return pWmapRegion
 end
 
@@ -113,6 +111,7 @@ local function init_worldmap(sWmapSubPath)
         end
     end
 
+    ctFieldsWmap:make_remissive_index_area_region()
     return ctFieldsWmap
 end
 

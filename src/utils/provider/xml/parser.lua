@@ -30,7 +30,7 @@ local tfn_parse_attr = {
     ["int"] = function (x) return tonumber(x) end,
     ["short"] = function (x) return tonumber(x) end,
     ["string"] = function (x) return x end,
-    -- ["vector"] = function (x) return  end,
+    ["vector"] = function (x) return tonumber(x) end,
     -- ["null"] = function (x) return  end,
 }
 
@@ -47,12 +47,18 @@ local function parse_dom_node_attributes(pTreeNode, tFileNodeAttrs)
     local sNodeType = pTreeNode:get_type()
     -- local tAttr = pTreeNode:get_attr()
 
-    local sName = tFileNodeAttrs["name"]
-    local sValue = tFileNodeAttrs["value"]
+    for sName, sValue in pairs(tFileNodeAttrs) do
+        local uValue = parse_dom_node_attribute(sNodeType, sValue)
+        pTreeNode:set(sName, uValue)
+    end
+end
 
-    local uValue = parse_dom_node_attribute(sNodeType, sValue)
+local function parse_dom_node_name(pTreeNode, tFileNodeAttrs)
+    local sNodeType = pTreeNode:get_type()
+    -- local tAttr = pTreeNode:get_attr()
+
+    local sName = tFileNodeAttrs["name"]
     pTreeNode:set("name", sName)
-    pTreeNode:set("value", uValue)
 end
 
 function _parse_dom_node(pFileNode)
@@ -62,6 +68,7 @@ function _parse_dom_node(pFileNode)
     pTreeNode:set_type(pFileNode["_name"])
 
     parse_dom_node_attributes(pTreeNode, pFileNode["_attr"])
+    parse_dom_node_name(pTreeNode, pFileNode["_attr"])          -- name, as a string
     parse_dom_node_children(pTreeNode, pFileNode["_children"])
 
     pTreeNode:set_name(pTreeNode:get("name"))
