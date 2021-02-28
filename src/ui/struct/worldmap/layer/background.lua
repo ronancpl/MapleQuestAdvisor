@@ -15,7 +15,10 @@ require("utils.struct.class")
 
 CWmapNavBackground = createClass({CWndLayer, {}})
 
-function CWmapNavBackground:build()
+function CWmapNavBackground:build(pWmapProp)
     self:reset()
-    -- add elements
+
+    -- add layer elements
+    local pPropBaseImg = pWmapProp:get_base_img()
+    self:add_element(1, pPropBaseImg)
 end

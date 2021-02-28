@@ -13,6 +13,7 @@
 require("ui.run.build.worldmap.element.base_img")
 require("ui.run.build.worldmap.element.map_link")
 require("ui.run.build.worldmap.element.map_list")
+require("utils.procedure.copy")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
@@ -38,12 +39,24 @@ function CWmapProperties:set_base_img(pBaseImg)
     self.pBaseImg = pBaseImg
 end
 
+function CWmapProperties:get_base_img()
+    return self.pBaseImg
+end
+
 function CWmapProperties:add_map_link(pLinkNode)
     table.insert(self.rgpMapLink, pLinkNode)
 end
 
+function CWmapProperties:get_map_links()
+    return deep_copy(self.rgpMapLink)
+end
+
 function CWmapProperties:add_map_field(pFieldNode)
     table.insert(self.rgpMapList, pFieldNode)
+end
+
+function CWmapProperties:get_map_fields()
+    return deep_copy(self.rgpMapList)
 end
 
 function CWmapProperties:update_region(pWmapRegion, tpHelperImages, tpWmapImgs)

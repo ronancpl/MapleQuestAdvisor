@@ -15,7 +15,17 @@ require("utils.struct.class")
 
 CWmapNavMapLink = createClass({CWndLayer, {}})
 
-function CWmapNavMapLink:build()
+function CWmapNavMapLink:_build_element(pPropLink)
+    local iChn = pPropLink:get_z() or 1
+    self:add_element(iChn, pPropLink)
+end
+
+function CWmapNavMapLink:build(pWmapProp)
     self:reset()
-    -- add elements
+
+    -- add layer elements
+    local rgpPropLinks = pWmapProp:get_map_links()
+    for _, pPropLink in ipairs(rgpPropLinks) do
+        self:_build_element(pPropLink)
+    end
 end

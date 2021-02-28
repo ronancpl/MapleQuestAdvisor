@@ -19,6 +19,10 @@ CStaticElem = createClass({
     eImg = CBasicImage:new()
 })
 
+function CStaticElem:get_z()
+    self.eImg:get_z()
+end
+
 function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)
     self.eElem:load(rX, rY)
     self.eImg:load(pImg, iOx, iOy, iZ)

@@ -23,6 +23,10 @@ function CWmapElemRegionLink:load(pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
 end
 
+function CWmapElemRegionLink:get_z()
+    return self.eConst:get_z()
+end
+
 function CWmapElemRegionLink:set_link_map(sLinkMap)
     self.sLinkMap = sLinkMap
 end

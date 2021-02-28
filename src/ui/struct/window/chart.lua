@@ -38,6 +38,7 @@ function CWndWmap:update_region(sWmapName)
     _, tpHelperImages = self.pCache:get_worldmap_helper()
 
     self.pProp:update_region(pWmapRegion, tpHelperImages, tpWmapImgs)
+    self.pCanvas:build(self.pProp)
 end
 
 function CWndWmap:load()

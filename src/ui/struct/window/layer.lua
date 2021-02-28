@@ -39,6 +39,11 @@ function CWndLayer:draw()
     end
 end
 
+function CWndLayer:add_element(iChn, pElem)
+    local pChn = self.rgpChannels[iChn or 1]
+    pChn:add_element(pElem)
+end
+
 function CWndLayer:add_elements(iChn, rgpElems)
     local pChn = self.rgpChannels[iChn]
     if pChn ~= nil then

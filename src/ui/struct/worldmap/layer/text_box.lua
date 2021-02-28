@@ -15,7 +15,8 @@ require("utils.struct.class")
 
 CWmapNavTextBox = createClass({CWndLayer, {}})
 
-function CWmapNavTextBox:build()
+function CWmapNavTextBox:build(pWmapProp)
     self:reset()
-    -- add elements
+
+    -- add layer elements
 end

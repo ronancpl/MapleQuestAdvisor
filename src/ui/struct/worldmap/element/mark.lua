@@ -24,6 +24,10 @@ function CWmapElemMark:set_mapno(rgiFields)
     self.rgiFields = rgiFields
 end
 
+function CWmapElemMark:get_path()
+    return self.pPath
+end
+
 function CWmapElemMark:set_path(pPath)
     self.pPath = pPath
 end

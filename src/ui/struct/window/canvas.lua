@@ -39,6 +39,13 @@ function CWndCanvas:load(rgpLayerClass)
     end
 end
 
+function CWndCanvas:build(pWmapProp)
+    local m_rgpLayers = self.rgpLayers
+    for _, pLyr in ipairs(m_rgpLayers) do
+        pLyr:build(pWmapProp)
+    end
+end
+
 function CWndCanvas:update(dt)
     local m_rgpLayers = self.rgpLayers
     for _, pLyr in ipairs(m_rgpLayers) do

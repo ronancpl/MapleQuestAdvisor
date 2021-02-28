@@ -15,7 +15,16 @@ require("utils.struct.class")
 
 CWmapNavMapList = createClass({CWndLayer, {}})
 
-function CWmapNavMapList:build()
+function CWmapNavMapLink:_build_element(pPropMarker)
+    self:add_element(1, pPropMarker)
+end
+
+function CWmapNavMapList:build(pWmapProp)
     self:reset()
-    -- add elements
+
+    -- add layer elements
+    local rgpPropMarkers = pWmapProp:get_map_fields()
+    for _, pPropMarker in ipairs(rgpPropMarkers) do
+        self:_build_element(pPropMarker)
+    end
 end
