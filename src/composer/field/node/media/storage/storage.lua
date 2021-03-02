@@ -32,3 +32,12 @@ end
 function CMediaTable:set_contents(tpItems)
     self.tpItems = tpItems
 end
+
+function CMediaTable:clone()
+    local pDirMedia = CMediaTable:new()
+
+    pDirMedia:set_path(self:get_path())
+    pDirMedia:set_contents(self:get_contents())
+
+    return pDirMedia
+end

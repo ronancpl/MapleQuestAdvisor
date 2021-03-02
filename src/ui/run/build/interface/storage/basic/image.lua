@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.node.media.image")
+require("composer.field.node.media.quad")
 
 function load_image_storage_from_wz_sub(sImgPath, sDirPath)
     local sImgDirPath = sImgPath
@@ -18,6 +18,6 @@ function load_image_storage_from_wz_sub(sImgPath, sDirPath)
         sImgDirPath = sImgDirPath .. "/" .. sDirPath
     end
 
-    local pDirImgs = load_images_from_path(sImgDirPath)
+    local pDirImgs = load_quads_from_path(sImgDirPath)
     return pDirImgs
 end

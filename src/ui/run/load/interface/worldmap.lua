@@ -18,6 +18,7 @@ function load_frame_worldmap_region(sWmapName, ctFieldsWmap)
 
     local pWmapRegion = ctFieldsWmap:get_region_entry(sWmapName)
     local pDirWmapImgs = load_image_storage_from_wz_sub(sWmapImgPath)
+    pDirWmapImgs = select_images_from_storage(pDirWmapImgs, {})
 
     return pWmapRegion, pDirWmapImgs
 end

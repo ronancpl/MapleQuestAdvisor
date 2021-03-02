@@ -26,10 +26,10 @@ local function insert_image(tQuads, sPath, iIdx, pImage)
     return tpQuads
 end
 
-local function find_image(tQuads, sPath, iIdx)
-    local tpQuads = tQuads[sPath]
+local function fetch_image(tpQuads, sPath, iIdx)
+    local tQuads = tpQuads[sPath]
 
-    local pImage = tpQuads ~= nil and tpQuads[iIdx] or nil
+    local pImage = tQuads[iIdx]
     return pImage
 end
 
@@ -38,82 +38,112 @@ local function fetch_animation(tpQuads, sPath)
     return rgpQuads
 end
 
+local function select_all_if_empty(pDirMedia, rgsPaths)
+    local rgsDirPaths = rgsPaths
+    if #rgsDirPaths == 0 then
+        local tpQuads = pDirMedia:get_contents()
+        rgsDirPaths = keys(tpQuads)
+    end
+
+    return rgsDirPaths
+end
+
 function select_animations_from_storage(pDirMedia, rgsPaths)
     local tpSlctQuads = {}
 
+    local rgsDirPaths = select_all_if_empty(pDirMedia, rgsPaths)
     local tpQuads = pDirMedia:get_contents()
-    for _, sPath in ipairs(rgsPaths) do
+    for _, sPath in ipairs(rgsDirPaths) do
         local rgpQuads = fetch_animation(tpQuads, sPath)
         insert_animation(tpSlctQuads, sPath, rgpQuads)
     end
 
-    return tpSlctQuads
+    local pDirSlctQuads = pDirMedia:clone()
+    pDirSlctQuads:set_contents(tpSlctQuads)
+
+    return pDirSlctQuads
 end
 
 function select_images_from_storage(pDirMedia, rgsPaths)
     local tpSlctImgs = {}
 
+    local rgsDirPaths = select_all_if_empty(pDirMedia, rgsPaths)
     local tpQuads = pDirMedia:get_contents()
-    for _, sPath in ipairs(rgsPaths) do
+
+    for _, sPath in ipairs(rgsDirPaths) do
         local rgpQuads = fetch_animation(tpQuads, sPath)
 
         for iIdx, pQuad in ipairs(rgpQuads) do
-            local iPosIdx = iIdx - 1
+            local iPosIdx = iIdx
 
-            local pImage = pQuad:get_image()
+            local pImage = pQuad.get_image and pQuad:get_image() or pQuad
             insert_image(tpSlctImgs, sPath, iPosIdx, pImage)
         end
     end
 
-    return tpSlctImgs
+    local pDirSlctImgs = pDirMedia:clone()
+    pDirSlctImgs:set_contents(tpSlctImgs)
+
+    return pDirSlctImgs
 end
 
-local function fetch_image_subpath_location(pDirMedia, sPathImg)
+local function intersect_image_subpath(pDirMedia, sPathImg)
+    local sPath = pDirMedia:get_path()
+
+    local iIdx = sPathImg:find(sPath)
+    if iIdx ~= nil then
+        local iStIdx = iIdx + string.len(sPath) + 1
+
+        local sSubpathImg = sPathImg:sub(iStIdx)
+        return 0, sSubpathImg
+    else
+        return 0, sPathImg
+    end
+end
+
+local function fetch_image_subpath_location(pDirMedia, sPathImg, bAnimation)
     -- relative pathing from pDirMedia
-    local rgsDirPath = split_path(pDirMedia:get_path())
-    local iBaseIdx = #rgsDirPath + 1
+    local iBaseIdx
+    local sSubpathImg
+    iBaseIdx, sSubpathImg = intersect_image_subpath(pDirMedia, sPathImg)
+    iBaseIdx = iBaseIdx + 1
 
-    local rgsPath = split_path(sPathImg)
+    local rgsPath = split_pathd(sSubpathImg)
+    local nPath = #rgsPath
 
-    local iIdx = nil
-    for i = #rgsPath, iBaseIdx, -1 do
-        local sPath = rgsPath[i]
+    for iIdx = nPath, 1, -1 do
+        local sPath = rgsPath[iIdx]
 
-        local iIdx = tonumber(sPath)
-        if iIdx ~= nil then
-            local rgsSubpath = slice(rgsPath, iBaseIdx, iIdx)
+        local i = tonumber(sPath)
+        if i ~= nil then
+            local iTopIdx = bAnimation and nPath or iIdx - 1
+            local rgsSubpath = slice(rgsPath, iBaseIdx, iTopIdx)
+
             local sSubpathImg = table.concat(rgsSubpath,".")
 
-            return iIdx, sSubpathImg
+            return i, sSubpathImg
         end
     end
 
-    return -1, sPathImg
-end
-
-local function fetch_image_subpath(pDirMedia, sPathImg)
-    local iIdx
-    local sSubpathImg
-    iIdx, sSubpathImg = fetch_image_subpath_location(pDirMedia, sPathImg)
-
-    return sSubpathImg, iIdx
+    return -1, sSubpathImg
 end
 
 function find_image_on_storage(pDirMedia, sPathImg)
-    local pImg = nil
-
     local tpQuads = pDirMedia:get_contents()
 
-    local sSubpathImg
-    local iIdx
-    sSubpathImg, iIdx = fetch_image_subpath(pDirMedia, sPathImg)
 
-    local pImg = find_image(tpQuads, sSubpathImg, iIdx)
+    local iIdx
+    local sSubpathImg
+    iIdx, sSubpathImg = fetch_image_subpath_location(pDirMedia, sPathImg, false)
+
+    local pImg = fetch_image(tpQuads, sSubpathImg, iIdx + 1)
     return pImg
 end
 
---[[
-function find_animation_on_storage(tpQuads, sPathImg)
-    return fetch_animation(tpQuads, sPathImg)
+function find_animation_on_storage(pDirMedia, sPathImg)
+    local tpQuads = pDirMedia:get_contents()
+    local sPath = fetch_image_subpath_location(pDirMedia, sPathImg, true)
+
+    local rgpQuads = fetch_animation(tpQuads, sPath)
+    return rgpQuads
 end
-]]--

@@ -18,17 +18,24 @@ require("utils.procedure.unpack")
 local function load_quad_img_set(tpImgs)
     local tpQuads = {}
     for sPath, pImg in pairs(tpImgs) do
-        local sImgPath = sPath:sub(1,-5)    -- clear ".png" from name
+        local sImgPath = sPath
 
-        local iIdx = string.rfind(sImgPath, ".%")
-        if iIdx ~= nil then
-            local sQuadPath = sImgPath:sub(1,iIdx-1)
-            local sSprite = sImgPath:sub(iIdx+1, -1)
+        while true do
+            local iIdx = string.rfind(sImgPath, ".%")
+            if iIdx ~= nil then
+                local sQuadPath = sImgPath:sub(1,iIdx-1)
+                local sSprite = sImgPath:sub(iIdx+1, -1)
 
-            local iSprite = tonumber(sSprite, 10)
-            if iSprite ~= nil then    -- is integer
-                local tQuad = create_inner_table_if_not_exists(tpQuads, sQuadPath)
-                tQuad[iSprite] = pImg
+                local iSprite = tonumber(sSprite, 10)
+                if iSprite ~= nil then    -- is integer
+                    local tQuad = create_inner_table_if_not_exists(tpQuads, sQuadPath)
+                    tQuad[iSprite] = pImg
+                    break
+                end
+
+                sImgPath = sImgPath:sub(1, iIdx - 1)
+            else
+                break
             end
         end
     end
@@ -72,8 +79,4 @@ function load_quads_from_path(sPath)
     pDirQuads:set_contents(tpQuads)
 
     return pDirQuads
-end
-
-function fetch_quad_from_container(tpQuads, sPath)
-    return tpQuads[sPath]
 end

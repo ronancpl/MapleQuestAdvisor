@@ -16,7 +16,7 @@ require("utils.provider.xml.provider")
 require("utils.struct.class")
 
 CWndStorage = createClass({
-    tpWmapImgsCache = {},
+    pDirWmapImgs = {},
     tpWmapRegionCache = {},
     pDirHelperQuads,
     pDirHelperImgs
@@ -31,18 +31,18 @@ function CWndStorage:get_worldmap_helper()
 end
 
 function CWndStorage:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
-    local m_tpWmapImgsCache = self.tpWmapImgsCache
+    local m_pDirWmapImgs = self.pDirWmapImgs
 
     local pWmapRegion
     local pDirWmapImgs
-    if m_tpWmapImgsCache[sWmapName] == nil then
+    if m_pDirWmapImgs[sWmapName] == nil then
         pWmapRegion, pDirWmapImgs = load_frame_worldmap_region(sWmapName, ctFieldsWmap)
 
         local m_tpWmapRegionCache = self.tpWmapRegionCache
         m_tpWmapRegionCache[sWmapName] = pWmapRegion
-        m_tpWmapImgsCache[sWmapName] = pDirWmapImgs
+        m_pDirWmapImgs[sWmapName] = pDirWmapImgs
     else
-        pDirWmapImgs = m_tpWmapImgsCache[sWmapName]
+        pDirWmapImgs = m_pDirWmapImgs[sWmapName]
         pWmapRegion = m_tpXmlWmapNode[sWmapName]
     end
 

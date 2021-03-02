@@ -42,7 +42,7 @@ local function load_node_mapno(pMapNode)
     return deep_copy(rgiFields)
 end
 
-local function load_node_map_marker(pMapNode, tpHelperImgs)
+local function load_node_map_marker(pMapNode, pDirHelperImgs)
     local iRx
     local iRy
     iRx, iRy = pMapNode:get_spot()
@@ -50,7 +50,7 @@ local function load_node_map_marker(pMapNode, tpHelperImgs)
     local iType = pMapNode:get_type()
 
     local sMarker = "mapImage/" .. iType
-    local rgpQuads = find_image_on_storage(tpHelperImgs, sMarker)
+    local rgpQuads = find_animation_on_storage(pDirHelperImgs, sMarker)
 
     local pMarker = CWmapElemMark:new()
     pMarker:load(iRx, iRy, rgpQuads)

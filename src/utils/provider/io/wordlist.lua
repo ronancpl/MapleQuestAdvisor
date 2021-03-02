@@ -36,3 +36,7 @@ end
 function split_path(sText)
     return split_delimiter(sText, "[^/\\]+")
 end
+
+function split_pathd(sText)
+    return split_delimiter(sText, "[^/\\%.]+")
+end

@@ -18,7 +18,7 @@ require("utils.provider.io.wordlist")
 
 local function fetch_figure_subpath(sPath, sBasePath)
     local i = sPath:find(sBasePath)
-    return sPath:sub(i+string.len(sBasePath)+1, -1)
+    return sPath:sub(i+string.len(sBasePath)+1, -5)     -- remove file extension
 end
 
 local function load_images_from_directory_path(sPath, sBasePath)

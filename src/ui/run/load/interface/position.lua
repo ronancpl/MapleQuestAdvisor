@@ -24,15 +24,3 @@ function load_frame_position_helper()
 
     return pDirHelperQuads, pDirHelperImgs
 end
-
-function load_nodes_position_helper(pXmlWmapHelper)
-    local tpWmapNodes = {}
-
-    for _, pXml in pairs(pXmlWmapHelper:get_children()) do
-
-    end
-
-    load_xml_sprite(pXmlNode)
-
-    return tpWmapNodes
-end
