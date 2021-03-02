@@ -10,14 +10,25 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.node.media.image")
+require("utils.struct.class")
 
-function load_image_storage_from_wz_sub(sImgPath, sDirPath)
-    local sImgDirPath = sImgPath
-    if sDirPath ~= nil then
-        sImgDirPath = sImgDirPath .. "/" .. sDirPath
-    end
+CMediaTable = createClass({
+    sBasePath,
+    tpItems     -- keys: relative subpaths after base path
+})
 
-    local pDirImgs = load_images_from_path(sImgDirPath)
-    return pDirImgs
+function CMediaTable:get_path()
+    return self.sBasePath
+end
+
+function CMediaTable:set_path(sPath)
+    self.sBasePath = sPath
+end
+
+function CMediaTable:get_contents()
+    return self.tpItems
+end
+
+function CMediaTable:set_contents(tpItems)
+    self.tpItems = tpItems
 end

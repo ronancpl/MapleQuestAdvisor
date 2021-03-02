@@ -31,13 +31,13 @@ end
 
 function CWndWmap:update_region(sWmapName)
     local pWmapRegion
-    local tpWmapImgs
-    pWmapRegion, tpWmapImgs = self.pCache:load_region(sWmapName)
+    local pDirWmapImgs
+    pWmapRegion, pDirWmapImgs = self.pCache:load_region(sWmapName)
 
-    local tpHelperImages
-    _, tpHelperImages = self.pCache:get_worldmap_helper()
+    local pDirHelperImgs
+    _, pDirHelperImgs = self.pCache:get_worldmap_helper()
 
-    self.pProp:update_region(pWmapRegion, tpHelperImages, tpWmapImgs)
+    self.pProp:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs)
     self.pCanvas:build(self.pProp)
 end
 

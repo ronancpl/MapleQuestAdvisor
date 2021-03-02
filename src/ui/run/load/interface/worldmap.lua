@@ -17,7 +17,7 @@ function load_frame_worldmap_region(sWmapName, ctFieldsWmap)
     local sWmapImgPath = RInterface.WMAP_DIR .. "/" .. sWmapName .. ".img"
 
     local pWmapRegion = ctFieldsWmap:get_region_entry(sWmapName)
-    local tpWmapImgs = load_image_storage_from_wz_sub(sWmapImgPath)
+    local pDirWmapImgs = load_image_storage_from_wz_sub(sWmapImgPath)
 
-    return pWmapRegion, tpWmapImgs
+    return pWmapRegion, pDirWmapImgs
 end

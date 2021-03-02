@@ -77,15 +77,20 @@ end
 
 local function load_quad_img_sets_from_directory(sImgPath, sDirPath)
     local sImgDirPath = sImgPath .. "/" .. sDirPath
-    local tpQuads = load_quads_from_path(sImgDirPath)
+
+    local pDirQuads = load_quads_from_path(sImgDirPath)
+    local tpQuads = pDirQuads:get_contents()
 
     local pXmlNode = load_xml_node_from_directory(sImgPath, sDirPath)
 
+    -- convert quads from its raw format into sprites (with properties)
     local tpPathQuad = load_quad_img_sets_from_dictionary(pXmlNode, tpQuads)
-    return tpPathQuad
+    pDirQuads:set_contents(tpPathQuad)
+
+    return pDirQuads
 end
 
 function load_quad_storage_from_wz_sub(sImgPath, sDirPath)
-    local tpPathQuad = load_quad_img_sets_from_directory(sImgPath, sDirPath)
-    return tpPathQuad
+    local pDirQuad = load_quad_img_sets_from_directory(sImgPath, sDirPath)
+    return pDirQuad
 end

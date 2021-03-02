@@ -17,10 +17,10 @@ require("ui.struct.worldmap.basic.sprite")
 require("ui.struct.worldmap.element.path")
 require("utils.procedure.copy")
 
-local function load_node_map_path(pMapNode, tpPathImgs, sRegionName, iIdx)
-    local sXmlPath = RInterface.WMAP_DIR .. "/" .. sRegionName .. ".img/MapList/" .. iIdx .. "/path"
+local function load_node_map_path(pMapNode, pDirWmapImgs, sRegionName, iIdx)
+    local sXmlPath = RInterface.WMAP_DIR .. "/" .. sRegionName .. "/MapList/" .. iIdx .. "/path"
 
-    local pImg = find_image_on_storage(tpPathImgs, sXmlPath)
+    local pImg = find_image_on_storage(pDirWmapImgs, sXmlPath)
     if pImg == nil then     -- empty content
         return nil
     end
@@ -65,12 +65,12 @@ local function load_node_map_textbox(pMapNode)
     return pTextbox
 end
 
-function load_node_worldmap_map_list(pMapNode, tpHelperImages, tpWmapImgs, sRegionName, iIdx)
+function load_node_worldmap_map_list(pMapNode, pDirHelperImgs, pDirWmapImgs, sRegionName, iIdx)
     local rgiFields = load_node_mapno(pMapNode)
-    local pPath = load_node_map_path(pMapNode, tpWmapImgs, sRegionName, iIdx)
+    local pPath = load_node_map_path(pMapNode, pDirWmapImgs, sRegionName, iIdx)
     local pTextbox = load_node_map_textbox(pMapNode)
 
-    local pFieldMarker = load_node_map_marker(pMapNode, tpHelperImages)
+    local pFieldMarker = load_node_map_marker(pMapNode, pDirHelperImgs)
     pFieldMarker:set_mapno(rgiFields)
     pFieldMarker:set_path(pPath)
     pFieldMarker:set_textbox(pTextbox)

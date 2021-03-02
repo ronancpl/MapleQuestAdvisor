@@ -26,6 +26,10 @@ function unpack_keys(tTable)    -- unpacking keys as arguments
     return unpack(keys(tTable))
 end
 
+function slice(tTable, iFromIdx, iToIdx)
+    return {unpack(tTable, iFromIdx, iToIdx)}
+end
+
 function clear_table(tTable)
     local rgpKeys = keys(tTable)
     for _, pKey in ipairs(rgpKeys) do

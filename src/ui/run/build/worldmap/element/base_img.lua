@@ -14,8 +14,8 @@ require("composer.field.node.image")
 require("ui.run.build.interface.storage.split")
 require("ui.struct.worldmap.element.background")
 
-function load_node_worldmap_base_img(pBaseImgNode, tpPathImgs)
-    local pImg = find_image_on_storage(tpPathImgs, "baseImg/0")
+function load_node_worldmap_base_img(pBaseImgNode, pDirWmapImgs)
+    local pImg = find_image_on_storage(pDirWmapImgs, "baseImg/0")
 
     local iOx
     local iOy

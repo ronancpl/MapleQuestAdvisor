@@ -79,7 +79,7 @@ local function decompose_box_image(pImgBoxDim, rgiBoxOuter, rgiBoxInner)
         local iIx, iIy = unpack(rgiBoxInner[i])
         iLx, iRx, iTy, iBy = fetch_decomp_img_coord(iOx, iOy, iIx, iIy)
 
-        local pPart = love.graphics.newQuad(iLx, iRx - iLx, iTx, iBy - iTy, pImgBoxDim)
+        local pPart = love.graphics.newQuad(iLx, iRx - iLx, iTy, iBy - iTy, pImgBoxDim)
         table.insert(rgpBoxParts, pPart)
     end
 

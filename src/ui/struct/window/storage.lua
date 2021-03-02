@@ -17,44 +17,44 @@ require("utils.struct.class")
 
 CWndStorage = createClass({
     tpWmapImgsCache = {},
-    tpHelperQuadsCache,
-    tpHelperImagesCache,
-    tpWmapRegionCache = {}
+    tpWmapRegionCache = {},
+    pDirHelperQuads,
+    pDirHelperImgs
 })
 
 function CWndStorage:_fetch_worldmap_helper()
-    self.tpHelperQuadsCache, self.tpHelperImagesCache = load_frame_position_helper()
+    self.pDirHelperQuads, self.pDirHelperImgs = load_frame_position_helper()
 end
 
 function CWndStorage:get_worldmap_helper()
-    return self.tpHelperQuadsCache, self.tpHelperImagesCache
+    return self.pDirHelperQuads, self.pDirHelperImgs
 end
 
 function CWndStorage:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
     local m_tpWmapImgsCache = self.tpWmapImgsCache
 
     local pWmapRegion
-    local tpWmapImgs
+    local pDirWmapImgs
     if m_tpWmapImgsCache[sWmapName] == nil then
-        pWmapRegion, tpWmapImgs = load_frame_worldmap_region(sWmapName, ctFieldsWmap)
+        pWmapRegion, pDirWmapImgs = load_frame_worldmap_region(sWmapName, ctFieldsWmap)
 
         local m_tpWmapRegionCache = self.tpWmapRegionCache
         m_tpWmapRegionCache[sWmapName] = pWmapRegion
-        m_tpWmapImgsCache[sWmapName] = tpWmapImgs
+        m_tpWmapImgsCache[sWmapName] = pDirWmapImgs
     else
-        tpWmapImgs = m_tpWmapImgsCache[sWmapName]
+        pDirWmapImgs = m_tpWmapImgsCache[sWmapName]
         pWmapRegion = m_tpXmlWmapNode[sWmapName]
     end
 
-    return pWmapRegion, tpWmapImgs
+    return pWmapRegion, pDirWmapImgs
 end
 
 function CWndStorage:load_region(sWmapName)
     local pWmapRegion
-    local tpWmapImgs
-    pWmapRegion, tpWmapImgs = self:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
+    local pDirWmapImgs
+    pWmapRegion, pDirWmapImgs = self:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
 
-    return pWmapRegion, tpWmapImgs
+    return pWmapRegion, pDirWmapImgs
 end
 
 function CWndStorage:load()

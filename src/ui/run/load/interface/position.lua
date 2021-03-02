@@ -17,12 +17,12 @@ require("ui.run.build.interface.storage.split")
 function load_frame_position_helper()
     local sWmapImgPath = RInterface.WMAP_HELPER
 
-    local tpHelperQuads = load_quad_storage_from_wz_sub(sWmapImgPath, "worldMap")
+    local pDirHelperQds = load_quad_storage_from_wz_sub(sWmapImgPath, "worldMap")
 
-    local tpWmapHelperQuads = select_animations_from_storage(tpHelperQuads, {"curPos", "lovePos", "npcPos0", "npcPos1", "npcPos2", "npcPos3", "partyPos"})
-    local tpWmapHelperImgs = select_images_from_storage(tpHelperQuads, {"mapImage"})
+    local pDirHelperQuads = select_animations_from_storage(pDirHelperQds, {"curPos", "lovePos", "npcPos0", "npcPos1", "npcPos2", "npcPos3", "partyPos"})
+    local pDirHelperImgs = select_images_from_storage(pDirHelperQds, {"mapImage"})
 
-    return tpWmapHelperQuads, tpWmapHelperImgs
+    return pDirHelperQuads, pDirHelperImgs
 end
 
 function load_nodes_position_helper(pXmlWmapHelper)

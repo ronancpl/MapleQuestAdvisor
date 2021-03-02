@@ -59,9 +59,9 @@ function CWmapProperties:get_map_fields()
     return deep_copy(self.rgpMapList)
 end
 
-function CWmapProperties:update_region(pWmapRegion, tpHelperImages, tpWmapImgs)
+function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs)
     local pBaseImgNode = pWmapRegion:get_base_img()
-    local pImgBase = load_node_worldmap_base_img(pBaseImgNode, tpWmapImgs)
+    local pImgBase = load_node_worldmap_base_img(pBaseImgNode, pDirWmapImgs)
     self:set_base_img(pImgBase)
 
     local sWmapParent = pWmapRegion:get_parent_map()
@@ -74,7 +74,7 @@ function CWmapProperties:update_region(pWmapRegion, tpHelperImages, tpWmapImgs)
         local iIdx = pPair[1]
         local pMapLink = pPair[2]
 
-        local pRegionLink = load_node_worldmap_map_link(pMapLink, tpWmapImgs, sWmapRegion, iIdx)
+        local pRegionLink = load_node_worldmap_map_link(pMapLink, pDirWmapImgs, sWmapRegion, iIdx)
         self:add_map_link(pRegionLink)
     end
 
@@ -83,7 +83,7 @@ function CWmapProperties:update_region(pWmapRegion, tpHelperImages, tpWmapImgs)
         local iIdx = pPair[1]
         local pMapNode = pPair[2]
 
-        local pFieldList = load_node_worldmap_map_list(pMapNode, tpHelperImages, tpWmapImgs, sWmapRegion, iIdx)
+        local pFieldList = load_node_worldmap_map_list(pMapNode, pDirHelperImgs, pDirWmapImgs, sWmapRegion, iIdx)
         self:add_map_field(pFieldList)
     end
 end

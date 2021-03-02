@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.field.node.media.storage.storage")
 require("ui.path.path")
 require("utils.procedure.string")
 require("utils.procedure.unpack")
@@ -48,5 +49,12 @@ local function load_images_from_directory_path(sPath, sBasePath)
 end
 
 function load_images_from_path(sPath)
-    return load_images_from_directory_path(RInterface.LOVE_IMAGE_DIR_PATH .. sPath, sPath)
+    local sBasePath = sPath
+    local tpItems = load_images_from_directory_path(RInterface.LOVE_IMAGE_DIR_PATH .. sPath, sBasePath)
+
+    local pDirImages = CMediaTable:new()
+    pDirImages:set_path(sBasePath)
+    pDirImages:set_contents(tpItems)
+
+    return pDirImages
 end

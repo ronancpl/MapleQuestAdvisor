@@ -11,6 +11,7 @@
 --]]
 
 require("composer.field.node.media.image")
+require("composer.field.node.media.storage.storage")
 require("utils.procedure.string")
 require("utils.procedure.unpack")
 
@@ -24,9 +25,10 @@ local function load_quad_img_set(tpImgs)
             local sQuadPath = sImgPath:sub(1,iIdx-1)
             local sSprite = sImgPath:sub(iIdx+1, -1)
 
-            if tonumber(sSprite, 10) ~= nil then    -- is integer
+            local iSprite = tonumber(sSprite, 10)
+            if iSprite ~= nil then    -- is integer
                 local tQuad = create_inner_table_if_not_exists(tpQuads, sQuadPath)
-                tQuad[sSprite] = pImg
+                tQuad[iSprite] = pImg
             end
         end
     end
@@ -41,8 +43,8 @@ local function array_quad_image_sets(tQuads)
 
         local i = 0
         while true do
-            local sIdx = '' .. i
-            local pImg = tpImgs[sIdx]
+            local iSprite = i
+            local pImg = tpImgs[iSprite]
             if pImg == nil then
                 break
             end
@@ -59,12 +61,17 @@ local function array_quad_image_sets(tQuads)
 end
 
 function load_quads_from_path(sPath)
-    local tpImgs = load_images_from_path(sPath)
+    local pDirImgs = load_images_from_path(sPath)
+    local tpImgs = pDirImgs:get_contents()
 
     local tpQuads = load_quad_img_set(tpImgs)
     tpQuads = array_quad_image_sets(tpQuads)
 
-    return tpQuads
+    local pDirQuads = CMediaTable:new()
+    pDirQuads:set_path(sPath)
+    pDirQuads:set_contents(tpQuads)
+
+    return pDirQuads
 end
 
 function fetch_quad_from_container(tpQuads, sPath)
