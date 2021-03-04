@@ -32,11 +32,12 @@ function CDynamicElem:load(rX, rY, rgpQuads)
     m_eAnima:update_quad()
 
     self.iTimer = 0.0
-    self.pCurQuad = nil
+    self.pCurQuad = rgpQuads[1]
     self.pQueueDrawingQuads = SQueue:new()
 end
 
 function CDynamicElem:_update_animation()
+    local m_eAnima = self.eAnima
     local pQuad = m_eAnima:inspect_quad()
 
     while true do
@@ -76,5 +77,5 @@ function CDynamicElem:draw()
     local iPx, iPy = m_eElem:get_pos()
 
     local iOx, iOy = pImg:get_origin()
-    love.graphics.draw{drawable=pImg:get_img(),x=iPx+iOx,y=iPy+iOy}
+    love.graphics.draw(pImg:get_img(), iPx+iOx, iPy+iOy)
 end

@@ -23,6 +23,8 @@ RInterface = {
     CAPACITY = {
         LAYERS = 4,
         CHANNELS = 4
-    }
+    },
+
+    QUAD_DELAY_DEF = 0.2
 
 }

@@ -181,9 +181,9 @@ function CStyleBoxText:update(dt)
 end
 
 function CStyleBoxText:_draw_text_box()
-    love.graphics.draw{drawable=self.bg, x=self.iRx, y=self.iRy}
-    love.graphics.draw{drawable=self.pTxtTitle, x=self.iRx + SBOX_FIL_X, y=self.iRy + SBOX_FIL_Y}
-    love.graphics.draw{drawable=self.pTxtDesc, x=self.iRx + SBOX_FIL_X, y=self.iRy + SBOX_FIL_Y}
+    love.graphics.draw(self.bg, self.iRx, self.iRy)
+    love.graphics.draw(self.pTxtTitle, self.iRx + SBOX_FIL_X, self.iRy + SBOX_FIL_Y)
+    love.graphics.draw(self.pTxtDesc, self.iRx + SBOX_FIL_X, self.iRy + SBOX_FIL_Y)
 end
 
 function CStyleBoxText:draw()

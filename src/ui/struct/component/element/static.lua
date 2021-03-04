@@ -39,5 +39,5 @@ function CStaticElem:draw()
     local m_eImg = self.eImg
     local iOx, iOy = m_eImg:get_origin()
 
-    love.graphics.draw{drawable=m_eImg:get_img(),x=iPx+iOx,y=iPy+iOy}
+    love.graphics.draw(m_eImg:get_img(), iPx+iOx, iPy+iOy)
 end

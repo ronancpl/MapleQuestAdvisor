@@ -101,6 +101,25 @@ local function intersect_image_subpath(pDirMedia, sPathImg)
     end
 end
 
+local function fetch_image_subpath_index(bAnimation, rgsPath, nPath, sSubpathImg)
+    local iIdx
+
+    if bAnimation then
+        return nPath    -- whole path already processed from image directory
+    else
+        for iIdx = nPath, 1, -1 do
+            local sPath = rgsPath[iIdx]
+
+            if tonumber(sPath) ~= nil then
+                local iTopIdx = iIdx - 1
+                return iTopIdx
+            end
+        end
+
+        return -1
+    end
+end
+
 local function fetch_image_subpath_location(pDirMedia, sPathImg, bAnimation)
     -- relative pathing from pDirMedia
     local iBaseIdx
@@ -111,21 +130,15 @@ local function fetch_image_subpath_location(pDirMedia, sPathImg, bAnimation)
     local rgsPath = split_pathd(sSubpathImg)
     local nPath = #rgsPath
 
-    for iIdx = nPath, 1, -1 do
-        local sPath = rgsPath[iIdx]
 
-        local i = tonumber(sPath)
-        if i ~= nil then
-            local iTopIdx = bAnimation and nPath or iIdx - 1
-            local rgsSubpath = slice(rgsPath, iBaseIdx, iTopIdx)
 
-            local sSubpathImg = table.concat(rgsSubpath,".")
+    local iTopIdx = fetch_image_subpath_index(bAnimation, rgsPath, nPath, sSubpathImg)
 
-            return i, sSubpathImg
-        end
-    end
+    local rgsSubpath = slice(rgsPath, iBaseIdx, iTopIdx)
 
-    return -1, sSubpathImg
+    local sSubpathImg = table.concat(rgsSubpath,".")
+
+    return iTopIdx, sSubpathImg
 end
 
 function find_image_on_storage(pDirMedia, sPathImg)
@@ -136,13 +149,16 @@ function find_image_on_storage(pDirMedia, sPathImg)
     local sSubpathImg
     iIdx, sSubpathImg = fetch_image_subpath_location(pDirMedia, sPathImg, false)
 
-    local pImg = fetch_image(tpQuads, sSubpathImg, iIdx + 1)
+    local pImg = fetch_image(tpQuads, sSubpathImg, iIdx)
     return pImg
 end
 
 function find_animation_on_storage(pDirMedia, sPathImg)
     local tpQuads = pDirMedia:get_contents()
-    local sPath = fetch_image_subpath_location(pDirMedia, sPathImg, true)
+
+    local iIdx
+    local sPath
+    iIdx, sPath = fetch_image_subpath_location(pDirMedia, sPathImg, true)
 
     local rgpQuads = fetch_animation(tpQuads, sPath)
     return rgpQuads
