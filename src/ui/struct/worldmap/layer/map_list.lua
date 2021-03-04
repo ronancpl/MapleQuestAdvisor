@@ -11,6 +11,7 @@
 --]]
 
 require("ui.struct.window.layer")
+require("ui.struct.worldmap.element.mark")
 require("utils.struct.class")
 
 CWmapNavMapList = createClass({CWndLayer, {}})
@@ -27,4 +28,12 @@ function CWmapNavMapList:build(pWmapProp)
     for _, pPropMarker in ipairs(rgpPropMarkers) do
         self:_build_element(pPropMarker)
     end
+
+    local sMarker = "curPos"
+    local rgpQuads = find_animation_on_storage(pDirHelperQuads, sMarker)
+
+    local pMarker = CWmapElemMark:new()
+    pMarker:load(0, 0, rgpQuads)
+
+    self:add_element(1, pMarker)
 end

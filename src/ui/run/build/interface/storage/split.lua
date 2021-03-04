@@ -128,14 +128,11 @@ local function fetch_image_subpath_location(pDirMedia, sPathImg, bAnimation)
     iBaseIdx = iBaseIdx + 1
 
     local rgsPath = split_pathd(sSubpathImg)
+
     local nPath = #rgsPath
-
-
-
     local iTopIdx = fetch_image_subpath_index(bAnimation, rgsPath, nPath, sSubpathImg)
 
     local rgsSubpath = slice(rgsPath, iBaseIdx, iTopIdx)
-
     local sSubpathImg = table.concat(rgsSubpath,".")
 
     return iTopIdx, sSubpathImg
@@ -143,7 +140,6 @@ end
 
 function find_image_on_storage(pDirMedia, sPathImg)
     local tpQuads = pDirMedia:get_contents()
-
 
     local iIdx
     local sSubpathImg

@@ -22,9 +22,10 @@ function load_node_quad(pSpriteNode, pImg)
     local iZ = pSpriteNode:get_z()
 
     local iDelay = pSpriteNode:get_delay()
+    local iDelaySec = iDelay / 1000
 
     local pQuad = CBasicQuad:new()
-    pQuad:load(pImg, iOx, iOy, iZ, iDelay)
+    pQuad:load(pImg, iOx, iOy, iZ, iDelaySec)
 
     return pQuad
 end

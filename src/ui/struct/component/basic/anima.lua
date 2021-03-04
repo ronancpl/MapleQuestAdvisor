@@ -21,8 +21,8 @@ CBasicAnima = createClass({
 function CBasicAnima:load(rgpQuads)
     self.rgpQuads = rgpQuads
 
-    self.iCurQuad = 0
-    self.iLimQuad = #self.rgpQuads + 1
+    self.iCurQuad = 1
+    self.iLimQuad = #self.rgpQuads
 end
 
 function CBasicAnima:inspect_quad()

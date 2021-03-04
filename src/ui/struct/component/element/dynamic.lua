@@ -40,6 +40,8 @@ function CDynamicElem:_update_animation()
     local m_eAnima = self.eAnima
     local pQuad = m_eAnima:inspect_quad()
 
+    local m_pQueueDrawingQuads = self.pQueueDrawingQuads
+
     while true do
         local iDelay = pQuad:get_delay()
         if self.iTimer < iDelay then
@@ -50,7 +52,7 @@ function CDynamicElem:_update_animation()
 
         m_eAnima:update_quad()
         pQuad = m_eAnima:inspect_quad()
-        table.insert(rgpDrawingQuads, pQuad)
+        m_pQueueDrawingQuads:push(pQuad)
     end
 end
 
