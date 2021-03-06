@@ -21,6 +21,18 @@ function load_node_text_box(pNodeTextbox)
     local sDesc
     sTitle, sDesc = pNodeTextbox:get_text()
 
-    local pTextbox = CWmapElemTextBox:new(sTitle, sDesc)
+    local pTextbox = CWmapElemTextBox:new()
+    pTextbox:set_title(sTitle)
+    pTextbox:set_desc(sDesc)
+
+    local pImgBox = love.graphics.newImage(RInterface.LOVE_IMAGE_DIR_PATH .. RInterface.SBOX_DESC)
+
+    local iOx
+    local iOy
+    local iZ = 1
+    iOx, iOy = love.mouse.getPosition()
+
+    pTextbox:load(pImgBox, iOx, iOy, iZ, 100, 100)
+
     return pTextbox
 end

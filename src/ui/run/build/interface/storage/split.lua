@@ -13,6 +13,8 @@
 require("utils.procedure.string")
 require("utils.procedure.unpack")
 
+local U_QUAD_SINGLE = -1
+
 local function insert_animation(tQuads, sPath, rgpQuads)
     tQuads[sPath] = rgpQuads
 end
@@ -29,7 +31,7 @@ end
 local function fetch_image(tpQuads, sPath, iIdx)
     local tQuads = tpQuads[sPath]
 
-    local pImage = tQuads[iIdx]
+    local pImage = tQuads and tQuads[iIdx] or nil
     return pImage
 end
 
@@ -71,14 +73,10 @@ function select_images_from_storage(pDirMedia, rgsPaths)
     local tpQuads = pDirMedia:get_contents()
 
     for _, sPath in ipairs(rgsDirPaths) do
-        local rgpQuads = fetch_animation(tpQuads, sPath)
+        local pQuad = fetch_animation(tpQuads, sPath)
 
-        for iIdx, pQuad in ipairs(rgpQuads) do
-            local iPosIdx = iIdx
-
-            local pImage = pQuad.get_image and pQuad:get_image() or pQuad
-            insert_image(tpSlctImgs, sPath, iPosIdx, pImage)
-        end
+        local pImage = pQuad.get_image and pQuad:get_image() or pQuad
+        insert_image(tpSlctImgs, sPath, U_QUAD_SINGLE, pImage)
     end
 
     local pDirSlctImgs = pDirMedia:clone()
@@ -102,32 +100,17 @@ local function intersect_image_subpath(pDirMedia, sPathImg)
 end
 
 local function fetch_image_subpath_index(bAnimation, rgsPath, nPath, sSubpathImg)
-    local iIdx
-
-    if bAnimation then
-        return nPath    -- whole path already processed from image directory
-    else
-        for iIdx = nPath, 1, -1 do
-            local sPath = rgsPath[iIdx]
-
-            if tonumber(sPath) ~= nil then
-                local iTopIdx = iIdx - 1
-                return iTopIdx
-            end
-        end
-
-        return -1
-    end
+    return nPath    -- consists of full subpath from image directory
 end
 
 local function fetch_image_subpath_location(pDirMedia, sPathImg, bAnimation)
     -- relative pathing from pDirMedia
     local iBaseIdx
-    local sSubpathImg
-    iBaseIdx, sSubpathImg = intersect_image_subpath(pDirMedia, sPathImg)
+    local sBasepathImg
+    iBaseIdx, sBasepathImg = intersect_image_subpath(pDirMedia, sPathImg)
     iBaseIdx = iBaseIdx + 1
 
-    local rgsPath = split_pathd(sSubpathImg)
+    local rgsPath = split_pathd(sBasepathImg)
 
     local nPath = #rgsPath
     local iTopIdx = fetch_image_subpath_index(bAnimation, rgsPath, nPath, sSubpathImg)
@@ -145,7 +128,7 @@ function find_image_on_storage(pDirMedia, sPathImg)
     local sSubpathImg
     iIdx, sSubpathImg = fetch_image_subpath_location(pDirMedia, sPathImg, false)
 
-    local pImg = fetch_image(tpQuads, sSubpathImg, iIdx)
+    local pImg = fetch_image(tpQuads, sSubpathImg, U_QUAD_SINGLE)
     return pImg
 end
 
@@ -158,4 +141,12 @@ function find_animation_on_storage(pDirMedia, sPathImg)
 
     local rgpQuads = fetch_animation(tpQuads, sPath)
     return rgpQuads
+end
+
+function find_animation_image_on_storage(pDirMedia, sPathImg, iIdx)
+    local rgpQuads = find_animation_on_storage(pDirMedia, sPathImg)
+
+    local rgpIdxQuad = {}
+    table.insert(rgpIdxQuad, rgpQuads[iIdx])
+    return rgpIdxQuad
 end

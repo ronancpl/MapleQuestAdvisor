@@ -16,7 +16,7 @@ require("utils.struct.class")
 
 CWmapNavMapList = createClass({CWndLayer, {}})
 
-function CWmapNavMapLink:_build_element(pPropMarker)
+function CWmapNavMapList:_build_element(pPropMarker)
     self:add_element(1, pPropMarker)
 end
 

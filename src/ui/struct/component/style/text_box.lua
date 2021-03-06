@@ -87,7 +87,7 @@ local function decompose_box_image(pImgBoxDim, rgiBoxOuter, rgiBoxInner)
 end
 
 function CStyleBoxText:_load_graphics()
-    local pImgBox = love.graphics.newImage(RInterface.SBOX_DESC)
+    local pImgBox = love.graphics.newImage(RInterface.LOVE_IMAGE_DIR_PATH .. RInterface.SBOX_DESC)
 
     local rgiBoxOuter = { {0, 0}, {121, 0}, {121, 19}, {0, 19} }
     local rgiBoxInner = { {3, 3}, {118, 3}, {118, 16}, {3, 16} }
@@ -175,7 +175,7 @@ local function fetch_box_body_placement(iMx, iMy)
 end
 
 function CStyleBoxText:update(dt)
-    local iX, iY = fetch_box_body_placement(unpack(love.mouse.getPosition()))
+    local iX, iY = fetch_box_body_placement(love.mouse.getPosition())
     self.iRx = iX
     self.iRy = iY
 end

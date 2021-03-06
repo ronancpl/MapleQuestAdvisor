@@ -28,13 +28,13 @@ function CWmapElemTextBox:set_desc(sDesc)
 end
 
 function CWmapElemTextBox:load(pImg, iOx, iOy, iZ, rX, rY)
-    self.eDynam:load(pImg, iOx, iOy, iZ, rX, rY)
+    self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
 end
 
 function CWmapElemTextBox:update(dt)
-    self.eDynam:update(dt)
+    self.eConst:update(dt)
 end
 
 function CWmapElemTextBox:draw()
-    self.eDynam:draw()
+    self.eConst:draw()
 end

@@ -20,7 +20,7 @@ function load_frame_position_helper()
     local pDirHelperQds = load_quad_storage_from_wz_sub(sWmapImgPath, "worldMap")
 
     local pDirHelperQuads = select_animations_from_storage(pDirHelperQds, {"curPos", "lovePos", "npcPos0", "npcPos1", "npcPos2", "npcPos3", "partyPos"})
-    local pDirHelperImgs = select_images_from_storage(pDirHelperQds, {"mapImage"})
+    local pDirHelperImgs = select_animations_from_storage(pDirHelperQds, {"mapImage"})
 
     return pDirHelperQuads, pDirHelperImgs
 end
