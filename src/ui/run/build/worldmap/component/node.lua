@@ -50,8 +50,14 @@ local function load_xml_worldmap_comp_textbox(pXmlWorldmapElement)
     local sDesc
     sTitle, sDesc = load_xml_text_box(pXmlWorldmapElement)
 
-    local pNodeTextbox = CWmapBasicTextbox:new({sTitle = sTitle, sDesc = sDesc})
-    return pNodeTextbox
+    if sTitle then
+        log_st(LPath.INTERFACE, "_font.txt", ">> TX: '" .. tostring(sTitle) .. "' '" .. tostring(sDesc) .. "'")
+
+        local pNodeTextbox = CWmapBasicTextbox:new({sTitle = sTitle, sDesc = sDesc})
+        return pNodeTextbox
+    else
+        return nil
+    end
 end
 
 local function load_xml_worldmap_comp_type(pXmlWorldmapElement)

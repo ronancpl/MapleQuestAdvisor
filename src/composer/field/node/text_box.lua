@@ -11,12 +11,14 @@
 --]]
 
 function load_xml_text_box(pXmlNode)
-    local sTitle = pXmlNode:get_child_by_name("title")
-    local sDesc = pXmlNode:get_child_by_name("desc")
+    local pXmlTitle = pXmlNode:get_child_by_name("title")
+    local pXmlDesc = pXmlNode:get_child_by_name("desc")
 
-    if sTitle == nil and sDesc == nil then  -- empty content
+    if pXmlTitle == nil and pXmlDesc == nil then  -- empty content
         return nil
     end
 
+    local sTitle = pXmlTitle and pXmlTitle:get_value() or ""
+    local sDesc = pXmlDesc and pXmlDesc:get_value() or ""
     return sTitle, sDesc
 end

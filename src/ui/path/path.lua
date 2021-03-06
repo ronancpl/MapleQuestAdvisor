@@ -12,7 +12,9 @@
 
 RInterface = {
 
+    LOVE_FONT_DIR_PATH = "/media/fonts/",
     LOVE_IMAGE_DIR_PATH = "/media/images/",
+
     WZ_IMAGE_PATH = "lib/xml/",
 
     WMAP_HELPER = "Map.wz/MapHelper.img",
