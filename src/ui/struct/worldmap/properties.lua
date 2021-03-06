@@ -31,6 +31,10 @@ function CWmapProperties:reset()
     clear_table(self.rgpMapLink)
 end
 
+function CWmapProperties:get_parent_map()
+    return self.sParentMap
+end
+
 function CWmapProperties:set_parent_map(sParentMap)
     self.sParentMap = sParentMap
 end
@@ -83,7 +87,7 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs
         local iIdx = pPair[1]
         local pMapNode = pPair[2]
 
-        local pFieldList = load_node_worldmap_map_list(pMapNode, pDirHelperImgs, pDirWmapImgs, sWmapRegion, iIdx)
-        self:add_map_field(pFieldList)
+        local pRegionMarker = load_node_worldmap_map_list(pMapNode, pDirHelperImgs, pDirWmapImgs, sWmapRegion, iIdx)
+        self:add_map_field(pRegionMarker)
     end
 end

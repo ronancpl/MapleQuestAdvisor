@@ -27,6 +27,7 @@ local function load_xml_worldmap_comp_link_region_image(pXmlRegionLink)
     local iOx, iOy, iZ = load_xml_image(pXmlRegionLink:get_child_by_name("linkImg"))
 
     local pImgLink = CWmapNodeLinkImage:new(iOx, iOy, iZ)
+    local pImgLink = CWmapNodeLinkImage:new({iOx = iOx, iOy = iOy, iZ = iZ})
     return pImgLink
 end
 

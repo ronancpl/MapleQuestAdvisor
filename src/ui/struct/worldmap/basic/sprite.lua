@@ -29,11 +29,3 @@ end
 function CWmapBasicSprite:get_image()
     return self.iOx, self.iOy
 end
-
-function CWmapBasicSprite:new(iOx, iOy, iZ, iDelay)
-    self.iOx = iOx
-    self.iOy = iOy
-    self.iZ = iZ
-    self.iDelay = iDelay
-    return self
-end

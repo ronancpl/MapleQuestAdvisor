@@ -20,9 +20,3 @@ CWmapBasicTextbox = createClass({
 function CWmapBasicTextbox:get_text()
     return self.sTitle, self.sDesc
 end
-
-function CWmapBasicTextbox:new(sTitle, sDesc)
-    self.sTitle = sTitle
-    self.sDesc = sDesc
-    return self
-end

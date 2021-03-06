@@ -13,10 +13,18 @@
 require("ui.struct.window.layer")
 require("utils.struct.class")
 
-CWmapNavTextBox = createClass({CWndLayer, {}})
+CWmapNavFragment = createClass({CWndLayer, {}})
 
-function CWmapNavTextBox:build(pWmapProp)
+function CWmapNavFragment:build(pWmapProp)
     self:reset()
 
     -- add layer elements
+    local sWmapRegion = pWmapProp:get_parent_map()
+
+    local rgpFieldMarkers = pWmapProp:get_map_fields()
+
+    local pFieldMarker = rgpFieldMarkers[1]
+
+    local pElemTbox = pFieldMarker:get_textbox()
+    self:add_element(1, pElemTbox)
 end

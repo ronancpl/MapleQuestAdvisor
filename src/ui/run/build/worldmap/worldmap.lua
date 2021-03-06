@@ -30,7 +30,7 @@ local function load_xml_worldmap_base_img(pXmlWorldmapFile)
     local iZ
     iOx, iOy, iZ = load_xml_image(pXmlBaseImg)
 
-    local pImg = CWmapBasicImage:new(iOx, iOy, iZ)
+    local pImg = CWmapBasicImage:new({iOx = iOx, iOy = iOy, iZ = iZ})
     return pImg
 end
 

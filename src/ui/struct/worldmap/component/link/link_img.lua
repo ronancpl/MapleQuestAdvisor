@@ -14,10 +14,3 @@ require("ui.struct.worldmap.basic.image")
 require("utils.struct.class")
 
 CWmapNodeLinkImage = createClass({CWmapBasicImage, {}})
-
-function CWmapNodeLinkImage:new(iOx, iOy, iZ)
-    self.iOx = iOx
-    self.iOy = iOy
-    self.iZ = iZ
-    return self
-end

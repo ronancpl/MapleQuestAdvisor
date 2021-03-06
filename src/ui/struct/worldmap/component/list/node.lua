@@ -51,9 +51,3 @@ end
 function CWmapNodeMarker:set_type(iType)
     self.iType = iType
 end
-
-function CWmapNodeMarker:new(iOx, iOy)
-    self.iOx = iOx
-    self.iOy = iOy
-    return self
-end

@@ -32,6 +32,10 @@ function CWmapElemMark:set_path(pPath)
     self.pPath = pPath
 end
 
+function CWmapElemMark:get_textbox()
+    return self.pTextbox
+end
+
 function CWmapElemMark:set_textbox(pTextbox)
     self.pTextbox = pTextbox
 end

@@ -20,10 +20,3 @@ CWmapBasicImage = createClass({CWmapBasicSpot, {
 function CWmapBasicImage:get_image()
     return self.iOx, self.iOy, self.iZ
 end
-
-function CWmapBasicImage:new(iOx, iOy, iZ)
-    self.iOx = iOx
-    self.iOy = iOy
-    self.iZ = iZ
-    return self
-end

@@ -158,7 +158,7 @@ function createClass (...)
     c.classMembers = retrieveClassMembers(c) -- members definition
 
     -- define a new constructor for this new class
-    function c:new (sv)
+    function c:_init (sv)
         sv = sv or {}
 
         -- load constructor values from superclass
@@ -178,6 +178,11 @@ function createClass (...)
         end
 
         return o
+    end
+
+    -- externalize constructor method, custom-constructor classes needs to call _init
+    function c:new (sv)
+        return c:_init (sv)
     end
 
     -- init field values for this singleton instance

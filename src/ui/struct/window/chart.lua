@@ -14,9 +14,9 @@ require("ui.struct.window.canvas")
 require("ui.struct.window.storage")
 require("ui.struct.worldmap.properties")
 require("ui.struct.worldmap.layer.background")
+require("ui.struct.worldmap.layer.fragment")
 require("ui.struct.worldmap.layer.map_link")
 require("ui.struct.worldmap.layer.map_list")
-require("ui.struct.worldmap.layer.text_box")
 require("utils.struct.class")
 
 CWndWmap = createClass({
@@ -42,7 +42,7 @@ function CWndWmap:update_region(sWmapName)
 end
 
 function CWndWmap:load()
-    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavTextBox})
+    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment})
     self.pCache:load()
 end
 

@@ -28,7 +28,7 @@ local function load_xml_worldmap_node_path(pXmlWorldmapElement)
         local iZ
         iOx, iOy, iZ = load_xml_image(pXmlNode)
 
-        pImg = CWmapBasicImage:new(iOx, iOy, iZ)
+        pImg = CWmapBasicImage:new({iOx = iOx, iOy = iOy, iZ = iZ})
     end
 
     return pImg
@@ -50,7 +50,7 @@ local function load_xml_worldmap_comp_textbox(pXmlWorldmapElement)
     local sDesc
     sTitle, sDesc = load_xml_text_box(pXmlWorldmapElement)
 
-    local pNodeTextbox = CWmapBasicTextbox:new(sTitle, sDesc)
+    local pNodeTextbox = CWmapBasicTextbox:new({sTitle = sTitle, sDesc = sDesc})
     return pNodeTextbox
 end
 
@@ -77,11 +77,11 @@ function load_xml_worldmap_node(pXmlWorldmapElement)
     local iType = load_xml_worldmap_comp_type(pXmlWorldmapElement)
     local iOx, iOy = load_xml_worldmap_comp_spot(pXmlWorldmapElement)
 
-    local pNodeMarker = CWmapNodeMarker:new(iOx, iOy)
+    local pNodeMarker = CWmapNodeMarker:new({iOx = iOx, iOy = iOy})
     pNodeMarker:set_path(pImgPath)
     pNodeMarker:set_mapno(pNodeMapno)
     pNodeMarker:set_textbox(pNodeTextbox)
     pNodeMarker:set_type(iType)
 
-    return iNodeid, pWmapNode
+    return iNodeid, pNodeMarker
 end

@@ -25,6 +25,6 @@ RInterface = {
         CHANNELS = 4
     },
 
-    QUAD_DELAY_DEF = 0.2
+    QUAD_DELAY_DEF = 0.1
 
 }

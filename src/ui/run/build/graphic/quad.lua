@@ -24,6 +24,6 @@ function load_xml_sprite(pXmlNode)
     local pXmlDelayNode = pXmlNode:get_child_by_name("delay")
     local iDelay = pXmlDelayNode and pXmlDelayNode:get_value() or RInterface.QUAD_DELAY_DEF
 
-    local pSpriteNode = CWmapBasicSprite:new(iOx, iOy, iZ, iDelay)
+    local pSpriteNode = CWmapBasicSprite:new({iOx = iOx, iOy = iOy, iZ = iZ, iDelay = iDelay})
     return pSpriteNode
 end
