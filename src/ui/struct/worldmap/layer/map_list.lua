@@ -24,6 +24,7 @@ function CWmapNavMapList:build(pWmapProp)
     self:reset()
 
     -- add layer elements
+    --[[
     local rgpPropMarkers = pWmapProp:get_map_fields()
     for _, pPropMarker in ipairs(rgpPropMarkers) do
         self:_build_element(pPropMarker)
@@ -36,4 +37,6 @@ function CWmapNavMapList:build(pWmapProp)
     pMarker:load(0, 0, rgpQuads)
 
     self:add_element(1, pMarker)
+    ]]--
+
 end

@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.run.draw.box.texture")
 require("ui.struct.component.basic.base")
 require("utils.struct.class")
 
@@ -46,49 +47,6 @@ CStyleBoxText = createClass({
     rgpImgBoxQuads
 })
 
-local function fetch_decomp_img_coord(iOx, iOy, iIx, iIy)
-    local iLx, iRx, iTy, iBy
-
-    if iOx < iIx then
-        iLx = iOx
-        iRx = iIx
-    else
-        iLx = iIx
-        iRx = iOx
-    end
-
-    if iOy < iIy then
-        iTy = iOy
-        iBy = iIy
-    else
-        iTy = iIy
-        iBy = iOy
-    end
-
-    return iLx, iRx, iTy, iBy
-end
-
-local function decompose_box_image(iBoxWidth, iBoxHeight, rgiBoxOuter, rgiBoxInner)
-    -- rgiBox Coords:
-    -- top-left, top-right, bottom-right, bottom-left
-
-    -- boxParts:
-    -- Top-left, top, Top-right, Right, Bottom-right, Bottom, Bottom-left, Left
-
-    local rgpBoxQuads = {}
-
-    for i = 1, #rgiBoxOuter, 1 do
-        local iOx, iOy = unpack(rgiBoxOuter[i])
-        local iIx, iIy = unpack(rgiBoxInner[i])
-        iLx, iRx, iTy, iBy = fetch_decomp_img_coord(iOx, iOy, iIx, iIy)
-
-        local pQuad = love.graphics.newQuad(iLx, iRx - iLx, iTy, iBy - iTy, iBoxWidth, iBoxHeight)
-        table.insert(rgpBoxQuads, pQuad)
-    end
-
-    return rgpBoxQuads
-end
-
 function CStyleBoxText:_load_graphics()
     local pImgBox = love.graphics.newImage(RInterface.LOVE_IMAGE_DIR_PATH .. RInterface.SBOX_DESC)
 
@@ -99,7 +57,7 @@ function CStyleBoxText:_load_graphics()
     local iH
     iW, iH = pImgBox:getDimensions()
 
-    local rgpImgBoxQuads = decompose_box_image(iW, iH, rgiBoxOuter, rgiBoxInner)
+    local rgpImgBoxQuads = fetch_texture_split(pImgBox, 3, 3, 118, 16)
     self.rgpImgBoxQuads = rgpImgBoxQuads
 
     self.pImgBox = pImgBox
@@ -111,9 +69,6 @@ function CStyleBoxText:_load_fonts()
 
     self.pFontTitle = love.graphics.newFont(RInterface.LOVE_FONT_DIR_PATH .. "arialbd.ttf", 16)
     self.pFontDesc = love.graphics.newFont(RInterface.LOVE_FONT_DIR_PATH .. "arial.ttf", 16)
-
-    local pTxtTitle = love.graphics.newText(self.pFontTitle)
-    log_st(LPath.INTERFACE, "_font.txt", "rt:" .. tostring(self.pFontTitle))
 end
 
 function CStyleBoxText:_compose_box_text()
@@ -126,11 +81,6 @@ function CStyleBoxText:_compose_box_text()
     local pTxtDesc = love.graphics.newText(m_pFontDesc)
     pTxtDesc:setf({color1 = {1, 1, 1}, string1 = self.sDesc}, self.iLineWidth, "justify")
     self.pTxtDesc = pTxtDesc
-
-    log_st(LPath.INTERFACE, "_font.txt", "rs:" .. tostring(self.pFontTitle))
-
-    log_st(LPath.INTERFACE, "_font.txt", "TX: '" .. self.sTitle .. "' '" .. self.sDesc .. "'")
-    log_st(LPath.INTERFACE, "_font.txt", "RT: " .. pTxtTitle:getHeight() .. " " .. pTxtTitle:getWidth() .. " " .. pTxtDesc:getHeight() .. " " .. pTxtDesc:getWidth())
 end
 
 function CStyleBoxText:_set_box_text(sTitle, sDesc)
@@ -212,12 +162,7 @@ function CStyleBoxText:update(dt)
 end
 
 function CStyleBoxText:_draw_text_box_background()
-    local m_rgpImgBoxQuads = self.rgpImgBoxQuads
-    local m_pImgBox = self.pImgBox
-
-    for _, pImgQuad in ipairs(m_rgpImgBoxQuads) do
-        love.graphics.draw(m_pImgBox, pImgQuad, self.iRx, self.iRy)
-    end
+    draw_texture_box(self.pImgBox, self.rgpImgBoxQuads, self:get_width(), self:get_height(), self.iRx, self.iRy)
 end
 
 function CStyleBoxText:_draw_text_box()
