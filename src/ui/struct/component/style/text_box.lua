@@ -50,13 +50,6 @@ CStyleBoxText = createClass({
 function CStyleBoxText:_load_graphics()
     local pImgBox = love.graphics.newImage(RInterface.LOVE_IMAGE_DIR_PATH .. RInterface.SBOX_DESC)
 
-    local rgiBoxOuter = { {0, 0}, {121, 0}, {121, 19}, {0, 19} }
-    local rgiBoxInner = { {3, 3}, {118, 3}, {118, 16}, {3, 16} }
-
-    local iW
-    local iH
-    iW, iH = pImgBox:getDimensions()
-
     local rgpImgBoxQuads = fetch_texture_split(pImgBox, 3, 3, 118, 16)
     self.rgpImgBoxQuads = rgpImgBoxQuads
 
