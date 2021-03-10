@@ -30,3 +30,25 @@ function CBasicQuad:load(pImg, iOx, iOy, iZ, iDelay)
     self.eImg:load(pImg, iOx, iOy, iZ)
     self.iDelay = iDelay
 end
+
+function CBasicQuad:instantiate(pWmapProp, bFlipOrigin)
+    local pQuad = CBasicQuad:new()
+
+    local iCx
+    local iCy
+    iCx, iCy = pWmapProp:get_origin()
+
+    local iOx
+    local iOy
+    iOx, iOy = self.eImg:get_origin()
+
+    local pImg = self.eImg:get_img()
+
+    if bFlipOrigin then
+        pQuad:load(pImg, iCx - iOx, iCy - iOy, self.iZ, self.iDelay)
+    else
+        pQuad:load(pImg, iCx + iOx, iCy + iOy, self.iZ, self.iDelay)
+    end
+
+    return pQuad
+end

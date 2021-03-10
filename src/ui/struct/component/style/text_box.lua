@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.draw.box.texture")
+require("struct.component.style.box.texture")
 require("ui.struct.component.basic.base")
 require("utils.struct.class")
 
@@ -43,17 +43,14 @@ CStyleBoxText = createClass({
     iLineWidth,
     iHeight = 2 * SBOX_UPD_Y,
 
-    pImgBox,
-    rgpImgBoxQuads
+    pTextureBox = CStyleBox:new()
 })
 
-function CStyleBoxText:_load_graphics()
+function CStyleBoxText:_load_texture()
+    local m_pTextureBox = self.pTextureBox
+
     local pImgBox = love.graphics.newImage(RInterface.LOVE_IMAGE_DIR_PATH .. RInterface.SBOX_DESC)
-
-    local rgpImgBoxQuads = fetch_texture_split(pImgBox, 3, 3, 118, 16)
-    self.rgpImgBoxQuads = rgpImgBoxQuads
-
-    self.pImgBox = pImgBox
+    m_pTextureBox:load(pImgBox, 3, 3, 115, 6)
 end
 
 function CStyleBoxText:_load_fonts()
@@ -123,7 +120,7 @@ end
 function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
     self.eBase:load(iRx, iRy)
 
-    self:_load_graphics()
+    self:_load_texture()
     self:_load_fonts()
 
     self:_set_box_text(sTitle, sDesc)
@@ -155,7 +152,8 @@ function CStyleBoxText:update(dt)
 end
 
 function CStyleBoxText:_draw_text_box_background()
-    draw_texture_box(self.pImgBox, self.rgpImgBoxQuads, self:get_width(), self:get_height(), self.iRx, self.iRy)
+    local m_pTextureBox = self.pTextureBox
+    m_pTextureBox:draw(self.iRx, self.iRy, self:get_width(), self:get_height())
 end
 
 function CStyleBoxText:_draw_text_box()

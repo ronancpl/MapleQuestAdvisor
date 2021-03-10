@@ -10,22 +10,15 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.layer")
-require("utils.struct.class")
+function instantiate_image(pWmapProp, pImg, bFlipOrig)
+    return pImg:instantiate(pWmapProp, bFlipOrig)
+end
 
-CWmapNavFragment = createClass({CWndLayer, {}})
+function instantiate_quads(pWmapProp, rgpQuads, bFlipOrig)
+    local rgpInstQuads = {}
+    for _, pQuad in ipairs(rgpQuads) do
+        table.insert(rgpInstQuads, pQuad:instantiate(pWmapProp, bFlipOrig))
+    end
 
-function CWmapNavFragment:build(pWmapProp)
-    self:reset()
-
-    -- add layer elements
-
-    local sWmapRegion = pWmapProp:get_parent_map()
-
-    local rgpFieldMarkers = pWmapProp:get_map_fields()
-
-    local pFieldMarker = rgpFieldMarkers[1]
-
-    local pElemTbox = pFieldMarker:get_textbox()
-    self:add_element(1, pElemTbox)
+    return rgpInstQuads
 end

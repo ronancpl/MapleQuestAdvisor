@@ -37,3 +37,19 @@ function CBasicImage:load(pImg, iOx, iOy, iZ)
     self.iOy = iOy
     self.iZ = iZ
 end
+
+function CBasicImage:instantiate(pWmapProp, bFlipOrigin)
+    local pImg = CBasicImage:new()
+
+    local iCx
+    local iCy
+    iCx, iCy = pWmapProp:get_origin()
+
+    if bFlipOrigin then
+        pImg:load(self.pImg, iCx - self.iOx, iCy - self.iOy, self.iZ)
+    else
+        pImg:load(self.pImg, iCx + self.iOx, iCy + self.iOy, self.iZ)
+    end
+
+    return pImg
+end

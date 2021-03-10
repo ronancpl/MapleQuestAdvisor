@@ -292,7 +292,7 @@ local function draw_pattern_box(pImgBox, rgpQuadsBox, iLoopX, iLoopY, iX, iY)
     iPy = fetch_next_pattern_hpos(rgpQuadsBox[tBoxQuad.B], iPy)
 end
 
-function draw_texture_box(pImgBox, rgpQuadsBox, iWidth, iHeight, iPx, iPy)
+function draw_texture_box(pImgBox, rgpQuadsBox, iPx, iPy, iWidth, iHeight)
     local iLoopX
     local iLoopY
     iLoopX, iLoopY = calc_texture_dimensions(pImgBox, rgpQuadsBox, iWidth, iHeight)

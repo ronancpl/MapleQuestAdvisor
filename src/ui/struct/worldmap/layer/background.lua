@@ -19,6 +19,7 @@ function CWmapNavBackground:build(pWmapProp)
     self:reset()
 
     -- add layer elements
+
     local pPropBaseImg = pWmapProp:get_base_img()
     self:add_element(1, pPropBaseImg)
 end

@@ -24,19 +24,19 @@ function CWmapNavMapList:build(pWmapProp)
     self:reset()
 
     -- add layer elements
-    --[[
+
     local rgpPropMarkers = pWmapProp:get_map_fields()
     for _, pPropMarker in ipairs(rgpPropMarkers) do
         self:_build_element(pPropMarker)
     end
 
+    --[[
     local sMarker = "curPos"
     local rgpQuads = find_animation_on_storage(pDirHelperQuads, sMarker)
 
     local pMarker = CWmapElemMark:new()
-    pMarker:load(0, 0, rgpQuads)
+    pMarker:load(0, 0, rgpQuads, pWmapProp)
 
     self:add_element(1, pMarker)
     ]]--
-
 end

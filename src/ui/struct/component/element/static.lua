@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.run.load.interface.image")
 require("ui.struct.component.basic.base")
 require("ui.struct.component.basic.image")
 require("utils.struct.class")
@@ -19,6 +20,10 @@ CStaticElem = createClass({
     eImg = CBasicImage:new()
 })
 
+function CStaticElem:get_origin()
+    return self.eImg:get_origin()
+end
+
 function CStaticElem:get_z()
     self.eImg:get_z()
 end
@@ -26,6 +31,10 @@ end
 function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)
     self.eElem:load(rX, rY)
     self.eImg:load(pImg, iOx, iOy, iZ)
+end
+
+function CStaticElem:instantiate(pWmapProp, bFlipOrig)
+    self.eImg = instantiate_image(pWmapProp, self.eImg, bFlipOrig)
 end
 
 function CStaticElem:update(dt)

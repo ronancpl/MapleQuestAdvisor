@@ -14,7 +14,7 @@ require("composer.field.node.image")
 require("ui.run.build.interface.storage.split")
 require("ui.struct.worldmap.element.background")
 
-function load_node_worldmap_base_img(pBaseImgNode, pDirWmapImgs)
+function load_node_worldmap_base_img(pWmapProp, pBaseImgNode, pDirWmapImgs)
     local pImg = find_image_on_storage(pDirWmapImgs, "BaseImg/0")
 
     local iOx
@@ -22,8 +22,8 @@ function load_node_worldmap_base_img(pBaseImgNode, pDirWmapImgs)
     local iZ
     iOx, iOy, iZ = pBaseImgNode:get_image()
 
-    local pImgBase = CWmapElemBackground:new()
-    pImgBase:load(pImg, iOx, iOy, iZ, 0, 0)
+    local pBgrd = CWmapElemBackground:new()
+    pBgrd:load(pWmapProp, pImg, iOx, iOy, iZ, 0, 0)
 
-    return pImgBase
+    return pBgrd
 end

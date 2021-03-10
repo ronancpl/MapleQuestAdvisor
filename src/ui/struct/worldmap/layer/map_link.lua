@@ -24,11 +24,9 @@ function CWmapNavMapLink:build(pWmapProp)
     self:reset()
 
     -- add layer elements
-    --[[
 
     local rgpPropLinks = pWmapProp:get_map_links()
     for _, pPropLink in ipairs(rgpPropLinks) do
         self:_build_element(pPropLink)
     end
-    ]]--
 end

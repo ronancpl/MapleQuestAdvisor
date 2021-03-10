@@ -40,8 +40,10 @@ function CWmapElemMark:set_textbox(pTextbox)
     self.pTextbox = pTextbox
 end
 
-function CWmapElemMark:load(rX, rY, rgpQuads)
+function CWmapElemMark:load(rX, rY, rgpQuads, pWmapProp)
     self.eDynam:load(rX, rY, rgpQuads)
+    self.eDynam:instantiate(pWmapProp, true)
+    self.eDynam:after_load()
 end
 
 function CWmapElemMark:update(dt)

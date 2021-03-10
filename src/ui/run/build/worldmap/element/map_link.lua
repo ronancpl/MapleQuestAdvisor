@@ -14,7 +14,7 @@ require("ui.path.path")
 require("ui.run.build.interface.storage.split")
 require("ui.struct.worldmap.element.region")
 
-function load_node_worldmap_map_link(pMapLinkNode, pDirWmapImgs, sRegionName, iIdx)
+function load_node_worldmap_map_link(pWmapProp, pMapLinkNode, pDirWmapImgs, sRegionName, iIdx)
     local sTooltip = pMapLinkNode:get_tool_tip()
 
     local pLinkNode = pMapLinkNode:get_link()
@@ -30,7 +30,7 @@ function load_node_worldmap_map_link(pMapLinkNode, pDirWmapImgs, sRegionName, iI
     iOx, iOy, iZ = pLinkImgNode:get_image()
 
     local pRegionLink = CWmapElemRegionLink:new()
-    pRegionLink:load(pImg, iOx, iOy, iZ, 0, 0)
+    pRegionLink:load(pWmapProp, pImg, iOx, iOy, iZ, 0, 0)
     pRegionLink:set_link_map(sLinkMap)
     pRegionLink:set_tooltip(sTooltip)
 

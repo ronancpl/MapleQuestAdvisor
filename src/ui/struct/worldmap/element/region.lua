@@ -19,8 +19,9 @@ CWmapElemRegionLink = createClass({
     sTooltip
 })
 
-function CWmapElemRegionLink:load(pImg, iOx, iOy, iZ, rX, rY)
+function CWmapElemRegionLink:load(pWmapProp, pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
+    self.eConst:instantiate(pWmapProp, true)
 end
 
 function CWmapElemRegionLink:get_z()

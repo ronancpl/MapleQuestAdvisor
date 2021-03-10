@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.run.load.interface.image")
 require("ui.struct.component.basic.anima")
 require("ui.struct.component.basic.base")
 require("utils.struct.class")
@@ -29,7 +30,21 @@ function CDynamicElem:load(rX, rY, rgpQuads)
 
     local m_eAnima = self.eAnima
     m_eAnima:load(rgpQuads)
+end
+
+function CDynamicElem:instantiate(pWmapProp, bFlipOrig)
+    local m_eAnima = self.eAnima
+    local rgpQuads = m_eAnima:get_quads()
+
+    rgpQuads = instantiate_quads(pWmapProp, rgpQuads, bFlipOrig)
+    m_eAnima:load(rgpQuads)
+end
+
+function CDynamicElem:after_load()
+    local m_eAnima = self.eAnima
     m_eAnima:update_quad()
+
+    local rgpQuads = m_eAnima:get_quads()
 
     self.iTimer = 0.0
     self.pCurQuad = rgpQuads[1]

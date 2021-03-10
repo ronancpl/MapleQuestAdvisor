@@ -18,6 +18,8 @@ require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CWmapProperties = createClass({
+    iCx = 0,
+    iCy = 0,
     sParentMap,
     pBaseImg,
     rgpMapList = {},
@@ -63,10 +65,23 @@ function CWmapProperties:get_map_fields()
     return deep_copy(self.rgpMapList)
 end
 
+function CWmapProperties:get_origin()
+    return self.iCx, self.iCy
+end
+
+function CWmapProperties:set_origin(iCx, iCy)
+    self.iCx = iCx
+    self.iCy = iCy
+
+    log_st(LPath.INTERFACE, "_img.txt", " | " .. tostring(self.iCx) .. " " .. tostring(self.iCy))
+end
+
 function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs)
     local pBaseImgNode = pWmapRegion:get_base_img()
-    local pImgBase = load_node_worldmap_base_img(pBaseImgNode, pDirWmapImgs)
-    self:set_base_img(pImgBase)
+
+    local pBgrd = load_node_worldmap_base_img(self, pBaseImgNode, pDirWmapImgs)
+    self:set_base_img(pBgrd)
+    self:set_origin(pBgrd:get_center())
 
     local sWmapParent = pWmapRegion:get_parent_map()
     self:set_parent_map(sWmapParent)
@@ -78,7 +93,7 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs
         local iIdx = pPair[1]
         local pMapLink = pPair[2]
 
-        local pRegionLink = load_node_worldmap_map_link(pMapLink, pDirWmapImgs, sWmapRegion, iIdx)
+        local pRegionLink = load_node_worldmap_map_link(self, pMapLink, pDirWmapImgs, sWmapRegion, iIdx)
         self:add_map_link(pRegionLink)
     end
 
@@ -87,7 +102,7 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs
         local iIdx = pPair[1]
         local pMapNode = pPair[2]
 
-        local pRegionMarker = load_node_worldmap_map_list(pMapNode, pDirHelperImgs, pDirWmapImgs, sWmapRegion, iIdx)
+        local pRegionMarker = load_node_worldmap_map_list(self, pMapNode, pDirHelperImgs, pDirWmapImgs, sWmapRegion, iIdx)
         self:add_map_field(pRegionMarker)
     end
 end

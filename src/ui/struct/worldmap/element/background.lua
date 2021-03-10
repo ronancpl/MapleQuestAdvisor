@@ -17,8 +17,13 @@ CWmapElemBackground = createClass({
     eConst = CStaticElem:new()
 })
 
-function CWmapElemBackground:load(pImg, iOx, iOy, iZ, rX, rY)
+function CWmapElemBackground:get_center()
+    return self.eConst:get_origin()
+end
+
+function CWmapElemBackground:load(pWmapProp, pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
+    self.eConst:instantiate(pWmapProp, false)
 end
 
 function CWmapElemBackground:update(dt)

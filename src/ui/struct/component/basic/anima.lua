@@ -32,3 +32,7 @@ end
 function CBasicAnima:update_quad()
     self.iCurQuad = (self.iCurQuad % self.iLimQuad) + 1
 end
+
+function CBasicAnima:get_quads()
+    return self.rgpQuads
+end
