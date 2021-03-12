@@ -72,8 +72,6 @@ end
 function CWmapProperties:set_origin(iCx, iCy)
     self.iCx = iCx
     self.iCy = iCy
-
-    log_st(LPath.INTERFACE, "_img.txt", " | " .. tostring(self.iCx) .. " " .. tostring(self.iCy))
 end
 
 function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs)
@@ -81,7 +79,6 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs
 
     local pBgrd = load_node_worldmap_base_img(self, pBaseImgNode, pDirWmapImgs)
     self:set_base_img(pBgrd)
-    self:set_origin(pBgrd:get_center())
 
     local sWmapParent = pWmapRegion:get_parent_map()
     self:set_parent_map(sWmapParent)

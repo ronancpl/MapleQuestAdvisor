@@ -23,7 +23,7 @@ end
 
 function CWmapElemBackground:load(pWmapProp, pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
-    self.eConst:instantiate(pWmapProp, false)
+    self.eConst:instantiate(pWmapProp, true)
 end
 
 function CWmapElemBackground:update(dt)

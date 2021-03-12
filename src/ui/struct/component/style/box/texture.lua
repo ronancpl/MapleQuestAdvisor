@@ -56,7 +56,7 @@ end
 
 function CStyleBox:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     local iL, iT, iR, iB = self:_init_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
-    local rgpImgBoxQuads = fetch_texture_split(pImgBox, iL, iT, iR, iB)
+    local rgpImgBoxQuads = load_texture_split(pImgBox, iL, iT, iR, iB)
 
     self.pImgBox = pImgBox
     self.rgpImgBoxQuads = rgpImgBoxQuads

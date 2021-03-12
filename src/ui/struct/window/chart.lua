@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.path.path")
 require("ui.struct.window.canvas")
 require("ui.struct.window.storage")
 require("ui.struct.worldmap.properties")
@@ -42,6 +43,11 @@ function CWndWmap:update_region(sWmapName)
 end
 
 function CWndWmap:load()
+    local iBx
+    local iBy
+    iBx, iBy = unpack(RInterface.WMAP_BGRD_SIZE)
+    self.pProp:set_origin(iBx / 2, iBy / 2)
+
     self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment})
     self.pCache:load()
 end

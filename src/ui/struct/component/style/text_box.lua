@@ -10,111 +10,40 @@
     provide an express grant of patent rights.
 --]]
 
+require("struct.component.style.box.limit")
+require("struct.component.style.box.text")
 require("struct.component.style.box.texture")
+require("ui.path.textbox")
+require("ui.run.draw.box.limit")
 require("ui.struct.component.basic.base")
 require("utils.struct.class")
-
-local SBOX_CRLF = 5
-local SBOX_MIN_X = 100
-local SBOX_MAX_X = 500
-local SBOX_FIL_X = 10
-local SBOX_UPD_X = 200
-
-local SBOX_MIN_Y = 80
-local SBOX_MAX_Y = 200
-local SBOX_FIL_Y = 10
-local SBOX_UPD_Y = SBOX_CRLF    -- + font height
-
-local WND_X = 640
-local WND_Y = 470
 
 CStyleBoxText = createClass({
     eBase = CBasicElem:new(),
 
-    sTitle,
-    pFontTitle,
-    pTxtTitle,
-
-    sDesc,
-    pFontDesc,
-    pTxtDesc,
-
-    iGrowth,
-    iLineWidth,
-    iHeight = 2 * SBOX_UPD_Y,
-
-    pTextureBox = CStyleBox:new()
+    pBoxText = CStyleText:new(),
+    pBoxTexture = CStyleBox:new(),
+    pBoxLimits = CStyleLimit:new()
 })
 
 function CStyleBoxText:_load_texture()
-    local m_pTextureBox = self.pTextureBox
+    local m_pBoxTexture = self.pBoxTexture
 
     local pImgBox = love.graphics.newImage(RInterface.LOVE_IMAGE_DIR_PATH .. RInterface.SBOX_DESC)
-    m_pTextureBox:load(pImgBox, 3, 3, 115, 6)
+    m_pBoxTexture:load(pImgBox, 3, 3, 115, 6)
 end
 
 function CStyleBoxText:_load_fonts()
-    self.iGrowth = 0
-    self.iLineWidth = SBOX_MIN_X
+    local m_pBoxLimits = self.pBoxLimits
+    m_pBoxLimits:reset()
 
-    self.pFontTitle = love.graphics.newFont(RInterface.LOVE_FONT_DIR_PATH .. "arialbd.ttf", 16)
-    self.pFontDesc = love.graphics.newFont(RInterface.LOVE_FONT_DIR_PATH .. "arial.ttf", 16)
+    local m_pBoxText = self.pBoxText
+    m_pBoxText:load_font("arialbd.ttf", 16, "arial.ttf", 16)
 end
 
-function CStyleBoxText:_compose_box_text()
-    local m_pFontTitle = self.pFontTitle
-    local pTxtTitle = love.graphics.newText(m_pFontTitle)
-    pTxtTitle:setf({color1 = {1, 1, 1}, string1 = self.sTitle}, self.iLineWidth, "center")
-    self.pTxtTitle = pTxtTitle
-
-    local m_pFontDesc = self.pFontDesc
-    local pTxtDesc = love.graphics.newText(m_pFontDesc)
-    pTxtDesc:setf({color1 = {1, 1, 1}, string1 = self.sDesc}, self.iLineWidth, "justify")
-    self.pTxtDesc = pTxtDesc
-end
-
-function CStyleBoxText:_set_box_text(sTitle, sDesc)
-    self.sTitle = sTitle
-    self.sDesc = sDesc
-
-    self:_compose_box_text()
-end
-
-function CStyleBoxText:get_width()
-    return self.iLineWidth
-end
-
-function CStyleBoxText:get_height()
-    local m_pFontTitle = self.pFontTitle
-    local m_pFontDesc = self.pFontDesc
-
-    local m_sTitle = self.sTitle
-    local m_sDesc = self.sDesc
-
-    -- title/desc + 2 new lines
-    return m_pFontTitle:getHeight(m_sTitle) + (2 * SBOX_CRLF) + m_pFontDesc:getHeight(m_sDesc)
-end
-
-function CStyleBoxText:_adjust_box_boundary()
-    self.iGrowth = self.iGrowth + 1
-
-    if self.iGrowth % 2 == 0 and self.iLineWidth < SBOX_MAX_X - (2 * SBOX_FIL_X) then
-        self.iLineWidth = self.iLineWidth + SBOX_UPD_X
-    else
-        self.iHeight = self.iHeight + SBOX_UPD_Y
-    end
-end
-
-function CStyleBoxText:_validate_box_boundary()
-    while true do
-        local iHeight = self:get_height()
-        if iHeight < self.iHeight then
-            break
-        end
-
-        self:_adjust_box_boundary()  -- accommodate text field in style box canvas
-        self:_compose_box_text()
-    end
+function CStyleBoxText:_load_text(sTitle, sDesc)
+    local m_pBoxText = self.pBoxText
+    m_pBoxText:update_text(sTitle, sDesc)
 end
 
 function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
@@ -122,45 +51,38 @@ function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
 
     self:_load_texture()
     self:_load_fonts()
+    self:_load_text(sTitle, sDesc)
 
-    self:_set_box_text(sTitle, sDesc)
-    self:_validate_box_boundary()
-end
-
-function CStyleBoxText:_fetch_box_body_placement(iMx, iMy)
-    local iWidth = self:get_width()
-    if(iMx + iWidth < WND_X) then
-        iRefX = iMx
-    else
-        iRefX = iMx - iWidth
-    end
-
-    local iHeight = self:get_height()
-    if(iMy + iHeight < WND_Y) then
-        iRefY = iMy
-    else
-        iRefY = iMy - iHeight
-    end
-
-    return iRefX, iRefY
+    local m_pBoxText = self.pBoxText
+    local m_pBoxLimits = self.pBoxLimits
+    validate_box_boundary(m_pBoxText, m_pBoxLimits)
 end
 
 function CStyleBoxText:update(dt)
-    local iX, iY = self:_fetch_box_body_placement(love.mouse.getPosition())
-    self.iRx = iX
-    self.iRy = iY
+    local m_pBoxLimits = self.pBoxLimits
+    m_pBoxLimits:update_box_position(love.mouse.getPosition())
 end
 
-function CStyleBoxText:_draw_text_box_background()
-    local m_pTextureBox = self.pTextureBox
-    m_pTextureBox:draw(self.iRx, self.iRy, self:get_width(), self:get_height())
+function CStyleBoxText:_draw_text_box_background(iRx, iRy)
+    local m_pBoxTexture = self.pBoxTexture
+    local m_pBoxLimits = self.pBoxLimits
+
+    m_pBoxTexture:draw(iRx, iRy, m_pBoxLimits:get_width(), m_pBoxLimits:get_height())
 end
 
 function CStyleBoxText:_draw_text_box()
-    self:_draw_text_box_background()
+    local m_pBoxLimits = self.pBoxLimits
+    local iRx, iRy = m_pBoxLimits:get_box_position()
 
-    love.graphics.draw(self.pTxtTitle, self.iRx + SBOX_FIL_X, self.iRy + SBOX_FIL_Y)
-    love.graphics.draw(self.pTxtDesc, self.iRx + SBOX_FIL_X, self.iRy + SBOX_FIL_Y)
+    self:_draw_text_box_background(iRx, iRy)
+
+    local pTxtTitle
+    local pTxtDesc
+    local m_pBoxText = self.pBoxText
+    pTxtTitle, pTxtDesc = m_pBoxText:get_drawable()
+
+    love.graphics.draw(pTxtTitle, iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
+    love.graphics.draw(pTxtDesc, iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
 end
 
 function CStyleBoxText:draw()

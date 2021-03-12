@@ -203,7 +203,7 @@ end
 -- Top-left, top, Top-right, Right, Bottom-right, Bottom, Bottom-left, Left
 local tBoxQuad = {LT = 1, T = 2, RT = 3, R = 4, RB = 5, B = 6, LB = 7, L = 8, M = 9}
 
-function fetch_texture_split(pImgBox, iL, iT, iR, iB)
+function load_texture_split(pImgBox, iL, iT, iR, iB)
     local rgpBoxOuter = fetch_outer_split(pImgBox)
     local rgpBoxInner = fetch_inner_split(iL, iT, iR, iB)
 

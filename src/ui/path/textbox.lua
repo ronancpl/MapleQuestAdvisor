@@ -10,24 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-RInterface = {
+local CRLF = 5
 
-    LOVE_FONT_DIR_PATH = "/media/fonts/",
-    LOVE_IMAGE_DIR_PATH = "/media/images/",
+RStylebox = {
+    CRLF = CRLF,
 
-    WZ_IMAGE_PATH = "lib/xml/",
+    MIN_X = 100,
+    MAX_X = 500,
+    FIL_X = 10,
+    UPD_X = 190,
 
-    WMAP_BGRD_SIZE = {640, 470},
-    WMAP_HELPER = "Map.wz/MapHelper.img",
-    WMAP_DIR = "Map.wz/WorldMap",
+    MIN_Y = 80,
+    MAX_Y = 200,
+    FIL_Y = 10,
+    UPD_Y = CRLF,       -- + font height
 
-    SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
-
-    CAPACITY = {
-        LAYERS = 4,
-        CHANNELS = 4
-    },
-
-    QUAD_DELAY_DEF = 0.1
+    WND_LIM_X = 640,
+    WND_LIM_Y = 470
 
 }
