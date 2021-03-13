@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-local CRLF = 5
+local CRLF = 15
 
 RStylebox = {
     CRLF = CRLF,

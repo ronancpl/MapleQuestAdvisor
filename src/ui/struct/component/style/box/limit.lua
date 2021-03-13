@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.filters.constant")
 require("ui.path.textbox")
 require("utils.struct.class")
 
@@ -52,22 +53,11 @@ function CStyleLimit:increment()
 end
 
 function CStyleLimit:update_box_position(iMx, iMy)
-    local iWidth = self:get_width()
-    if(iMx + iWidth < RStylebox.WND_LIM_X) then
-        iRefX = iMx
-    else
-        iRefX = iMx - iWidth
-    end
+    local iBx = self:get_width()
+    local iBy = self:get_height()
 
-    local iHeight = self:get_height()
-    if(iMy + iHeight < RStylebox.WND_LIM_Y) then
-        iRefY = iMy
-    else
-        iRefY = iMy - iHeight
-    end
-
-    self.iRx = iRefX
-    self.iRy = iRefY
+    self.iRx = math.iclamp(iMx - iBx / 2, 0, RStylebox.WND_LIM_X - iBx)
+    self.iRy = math.iclamp(iMy - iBy / 2, 0, RStylebox.WND_LIM_Y - iBy)
 end
 
 function CStyleLimit:get_box_position()

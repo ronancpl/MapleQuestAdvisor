@@ -25,6 +25,10 @@ function get_region_id(iMapid)
     return math.floor(iMapid / 10000000)
 end
 
+function math.iclamp(val, min, max)
+    return math.floor(math.min(math.max(val, min), max))
+end
+
 function math.clamp(val, min, max)
     return math.min(math.max(val, min), max)
 end

@@ -38,7 +38,7 @@ function CStyleBoxText:_load_fonts()
     m_pBoxLimits:reset()
 
     local m_pBoxText = self.pBoxText
-    m_pBoxText:load_font("arialbd.ttf", 16, "arial.ttf", 16)
+    m_pBoxText:load_font("arialbd.ttf", 12, "arial.ttf", 12)
 end
 
 function CStyleBoxText:_load_text(sTitle, sDesc)
@@ -82,7 +82,7 @@ function CStyleBoxText:_draw_text_box()
     pTxtTitle, pTxtDesc = m_pBoxText:get_drawable()
 
     love.graphics.draw(pTxtTitle, iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
-    love.graphics.draw(pTxtDesc, iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
+    love.graphics.draw(pTxtDesc, iRx + RStylebox.FIL_X, iRy + (2 * RStylebox.CRLF) + RStylebox.FIL_Y)
 end
 
 function CStyleBoxText:draw()
