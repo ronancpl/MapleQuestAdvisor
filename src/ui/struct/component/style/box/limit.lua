@@ -31,13 +31,17 @@ function CStyleLimit:get_width()
     return self.iLineWidth
 end
 
+function CStyleLimit:set_width(iWidth)
+    self.iLineWidth = iWidth
+end
+
 function CStyleLimit:get_height()
     return self.iHeight
 end
 
 function CStyleLimit:reset()
     self.iGrowth = 0
-    self.iLineWidth = RStylebox.MIN_X
+    self.iLineWidth = RStylebox.MIN_X - (2 * RStylebox.FIL_X)
     self.iHeight = 2 * RStylebox.UPD_Y
 end
 
@@ -56,8 +60,8 @@ function CStyleLimit:update_box_position(iMx, iMy)
     local iBx = self:get_width()
     local iBy = self:get_height()
 
-    self.iRx = math.iclamp(iMx - iBx / 2, 0, RStylebox.WND_LIM_X - iBx)
-    self.iRy = math.iclamp(iMy - iBy / 2, 0, RStylebox.WND_LIM_Y - iBy)
+    self.iRx = math.iclamp(iMx + 20, 0, RStylebox.WND_LIM_X - iBx)
+    self.iRy = math.iclamp(iMy + 23, 0, RStylebox.WND_LIM_Y - iBy)
 end
 
 function CStyleLimit:get_box_position()

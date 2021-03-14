@@ -29,11 +29,12 @@ function CWmapNavFragment:build(pWmapProp)
     local pElemTbox = pFieldMarker:get_textbox()
     self:add_element(1, pElemTbox)
 
-    local iX, iY = love.mouse.getPosition()
+    -- add informative elements
 
+    local iRx, iRy = love.mouse.getPosition()
     local pFont = love.graphics.newFont(RInterface.LOVE_FONT_DIR_PATH .. "arial.ttf", 16)
 
-    -- draw mouse position
-    love.graphics.printf("x:" .. tostring(iX) .. " y:" .. tostring(iY), pFont, 700, 50, 100, "justify")
+    local sText = "(" .. (iRx) .. ", " .. (iRy) .. ")"
+    love.graphics.printf(sText, 650, 10, 1000)
 
 end

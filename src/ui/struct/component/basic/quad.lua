@@ -32,7 +32,7 @@ function CBasicQuad:load(pImg, iOx, iOy, iZ, iDelay)
 end
 
 function CBasicQuad:instantiate(pWmapProp, bFlipOrigin)
-    local pQuad = CBasicQuad:new()
+    local pBasicQuad = CBasicQuad:new()
 
     local iCx
     local iCy
@@ -42,13 +42,12 @@ function CBasicQuad:instantiate(pWmapProp, bFlipOrigin)
     local iOy
     iOx, iOy = self.eImg:get_origin()
 
-    local pImg = self.eImg:get_img()
-
+    local pImg = love.graphics.newImage(self.eImg:get_img())
     if bFlipOrigin then
-        pQuad:load(pImg, iCx - iOx, iCy - iOy, self.iZ, self.iDelay)
+        pBasicQuad:load(pImg, iCx - iOx, iCy - iOy, self.iZ, self.iDelay)
     else
-        pQuad:load(pImg, iCx + iOx, iCy + iOy, self.iZ, self.iDelay)
+        pBasicQuad:load(pImg, iCx + iOx, iCy + iOy, self.iZ, self.iDelay)
     end
 
-    return pQuad
+    return pBasicQuad
 end

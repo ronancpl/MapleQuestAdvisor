@@ -12,7 +12,9 @@
 
 package.path = package.path .. ';?.lua'
 
+require("ui.path.path")
 require("ui.run.build.worldmap.worldmap")
+require("ui.run.load.basic")
 require("ui.run.load.worldmap")
 require("utils.logger.file")
 require("utils.procedure.print")
@@ -22,6 +24,9 @@ function love.load()
     ctFieldsWmap = load_resources_worldmap()
 
     log(LPath.INTERFACE, "load.txt", "Loading user interface...")
+    pFrameBasic = load_frame_basic()
+    pFrameBasic:load_mouse(RInterface.MOUSE.BT_GAME)
+
     pUiWmap = load_frame_worldmap()
 
     local sWmapName = "WorldMap"
@@ -30,9 +35,26 @@ function love.load()
 end
 
 function love.update(dt)
+    pFrameBasic:update(dt)
+    pFrameBasic:refresh_cursor()
+
     pUiWmap:update(dt)
 end
 
 function love.draw()
     pUiWmap:draw()
+end
+
+function love.mousepressed(x, y, button)
+    -- Use a custom cursor when the left mouse button is pressed.
+    if button == 1 then
+        pFrameBasic:load_mouse(RInterface.MOUSE.BT_DOWN)
+    end
+end
+
+function love.mousereleased(x, y, button)
+    -- Go back to the default cursor when the left mouse button is released.
+    if button == 1 then
+        pFrameBasic:load_mouse(RInterface.MOUSE.BT_NORMAL)
+    end
 end

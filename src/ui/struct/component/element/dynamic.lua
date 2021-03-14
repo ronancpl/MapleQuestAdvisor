@@ -32,11 +32,14 @@ function CDynamicElem:load(rX, rY, rgpQuads)
     m_eAnima:load(rgpQuads)
 end
 
+function CDynamicElem:get_image()
+    return self.pCurQuad:get_image()
+end
+
 function CDynamicElem:instantiate(pWmapProp, bFlipOrig)
     local m_eAnima = self.eAnima
-    local rgpQuads = m_eAnima:get_quads()
 
-    rgpQuads = instantiate_quads(pWmapProp, rgpQuads, bFlipOrig)
+    local rgpQuads = instantiate_quads(pWmapProp, m_eAnima:get_quads(), bFlipOrig)
     m_eAnima:load(rgpQuads)
 end
 
@@ -76,7 +79,7 @@ function CDynamicElem:update(dt)
     self:_update_animation()
 end
 
-function CDynamicElem:_update_drawing()
+function CDynamicElem:update_drawing()
     local pQuad = self.pQueueDrawingQuads:poll()
     if pQuad ~= nil then
         self.pCurQuad = pQuad
@@ -88,7 +91,7 @@ function CDynamicElem:_update_drawing()
 end
 
 function CDynamicElem:draw()
-    local pImg = self:_update_drawing()
+    local pImg = self:update_drawing()
 
     local m_eElem = self.eElem
     local iPx, iPy = m_eElem:get_pos()

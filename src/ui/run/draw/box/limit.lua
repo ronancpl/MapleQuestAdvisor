@@ -51,7 +51,7 @@ local function calc_text_boundary(sText, iLimWidth, pFont)
     return iWidth, iHeight
 end
 
-local function calc_current_height(pBoxText, pBoxLimit)
+local function calc_current_boundary(pBoxText, pBoxLimit)
     local sTitle
     local sDesc
     sTitle, sDesc = pBoxText:get_text()
@@ -62,23 +62,31 @@ local function calc_current_height(pBoxText, pBoxLimit)
 
     local iLineWidth = pBoxLimit:get_width()
 
+    local iTw
     local iTh
-    _, iTh = calc_text_boundary(sTitle, iLineWidth, pFontTitle)
+    iTw, iTh = calc_text_boundary(sTitle, iLineWidth, pFontTitle)
 
+    local iDw
     local iDh
-    _, iDh = calc_text_boundary(sDesc, iLineWidth, pFontDesc)
+    iDw, iDh = calc_text_boundary(sDesc, iLineWidth, pFontDesc)
 
     -- title/desc + 2 new lines
-    return iTh + (2 * RStylebox.CRLF) + iDh
+    return math.max(iTw, iDw), iTh + RStylebox.CRLF + iDh
 end
 
 local function adjust_box_boundary(pBoxLimit)
     pBoxLimit:increment()
 end
 
+local function trim_box_width(pBoxLimit, iWidth)
+    pBoxLimit:set_width(iWidth + (2 * RStylebox.FIL_X))
+end
+
 function validate_box_boundary(pBoxText, pBoxLimit)
     while true do
-        local iHeight = calc_current_height(pBoxText, pBoxLimit)
+        local iWidth
+        local iHeight
+        iWidth, iHeight = calc_current_boundary(pBoxText, pBoxLimit)
 
         local pFontTitle
         local pFontDesc
@@ -89,10 +97,13 @@ function validate_box_boundary(pBoxText, pBoxLimit)
         sTitle, sDesc = pBoxText:get_text()
 
         if iHeight < pBoxLimit:get_height() then
-            break
-        end
+            trim_box_width(pBoxLimit, iWidth)   -- accommodate text field in style box canvas
+            compose_box_text(pBoxText, pBoxLimit)
 
-        adjust_box_boundary(pBoxLimit)  -- accommodate text field in style box canvas
-        compose_box_text(pBoxText, pBoxLimit)
+            break
+        else
+            adjust_box_boundary(pBoxLimit)
+            compose_box_text(pBoxText, pBoxLimit)
+        end
     end
 end

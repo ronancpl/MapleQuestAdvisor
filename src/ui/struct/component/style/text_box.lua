@@ -29,7 +29,7 @@ CStyleBoxText = createClass({
 function CStyleBoxText:_load_texture()
     local m_pBoxTexture = self.pBoxTexture
 
-    local pImgBox = love.graphics.newImage(RInterface.LOVE_IMAGE_DIR_PATH .. RInterface.SBOX_DESC)
+    local pImgBox = love.graphics.newImage(RInterface.LOVE_IMAGE_DIR_PATH .. RInterface.INTF_SBOX)
     m_pBoxTexture:load(pImgBox, 3, 3, 115, 6)
 end
 
@@ -82,7 +82,7 @@ function CStyleBoxText:_draw_text_box()
     pTxtTitle, pTxtDesc = m_pBoxText:get_drawable()
 
     love.graphics.draw(pTxtTitle, iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
-    love.graphics.draw(pTxtDesc, iRx + RStylebox.FIL_X, iRy + (2 * RStylebox.CRLF) + RStylebox.FIL_Y)
+    love.graphics.draw(pTxtDesc, iRx + RStylebox.FIL_X, iRy + RStylebox.CRLF + RStylebox.FIL_Y)
 end
 
 function CStyleBoxText:draw()

@@ -128,8 +128,8 @@ function find_image_on_storage(pDirMedia, sPathImg)
     local sSubpathImg
     iIdx, sSubpathImg = fetch_image_subpath_location(pDirMedia, sPathImg, false)
 
-    local pImg = fetch_image(tpQuads, sSubpathImg, U_QUAD_SINGLE)
-    return pImg
+    local pImgData = fetch_image(tpQuads, sSubpathImg, U_QUAD_SINGLE)
+    return pImgData
 end
 
 function find_animation_on_storage(pDirMedia, sPathImg)
@@ -139,14 +139,15 @@ function find_animation_on_storage(pDirMedia, sPathImg)
     local sPath
     iIdx, sPath = fetch_image_subpath_location(pDirMedia, sPathImg, true)
 
-    local rgpQuads = fetch_animation(tpQuads, sPath)
-    return rgpQuads
+    local rgpQuadDatum = fetch_animation(tpQuads, sPath)
+    return rgpQuadDatum
 end
 
 function find_animation_image_on_storage(pDirMedia, sPathImg, iIdx)
     local rgpQuads = find_animation_on_storage(pDirMedia, sPathImg)
 
-    local rgpIdxQuad = {}
-    table.insert(rgpIdxQuad, rgpQuads[iIdx])
-    return rgpIdxQuad
+    local rgpIdxQuadData = {}
+    table.insert(rgpIdxQuadData, rgpQuads[iIdx])
+
+    return rgpIdxQuadData
 end

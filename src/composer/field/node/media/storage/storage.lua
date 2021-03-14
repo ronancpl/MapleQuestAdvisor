@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.copy")
 require("utils.struct.class")
 
 CMediaTable = createClass({
@@ -36,8 +37,8 @@ end
 function CMediaTable:clone()
     local pDirMedia = CMediaTable:new()
 
-    pDirMedia:set_path(self:get_path())
-    pDirMedia:set_contents(self:get_contents())
+    pDirMedia:set_path(deep_copy(self:get_path()))
+    pDirMedia:set_contents(deep_copy(self:get_contents()))
 
     return pDirMedia
 end

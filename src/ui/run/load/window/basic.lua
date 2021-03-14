@@ -10,22 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
-local CRLF = 20
+require("ui.path.path")
+require("ui.struct.window.basic")
 
-RStylebox = {
-    CRLF = CRLF,
+function load_storage_basic()
+    local pStorage = CBasicStorage:new()
+    pStorage:load()
 
-    MIN_X = 250,
-    MAX_X = 250,
-    FIL_X = 10,
-    UPD_X = 115,
-
-    MIN_Y = 80,
-    MAX_Y = 200,
-    FIL_Y = 10,
-    UPD_Y = CRLF,       -- + font height
-
-    WND_LIM_X = 640,
-    WND_LIM_Y = 470
-
-}
+    return pStorage
+end

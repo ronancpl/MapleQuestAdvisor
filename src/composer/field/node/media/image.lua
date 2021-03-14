@@ -38,9 +38,9 @@ local function load_images_from_directory_path(sPath, sBasePath)
             if string.ends_with(sPath, ".png") then
                 local sImgPath = sPath
 
-                local pImg = love.graphics.newImage(sImgPath)
+                local pImgData = love.image.newImageData(sImgPath)
                 local sImgSubpath = fetch_figure_subpath(sImgPath, sBasePath)
-                tpImgs[sImgSubpath] = pImg
+                tpImgs[sImgSubpath] = pImgData
             end
         end
     end

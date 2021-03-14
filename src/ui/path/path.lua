@@ -21,11 +21,18 @@ RInterface = {
     WMAP_HELPER = "Map.wz/MapHelper.img",
     WMAP_DIR = "Map.wz/WorldMap",
 
-    SBOX_DESC = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
+    INTF_BASIC = "UI.wz/Basic.img",
+    INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
 
     CAPACITY = {
         LAYERS = 4,
         CHANNELS = 4
+    },
+
+    MOUSE = {
+        BT_DOWN = "12",
+        BT_GAME = "2",
+        BT_NORMAL = "0"
     },
 
     QUAD_DELAY_DEF = 0.1
