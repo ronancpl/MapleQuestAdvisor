@@ -17,8 +17,9 @@ CStyleBox = createClass({
     pImgBox,
     rgpImgBoxPos,
 
+    pBoxArea,
     rgpBoxQuads,
-    rgfBoxGrowth
+    pBoxGrowth
 })
 
 function CStyleBox:_get_style_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
@@ -66,9 +67,14 @@ function CStyleBox:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
 end
 
 function CStyleBox:build(iWidth, iHeight)
-    self.rgpBoxQuads, self.rgfBoxGrowth = build_pattern_box(self.pImgBox, self.rgpImgBoxPos, iWidth, iHeight)
+    self.pBoxArea = {iWidth, iHeight}
+    self.rgpBoxQuads, self.pBoxGrowth = build_pattern_box(self.pImgBox, self.rgpImgBoxPos, iWidth, iHeight)
 end
 
 function CStyleBox:draw(iPx, iPy)
-    draw_texture_box(self.pImgBox, self.rgpBoxQuads, self.rgfBoxGrowth, iPx, iPy)
+    local iWidth
+    local iHeight
+    iWidth, iHeight = unpack(self.pBoxArea)
+
+    draw_texture_box(self.pImgBox, self.rgpBoxQuads, self.pBoxGrowth, iWidth, iHeight, iPx, iPy)
 end

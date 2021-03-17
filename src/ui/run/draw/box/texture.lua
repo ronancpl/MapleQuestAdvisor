@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+local pCanvas = love.graphics.newCanvas()
+
 local function fetch_outer_split(pImgBox)
     local iWidth
     local iHeight
@@ -209,16 +211,6 @@ local function get_quad_height(pQuad)
     return h
 end
 
-local function fetch_next_pattern_vpos(pQuad, iPx)
-    local iNextPx = iPx + get_quad_width(pQuad)
-    return iNextPx
-end
-
-local function fetch_next_pattern_hpos(pQuad, iPy)
-    local iNextPy = iPy + get_quad_height(pQuad)
-    return iNextPy
-end
-
 local function fetch_box_image_quads(pImgBox, rgpQuadPos)
     local rgpBoxQuads = {}
 
@@ -278,55 +270,160 @@ local function calc_pattern_box(rgpBoxPos, iWidth, iHeight)
     return rgpQuadPos, {fLoopX, fLoopY}
 end
 
-local function draw_pattern_element(pImgBox, rgpBoxQuads, sPos, iPx, iPy)
-    local pQuad = rgpBoxQuads[sPos]
-
-    love.graphics.draw(pImgBox, pQuad, iPx, iPy)
-    return fetch_next_pattern_vpos(pQuad, iPx)
-end
-
 function build_pattern_box(pImgBox, rgpBoxPos, iWidth, iHeight)
-    local rgpQuadPos, rgfLoop = calc_pattern_box(rgpBoxPos, iWidth, iHeight)
+    local rgpQuadPos, pGrowth = calc_pattern_box(rgpBoxPos, iWidth, iHeight)
     local rgpBoxQuads = fetch_box_image_quads(pImgBox, rgpQuadPos)
 
-    return rgpBoxQuads, rgfLoop
+    return rgpBoxQuads, pGrowth
 end
 
-local function draw_pattern_box(pImgBox, rgpBoxQuads, rgfLoop, iX, iY)
-    local fLoopX
-    local fLoopY
-    fLoopX, fLoopY = unpack(rgfLoop)
+local function fetch_next_pattern_hpos(pQuad, iPx)
+    local iNextPx = iPx + get_quad_width(pQuad)
+    return iNextPx
+end
 
-    fLoopX = math.ceil(fLoopX)
-    fLoopY = math.ceil(fLoopY)
+local function fetch_next_pattern_vpos(pQuad, iPy)
+    local iNextPy = iPy + get_quad_height(pQuad)
+    return iNextPy
+end
+
+local function draw_pattern_box_element(pImgBox, pQuad, iPx, iPy)
+    love.graphics.draw(pImgBox, pQuad, iPx, iPy)
+    return fetch_next_pattern_hpos(pQuad, iPx)
+end
+
+local function draw_pattern_box_mid(pImgBox, rgpBoxQuads, rgpQuadFitPos, iLoopX, iLoopY)
+    local pQuad = rgpBoxQuads[tBoxPos.M]
+    local pPos = rgpQuadFitPos[tBoxPos.M]
+
+    local iX = pPos[1]
+    local iY = pPos[3]
 
     local iPx = iX
     local iPy = iY
 
-    for i = 1, 1, 1 do iPx = draw_pattern_element(pImgBox, rgpBoxQuads, tBoxPos.LT, iPx, iPy) end
-    for i = 1, fLoopX, 1 do iPx = draw_pattern_element(pImgBox, rgpBoxQuads, tBoxPos.T, iPx, iPy) end
-    for i = 1, 1, 1 do iPx = draw_pattern_element(pImgBox, rgpBoxQuads, tBoxPos.RT, iPx, iPy) end
-
-    iPx = iX
-    iPy = fetch_next_pattern_hpos(rgpBoxQuads[tBoxPos.T], iPy)
-
-    for j = 1, fLoopY, 1 do
-        for i = 1, 1, 1 do iPx = draw_pattern_element(pImgBox, rgpBoxQuads, tBoxPos.L, iPx, iPy) end
-        for i = 1, fLoopX, 1 do iPx = draw_pattern_element(pImgBox, rgpBoxQuads, tBoxPos.M, iPx, iPy) end
-        for i = 1, 1, 1 do iPx = draw_pattern_element(pImgBox, rgpBoxQuads, tBoxPos.R, iPx, iPy) end
+    for j = 1, iLoopY, 1 do
+        for i = 1, iLoopX, 1 do
+            iPx = draw_pattern_box_element(pImgBox, pQuad, iPx, iPy)
+        end
 
         iPx = iX
-        iPy = fetch_next_pattern_hpos(rgpBoxQuads[tBoxPos.M], iPy)
+        iPy = fetch_next_pattern_vpos(pQuad, iPy)
     end
-
-    for i = 1, 1, 1 do iPx = draw_pattern_element(pImgBox, rgpBoxQuads, tBoxPos.LB, iPx, iPy) end
-    for i = 1, fLoopX, 1 do iPx = draw_pattern_element(pImgBox, rgpBoxQuads, tBoxPos.B, iPx, iPy) end
-    for i = 1, 1, 1 do iPx = draw_pattern_element(pImgBox, rgpBoxQuads, tBoxPos.RB, iPx, iPy) end
-
-    iPx = iX
-    iPy = fetch_next_pattern_hpos(rgpBoxQuads[tBoxPos.B], iPy)
 end
 
-function draw_texture_box(pImgBox, rgpBoxQuads, rgfLoop, iPx, iPy)
-    draw_pattern_box(pImgBox, rgpBoxQuads, rgfLoop, iPx, iPy)
+local function draw_pattern_box_side(pImgBox, rgpBoxQuads, rgpQuadFitPos, iLoopX, iLoopY)
+    for _, sBoxPos in ipairs({tBoxPos.T, tBoxPos.B}) do
+        local pQuad = rgpBoxQuads[sBoxPos]
+        local pPos = rgpQuadFitPos[sBoxPos]
+
+        local iX = pPos[1]
+        local iY = pPos[3]
+
+        local iPx = iX
+        local iPy = iY
+
+        for i = 1, iLoopX, 1 do
+            iPx = draw_pattern_box_element(pImgBox, pQuad, iPx, iPy)
+        end
+    end
+
+    for _, sBoxPos in ipairs({tBoxPos.L, tBoxPos.R}) do
+        local pQuad = rgpBoxQuads[sBoxPos]
+        local pPos = rgpQuadFitPos[sBoxPos]
+
+        local iX = pPos[1]
+        local iY = pPos[3]
+
+        local iPx = iX
+        local iPy = iY
+
+        for j = 1, iLoopY, 1 do
+            iPx = draw_pattern_box_element(pImgBox, pQuad, iPx, iPy)
+
+            iPx = iX
+            iPy = fetch_next_pattern_vpos(pQuad, iPy)
+        end
+    end
+end
+
+local function draw_pattern_box_corner(pImgBox, rgpBoxQuads, rgpQuadFitPos)
+    for _, sBoxPos in ipairs({tBoxPos.LT, tBoxPos.RT, tBoxPos.RB, tBoxPos.LB}) do
+        local pQuad = rgpBoxQuads[sBoxPos]
+        local pPos = rgpQuadFitPos[sBoxPos]
+
+        local iX = pPos[1]
+        local iY = pPos[3]
+
+        local iPx = iX
+        local iPy = iY
+
+        iPx = draw_pattern_box_element(pImgBox, pQuad, iPx, iPy)
+    end
+
+end
+
+local function calc_pattern_element_fit(sPos, rgpBoxQuads, iLx, iTy, iRx, iBy, iW, iH, bFromRight, bFromBottom)
+    local iX = bFromRight and iRx - iW or iLx
+    local iY = bFromBottom and iBy - iH or iTy
+
+    return {iX, iW, iY, iH}
+end
+
+local function calc_pattern_box_fit(rgpBoxQuads, fLoopX, fLoopY, iLx, iTy, iBoxWidth, iBoxHeight)
+    local iWidthLT = get_quad_width(rgpBoxQuads[tBoxPos.LT])
+    local iWidthT = fLoopX * get_quad_width(rgpBoxQuads[tBoxPos.T])
+    local iWidthRT = get_quad_width(rgpBoxQuads[tBoxPos.RT])
+
+    local iHeightLT = get_quad_height(rgpBoxQuads[tBoxPos.LT])
+    local iHeightL = fLoopY * get_quad_height(rgpBoxQuads[tBoxPos.L])
+    local iHeightLB = get_quad_height(rgpBoxQuads[tBoxPos.LB])
+
+    local iPatWidth = iWidthLT + iWidthT + iWidthRT
+    local iPatHeight = iHeightLT + iHeightL + iHeightLB
+
+    local iRx = iLx + iPatWidth
+    local iBy = iTy + iPatHeight
+
+    local rgpQuadFitPos = {}
+
+    rgpQuadFitPos[tBoxPos.LT] = calc_pattern_element_fit("LT", rgpBoxQuads, iLx, iTy, iRx, iBy, iWidthLT, iHeightLT, false, false)
+    rgpQuadFitPos[tBoxPos.T] = calc_pattern_element_fit("T", rgpBoxQuads, iLx + iWidthLT, iTy, iRx, iBy, iWidthT, iHeightLT, false, false)
+    rgpQuadFitPos[tBoxPos.RT] = calc_pattern_element_fit("RT", rgpBoxQuads, iLx, iTy, iRx, iBy, iWidthRT, iHeightLT, true, false)
+    rgpQuadFitPos[tBoxPos.R] = calc_pattern_element_fit("R", rgpBoxQuads, iLx, iTy + iHeightLT, iRx, iBy, iWidthRT, iHeightL, true, false)
+    rgpQuadFitPos[tBoxPos.RB] = calc_pattern_element_fit("RB", rgpBoxQuads, iLx, iTy, iRx, iBy, iWidthRT, iHeightLB, true, true)
+    rgpQuadFitPos[tBoxPos.B] = calc_pattern_element_fit("B", rgpBoxQuads, iLx + iWidthLT, iTy, iRx, iBy, iWidthT, iHeightLB, false, true)
+    rgpQuadFitPos[tBoxPos.LB] = calc_pattern_element_fit("LB", rgpBoxQuads, iLx, iTy, iRx, iBy, iWidthLT, iHeightLB, false, true)
+    rgpQuadFitPos[tBoxPos.L] = calc_pattern_element_fit("L", rgpBoxQuads, iLx, iTy + iHeightLT, iRx, iBy, iWidthLT, iHeightL, false, false)
+    rgpQuadFitPos[tBoxPos.M] = calc_pattern_element_fit("M", rgpBoxQuads, iLx + iWidthLT, iTy + iHeightLT, iRx, iBy, iWidthT, iHeightL, false, false)
+
+    return rgpQuadFitPos
+end
+
+local function draw_pattern_box(pImgBox, rgpBoxQuads, pGrowth, iBoxWidth, iBoxHeight, iX, iY)
+    local fLoopX
+    local fLoopY
+    fLoopX, fLoopY = unpack(pGrowth)
+
+    local rgpQuadFitPos = calc_pattern_box_fit(rgpBoxQuads, fLoopX, fLoopY, iX, iY, iBoxWidth, iBoxHeight)
+
+    local iLoopX = math.ceil(fLoopX)
+    local iLoopY = math.ceil(fLoopY)
+
+    pCanvas:renderTo(function()
+        love.graphics.clear()
+        love.graphics.setScissor(iX, iY, iBoxWidth - 1, iBoxHeight - 1)
+
+        draw_pattern_box_mid(pImgBox, rgpBoxQuads, rgpQuadFitPos, iLoopX, iLoopY)
+        draw_pattern_box_side(pImgBox, rgpBoxQuads, rgpQuadFitPos, iLoopX, iLoopY)
+        draw_pattern_box_corner(pImgBox, rgpBoxQuads, rgpQuadFitPos)
+
+        love.graphics.setScissor()
+    end);
+
+    love.graphics.draw(pCanvas)
+end
+
+function draw_texture_box(pImgBox, rgpBoxQuads, pGrowth, iBoxWidth, iBoxHeight, iPx, iPy)
+    draw_pattern_box(pImgBox, rgpBoxQuads, pGrowth, iBoxWidth, iBoxHeight, iPx, iPy)
 end
