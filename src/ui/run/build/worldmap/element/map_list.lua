@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
+require("ui.constant.path")
 require("ui.run.build.interface.storage.split")
 require("ui.run.load.graphic.text_box")
 require("ui.struct.worldmap.basic.sprite")
@@ -18,7 +18,7 @@ require("ui.struct.worldmap.element.path")
 require("utils.procedure.copy")
 
 local function load_node_map_path(pWmapProp, pMapNode, pDirWmapImgs, sRegionName, iIdx)
-    local sXmlPath = RInterface.WMAP_DIR .. "/" .. sRegionName .. "/MapList/" .. iIdx .. "/path"
+    local sXmlPath = RWndPath.WMAP_DIR .. "/" .. sRegionName .. "/MapList/" .. iIdx .. "/path"
 
     local pImg = find_image_on_storage(pDirWmapImgs, sXmlPath)
     if pImg == nil then     -- empty content

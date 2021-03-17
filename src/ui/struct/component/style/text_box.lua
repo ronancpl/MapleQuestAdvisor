@@ -13,7 +13,7 @@
 require("struct.component.style.box.limit")
 require("struct.component.style.box.text")
 require("struct.component.style.box.texture")
-require("ui.path.textbox")
+require("ui.constant.style")
 require("ui.run.draw.box.limit")
 require("ui.struct.component.basic.base")
 require("utils.struct.class")
@@ -29,7 +29,7 @@ CStyleBoxText = createClass({
 function CStyleBoxText:_load_texture()
     local m_pBoxTexture = self.pBoxTexture
 
-    local pImgBox = love.graphics.newImage(RInterface.LOVE_IMAGE_DIR_PATH .. RInterface.INTF_SBOX)
+    local pImgBox = love.graphics.newImage(RWndPath.LOVE_IMAGE_DIR_PATH .. RWndPath.INTF_SBOX)
     m_pBoxTexture:load(pImgBox, 3, 3, 115, 6)
 end
 

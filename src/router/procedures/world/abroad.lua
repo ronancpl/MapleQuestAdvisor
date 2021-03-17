@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.constant")
+require("router.procedures.constant")
 require("router.procedures.world.path.distance")
 require("router.procedures.world.path.table")
 require("utils.logger.file")

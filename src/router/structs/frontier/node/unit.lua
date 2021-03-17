@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.constant")
+require("router.procedures.constant")
 require("router.structs.frontier.node.node")
 require("utils.struct.array")
 require("utils.struct.class")

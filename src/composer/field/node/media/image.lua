@@ -11,7 +11,7 @@
 --]]
 
 require("composer.field.node.media.storage.storage")
-require("ui.path.path")
+require("ui.constant.path")
 require("utils.procedure.string")
 require("utils.procedure.unpack")
 require("utils.provider.io.wordlist")
@@ -50,7 +50,7 @@ end
 
 function load_images_from_path(sPath)
     local sBasePath = sPath
-    local tpItems = load_images_from_directory_path(RInterface.LOVE_IMAGE_DIR_PATH .. sPath, sBasePath)
+    local tpItems = load_images_from_directory_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sPath, sBasePath)
 
     local pDirImages = CMediaTable:new()
     pDirImages:set_path(sBasePath)

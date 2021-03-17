@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.quest")
+require("router.constants.quest")
 require("solver.procedures.coefficient")
 require("solver.procedures.curve")
 require("solver.procedures.inventory")

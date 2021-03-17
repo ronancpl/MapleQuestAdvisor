@@ -10,11 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
+require("ui.constant.path")
 require("ui.run.build.interface.storage.basic.image")
 
 function load_frame_worldmap_region(sWmapName, ctFieldsWmap)
-    local sWmapImgPath = RInterface.WMAP_DIR .. "/" .. sWmapName .. ".img"
+    local sWmapImgPath = RWndPath.WMAP_DIR .. "/" .. sWmapName .. ".img"
 
     local pWmapRegion = ctFieldsWmap:get_region_entry(sWmapName)
     local pDirWmapImgs = load_image_storage_from_wz_sub(sWmapImgPath)

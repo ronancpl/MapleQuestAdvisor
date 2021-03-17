@@ -12,7 +12,7 @@
 
 require("composer.stash.access")
 require("composer.stash.fitness")
-require("router.filters.constant")
+require("router.procedures.constant")
 require("structs.storage.inventory")
 require("utils.procedure.unpack")
 

@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.layer")
+require("ui.struct.window.frame.layer")
 require("ui.struct.worldmap.element.mark")
 require("utils.struct.class")
 

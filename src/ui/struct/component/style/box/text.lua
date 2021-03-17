@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
+require("ui.constant.path")
 require("utils.struct.class")
 
 CStyleText = createClass({
@@ -24,8 +24,8 @@ CStyleText = createClass({
 })
 
 function CStyleText:load_font(sTitleFont, iTitleSz, sDescFont, iDescSz)
-    self.pFontTitle = love.graphics.newFont(RInterface.LOVE_FONT_DIR_PATH .. sTitleFont, iTitleSz)
-    self.pFontDesc = love.graphics.newFont(RInterface.LOVE_FONT_DIR_PATH .. sDescFont, iDescSz)
+    self.pFontTitle = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. sTitleFont, iTitleSz)
+    self.pFontDesc = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. sDescFont, iDescSz)
 end
 
 function CStyleText:update_text(sTitle, sDesc)

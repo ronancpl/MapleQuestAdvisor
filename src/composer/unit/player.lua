@@ -11,7 +11,7 @@
 --]]
 
 require("composer.containers.units.player_table")
-require("router.filters.path")
+require("router.constants.path")
 require("utils.provider.text.csv")
 require("utils.provider.text.table")
 

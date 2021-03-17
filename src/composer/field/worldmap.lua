@@ -11,8 +11,8 @@
 --]]
 
 require("composer.containers.fields.field_worldmap_table")
-require("router.filters.constant")
-require("router.filters.path")
+require("router.constants.path")
+require("router.procedures.constant")
 require("structs.field.worldmap.maplink")
 require("structs.field.worldmap.maplist")
 require("structs.field.worldmap.worldmap")

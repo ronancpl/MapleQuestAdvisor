@@ -11,8 +11,8 @@
 --]]
 
 require("composer.containers.fields.field_worldmap_table")
-require("router.filters.constant")
-require("router.filters.path")
+require("router.constants.path")
+require("router.procedures.constant")
 require("ui.run.build.worldmap.component.link")
 require("ui.run.build.worldmap.component.node")
 require("ui.struct.worldmap.basic.image")

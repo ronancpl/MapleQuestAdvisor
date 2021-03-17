@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
-require("ui.struct.window.channel")
+require("ui.constant.path")
+require("ui.struct.window.frame.channel")
 require("utils.struct.class")
 
 CWndLayer = createClass({

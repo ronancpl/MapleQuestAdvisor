@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.constant")
+require("router.procedures.constant")
 require("solver.graph.resource.retrieve.item")
 require("solver.lookup.constant")
 

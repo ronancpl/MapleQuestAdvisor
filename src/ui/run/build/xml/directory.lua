@@ -10,13 +10,13 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
+require("ui.constant.path")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
 require("utils.provider.xml.provider")
 
 function load_xml_node_from_directory(sImgPath, sImgDirPath)
-    local pXmlRoot = SXmlProvider:load_xml(RInterface.WZ_IMAGE_PATH .. sImgPath .. ".xml")    -- Wz .img path
+    local pXmlRoot = SXmlProvider:load_xml(RWndPath.WZ_IMAGE_PATH .. sImgPath .. ".xml")    -- Wz .img path
 
     local sImgName = sImgPath:sub(string.rfind(sImgPath, "/")+1,-1)
     local pXmlNode = pXmlRoot:get_child_by_name(sImgName)

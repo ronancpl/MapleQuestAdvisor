@@ -11,7 +11,7 @@
 --]]
 
 require("composer.field.node.image")
-require("ui.path.path")
+require("ui.constant.config")
 require("ui.struct.component.basic.quad")
 require("ui.struct.worldmap.basic.sprite")
 
@@ -22,7 +22,7 @@ function load_xml_sprite(pXmlNode)
     iOx, iOy, iZ = load_xml_image(pXmlNode)
 
     local pXmlDelayNode = pXmlNode:get_child_by_name("delay")
-    local iDelay = pXmlDelayNode and pXmlDelayNode:get_value() or RInterface.QUAD_DELAY_DEF
+    local iDelay = pXmlDelayNode and pXmlDelayNode:get_value() or RWndConfig.QUAD_DELAY_DEF
 
     local pSpriteNode = CWmapBasicSprite:new({iOx = iOx, iOy = iOy, iZ = iZ, iDelay = iDelay})
     return pSpriteNode

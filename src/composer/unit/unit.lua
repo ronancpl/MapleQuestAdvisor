@@ -17,7 +17,7 @@ require("composer.containers.units.npc_table")
 require("composer.containers.units.portal_table")
 require("composer.containers.units.reactor_table")
 require("composer.containers.units.unit_table")
-require("router.filters.path")
+require("router.constants.path")
 require("utils.provider.text.table")
 
 local function fn_get_entry_key(bIntUnit)

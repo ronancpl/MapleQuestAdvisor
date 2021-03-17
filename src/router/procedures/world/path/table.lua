@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.constant")
+require("router.procedures.constant")
 
 function fetch_area_neighbors(rgpAreas, ctFieldsDist)
     local trgiNeighborMapids = {}

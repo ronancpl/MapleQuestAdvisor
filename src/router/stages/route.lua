@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.constant")
+require("router.procedures.constant")
 require("router.procedures.graph.inner")
 require("router.procedures.graph.outer")
 require("router.procedures.player.update")

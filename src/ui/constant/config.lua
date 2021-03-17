@@ -10,11 +10,14 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.frame.chart")
+RWndConfig = {
 
-function load_interface_worldmap()
-    local pWnd = CWndWmap:new()
-    pWnd:load()
+    WMAP_BGRD_SIZE = {640, 470},
 
-    return pWnd
-end
+    CAPACITY = {
+        LAYERS = 4,
+        CHANNELS = 4
+    },
+
+    QUAD_DELAY_DEF = 0.1
+}

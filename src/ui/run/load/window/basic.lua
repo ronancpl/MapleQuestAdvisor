@@ -10,11 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
-require("ui.struct.window.basic")
+require("ui.constant.path")
+require("ui.struct.window.element.mouse")
 
 function load_storage_basic()
-    local pStorage = CBasicStorage:new()
+    local pStorage = CWndCursor:new()
     pStorage:load()
 
     return pStorage

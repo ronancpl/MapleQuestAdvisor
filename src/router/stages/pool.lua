@@ -11,7 +11,7 @@
 --]]
 
 require("composer.quest.quest")
-require("router.filters.graph")
+require("router.constants.graph")
 require("router.procedures.player.update")
 require("utils.logger.file")
 require("utils.provider.text.csv")

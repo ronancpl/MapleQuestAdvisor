@@ -12,7 +12,7 @@
 
 require("composer.field.node.media.image")
 require("composer.field.node.media.quad")
-require("ui.path.path")
+require("ui.constant.path")
 require("ui.run.build.graphic.quad")
 require("ui.run.build.xml.directory")
 require("ui.run.load.graphic.quad")

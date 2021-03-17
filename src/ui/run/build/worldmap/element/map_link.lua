@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
+require("ui.constant.path")
 require("ui.run.build.interface.storage.split")
 require("ui.struct.worldmap.element.region")
 
@@ -21,7 +21,7 @@ function load_node_worldmap_map_link(pWmapProp, pMapLinkNode, pDirWmapImgs, sReg
     local pLinkImgNode = pLinkNode:get_link_image()
     local sLinkMap = pLinkNode:get_link_map()
 
-    local sXmlPath = RInterface.WMAP_DIR .. "/" .. sRegionName .. "/MapLink/" .. iIdx .. "/link/linkImg"
+    local sXmlPath = RWndPath.WMAP_DIR .. "/" .. sRegionName .. "/MapLink/" .. iIdx .. "/link/linkImg"
     local pImg = find_image_on_storage(pDirWmapImgs, sXmlPath)
 
     local iOx

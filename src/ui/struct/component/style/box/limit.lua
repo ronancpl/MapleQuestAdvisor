@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.constant")
-require("ui.path.textbox")
+require("router.procedures.constant")
+require("ui.constant.style")
 require("utils.struct.class")
 
 CStyleLimit = createClass({

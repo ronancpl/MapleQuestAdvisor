@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.constant")
-require("router.filters.quest")
+require("router.constants.quest")
+require("router.procedures.constant")
 require("solver.graph.build")
 require("solver.graph.fetch")
 require("solver.graph.route")

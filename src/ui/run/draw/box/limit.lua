@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.textbox")
+require("ui.constant.style")
 
 local function compose_box_text(pBoxText, pBoxLimit)
     local sTitle

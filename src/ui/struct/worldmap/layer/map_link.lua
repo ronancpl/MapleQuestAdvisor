@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.layer")
+require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
 CWmapNavMapLink = createClass({CWndLayer, {}})

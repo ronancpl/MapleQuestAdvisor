@@ -10,31 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-RInterface = {
+RWndPath = {
 
     LOVE_FONT_DIR_PATH = "/media/fonts/",
     LOVE_IMAGE_DIR_PATH = "/media/images/",
 
     WZ_IMAGE_PATH = "lib/xml/",
 
-    WMAP_BGRD_SIZE = {640, 470},
     WMAP_HELPER = "Map.wz/MapHelper.img",
     WMAP_DIR = "Map.wz/WorldMap",
 
     INTF_BASIC = "UI.wz/Basic.img",
     INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
 
-    CAPACITY = {
-        LAYERS = 4,
-        CHANNELS = 4
-    },
-
     MOUSE = {
         BT_DOWN = "12",
         BT_GAME = "2",
         BT_NORMAL = "0"
-    },
-
-    QUAD_DELAY_DEF = 0.1
-
+    }
 }

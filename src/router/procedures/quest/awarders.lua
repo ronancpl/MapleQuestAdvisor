@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.quest")
+require("router.constants.quest")
 require("router.procedures.quest.awarder.awarder")
 require("router.procedures.quest.awarder.property")
 require("router.procedures.quest.awarder.update")

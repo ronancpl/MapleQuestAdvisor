@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.layer")
+require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
 CWmapNavFragment = createClass({CWndLayer, {}})
@@ -32,7 +32,7 @@ function CWmapNavFragment:build(pWmapProp)
     -- add informative elements
 
     local iRx, iRy = love.mouse.getPosition()
-    local pFont = love.graphics.newFont(RInterface.LOVE_FONT_DIR_PATH .. "arial.ttf", 16)
+    local pFont = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 16)
 
     local sText = "(" .. (iRx) .. ", " .. (iRy) .. ")"
     love.graphics.printf(sText, 650, 10, 1000)

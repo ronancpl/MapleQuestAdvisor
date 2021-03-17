@@ -12,9 +12,9 @@
 
 require("composer.containers.fields.field_distance_table")
 require("composer.containers.fields.field_meta_table")
-require("router.filters.constant")
-require("router.filters.graph")
-require("router.filters.path")
+require("router.constants.graph")
+require("router.constants.path")
+require("router.procedures.constant")
 require("utils.procedure.string")
 require("utils.procedure.unpack")
 require("utils.provider.text.table")

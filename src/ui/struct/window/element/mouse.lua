@@ -11,21 +11,22 @@
 --]]
 
 require("composer.field.node.media.quad")
-require("ui.path.path")
+require("ui.constant.config")
+require("ui.constant.path")
 require("ui.run.build.interface.storage.basic.quad")
 require("ui.run.build.interface.storage.split")
 require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 
-CBasicStorage = createClass({
+CWndCursor = createClass({
     eDynam = CDynamicElem:new(),
     pCurMouse,
     pDirBasicQuads,
     trgpCursorQuads
 })
 
-function CBasicStorage:_load_basic_images()
-    local sBasicImgPath = RInterface.INTF_BASIC
+function CWndCursor:_load_basic_images()
+    local sBasicImgPath = RWndPath.INTF_BASIC
 
     local pDirBasicQuads = load_quad_storage_from_wz_sub(sBasicImgPath, "Cursor")
     pDirBasicQuads = select_animations_from_storage(pDirBasicQuads, {})
@@ -34,7 +35,6 @@ function CBasicStorage:_load_basic_images()
 end
 
 local function create_cursor_from_quad(pQuad)
-    local iDelay = pQuad:get_delay()
     local pQuadImg = pQuad:get_image()
 
     local pImg = pQuadImg:get_img()
@@ -47,12 +47,14 @@ local function create_cursor_from_quad(pQuad)
     iZ = pQuadImg:get_z()
 
     local pCursorQuad = CBasicQuad:new()
+
+    local iDelay = math.max(pQuad:get_delay(), RWndConfig.QUAD_DELAY_DEF)
     pCursorQuad:load(pCursor, iOx, iOy, iZ, iDelay)
 
     return pCursorQuad
 end
 
-function CBasicStorage:_load_mouse_cursor(sCursorName)
+function CWndCursor:_load_mouse_cursor(sCursorName)
     local m_pDirBasicQuads = self.pDirBasicQuads
     local rgpQuads = find_animation_on_storage(m_pDirBasicQuads, sCursorName)
 
@@ -66,15 +68,15 @@ function CBasicStorage:_load_mouse_cursor(sCursorName)
     m_trgpCursorQuads[sCursorName] = rgpCursorQuads
 end
 
-function CBasicStorage:_load_mouse_animations()
+function CWndCursor:_load_mouse_animations()
     self.trgpCursorQuads = {}
 
-    self:_load_mouse_cursor(RInterface.MOUSE.BT_DOWN)
-    self:_load_mouse_cursor(RInterface.MOUSE.BT_NORMAL)
-    self:_load_mouse_cursor(RInterface.MOUSE.BT_GAME)
+    self:_load_mouse_cursor(RWndPath.MOUSE.BT_DOWN)
+    self:_load_mouse_cursor(RWndPath.MOUSE.BT_NORMAL)
+    self:_load_mouse_cursor(RWndPath.MOUSE.BT_GAME)
 end
 
-function CBasicStorage:load_mouse(sCursorName)
+function CWndCursor:load_mouse(sCursorName)
     local m_trgpCursorQuads = self.trgpCursorQuads
 
     self.eDynam:load(0, 0, m_trgpCursorQuads[sCursorName])
@@ -82,16 +84,16 @@ function CBasicStorage:load_mouse(sCursorName)
     self.eDynam:after_load()
 end
 
-function CBasicStorage:load()
+function CWndCursor:load()
     self:_load_basic_images()
     self:_load_mouse_animations()
 end
 
-function CBasicStorage:update(dt)
+function CWndCursor:update(dt)
     self.eDynam:update(dt)
 end
 
-function CBasicStorage:refresh_cursor()
+function CWndCursor:refresh_cursor()
     local pCurImg = self.eDynam:update_drawing()
     local pNextCursor = pCurImg:get_img()
 
@@ -101,6 +103,6 @@ function CBasicStorage:refresh_cursor()
     end
 end
 
-function CBasicStorage:draw()
+function CWndCursor:draw()
     -- do nothing
 end

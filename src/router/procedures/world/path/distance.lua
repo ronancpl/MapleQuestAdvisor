@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.constant")
+require("router.procedures.constant")
 
 local function init_distance_table(rgiMapids, trgiNeighborMapids)
     local ttiDistances = {}

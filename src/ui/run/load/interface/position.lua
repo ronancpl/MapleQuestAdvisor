@@ -10,12 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
+require("ui.constant.path")
 require("ui.run.build.interface.storage.basic.quad")
 require("ui.run.build.interface.storage.split")
 
 function load_frame_position_helper()
-    local sWmapImgPath = RInterface.WMAP_HELPER
+    local sWmapImgPath = RWndPath.WMAP_HELPER
 
     local pDirHelperQds = load_quad_storage_from_wz_sub(sWmapImgPath, "worldMap")
 

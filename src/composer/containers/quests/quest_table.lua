@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.filters.constant")
-require("router.filters.graph")
+require("router.constants.graph")
+require("router.procedures.constant")
 require("utils.logger.file")
 require("utils.procedure.unpack")
 require("utils.struct.array")

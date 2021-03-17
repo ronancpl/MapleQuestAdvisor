@@ -12,8 +12,8 @@
 
 require("composer.containers.quests.quest_grid")
 require("composer.containers.quests.quest_table")
-require("router.filters.constant")
-require("router.filters.path")
+require("router.constants.path")
+require("router.procedures.constant")
 require("structs.quest.attributes.action")
 require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")

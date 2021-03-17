@@ -10,9 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.path.path")
-require("ui.struct.window.canvas")
-require("ui.struct.window.storage")
+require("ui.constant.config")
+require("ui.struct.window.frame.canvas")
+require("ui.struct.window.element.storage")
 require("ui.struct.worldmap.properties")
 require("ui.struct.worldmap.layer.background")
 require("ui.struct.worldmap.layer.fragment")
@@ -45,7 +45,7 @@ end
 function CWndWmap:load()
     local iBx
     local iBy
-    iBx, iBy = unpack(RInterface.WMAP_BGRD_SIZE)
+    iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
     self.pProp:set_origin(iBx / 2, iBy / 2)
 
     self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment})
