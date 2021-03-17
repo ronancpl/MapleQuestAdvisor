@@ -49,7 +49,7 @@ function CStyleLimit:increment()
     self.iGrowth = self.iGrowth + 1
 
     -- alternates in length expansion & new line
-    if self.iGrowth % 2 == 0 and self.iLineWidth < RStylebox.MAX_X - (2 * RStylebox.FIL_X) then
+    if self.iGrowth % 2 == 0 and self.iLineWidth + RStylebox.UPD_X < RStylebox.MAX_X - (2 * RStylebox.FIL_X) then
         self.iLineWidth = self.iLineWidth + RStylebox.UPD_X
     else
         self.iHeight = self.iHeight + RStylebox.UPD_Y

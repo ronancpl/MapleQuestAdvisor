@@ -15,7 +15,10 @@ require("utils.struct.class")
 
 CStyleBox = createClass({
     pImgBox,
-    rgpImgBoxQuads
+    rgpImgBoxPos,
+
+    rgpBoxQuads,
+    rgfBoxGrowth
 })
 
 function CStyleBox:_get_style_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
@@ -56,12 +59,16 @@ end
 
 function CStyleBox:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     local iL, iT, iR, iB = self:_init_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
-    local rgpImgBoxQuads = load_texture_split(pImgBox, iL, iT, iR, iB)
+    local rgpImgBoxPos = load_texture_split(pImgBox, iL, iT, iR, iB)
 
     self.pImgBox = pImgBox
-    self.rgpImgBoxQuads = rgpImgBoxQuads
+    self.rgpImgBoxPos = rgpImgBoxPos
 end
 
-function CStyleBox:draw(iPx, iPy, iWidth, iHeight)
-    draw_texture_box(self.pImgBox, self.rgpImgBoxQuads, iPx, iPy, iWidth, iHeight)
+function CStyleBox:build(iWidth, iHeight)
+    self.rgpBoxQuads, self.rgfBoxGrowth = build_pattern_box(self.pImgBox, self.rgpImgBoxPos, iWidth, iHeight)
+end
+
+function CStyleBox:draw(iPx, iPy)
+    draw_texture_box(self.pImgBox, self.rgpBoxQuads, self.rgfBoxGrowth, iPx, iPy)
 end

@@ -46,6 +46,13 @@ function CStyleBoxText:_load_text(sTitle, sDesc)
     m_pBoxText:update_text(sTitle, sDesc)
 end
 
+function CStyleBoxText:_build_texture_box()
+    local m_pBoxTexture = self.pBoxTexture
+    local m_pBoxLimits = self.pBoxLimits
+
+    m_pBoxTexture:build(m_pBoxLimits:get_width(), m_pBoxLimits:get_height())
+end
+
 function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
     self.eBase:load(iRx, iRy)
 
@@ -56,6 +63,8 @@ function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
     local m_pBoxText = self.pBoxText
     local m_pBoxLimits = self.pBoxLimits
     validate_box_boundary(m_pBoxText, m_pBoxLimits)
+
+    self:_build_texture_box()
 end
 
 function CStyleBoxText:update(dt)
@@ -65,9 +74,7 @@ end
 
 function CStyleBoxText:_draw_text_box_background(iRx, iRy)
     local m_pBoxTexture = self.pBoxTexture
-    local m_pBoxLimits = self.pBoxLimits
-
-    m_pBoxTexture:draw(iRx, iRy, m_pBoxLimits:get_width(), m_pBoxLimits:get_height())
+    m_pBoxTexture:draw(iRx, iRy)
 end
 
 function CStyleBoxText:_draw_text_box()
