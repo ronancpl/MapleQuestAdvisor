@@ -21,7 +21,7 @@ local function compose_box_text(pBoxText, pBoxLimit)
     local pFontDesc
     pFontTitle, pFontDesc = pBoxText:get_font()
 
-    local iLineWidth = pBoxLimit:get_width()
+    local iLineWidth = pBoxLimit:get_width() - (2 * RStylebox.FIL_X)
 
     local pTxtTitle = love.graphics.newText(pFontTitle)
     pTxtTitle:setf({{1, 1, 1}, sTitle}, iLineWidth, "center")
@@ -60,7 +60,7 @@ local function calc_current_boundary(pBoxText, pBoxLimit)
     local pFontDesc
     pFontTitle, pFontDesc = pBoxText:get_font()
 
-    local iLineWidth = pBoxLimit:get_width()
+    local iLineWidth = pBoxLimit:get_width() - (2 * RStylebox.FIL_X)
 
     local iTw
     local iTh

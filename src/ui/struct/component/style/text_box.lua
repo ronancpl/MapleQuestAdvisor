@@ -26,10 +26,22 @@ CStyleBoxText = createClass({
     pBoxLimits = CStyleLimit:new()
 })
 
+local function load_box_image()
+    local pImgData = love.image.newImageData(RWndPath.LOVE_IMAGE_DIR_PATH .. RWndPath.INTF_SBOX)
+
+    -- white color-coded as transparent
+    pImgData:mapPixel(function (x, y, r, g, b, a)
+        if r >= 1.0 and g >= 1.0 and b >= 1.0 then a = 0.0 end
+        return r,g,b,a
+    end)
+
+    return love.graphics.newImage(pImgData)
+end
+
 function CStyleBoxText:_load_texture()
     local m_pBoxTexture = self.pBoxTexture
 
-    local pImgBox = love.graphics.newImage(RWndPath.LOVE_IMAGE_DIR_PATH .. RWndPath.INTF_SBOX)
+    local pImgBox = load_box_image()
     m_pBoxTexture:load(pImgBox, 3, 3, 115, 6)
 end
 

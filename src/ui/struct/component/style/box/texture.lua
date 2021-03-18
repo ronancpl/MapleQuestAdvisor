@@ -19,7 +19,9 @@ CStyleBox = createClass({
 
     pBoxArea,
     rgpBoxQuads,
-    pBoxGrowth
+    pBoxGrowth,
+
+    pCanvas
 })
 
 function CStyleBox:_get_style_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
@@ -66,15 +68,22 @@ function CStyleBox:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     self.rgpImgBoxPos = rgpImgBoxPos
 end
 
-function CStyleBox:build(iWidth, iHeight)
-    self.pBoxArea = {iWidth, iHeight}
-    self.rgpBoxQuads, self.pBoxGrowth = build_pattern_box(self.pImgBox, self.rgpImgBoxPos, iWidth, iHeight)
-end
-
-function CStyleBox:draw(iPx, iPy)
+function CStyleBox:_prepare_canvas()
     local iWidth
     local iHeight
     iWidth, iHeight = unpack(self.pBoxArea)
 
-    draw_texture_box(self.pImgBox, self.rgpBoxQuads, self.pBoxGrowth, iWidth, iHeight, iPx, iPy)
+    self.pCanvas = love.graphics.newCanvas()
+    draw_canvas_texture_box(self.pCanvas, self.pImgBox, self.rgpBoxQuads, self.pBoxGrowth, iWidth, iHeight)
+end
+
+function CStyleBox:build(iWidth, iHeight)
+    self.pBoxArea = {iWidth, iHeight}
+    self.rgpBoxQuads, self.pBoxGrowth = build_pattern_box(self.pImgBox, self.rgpImgBoxPos, iWidth, iHeight)
+
+    self:_prepare_canvas()
+end
+
+function CStyleBox:draw(iPx, iPy)
+    draw_texture_box(self.pCanvas, iPx, iPy)
 end
