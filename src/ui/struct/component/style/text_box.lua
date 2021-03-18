@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("struct.component.style.box.limit")
 require("struct.component.style.box.text")
 require("struct.component.style.box.texture")
@@ -26,12 +27,32 @@ CStyleBoxText = createClass({
     pBoxLimits = CStyleLimit:new()
 })
 
+local function ink(sHexColor)   -- hex color conversion by litearc
+    local _,_,r,g,b,a = sHexColor:find('(%x%x)(%x%x)(%x%x)(%x%x)')
+    return {tonumber(r,16),tonumber(g,16),tonumber(b,16),tonumber(a,16)}
+end
+
+local pBoxColors = ink("113355FF")
+
+RStyleBoxColor = {
+    R = pBoxColors[1] / 256,
+    G = pBoxColors[2] / 256,
+    B = pBoxColors[3] / 256,
+    A = 0.8
+}
+
 local function load_box_image()
     local pImgData = love.image.newImageData(RWndPath.LOVE_IMAGE_DIR_PATH .. RWndPath.INTF_SBOX)
 
     -- white color-coded as transparent
     pImgData:mapPixel(function (x, y, r, g, b, a)
-        if r >= 1.0 and g >= 1.0 and b >= 1.0 then a = 0.0 end
+        if r == 1 and g == 1 and b == 1 then
+            a = 0.0
+        -- elseif math.between(r, math.range(RStyleBoxColor.R, -0.2, 0.2)) and math.between(g, math.range(RStyleBoxColor.G, -0.2, 0.2)) and math.between(b, math.range(RStyleBoxColor.B, -0.2, 0.2)) then
+        elseif true then
+            a = RStyleBoxColor.A
+        end
+
         return r,g,b,a
     end)
 

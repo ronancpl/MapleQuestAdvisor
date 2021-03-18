@@ -32,3 +32,11 @@ end
 function math.clamp(val, min, max)
     return math.min(math.max(val, min), max)
 end
+
+function math.range(val, dec, inc)
+    return val + dec, val + inc
+end
+
+function math.between(val, lwr, upr)
+    return val >= lwr and val <= upr
+end
