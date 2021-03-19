@@ -19,8 +19,8 @@ CStyleLimit = createClass({
     iLineWidth,
     iHeight,
 
-    iRx,
-    iRy
+    iRx = 0,
+    iRy = 0
 })
 
 function CStyleLimit:get_growth()

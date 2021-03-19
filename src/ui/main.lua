@@ -29,7 +29,7 @@ function love.load()
 
     pUiWmap = load_frame_worldmap()
 
-    local sWmapName = "WorldMap"
+    local sWmapName = "WorldMap010"
     log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
     pUiWmap:update_region(sWmapName)
 end
@@ -45,16 +45,22 @@ function love.draw()
     pUiWmap:draw()
 end
 
+function love.mousemoved(x, y, dx, dy, istouch)
+    pUiWmap:onmousemoved(x, y, dx, dy, istouch)
+end
+
 function love.mousepressed(x, y, button)
-    -- Use a custom cursor when the left mouse button is pressed.
     if button == 1 then
         pFrameBasic:load_mouse(RWndPath.MOUSE.BT_DOWN)
     end
+
+    pUiWmap:onmousepressed(x, y, button)
 end
 
 function love.mousereleased(x, y, button)
-    -- Go back to the default cursor when the left mouse button is released.
     if button == 1 then
         pFrameBasic:load_mouse(RWndPath.MOUSE.BT_NORMAL)
     end
+
+    pUiWmap:onmousereleased(x, y, button)
 end

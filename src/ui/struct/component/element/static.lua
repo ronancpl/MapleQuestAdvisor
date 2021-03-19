@@ -28,6 +28,10 @@ function CStaticElem:get_z()
     self.eImg:get_z()
 end
 
+function CStaticElem:get_ltrb()
+    return self.eImg:get_ltrb()
+end
+
 function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)
     self.eElem:load(rX, rY)
     self.eImg:load(pImg, iOx, iOy, iZ)

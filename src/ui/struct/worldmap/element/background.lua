@@ -17,6 +17,10 @@ CWmapElemBackground = createClass({
     eConst = CStaticElem:new()
 })
 
+function CWmapElemBackground:get_object()
+    return self.eConst
+end
+
 function CWmapElemBackground:get_center()
     return self.eConst:get_origin()
 end
@@ -32,4 +36,33 @@ end
 
 function CWmapElemBackground:draw()
     self.eConst:draw()
+end
+
+function CWmapElemBackground:onmousehoverin()
+    -- do nothing
+end
+
+function CWmapElemBackground:onmousehoverout()
+    -- do nothing
+end
+
+function CWmapElemBackground:onmousemoved(rx, ry, dx, dy, istouch)
+    -- do nothing
+end
+
+function CWmapElemBackground:onmousepressed(rx, ry, button)
+    -- do nothing
+end
+
+local function access_parent_map()
+    local sParentWmapName = pUiWmap:get_properties():get_parent_map()
+    if sParentWmapName ~= "" then
+        pUiWmap:update_region(sParentWmapName)
+    end
+end
+
+function CWmapElemBackground:onmousereleased(rx, ry, button)
+    if button == 2 then
+        access_parent_map()
+    end
 end

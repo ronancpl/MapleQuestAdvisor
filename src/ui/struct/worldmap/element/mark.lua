@@ -11,6 +11,7 @@
 --]]
 
 require("ui.struct.component.element.dynamic")
+require("ui.struct.window.summary")
 require("utils.struct.class")
 
 CWmapElemMark = createClass({
@@ -19,6 +20,10 @@ CWmapElemMark = createClass({
     pPath,
     pTextbox
 })
+
+function CWmapElemMark:get_object()
+    return self.eDynam
+end
 
 function CWmapElemMark:set_mapno(rgiFields)
     self.rgiFields = rgiFields
@@ -52,4 +57,47 @@ end
 
 function CWmapElemMark:draw()
     self.eDynam:draw()
+
+    local m_pTextbox = self.pTextbox
+    if m_pTextbox then
+        m_pTextbox:draw()
+    end
+end
+
+function CWmapElemMark:onmousehoverin()
+    local m_pTextbox = self.pTextbox
+    if m_pTextbox then
+        m_pTextbox:visible()
+    end
+
+    local m_pPath = self:get_path()
+    if m_pPath ~= nil then
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
+        pLyr:add_element(LChannel.MARK_PATH, m_pPath)
+    end
+end
+
+function CWmapElemMark:onmousehoverout()
+    local m_pTextbox = self.pTextbox
+    if m_pTextbox then
+        m_pTextbox:hidden()
+    end
+
+    local m_pPath = self:get_path()
+    if m_pPath ~= nil then
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
+        pLyr:remove_element(LChannel.MARK_PATH, m_pPath)
+    end
+end
+
+function CWmapElemMark:onmousemoved(rx, ry, dx, dy, istouch)
+    -- do nothing
+end
+
+function CWmapElemMark:onmousepressed(rx, ry, button)
+    -- do nothing
+end
+
+function CWmapElemMark:onmousereleased(rx, ry, button)
+    -- do nothing
 end

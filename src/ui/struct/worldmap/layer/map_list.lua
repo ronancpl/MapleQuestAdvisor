@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.struct.window.summary")
 require("ui.struct.window.frame.layer")
 require("ui.struct.worldmap.element.mark")
 require("utils.struct.class")
@@ -17,7 +18,7 @@ require("utils.struct.class")
 CWmapNavMapList = createClass({CWndLayer, {}})
 
 function CWmapNavMapList:_build_element(pPropMarker)
-    self:add_element(1, pPropMarker)
+    self:add_element(LChannel.MARK, pPropMarker)
 end
 
 function CWmapNavMapList:build(pWmapProp)
@@ -25,19 +26,9 @@ function CWmapNavMapList:build(pWmapProp)
 
     -- add layer elements
 
-    --[[
     local rgpPropMarkers = pWmapProp:get_map_fields()
     for _, pPropMarker in ipairs(rgpPropMarkers) do
         self:_build_element(pPropMarker)
     end
-    ]]--
-
-    local sMarker = "curPos"
-    local rgpQuads = find_animation_on_storage(pDirHelperQuads, sMarker)
-
-    local pMarker = CWmapElemMark:new()
-    pMarker:load(0, 0, rgpQuads, pWmapProp)
-
-    self:add_element(1, pMarker)
 
 end

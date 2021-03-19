@@ -18,23 +18,6 @@ CWmapNavFragment = createClass({CWndLayer, {}})
 function CWmapNavFragment:build(pWmapProp)
     self:reset()
 
-    -- add layer elements
-
-    local sWmapRegion = pWmapProp:get_parent_map()
-
-    local rgpFieldMarkers = pWmapProp:get_map_fields()
-
-    local pFieldMarker = rgpFieldMarkers[1]
-
-    local pElemTbox = pFieldMarker:get_textbox()
-    self:add_element(1, pElemTbox)
-
-    -- add informative elements
-
-    local iRx, iRy = love.mouse.getPosition()
-    local pFont = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 16)
-
-    local sText = "(" .. (iRx) .. ", " .. (iRy) .. ")"
-    love.graphics.printf(sText, 650, 10, 1000)
+    -- do nothing, elements added by interaction
 
 end

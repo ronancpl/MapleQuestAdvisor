@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.struct.window.summary")
 require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
@@ -21,5 +22,5 @@ function CWmapNavBackground:build(pWmapProp)
     -- add layer elements
 
     local pPropBaseImg = pWmapProp:get_base_img()
-    self:add_element(1, pPropBaseImg)
+    self:add_element(LChannel.WMAP_BGRD, pPropBaseImg)
 end

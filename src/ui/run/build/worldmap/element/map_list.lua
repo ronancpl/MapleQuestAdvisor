@@ -50,7 +50,7 @@ local function load_node_map_marker(pWmapProp, pMapNode, pDirHelperImgs)
     local iType = pMapNode:get_type()
 
     local sPathImg = "mapImage"
-    local iIdx = iType
+    local iIdx = iType + 1
     local rgpQuads = find_animation_image_on_storage(pDirHelperImgs, sPathImg, iIdx)
 
     local pMarker = CWmapElemMark:new()

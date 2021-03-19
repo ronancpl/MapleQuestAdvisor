@@ -10,38 +10,101 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CWndChannel = createClass({
-    rgpRegisteredElements = {}
+    tpRegisteredElements = {},
+    tpElemHover = {}
 })
 
 function CWndChannel:load()
-    local m_rgpRegisteredElements = self.rgpRegisteredElements
-    clear_table(m_rgpRegisteredElements)
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    clear_table(m_tpRegisteredElements)
 end
 
 function CWndChannel:update(dt)
-    local m_rgpRegisteredElements = self.rgpRegisteredElements
-    for _, pElem in ipairs(m_rgpRegisteredElements) do
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    for pElem, _ in pairs(m_tpRegisteredElements) do
         pElem:update(dt)
     end
 end
 
 function CWndChannel:draw()
-    local m_rgpRegisteredElements = self.rgpRegisteredElements
-    for _, pElem in ipairs(m_rgpRegisteredElements) do
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    for pElem, _ in pairs(m_tpRegisteredElements) do
         pElem:draw()
     end
 end
 
 function CWndChannel:add_element(pElem)
-    local m_rgpRegisteredElements = self.rgpRegisteredElements
-    table.insert(m_rgpRegisteredElements, pElem)
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    m_tpRegisteredElements[pElem] = 1
+end
+
+function CWndChannel:remove_element(pElem)
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    m_tpRegisteredElements[pElem] = nil
+
+    local m_tpElemHover = self.tpElemHover
+    m_tpElemHover[pElem] = nil
 end
 
 function CWndChannel:reset_elements()
-    local m_rgpRegisteredElements = self.rgpRegisteredElements
-    clear_table(m_rgpRegisteredElements)
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    clear_table(m_tpRegisteredElements)
+
+    local m_tpElemHover = self.tpElemHover
+    clear_table(m_tpElemHover)
+end
+
+local function is_mouse_in_range(pElem, x, y)
+    local iLx, iTy, iRx, iLy = pElem:get_object():get_ltrb()
+    return math.between(x, iLx, iRx) and math.between(y, iTy, iLy)
+end
+
+function CWndChannel:_update_state_hover(pElem, bHover)
+    local m_tpElemHover = self.tpElemHover
+
+    local bLastHover = m_tpElemHover[pElem]
+    if bLastHover ~= bHover then
+        m_tpElemHover[pElem] = bHover
+
+        if bHover then
+            pElem:onmousehoverin()
+        else
+            pElem:onmousehoverout()
+        end
+    end
+end
+
+function CWndChannel:onmousemoved(x, y, dx, dy, istouch)
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    for pElem, _ in pairs(m_tpRegisteredElements) do
+        local bHover = is_mouse_in_range(pElem, x, y)
+        if bHover then
+            pElem:onmousemoved(x, y, dx, dy, istouch)
+        end
+
+        self:_update_state_hover(pElem, bHover)
+    end
+end
+
+function CWndChannel:onmousepressed(x, y, button)
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    for pElem, _ in pairs(m_tpRegisteredElements) do
+        if is_mouse_in_range(pElem, x, y) then
+            pElem:onmousepressed(x, y, button)
+        end
+    end
+end
+
+function CWndChannel:onmousereleased(x, y, button)
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    for pElem, _ in pairs(m_tpRegisteredElements) do
+        if is_mouse_in_range(pElem, x, y) then
+            pElem:onmousereleased(x, y, button)
+        end
+    end
 end

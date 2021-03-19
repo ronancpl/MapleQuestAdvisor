@@ -19,6 +19,10 @@ CWmapElemRegionLink = createClass({
     sTooltip
 })
 
+function CWmapElemRegionLink:get_object()
+    return self.eConst
+end
+
 function CWmapElemRegionLink:load(pWmapProp, pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:instantiate(pWmapProp, true)
@@ -42,4 +46,33 @@ end
 
 function CWmapElemRegionLink:draw()
     self.eConst:draw()
+end
+
+function CWmapElemRegionLink:onmousehoverin()
+    -- do nothing
+end
+
+function CWmapElemRegionLink:onmousehoverout()
+    -- do nothing
+end
+
+function CWmapElemRegionLink:onmousemoved(rx, ry, dx, dy, istouch)
+    -- do nothing
+end
+
+function CWmapElemRegionLink:onmousepressed(rx, ry, button)
+    -- do nothing
+end
+
+local function access_inner_map()
+    local sParentWmapName = pUiWmap:get_properties():get_parent_map()
+    if sParentWmapName ~= "" then
+        pUiWmap:update_region(sParentWmapName)
+    end
+end
+
+function CWmapElemRegionLink:onmousereleased(rx, ry, button)
+    if button == 1 then
+        access_inner_map()
+    end
 end

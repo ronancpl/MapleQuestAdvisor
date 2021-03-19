@@ -144,10 +144,10 @@ function find_animation_on_storage(pDirMedia, sPathImg)
 end
 
 function find_animation_image_on_storage(pDirMedia, sPathImg, iIdx)
-    local rgpQuads = find_animation_on_storage(pDirMedia, sPathImg)
+    local rgpQuadDatum = find_animation_on_storage(pDirMedia, sPathImg)
 
     local rgpIdxQuadData = {}
-    table.insert(rgpIdxQuadData, rgpQuads[iIdx])
+    table.insert(rgpIdxQuadData, rgpQuadDatum[iIdx])
 
     return rgpIdxQuadData
 end

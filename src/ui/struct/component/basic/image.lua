@@ -31,6 +31,17 @@ function CBasicImage:get_z()
     return self.iZ
 end
 
+function CBasicImage:get_ltrb()
+    local iW, iH = self:get_img():getDimensions()
+
+    local iLx = self.iOx
+    local iTy = self.iOy
+    local iRx = self.iOx + iW
+    local iBy = self.iOy + iH
+
+    return iLx, iTy, iRx, iBy
+end
+
 function CBasicImage:load(pImg, iOx, iOy, iZ)
     self.pImg = pImg
     self.iOx = iOx

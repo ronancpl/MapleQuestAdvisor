@@ -24,6 +24,10 @@ CDynamicElem = createClass({
     pQueueDrawingQuads
 })
 
+function CDynamicElem:get_ltrb()
+    return self.pCurQuad:get_ltrb()
+end
+
 function CDynamicElem:load(rX, rY, rgpQuads)
     local m_eElem = self.eElem
     m_eElem:load(rX, rY)

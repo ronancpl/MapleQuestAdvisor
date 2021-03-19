@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.config")
 require("ui.run.build.graphic.quad")
 require("ui.run.build.interface.storage.split")
 require("ui.struct.component.basic.quad")
@@ -22,7 +23,7 @@ function load_node_quad(pSpriteNode, pImg)
     local iZ = pSpriteNode:get_z()
 
     local iDelay = pSpriteNode:get_delay()
-    local iDelaySec = iDelay / 1000
+    local iDelaySec = math.max(iDelay / 1000, RWndConfig.QUAD_DELAY_DEF)
 
     local pQuad = CBasicQuad:new()
     pQuad:load(pImg, iOx, iOy, iZ, iDelaySec)

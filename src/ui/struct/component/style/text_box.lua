@@ -24,7 +24,9 @@ CStyleBoxText = createClass({
 
     pBoxText = CStyleText:new(),
     pBoxTexture = CStyleBox:new(),
-    pBoxLimits = CStyleLimit:new()
+    pBoxLimits = CStyleLimit:new(),
+
+    bVisible = false
 })
 
 local function ink(sHexColor)   -- hex color conversion by litearc
@@ -126,5 +128,15 @@ function CStyleBoxText:_draw_text_box()
 end
 
 function CStyleBoxText:draw()
-    self:_draw_text_box()
+    if self.bVisible then
+        self:_draw_text_box()
+    end
+end
+
+function CStyleBoxText:hidden()
+    self.bVisible = false
+end
+
+function CStyleBoxText:visible()
+    self.bVisible = true
 end

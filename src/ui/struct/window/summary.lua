@@ -10,19 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.frame.layer")
-require("utils.struct.class")
+LLayer = {
+    NAV_BACKGROUND = 1, NAV_MAPLINK = 2, NAV_MAPLIST = 3, NAV_MISC = 4
+}
 
-CWmapNavMapLink = createClass({CWndLayer, {}})
+LChannel = {
 
-function CWmapNavMapLink:_build_element(pPropLink)
-    local iChn = pPropLink:get_z() or 1
-    self:add_element(iChn, pPropLink)
-end
+    MARK_PATH = 2
 
-function CWmapNavMapLink:build(pWmapProp)
-    self:reset()
-
-    -- do nothing, layer elements added on interaction
-
-end
+}

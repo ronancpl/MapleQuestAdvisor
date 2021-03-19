@@ -75,6 +75,8 @@ function CWmapProperties:set_origin(iCx, iCy)
 end
 
 function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs)
+    self:reset()
+
     local pBaseImgNode = pWmapRegion:get_base_img()
 
     local pBgrd = load_node_worldmap_base_img(self, pBaseImgNode, pDirWmapImgs)

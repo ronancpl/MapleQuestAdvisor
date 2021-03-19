@@ -26,6 +26,10 @@ function CBasicQuad:get_delay()
     return self.iDelay
 end
 
+function CBasicQuad:get_ltrb()
+    return self.eImg:get_ltrb()
+end
+
 function CBasicQuad:load(pImg, iOx, iOy, iZ, iDelay)
     self.eImg:load(pImg, iOx, iOy, iZ)
     self.iDelay = iDelay

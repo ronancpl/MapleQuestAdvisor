@@ -39,6 +39,24 @@ function CWndLayer:draw()
     end
 end
 
+function CWndLayer:onmousemoved(x, y, dx, dy, istouch)
+    for _, pChn in ipairs(self.rgpChannels) do
+        pChn:onmousemoved(x, y, dx, dy, istouch)
+    end
+end
+
+function CWndLayer:onmousepressed(x, y, button)
+    for _, pChn in ipairs(self.rgpChannels) do
+        pChn:onmousepressed(x, y, button)
+    end
+end
+
+function CWndLayer:onmousereleased(x, y, button)
+    for _, pChn in ipairs(self.rgpChannels) do
+        pChn:onmousereleased(x, y, button)
+    end
+end
+
 function CWndLayer:add_element(iChn, pElem)
     local pChn = self.rgpChannels[iChn or 1]
     pChn:add_element(pElem)
@@ -50,6 +68,13 @@ function CWndLayer:add_elements(iChn, rgpElems)
         for _, pElem in ipairs(rgpElems) do
             pChn:add_element(pElem)
         end
+    end
+end
+
+function CWndLayer:remove_element(iChn, pElem)
+    local pChn = self.rgpChannels[iChn]
+    if pChn ~= nil then
+        pChn:remove_element(pElem)
     end
 end
 

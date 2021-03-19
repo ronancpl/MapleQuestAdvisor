@@ -55,7 +55,40 @@ end
 
 function CWndCanvas:draw()
     local m_rgpLayers = self.rgpLayers
-    for _, pChn in ipairs(m_rgpLayers) do
-        pChn:draw()
+    for _, pLyr in ipairs(m_rgpLayers) do
+        pLyr:draw()
+    end
+end
+
+function CWndCanvas:onmousemoved(x, y, dx, dy, istouch)
+    local m_rgpLayers = self.rgpLayers
+    for _, pLyr in ipairs(m_rgpLayers) do
+        pLyr:onmousemoved(x, y, dx, dy, istouch)
+    end
+end
+
+function CWndCanvas:onmousepressed(x, y, button)
+    local m_rgpLayers = self.rgpLayers
+    for _, pLyr in ipairs(m_rgpLayers) do
+        pLyr:onmousepressed(x, y, button)
+    end
+end
+
+function CWndCanvas:onmousereleased(x, y, button)
+    local m_rgpLayers = self.rgpLayers
+    for _, pLyr in ipairs(m_rgpLayers) do
+        pLyr:onmousereleased(x, y, button)
+    end
+end
+
+function CWndCanvas:get_layer(iLayer)
+    local m_rgpLayers = self.rgpLayers
+    return m_rgpLayers[iLayer]
+end
+
+function CWndCanvas:reset()
+    local m_rgpLayers = self.rgpLayers
+    for _, pLyr in ipairs(m_rgpLayers) do
+        pLyr:reset()
     end
 end

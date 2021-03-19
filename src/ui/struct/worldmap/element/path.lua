@@ -17,6 +17,10 @@ CWmapElemPath = createClass({
     eConst = CStaticElem:new()
 })
 
+function CWmapElemPath:get_object()
+    return self.eConst
+end
+
 function CWmapElemPath:load(pWmapProp, pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:load(pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:instantiate(pWmapProp, true)
@@ -28,4 +32,24 @@ end
 
 function CWmapElemPath:draw()
     self.eConst:draw()
+end
+
+function CWmapElemPath:onmousehoverin()
+    -- do nothing
+end
+
+function CWmapElemPath:onmousehoverout()
+    -- do nothing
+end
+
+function CWmapElemPath:onmousemoved(rx, ry, dx, dy, istouch)
+    -- do nothing
+end
+
+function CWmapElemPath:onmousepressed(rx, ry, button)
+    -- do nothing
+end
+
+function CWmapElemPath:onmousereleased(rx, ry, button)
+    -- do nothing
 end
