@@ -38,8 +38,14 @@ local function load_node_map_path(pWmapProp, pMapNode, pDirWmapImgs, sRegionName
 end
 
 local function load_node_mapno(pMapNode)
-    local rgiFields = pMapNode:get_mapno()
-    return deep_copy(rgiFields)
+    local pNodeMapno = pMapNode:get_mapno()
+
+    local rgiFields = {}
+    for _, pNode in ipairs(pNodeMapno:list()) do
+        table.insert(rgiFields, pNode:get_value())
+    end
+
+    return rgiFields
 end
 
 local function load_node_map_marker(pWmapProp, pMapNode, pDirHelperImgs)
@@ -59,8 +65,23 @@ local function load_node_map_marker(pWmapProp, pMapNode, pDirHelperImgs)
     return pMarker
 end
 
-local function load_node_map_textbox(pMapNode)
+local function load_mapno_text_box(rgiFields)
+    local sMapName
+    if #rgiFields > 0 then
+        sMapName = ctFieldsMeta:get_street_name(rgiFields[1])
+    else
+        sMapName = ""
+    end
+
+    local pTextbox = CWmapBasicTextbox:new({sTitle = "", sDesc = sMapName})
+    return pTextbox
+end
+
+local function load_node_map_textbox(pMapNode, rgiFields)
     local pMapTextbox = pMapNode:get_textbox()
+    if pMapTextbox == nil then
+        pMapTextbox = load_mapno_text_box(rgiFields)
+    end
 
     local pTextbox = load_node_text_box(pMapTextbox)
     return pTextbox
@@ -69,7 +90,7 @@ end
 function load_node_worldmap_map_list(pWmapProp, pMapNode, pDirHelperImgs, pDirWmapImgs, sRegionName, iIdx)
     local rgiFields = load_node_mapno(pMapNode)
     local pPath = load_node_map_path(pWmapProp, pMapNode, pDirWmapImgs, sRegionName, iIdx)
-    local pTextbox = load_node_map_textbox(pMapNode)
+    local pTextbox = load_node_map_textbox(pMapNode, rgiFields)
 
     local pFieldMarker = load_node_map_marker(pWmapProp, pMapNode, pDirHelperImgs)
     pFieldMarker:set_mapno(rgiFields)

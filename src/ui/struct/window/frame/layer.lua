@@ -27,6 +27,10 @@ function CWndLayer:load(nChns)
     end
 end
 
+function CWndLayer:before_update(dt)
+    -- do nothing
+end
+
 function CWndLayer:update(dt)
     for _, pChn in ipairs(self.rgpChannels) do
         pChn:update(dt)
@@ -69,6 +73,11 @@ function CWndLayer:add_elements(iChn, rgpElems)
             pChn:add_element(pElem)
         end
     end
+end
+
+function CWndLayer:get_elements(iChn)
+    local pChn = self.rgpChannels[iChn]
+    return pChn ~= nil and pChn:get_elements() or {}
 end
 
 function CWndLayer:remove_element(iChn, pElem)

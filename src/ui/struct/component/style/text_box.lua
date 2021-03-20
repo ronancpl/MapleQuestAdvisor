@@ -13,21 +13,23 @@
 require("router.procedures.constant")
 require("struct.component.style.box.limit")
 require("struct.component.style.box.text")
-require("struct.component.style.box.texture")
 require("ui.constant.style")
 require("ui.run.draw.box.limit")
-require("ui.struct.component.basic.base")
+require("ui.struct.component.element.texture")
 require("utils.struct.class")
 
 CStyleBoxText = createClass({
-    eBase = CBasicElem:new(),
+    eTexture = CTextureElem:new(),
 
     pBoxText = CStyleText:new(),
-    pBoxTexture = CStyleBox:new(),
     pBoxLimits = CStyleLimit:new(),
 
     bVisible = false
 })
+
+function CStyleBoxText:get_object()
+    return self.eTexture
+end
 
 local function ink(sHexColor)   -- hex color conversion by litearc
     local _,_,r,g,b,a = sHexColor:find('(%x%x)(%x%x)(%x%x)(%x%x)')
@@ -61,11 +63,11 @@ local function load_box_image()
     return love.graphics.newImage(pImgData)
 end
 
-function CStyleBoxText:_load_texture()
-    local m_pBoxTexture = self.pBoxTexture
+function CStyleBoxText:_load_texture(iRx, iRy)
+    local m_eTexture = self.eTexture
 
     local pImgBox = load_box_image()
-    m_pBoxTexture:load(pImgBox, 3, 3, 115, 6)
+    m_eTexture:load(iRx, iRy, pImgBox, 3, 3, 115, 6)
 end
 
 function CStyleBoxText:_load_fonts()
@@ -81,17 +83,15 @@ function CStyleBoxText:_load_text(sTitle, sDesc)
     m_pBoxText:update_text(sTitle, sDesc)
 end
 
-function CStyleBoxText:_build_texture_box()
-    local m_pBoxTexture = self.pBoxTexture
+function CStyleBoxText:_build_texture_box(iRx, iRy)
+    local m_eTexture = self.eTexture
     local m_pBoxLimits = self.pBoxLimits
 
-    m_pBoxTexture:build(m_pBoxLimits:get_width(), m_pBoxLimits:get_height())
+    m_eTexture:build(m_pBoxLimits:get_width(), m_pBoxLimits:get_height())
 end
 
 function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
-    self.eBase:load(iRx, iRy)
-
-    self:_load_texture()
+    self:_load_texture(iRx, iRy)
     self:_load_fonts()
     self:_load_text(sTitle, sDesc)
 
@@ -99,7 +99,7 @@ function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
     local m_pBoxLimits = self.pBoxLimits
     validate_box_boundary(m_pBoxText, m_pBoxLimits)
 
-    self:_build_texture_box()
+    self:_build_texture_box(iRx, iRy)
 end
 
 function CStyleBoxText:update(dt)
@@ -110,8 +110,8 @@ function CStyleBoxText:update(dt)
 end
 
 function CStyleBoxText:_draw_text_box_background(iRx, iRy)
-    local m_pBoxTexture = self.pBoxTexture
-    m_pBoxTexture:draw(iRx, iRy)
+    local m_eTexture = self.eTexture
+    m_eTexture:draw(iRx, iRy)
 end
 
 function CStyleBoxText:_draw_text_box()
@@ -125,8 +125,19 @@ function CStyleBoxText:_draw_text_box()
     local m_pBoxText = self.pBoxText
     pTxtTitle, pTxtDesc = m_pBoxText:get_drawable()
 
+
+    local sTitle
+    sTitle, _ = m_pBoxText:get_text()
+
+    local iRyDesc
+    if string.len(sTitle) > 0 then
+        iRyDesc = RStylebox.CRLF
+    else
+        iRyDesc = 0
+    end
+
     love.graphics.draw(pTxtTitle, iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
-    love.graphics.draw(pTxtDesc, iRx + RStylebox.FIL_X, iRy + RStylebox.CRLF + RStylebox.FIL_Y)
+    love.graphics.draw(pTxtDesc, iRx + RStylebox.FIL_X, iRy + iRyDesc + RStylebox.FIL_Y)
 end
 
 function CStyleBoxText:draw()

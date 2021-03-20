@@ -12,6 +12,7 @@
 
 require("ui.struct.component.element.dynamic")
 require("ui.struct.window.summary")
+require("ui.struct.worldmap.basic.textbox")
 require("utils.struct.class")
 
 CWmapElemMark = createClass({
@@ -23,6 +24,10 @@ CWmapElemMark = createClass({
 
 function CWmapElemMark:get_object()
     return self.eDynam
+end
+
+function CWmapElemMark:get_mapno()
+    return self.rgiFields
 end
 
 function CWmapElemMark:set_mapno(rgiFields)
@@ -69,17 +74,15 @@ end
 
 function CWmapElemMark:draw()
     self.eDynam:draw()
-
-    local m_pTextbox = self.pTextbox
-    if m_pTextbox ~= nil then
-        m_pTextbox:draw()
-    end
 end
 
 function CWmapElemMark:onmousehoverin()
     local m_pTextbox = self.pTextbox
     if m_pTextbox ~= nil then
         m_pTextbox:visible()
+
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_MISC)
+        pLyr:add_element(LChannel.MARK_TBOX, m_pTextbox)
     end
 
     local m_pPath = self:get_path()
@@ -93,6 +96,9 @@ function CWmapElemMark:onmousehoverout()
     local m_pTextbox = self.pTextbox
     if m_pTextbox then
         m_pTextbox:hidden()
+
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_MISC)
+        pLyr:add_element(LChannel.MARK_TBOX, m_pTextbox)
     end
 
     local m_pPath = self:get_path()

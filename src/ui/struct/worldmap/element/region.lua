@@ -11,6 +11,7 @@
 --]]
 
 require("ui.struct.component.element.static")
+require("ui.struct.window.summary")
 require("utils.struct.class")
 
 CWmapElemRegionLink = createClass({
@@ -60,12 +61,22 @@ function CWmapElemRegionLink:draw()
     end
 end
 
-function CWmapElemRegionLink:onmousehoverin()
+function CWmapElemRegionLink:visible()
     self.bVisible = true
 end
 
-function CWmapElemRegionLink:onmousehoverout()
+function CWmapElemRegionLink:hidden()
     self.bVisible = false
+end
+
+function CWmapElemRegionLink:onmousehoverin()
+    local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
+    pLyr:add_link_visible(self)
+end
+
+function CWmapElemRegionLink:onmousehoverout()
+    local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
+    pLyr:remove_link_visible(self)
 end
 
 function CWmapElemRegionLink:onmousemoved(rx, ry, dx, dy, istouch)
@@ -76,15 +87,15 @@ function CWmapElemRegionLink:onmousepressed(rx, ry, button)
     -- do nothing
 end
 
-local function access_inner_map()
-    local sParentWmapName = pUiWmap:get_properties():get_parent_map()
-    if sParentWmapName ~= "" then
-        pUiWmap:update_region(sParentWmapName)
+function CWmapElemRegionLink:_access_inner_map()
+    local sWmapName = self:get_link_map()
+    if sWmapName ~= "" then
+        pUiWmap:update_region(sWmapName)
     end
 end
 
 function CWmapElemRegionLink:onmousereleased(rx, ry, button)
     if button == 1 then
-        access_inner_map()
+        self:_access_inner_map()
     end
 end

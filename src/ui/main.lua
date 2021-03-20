@@ -12,6 +12,7 @@
 
 package.path = package.path .. ';?.lua'
 
+require("composer.field.field")
 require("ui.constant.path")
 require("ui.run.build.worldmap.worldmap")
 require("ui.run.load.basic")
@@ -22,6 +23,7 @@ require("utils.procedure.print")
 function love.load()
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
     ctFieldsWmap = load_resources_worldmap()
+    ctFieldsMeta = load_meta_resources_fields()
 
     log(LPath.INTERFACE, "load.txt", "Loading user interface...")
     pFrameBasic = load_frame_basic()

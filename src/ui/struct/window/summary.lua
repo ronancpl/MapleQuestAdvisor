@@ -16,6 +16,6 @@ LLayer = {
 
 LChannel = {
 
-    MARK_PATH = 2
+    MARK_PATH = 2, MARK_TBOX = 3
 
 }

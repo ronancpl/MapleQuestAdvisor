@@ -11,9 +11,12 @@
 --]]
 
 require("ui.struct.window.frame.layer")
+require("utils.struct.arrayset")
 require("utils.struct.class")
 
-CWmapNavMapLink = createClass({CWndLayer, {}})
+CWmapNavMapLink = createClass({CWndLayer, {
+    pSetLinkVisible = SArraySet:new()
+}})
 
 function CWmapNavMapLink:_build_element(pPropLink)
     local iChn = pPropLink:get_z() or 1
@@ -30,4 +33,26 @@ function CWmapNavMapLink:build(pWmapProp)
         self:_build_element(pLinkNode)
     end
 
+end
+
+function CWmapNavMapLink:before_update(dt)
+    local pLinkVisible = self.pSetLinkVisible:get(0)
+
+    for _, pLinkNode in ipairs(self:get_elements(iChn)) do
+        if pLinkNode == pLinkVisible then
+            pLinkNode:visible()
+        else
+            pLinkNode:hidden()
+        end
+    end
+end
+
+function CWmapNavMapLink:add_link_visible(pLinkVisible)
+    local m_pSetLinkVisible = self.pSetLinkVisible
+    m_pSetLinkVisible:add(pLinkVisible)
+end
+
+function CWmapNavMapLink:remove_link_visible(pLinkVisible)
+    local m_pSetLinkVisible = self.pSetLinkVisible
+    m_pSetLinkVisible:remove(pLinkVisible)
 end

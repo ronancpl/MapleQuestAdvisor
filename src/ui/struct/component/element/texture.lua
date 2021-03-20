@@ -11,20 +11,42 @@
 --]]
 
 require("ui.run.draw.box.texture")
+require("ui.run.load.interface.image")
+require("ui.struct.component.basic.base")
+require("ui.struct.component.basic.texture")
+require("ui.struct.window.summary")
 require("utils.struct.class")
 
-CStyleBox = createClass({
+CTextureElem = createClass({
+    eElem = CBasicElem:new(),
+    eImg = CBasicOutline:new(),
+    pCanvas,
+
     pImgBox,
     rgpImgBoxPos,
 
     pBoxArea,
     rgpBoxQuads,
-    pBoxGrowth,
-
-    pCanvas
+    pBoxGrowth
 })
 
-function CStyleBox:_get_style_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+function CTextureElem:get_origin()
+    return self.eImg:get_origin()
+end
+
+function CTextureElem:get_z()
+    self.eImg:get_z()
+end
+
+function CTextureElem:get_ltrb()
+    local m_eElem = self.eElem
+    local iPx, iPy = m_eElem:get_pos()
+
+    local iLx, iTy, iRx, iBy = self.eImg:get_ltrb()
+    return iLx + iPx, iTy + iPy, iRx + iPx, iBy + iPy
+end
+
+function CTextureElem:_get_limit_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     local iWidth
     local iHeight
     iWidth, iHeight = pImgBox:getDimensions()
@@ -41,7 +63,7 @@ function CStyleBox:_get_style_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw,
     return iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh
 end
 
-function CStyleBox:_get_style_ltrb(iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+function CTextureElem:_get_limit_ltrb(iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     local iL, iT, iR, iB
 
     iL = iIx
@@ -53,22 +75,32 @@ function CStyleBox:_get_style_ltrb(iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     return iL, iT, iR, iB
 end
 
-function CStyleBox:_init_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
-    local iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = self:_get_style_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
-
-    local iL, iT, iR, iB = self:_get_style_ltrb(iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+function CTextureElem:_init_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    local iL, iT, iR, iB = self:_get_limit_ltrb(iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     return iL, iT, iR, iB
 end
 
-function CStyleBox:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+function CTextureElem:_load_texture(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = self:_get_limit_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+
     local iL, iT, iR, iB = self:_init_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     local rgpImgBoxPos = load_texture_split(pImgBox, iL, iT, iR, iB)
 
     self.pImgBox = pImgBox
     self.rgpImgBoxPos = rgpImgBoxPos
+    self.eImg:load(0, 0, -1, iOw, iOh)
 end
 
-function CStyleBox:_prepare_canvas()
+function CTextureElem:_load_position(iRx, iRy)
+    self.eElem:load(iRx, iRy)
+end
+
+function CTextureElem:load(iRx, iRy, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    self:_load_position(iRx, iRy)
+    self:_load_texture(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+end
+
+function CTextureElem:_prepare_canvas()
     local iWidth
     local iHeight
     iWidth, iHeight = unpack(self.pBoxArea)
@@ -77,13 +109,19 @@ function CStyleBox:_prepare_canvas()
     draw_canvas_texture_box(self.pCanvas, self.pImgBox, self.rgpBoxQuads, self.pBoxGrowth, iWidth, iHeight)
 end
 
-function CStyleBox:build(iWidth, iHeight)
+function CTextureElem:build(iWidth, iHeight)
+    self.eImg:load(0, 0, LChannel.MARK_TBOX, iWidth, iHeight)
+
     self.pBoxArea = {iWidth, iHeight}
     self.rgpBoxQuads, self.pBoxGrowth = build_pattern_box(self.pImgBox, self.rgpImgBoxPos, iWidth, iHeight)
 
     self:_prepare_canvas()
 end
 
-function CStyleBox:draw(iPx, iPy)
+function CTextureElem:update(dt)
+    -- do nothing
+end
+
+function CTextureElem:draw(iPx, iPy)
     draw_texture_box(self.pCanvas, iPx, iPy)
 end

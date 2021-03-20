@@ -51,6 +51,11 @@ function CWndChannel:remove_element(pElem)
     m_tpElemHover[pElem] = nil
 end
 
+function CWndChannel:get_elements()
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    return keys(m_tpRegisteredElements)
+end
+
 function CWndChannel:reset_elements()
     local m_tpRegisteredElements = self.tpRegisteredElements
     for pElem, _ in pairs(m_tpRegisteredElements) do

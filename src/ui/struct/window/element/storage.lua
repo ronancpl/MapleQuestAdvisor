@@ -32,18 +32,18 @@ end
 
 function CWndStorage:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
     local m_pDirWmapImgs = self.pDirWmapImgs
+    local m_tpWmapRegionCache = self.tpWmapRegionCache
 
     local pWmapRegion
     local pDirWmapImgs
     if m_pDirWmapImgs[sWmapName] == nil then
         pWmapRegion, pDirWmapImgs = load_frame_worldmap_region(sWmapName, ctFieldsWmap)
 
-        local m_tpWmapRegionCache = self.tpWmapRegionCache
         m_tpWmapRegionCache[sWmapName] = pWmapRegion
         m_pDirWmapImgs[sWmapName] = pDirWmapImgs
     else
         pDirWmapImgs = m_pDirWmapImgs[sWmapName]
-        pWmapRegion = m_tpXmlWmapNode[sWmapName]
+        pWmapRegion = m_tpWmapRegionCache[sWmapName]
     end
 
     return pWmapRegion, pDirWmapImgs
