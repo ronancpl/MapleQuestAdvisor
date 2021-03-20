@@ -53,6 +53,10 @@ end
 
 function CWndChannel:reset_elements()
     local m_tpRegisteredElements = self.tpRegisteredElements
+    for pElem, _ in pairs(m_tpRegisteredElements) do
+        pElem:reset()
+    end
+
     clear_table(m_tpRegisteredElements)
 
     local m_tpElemHover = self.tpElemHover
@@ -60,14 +64,14 @@ function CWndChannel:reset_elements()
 end
 
 local function is_mouse_in_range(pElem, x, y)
-    local iLx, iTy, iRx, iLy = pElem:get_object():get_ltrb()
-    return math.between(x, iLx, iRx) and math.between(y, iTy, iLy)
+    local iLx, iTy, iRx, iBy = pElem:get_object():get_ltrb()
+    return math.between(x, iLx, iRx) and math.between(y, iTy, iBy)
 end
 
 function CWndChannel:_update_state_hover(pElem, bHover)
     local m_tpElemHover = self.tpElemHover
 
-    local bLastHover = m_tpElemHover[pElem]
+    local bLastHover = m_tpElemHover[pElem] or false
     if bLastHover ~= bHover then
         m_tpElemHover[pElem] = bHover
 

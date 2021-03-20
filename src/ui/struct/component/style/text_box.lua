@@ -104,7 +104,9 @@ end
 
 function CStyleBoxText:update(dt)
     local m_pBoxLimits = self.pBoxLimits
-    m_pBoxLimits:update_box_position(love.mouse.getPosition())
+
+    local iMx, iMy = love.mouse.getPosition()
+    m_pBoxLimits:update_box_position(iMx, iMy)
 end
 
 function CStyleBoxText:_draw_text_box_background(iRx, iRy)

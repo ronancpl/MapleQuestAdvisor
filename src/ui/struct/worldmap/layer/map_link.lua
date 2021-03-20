@@ -23,6 +23,11 @@ end
 function CWmapNavMapLink:build(pWmapProp)
     self:reset()
 
-    -- do nothing, layer elements added on interaction
+    -- add layer elements
+
+    local rgpLinkNodes = pWmapProp:get_map_links()
+    for _, pLinkNode in ipairs(rgpLinkNodes) do
+        self:_build_element(pLinkNode)
+    end
 
 end

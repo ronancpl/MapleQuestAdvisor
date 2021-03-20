@@ -30,6 +30,10 @@ function CWmapElemBackground:load(pWmapProp, pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:instantiate(pWmapProp, true)
 end
 
+function CWmapElemBackground:reset()
+    -- do nothing
+end
+
 function CWmapElemBackground:update(dt)
     self.eConst:update(dt)
 end

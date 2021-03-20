@@ -51,28 +51,40 @@ function CWmapElemMark:load(rX, rY, rgpQuads, pWmapProp)
     self.eDynam:after_load()
 end
 
+function CWmapElemMark:reset()
+    local m_pTextbox = self:get_textbox()
+    if m_pTextbox ~= nil then
+        m_pTextbox:hidden()     -- unrenderize after canvas reset
+    end
+end
+
 function CWmapElemMark:update(dt)
     self.eDynam:update(dt)
+
+    local m_pTextbox = self:get_textbox()
+    if m_pTextbox ~= nil then
+        m_pTextbox:update(dt)
+    end
 end
 
 function CWmapElemMark:draw()
     self.eDynam:draw()
 
     local m_pTextbox = self.pTextbox
-    if m_pTextbox then
+    if m_pTextbox ~= nil then
         m_pTextbox:draw()
     end
 end
 
 function CWmapElemMark:onmousehoverin()
     local m_pTextbox = self.pTextbox
-    if m_pTextbox then
+    if m_pTextbox ~= nil then
         m_pTextbox:visible()
     end
 
     local m_pPath = self:get_path()
     if m_pPath ~= nil then
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_MISC)
         pLyr:add_element(LChannel.MARK_PATH, m_pPath)
     end
 end
@@ -85,7 +97,7 @@ function CWmapElemMark:onmousehoverout()
 
     local m_pPath = self:get_path()
     if m_pPath ~= nil then
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_MISC)
         pLyr:remove_element(LChannel.MARK_PATH, m_pPath)
     end
 end

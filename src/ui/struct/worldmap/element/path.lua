@@ -26,6 +26,10 @@ function CWmapElemPath:load(pWmapProp, pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:instantiate(pWmapProp, true)
 end
 
+function CWmapElemPath:reset()
+    -- do nothing
+end
+
 function CWmapElemPath:update(dt)
     self.eConst:update(dt)
 end

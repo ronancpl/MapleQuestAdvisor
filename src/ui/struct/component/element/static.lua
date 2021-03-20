@@ -29,7 +29,11 @@ function CStaticElem:get_z()
 end
 
 function CStaticElem:get_ltrb()
-    return self.eImg:get_ltrb()
+    local m_eElem = self.eElem
+    local iPx, iPy = m_eElem:get_pos()
+
+    local iLx, iTy, iRx, iBy = self.eImg:get_ltrb()
+    return iLx + iPx, iTy + iPy, iRx + iPx, iBy + iPy
 end
 
 function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)

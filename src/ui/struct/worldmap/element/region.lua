@@ -16,7 +16,9 @@ require("utils.struct.class")
 CWmapElemRegionLink = createClass({
     eConst = CStaticElem:new(),
     sLinkMap,
-    sTooltip
+    sTooltip,
+
+    bVisible = false
 })
 
 function CWmapElemRegionLink:get_object()
@@ -28,8 +30,16 @@ function CWmapElemRegionLink:load(pWmapProp, pImg, iOx, iOy, iZ, rX, rY)
     self.eConst:instantiate(pWmapProp, true)
 end
 
+function CWmapElemRegionLink:reset()
+    self.bVisible = false
+end
+
 function CWmapElemRegionLink:get_z()
     return self.eConst:get_z()
+end
+
+function CWmapElemRegionLink:get_link_map()
+    return self.sLinkMap
 end
 
 function CWmapElemRegionLink:set_link_map(sLinkMap)
@@ -45,15 +55,17 @@ function CWmapElemRegionLink:update(dt)
 end
 
 function CWmapElemRegionLink:draw()
-    self.eConst:draw()
+    if self.bVisible then
+        self.eConst:draw()
+    end
 end
 
 function CWmapElemRegionLink:onmousehoverin()
-    -- do nothing
+    self.bVisible = true
 end
 
 function CWmapElemRegionLink:onmousehoverout()
-    -- do nothing
+    self.bVisible = false
 end
 
 function CWmapElemRegionLink:onmousemoved(rx, ry, dx, dy, istouch)
