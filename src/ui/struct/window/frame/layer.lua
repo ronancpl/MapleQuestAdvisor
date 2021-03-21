@@ -27,10 +27,6 @@ function CWndLayer:load(nChns)
     end
 end
 
-function CWndLayer:before_update(dt)
-    -- do nothing
-end
-
 function CWndLayer:update(dt)
     for _, pChn in ipairs(self.rgpChannels) do
         pChn:update(dt)

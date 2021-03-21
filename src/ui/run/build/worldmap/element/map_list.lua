@@ -42,7 +42,10 @@ local function load_node_mapno(pMapNode)
 
     local rgiFields = {}
     for _, pNode in ipairs(pNodeMapno:list()) do
-        table.insert(rgiFields, pNode:get_value())
+        local iIdx = pNode:get_name_tonumber() + 1
+        local iField = pNode:get_value()
+
+        rgiFields[iIdx] = iField
     end
 
     return rgiFields

@@ -10,13 +10,19 @@
     provide an express grant of patent rights.
 --]]
 
-LLayer = {
-    NAV_BACKGROUND = 1, NAV_MAPLINK = 2, NAV_MAPLIST = 3, NAV_MISC = 4
-}
+-- format: X1, X2, Y1, Y2, Z1, Z2...
+function calc_distance(...)
+    local iDist = 0
 
-LChannel = {
+    local tTable = ...
 
-    LINK_IMG = 1,
-    MARK_PATH = 2, MARK_TBOX = 3
+    local nDims = math.floor(#tTable / 2)
+    for i = 1, nDims, 1 do
+        local iO1 = tTable[2 * nDims - 1]
+        local iO2 = tTable[2 * nDims]
 
-}
+        iDist = iDist + (math.abs(iO1 - iO2) ^ 2)
+    end
+
+    return math.sqrt(iDist)
+end

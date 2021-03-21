@@ -49,7 +49,11 @@ end
 function CWndCanvas:update(dt)
     local m_rgpLayers = self.rgpLayers
     for _, pLyr in ipairs(m_rgpLayers) do
-        pLyr:before_update(dt)
+        local fn_before_update = pLyr.before_update
+        if fn_before_update ~= nil then
+            fn_before_update(pLyr, dt)
+        end
+
         pLyr:update(dt)
     end
 end

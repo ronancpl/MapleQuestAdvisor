@@ -10,46 +10,70 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.unpack")
 require("utils.struct.array")
 require("utils.struct.class")
 
 SArraySet = createClass({
-    rgpItems = SArray:new(),
+    apItems = SArray:new(),
     tpSetItems = {}
 })
 
 function SArraySet:add(pItem)
-    local m_rgpItems = self.rgpItems
+    local m_apItems = self.apItems
     local m_tpSetItems = self.tpSetItems
 
     if m_tpSetItems[pItem] == nil then
-        table.insert(m_rgpItems, pItem)
-        m_tpSetItems[pItem] = #m_rgpItems
+        m_apItems:add(pItem)
+        m_tpSetItems[pItem] = m_apItems:size()
+    end
+end
+
+function SArraySet:_rearrange_keys(iIdx)
+    local m_tpSetItems = self.tpSetItems
+    for pItem, iIdx in pairs(m_tpSetItems) do
+        m_tpSetItems[pItem] = iIdx - 1
     end
 end
 
 function SArraySet:remove(pItem)
-    local m_rgpItems = self.rgpItems
+    local m_apItems = self.apItems
     local m_tpSetItems = self.tpSetItems
 
     local iIdx = m_tpSetItems[pItem]
     if iIdx ~= nil then
         m_tpSetItems[pItem] = nil
-        table.remove(m_rgpItems, iIdx)
+        m_apItems:remove(iIdx, iIdx)
+        self:_rearrange_keys(iIdx)
     end
 end
 
+function SArraySet:remove_all()
+    local m_apItems = self.apItems
+    local rgpItems = m_apItems:remove_all()
+
+    local m_tpSetItems = self.tpSetItems
+    clear_table(m_tpSetItems)
+
+    return rgpItems
+end
+
 function SArraySet:get(iIdx)
-    local m_rgpItems = self.rgpItems
-    return m_rgpItems[iIdx]
+    local m_apItems = self.apItems
+    return m_apItems:get(iIdx)
 end
 
 function SArraySet:size()
-    local m_rgpItems = self.rgpItems
-    return #m_rgpItems
+    local m_apItems = self.apItems
+    return m_apItems:size()
 end
 
 function SArraySet:list()
-    local m_rgpItems = self.rgpItems
-    return m_rgpItems
+    local m_apItems = self.apItems
+    return m_apItems:list()
+end
+
+function SArraySet:sort(fn_sort)
+    local m_apItems = self.apItems
+    m_apItems:sort(fn_sort)
 end
