@@ -35,7 +35,7 @@ function CTextureElem:get_origin()
 end
 
 function CTextureElem:get_z()
-    self.eImg:get_z()
+    return self.eImg:get_z()
 end
 
 function CTextureElem:get_ltrb()

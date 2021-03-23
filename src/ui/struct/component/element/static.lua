@@ -25,7 +25,7 @@ function CStaticElem:get_origin()
 end
 
 function CStaticElem:get_z()
-    self.eImg:get_z()
+    return self.eImg:get_z()
 end
 
 function CStaticElem:get_ltrb()
@@ -34,6 +34,14 @@ function CStaticElem:get_ltrb()
 
     local iLx, iTy, iRx, iBy = self.eImg:get_ltrb()
     return iLx + iPx, iTy + iPy, iRx + iPx, iBy + iPy
+end
+
+function CStaticElem:get_center()
+    local m_eElem = self.eElem
+    local iPx, iPy = m_eElem:get_pos()
+
+    local iLx, iTy, iRx, iBy = self.eImg:get_ltrb()
+    return iPx + ((iLx + iRx) / 2), iPy + ((iTy + iBy) / 2)
 end
 
 function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)

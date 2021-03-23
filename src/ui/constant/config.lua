@@ -14,10 +14,15 @@ RWndConfig = {
 
     WMAP_BGRD_SIZE = {640, 470},
 
+    PTXT_BOARD = {650, 480},
+    PTXT_SGMNT_SIZE = {140, 140},
+    PTXT_SGMNT_FIL_X = 10,
+
     CAPACITY = {
         LAYERS = 4,
         CHANNELS = 4
     },
 
     QUAD_DELAY_DEF = 0.1
+
 }

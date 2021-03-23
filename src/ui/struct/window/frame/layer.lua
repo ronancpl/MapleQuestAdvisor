@@ -10,7 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.constant.path")
 require("ui.struct.window.frame.channel")
 require("utils.struct.class")
 

@@ -11,12 +11,13 @@
 --]]
 
 LLayer = {
-    NAV_BACKGROUND = 1, NAV_MAPLINK = 2, NAV_MAPLIST = 3, NAV_MISC = 4
+    NAV_BACKGROUND = 1, NAV_MAPLINK = 2, NAV_MAPLIST = 3, NAV_MISC = 4, NAV_PTEXT = 5
 }
 
 LChannel = {
 
     LINK_IMG = 1,
-    MARK_PATH = 2, MARK_TBOX = 3
+    MARK_PATH = 2, MARK_TBOX = 3,
+    PLAINTXT = 2
 
 }

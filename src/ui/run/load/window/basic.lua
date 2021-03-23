@@ -10,7 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.constant.path")
 require("ui.struct.window.element.mouse")
 
 function load_storage_basic()

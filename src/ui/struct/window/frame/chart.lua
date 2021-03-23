@@ -18,6 +18,7 @@ require("ui.struct.worldmap.layer.background")
 require("ui.struct.worldmap.layer.fragment")
 require("ui.struct.worldmap.layer.map_link")
 require("ui.struct.worldmap.layer.map_list")
+require("ui.struct.worldmap.layer.plaintext")
 require("ui.struct.worldmap.properties")
 require("utils.struct.class")
 
@@ -51,7 +52,7 @@ function CWndWmap:load()
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
     self.pProp:set_origin(iBx / 2, iBy / 2)
 
-    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment}) -- follows sequence: LLayer
+    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavInfo}) -- follows sequence: LLayer
     self.pCache:load()
 end
 

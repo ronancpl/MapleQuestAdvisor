@@ -32,6 +32,14 @@ function CDynamicElem:get_ltrb()
     return iLx + iPx, iTy + iPy, iRx + iPx, iBy + iPy
 end
 
+function CDynamicElem:get_center()
+    local m_eElem = self.eElem
+    local iPx, iPy = m_eElem:get_pos()
+
+    local iLx, iTy, iRx, iBy = self.pCurQuad:get_ltrb()
+    return iPx + ((iLx + iRx) / 2), iPy + ((iTy + iBy) / 2)
+end
+
 function CDynamicElem:load(rX, rY, rgpQuads)
     local m_eElem = self.eElem
     m_eElem:load(rX, rY)

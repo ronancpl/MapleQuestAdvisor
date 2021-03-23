@@ -57,7 +57,11 @@ end
 
 function CWmapElemRegionLink:draw()
     if self.bVisible then
+        local iCx, iCy = self.eConst:get_center()
+
         self.eConst:draw()
+
+        love.graphics.circle("fill", iCx, iCy, 10)
     end
 end
 

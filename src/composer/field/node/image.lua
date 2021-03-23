@@ -15,7 +15,8 @@ function load_xml_image(pXmlNode)
     local iOx = tonumber(pOrig:get("x"))
     local iOy = tonumber(pOrig:get("y"))
 
-    local iZ = pXmlNode:get_child_by_name("z")
+    local pZ = pXmlNode:get_child_by_name("z")
+    local iZ = pZ ~= nil and pZ:get_value() or 1
 
     return iOx, iOy, iZ
 end
