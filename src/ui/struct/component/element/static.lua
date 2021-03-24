@@ -32,16 +32,25 @@ function CStaticElem:get_ltrb()
     local m_eElem = self.eElem
     local iPx, iPy = m_eElem:get_pos()
 
-    local iLx, iTy, iRx, iBy = self.eImg:get_ltrb()
-    return iLx + iPx, iTy + iPy, iRx + iPx, iBy + iPy
+    local m_eImg = self.eImg
+    local iOx, iOy = m_eImg:get_origin()
+
+    local pImg = m_eImg:get_img()
+    local iW = pImg:getWidth()
+    local iH = pImg:getHeight()
+
+    local iLx = iOx + iPx
+    local iTy = iOy + iPy
+
+    local iRx = iLx + iW
+    local iBy = iTy + iH
+
+    return iLx, iTy, iRx, iBy
 end
 
 function CStaticElem:get_center()
-    local m_eElem = self.eElem
-    local iPx, iPy = m_eElem:get_pos()
-
     local iLx, iTy, iRx, iBy = self.eImg:get_ltrb()
-    return iPx + ((iLx + iRx) / 2), iPy + ((iTy + iBy) / 2)
+    return (iLx + iRx) / 2, (iTy + iBy) / 2
 end
 
 function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)

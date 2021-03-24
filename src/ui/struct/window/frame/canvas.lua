@@ -49,9 +49,9 @@ end
 function CWndCanvas:update(dt)
     local m_rgpLayers = self.rgpLayers
     for _, pLyr in ipairs(m_rgpLayers) do
-        local fn_before_update = pLyr.before_update
-        if fn_before_update ~= nil then
-            fn_before_update(pLyr, dt)
+        local fn_bfr_update = pLyr.before_update
+        if fn_bfr_update ~= nil then
+            fn_bfr_update(pLyr, dt)
         end
 
         pLyr:update(dt)
@@ -61,6 +61,11 @@ end
 function CWndCanvas:draw()
     local m_rgpLayers = self.rgpLayers
     for _, pLyr in ipairs(m_rgpLayers) do
+        local fn_bfr_draw = pLyr.before_draw
+        if fn_bfr_draw ~= nil then
+            fn_bfr_draw(pLyr)
+        end
+
         pLyr:draw()
     end
 end

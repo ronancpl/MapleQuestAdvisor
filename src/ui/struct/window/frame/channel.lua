@@ -75,7 +75,6 @@ end
 
 function CWndChannel:_update_state_hover(pElem, bHover)
     local m_tpElemHover = self.tpElemHover
-
     local bLastHover = m_tpElemHover[pElem] or false
     if bLastHover ~= bHover then
         m_tpElemHover[pElem] = bHover

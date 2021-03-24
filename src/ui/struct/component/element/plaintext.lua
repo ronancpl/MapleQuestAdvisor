@@ -53,7 +53,7 @@ local function calc_text_boundary(sText, iLimWidth, pFont)
 end
 
 function CTextElem:_calc_ltrb(sText, iLineWidth, pFont)
-    local iLx, iRx, iTy, iBy
+    local iLx, iTy, iRx, iBy
     iLx, iTy = self.eElem:get_pos()
 
     local iW, iH = calc_text_boundary(sText, iLineWidth, pFont)
@@ -86,5 +86,4 @@ end
 function CTextElem:draw()
     local iPx, iPy = self:get_origin()
     love.graphics.draw(self.pTxt, iPx, iPy)
-    log_st(LPath.INTERFACE, "_text.txt", iPx .. "," .. iPy .. " | " .. self.sText)
 end

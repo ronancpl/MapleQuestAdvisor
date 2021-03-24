@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.copy")
 require("utils.procedure.unpack")
 require("utils.struct.array")
 require("utils.struct.class")
@@ -29,10 +30,14 @@ function SArraySet:add(pItem)
     end
 end
 
-function SArraySet:_rearrange_keys(iIdx)
+function SArraySet:_rearrange_keys(iFromIdx)
     local m_tpSetItems = self.tpSetItems
-    for pItem, iIdx in pairs(m_tpSetItems) do
-        m_tpSetItems[pItem] = iIdx - 1
+
+    local tSetItems = table_copy(m_tpSetItems)
+    for pItem, iIdx in pairs(tSetItems) do
+        if iIdx > iFromIdx then
+            m_tpSetItems[pItem] = iIdx - 1
+        end
     end
 end
 
