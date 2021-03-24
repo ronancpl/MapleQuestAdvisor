@@ -41,6 +41,16 @@ function SArraySet:_rearrange_keys(iFromIdx)
     end
 end
 
+function SArraySet:_rebuild_keys()
+    local m_tpSetItems = self.tpSetItems
+
+    local rgpItems = self.apItems:list()
+    for i = 1, #rgpItems, 1 do
+        local pItem = rgpItems[i]
+        m_tpSetItems[pItem] = i
+    end
+end
+
 function SArraySet:remove(pItem)
     local m_apItems = self.apItems
     local m_tpSetItems = self.tpSetItems
@@ -81,4 +91,6 @@ end
 function SArraySet:sort(fn_sort)
     local m_apItems = self.apItems
     m_apItems:sort(fn_sort)
+
+    self:_rebuild_keys()
 end

@@ -75,19 +75,12 @@ end
 
 function CWmapElemRegionLink:onmousehoverin()
     local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
-
-    pLyr:debug_link_visible()
     pLyr:add_link_visible(self)
-    pLyr:debug_link_visible()
 end
 
 function CWmapElemRegionLink:onmousehoverout()
     local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
-
-
-    pLyr:debug_link_visible()
     pLyr:remove_link_visible(self)
-    pLyr:debug_link_visible()
 end
 
 function CWmapElemRegionLink:onmousemoved(rx, ry, dx, dy, istouch)
