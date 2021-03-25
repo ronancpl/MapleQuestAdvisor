@@ -18,8 +18,8 @@ function calc_distance(...)
 
     local nDims = math.floor(#tTable / 2)
     for i = 1, nDims, 1 do
-        local iO1 = tTable[2 * nDims - 1]
-        local iO2 = tTable[2 * nDims]
+        local iO1 = tTable[2 * i - 1]
+        local iO2 = tTable[2 * i]
 
         iDist = iDist + (math.abs(iO1 - iO2) ^ 2)
     end

@@ -37,3 +37,7 @@ function string.rfind(str, match_str)
 
     return i
 end
+
+function string.ltrb(iLx, iTy, iRx, iBy)
+    return "(" .. iLx .. "," .. iTy .. " " .. iRx .. "," .. iBy .. ")"
+end
