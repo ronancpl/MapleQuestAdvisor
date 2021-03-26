@@ -179,40 +179,18 @@ function CWmapNavMapLink:_should_sort_visible()
 end
 
 function CWmapNavMapLink:_select_next_link_visible()
-    local pLyr = pUiWmap:get_layer(LLayer.NAV_PTEXT)
-
     local iMx, iMy = love.mouse.getPosition()
 
     local m_pSetLinkVisible = self.pSetLinkVisible
     local tiLinkDist = {}
     for _, pLink in ipairs(m_pSetLinkVisible:list()) do
-        local iLinkKey = pLink
-        tiLinkDist[iLinkKey] = self:_calc_link_distance(pLink, iMx, iMy)
-    end
-
-    pLyr:reset()
-    local st = "M:" .. iMx .. " " .. iMy .. " s:" .. #m_pSetLinkVisible:list()
-    pLyr:add_text_element(st)
-
-    if #m_pSetLinkVisible:list() > 0 then
-        for _, pLink in pairs(m_pSetLinkVisible:list()) do
-            local iLx, iRx
-            local iTy, iBy
-            iLx, iTy, iRx, iBy = pLink:get_object():get_ltrb()
-
-            local iX, iY = pLink:get_object():get_center()
-
-            local iLinkKey = pLink
-            local st = tiLinkDist[iLinkKey] .. " (" .. iLx .. "," .. iTy .. ") (" .. iRx .. "," .. iBy .. ") C:" .. iX .. "," .. iY .. ""
-            pLyr:add_text_element(st)
-        end
+        tiLinkDist[pLink] = self:_calc_link_distance(pLink, iMx, iMy)
     end
 
     local iDist = U_INT_MAX
     local pLinkVisible = nil
     for _, pLink in pairs(m_pSetLinkVisible:list()) do
-        local iLinkKey = pLink
-        local iLinkDist = tiLinkDist[iLinkKey]
+        local iLinkDist = tiLinkDist[pLink]
         if iLinkDist < iDist then
             iDist = iLinkDist
             pLinkVisible = pLink
