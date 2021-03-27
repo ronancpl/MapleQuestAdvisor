@@ -114,6 +114,17 @@ function SQueue:poll()
     return pItem
 end
 
+function SQueue:peek()
+    if self.__ST == self.__EN then
+        return nil
+    end
+
+    local m_tpItems = self.tpItems
+    local pItem = m_tpItems[self.__ST]
+
+    return pItem
+end
+
 local function append_items_to_list(rgpToAdd, tpItems, iFromIdx, iToIdx)
     for i = iFromIdx, iToIdx, 1 do
         table.insert(rgpToAdd, tpItems[i])

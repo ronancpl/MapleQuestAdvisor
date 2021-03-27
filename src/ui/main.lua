@@ -14,6 +14,7 @@ package.path = package.path .. ';?.lua'
 
 require("composer.field.field")
 require("ui.constant.path")
+require("ui.interaction.handler")
 require("ui.run.build.worldmap.worldmap")
 require("ui.run.load.basic")
 require("ui.run.load.worldmap")
@@ -24,6 +25,10 @@ function love.load()
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
     ctFieldsWmap = load_resources_worldmap()
     ctFieldsMeta = load_meta_resources_fields()
+
+    log(LPath.INTERFACE, "load.txt", "Loading action handler...")
+    pEventHdl = CActionHandler:new()
+    pEventHdl:install("ui.interaction.worldmap.run")
 
     log(LPath.INTERFACE, "load.txt", "Loading user interface...")
     pFrameBasic = load_frame_basic()
@@ -36,7 +41,23 @@ function love.load()
     pUiWmap:update_region(sWmapName)
 end
 
+local function update_interactions()
+    local rgpEvents = pEventHdl:export(1)
+    for _, pEvent in ipairs(rgpEvents) do
+        local fn_action
+        local rgpActions
+        fn_action, rgpActions = unpack(pEvent)
+
+        for _, pAction in ipairs(rgpActions) do
+            local rgpArgs = pAction
+            fn_action(unpack(rgpArgs))
+        end
+    end
+end
+
 function love.update(dt)
+    update_interactions()
+
     pFrameBasic:update(dt)
     pFrameBasic:refresh_cursor()
 
@@ -48,21 +69,13 @@ function love.draw()
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)
-    pUiWmap:onmousemoved(x, y, dx, dy, istouch)
+    pEventHdl:push("on_mousemoved", {x, y, dx, dy, istouch})
 end
 
 function love.mousepressed(x, y, button)
-    if button == 1 then
-        pFrameBasic:load_mouse(RWndPath.MOUSE.BT_DOWN)
-    end
-
-    pUiWmap:onmousepressed(x, y, button)
+    pEventHdl:push("on_mousepressed", {x, y, button})
 end
 
 function love.mousereleased(x, y, button)
-    if button == 1 then
-        pFrameBasic:load_mouse(RWndPath.MOUSE.BT_NORMAL)
-    end
-
-    pUiWmap:onmousereleased(x, y, button)
+    pEventHdl:push("on_mousereleased", {x, y, button})
 end
