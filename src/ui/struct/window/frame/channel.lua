@@ -26,14 +26,14 @@ end
 
 function CWndChannel:update(dt)
     local m_tpRegisteredElements = self.tpRegisteredElements
-    for pElem, _ in pairs(m_tpRegisteredElements) do
+    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         pElem:update(dt)
     end
 end
 
 function CWndChannel:draw()
     local m_tpRegisteredElements = self.tpRegisteredElements
-    for pElem, _ in pairs(m_tpRegisteredElements) do
+    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         pElem:draw()
     end
 end
@@ -58,7 +58,7 @@ end
 
 function CWndChannel:reset_elements()
     local m_tpRegisteredElements = self.tpRegisteredElements
-    for pElem, _ in pairs(m_tpRegisteredElements) do
+    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         pElem:reset()
     end
 
@@ -89,7 +89,7 @@ end
 
 function CWndChannel:onmousemoved(x, y, dx, dy, istouch)
     local m_tpRegisteredElements = self.tpRegisteredElements
-    for pElem, _ in pairs(m_tpRegisteredElements) do
+    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         local bHover = is_mouse_in_range(pElem, x, y)
         if bHover then
             pElem:onmousemoved(x, y, dx, dy, istouch)
@@ -101,7 +101,7 @@ end
 
 function CWndChannel:onmousepressed(x, y, button)
     local m_tpRegisteredElements = self.tpRegisteredElements
-    for pElem, _ in pairs(m_tpRegisteredElements) do
+    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         if is_mouse_in_range(pElem, x, y) then
             pElem:onmousepressed(x, y, button)
         end
@@ -110,7 +110,7 @@ end
 
 function CWndChannel:onmousereleased(x, y, button)
     local m_tpRegisteredElements = self.tpRegisteredElements
-    for pElem, _ in pairs(m_tpRegisteredElements) do
+    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         if is_mouse_in_range(pElem, x, y) then
             pElem:onmousereleased(x, y, button)
         end

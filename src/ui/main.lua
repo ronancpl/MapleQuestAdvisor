@@ -42,7 +42,7 @@ function love.load()
 end
 
 local function update_interactions()
-    local rgpEvents = pEventHdl:export(1)
+    local rgpEvents = pEventHdl:export()
     for _, pEvent in ipairs(rgpEvents) do
         local fn_action
         local rgpActions
