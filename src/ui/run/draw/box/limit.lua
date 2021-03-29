@@ -21,7 +21,7 @@ local function compose_box_text(pBoxText, pBoxLimit)
     local pFontDesc
     pFontTitle, pFontDesc = pBoxText:get_font()
 
-    local iLineWidth = pBoxLimit:get_width() - (2 * RStylebox.FIL_X)
+    local iLineWidth = pBoxLimit:get_width()
 
     local pTxtTitle = love.graphics.newText(pFontTitle)
     pTxtTitle:setf({{1, 1, 1}, sTitle}, iLineWidth, "center")
@@ -51,7 +51,7 @@ local function calc_text_boundary(sText, iLimWidth, pFont)
     return iWidth, iHeight
 end
 
-local function calc_current_boundary(pBoxText, pBoxLimit)
+local function calc_current_text_boundary(pBoxText, pBoxLimit)
     local sTitle
     local sDesc
     sTitle, sDesc = pBoxText:get_text()
@@ -60,7 +60,7 @@ local function calc_current_boundary(pBoxText, pBoxLimit)
     local pFontDesc
     pFontTitle, pFontDesc = pBoxText:get_font()
 
-    local iLineWidth = pBoxLimit:get_width() - (2 * RStylebox.FIL_X)
+    local iLineWidth = pBoxLimit:get_width()
 
     local iTw
     local iTh
@@ -70,8 +70,45 @@ local function calc_current_boundary(pBoxText, pBoxLimit)
     local iDh
     iDw, iDh = calc_text_boundary(sDesc, iLineWidth, pFontDesc)
 
-    -- title/desc + 2 new lines
-    return math.max(iTw, iDw), iTh + RStylebox.CRLF + iDh
+    -- title/desc + new line
+    return math.max(iTw, iDw), iTh + RStylebox.CRLF + iDh, iTh
+end
+
+function calc_title_boundary(pBoxText, pBoxLimit)
+    local sTitle
+    sTitle, _ = pBoxText:get_text()
+
+    local pFontTitle
+    pFontTitle, _ = pBoxText:get_font()
+
+    local iLineWidth = pBoxLimit:get_width()
+
+    local iTw
+    local iTh
+    iTw, iTh = calc_text_boundary(sTitle, iLineWidth, pFontTitle)
+
+    return iTw, iTh
+end
+
+function calc_current_boundary(pBoxText, pBoxLimit)
+    local iTw, iTh, iTitleH = calc_current_text_boundary(pBoxText, pBoxLimit)
+    local iIw, iIh = pBoxLimit:get_image_dimensions()
+
+    local iW = 0
+    local iH = 0
+
+    iW = iW + iTw
+    iH = iH + iTh
+
+    if iIw ~= nil then
+        iW = iW + iIw + RStylebox.FIL_X
+        iH = math.max(iTitleH + iIh, iH)
+    end
+
+    iW = iW + (2 * RStylebox.FIL_X)
+    iH = iH + (2 * RStylebox.FIL_Y)
+
+    return iW, iH
 end
 
 local function adjust_box_boundary(pBoxLimit)
@@ -79,22 +116,19 @@ local function adjust_box_boundary(pBoxLimit)
 end
 
 local function trim_box_width(pBoxLimit, iWidth)
-    pBoxLimit:set_width(iWidth + (2 * RStylebox.FIL_X))
+    pBoxLimit:trim(iWidth)
 end
 
-function validate_box_boundary(pBoxText, pBoxLimit)
+function validate_box_boundary(pTextbox)
+    local pBoxText = pTextbox:get_contents()
+    local pBoxLimit = pTextbox:get_limits()
+
+    local sTitle, sDesc = pBoxText:get_text()
+
     while true do
         local iWidth
         local iHeight
         iWidth, iHeight = calc_current_boundary(pBoxText, pBoxLimit)
-
-        local pFontTitle
-        local pFontDesc
-        pFontTitle, pFontDesc = pBoxText:get_font()
-
-        local sTitle
-        local sDesc
-        sTitle, sDesc = pBoxText:get_text()
 
         if iHeight < pBoxLimit:get_height() then
             trim_box_width(pBoxLimit, iWidth)   -- accommodate text field in style box canvas
@@ -106,4 +140,60 @@ function validate_box_boundary(pBoxText, pBoxLimit)
             compose_box_text(pBoxText, pBoxLimit)
         end
     end
+end
+
+local function draw_text_box_background(pTextbox)
+    local eTexture = pTextbox:get_object()
+
+    local pBoxLimit = pTextbox:get_limits()
+    local iRx, iRy = pBoxLimit:get_box_position()
+
+    eTexture:draw(iRx, iRy)
+end
+
+local function draw_text_box_image(pTextbox)
+    local pImg = pTextbox:get_image()
+
+    local pBoxLimit = pTextbox:get_limits()
+    local iRx, iRy = pBoxLimit:get_box_position()
+
+    pImg:draw(iRx, iRy)
+end
+
+local function draw_text_box_contents(pTextbox)
+    draw_text_box_image(pTextbox)
+
+    local pBoxText = pTextbox:get_contents()
+
+    local pTxtTitle
+    local pTxtDesc
+    pTxtTitle, pTxtDesc = pBoxText:get_drawable()
+
+    local pBoxLimit = pTextbox:get_limits()
+    local iRx, iRy = pBoxLimit:get_box_position()
+
+    local iTdx, _ = pBoxLimit:get_image_dimensions()
+    if iTdx ~= nil then
+        iTdx = iTdx + RStylebox.FIL_X
+    else
+        iTdx = 0
+    end
+
+    local sTitle
+    sTitle, _ = pBoxText:get_text()
+
+    local iRyDesc
+    if string.len(sTitle) > 0 then
+        iRyDesc = RStylebox.CRLF
+    else
+        iRyDesc = 0
+    end
+
+    love.graphics.draw(pTxtTitle, iRx + iTdx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
+    love.graphics.draw(pTxtDesc, iRx + iTdx + RStylebox.FIL_X, iRy + iRyDesc + RStylebox.FIL_Y)
+end
+
+function draw_text_box(pTextbox)
+    draw_text_box_background(pTextbox)
+    draw_text_box_contents(pTextbox)
 end

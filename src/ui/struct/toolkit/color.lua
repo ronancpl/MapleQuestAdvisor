@@ -10,27 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-local CRLF = 20
+function lock_graphics_color(iR, iG, iB, fA)
+    love.graphics.setColor(iR, iG, iB, fA)
+end
 
-RStylebox = {
-    CRLF = CRLF,
-
-    MIN_X = 250,
-    MAX_X = 250,
-    FIL_X = 10,
-    UPD_X = 115,
-
-    MIN_Y = 80,
-    MAX_Y = 200,
-    FIL_Y = 10,
-    UPD_Y = CRLF,       -- + font height
-
-    WND_LIM_X = 640,
-    WND_LIM_Y = 470,
-
-    VW_ITEM = {
-        W = 70,
-        H = 70
-    }
-
-}
+function unlock_graphics_color()
+    love.graphics.setColor(255, 255, 255, 1.0)
+end

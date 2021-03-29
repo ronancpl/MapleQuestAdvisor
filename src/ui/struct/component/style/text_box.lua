@@ -16,11 +16,13 @@ require("struct.component.style.box.text")
 require("ui.constant.style")
 require("ui.run.draw.box.limit")
 require("ui.struct.component.element.texture")
+require("ui.struct.component.style.prefab.item")
 require("utils.struct.class")
 
 CStyleBoxText = createClass({
     eTexture = CTextureElem:new(),
 
+    pBoxImg = CStyleBoxItem:new(),
     pBoxText = CStyleText:new(),
     pBoxLimits = CStyleLimit:new(),
 
@@ -31,42 +33,22 @@ function CStyleBoxText:get_object()
     return self.eTexture
 end
 
-local function ink(sHexColor)   -- hex color conversion by litearc
-    local _,_,r,g,b,a = sHexColor:find('(%x%x)(%x%x)(%x%x)(%x%x)')
-    return {tonumber(r,16),tonumber(g,16),tonumber(b,16),tonumber(a,16)}
+function CStyleBoxText:get_image()
+    return self.pBoxImg
 end
 
-local pBoxColors = ink("113355FF")
+function CStyleBoxText:get_contents()
+    return self.pBoxText
+end
 
-RStyleBoxColor = {
-    R = pBoxColors[1] / 256,
-    G = pBoxColors[2] / 256,
-    B = pBoxColors[3] / 256,
-    A = 0.8
-}
-
-local function load_box_image()
-    local pImgData = love.image.newImageData(RWndPath.LOVE_IMAGE_DIR_PATH .. RWndPath.INTF_SBOX)
-
-    -- white color-coded as transparent
-    pImgData:mapPixel(function (x, y, r, g, b, a)
-        if r == 1 and g == 1 and b == 1 then
-            a = 0.0
-        -- elseif math.between(r, math.range(RStyleBoxColor.R, -0.2, 0.2)) and math.between(g, math.range(RStyleBoxColor.G, -0.2, 0.2)) and math.between(b, math.range(RStyleBoxColor.B, -0.2, 0.2)) then
-        elseif true then
-            a = RStyleBoxColor.A
-        end
-
-        return r,g,b,a
-    end)
-
-    return love.graphics.newImage(pImgData)
+function CStyleBoxText:get_limits()
+    return self.pBoxLimits
 end
 
 function CStyleBoxText:_load_texture(iRx, iRy)
     local m_eTexture = self.eTexture
 
-    local pImgBox = load_box_image()
+    local pImgBox = love.graphics.newImage(pFrameStylebox:get_image_data(RWndPath.INTF_SBOX))
     m_eTexture:load(iRx, iRy, pImgBox, 3, 3, 115, 6)
 end
 
@@ -83,21 +65,44 @@ function CStyleBoxText:_load_text(sTitle, sDesc)
     m_pBoxText:update_text(sTitle, sDesc)
 end
 
-function CStyleBoxText:_build_texture_box(iRx, iRy)
-    local m_eTexture = self.eTexture
+function CStyleBoxText:_calc_texture_box_dimensions()
+    local m_pBoxText = self.pBoxText
     local m_pBoxLimits = self.pBoxLimits
 
-    m_eTexture:build(m_pBoxLimits:get_width(), m_pBoxLimits:get_height())
+    local iWidth, iHeight = calc_current_boundary(m_pBoxText, m_pBoxLimits)
+    return iWidth, iHeight
 end
 
-function CStyleBoxText:load(sTitle, sDesc, iRx, iRy)
+function CStyleBoxText:_build_texture_box(iRx, iRy)
+    local m_eTexture = self.eTexture
+
+    local iWidth, iHeight = self:_calc_texture_box_dimensions()
+    m_eTexture:build(iWidth, iHeight)
+end
+
+function CStyleBoxText:_load_image(pImg, iRx, iRy)
+    local m_pBoxText = self.pBoxText
+    local m_pBoxLimits = self.pBoxLimits
+    local m_pBoxImg = self.pBoxImg
+
+    local iTh
+    _, iTh = calc_title_boundary(m_pBoxText, m_pBoxLimits)
+
+    iRy = iRy + iTh + RStylebox.FIL_Y
+
+    local iIx, iIy = iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y
+    m_pBoxImg:load(pImg, iIx, iIy)
+
+    m_pBoxLimits:set_image_dimensions(RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
+end
+
+function CStyleBoxText:load(sTitle, sDesc, iRx, iRy, pImg)
     self:_load_texture(iRx, iRy)
     self:_load_fonts()
     self:_load_text(sTitle, sDesc)
+    self:_load_image(pImg, iRx, iRy)
 
-    local m_pBoxText = self.pBoxText
-    local m_pBoxLimits = self.pBoxLimits
-    validate_box_boundary(m_pBoxText, m_pBoxLimits)
+    validate_box_boundary(self)
 
     self:_build_texture_box(iRx, iRy)
 end
@@ -113,40 +118,9 @@ function CStyleBoxText:update(dt)
     m_pBoxLimits:update_box_position(iMx, iMy)
 end
 
-function CStyleBoxText:_draw_text_box_background(iRx, iRy)
-    local m_eTexture = self.eTexture
-    m_eTexture:draw(iRx, iRy)
-end
-
-function CStyleBoxText:_draw_text_box()
-    local m_pBoxLimits = self.pBoxLimits
-    local iRx, iRy = m_pBoxLimits:get_box_position()
-
-    self:_draw_text_box_background(iRx, iRy)
-
-    local pTxtTitle
-    local pTxtDesc
-    local m_pBoxText = self.pBoxText
-    pTxtTitle, pTxtDesc = m_pBoxText:get_drawable()
-
-
-    local sTitle
-    sTitle, _ = m_pBoxText:get_text()
-
-    local iRyDesc
-    if string.len(sTitle) > 0 then
-        iRyDesc = RStylebox.CRLF
-    else
-        iRyDesc = 0
-    end
-
-    love.graphics.draw(pTxtTitle, iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
-    love.graphics.draw(pTxtDesc, iRx + RStylebox.FIL_X, iRy + iRyDesc + RStylebox.FIL_Y)
-end
-
 function CStyleBoxText:draw()
     if self.bVisible then
-        self:_draw_text_box()
+        draw_text_box(self)
     end
 end
 

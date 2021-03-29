@@ -20,7 +20,10 @@ CStyleLimit = createClass({
     iHeight,
 
     iRx = 0,
-    iRy = 0
+    iRy = 0,
+
+    iImgDx,
+    iImgDy
 })
 
 function CStyleLimit:get_growth()
@@ -56,6 +59,18 @@ function CStyleLimit:increment()
     end
 end
 
+function CStyleLimit:trim(iBoxWidth)
+    local iTdx, _ = self:get_image_dimensions()
+    if iTdx == nil then
+        iTdx = 0
+    else
+        iTdx = iTdx + RStylebox.FIL_X
+    end
+
+    local iWidth = iBoxWidth - iTdx - (2 * RStylebox.FIL_X)
+    self:set_width(iWidth)
+end
+
 function CStyleLimit:update_box_position(iMx, iMy)
     local iBx = self:get_width()
     local iBy = self:get_height()
@@ -66,4 +81,13 @@ end
 
 function CStyleLimit:get_box_position()
     return self.iRx, self.iRy
+end
+
+function CStyleLimit:get_image_dimensions()
+    return self.iImgDx, self.iImgDy
+end
+
+function CStyleLimit:set_image_dimensions(iWidth, iHeight)
+    self.iImgDx = iWidth
+    self.iImgDy = iHeight
 end

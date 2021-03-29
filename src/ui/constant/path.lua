@@ -20,8 +20,14 @@ RWndPath = {
     WMAP_HELPER = "Map.wz/MapHelper.img",
     WMAP_DIR = "Map.wz/WorldMap",
 
+    -- Basic
     INTF_BASIC = "UI.wz/Basic.img",
     INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
+
+    -- Items
+    INTF_ITEM_SHADOW = "UI.wz/UIWindow.img/Item/shadow.png",
+
+    INTF_ITEM_IMG = "Test/KeyConfig.icon.9.png",
 
     MOUSE = {
         BT_DOWN = "12",
