@@ -13,6 +13,7 @@
 require("ui.constant.path")
 require("ui.struct.component.basic.base")
 require("ui.struct.toolkit.color")
+require("ui.struct.toolkit.graphics")
 require("utils.struct.class")
 
 CStyleBoxItem = createClass({
@@ -23,11 +24,11 @@ CStyleBoxItem = createClass({
     pImgShd
 })
 
-function CStyleBoxItem:load(pImgItem, iRx, iRy)
+function CStyleBoxItem:load(pItemImgData, iRx, iRy)
     self.eElem:load(0, 0)
 
-    if pImgItem ~= nil then
-        self.pImgItem = pImgItem
+    if pItemImgData ~= nil then
+        self.pImgItem = love.graphics.newImage(pItemImgData)
 
         local pImgData = pFrameStylebox:get_image_data(RWndPath.INTF_ITEM_SHADOW)
         self.pImgShd = love.graphics.newImage(pImgData)
@@ -46,14 +47,14 @@ function CStyleBoxItem:draw(iPx, iPy)
         iPy = iPy + iRy + RStylebox.FIL_Y
 
         -- draw item background
-        --lock_graphics_color(194, 194, 209)
+        lock_graphics_color(194, 194, 209)
         love.graphics.rectangle("fill", iPx, iPy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
-        --unlock_graphics_color()
+        unlock_graphics_color()
 
         -- draw shadow
-        love.graphics.draw(self.pImgShd, iPx + 22, iPy + 64)
+        graphics_draw(self.pImgShd, iPx, iPy + 53, 0, RStylebox.VW_ITEM.W, nil)
 
         -- draw item image
-        love.graphics.draw(m_pImgItem, iPx, iPy)
+        graphics_draw(m_pImgItem, iPx, iPy, 0, RStylebox.VW_ITEM.W, nil)
     end
 end

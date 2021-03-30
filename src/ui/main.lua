@@ -23,6 +23,8 @@ require("utils.logger.file")
 require("utils.procedure.print")
 
 function love.load()
+    love.graphics.setDefaultFilter("nearest", "nearest", 1)
+
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
     ctFieldsWmap = load_resources_worldmap()
     ctFieldsMeta = load_meta_resources_fields()

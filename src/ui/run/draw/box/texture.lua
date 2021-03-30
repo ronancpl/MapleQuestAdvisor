@@ -303,7 +303,7 @@ local function draw_pattern_box_mid(pImgBox, rgpBoxQuads, rgpQuadFitPos, iLoopX,
     local iWidthRT = get_quad_width(rgpBoxQuads[tBoxPos.RT])
     local iHeightLB = get_quad_height(rgpBoxQuads[tBoxPos.LB])
 
-    love.graphics.setScissor(iBx, iBy, iWidthRT + iBoxMidWidth, iHeightLB + iBoxMidHeight - 7)
+    love.graphics.setScissor(iBx, iBy, math.ceil(iWidthRT + iBoxMidWidth), math.ceil(iHeightLB + iBoxMidHeight - 7))
 
     for j = 1, iLoopY, 1 do
         for i = 1, iLoopX, 1 do
@@ -319,7 +319,7 @@ local function draw_pattern_box_side(pImgBox, rgpBoxQuads, rgpQuadFitPos, iLoopX
     local iWidthRT = get_quad_width(rgpBoxQuads[tBoxPos.RT])
     local iHeightLB = get_quad_height(rgpBoxQuads[tBoxPos.LB])
 
-    love.graphics.setScissor(iBx, iBy, iWidthRT + iBoxMidWidth, iHeightLB + iBoxHeight)
+    love.graphics.setScissor(iBx, iBy, math.ceil(iWidthRT + iBoxMidWidth), math.ceil(iHeightLB + iBoxHeight))
 
     for _, sBoxPos in ipairs({tBoxPos.T, tBoxPos.B}) do
         local pQuad = rgpBoxQuads[sBoxPos]
@@ -336,7 +336,7 @@ local function draw_pattern_box_side(pImgBox, rgpBoxQuads, rgpQuadFitPos, iLoopX
         end
     end
 
-    love.graphics.setScissor(iBx, iBy, iWidthRT + iBoxWidth, iHeightLB + iBoxMidHeight)
+    love.graphics.setScissor(iBx, iBy, math.ceil(iWidthRT + iBoxWidth), math.ceil(iHeightLB + iBoxMidHeight))
     for _, sBoxPos in ipairs({tBoxPos.L, tBoxPos.R}) do
         local pQuad = rgpBoxQuads[sBoxPos]
         local pPos = rgpQuadFitPos[sBoxPos]

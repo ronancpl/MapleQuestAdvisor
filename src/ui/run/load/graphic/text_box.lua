@@ -23,8 +23,8 @@ function load_node_text_box(pNodeTextbox)
 
     local pTextbox = CStyleBoxText:new()
 
-    local pImg = love.graphics.newImage(RWndPath.LOVE_IMAGE_DIR_PATH .. RWndPath.INTF_ITEM_IMG)
-    pTextbox:load(sTitle, sDesc, 100, 100, pImg)
+    local pImgData = love.image.newImageData(RWndPath.LOVE_IMAGE_DIR_PATH .. RWndPath.INTF_ITEM_IMG)
+    pTextbox:load(sTitle, sDesc, 100, 100, pImgData)
 
     return pTextbox
 end

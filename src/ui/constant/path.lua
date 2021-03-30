@@ -27,7 +27,7 @@ RWndPath = {
     -- Items
     INTF_ITEM_SHADOW = "UI.wz/UIWindow.img/Item/shadow.png",
 
-    INTF_ITEM_IMG = "Test/KeyConfig.icon.9.png",
+    INTF_ITEM_IMG = "Item.wz/Install/03010000.info.iconRaw.png",
 
     MOUSE = {
         BT_DOWN = "12",

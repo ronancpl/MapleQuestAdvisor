@@ -70,6 +70,8 @@ function CStyleBoxText:_calc_texture_box_dimensions()
     local m_pBoxLimits = self.pBoxLimits
 
     local iWidth, iHeight = calc_current_boundary(m_pBoxText, m_pBoxLimits)
+    local sWidth, sHeight = m_pBoxText:get_text()
+
     return iWidth, iHeight
 end
 
@@ -80,27 +82,29 @@ function CStyleBoxText:_build_texture_box(iRx, iRy)
     m_eTexture:build(iWidth, iHeight)
 end
 
-function CStyleBoxText:_load_image(pImg, iRx, iRy)
-    local m_pBoxText = self.pBoxText
-    local m_pBoxLimits = self.pBoxLimits
-    local m_pBoxImg = self.pBoxImg
+function CStyleBoxText:_load_image(pImgData, iRx, iRy)
+    if pImgData ~= nil then
+        local m_pBoxText = self.pBoxText
+        local m_pBoxLimits = self.pBoxLimits
+        local m_pBoxImg = self.pBoxImg
 
-    local iTh
-    _, iTh = calc_title_boundary(m_pBoxText, m_pBoxLimits)
+        local iTh
+        _, iTh = calc_title_boundary(m_pBoxText, m_pBoxLimits)
 
-    iRy = iRy + iTh + RStylebox.FIL_Y
+        iRy = iRy + iTh + RStylebox.FIL_Y
 
-    local iIx, iIy = iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y
-    m_pBoxImg:load(pImg, iIx, iIy)
+        local iIx, iIy = iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y
+        m_pBoxImg:load(pImgData, iIx, iIy)
 
-    m_pBoxLimits:set_image_dimensions(RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
+        m_pBoxLimits:set_image_dimensions(RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
+    end
 end
 
-function CStyleBoxText:load(sTitle, sDesc, iRx, iRy, pImg)
+function CStyleBoxText:load(sTitle, sDesc, iRx, iRy, pImgData)
     self:_load_texture(iRx, iRy)
     self:_load_fonts()
     self:_load_text(sTitle, sDesc)
-    self:_load_image(pImg, iRx, iRy)
+    self:_load_image(pImgData, iRx, iRy)
 
     validate_box_boundary(self)
 

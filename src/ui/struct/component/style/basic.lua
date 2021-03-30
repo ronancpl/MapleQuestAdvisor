@@ -35,16 +35,6 @@ function CStyleBoxStock:_load_stylebox_image(sImgPath)
     local pImgData = love.image.newImageData(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgPath)
 
     -- white color-coded as transparent
-    pImgData:mapPixel(function (x, y, r, g, b, a)
-        if r == 1 and g == 1 and b == 1 then
-            a = 0.0
-        -- elseif math.between(r, math.range(RStyleBoxColor.R, -0.2, 0.2)) and math.between(g, math.range(RStyleBoxColor.G, -0.2, 0.2)) and math.between(b, math.range(RStyleBoxColor.B, -0.2, 0.2)) then
-        elseif true then
-            a = RStyleBoxColor.A
-        end
-
-        return r,g,b,a
-    end)
 
     self.tpImgDatum[sImgPath] = pImgData
 end
