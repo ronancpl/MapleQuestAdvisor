@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.component.style.text_box")
+require("ui.struct.component.canvas.style.text_box")
 
 function load_node_text_box(pNodeTextbox)
     if pNodeTextbox == nil then     -- empty content

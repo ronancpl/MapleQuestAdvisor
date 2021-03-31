@@ -11,12 +11,12 @@
 --]]
 
 require("router.procedures.constant")
-require("struct.component.style.box.limit")
-require("struct.component.style.box.text")
+require("struct.component.canvas.style.box.limit")
+require("struct.component.canvas.style.box.text")
 require("ui.constant.style")
-require("ui.run.draw.box.limit")
+require("ui.run.draw.canvas.style.text_box")
 require("ui.struct.component.element.texture")
-require("ui.struct.component.style.prefab.item")
+require("ui.struct.component.canvas.style.prefab.item")
 require("utils.struct.class")
 
 CStyleBoxText = createClass({

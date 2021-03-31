@@ -21,6 +21,11 @@ local function fetch_figure_subpath(sPath, sBasePath)
     return sPath:sub(i+string.len(sBasePath)+1, -5)     -- remove file extension
 end
 
+function load_image_from_path(sImgPath)
+    local pImgData = love.image.newImageData(sImgPath)
+    return pImgData
+end
+
 local function load_images_from_directory_path(sPath, sBasePath)
     local tpImgs = {}
 
@@ -38,7 +43,7 @@ local function load_images_from_directory_path(sPath, sBasePath)
             if string.ends_with(sPath, ".png") then
                 local sImgPath = sPath
 
-                local pImgData = love.image.newImageData(sImgPath)
+                local pImgData = load_image_from_path(sImgPath)
                 local sImgSubpath = fetch_figure_subpath(sImgPath, sBasePath)
                 tpImgs[sImgSubpath] = pImgData
             end

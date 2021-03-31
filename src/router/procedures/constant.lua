@@ -17,6 +17,8 @@ U_QUEUE_SIZE_INC = 25
 
 S_WORLDMAP_BASE = "WorldMap"
 
+require("utils.procedure.iterate")
+
 function get_continent_id(iMapid)
     return math.floor(iMapid / 100000000)
 end
@@ -39,4 +41,23 @@ end
 
 function math.between(val, lwr, upr)
     return val >= lwr and val <= upr
+end
+
+function math.dlist(val)
+    local rgiDs = {}
+
+    local cur = math.abs(math.floor(val))
+    repeat
+        local i = cur % 10
+        table.insert(rgiDs, i)
+
+        cur = math.floor(cur / 10)
+    until (cur < 1.0)
+
+    local rgiVal = {}
+    for _, i in rpairs(rgiDs) do
+        table.insert(rgiVal, i)
+    end
+
+    return rgiVal
 end

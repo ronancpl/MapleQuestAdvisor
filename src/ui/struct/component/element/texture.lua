@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.draw.box.texture")
+require("ui.run.draw.canvas.style.texture")
 require("ui.run.load.interface.image")
 require("ui.struct.component.basic.base")
 require("ui.struct.component.basic.texture")

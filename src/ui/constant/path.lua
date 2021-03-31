@@ -25,9 +25,12 @@ RWndPath = {
     INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
 
     -- Items
-    INTF_ITEM_SHADOW = "UI.wz/UIWindow.img/Item/shadow.png",
-
     INTF_ITEM_IMG = "Item.wz/Install/03010000.info.iconRaw.png",
+    INTF_ITEM_NO = "UI.wz/Basic.img/ItemNo",
+
+    -- Inventory screen
+    INTF_INVT_TAB = "UI.wz/Basic.img/Tab2",
+    INTF_INVT_WND = "UI.wz/UIWindow.img/Item",
 
     MOUSE = {
         BT_DOWN = "12",

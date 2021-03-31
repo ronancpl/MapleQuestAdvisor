@@ -18,7 +18,7 @@ require("ui.interaction.handler")
 require("ui.run.build.worldmap.worldmap")
 require("ui.run.load.basic")
 require("ui.run.load.worldmap")
-require("ui.struct.component.style.basic")
+require("ui.struct.component.canvas.style.basic")
 require("utils.logger.file")
 require("utils.procedure.print")
 
