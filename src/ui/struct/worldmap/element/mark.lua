@@ -81,14 +81,14 @@ function CWmapElemMark:onmousehoverin()
     if m_pTextbox ~= nil then
         m_pTextbox:visible()
 
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_MISC)
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
         pLyr:add_element(LChannel.MARK_TBOX, m_pTextbox)
     end
 
     local m_pPath = self:get_path()
     if m_pPath ~= nil then
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_MISC)
-        pLyr:add_element(LChannel.MARK_PATH, m_pPath)
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
+        pLyr:add_element(LChannel.WMAP_MARK_PATH, m_pPath)
     end
 end
 
@@ -97,14 +97,14 @@ function CWmapElemMark:onmousehoverout()
     if m_pTextbox then
         m_pTextbox:hidden()
 
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_MISC)
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
         pLyr:add_element(LChannel.MARK_TBOX, m_pTextbox)
     end
 
     local m_pPath = self:get_path()
     if m_pPath ~= nil then
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_MISC)
-        pLyr:remove_element(LChannel.MARK_PATH, m_pPath)
+        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
+        pLyr:remove_element(LChannel.WMAP_MARK_PATH, m_pPath)
     end
 end
 
@@ -117,5 +117,9 @@ function CWmapElemMark:onmousepressed(rx, ry, button)
 end
 
 function CWmapElemMark:onmousereleased(rx, ry, button)
+    -- do nothing
+end
+
+function CWmapElemMark:onwheelmoved(dx, dy)
     -- do nothing
 end

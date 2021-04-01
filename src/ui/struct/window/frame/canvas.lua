@@ -39,10 +39,10 @@ function CWndCanvas:load(rgpLayerClass)
     end
 end
 
-function CWndCanvas:build(pWmapProp)
+function CWndCanvas:build(pCanvasProp)
     local m_rgpLayers = self.rgpLayers
     for _, pLyr in ipairs(m_rgpLayers) do
-        pLyr:build(pWmapProp)
+        pLyr:build(pCanvasProp)
     end
 end
 
@@ -88,6 +88,13 @@ function CWndCanvas:onmousereleased(x, y, button)
     local m_rgpLayers = self.rgpLayers
     for _, pLyr in ipairs(m_rgpLayers) do
         pLyr:onmousereleased(x, y, button)
+    end
+end
+
+function CWndCanvas:onwheelmoved(dx, dy)
+    local m_rgpLayers = self.rgpLayers
+    for _, pLyr in ipairs(m_rgpLayers) do
+        pLyr:onwheelmoved(dx, dy)
     end
 end
 

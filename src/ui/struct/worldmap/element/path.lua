@@ -57,3 +57,7 @@ end
 function CWmapElemPath:onmousereleased(rx, ry, button)
     -- do nothing
 end
+
+function CWmapElemPath:onwheelmoved(dx, dy)
+    -- do nothing
+end

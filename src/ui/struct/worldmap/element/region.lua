@@ -70,12 +70,12 @@ function CWmapElemRegionLink:hidden()
 end
 
 function CWmapElemRegionLink:onmousehoverin()
-    local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
+    local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MAPLINK)
     pLyr:add_link_visible(self)
 end
 
 function CWmapElemRegionLink:onmousehoverout()
-    local pLyr = pUiWmap:get_layer(LLayer.NAV_MAPLINK)
+    local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MAPLINK)
     pLyr:remove_link_visible(self)
 end
 
@@ -98,4 +98,8 @@ function CWmapElemRegionLink:onmousereleased(rx, ry, button)
     if button == 1 then
         self:_access_inner_map()
     end
+end
+
+function CWmapElemRegionLink:onwheelmoved(dx, dy)
+    -- do nothing
 end

@@ -69,3 +69,7 @@ end
 function CWmapElemPlaintext:onmousereleased(rx, ry, button)
     -- do nothing
 end
+
+function CWmapElemPlaintext:onwheelmoved(dx, dy)
+    -- do nothing
+end

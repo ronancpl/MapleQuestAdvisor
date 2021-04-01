@@ -70,3 +70,7 @@ function CWmapElemBackground:onmousereleased(rx, ry, button)
         access_parent_map()
     end
 end
+
+function CWmapElemBackground:onwheelmoved(dx, dy)
+    -- do nothing
+end

@@ -201,7 +201,7 @@ function CWmapNavMapLink:_select_next_link_visible()
 end
 
 function CWmapNavMapLink:before_update(dt)
-    local pLyr = pUiWmap:get_layer(LLayer.NAV_PTEXT)
+    local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_PTEXT)
     pLyr:reset_board()
 
     if self:_should_sort_visible() then
@@ -209,7 +209,7 @@ function CWmapNavMapLink:before_update(dt)
     end
 
     local pLinkVisible = self:_select_next_link_visible()
-    for _, pLinkNode in ipairs(self:get_elements(LChannel.LINK_IMG)) do
+    for _, pLinkNode in ipairs(self:get_elements(LChannel.WMAP_LINK_IMG)) do
         if pLinkNode == pLinkVisible then
             pLinkNode:visible()
         else

@@ -116,3 +116,14 @@ function CWndChannel:onmousereleased(x, y, button)
         end
     end
 end
+
+function CWndLayer:onwheelmoved(dx, dy)
+    local x, y = love.mouse.getPosition()
+
+    local m_tpRegisteredElements = self.tpRegisteredElements
+    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
+        if is_mouse_in_range(pElem, x, y) then
+            pElem:onwheelmoved(dx, dy)
+        end
+    end
+end

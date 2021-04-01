@@ -30,7 +30,7 @@ function CTextElem:get_origin()
 end
 
 function CTextElem:get_z()
-    return LChannel.PLAINTXT
+    return LChannel.WMAP_PLAINTXT
 end
 
 local function fetch_text_wrap(sText, iLimWidth, pFont)

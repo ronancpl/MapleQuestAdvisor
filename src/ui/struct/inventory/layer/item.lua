@@ -10,11 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.frame.canvas.chart")
+require("ui.struct.window.summary")
+require("ui.struct.window.frame.layer")
+require("utils.struct.class")
 
-function load_interface_worldmap()
-    local pWnd = CWndWmap:new()
-    pWnd:load()
+CInventoryNavItems = createClass({CWndLayer, {}})
 
-    return pWnd
+function CInventoryNavItems:_build_element(pPropInvt)
+    self:add_element(LChannel.INVT_ITEMS, pPropInvt)
+end
+
+
+function CInventoryNavItems:build(pInvtProp)
+    self:reset()
+
+    -- add layer elements
+
+    local pInvt = pInvtProp:get_inventory()
+    self:_build_element(pInvt)
 end

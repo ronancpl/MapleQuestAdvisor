@@ -10,11 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.frame.canvas.chart")
+require("ui.struct.component.canvas.inventory.inventory")
 
-function load_interface_worldmap()
-    local pWnd = CWndWmap:new()
-    pWnd:load()
+function load_view_inventory(pIvtItems)
+    local pInvt = CInvtElem:new()
+    pInvt:load(pIvtItems, iPx, iPy)
 
-    return pWnd
+    return pInvt
 end

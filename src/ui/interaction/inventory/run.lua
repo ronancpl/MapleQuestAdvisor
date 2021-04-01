@@ -10,11 +10,18 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.frame.canvas.chart")
+function on_mousemoved(x, y, dx, dy, istouch)
+    pUiInvt:onmousemoved(x, y, dx, dy, istouch)
+end
 
-function load_interface_worldmap()
-    local pWnd = CWndWmap:new()
-    pWnd:load()
+function on_mousepressed(x, y, button)
+    pUiInvt:onmousepressed(x, y, button)
+end
 
-    return pWnd
+function on_mousereleased(x, y, button)
+    pUiInvt:onmousereleased(x, y, button)
+end
+
+function on_wheelmoved(dx, dy)
+    pUiInvt:onwheelmoved(dx, dy)
 end

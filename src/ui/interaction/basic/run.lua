@@ -10,11 +10,14 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.frame.canvas.chart")
+function on_mousepressed(x, y, button)
+    if button == 1 then
+        pFrameBasic:load_mouse(RWndPath.MOUSE.BT_DOWN)
+    end
+end
 
-function load_interface_worldmap()
-    local pWnd = CWndWmap:new()
-    pWnd:load()
-
-    return pWnd
+function on_mousereleased(x, y, button)
+    if button == 1 then
+        pFrameBasic:load_mouse(RWndPath.MOUSE.BT_NORMAL)
+    end
 end

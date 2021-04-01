@@ -12,6 +12,7 @@
 
 require("router.structs.frontier.list")
 require("router.structs.frontier.range")
+require("utils.procedure.copy")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 

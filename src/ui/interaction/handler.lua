@@ -11,30 +11,43 @@
 --]]
 
 require("router.procedures.constant")
+require("utils.procedure.copy")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 require("utils.struct.mapqueue")
 
 CActionHandler = createClass({
-
-    rgsActions = {"on_mousemoved", "on_mousepressed", "on_mousereleased"},
+    rgsActions = {"on_mousemoved", "on_mousepressed", "on_mousereleased", "on_wheelmoved"},
 
     tpHandleActions = SMapQueue:new(),
-    tfn_actions = {}
+    trgfn_actions = {}
 
 })
 
-function CActionHandler:install(sInteractionPath)
+function CActionHandler:reset()
     local m_tpHandleActions = self.tpHandleActions
     local m_rgsActions = self.rgsActions
-    local m_tfn_actions = self.tfn_actions
 
     m_tpHandleActions:init(m_rgsActions)
+
+    local m_trgfn_actions = self.trgfn_actions
+    clear_table(m_trgfn_actions)
+    for _, sFnName in ipairs(m_rgsActions) do
+        m_trgfn_actions[sFnName] = {}
+    end
+end
+
+function CActionHandler:install(sInteractionPath)
+    local m_rgsActions = self.rgsActions
+    local m_trgfn_actions = self.trgfn_actions
 
     local bReqHdl = require(sInteractionPath)
     if bReqHdl then
         for _, sFnName in ipairs(m_rgsActions) do
             local fn_action = _G[sFnName]
-            m_tfn_actions[sFnName] = fn_action
+
+            local rgfn_acts = m_trgfn_actions[sFnName]
+            table.insert(rgfn_acts, fn_action)
         end
     end
 end
@@ -45,22 +58,27 @@ function CActionHandler:push(sFnName, rgpActionArgs)
 end
 
 function CActionHandler:_export_action(sFnName, iMaxPerAction)
-    local m_tfn_actions = self.tfn_actions
+    local m_trgfn_actions = self.trgfn_actions
     local m_tpHandleActions = self.tpHandleActions
 
     local rgpActions = {}
 
-    local fn_action = m_tfn_actions[sFnName]
-    if fn_action ~= nil then
+    local rgfn_actions = m_trgfn_actions[sFnName]
+    if rgfn_actions ~= nil then
         iMaxPerAction = iMaxPerAction or U_INT_MAX
+
         local nActions = math.min(m_tpHandleActions:get_size(sFnName), iMaxPerAction)
         for i = 1, nActions, 1 do
             local rgpArgs = m_tpHandleActions:poll(sFnName)
             table.insert(rgpActions, rgpArgs)
         end
+
+        rgfn_actions = table_copy(rgfn_actions)
+    else
+        rgfn_actions = {}
     end
 
-    return fn_action, rgpActions
+    return rgfn_actions, rgpActions
 end
 
 function CActionHandler:export(iMaxPerAction)
@@ -68,11 +86,11 @@ function CActionHandler:export(iMaxPerAction)
 
     local rgpActions = {}
     for _, sFnName in ipairs(m_rgsActions) do
-        local fn_action
+        local rgfn_actions
         local rgpArgs
-        fn_action, rgpArgs = self:_export_action(sFnName, iMaxPerAction)
+        rgfn_actions, rgpArgs = self:_export_action(sFnName, iMaxPerAction)
 
-        table.insert(rgpActions, {fn_action, rgpArgs})
+        table.insert(rgpActions, {rgfn_actions, rgpArgs})
     end
 
     return rgpActions

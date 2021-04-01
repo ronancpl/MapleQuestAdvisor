@@ -56,6 +56,12 @@ function CWndLayer:onmousereleased(x, y, button)
     end
 end
 
+function CWndLayer:onwheelmoved(dx, dy)
+    for _, pChn in ipairs(self.rgpChannels) do
+        pChn:onwheelmoved(dx, dy)
+    end
+end
+
 function CWndLayer:add_element(iChn, pElem)
     local pChn = self.rgpChannels[iChn or 1]
     pChn:add_element(pElem)

@@ -103,10 +103,15 @@ function CInventory:empty()
     end
 end
 
-function CInventory:debug_inventory()
+function CInventory:tostring()
     local st = ""
     for iId, iCount in pairs(self:get_items()) do
         st = st .. iId .. ":" ..  iCount .. ", "
     end
-    print("[" .. st .. "]")
+
+    return "[" .. st .. "]"
+end
+
+function CInventory:debug_inventory()
+    print(self:tostring())
 end

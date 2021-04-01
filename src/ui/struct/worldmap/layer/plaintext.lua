@@ -65,7 +65,7 @@ function CWmapNavInfo:add_text_element(sText, iVal)
         pPropText:load(sText, self.pFont, iSegX, iPx, iPy)
         pPropText:visible()
 
-        self:add_element(LChannel.PLAINTXT, pPropText)
+        self:add_element(LChannel.WMAP_PLAINTXT, pPropText)
     end
 end
 

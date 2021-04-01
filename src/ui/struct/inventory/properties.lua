@@ -10,11 +10,23 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.frame.canvas.chart")
+require("ui.run.build.inventory.element.inventory")
+require("utils.procedure.copy")
+require("utils.procedure.unpack")
+require("utils.struct.class")
 
-function load_interface_worldmap()
-    local pWnd = CWndWmap:new()
-    pWnd:load()
+CInvtProperties = createClass({
+    pInvtPlayer
+})
 
-    return pWnd
+function CInvtProperties:reset()
+    self.pInvtPlayer = nil
+end
+
+function CInvtProperties:update_inventory(pIvtItems)
+    self.pInvtPlayer = load_view_inventory(pIvtItems)
+end
+
+function CInvtProperties:get_inventory()
+    return self.pInvtPlayer
 end

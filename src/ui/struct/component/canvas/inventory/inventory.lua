@@ -16,7 +16,7 @@ require("ui.run.draw.canvas.inventory.inventory")
 require("ui.struct.component.basic.base")
 require("utils.struct.class")
 
-CCanvasInventory = createClass({
+CInvtElem = createClass({
     eElem = CBasicElem:new(),
 
     pInvt,
@@ -27,23 +27,23 @@ CCanvasInventory = createClass({
     rgpVwItems = {}
 })
 
-function CCanvasInventory:get_origin()
+function CInvtElem:get_origin()
     return self.eElem:get_pos()
 end
 
-function CCanvasInventory:get_tab_selected()
+function CInvtElem:get_tab_selected()
     return self.iSlctTab
 end
 
-function CCanvasInventory:get_row_selected()
+function CInvtElem:get_row_selected()
     return self.iSlctRow
 end
 
-function CCanvasInventory:_set_row_selected(iRow)
+function CInvtElem:_set_row_selected(iRow)
     self.iSlctRow = iRow
 end
 
-function CCanvasInventory:fetch_item_range()
+function CInvtElem:fetch_item_range()
     local m_rgpVwItems = self.rgpVwItems
 
     local iRow = self:get_row_selected()
@@ -53,7 +53,7 @@ function CCanvasInventory:fetch_item_range()
     return iSt, iEn
 end
 
-function CCanvasInventory:fetch_item_palette()
+function CInvtElem:fetch_item_palette()
     local m_rgpVwItems = self.rgpVwItems
 
     local rgpItems = {}
@@ -65,7 +65,7 @@ function CCanvasInventory:fetch_item_palette()
     return rgpItems
 end
 
-function CCanvasInventory:_update_item_position()
+function CInvtElem:_update_item_position()
     local m_rgpVwItems = self.rgpVwItems
     local iSt, iEn = self:fetch_item_range()
 
@@ -85,7 +85,7 @@ function CCanvasInventory:_update_item_position()
     end
 end
 
-function CCanvasInventory:update_row(iNextSlct)
+function CInvtElem:update_row(iNextSlct)
     local m_pInvt = self.pInvt
 
     local iRow = math.iclamp(iNextSlct, 0, math.ceil(m_pInvt:get_size() / 4) - 6)
@@ -93,7 +93,7 @@ function CCanvasInventory:update_row(iNextSlct)
     self:_update_item_position(iRow)
 end
 
-function CCanvasInventory:load(pInvt, iPx, iPy)
+function CInvtElem:load(pInvt, iPx, iPy)
     self.eElem:load(iPx, iPy)
 
     self.pInvt = pInvt
@@ -110,10 +110,17 @@ function CCanvasInventory:load(pInvt, iPx, iPy)
     end
 end
 
-function CCanvasInventory:update(dt)
-    -- todo rollbar
+function CInvtElem:update(dt)
+    -- do nothing
 end
 
-function CCanvasInventory:draw()
+function CInvtElem:draw()
     draw_player_inventory(self)
+end
+
+function CInvtElem:onwheelmoved(dx, dy)
+    local iDlt = dy / math.abs(dy)
+    local iNextSlct = self:get_row_selected() + iDlt
+
+    self:update_row(iNextSlct)
 end
