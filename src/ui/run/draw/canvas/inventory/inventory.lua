@@ -22,10 +22,10 @@ local function codify_inventory_tab_intervals(pVwInvt)
     end
 
     local iSlctTab = pVwInvt:get_tab_selected()
-    if iSlctTab <= 0 then
+    if iSlctTab <= 1 then
         rgiIntvVals[1] = 1
         rgiIntvVals[2] = 1
-    elseif iSlctTab >= nIntvs - 1 then
+    elseif iSlctTab >= nIntvs then
         rgiIntvVals[nIntvs - 1] = 2
         rgiIntvVals[nIntvs] = 1
     else
@@ -59,20 +59,24 @@ local function translate_inventory_tab_intervals(rgiIntvVals)
     return rgsIntvImgNames
 end
 
-local function draw_compose_fill(iFilVal, iX, iY, tpTabImgs, iTabWidth)
+local function draw_compose_fill(iFilVal, iX, iY, tpTabImgs, iTabWidth, rgiTabWidths, iImgIdx)
     local pImg = tpTabImgs["fill" .. iFilVal]
 
-    local iFilWidth
-    local iFilHeight
-    iFilWidth, iFilHeight = pImg:getDimensions()
+    local iFilImgWidth
+    local iFilImgHeight
+    iFilImgWidth, iFilImgHeight = pImg:getDimensions()
 
-    love.graphics.setScissor(iX, iY, iTabWidth, iFilHeight)
+    local iWidthT1 = iImgIdx == #rgiTabWidths and rgiTabWidths[iImgIdx - 1] or 0
+    local iWidthT2 = rgiTabWidths[iImgIdx]
+    local iFilWidth = iTabWidth - iWidthT1 - iWidthT2
+
+    love.graphics.setScissor(iX, iY, iFilWidth, iFilImgHeight)
 
     local iPx = iX
     local iPy = iY
-    for i = 1, math.ceil(iTabWidth / iFilWidth), 1 do
+    for i = 1, math.ceil(iFilWidth / iFilImgWidth), 1 do
         love.graphics.draw(pImg, iPx, iPy)
-        iPx = iPx + iFilWidth
+        iPx = iPx + iFilImgWidth
     end
 
     love.graphics.setScissor()
@@ -97,18 +101,21 @@ local function draw_compose_tab_part(iX, iY, pImg)
 end
 
 local function calc_fill_value(iCurIdx, iSlctTab)
-    return iCurIdx == iSlctTab and 1 or 0
+    return iCurIdx - 1 == iSlctTab and 1 or 0
 end
 
 local function draw_compose_inventory_tabs(pVwInvt, rgsIntvImgNames, iTabWidth)
     local tpTabImgs = ctVwInvt:get_tab_components()
 
     local rgpTabImgs = {}
+    local rgiTabWidths = {}
     local rgiTabVals = {}
     for _, sIntvImgName in ipairs(rgsIntvImgNames) do
         local pImg = tpTabImgs[sIntvImgName]
+        local iImgWidth = pImg:getWidth()
 
         table.insert(rgpTabImgs, pImg)
+        table.insert(rgiTabWidths, iImgWidth)
         table.insert(rgiTabVals, tonumber(string.sub(sIntvImgName, -1, -1)) - 1)
     end
 
@@ -118,21 +125,23 @@ local function draw_compose_inventory_tabs(pVwInvt, rgsIntvImgNames, iTabWidth)
     local iPy
     iPx, iPy = pVwInvt:get_origin()
 
-    local iSlctTab = pVwInvt:get_tab_selected() + 1
+    iPx = iPx + RStylebox.VW_ITEM_INVT_TAB_NAME.X
+    iPy = iPy + RStylebox.VW_ITEM_INVT_TAB_NAME.Y
 
+    local iSlctTab = pVwInvt:get_tab_selected()
     if nIntvImgs > 0 then
         local iFilVal = calc_fill_value(1, iSlctTab)
-        iPx, _ = draw_compose_fill(iFilVal, iPx, iPy, tpTabImgs, iTabWidth)
+        --iPx, _ = draw_compose_fill(iFilVal, iPx, iPy, tpTabImgs, iTabWidth, rgiTabWidths, 1)
         iPx, _ = draw_compose_tab_part(iPx, iPy, rgpTabImgs[1])
 
         for i = 2, nIntvImgs - 1, 1 do
             local iFilVal = calc_fill_value(i, iSlctTab)
-            iPx, _ = draw_compose_fill(iFilVal, iPx, iPy, tpTabImgs, iTabWidth)
+            iPx, _ = draw_compose_fill(iFilVal, iPx, iPy, tpTabImgs, iTabWidth, rgiTabWidths, i)
             iPx, _ = draw_compose_tab_part(iPx, iPy, rgpTabImgs[i])
         end
 
         local iFilVal = calc_fill_value(nIntvImgs, iSlctTab)
-        iPx, _ = draw_compose_fill(iFilVal, iPx, iPy, tpTabImgs, iTabWidth)
+        iPx, _ = draw_compose_fill(iFilVal, iPx, iPy, tpTabImgs, iTabWidth, rgiTabWidths, nIntvImgs)
         iPx, _ = draw_compose_tab_part(iPx, iPy, rgpTabImgs[nIntvImgs])
     end
 end
@@ -142,6 +151,9 @@ local function draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
     local iPy
     iPx, iPy = pVwInvt:get_origin()
 
+    iPx = iPx + RStylebox.VW_ITEM_INVT_TAB_NAME.X
+    iPy = iPy + RStylebox.VW_ITEM_INVT_TAB_NAME.Y
+
     local rgpImgNames = ctVwInvt:get_tab_names()
 
     local nImgNames = #rgpImgNames
@@ -149,7 +161,7 @@ local function draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
         local iH
         _, iH = rgpImgNames[1]:getDimensions()
 
-        local iOy = (iTabHeight - iH) / 2
+        local iOy = math.floor((iTabHeight - iH) / 2)
 
         for i = 1, nImgNames, 1 do
             local pImgName = rgpImgNames[i]
@@ -157,8 +169,8 @@ local function draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
             local iW
             iW, _ = pImgName:getDimensions()
 
-            local iOx = (iTabWidth - iW) / 2
-            love.graphics.draw(pImgName, iPx - iOx, iPy - iOy)
+            local iOx = math.floor((iTabWidth - iW) / 2)
+            love.graphics.draw(pImgName, iPx + iOx, iPy + iOy)
 
             iPx = iPx + iTabWidth
         end
