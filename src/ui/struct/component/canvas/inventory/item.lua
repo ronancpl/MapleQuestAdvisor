@@ -10,19 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.style")
 require("ui.run.draw.canvas.inventory.inventory")
-require("ui.struct.component.basic.base")
+require("ui.struct.component.element.rect")
 require("utils.struct.class")
 
 CCanvasItem = createClass({
-    eElem = CBasicElem:new(),
+    eBox = CUserboxElem:new(),
 
     pImg,
     iCount
 })
 
-function CCanvasItem:get_origin()
-    return self.eElem:get_pos()
+function CCanvasItem:get_object()
+    return self.eBox
 end
 
 function CCanvasItem:get_image()
@@ -34,14 +35,14 @@ function CCanvasItem:get_count()
 end
 
 function CCanvasItem:load(iId, iCount)
-    self.eElem:load(0, 0)
+    self.eBox:load()
 
     self.pImg = ctVwInvt:get_image_by_itemid(iId)
     self.iCount = iCount
 end
 
 function CCanvasItem:update(iPx, iPy)
-    self.eElem:load(iPx, iPy)
+    self.eBox:load(iPx, iPy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
 end
 
 function CCanvasItem:draw()

@@ -49,27 +49,3 @@ end
 function CWmapElemPlaintext:hidden()
     self.bVisible = false
 end
-
-function CWmapElemPlaintext:onmousehoverin()
-    -- do nothing
-end
-
-function CWmapElemPlaintext:onmousehoverout()
-    -- do nothing
-end
-
-function CWmapElemPlaintext:onmousemoved(rx, ry, dx, dy, istouch)
-    -- do nothing
-end
-
-function CWmapElemPlaintext:onmousepressed(rx, ry, button)
-    -- do nothing
-end
-
-function CWmapElemPlaintext:onmousereleased(rx, ry, button)
-    -- do nothing
-end
-
-function CWmapElemPlaintext:onwheelmoved(dx, dy)
-    -- do nothing
-end

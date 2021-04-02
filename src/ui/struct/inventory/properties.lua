@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("structs.storage.inventory")
 require("ui.run.build.inventory.element.inventory")
 require("utils.procedure.copy")
 require("utils.procedure.unpack")
@@ -20,13 +21,24 @@ CInvtProperties = createClass({
 })
 
 function CInvtProperties:reset()
-    self.pInvtPlayer = nil
+    self.pInvtPlayer = load_view_inventory(CInventory:new(), 0, 0)
+end
+
+function CInvtProperties:load()
+    self.pInvtPlayer = load_view_inventory(CInventory:new(), 0, 0)
 end
 
 function CInvtProperties:update_inventory(pIvtItems)
-    self.pInvtPlayer = load_view_inventory(pIvtItems)
+    local m_pInvtPlayer = self.pInvtPlayer
+
+    local iPx, iPy = m_pInvtPlayer:get_origin()
+    m_pInvtPlayer:load(pIvtItems, iPx, iPy)
 end
 
 function CInvtProperties:get_inventory()
     return self.pInvtPlayer
+end
+
+function CInvtProperties:set_inventory_origin(iPx, iPy)
+    self.pInvtPlayer:set_origin(iPx, iPy)
 end

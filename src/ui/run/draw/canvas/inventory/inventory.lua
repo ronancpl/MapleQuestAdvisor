@@ -25,7 +25,7 @@ local function codify_inventory_tab_intervals(pVwInvt)
     if iSlctTab <= 0 then
         rgiIntvVals[1] = 1
         rgiIntvVals[2] = 1
-    elseif iSlctTab >= nIntvs - 1
+    elseif iSlctTab >= nIntvs - 1 then
         rgiIntvVals[nIntvs - 1] = 2
         rgiIntvVals[nIntvs] = 1
     else
@@ -169,8 +169,11 @@ local function draw_inventory_tabs(pVwInvt)
     local rgiIntvVals = codify_inventory_tab_intervals(pVwInvt)
     local rgsIntvImgNames = translate_inventory_tab_intervals(rgiIntvVals)
 
+    local iTabWidth = RStylebox.VW_ITEM_INVT_TAB.W
+    local iTabHeight = RStylebox.VW_ITEM_INVT_TAB.H
+
     draw_compose_inventory_tabs(pVwInvt, rgsIntvImgNames, iTabWidth)
-    draw_compose_inventory_tab_names(pVwInvt, iTabWidth)
+    draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
 end
 
 local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
@@ -195,7 +198,18 @@ local function draw_inventory_items(pVwInvt)
     end
 end
 
+local function draw_inventory_background(pVwInvt)
+    local pImg = ctVwInvt:get_background()
+
+    local iPx
+    local iPy
+    iPx, iPy = pVwInvt:get_origin()
+
+    love.graphics.draw(pImg, iPx, iPy)
+end
+
 function draw_player_inventory(pVwInvt)
+    draw_inventory_background(pVwInvt)
     draw_inventory_tabs(pVwInvt)
     draw_inventory_items(pVwInvt)
 end

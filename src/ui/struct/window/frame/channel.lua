@@ -80,9 +80,15 @@ function CWndChannel:_update_state_hover(pElem, bHover)
         m_tpElemHover[pElem] = bHover
 
         if bHover then
-            pElem:onmousehoverin()
+            local fn_onmousehoverin = pElem.onmousehoverin
+            if fn_onmousehoverin ~= nil then
+                fn_onmousehoverin(pElem)
+            end
         else
-            pElem:onmousehoverout()
+            local fn_onmousehoverout = pElem.onmousehoverout
+            if fn_onmousehoverout ~= nil then
+                fn_onmousehoverout(pElem)
+            end
         end
     end
 end
@@ -92,7 +98,10 @@ function CWndChannel:onmousemoved(x, y, dx, dy, istouch)
     for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         local bHover = is_mouse_in_range(pElem, x, y)
         if bHover then
-            pElem:onmousemoved(x, y, dx, dy, istouch)
+            local fn_onmousemoved = pElem.onmousemoved
+            if fn_onmousemoved ~= nil then
+                fn_onmousemoved(pElem, x, y, dx, dy, istouch)
+            end
         end
 
         self:_update_state_hover(pElem, bHover)
@@ -103,7 +112,10 @@ function CWndChannel:onmousepressed(x, y, button)
     local m_tpRegisteredElements = self.tpRegisteredElements
     for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         if is_mouse_in_range(pElem, x, y) then
-            pElem:onmousepressed(x, y, button)
+            local fn_onmousepressed = pElem.onmousepressed
+            if fn_onmousepressed ~= nil then
+                fn_onmousepressed(pElem, x, y, button)
+            end
         end
     end
 end
@@ -112,18 +124,24 @@ function CWndChannel:onmousereleased(x, y, button)
     local m_tpRegisteredElements = self.tpRegisteredElements
     for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         if is_mouse_in_range(pElem, x, y) then
-            pElem:onmousereleased(x, y, button)
+            local fn_onmousereleased = pElem.onmousereleased
+            if fn_onmousereleased ~= nil then
+                fn_onmousereleased(pElem, x, y, button)
+            end
         end
     end
 end
 
-function CWndLayer:onwheelmoved(dx, dy)
+function CWndChannel:onwheelmoved(dx, dy)
     local x, y = love.mouse.getPosition()
 
     local m_tpRegisteredElements = self.tpRegisteredElements
     for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
         if is_mouse_in_range(pElem, x, y) then
-            pElem:onwheelmoved(dx, dy)
+            local fn_onwheelmoved = pElem.onwheelmoved
+            if fn_onwheelmoved ~= nil then
+                fn_onwheelmoved(pElem, dx, dy)
+            end
         end
     end
 end

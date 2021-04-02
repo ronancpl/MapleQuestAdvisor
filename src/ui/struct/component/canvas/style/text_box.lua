@@ -135,23 +135,3 @@ end
 function CStyleBoxText:visible()
     self.bVisible = true
 end
-
-function CStyleBoxText:onmousehoverin()
-    -- do nothing
-end
-
-function CStyleBoxText:onmousehoverout()
-    -- do nothing
-end
-
-function CStyleBoxText:onmousemoved(rx, ry, dx, dy, istouch)
-    -- do nothing
-end
-
-function CStyleBoxText:onmousepressed(rx, ry, button)
-    -- do nothing
-end
-
-function CStyleBoxText:onmousereleased(rx, ry, button)
-    -- do nothing
-end

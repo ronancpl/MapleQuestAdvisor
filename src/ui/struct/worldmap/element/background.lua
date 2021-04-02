@@ -42,22 +42,6 @@ function CWmapElemBackground:draw()
     self.eConst:draw()
 end
 
-function CWmapElemBackground:onmousehoverin()
-    -- do nothing
-end
-
-function CWmapElemBackground:onmousehoverout()
-    -- do nothing
-end
-
-function CWmapElemBackground:onmousemoved(rx, ry, dx, dy, istouch)
-    -- do nothing
-end
-
-function CWmapElemBackground:onmousepressed(rx, ry, button)
-    -- do nothing
-end
-
 local function access_parent_map()
     local sParentWmapName = pUiWmap:get_properties():get_parent_map()
     if sParentWmapName ~= "" then
@@ -69,8 +53,4 @@ function CWmapElemBackground:onmousereleased(rx, ry, button)
     if button == 2 then
         access_parent_map()
     end
-end
-
-function CWmapElemBackground:onwheelmoved(dx, dy)
-    -- do nothing
 end

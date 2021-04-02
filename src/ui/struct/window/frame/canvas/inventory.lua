@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.struct.inventory.properties")
 require("ui.struct.inventory.layer.item")
 require("ui.struct.window.frame.canvas")
 require("utils.struct.class")
@@ -19,7 +20,7 @@ CWndInventory = createClass({
     pProp = CInvtProperties:new()
 })
 
-function CWndWmap:update_inventory(pIvtItems)
+function CWndInventory:update_inventory(pIvtItems)
     self.pCanvas:reset()
 
     self.pProp:update_inventory(pIvtItems)
@@ -28,6 +29,7 @@ end
 
 function CWndInventory:load()
     self.pCanvas:load({CInventoryNavItems})
+    self.pProp:load()
 end
 
 function CWndInventory:update(dt)

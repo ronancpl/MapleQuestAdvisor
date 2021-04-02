@@ -11,19 +11,25 @@
 --]]
 
 require("ui.constant.path")
+require("ui.constant.style")
 require("ui.run.draw.canvas.inventory.item")
-require("ui.struct.component.basic.base")
+require("ui.struct.component.element.rect")
+require("ui.struct.window.summary")
 require("utils.struct.class")
 
 CStyleBoxItem = createClass({
-    eElem = CBasicElem:new(),
+    eBox = CUserboxElem:new(),
     iRy,    -- position: textbox title + whitespace
 
     pImgItem
 })
 
+function CStyleBoxItem:get_object()
+    return self.eBox
+end
+
 function CStyleBoxItem:load(pItemImgData, iRx, iRy)
-    self.eElem:load(0, 0)
+    self.eBox:load(iRx, iRy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
 
     if pItemImgData ~= nil then
         self.pImgItem = love.graphics.newImage(pItemImgData)
@@ -34,8 +40,8 @@ end
 function CStyleBoxItem:draw(iPx, iPy)
     local m_pImgItem = self.pImgItem
     if m_pImgItem ~= nil then
-        local m_eElem = self.eElem
-        local iRx, iRy = m_eElem:get_pos()
+        local m_eBox = self.eBox
+        local iRx, iRy = m_eBox:get_origin()
 
         iPx = iPx + iRx + RStylebox.FIL_X
         iPy = iPy + iRy + RStylebox.FIL_Y

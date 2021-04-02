@@ -79,14 +79,6 @@ function CWmapElemRegionLink:onmousehoverout()
     pLyr:remove_link_visible(self)
 end
 
-function CWmapElemRegionLink:onmousemoved(rx, ry, dx, dy, istouch)
-    -- do nothing
-end
-
-function CWmapElemRegionLink:onmousepressed(rx, ry, button)
-    -- do nothing
-end
-
 function CWmapElemRegionLink:_access_inner_map()
     local sWmapName = self:get_link_map()
     if sWmapName ~= "" then
@@ -98,8 +90,4 @@ function CWmapElemRegionLink:onmousereleased(rx, ry, button)
     if button == 1 then
         self:_access_inner_map()
     end
-end
-
-function CWmapElemRegionLink:onwheelmoved(dx, dy)
-    -- do nothing
 end

@@ -107,19 +107,3 @@ function CWmapElemMark:onmousehoverout()
         pLyr:remove_element(LChannel.WMAP_MARK_PATH, m_pPath)
     end
 end
-
-function CWmapElemMark:onmousemoved(rx, ry, dx, dy, istouch)
-    -- do nothing
-end
-
-function CWmapElemMark:onmousepressed(rx, ry, button)
-    -- do nothing
-end
-
-function CWmapElemMark:onmousereleased(rx, ry, button)
-    -- do nothing
-end
-
-function CWmapElemMark:onwheelmoved(dx, dy)
-    -- do nothing
-end

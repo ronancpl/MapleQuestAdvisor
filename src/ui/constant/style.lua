@@ -36,6 +36,11 @@ RStylebox = {
     VW_ITEM_INVT = {
         W = 36,
         H = 36
+    },
+
+    VW_ITEM_INVT_TAB = {
+        W = 35,
+        H = 20
     }
 
 }

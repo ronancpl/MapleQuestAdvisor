@@ -19,20 +19,19 @@ require("utils.provider.xml.provider")
 require("utils.struct.class")
 
 local function load_image(sImgDirPath, sImgName)
-    log_st(LPath.INTERFACE, "_file.txt", "Load img: '" .. (RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath .. "/" .. sImgName .. ".png") .. "'")
     local pImgData = load_image_from_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath .. "/" .. sImgName .. ".png")
-
     return love.graphics.newImage(pImgData)
 end
 
 CInvtStorageItem = createClass({
+    rgsImgItemPath,
     pImgShd,
-    rgsImgItemPath = {"Item.wz/Equip", "Item.wz/Use", "Item.wz/Install", "Item.wz/Etc", "Item.wz/Cash"},
     tpImgs = {}
 })
 
-function CInvtStorageItem:load()
-    self.pImgShd = load_image(RWndPath.INTF_INVT_WND, "shadow.png")
+function CInvtStorageItem:load(rgsImgItemPath)
+    self.rgsImgItemPath = rgsImgItemPath
+    self.pImgShd = load_image(RWndPath.INTF_INVT_WND, "shadow")
 end
 
 function CInvtStorageItem:_load_image_from_directory(iId)
@@ -40,7 +39,7 @@ function CInvtStorageItem:_load_image_from_directory(iId)
     local m_rgsImgItemPath = self.rgsImgItemPath
 
     local sImgDirPath = m_rgsImgItemPath[siType]
-    local pImg = load_image(sImgDirPath, "0" .. iId .. ".info.iconRaw.png")
+    local pImg = load_image(sImgDirPath, "0" .. iId .. ".info.iconRaw")
 
     return pImg
 end
@@ -71,7 +70,7 @@ local function load_tab_quad(tpImgTabQuads, sQuadName)
     tpImgTabQuads[sQuadName] = load_image(RWndPath.INTF_INVT_TAB, sQuadName)
 end
 
-function CInvtStorageTab:load()
+function CInvtStorageTab:load(rgsImgItemPath)
     local m_tpImgTabQuads = self.tpImgTabQuads
     load_tab_quad(m_tpImgTabQuads, "fill0")
     load_tab_quad(m_tpImgTabQuads, "fill1")
@@ -83,15 +82,14 @@ function CInvtStorageTab:load()
     load_tab_quad(m_tpImgTabQuads, "right0")
     load_tab_quad(m_tpImgTabQuads, "right1")
 
-    self.pImgBgrd = load_image(RWndPath.INTF_INVT_WND, "backgrnd.png")
+    self.pImgBgrd = load_image(RWndPath.INTF_INVT_WND, "backgrnd")
 
     self.rgpImgTabNames = {}
     local m_rgpImgTabNames = self.rgpImgTabNames
 
-    local m_rgsImgItemPath = self.rgsImgItemPath
-    local nImgs = #m_rgsImgItemPath
+    local nImgs = #rgsImgItemPath
     for i = 0, nImgs - 1, 1 do
-        local pImg = load_image(RWndPath.INTF_INVT_WND, "Tab.enabled." .. i .. ".png")
+        local pImg = load_image(RWndPath.INTF_INVT_WND, "Tab.enabled." .. i)
         table.insert(m_rgpImgTabNames, pImg)
     end
 end
@@ -117,7 +115,7 @@ function CInvtStorageNumber:load()
     local m_rgpNumImgs = self.rgpNumImgs
 
     for i = 0, 9, 1 do
-        local pImg = load_image(RWndPath.INTF_ITEM_NO, "ItemNo." .. i .. ".png")
+        local pImg = load_image(RWndPath.INTF_ITEM_NO, "ItemNo." .. i)
         table.insert(m_rgpNumImgs, pImg)
     end
 end
@@ -130,14 +128,18 @@ function CInvtStorageNumber:get_image_by_number(iDigit)
 end
 
 CInvtStorage = createClass({
+    rgsImgItemPath = {"Item.wz/Equip", "Item.wz/Use", "Item.wz/Install", "Item.wz/Etc", "Item.wz/Cash"},
+
     pInvtStorage = CInvtStorageItem:new(),
     pTabStorage = CInvtStorageTab:new(),
     pCountStorage = CInvtStorageNumber:new(),
 })
 
 function CInvtStorage:load()
-    self.pInvtStorage:load()
-    self.pTabStorage:load()
+    local m_rgsImgItemPath = self.rgsImgItemPath
+
+    self.pInvtStorage:load(m_rgsImgItemPath)
+    self.pTabStorage:load(m_rgsImgItemPath)
     self.pCountStorage:load()
 end
 
@@ -163,11 +165,14 @@ end
 
 function CInvtStorage:get_images_by_number(iNum)
     local rgpNumImgs = {}
-    local m_pCountStorage = self.pCountStorage
 
-    for _, i in ipairs(math.dlist(iNum)) do
-        local pImg = m_pCountStorage:get_image_by_number(i)
-        table.insert(rgpNumImgs, pImg)
+    if iNum ~= nil then
+        local m_pCountStorage = self.pCountStorage
+
+        for _, i in ipairs(math.dlist(iNum)) do
+            local pImg = m_pCountStorage:get_image_by_number(i)
+            table.insert(rgpNumImgs, pImg)
+        end
     end
 
     return rgpNumImgs

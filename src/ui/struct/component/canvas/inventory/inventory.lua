@@ -13,11 +13,11 @@
 require("router.procedures.constant")
 require("ui.constant.style")
 require("ui.run.draw.canvas.inventory.inventory")
-require("ui.struct.component.basic.base")
+require("ui.struct.component.element.rect")
 require("utils.struct.class")
 
 CInvtElem = createClass({
-    eElem = CBasicElem:new(),
+    eBox = CUserboxElem:new(),
 
     pInvt,
     iSlctTab,
@@ -27,8 +27,19 @@ CInvtElem = createClass({
     rgpVwItems = {}
 })
 
+function CInvtElem:get_object()
+    return self.eBox
+end
+
+function CInvtElem:set_origin(iPx, iPy)
+    local pImgBgrd = ctVwInvt:get_background()
+    local iW, iH = pImgBgrd:getDimensions()
+
+    self.eBox:load(iPx, iPy, iW, iH)
+end
+
 function CInvtElem:get_origin()
-    return self.eElem:get_pos()
+    return self.eBox:get_origin()
 end
 
 function CInvtElem:get_tab_selected()
@@ -43,7 +54,7 @@ function CInvtElem:_set_row_selected(iRow)
     self.iSlctRow = iRow
 end
 
-function CInvtElem:fetch_item_range()
+function CInvtElem:_fetch_item_range()
     local m_rgpVwItems = self.rgpVwItems
 
     local iRow = self:get_row_selected()
@@ -57,7 +68,7 @@ function CInvtElem:fetch_item_palette()
     local m_rgpVwItems = self.rgpVwItems
 
     local rgpItems = {}
-    local iSt, iEn = self:fetch_item_range()
+    local iSt, iEn = self:_fetch_item_range()
     for i = iSt, iEn, 1 do
         table.insert(rgpItems, m_rgpVwItems[i])
     end
@@ -67,10 +78,10 @@ end
 
 function CInvtElem:_update_item_position()
     local m_rgpVwItems = self.rgpVwItems
-    local iSt, iEn = self:fetch_item_range()
+    local iSt, iEn = self:_fetch_item_range()
 
     local m_eElem = self.eElem
-    local iPx, iPy = m_eElem:get_pos()
+    local iPx, iPy = m_eElem:get_origin()
 
     local iIx, iIy
     for i = iSt, iEn, 1 do
@@ -94,7 +105,9 @@ function CInvtElem:update_row(iNextSlct)
 end
 
 function CInvtElem:load(pInvt, iPx, iPy)
-    self.eElem:load(iPx, iPy)
+    local pImg = ctVwInvt:get_background()
+    local iW, iH = pImg:getDimensions()
+    self.eBox:load(iPx, iPy, iW, iH)
 
     self.pInvt = pInvt
     self.iSlctTab = 1

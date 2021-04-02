@@ -12,7 +12,7 @@
 
 require("ui.struct.component.canvas.inventory.inventory")
 
-function load_view_inventory(pIvtItems)
+function load_view_inventory(pIvtItems, iPx, iPy)
     local pInvt = CInvtElem:new()
     pInvt:load(pIvtItems, iPx, iPy)
 
