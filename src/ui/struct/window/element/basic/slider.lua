@@ -10,11 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.element.basic")
+CWndSlider =
 
-function load_storage_basic()
-    local pStorage = CWndBasic:new()
-    pStorage:load()
+pFrameStylebox:get_image_data(RWndPath.INTF_SBOX)
 
-    return pStorage
-end

@@ -10,11 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.element.basic")
+require("ui.struct.canvas.worldmap.basic.spot")
+require("utils.struct.class")
 
-function load_storage_basic()
-    local pStorage = CWndBasic:new()
-    pStorage:load()
+CWmapBasicSprite = createClass({CWmapBasicSpot, {
+    iZ,
+    iDelay
+}})
 
-    return pStorage
+function CWmapBasicSprite:get_z()
+    return self.iZ
+end
+
+function CWmapBasicSprite:get_delay()
+    return self.iDelay
+end
+
+function CWmapBasicSprite:get_image()
+    return self.iOx, self.iOy
 end

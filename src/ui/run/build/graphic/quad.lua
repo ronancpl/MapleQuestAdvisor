@@ -13,7 +13,7 @@
 require("composer.field.node.image")
 require("ui.constant.config")
 require("ui.struct.component.basic.quad")
-require("ui.struct.worldmap.basic.sprite")
+require("ui.struct.canvas.worldmap.basic.sprite")
 
 function load_xml_sprite(pXmlNode)
     local iOx

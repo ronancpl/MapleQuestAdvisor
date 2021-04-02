@@ -10,8 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.inventory.properties")
-require("ui.struct.inventory.layer.item")
+require("ui.struct.canvas.inventory.properties")
+require("ui.struct.canvas.inventory.layer.item")
 require("ui.struct.window.frame.canvas")
 require("utils.struct.class")
 

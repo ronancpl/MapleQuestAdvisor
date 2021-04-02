@@ -10,11 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.element.basic")
+require("composer.field.node.image")
+require("ui.run.build.interface.storage.split")
+require("ui.struct.canvas.worldmap.element.background")
 
-function load_storage_basic()
-    local pStorage = CWndBasic:new()
-    pStorage:load()
+function load_node_worldmap_base_img(pWmapProp, pBaseImgNode, pDirWmapImgs)
+    local pImg = find_image_on_storage(pDirWmapImgs, "BaseImg/0")
 
-    return pStorage
+    local iOx
+    local iOy
+    local iZ
+    iOx, iOy, iZ = pBaseImgNode:get_image()
+
+    local pBgrd = CWmapElemBackground:new()
+    pBgrd:load(pWmapProp, pImg, iOx, iOy, iZ, 0, 0)
+
+    return pBgrd
 end

@@ -152,7 +152,7 @@ local function draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
     iPx, iPy = pVwInvt:get_origin()
 
     iPx = iPx + RStylebox.VW_ITEM_INVT_TAB_NAME.X
-    iPy = iPy + RStylebox.VW_ITEM_INVT_TAB_NAME.Y
+    iPy = iPy + RStylebox.VW_ITEM_INVT_TAB_NAME.Y + 3
 
     local rgpImgNames = ctVwInvt:get_tab_names()
 

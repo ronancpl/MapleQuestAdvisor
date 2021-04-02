@@ -10,11 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.element.basic")
+require("ui.struct.canvas.worldmap.basic.image")
+require("utils.struct.class")
 
-function load_storage_basic()
-    local pStorage = CWndBasic:new()
-    pStorage:load()
-
-    return pStorage
-end
+CWmapNodeLinkImage = createClass({CWmapBasicImage, {}})

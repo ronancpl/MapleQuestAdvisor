@@ -10,11 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.element.basic")
+require("ui.struct.window.element.basic.mouse")
+require("utils.struct.class")
 
-function load_storage_basic()
-    local pStorage = CWndBasic:new()
-    pStorage:load()
+CWndBasic = createClass({
+    pStorage = CWndCursor:new()
+})
 
-    return pStorage
+function CWndBasic:load()
+    self.pStorage:load()
+    self.pStorage:load_mouse(RWndPath.MOUSE.BT_GAME)
+end
+
+function CWndBasic:update(dt)
+    self.pStorage:update(dt)
+end
+
+function CWndBasic:draw()
+    self.pStorage:draw()
 end

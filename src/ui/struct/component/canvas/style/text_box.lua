@@ -48,7 +48,7 @@ end
 function CStyleBoxText:_load_texture(iRx, iRy)
     local m_eTexture = self.eTexture
 
-    local pImgBox = love.graphics.newImage(pFrameStylebox:get_image_data(RWndPath.INTF_SBOX))
+    local pImgBox = love.graphics.newImage(ctVwStyle:get_image_data(RWndPath.INTF_SBOX))
     m_eTexture:load(iRx, iRy, pImgBox, 3, 3, 115, 6)
 end
 

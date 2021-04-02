@@ -16,12 +16,13 @@ require("composer.field.field")
 require("structs.storage.inventory")
 require("ui.constant.path")
 require("ui.interaction.handler")
-require("ui.run.build.worldmap.worldmap")
+require("ui.run.build.canvas.worldmap.worldmap")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
 require("ui.run.load.worldmap")
 require("ui.struct.component.canvas.inventory.storage")
-require("ui.struct.component.canvas.style.basic")
+require("ui.struct.component.canvas.style.storage")
+require("ui.struct.component.canvas.style.slider")
 require("utils.logger.file")
 require("utils.procedure.print")
 
@@ -32,8 +33,8 @@ function love.load()
     ctFieldsWmap = load_resources_worldmap()
     ctFieldsMeta = load_meta_resources_fields()
 
-    ctVwInvt = CInvtStorage:new()
-    ctVwInvt:load()
+    ctVwInvt = load_image_stock_inventory()
+    ctVwStyle = load_image_stock_stylebox()
 
     log(LPath.INTERFACE, "load.txt", "Loading action handler...")
     pEventHdl = CActionHandler:new()
@@ -44,9 +45,6 @@ function love.load()
 
     log(LPath.INTERFACE, "load.txt", "Loading user interface...")
     pFrameBasic = load_frame_basic()
-    pFrameBasic:load_mouse(RWndPath.MOUSE.BT_GAME)
-
-    pFrameStylebox = load_stylebox_images()
 
     pUiWmap = load_frame_worldmap()
 
@@ -92,7 +90,6 @@ function love.update(dt)
     update_interactions()
 
     pFrameBasic:update(dt)
-    pFrameBasic:refresh_cursor()
 
     pUiWmap:update(dt)
     pUiInvt:update(dt)

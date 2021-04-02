@@ -23,18 +23,18 @@ local function load_image(sImgDirPath, sImgName)
     return love.graphics.newImage(pImgData)
 end
 
-CInvtStorageItem = createClass({
+CStockInventoryItem = createClass({
     rgsImgItemPath,
     pImgShd,
     tpImgs = {}
 })
 
-function CInvtStorageItem:load(rgsImgItemPath)
+function CStockInventoryItem:load(rgsImgItemPath)
     self.rgsImgItemPath = rgsImgItemPath
     self.pImgShd = load_image(RWndPath.INTF_INVT_WND, "shadow")
 end
 
-function CInvtStorageItem:_load_image_from_directory(iId)
+function CStockInventoryItem:_load_image_from_directory(iId)
     local siType = iId / 1000000
     local m_rgsImgItemPath = self.rgsImgItemPath
 
@@ -44,11 +44,11 @@ function CInvtStorageItem:_load_image_from_directory(iId)
     return pImg
 end
 
-function CInvtStorageItem:get_shadow()
+function CStockInventoryItem:get_shadow()
     return self.pImgShd
 end
 
-function CInvtStorageItem:get_image_by_itemid(iId)
+function CStockInventoryItem:get_image_by_itemid(iId)
     local m_tpImgs = self.tpImgs
 
     local pImg = m_tpImgs[iId]
@@ -60,7 +60,7 @@ function CInvtStorageItem:get_image_by_itemid(iId)
     return pImg
 end
 
-CInvtStorageTab = createClass({
+CStockInventoryTab = createClass({
     rgpImgTabNames,
     tpImgTabQuads = {},
     pImgBgrd
@@ -70,7 +70,7 @@ local function load_tab_quad(tpImgTabQuads, sQuadName)
     tpImgTabQuads[sQuadName] = load_image(RWndPath.INTF_INVT_TAB, sQuadName)
 end
 
-function CInvtStorageTab:load(rgsImgItemPath)
+function CStockInventoryTab:load(rgsImgItemPath)
     local m_tpImgTabQuads = self.tpImgTabQuads
     load_tab_quad(m_tpImgTabQuads, "fill0")
     load_tab_quad(m_tpImgTabQuads, "fill1")
@@ -94,23 +94,23 @@ function CInvtStorageTab:load(rgsImgItemPath)
     end
 end
 
-function CInvtStorageTab:get_tab_components()
+function CStockInventoryTab:get_tab_components()
     return self.tpImgTabQuads
 end
 
-function CInvtStorageTab:get_tab_names()
+function CStockInventoryTab:get_tab_names()
     return self.rgpImgTabNames
 end
 
-function CInvtStorageTab:get_background()
+function CStockInventoryTab:get_background()
     return self.pImgBgrd
 end
 
-CInvtStorageNumber = createClass({
+CStockInventoryNumber = createClass({
     rgpNumImgs
 })
 
-function CInvtStorageNumber:load()
+function CStockInventoryNumber:load()
     self.rgpNumImgs = {}
     local m_rgpNumImgs = self.rgpNumImgs
 
@@ -120,54 +120,54 @@ function CInvtStorageNumber:load()
     end
 end
 
-function CInvtStorageNumber:get_image_by_number(iDigit)
+function CStockInventoryNumber:get_image_by_number(iDigit)
     local m_rgpNumImgs = self.rgpNumImgs
 
     local pImg = m_rgpNumImgs[iDigit + 1]
     return pImg
 end
 
-CInvtStorage = createClass({
+CStockInventory = createClass({
     rgsImgItemPath = {"Item.wz/Equip", "Item.wz/Use", "Item.wz/Install", "Item.wz/Etc", "Item.wz/Cash"},
 
-    pInvtStorage = CInvtStorageItem:new(),
-    pTabStorage = CInvtStorageTab:new(),
-    pCountStorage = CInvtStorageNumber:new(),
+    pStockInvt = CStockInventoryItem:new(),
+    pStockTab = CStockInventoryTab:new(),
+    pStockCount = CStockInventoryNumber:new(),
 })
 
-function CInvtStorage:load()
+function CStockInventory:load()
     local m_rgsImgItemPath = self.rgsImgItemPath
 
-    self.pInvtStorage:load(m_rgsImgItemPath)
-    self.pTabStorage:load(m_rgsImgItemPath)
-    self.pCountStorage:load()
+    self.pStockInvt:load(m_rgsImgItemPath)
+    self.pStockTab:load(m_rgsImgItemPath)
+    self.pStockCount:load()
 end
 
-function CInvtStorage:get_shadow()
-    return self.pInvtStorage:get_shadow()
+function CStockInventory:get_shadow()
+    return self.pStockInvt:get_shadow()
 end
 
-function CInvtStorage:get_image_by_itemid(iId)
-    return self.pInvtStorage:get_image_by_itemid(iId)
+function CStockInventory:get_image_by_itemid(iId)
+    return self.pStockInvt:get_image_by_itemid(iId)
 end
 
-function CInvtStorage:get_tab_components()
-    return self.pTabStorage:get_tab_components()
+function CStockInventory:get_tab_components()
+    return self.pStockTab:get_tab_components()
 end
 
-function CInvtStorage:get_tab_names()
-    return self.pTabStorage:get_tab_names()
+function CStockInventory:get_tab_names()
+    return self.pStockTab:get_tab_names()
 end
 
-function CInvtStorage:get_background()
-    return self.pTabStorage:get_background()
+function CStockInventory:get_background()
+    return self.pStockTab:get_background()
 end
 
-function CInvtStorage:get_images_by_number(iNum)
+function CStockInventory:get_images_by_number(iNum)
     local rgpNumImgs = {}
 
     if iNum ~= nil then
-        local m_pCountStorage = self.pCountStorage
+        local m_pCountStorage = self.pStockCount
 
         for _, i in ipairs(math.dlist(iNum)) do
             local pImg = m_pCountStorage:get_image_by_number(i)
@@ -176,4 +176,11 @@ function CInvtStorage:get_images_by_number(iNum)
     end
 
     return rgpNumImgs
+end
+
+function load_image_stock_inventory()
+    local ctVwInvt = CStockInventory:new()
+    ctVwInvt:load()
+
+    return ctVwInvt
 end
