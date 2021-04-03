@@ -10,19 +10,14 @@
     provide an express grant of patent rights.
 --]]
 
-require("composer.field.node.media.quad")
-require("ui.constant.config")
-require("ui.constant.path")
-require("ui.run.build.interface.storage.basic.quad")
-require("ui.run.build.interface.storage.split")
-require("ui.struct.component.element.dynamic")
+require("ui.run.draw.canvas.slider.slider")
 require("utils.struct.class")
 
 RSliderState = {DISABLED = "thumbDisabled", MOUSE_OVER = "thumbMouseOver", NORMAL = "thumbNormal", PRESSED = "thumbPressed"}
 
 CWndSlider = createClass({
     iLength,     -- slider length
-    eThumb = CTextureElem:new(),    -- moves freely inside slider
+    eThumb,    -- moves freely inside slider
 
     iSgmtCur = 1,
     iSgmtCount = 1,
@@ -32,6 +27,10 @@ CWndSlider = createClass({
 
 function CWndSlider:get_bar_length()
     return self.iLength
+end
+
+function CWndSlider:get_thumb()
+    return self.eThumb
 end
 
 function CWndSlider:get_thumb_length()
@@ -66,19 +65,16 @@ function CWndSlider:_set_orientation(bVert)
 end
 
 function CWndSlider:_load_thumb(sThumbName)
-    local pImgThumb = ctVwSlider:get_thumb(sThumbName)
-    self.pImgThumb = pImgThumb
-
-    local m_eThumb = self.eThumb
-    m_eThumb:load(0, 0, pImgThumb, 3, 3, 13, 3)
+    local eThumb = ctVwSlider:get_thumb(sThumbName)
+    self.eThumb = eThumb
 end
 
 function CWndSlider:build_thumb(nSgmts, iLen, bDefWidth)
-    local m_pImgThumb = self.pImgThumb
+    local m_eThumb = self.eThumb
 
     local iWidth
     local iHeight
-    iWidth, iHeight = m_pImgThumb:getDimensions()
+    iWidth, iHeight = m_eThumb:get_texture():getDimensions()
 
     if not bDefWidth then
         iWidth = math.floor(iLen / nSgmts)

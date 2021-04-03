@@ -15,18 +15,22 @@ require("ui.struct.window.element.basic.mouse")
 require("utils.struct.class")
 
 CWndBasic = createClass({
-    pStorage = CWndCursor:new()
+    pCursor = CWndCursor:new()
 })
 
+function CWndBasic:get_cursor()
+    return self.pCursor
+end
+
 function CWndBasic:load()
-    self.pStorage:load()
-    self.pStorage:load_mouse(RWndPath.MOUSE.BT_GAME)
+    self.pCursor:load()
+    self.pCursor:load_mouse(RWndPath.MOUSE.BT_GAME)
 end
 
 function CWndBasic:update(dt)
-    self.pStorage:update(dt)
+    self.pCursor:update(dt)
 end
 
 function CWndBasic:draw()
-    self.pStorage:draw()
+    self.pCursor:draw()
 end

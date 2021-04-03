@@ -24,9 +24,9 @@ CWndCursor = createClass({
 })
 
 function CWndCursor:load_mouse(sCursorName)
-    local m_trgpCursorQuads = self.trgpCursorQuads
+    local rgpCursorQuads = ctVwCursor:get_mouse_animation(sCursorName)
 
-    self.eDynam:load(0, 0, m_trgpCursorQuads[sCursorName])
+    self.eDynam:load(0, 0, rgpCursorQuads)
     --self.eDynam:instantiate()
     self.eDynam:after_load()
 end
@@ -39,6 +39,10 @@ function CWndCursor:_refresh_cursor()
         self.pCurMouse = pNextCursor
         love.mouse.setCursor(pNextCursor)
     end
+end
+
+function CWndCursor:load()
+    -- do nothing
 end
 
 function CWndCursor:update(dt)

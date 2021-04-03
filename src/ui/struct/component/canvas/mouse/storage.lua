@@ -27,7 +27,7 @@ CStockCursor = createClass({
     pImgShd
 })
 
-function CWndCursor:_load_basic_images()
+function CStockCursor:_load_basic_images()
     local sBasicImgPath = RWndPath.INTF_BASIC
 
     local pDirBasicQuads = load_quad_storage_from_wz_sub(sBasicImgPath, "Cursor")
@@ -83,9 +83,9 @@ function CStockCursor:load()
     self:_load_mouse_animations()
 end
 
-function CStockCursor:load(rgsImgItemPath)
-    self.rgsImgItemPath = table_copy(rgsImgItemPath)
-    self.pImgShd = load_image(RWndPath.INTF_INVT_WND, "shadow")
+function CStockCursor:get_mouse_animation(sCursorName)
+    local m_trgpCursorQuads = self.trgpCursorQuads
+    return m_trgpCursorQuads[sCursorName]
 end
 
 function load_image_stock_mouse()

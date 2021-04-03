@@ -54,6 +54,10 @@ function CTextureElem:get_dimensions()
     return iWidth, iHeight
 end
 
+function CTextureElem:get_texture()
+    return self.pImgBox
+end
+
 function CTextureElem:_get_limit_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     local iWidth
     local iHeight

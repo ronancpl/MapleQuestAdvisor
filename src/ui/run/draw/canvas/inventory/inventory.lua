@@ -221,7 +221,11 @@ local function draw_inventory_background(pVwInvt)
 end
 
 local function draw_inventory_slider(pVwInvt)
+    local iPx
+    local iPy
+    iPx, iPy = pVwInvt:get_origin()
 
+    pVwInvt:get_slider():draw(iPx, iPy)
 end
 
 function draw_player_inventory(pVwInvt)

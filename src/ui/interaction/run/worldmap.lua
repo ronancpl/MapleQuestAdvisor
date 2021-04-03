@@ -16,7 +16,7 @@ end
 
 function on_mousepressed(x, y, button)
     if button == 1 then
-        pFrameBasic:load_mouse(RWndPath.MOUSE.BT_DOWN)
+        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_DOWN)
     end
 
     pUiWmap:onmousepressed(x, y, button)
@@ -24,7 +24,7 @@ end
 
 function on_mousereleased(x, y, button)
     if button == 1 then
-        pFrameBasic:load_mouse(RWndPath.MOUSE.BT_NORMAL)
+        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
     end
 
     pUiWmap:onmousereleased(x, y, button)

@@ -40,11 +40,8 @@ end
 function CStyleBoxItem:draw(iPx, iPy)
     local m_pImgItem = self.pImgItem
     if m_pImgItem ~= nil then
-        local m_eBox = self.eBox
-        local iRx, iRy = m_eBox:get_origin()
-
-        iPx = iPx + iRx + RStylebox.FIL_X
-        iPy = iPy + iRy + RStylebox.FIL_Y
+        iPx = iPx + RStylebox.FIL_X
+        iPy = iPy + RStylebox.FIL_Y
 
         draw_item_canvas(m_pImgItem, nil, iPx, iPy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
     end

@@ -11,7 +11,7 @@
 --]]
 
 local function fetch_draw_rotation(pVwSlider)
-    local bVert = self:get_orientation()
+    local bVert = pVwSlider:get_orientation()
     return bVert and 270 or 0
 end
 
@@ -31,7 +31,7 @@ local function draw_slider_bar(pVwSlider, iX, iY)
     local iFilLen = pImgFilBar:getWidth()
     local iFilHgt = pImgFilBar:getHeight()
 
-    local iLoop, bVert = calc_slider_bar_fit(pVwSlider)
+    local iLoop, bVert = calc_slider_bar_fit(pVwSlider, pImgFilBar)
 
     local iIncX, iIncY
     if bVert then
@@ -77,16 +77,17 @@ local function draw_slider_thumb(pVwSlider, iPx, iPy)
 
     local iRollLen = pVwSlider:get_bar_length() - pVwSlider:get_thumb_length()
 
-    local bVert = self:get_orientation()
+    local bVert = pVwSlider:get_orientation()
 
-    local iRx = 0, iRy = 0
+    local iRx = 0
+    local iRy = 0
     if bVert then
         iRy = (iCur / iTotal) * iRollLen
     else
         iRx = (iCur / iTotal) * iRollLen
     end
 
-    local m_eTexture = self.eTexture
+    local m_eTexture = pVwSlider:get_thumb()
     m_eTexture:draw(iPx + iRx, iPy + iRy, fetch_draw_rotation(pVwSlider))
 end
 

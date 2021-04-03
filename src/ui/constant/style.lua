@@ -42,7 +42,9 @@ RStylebox = {
         X = 150,
         Y = 50,
         W = 10,
-        H = 200
+        H = 200,
+
+        SEGMENTS = 19
     },
 
     VW_INVT_TAB = {

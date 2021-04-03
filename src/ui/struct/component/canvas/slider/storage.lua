@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.path")
+require("ui.run.build.interface.storage.split")
 require("ui.struct.canvas.worldmap.basic.image")
 require("ui.struct.component.element.texture")
 require("utils.struct.class")
@@ -38,20 +39,20 @@ local function make_texture_thumb(pDirSliderImgs, sImgName)
     local pImgBox = love.graphics.newImage(pImgDataBox)
 
     local eTexture = CTextureElem:new()
-    eTexture:load(iRx, iRy, pImgBox, 3, 3, 13, 6)
+    eTexture:load(0, 0, pImgBox, 3, 3, 13, 6)
 
     return eTexture
 end
 
 function CStockSlider:_load_texture(pDirSliderImgs)
-    self.pImgLeft = make_image_bar(pDirSliderImgs, "Slider.left.png")
-    self.pImgMid = make_image_bar(pDirSliderImgs, "Slider.mid.png")
-    self.pImgRight = make_image_bar(pDirSliderImgs, "Slider.right.png")
+    self.pImgLeft = make_image_bar(pDirSliderImgs, "Slider.left")
+    self.pImgMid = make_image_bar(pDirSliderImgs, "Slider.mid")
+    self.pImgRight = make_image_bar(pDirSliderImgs, "Slider.right")
 
-    self.eTextureTd = make_texture_thumb(pDirSliderImgs, "Slider.thumbDisabled.png")
-    self.eTextureTmo = make_texture_thumb(pDirSliderImgs, "Slider.thumbMouseOver.png")
-    self.eTextureTb = make_texture_thumb(pDirSliderImgs, "Slider.thumbNormal.png")
-    self.eTextureTp = make_texture_thumb(pDirSliderImgs, "Slider.thumbPressed.png")
+    self.eTextureTd = make_texture_thumb(pDirSliderImgs, "Slider.thumbDisabled")
+    self.eTextureTmo = make_texture_thumb(pDirSliderImgs, "Slider.thumbMouseOver")
+    self.eTextureTb = make_texture_thumb(pDirSliderImgs, "Slider.thumbNormal")
+    self.eTextureTp = make_texture_thumb(pDirSliderImgs, "Slider.thumbPressed")
 
     self.teTextures = {
         thumbDisabled = self.eTextureTd,

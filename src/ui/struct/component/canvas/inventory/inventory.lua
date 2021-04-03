@@ -14,10 +14,12 @@ require("router.procedures.constant")
 require("ui.constant.style")
 require("ui.run.draw.canvas.inventory.inventory")
 require("ui.struct.component.element.rect")
+require("ui.struct.window.element.basic.slider")
 require("utils.struct.class")
 
 CInvtElem = createClass({
     eBox = CUserboxElem:new(),
+    pSlider = CWndSlider:new(),
 
     pInvt,
     iSlctTab,
@@ -29,6 +31,10 @@ CInvtElem = createClass({
 
 function CInvtElem:get_object()
     return self.eBox
+end
+
+function CInvtElem:get_slider()
+    return self.pSlider
 end
 
 function CInvtElem:set_origin(iPx, iPy)
@@ -108,6 +114,8 @@ function CInvtElem:load(pInvt, iPx, iPy)
     local pImg = ctVwInvt:get_background()
     local iW, iH = pImg:getDimensions()
     self.eBox:load(iPx, iPy, iW, iH)
+
+    self.pSlider:load(RSliderState.NORMAL, RStylebox.VW_INVT_SLIDER.H, RStylebox.VW_INVT_SLIDER.SEGMENTS, true, true)
 
     self.pInvt = pInvt
     self.iSlctTab = 1
