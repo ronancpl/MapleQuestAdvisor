@@ -125,8 +125,8 @@ local function draw_compose_inventory_tabs(pVwInvt, rgsIntvImgNames, iTabWidth)
     local iPy
     iPx, iPy = pVwInvt:get_origin()
 
-    iPx = iPx + RStylebox.VW_ITEM_INVT_TAB_NAME.X
-    iPy = iPy + RStylebox.VW_ITEM_INVT_TAB_NAME.Y
+    iPx = iPx + RStylebox.VW_INVT_TAB.NAME.X
+    iPy = iPy + RStylebox.VW_INVT_TAB.NAME.Y
 
     local iSlctTab = pVwInvt:get_tab_selected()
     if nIntvImgs > 0 then
@@ -151,8 +151,8 @@ local function draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
     local iPy
     iPx, iPy = pVwInvt:get_origin()
 
-    iPx = iPx + RStylebox.VW_ITEM_INVT_TAB_NAME.X
-    iPy = iPy + RStylebox.VW_ITEM_INVT_TAB_NAME.Y + 3
+    iPx = iPx + RStylebox.VW_INVT_TAB.NAME.X
+    iPy = iPy + RStylebox.VW_INVT_TAB.NAME.Y + 3
 
     local rgpImgNames = ctVwInvt:get_tab_names()
 
@@ -181,8 +181,8 @@ local function draw_inventory_tabs(pVwInvt)
     local rgiIntvVals = codify_inventory_tab_intervals(pVwInvt)
     local rgsIntvImgNames = translate_inventory_tab_intervals(rgiIntvVals)
 
-    local iTabWidth = RStylebox.VW_ITEM_INVT_TAB.W
-    local iTabHeight = RStylebox.VW_ITEM_INVT_TAB.H
+    local iTabWidth = RStylebox.VW_INVT_TAB.W
+    local iTabHeight = RStylebox.VW_INVT_TAB.H
 
     draw_compose_inventory_tabs(pVwInvt, rgsIntvImgNames, iTabWidth)
     draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
@@ -201,7 +201,7 @@ local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
 end
 
 function draw_inventory_item(pVwItem)
-    draw_compose_item_image(pVwItem, RStylebox.VW_ITEM_INVT.W, RStylebox.VW_ITEM_INVT.H)
+    draw_compose_item_image(pVwItem, RStylebox.VW_INVT_ITEM.W, RStylebox.VW_INVT_ITEM.H)
 end
 
 local function draw_inventory_items(pVwInvt)
@@ -220,8 +220,13 @@ local function draw_inventory_background(pVwInvt)
     love.graphics.draw(pImg, iPx, iPy)
 end
 
+local function draw_inventory_slider(pVwInvt)
+
+end
+
 function draw_player_inventory(pVwInvt)
     draw_inventory_background(pVwInvt)
+    draw_inventory_slider(pVwInvt)
     draw_inventory_tabs(pVwInvt)
     draw_inventory_items(pVwInvt)
 end

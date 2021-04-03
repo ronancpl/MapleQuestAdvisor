@@ -46,6 +46,14 @@ function CTextureElem:get_ltrb()
     return iLx + iPx, iTy + iPy, iRx + iPx, iBy + iPy
 end
 
+function CTextureElem:get_dimensions()
+    local iWidth
+    local iHeight
+    iWidth, iHeight = unpack(self.pBoxArea)
+
+    return iWidth, iHeight
+end
+
 function CTextureElem:_get_limit_params(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     local iWidth
     local iHeight
@@ -103,7 +111,7 @@ end
 function CTextureElem:_prepare_canvas()
     local iWidth
     local iHeight
-    iWidth, iHeight = unpack(self.pBoxArea)
+    iWidth, iHeight = self:get_dimensions()
 
     self.pCanvas = love.graphics.newCanvas()
     draw_canvas_texture_box(self.pCanvas, self.pImgBox, self.rgpBoxQuads, self.pBoxGrowth, iWidth, iHeight)
@@ -122,6 +130,6 @@ function CTextureElem:update(dt)
     -- do nothing
 end
 
-function CTextureElem:draw(iPx, iPy)
-    draw_texture_box(self.pCanvas, iPx, iPy)
+function CTextureElem:draw(iPx, iPy, iR)
+    draw_texture_box(self.pCanvas, iPx, iPy, iR)
 end

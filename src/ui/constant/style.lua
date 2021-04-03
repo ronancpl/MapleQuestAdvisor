@@ -33,19 +33,26 @@ RStylebox = {
         H = 70
     },
 
-    VW_ITEM_INVT = {
+    VW_INVT_ITEM = {
         W = 36,
         H = 36
     },
 
-    VW_ITEM_INVT_TAB = {
-        W = 35,
-        H = 20
+    VW_INVT_SLIDER = {
+        X = 150,
+        Y = 50,
+        W = 10,
+        H = 200
     },
 
-    VW_ITEM_INVT_TAB_NAME = {
-        X = 2,
-        Y = 23
+    VW_INVT_TAB = {
+        W = 35,
+        H = 20,
+
+        NAME = {
+            X = 2,
+            Y = 23
+        }
     }
 
 }

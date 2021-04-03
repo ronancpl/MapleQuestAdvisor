@@ -88,8 +88,8 @@ function CInvtElem:_update_item_position()
         local iR = math.floor(i / 4)
         local iC = i % 4
 
-        iIx = iPx + iC * RStylebox.VW_ITEM_INVT.W
-        iIy = iPy + iR * RStylebox.VW_ITEM_INVT.H
+        iIx = iPx + iC * RStylebox.VW_INVT_ITEM.W
+        iIy = iPy + iR * RStylebox.VW_INVT_ITEM.H
 
         local pVwItem = m_rgpVwItems[i]
         pVwItem:update(iIx, iIy)

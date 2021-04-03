@@ -15,7 +15,7 @@ require("ui.struct.canvas.worldmap.basic.image")
 require("ui.struct.component.element.texture")
 require("utils.struct.class")
 
-CSliderStock = createClass({
+CStockSlider = createClass({
     pImgLeft,
     pImgMid,
     pImgRight,
@@ -43,7 +43,7 @@ local function make_texture_thumb(pDirSliderImgs, sImgName)
     return eTexture
 end
 
-function CSliderStock:_load_texture(pDirSliderImgs)
+function CStockSlider:_load_texture(pDirSliderImgs)
     self.pImgLeft = make_image_bar(pDirSliderImgs, "Slider.left.png")
     self.pImgMid = make_image_bar(pDirSliderImgs, "Slider.mid.png")
     self.pImgRight = make_image_bar(pDirSliderImgs, "Slider.right.png")
@@ -61,26 +61,25 @@ function CSliderStock:_load_texture(pDirSliderImgs)
     }
 end
 
-function CSliderStock:load()
+function CStockSlider:load()
     local pDirSliderImgs = load_image_storage_from_wz_sub(RWndPath.INTF_BASIC, "Slider")
     pDirSliderImgs = select_images_from_storage(pDirSliderImgs, {})
 
     self:_load_texture(pDirSliderImgs)
 end
 
-function CSliderStock:get_thumb(sThumbName)
+function CStockSlider:get_thumb(sThumbName)
     local m_teTextures = self.teTextures
     return m_teTextures[sThumbName]
 end
 
-function CSliderStock:get_bar()
+function CStockSlider:get_bar()
     return self.pImgLeft, self.pImgMid, self.pImgRight
 end
 
-function CSliderStock:update(dt)
-    -- do nothing
-end
+function load_image_stock_slider()
+    local ctVwSlider = CStockSlider:new()
+    ctVwSlider:load()
 
-function CSliderStock:draw()
-    -- do nothing
+    return ctVwSlider
 end

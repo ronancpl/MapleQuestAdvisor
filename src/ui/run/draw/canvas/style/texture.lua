@@ -437,6 +437,6 @@ function draw_canvas_texture_box(pCanvas, pImgBox, rgpBoxQuads, pGrowth, iBoxWid
     draw_pattern_box(pCanvas, pImgBox, rgpBoxQuads, pGrowth, iBoxWidth, iBoxHeight, 0, 0)
 end
 
-function draw_texture_box(pCanvas, iPx, iPy)
-    love.graphics.draw(pCanvas, iPx, iPy)
+function draw_texture_box(pCanvas, iPx, iPy, iR)
+    love.graphics.draw(pCanvas, iPx, iPy, iR)
 end

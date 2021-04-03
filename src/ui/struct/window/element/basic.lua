@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.path")
 require("ui.struct.window.element.basic.mouse")
 require("utils.struct.class")
 
