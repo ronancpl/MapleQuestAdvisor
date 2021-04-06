@@ -39,7 +39,7 @@ RStylebox = {
     },
 
     VW_INVT_SLIDER = {
-        X = 150,
+        X = 170,
         Y = 50,
         W = 10,
         H = 200,

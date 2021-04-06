@@ -16,8 +16,8 @@ require("utils.struct.class")
 RSliderState = {DISABLED = "thumbDisabled", MOUSE_OVER = "thumbMouseOver", NORMAL = "thumbNormal", PRESSED = "thumbPressed"}
 
 CWndSlider = createClass({
-    iLength,     -- slider length
-    eThumb,    -- moves freely inside slider
+    iLength,    -- slider length
+    eThumb,     -- moves freely inside slider
 
     iSgmtCur = 1,
     iSgmtCount = 1,
@@ -38,6 +38,13 @@ function CWndSlider:get_thumb_length()
     iWidth, _ = self.eThumb:get_dimensions()
 
     return iWidth
+end
+
+function CWndSlider:get_thumb_girth()
+    local iHeight
+    _, iHeight = self.eThumb:get_dimensions()
+
+    return iHeight
 end
 
 function CWndSlider:get_current()

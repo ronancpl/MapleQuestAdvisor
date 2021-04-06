@@ -16,6 +16,8 @@ LLayer = {
 }
 
 LChannel = {
+    OVR_TEXTURE = 2,
+
     -- Worldmap canvas
     WMAP_LINK_IMG = 1,
     WMAP_MARK_PATH = 2, MARK_TBOX = 3,

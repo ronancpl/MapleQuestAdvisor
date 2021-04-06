@@ -303,7 +303,7 @@ local function draw_pattern_box_mid(pImgBox, rgpBoxQuads, rgpQuadFitPos, iLoopX,
     local iWidthRT = get_quad_width(rgpBoxQuads[tBoxPos.RT])
     local iHeightLB = get_quad_height(rgpBoxQuads[tBoxPos.LB])
 
-    love.graphics.setScissor(iBx, iBy, math.ceil(iWidthRT + iBoxMidWidth), math.ceil(iHeightLB + iBoxMidHeight - 7))
+    love.graphics.setScissor(iBx, iBy, math.ceil(iWidthRT + iBoxMidWidth), math.ceil(iHeightLB + iBoxMidHeight))
 
     for j = 1, iLoopY, 1 do
         for i = 1, iLoopX, 1 do

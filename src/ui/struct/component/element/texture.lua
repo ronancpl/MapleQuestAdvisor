@@ -122,7 +122,7 @@ function CTextureElem:_prepare_canvas()
 end
 
 function CTextureElem:build(iWidth, iHeight)
-    self.eImg:load(0, 0, LChannel.MARK_TBOX, iWidth, iHeight)
+    self.eImg:load(0, 0, LChannel.OVR_TEXTURE, iWidth, iHeight)
 
     self.pBoxArea = {iWidth, iHeight}
     self.rgpBoxQuads, self.pBoxGrowth = build_pattern_box(self.pImgBox, self.rgpImgBoxPos, iWidth, iHeight)

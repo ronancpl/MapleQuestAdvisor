@@ -26,7 +26,8 @@ CInvtElem = createClass({
     iSlctRow,
     iNewIt,
 
-    rgpVwItems = {}
+    rgpVwItems = {},
+    rgiCurRange = {-1, -1}
 })
 
 function CInvtElem:get_object()
@@ -82,12 +83,28 @@ function CInvtElem:fetch_item_palette()
     return rgpItems
 end
 
+function CInvtElem:_clear_current_item_range()
+    local m_rgpVwItems = self.rgpVwItems
+    local iSt, iEn = unpack(self.rgiCurRange)
+
+    local m_rgiCurRange = self.rgiCurRange
+    for i = iSt, iEn, 1 do
+        local pVwItem = m_rgpVwItems[i]
+        if pVwItem ~= nil then
+            pVwItem:update(-1, -1)
+        end
+    end
+end
+
 function CInvtElem:_update_item_position()
     local m_rgpVwItems = self.rgpVwItems
-    local iSt, iEn = self:_fetch_item_range()
 
-    local m_eElem = self.eElem
-    local iPx, iPy = m_eElem:get_origin()
+    local iSt, iEn = self:_fetch_item_range()
+    self:_clear_current_item_range()
+    self.rgiCurRange = {iSt, iEn}
+
+    local m_eBox = self.eBox
+    local iPx, iPy = m_eBox:get_origin()
 
     local iIx, iIy
     for i = iSt, iEn, 1 do
@@ -98,14 +115,16 @@ function CInvtElem:_update_item_position()
         iIy = iPy + iR * RStylebox.VW_INVT_ITEM.H
 
         local pVwItem = m_rgpVwItems[i]
-        pVwItem:update(iIx, iIy)
+        if pVwItem ~= nil then
+            pVwItem:update(iIx, iIy)
+        end
     end
 end
 
 function CInvtElem:update_row(iNextSlct)
     local m_pInvt = self.pInvt
 
-    local iRow = math.iclamp(iNextSlct, 0, math.ceil(m_pInvt:get_size() / 4) - 6)
+    local iRow = math.iclamp(iNextSlct, 0, math.ceil(m_pInvt:size() / 4) - 6)
     self:_set_row_selected(iRow)
     self:_update_item_position(iRow)
 end
