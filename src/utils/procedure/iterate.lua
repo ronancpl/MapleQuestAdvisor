@@ -14,6 +14,16 @@ function rpairs(tTable)   -- in reverse order
     local rgpItems = {}
     for i = #tTable, 1, -1 do
         local pItem = tTable[i]
+
+    end
+
+    return ipairs(rgpItems)
+end
+
+function cpairs(tTable, iFromIdx, iToIdx)
+    local rgpItems = {}
+    for i = iFromIdx, math.min(iToIdx, #tTable), 1 do
+        local pItem = tTable[i]
         table.insert(rgpItems, pItem)
     end
 

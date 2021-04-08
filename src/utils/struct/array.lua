@@ -11,6 +11,7 @@
 --]]
 
 require("utils.struct.class")
+require("utils.procedure.iterate")
 require("utils.procedure.print")
 require("utils.procedure.sort")
 require("utils.procedure.unpack")
@@ -266,10 +267,7 @@ end
 
 function SArray:slice(iFromIdx, iToIdx)     -- creates a sub-list
     local rgpNew = SArray:new()
-
-    local m_apItems = self.apItems
-    for i = iFromIdx, iToIdx, 1 do
-        local pItem = m_apItems[i]
+    for _, pItem in cpairs(m_apItems, iFromIdx, iToIdx) do
         rgpNew:add(pItem)
     end
 

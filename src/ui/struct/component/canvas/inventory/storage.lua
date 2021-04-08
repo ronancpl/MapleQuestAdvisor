@@ -15,6 +15,9 @@ require("router.procedures.constant")
 require("ui.constant.path")
 require("ui.run.load.interface.position")
 require("ui.run.load.interface.worldmap")
+require("utils.procedure.copy")
+require("utils.procedure.directory")
+require("utils.procedure.string")
 require("utils.provider.xml.provider")
 require("utils.struct.class")
 
@@ -24,23 +27,25 @@ local function load_image(sImgDirPath, sImgName)
 end
 
 CStockInventoryItem = createClass({
-    rgsImgItemPath,
     pImgShd,
     tpImgs = {}
 })
 
-function CStockInventoryItem:load(rgsImgItemPath)
-    self.rgsImgItemPath = rgsImgItemPath
+function CStockInventoryItem:load()
     self.pImgShd = load_image(RWndPath.INTF_INVT_WND, "shadow")
 end
 
-function CStockInventoryItem:_load_image_from_directory(iId)
-    local siType = iId / 1000000
-    local m_rgsImgItemPath = self.rgsImgItemPath
+function CStockInventoryItem:_load_image_from_directory(pStockHeader, iId)
+    local m_pItemHeader = self.pStockHeader
+    local siType = m_pItemHeader:get_type(iId)
 
-    local sImgDirPath = m_rgsImgItemPath[siType]
-    local pImg = load_image(sImgDirPath, "0" .. iId .. ".info.iconRaw")
+    local sImgFilePath = m_pItemHeader:get_image_path(iId)
+    local rgsSplitPath = split_path(sImgFilePath)
 
+    local sImgFileName = table.remove(rgsSplitPath)
+    local sImgDirPath = table.concat(rgsSplitPath, "/")
+
+    local pImg = load_image(sImgDirPath, sImgDirFileName)
     return pImg
 end
 
@@ -48,12 +53,12 @@ function CStockInventoryItem:get_shadow()
     return self.pImgShd
 end
 
-function CStockInventoryItem:get_image_by_itemid(iId)
+function CStockInventoryItem:get_image_by_itemid(pStockHeader, iId)
     local m_tpImgs = self.tpImgs
 
     local pImg = m_tpImgs[iId]
     if pImg == nil then
-        pImg = self:_load_image_from_directory(iId)
+        pImg = self:_load_image_from_directory(pStockHeader, iId)
         m_tpImgs[iId] = pImg
     end
 
@@ -70,7 +75,7 @@ local function load_tab_quad(tpImgTabQuads, sQuadName)
     tpImgTabQuads[sQuadName] = load_image(RWndPath.INTF_INVT_TAB, sQuadName)
 end
 
-function CStockInventoryTab:load(rgsImgItemPath)
+function CStockInventoryTab:load()
     local m_tpImgTabQuads = self.tpImgTabQuads
     load_tab_quad(m_tpImgTabQuads, "fill0")
     load_tab_quad(m_tpImgTabQuads, "fill1")
@@ -87,7 +92,7 @@ function CStockInventoryTab:load(rgsImgItemPath)
     self.rgpImgTabNames = {}
     local m_rgpImgTabNames = self.rgpImgTabNames
 
-    local nImgs = #rgsImgItemPath
+    local nImgs = 5
     for i = 0, nImgs - 1, 1 do
         local pImg = load_image(RWndPath.INTF_INVT_WND, "Tab.enabled." .. i)
         table.insert(m_rgpImgTabNames, pImg)
@@ -127,19 +132,107 @@ function CStockInventoryNumber:get_image_by_number(iDigit)
     return pImg
 end
 
-CStockInventory = createClass({
-    rgsImgItemPath = {"Item.wz/Equip", "Item.wz/Use", "Item.wz/Install", "Item.wz/Etc", "Item.wz/Cash"},
+local function fetch_item_id_from_icon(sFilePath)
+    if not string.ends_with(sFilePath, ".iconRaw.png") then
+        return nil
+    end
 
+    local sImgPath = sFilePath
+    local rgsSp = split_path(sImgPath)
+    local bEquip = string.starts_with(rgsSp[#rgsSp], "info.")
+
+    local iLen
+    if bEquip then
+        iLen = string.len(".img/info.iconRaw.png")
+    else
+        iLen = string.len(".info.iconRaw.png")
+    end
+
+    local sItemId = string.sub(sImgPath, -iLen-8, -iLen)
+    return tonumber(sItemId)
+end
+
+local function fetch_directory_itemids(sDirPath)
+    local rgsPath = split_path(sDirPath)
+
+    local tImgFiles
+    if rgsPath[#rgsPath] == "*" then
+        table.remove(rgsPath)
+        local sImgDirPath = table.concat(rgsPath, "/")
+
+        tImgFiles = listdir(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath, true)
+    else
+        tImgFiles = listdir(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath, false)
+    end
+
+    local tsItemPath = {}
+    for sPath, _ in pairs(tImgFiles) do
+        local iId = fetch_item_id_from_icon(sPath)
+        if iId ~= nil then
+            tsItemPath[iId] = sPath
+        end
+    end
+
+    return tsItemPath
+end
+
+local function read_item_headers(tpImgItemDirType)
+    local tiItemType = {}
+    for _, siType in pairs(tpImgItemDirType) do
+        tiItemType[siType] = {}
+    end
+
+    local tsItemPath = {}
+    for sDirPath, siType in pairs(tpImgItemDirType) do
+        local tsDirItems = fetch_directory_itemids(sDirPath)
+
+        local tItems = tiItemType[siType]
+        for iId, _ in pairs(tsDirItems) do
+            tItems[iId] = 1
+        end
+
+        table_merge(tsItemPath, tsDirItems)
+    end
+
+    return tiItemType, tsItemPath
+end
+
+CStockHeader = createClass({
+    tpImgItemDirType,
+    tiItemType,
+    tsItemPath
+})
+
+local function load_item_directory_paths()
+    local tpImgItemDirType = {}
+
+    tpImgItemDirType["Character.wz/*"] = 1
+    tpImgItemDirType["Item.wz/Consume"] = 2
+    tpImgItemDirType["Item.wz/Install"] = 3
+    tpImgItemDirType["Item.wz/Etc"] = 4
+    tpImgItemDirType["Item.wz/Cash"] = 5
+    tpImgItemDirType["Item.wz/Pet"] = 5
+
+    return tpImgItemDirType
+end
+
+function CStockHeader:load()
+    self.tpImgItemDirType = load_item_directory_paths()
+    self.tiItemType, self.tsItemPath = read_item_headers(self.tpImgItemDirType)
+end
+
+CStockInventory = createClass({
     pStockInvt = CStockInventoryItem:new(),
     pStockTab = CStockInventoryTab:new(),
     pStockCount = CStockInventoryNumber:new(),
+
+    pStockHeader = CStockHeader:new(),
 })
 
 function CStockInventory:load()
-    local m_rgsImgItemPath = self.rgsImgItemPath
-
-    self.pStockInvt:load(m_rgsImgItemPath)
-    self.pStockTab:load(m_rgsImgItemPath)
+    self.pStockHeader:load()
+    self.pStockInvt:load()
+    self.pStockTab:load()
     self.pStockCount:load()
 end
 
@@ -148,7 +241,7 @@ function CStockInventory:get_shadow()
 end
 
 function CStockInventory:get_image_by_itemid(iId)
-    return self.pStockInvt:get_image_by_itemid(iId)
+    return self.pStockInvt:get_image_by_itemid(self.pStockHeader, iId)
 end
 
 function CStockInventory:get_tab_components()

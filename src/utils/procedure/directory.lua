@@ -20,3 +20,54 @@ function scandir(sDirPath)
 
     return rgsFileNames
 end
+
+local function listrdir_recursive(sPath, sBasePath)
+    local tpFiles = {}
+
+    local pInfo = love.filesystem.getInfo(sPath)
+    if pInfo ~= nil then
+        local sInfoType = pInfo.type
+        local sFilePath = sPath
+
+        if sInfoType == "directory" then
+            local sDirPath = sPath
+            local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
+            for _, sFileName in ipairs(rgsFiles) do
+                local tpDirFiles = listrdir_recursive(sDirPath .. "/" .. sFileName, sBasePath)
+                merge_table(tpFiles, tpDirFiles)
+            end
+
+            tpFiles[sFilePath] = 1
+        elseif sInfoType == "file" then
+            tpFiles[sFilePath] = 1
+        end
+    end
+
+    return tpFiles
+end
+
+local function listdir_this(sPath)
+    local tpFiles = {}
+
+    local pInfo = love.filesystem.getInfo(sPath)
+    if pInfo ~= nil then
+        local sInfoType = pInfo.type
+        local sFilePath = sPath
+
+        if sInfoType == "directory" then
+            tpFiles[sFilePath] = 1
+        elseif sInfoType == "file" then
+            tpFiles[sFilePath] = 1
+        end
+    end
+
+    return tpFiles
+end
+
+function listdir(sPath, bRdir)
+    if bRdir then
+        return listrdir_recursive(sPath, "")
+    else
+        return listdir_this(sPath)
+    end
+end

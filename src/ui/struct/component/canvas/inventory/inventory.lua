@@ -14,6 +14,7 @@ require("router.procedures.constant")
 require("ui.constant.style")
 require("ui.run.draw.canvas.inventory.inventory")
 require("ui.struct.component.element.rect")
+require("ui.struct.component.canvas.inventory.item")
 require("ui.struct.window.element.basic.slider")
 require("utils.struct.class")
 
@@ -27,7 +28,8 @@ CInvtElem = createClass({
     iNewIt,
 
     rgpVwItems = {},
-    rgiCurRange = {-1, -1}
+    rgiCurRange = {-1, -1},
+    rgpTabVwItems = {}
 })
 
 function CInvtElem:get_object()
@@ -103,6 +105,8 @@ function CInvtElem:_update_item_position()
     self:_clear_current_item_range()
     self.rgiCurRange = {iSt, iEn}
 
+    log_st(LPath.INTERFACE, "_slider.txt", "Next:" .. self:get_row_selected() .. " | " .. iSt .. " " .. iEn)
+
     local m_eBox = self.eBox
     local iPx, iPy = m_eBox:get_origin()
 
@@ -116,6 +120,8 @@ function CInvtElem:_update_item_position()
 
         local pVwItem = m_rgpVwItems[i]
         if pVwItem ~= nil then
+            log_st(LPath.INTERFACE, "_slider.txt", ">> Item :" .. i .. " (" .. iIx .. "," .. iIy .. ") | " .. tostring(pVwItem:get_object()) .. " " .. pVwItem:get_count())
+
             pVwItem:update(iIx, iIy)
         end
     end
@@ -125,6 +131,8 @@ function CInvtElem:update_row(iNextSlct)
     local m_pInvt = self.pInvt
 
     local iRow = math.iclamp(iNextSlct, 0, math.ceil(m_pInvt:size() / 4) - 6)
+    print(iRow)
+
     self:_set_row_selected(iRow)
     self:_update_item_position(iRow)
 end
@@ -141,12 +149,16 @@ function CInvtElem:load(pInvt, iPx, iPy)
     self.iNewIt = -1
     self.iSlctRow = 0
 
-    local i = 0
-    for iId, iCount in ipairs(pInvt:get_items()) do
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    clear_table(m_rgpTabVwItems)
+
+    for iId, iCount in pairs(pInvt:get_items()) do
+        local siType = math.floor(iId / 1000000)
+
         local pVwItem = CCanvasItem:new()
         pVwItem:load(iId, iCount)
 
-        i = i + 1
+        table.insert(m_rgpTabVwItems, pVwItem)
     end
 end
 
