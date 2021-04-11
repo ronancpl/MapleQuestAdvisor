@@ -34,15 +34,22 @@ function CCanvasItem:get_count()
     return self.iCount
 end
 
+function CCanvasItem:is_visible_count()
+    local siType = math.floor(self.iId / 1000000)
+    return not (siType == 1 or siType == 5)
+end
+
 function CCanvasItem:load(iId, iCount)
     self.eBox:load()
 
     self.pImg = ctVwInvt:get_image_by_itemid(iId)
+
+    self.iId = iId
     self.iCount = iCount
 end
 
 function CCanvasItem:update(iPx, iPy)
-    self.eBox:load(iPx, iPy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
+    self.eBox:load(iPx, iPy, RStylebox.VW_INVT_ITEM.W, RStylebox.VW_INVT_ITEM.H)
 end
 
 function CCanvasItem:draw()

@@ -42,3 +42,9 @@ function table_merge(tDest, tOrig)
         tDest[k] = v
     end
 end
+
+function table_append(rgDest, tOrig)
+    for _, v in pairs(tOrig) do
+        table.insert(rgDest, v)
+    end
+end

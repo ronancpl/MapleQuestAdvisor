@@ -20,7 +20,7 @@ function rpairs(tTable)   -- in reverse order
     return ipairs(rgpItems)
 end
 
-function cpairs(tTable, iFromIdx, iToIdx)
+function cpairs(tTable, iFromIdx, iToIdx)   -- in range (slice) order
     local rgpItems = {}
     for i = iFromIdx, math.min(iToIdx, #tTable), 1 do
         local pItem = tTable[i]

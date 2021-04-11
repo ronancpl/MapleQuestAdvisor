@@ -191,7 +191,7 @@ end
 local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
     local iPx
     local iPy
-    iPx, iPy = pVwItem:get_origin()
+    iPx, iPy = pVwItem:get_object():get_origin()
 
     local pImg = pVwItem:get_image()
     local bShowCount = pVwItem:is_visible_count()

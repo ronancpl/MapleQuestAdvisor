@@ -16,6 +16,7 @@ require("ui.run.draw.canvas.inventory.inventory")
 require("ui.struct.component.element.rect")
 require("ui.struct.component.canvas.inventory.item")
 require("ui.struct.window.element.basic.slider")
+require("utils.procedure.copy")
 require("utils.struct.class")
 
 CInvtElem = createClass({
@@ -105,10 +106,17 @@ function CInvtElem:_update_item_position()
     self:_clear_current_item_range()
     self.rgiCurRange = {iSt, iEn}
 
-    log_st(LPath.INTERFACE, "_slider.txt", "Next:" .. self:get_row_selected() .. " | " .. iSt .. " " .. iEn)
-
     local m_eBox = self.eBox
     local iPx, iPy = m_eBox:get_origin()
+
+    log_st(LPath.INTERFACE, "_slider.txt", "Next:" .. self:get_row_selected() .. " | " .. iSt .. " " .. iEn .. " | " .. iPx .. "," .. iPy)
+
+    local st = ""
+    for i, pVwItem in pairs(m_rgpVwItems) do
+        st = st .. tostring(i) .. tostring(pVwItem:get_object()) .. " " .. pVwItem:get_count() .. ","
+    end
+
+    log_st(LPath.INTERFACE, "_slider.txt", "INVT >> " .. st)
 
     local iIx, iIy
     for i = iSt, iEn, 1 do
@@ -130,11 +138,35 @@ end
 function CInvtElem:update_row(iNextSlct)
     local m_pInvt = self.pInvt
 
-    local iRow = math.iclamp(iNextSlct, 0, math.ceil(m_pInvt:size() / 4) - 6)
-    print(iRow)
+    local iRow = math.iclamp(iNextSlct, 0, math.max(math.ceil(m_pInvt:size() / 4) - 6, 0))
+    log_st(LPath.INTERFACE, "_slider.txt", "UPD_ROW >> '" .. iRow .. "' ")
 
     self:_set_row_selected(iRow)
     self:_update_item_position(iRow)
+end
+
+function CInvtElem:update_tab(iNextTab)
+    local m_rgpTabVwItems = self.rgpTabVwItems
+
+    print(">>>> |" .. tostring(m_rgpTabVwItems) .. "|")
+
+    local iTab = math.iclamp(iNextTab + 1, 1, #m_rgpTabVwItems)
+    local rgpVwIts = m_rgpTabVwItems[iTab]
+
+    local m_rgpVwItems = self.rgpVwItems
+    clear_table(m_rgpVwItems)
+
+    print(">>>>> |" .. tostring(m_rgpTabVwItems) .. "|")
+
+    table_append(m_rgpVwItems, rgpVwIts)
+
+    local st = ""
+    for i, pVwItem in pairs(m_rgpVwItems) do
+        st = st .. "  Item :" .. i .. " | " .. tostring(pVwItem:get_object()) .. " " .. pVwItem:get_count() .. ",\n"
+    end
+    log_st(LPath.INTERFACE, "_slider.txt", "UPD_TAB >> '" .. iTab .. "' " .. st)
+
+    self:update_row(1)  -- set to list start
 end
 
 function CInvtElem:load(pInvt, iPx, iPy)
@@ -152,14 +184,26 @@ function CInvtElem:load(pInvt, iPx, iPy)
     local m_rgpTabVwItems = self.rgpTabVwItems
     clear_table(m_rgpTabVwItems)
 
+    for i = 1, 5, 1 do
+        m_rgpTabVwItems[i] = {}
+    end
+
     for iId, iCount in pairs(pInvt:get_items()) do
         local siType = math.floor(iId / 1000000)
 
         local pVwItem = CCanvasItem:new()
         pVwItem:load(iId, iCount)
 
-        table.insert(m_rgpTabVwItems, pVwItem)
+        local rgpVwItems = m_rgpTabVwItems[siType]
+        table.insert(rgpVwItems, pVwItem)
     end
+
+    local st = ""
+    for i = 1, 5, 1 do
+        st = st .. #m_rgpTabVwItems[i] .. ", "
+    end
+    log_st(LPath.INTERFACE, "_slider.txt", "VW |" .. tostring(st) .. "|")
+    self:update_tab(0)  -- set to EQUIP
 end
 
 function CInvtElem:update(dt)

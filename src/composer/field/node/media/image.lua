@@ -12,8 +12,8 @@
 
 require("composer.field.node.media.storage.storage")
 require("ui.constant.path")
+require("utils.procedure.copy")
 require("utils.procedure.string")
-require("utils.procedure.unpack")
 require("utils.provider.io.wordlist")
 
 local function fetch_figure_subpath(sPath, sBasePath)
@@ -37,7 +37,7 @@ local function load_images_from_directory_path(sPath, sBasePath)
             local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
             for _, sFileName in ipairs(rgsFiles) do
                 local tpDirImgs = load_images_from_directory_path(sDirPath .. "/" .. sFileName, sBasePath)
-                merge_table(tpImgs, tpDirImgs)
+                table_merge(tpImgs, tpDirImgs)
             end
         elseif sInfoType == "file" then
             if string.ends_with(sPath, ".png") then

@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.copy")
+
 function scandir(sDirPath)
     local rgsFileNames = {}
 
@@ -34,7 +36,7 @@ local function listrdir_recursive(sPath, sBasePath)
             local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
             for _, sFileName in ipairs(rgsFiles) do
                 local tpDirFiles = listrdir_recursive(sDirPath .. "/" .. sFileName, sBasePath)
-                merge_table(tpFiles, tpDirFiles)
+                table_merge(tpFiles, tpDirFiles)
             end
 
             tpFiles[sFilePath] = 1

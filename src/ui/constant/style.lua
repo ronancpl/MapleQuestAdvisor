@@ -34,8 +34,8 @@ RStylebox = {
     },
 
     VW_INVT_ITEM = {
-        W = 36,
-        H = 36
+        W = 32,
+        H = 32
     },
 
     VW_INVT_SLIDER = {
