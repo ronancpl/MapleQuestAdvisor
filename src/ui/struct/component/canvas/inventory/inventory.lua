@@ -109,27 +109,20 @@ function CInvtElem:_update_item_position()
     local m_eBox = self.eBox
     local iPx, iPy = m_eBox:get_origin()
 
-    log_st(LPath.INTERFACE, "_slider.txt", "Next:" .. self:get_row_selected() .. " | " .. iSt .. " " .. iEn .. " | " .. iPx .. "," .. iPy)
-
-    local st = ""
-    for i, pVwItem in pairs(m_rgpVwItems) do
-        st = st .. tostring(i) .. tostring(pVwItem:get_object()) .. " " .. pVwItem:get_count() .. ","
-    end
-
-    log_st(LPath.INTERFACE, "_slider.txt", "INVT >> " .. st)
+    iPx = iPx + RStylebox.VW_INVT_ITEM.X + RStylebox.VW_INVT_ITEM.ST_X
+    iPy = iPy + RStylebox.VW_INVT_ITEM.Y + RStylebox.VW_INVT_ITEM.ST_Y
 
     local iIx, iIy
     for i = iSt, iEn, 1 do
-        local iR = math.floor(i / 4)
+        local iPos = i - 1
+        local iR = math.floor(iPos / 4)
         local iC = i % 4
 
-        iIx = iPx + iC * RStylebox.VW_INVT_ITEM.W
-        iIy = iPy + iR * RStylebox.VW_INVT_ITEM.H
+        iIx = iPx + iC * (RStylebox.VW_INVT_ITEM.W + RStylebox.VW_INVT_ITEM.FIL_X)
+        iIy = iPy + iR * (RStylebox.VW_INVT_ITEM.H + RStylebox.VW_INVT_ITEM.FIL_Y)
 
         local pVwItem = m_rgpVwItems[i]
         if pVwItem ~= nil then
-            log_st(LPath.INTERFACE, "_slider.txt", ">> Item :" .. i .. " (" .. iIx .. "," .. iIy .. ") | " .. tostring(pVwItem:get_object()) .. " " .. pVwItem:get_count())
-
             pVwItem:update(iIx, iIy)
         end
     end
@@ -139,8 +132,6 @@ function CInvtElem:update_row(iNextSlct)
     local m_pInvt = self.pInvt
 
     local iRow = math.iclamp(iNextSlct, 0, math.max(math.ceil(m_pInvt:size() / 4) - 6, 0))
-    log_st(LPath.INTERFACE, "_slider.txt", "UPD_ROW >> '" .. iRow .. "' ")
-
     self:_set_row_selected(iRow)
     self:_update_item_position(iRow)
 end
@@ -148,23 +139,12 @@ end
 function CInvtElem:update_tab(iNextTab)
     local m_rgpTabVwItems = self.rgpTabVwItems
 
-    print(">>>> |" .. tostring(m_rgpTabVwItems) .. "|")
-
     local iTab = math.iclamp(iNextTab + 1, 1, #m_rgpTabVwItems)
     local rgpVwIts = m_rgpTabVwItems[iTab]
 
     local m_rgpVwItems = self.rgpVwItems
     clear_table(m_rgpVwItems)
-
-    print(">>>>> |" .. tostring(m_rgpTabVwItems) .. "|")
-
     table_append(m_rgpVwItems, rgpVwIts)
-
-    local st = ""
-    for i, pVwItem in pairs(m_rgpVwItems) do
-        st = st .. "  Item :" .. i .. " | " .. tostring(pVwItem:get_object()) .. " " .. pVwItem:get_count() .. ",\n"
-    end
-    log_st(LPath.INTERFACE, "_slider.txt", "UPD_TAB >> '" .. iTab .. "' " .. st)
 
     self:update_row(1)  -- set to list start
 end
@@ -198,11 +178,6 @@ function CInvtElem:load(pInvt, iPx, iPy)
         table.insert(rgpVwItems, pVwItem)
     end
 
-    local st = ""
-    for i = 1, 5, 1 do
-        st = st .. #m_rgpTabVwItems[i] .. ", "
-    end
-    log_st(LPath.INTERFACE, "_slider.txt", "VW |" .. tostring(st) .. "|")
     self:update_tab(0)  -- set to EQUIP
 end
 

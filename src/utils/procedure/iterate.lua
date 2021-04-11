@@ -14,7 +14,7 @@ function rpairs(tTable)   -- in reverse order
     local rgpItems = {}
     for i = #tTable, 1, -1 do
         local pItem = tTable[i]
-
+        table.insert(rgpItems, pItem)
     end
 
     return ipairs(rgpItems)

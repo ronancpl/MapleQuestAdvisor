@@ -34,6 +34,14 @@ RStylebox = {
     },
 
     VW_INVT_ITEM = {
+        X = 0,
+        Y = 45,
+
+        ST_X = 8,
+        ST_Y = 5,
+        FIL_X = 4,
+        FIL_Y = 2,
+
         W = 32,
         H = 32
     },

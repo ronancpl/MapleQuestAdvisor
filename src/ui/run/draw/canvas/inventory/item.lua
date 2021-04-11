@@ -27,42 +27,61 @@ local function calc_count_dimensions(rgpImgNums)
 end
 
 local function draw_item_count(iCount, iPx, iPy, iWidth, iHeight)
-    local rgpImgNums = ctVwInvt:get_images_by_number(iCount)
+    if iCount ~= nil then
+        local rgpImgNums = ctVwInvt:get_images_by_number(iCount)
 
-    local iAccW, iH = calc_count_dimensions(rgpImgNums)  -- count position at RB
-    local iX = iPx + iWidth - iAccW
-    local iY = iPy + iHeight - iH
+        local iAccW, iH = calc_count_dimensions(rgpImgNums)  -- count position at RB
+        local iX = iPx + iWidth - iAccW
+        local iY = iPy + iHeight - iH
 
-    for _, pImgNum in ipairs(rgpImgNums) do
-        love.graphics.draw(pImgNum, iX, iY)
+        for _, pImgNum in ipairs(rgpImgNums) do
+            love.graphics.draw(pImgNum, iX, iY)
 
-        local iW
-        iW, _ = pImgName:getDimensions()
+            local iW
+            iW, _ = pImgNum:getDimensions()
 
-        iX = iX + iW
+            iX = iX + iW
+        end
     end
+end
+
+local function fetch_item_tile_box(pImgItem, iPx, iPy)
+    local iW, iH = pImgItem:getDimensions()
+
+    local iBw = RStylebox.VW_INVT_ITEM.W
+    local iBh = RStylebox.VW_INVT_ITEM.H
+
+    local fW = iW / iBw, 1.0
+    local fH = iH / iBh, 1.0
+    iW = fW * iBw
+    iH = fH * iBh
+
+    local iCx = iPx + (iBw / 2)
+    local iCy = iPy + (iBh / 2)
+
+    local iImgPx = iCx - (iW / 2)
+    local iImgPy = iCy - (iH / 2)
+
+    return iImgPx, iImgPy, iW, iH
 end
 
 local function draw_item_tile(pImgItem, iPx, iPy, iWidth, iHeight)
     -- draw item background
-    lock_graphics_color(194, 194, 209)
-    love.graphics.rectangle("fill", iPx, iPy, iWidth, iHeight)
-    unlock_graphics_color()
-
     local pImgShd = ctVwInvt:get_shadow()
 
     local iShW
     local iShH
     iShW, iShH = pImgShd:getDimensions()
 
-    local fW = iWidth / iShW
-    iShH = iShH * fW
+    local iImgPx, iImgPy, iWidth, iHeight = fetch_item_tile_box(pImgItem, iPx, iPy)
+
+    local iShWidth = math.min(iWidth, iShW)
 
     -- draw shadow
-    graphics_draw(pImgShd, iPx, iPy + iHeight - iShH, 0, iWidth, nil)
+    graphics_draw(pImgShd, iPx, iPy + RStylebox.VW_INVT_ITEM.H - iShH, 0, iWidth, nil)
 
     -- draw item image
-    graphics_draw(pImgItem, iPx, iPy, 0, iWidth, nil)
+    graphics_draw(pImgItem, iImgPx, iImgPy, 0, iWidth, iHeight)
 end
 
 function draw_item_canvas(pImgItem, iCount, iPx, iPy, iWidth, iHeight)
