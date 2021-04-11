@@ -15,11 +15,6 @@ require("ui.constant.path")
 require("utils.procedure.copy")
 require("utils.struct.class")
 
-local function load_image(sImgDirPath, sImgName)
-    local pImgData = load_image_from_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath .. "/" .. sImgName .. ".png")
-    return love.graphics.newImage(pImgData)
-end
-
 CStockCursor = createClass({
     pDirBasicQuads,
     trgpCursorQuads,

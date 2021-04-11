@@ -36,16 +36,15 @@ function CStockInventoryItem:load()
 end
 
 function CStockInventoryItem:_load_image_from_directory(pStockHeader, iId)
-    local m_pItemHeader = self.pStockHeader
-    local siType = m_pItemHeader:get_type(iId)
+    local siType = pStockHeader:get_type(iId)
 
-    local sImgFilePath = m_pItemHeader:get_image_path(iId)
+    local sImgFilePath = pStockHeader:get_image_path(iId)
     local rgsSplitPath = split_path(sImgFilePath)
 
     local sImgFileName = table.remove(rgsSplitPath)
     local sImgDirPath = table.concat(rgsSplitPath, "/")
 
-    local pImg = load_image(sImgDirPath, sImgDirFileName)
+    local pImg = load_image(sImgDirPath, sImgFileName)
     return pImg
 end
 
@@ -133,7 +132,7 @@ function CStockInventoryNumber:get_image_by_number(iDigit)
 end
 
 local function fetch_item_id_from_icon(sFilePath)
-    if not string.ends_with(sFilePath, ".iconRaw.png") then
+    if not string.ends_with(sFilePath, ".iconRaw.png") then     -- selects icon-file only
         return nil
     end
 
@@ -154,22 +153,19 @@ end
 
 local function fetch_directory_itemids(sDirPath)
     local rgsPath = split_path(sDirPath)
-
-    local tImgFiles
     if rgsPath[#rgsPath] == "*" then
         table.remove(rgsPath)
-        local sImgDirPath = table.concat(rgsPath, "/")
-
-        tImgFiles = listdir(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath, true)
-    else
-        tImgFiles = listdir(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath, false)
     end
+
+    local sImgDirPath = table.concat(rgsPath, "/")
+    local tImgFiles = listdir(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath, true)
 
     local tsItemPath = {}
     for sPath, _ in pairs(tImgFiles) do
         local iId = fetch_item_id_from_icon(sPath)
         if iId ~= nil then
-            tsItemPath[iId] = sPath
+            local sItemPath = string.sub(sPath, string.len(RWndPath.LOVE_IMAGE_DIR_PATH) + 1, -1 * (string.len(".png") + 1))
+            tsItemPath[iId] = sItemPath
         end
     end
 
@@ -211,14 +207,38 @@ local function load_item_directory_paths()
     tpImgItemDirType["Item.wz/Install"] = 3
     tpImgItemDirType["Item.wz/Etc"] = 4
     tpImgItemDirType["Item.wz/Cash"] = 5
-    tpImgItemDirType["Item.wz/Pet"] = 5
 
     return tpImgItemDirType
 end
 
+local function make_remissive_index_type_items(tTypeItems)
+    local tiItemType = {}
+    for siIvtType, tItems in pairs(tTypeItems) do
+        for iId, _ in pairs(tItems) do
+            tiItemType[iId] = siIvtType
+        end
+    end
+
+    return tiItemType
+end
+
 function CStockHeader:load()
     self.tpImgItemDirType = load_item_directory_paths()
-    self.tiItemType, self.tsItemPath = read_item_headers(self.tpImgItemDirType)
+
+    local tiTypeItem
+    tiTypeItem, self.tsItemPath = read_item_headers(self.tpImgItemDirType)
+
+    self.tiItemType = make_remissive_index_type_items(tiTypeItem)
+end
+
+function CStockHeader:get_type(iId)
+    local siType = self.tiItemType[iId]
+    return siType
+end
+
+function CStockHeader:get_image_path(iId)
+    local sImgPath = self.tsItemPath[iId]
+    return sImgPath
 end
 
 CStockInventory = createClass({
@@ -226,7 +246,7 @@ CStockInventory = createClass({
     pStockTab = CStockInventoryTab:new(),
     pStockCount = CStockInventoryNumber:new(),
 
-    pStockHeader = CStockHeader:new(),
+    pStockHeader = CStockHeader:new()
 })
 
 function CStockInventory:load()

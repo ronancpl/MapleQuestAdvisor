@@ -25,7 +25,7 @@ RWndPath = {
     INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
 
     -- Items
-    INTF_ITEM_IMG = "Item.wz/Install/03010000.info.iconRaw.png",
+    INTF_ITEM_IMG = "Item.wz/Install/0301.img/0301.img/03010000.info.iconRaw.png",
     INTF_ITEM_NO = "UI.wz/Basic.img/ItemNo",
 
     -- Inventory screen
