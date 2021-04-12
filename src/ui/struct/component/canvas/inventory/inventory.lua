@@ -11,6 +11,7 @@
 --]]
 
 require("router.procedures.constant")
+require("ui.constant.input")
 require("ui.constant.style")
 require("ui.run.draw.canvas.inventory.inventory")
 require("ui.struct.component.element.rect")
@@ -78,7 +79,7 @@ function CInvtElem:fetch_item_palette()
     local m_rgpVwItems = self.rgpVwItems
 
     local rgpItems = {}
-    local iSt, iEn = self:_fetch_item_range()
+    local iSt, iEn = unpack(self.rgiCurRange)
     for i = iSt, iEn, 1 do
         table.insert(rgpItems, m_rgpVwItems[i])
     end
@@ -90,7 +91,6 @@ function CInvtElem:_clear_current_item_range()
     local m_rgpVwItems = self.rgpVwItems
     local iSt, iEn = unpack(self.rgiCurRange)
 
-    local m_rgiCurRange = self.rgiCurRange
     for i = iSt, iEn, 1 do
         local pVwItem = m_rgpVwItems[i]
         if pVwItem ~= nil then
@@ -104,6 +104,7 @@ function CInvtElem:_update_item_position()
 
     local iSt, iEn = self:_fetch_item_range()
     self:_clear_current_item_range()
+
     self.rgiCurRange = {iSt, iEn}
 
     local m_eBox = self.eBox
@@ -113,13 +114,17 @@ function CInvtElem:_update_item_position()
     iPy = iPy + RStylebox.VW_INVT_ITEM.Y + RStylebox.VW_INVT_ITEM.ST_Y
 
     local iIx, iIy
+
+    local iPos = iSt - 1
+    local iBr = math.floor(iPos / 4)
+
     for i = iSt, iEn, 1 do
         local iPos = i - 1
         local iR = math.floor(iPos / 4)
-        local iC = i % 4
+        local iC = iPos % 4
 
         iIx = iPx + iC * (RStylebox.VW_INVT_ITEM.W + RStylebox.VW_INVT_ITEM.FIL_X)
-        iIy = iPy + iR * (RStylebox.VW_INVT_ITEM.H + RStylebox.VW_INVT_ITEM.FIL_Y)
+        iIy = iPy + (iR - iBr) * (RStylebox.VW_INVT_ITEM.H + RStylebox.VW_INVT_ITEM.FIL_Y)
 
         local pVwItem = m_rgpVwItems[i]
         if pVwItem ~= nil then
@@ -131,7 +136,7 @@ end
 function CInvtElem:update_row(iNextSlct)
     local m_pInvt = self.pInvt
 
-    local iRow = math.iclamp(iNextSlct, 0, math.max(math.ceil(m_pInvt:size() / 4) - 6, 0))
+    local iRow = math.iclamp(iNextSlct, 0, math.max(math.ceil(m_pInvt:size() / 4), 0))
     self:_set_row_selected(iRow)
     self:_update_item_position(iRow)
 end
@@ -146,7 +151,7 @@ function CInvtElem:update_tab(iNextTab)
     clear_table(m_rgpVwItems)
     table_append(m_rgpVwItems, rgpVwIts)
 
-    self:update_row(1)  -- set to list start
+    self:update_row(0)  -- set to list start
 end
 
 function CInvtElem:load(pInvt, iPx, iPy)
@@ -189,9 +194,35 @@ function CInvtElem:draw()
     draw_player_inventory(self)
 end
 
-function CInvtElem:onwheelmoved(dx, dy)
-    local iDlt = dy / math.abs(dy)
-    local iNextSlct = self:get_row_selected() + iDlt
+function CInvtElem:_fetch_tab_pos(iPx, iPy)
+    local iOx, iOy = self:get_origin()
 
-    self:update_row(iNextSlct)
+    local iTx = iOx + RStylebox.VW_INVT_TAB.NAME.X
+    local iTy = iOx + RStylebox.VW_INVT_TAB.NAME.Y
+    if math.between(iPx, iTx, iTx + 170) and math.between(iPy, iTy, iTy + RStylebox.VW_INVT_TAB.H) then
+        local iTab = math.floor((iPx - iTx) / (170 / 5))
+        self:update_tab(iTab)
+    end
+end
+
+function CInvtElem:onmousereleased(x, y, button)
+    local iTabWidth = RStylebox.VW_INVT_TAB.W
+    local iTabHeight = RStylebox.VW_INVT_TAB.H
+
+    if button == 1 then
+        local iTab = self:_fetch_tab_pos(x, y)
+        if iTab ~= nil then
+            self:update_tab(iTab)
+        end
+    end
+end
+
+function CInvtElem:onwheelmoved(dx, dy)
+    local iAdy = math.abs(dy)
+    if iAdy >= LInput.MOUSE_WHEEL_MOVE_DY then
+        local iDlt = -1 * (dy / iAdy)   -- increase on roll-down
+
+        local iNextSlct = self:get_row_selected() + iDlt
+        self:update_row(iNextSlct)
+    end
 end

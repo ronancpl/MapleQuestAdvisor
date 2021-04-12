@@ -108,6 +108,11 @@ function CTextureElem:_load_position(iRx, iRy)
 end
 
 function CTextureElem:load(iRx, iRy, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    if pImgBox == nil then
+        local pImgData = love.image.newImageData(1, 1)
+        pImgBox = love.graphics.newImage(pImgData)
+    end
+
     self:_load_position(iRx, iRy)
     self:_load_texture(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
 end

@@ -29,7 +29,7 @@ local function draw_slider_bar_top(pImgLfBar, iX, iY, iR)
     love.graphics.rectangle("fill", iX, iY, iR == 0 and iW or iH, iR ~= 0 and iH or iW)
 end
 
-local function draw_slider_bar_mid(pImgFilBar, iX, iY, iW, iH, iIncX, iIncY, iR, iLoop)
+local function draw_slider_bar_base(pImgFilBar, iX, iY, iW, iH, iIncX, iIncY, iR, iLoop)
     love.graphics.setScissor(iX, iY, iW, iH)    -- rational loop value
 
     local iPx = iX
@@ -55,13 +55,10 @@ end
 local function draw_slider_bar(pVwSlider, iX, iY)
     local iLen = pVwSlider:get_bar_length()
 
-    local pImgFilLfBar, pImgFilMidBar, pImgFilRgBar = ctVwSlider:get_bar()
+    local pImgFilBase = pVwSlider:get_bar()
+    local iFilMidLen, iFilMidGir = pImgFilBase:getDimensions()
 
-    local iFilLfLen, iFilLfGir = pImgFilLfBar:getDimensions()
-    local iFilMidLen, iFilMidGir = pImgFilMidBar:getDimensions()
-    local iFilRgLen, iFilRgGir = pImgFilRgBar:getDimensions()
-
-    local iFilLen = iLen - iFilLfLen - iFilRgLen
+    local iFilLen = iLen
     local iLoop, bVert = calc_slider_bar_fit(pVwSlider, iFilLen)
 
     local iPx = iX
@@ -69,9 +66,7 @@ local function draw_slider_bar(pVwSlider, iX, iY)
 
     local iR = fetch_draw_rotation(pVwSlider)
 
-    local iLfX, iLfY, iLfW, iLfH
     local iMidX, iMidY, iMidW, iMidH
-    local iRgX, iRgY, iRgW, iRgH
 
     local iIncX, iIncY
     if bVert then
@@ -81,22 +76,12 @@ local function draw_slider_bar(pVwSlider, iX, iY)
         iW = iFilHgt
         iH = iLen
 
-        iPx = iPx - math.floor(iFilMidGir / 2)
+        iPx = iPx - math.ceil(iFilMidGir / 2)
 
-        iLfX = iPx
-        iLfY = iPy
-        iLfW = iFilLfGir
-        iLfH = iFilLfLen
-
-        iMidX = iLfX
-        iMidY = iLfY + iLfH
+        iMidX = iPx
+        iMidY = iPy
         iMidW = iFilMidGir
         iMidH = iFilLen
-
-        iRgX = iLfX
-        iRgY = iMidY + iMidH
-        iRgW = iFilRgGir
-        iRgH = iFilRgLen
     else
         iIncX = math.ceil(iFilLen / iLoop)
         iIncY = 0
@@ -104,35 +89,57 @@ local function draw_slider_bar(pVwSlider, iX, iY)
         iW = iLen
         iH = iFilHgt
 
-        iPy = iPy - math.floor(iFilMidGir / 2)
+        iPy = iPy - math.ceil(iFilMidGir / 2)
 
-        iLfX = iPx
-        iLfY = iPy
-        iLfW = iFilLfLen
-        iLfH = iFilLfGir
-
-        iMidX = iLfX + iLfW
-        iMidY = iLfY
+        iMidX = iPx
+        iMidY = iPy
         iMidW = iFilLen
         iMidH = iFilMidGir
-
-        iRgX = iMidX + iMidW
-        iRgY = iLfY
-        iRgW = iFilRgLen
-        iRgH = iFilRgGir
     end
 
     love.graphics.setColor(0, 0, 1)
 
-    draw_slider_bar_top(pImgFilLfBar, iLfX, iLfY)
-    draw_slider_bar_mid(pImgFilMidBar, iMidX, iMidY, iMidW, iMidH, iIncX, iIncY, iR, iLoop)
-    draw_slider_bar_bottom(pImgFilRgBar, iRgX, iRgY)
+    draw_slider_bar_base(pImgFilMidBar, iMidX, iMidY, iMidW, iMidH, iIncX, iIncY, iR, iLoop)
 
     love.graphics.setColor(255, 255, 255, 1.0)
 end
 
 local function draw_slider_arrow(pVwSlider, iX, iY)
-    -- unused arrows
+    local bVert = pVwSlider:get_orientation()
+
+    local iRx = 0
+    local iRy = 0
+
+    local pImgFilBase = pVwSlider:get_bar()
+    local _, iFilMidGir = pImgFilBase:getDimensions()
+
+    local iPx = iX
+    local iPy = iY
+
+    local iBarLen = pVwSlider:get_bar_length()
+
+    local iArrLen = pVwSlider:get_arrow_length()
+    local iArrGir = pVwSlider:get_arrow_girth()
+
+    if bVert then
+        iPx = iPx - math.ceil(iFilMidGir / 2)
+        iPy = iPy + iArrGir
+
+        iRy = iBarLen - iArrGir
+    else
+        iPx = iPx + iArrGir
+        iPy = iPy - math.ceil(iFilMidGir / 2)
+
+        iRx = iBarLen - iArrGir
+    end
+
+    local iR = fetch_draw_rotation(pVwSlider)
+
+    local pImgNext = pVwSlider:get_next()
+    love.graphics.draw(pImgNext, iPx, iPy, iR)
+
+    local pImgPrev = pVwSlider:get_prev()
+    love.graphics.draw(pImgPrev, iPx + iRx, iPy + iRy, iR)
 end
 
 local function draw_slider_thumb(pVwSlider, iX, iY)
@@ -141,21 +148,22 @@ local function draw_slider_thumb(pVwSlider, iX, iY)
     local iCur = pVwSlider:get_current()
     local iTotal = pVwSlider:get_split()
 
-    local iRollLen = pVwSlider:get_bar_length() - pVwSlider:get_thumb_length()
+    local iArrLen = pVwSlider:get_arrow_length()
+    local iRollLen = pVwSlider:get_bar_length() - pVwSlider:get_thumb_length() - (2 * iArrLen)
 
     local bVert = pVwSlider:get_orientation()
 
     local iPx = iX
-    local iPy = iY
+    local iPy = iY + 2 * iArrLen
 
     local iRx = 0
     local iRy = 0
     if bVert then
-        iPx = iPx - (pVwSlider:get_thumb_girth() / 2)
-        iRy = (iCur / iTotal) * iRollLen
+        iPx = iPx - math.ceil(pVwSlider:get_thumb_girth() / 2)
+        iRy = math.ceil((iCur / iTotal) * iRollLen)
     else
-        iRx = (iCur / iTotal) * iRollLen
-        iPy = iPy - (pVwSlider:get_thumb_girth() / 2)
+        iRx = math.ceil((iCur / iTotal) * iRollLen)
+        iPy = iPy - math.ceil(pVwSlider:get_thumb_girth() / 2)
     end
 
     local m_eTexture = pVwSlider:get_thumb()

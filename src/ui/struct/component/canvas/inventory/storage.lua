@@ -39,12 +39,17 @@ function CStockInventoryItem:_load_image_from_directory(pStockHeader, iId)
     local siType = pStockHeader:get_type(iId)
 
     local sImgFilePath = pStockHeader:get_image_path(iId)
-    local rgsSplitPath = split_path(sImgFilePath)
 
-    local sImgFileName = table.remove(rgsSplitPath)
-    local sImgDirPath = table.concat(rgsSplitPath, "/")
+    local pImg = nil
+    if sImgFilePath ~= nil then
+        local rgsSplitPath = split_path(sImgFilePath)
 
-    local pImg = load_image(sImgDirPath, sImgFileName)
+        local sImgFileName = table.remove(rgsSplitPath)
+        local sImgDirPath = table.concat(rgsSplitPath, "/")
+
+        pImg = load_image(sImgDirPath, sImgFileName)
+    end
+
     return pImg
 end
 

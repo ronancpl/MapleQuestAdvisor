@@ -47,12 +47,17 @@ RStylebox = {
     },
 
     VW_INVT_SLIDER = {
-        X = 170,
+        X = 158,
         Y = 50,
         W = 10,
         H = 200,
 
         SEGMENTS = 19
+    },
+
+    VW_INVT_THUMB = {
+        W = 22,
+        H = 14
     },
 
     VW_INVT_TAB = {

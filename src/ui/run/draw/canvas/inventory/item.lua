@@ -59,10 +59,7 @@ local function fetch_item_tile_box(pImgItem, iPx, iPy)
     local iCx = iPx + (iBw / 2)
     local iCy = iPy + (iBh / 2)
 
-    local iImgPx = iCx - (iW / 2)
-    local iImgPy = iCy - (iH / 2)
-
-    return iImgPx, iImgPy, iW, iH
+    return iCx, iCy, iW, iH
 end
 
 local function draw_item_tile(pImgItem, iPx, iPy, iWidth, iHeight)
@@ -73,12 +70,19 @@ local function draw_item_tile(pImgItem, iPx, iPy, iWidth, iHeight)
     local iShH
     iShW, iShH = pImgShd:getDimensions()
 
-    local iImgPx, iImgPy, iWidth, iHeight = fetch_item_tile_box(pImgItem, iPx, iPy)
+    local iCx, iCy, iWidth, iHeight = fetch_item_tile_box(pImgItem, iPx, iPy)
+
+    local iImgPx = iCx - (iWidth / 2)
+    local iImgPy = iCy - (iHeight / 2)
 
     local iShWidth = math.min(iWidth, iShW)
+    local iShHeight = math.min(iHeight, iShH)
+
+    local iShPx = iCx - (iShWidth / 2)
+    local iShPy = iPy + RStylebox.VW_INVT_ITEM.H - iShH
 
     -- draw shadow
-    graphics_draw(pImgShd, iPx, iPy + RStylebox.VW_INVT_ITEM.H - iShH, 0, iWidth, nil)
+    graphics_draw(pImgShd, iShPx, iShPy, 0, iShWidth, nil)
 
     -- draw item image
     graphics_draw(pImgItem, iImgPx, iImgPy, 0, iWidth, iHeight)

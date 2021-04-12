@@ -65,6 +65,7 @@ function love.load()
     pIvtItems:add_item(1072154, 7)
     pIvtItems:add_item(1040103, 7)
 
+    --[[
     pIvtItems:add_item(3010000, 4)
     pIvtItems:add_item(3010001, 2)
     pIvtItems:add_item(3010002, 2)
@@ -72,6 +73,8 @@ function love.load()
     pIvtItems:add_item(3010004, 2)
     pIvtItems:add_item(3010005, 2)
     pIvtItems:add_item(3010006, 2)
+
+    ]]--
 
     log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring() .. "'")
     pUiInvt:update_inventory(pIvtItems, 200, 200)

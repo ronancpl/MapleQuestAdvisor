@@ -10,11 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.component.canvas.slider.view")
+LInput = {
 
-function load_image_stock_slider()
-    local ctVwSlider = CViewSlider:new()
-    ctVwSlider:load("HScr4")
+    MOUSE_WHEEL_MOVE_DY = 1
 
-    return ctVwSlider
-end
+}
