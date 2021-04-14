@@ -11,7 +11,7 @@
 --]]
 
 require("router.procedures.constant")
-require("ui.constant.style")
+require("ui.constant.view.style")
 require("utils.struct.class")
 
 CStyleLimit = createClass({

@@ -12,7 +12,7 @@
 
 require("router.procedures.constant")
 require("ui.constant.input")
-require("ui.constant.style")
+require("ui.constant.view.style")
 require("ui.run.draw.canvas.inventory.inventory")
 require("ui.struct.component.element.rect")
 require("ui.struct.component.canvas.inventory.item")
@@ -114,21 +114,21 @@ function CInvtElem:_update_item_position()
     local m_eBox = self.eBox
     local iPx, iPy = m_eBox:get_origin()
 
-    iPx = iPx + RStylebox.VW_INVT_ITEM.X + RStylebox.VW_INVT_ITEM.ST_X
-    iPy = iPy + RStylebox.VW_INVT_ITEM.Y + RStylebox.VW_INVT_ITEM.ST_Y
+    iPx = iPx + RInventory.VW_INVT_ITEM.X + RInventory.VW_INVT_ITEM.ST_X
+    iPy = iPy + RInventory.VW_INVT_ITEM.Y + RInventory.VW_INVT_ITEM.ST_Y
 
     local iIx, iIy
 
     local iPos = iSt - 1
-    local iBr = math.floor(iPos / 4)
+    local iBr = math.floor(iPos / RInventory.VW_INVT.ROWS)
 
     for i = iSt, iEn, 1 do
         local iPos = i - 1
-        local iR = math.floor(iPos / 4)
-        local iC = iPos % 4
+        local iR = math.floor(iPos / RInventory.VW_INVT.ROWS)
+        local iC = iPos % RInventory.VW_INVT.ROWS
 
-        iIx = iPx + iC * (RStylebox.VW_INVT_ITEM.W + RStylebox.VW_INVT_ITEM.FIL_X)
-        iIy = iPy + (iR - iBr) * (RStylebox.VW_INVT_ITEM.H + RStylebox.VW_INVT_ITEM.FIL_Y)
+        iIx = iPx + iC * (RInventory.VW_INVT_ITEM.W + RInventory.VW_INVT_ITEM.FIL_X)
+        iIy = iPy + (iR - iBr) * (RInventory.VW_INVT_ITEM.H + RInventory.VW_INVT_ITEM.FIL_Y)
 
         local pVwItem = m_rgpVwItems[i]
         if pVwItem ~= nil then
@@ -140,7 +140,8 @@ end
 function CInvtElem:update_row(iNextSlct)
     local m_pInvt = self.pInvt
 
-    local iRow = math.iclamp(iNextSlct, 1, math.max(math.ceil(m_pInvt:size() / 4), 0))
+    local iIvtCols = math.ceil(m_pInvt:size() / RInventory.VW_INVT.ROWS)
+    local iRow = math.iclamp(iNextSlct, 1, math.max(iIvtCols - RInventory.VW_INVT.COLS, 1))
     self:_set_row_selected(iRow)
     self:_update_item_position(iRow)
 end
@@ -188,9 +189,16 @@ function CInvtElem:update_inventory(pInvt)
     local m_pSlider = self.pSlider
 
     local m_rgpVwItems = self.rgpVwItems
-    local iSgmts = math.ceil(#m_rgpVwItems / 4)
+    local iSgmts = math.ceil(#m_rgpVwItems / RInventory.VW_INVT.ROWS)
 
     m_pSlider:set_num_segments(iSgmts)
+
+    local bDisable = iSgmts <= RInventory.VW_INVT.COLS
+    if bDisable then
+        self.pSlider:update_state(RSliderState.DISABLED)
+    else
+        self.pSlider:update_state(RSliderState.NORMAL)
+    end
 end
 
 function CInvtElem:load(pInvt, iPx, iPy)
@@ -198,7 +206,7 @@ function CInvtElem:load(pInvt, iPx, iPy)
     local iW, iH = pImg:getDimensions()
     self.eBox:load(iPx, iPy, iW, iH)
 
-    self.pSlider:load(RSliderState.NORMAL, RStylebox.VW_INVT_SLIDER.H, true, true)
+    self.pSlider:load(RSliderState.NORMAL, RInventory.VW_INVT_SLIDER.H, true, true)
 
     self:update_inventory(pInvt)
 end
@@ -214,17 +222,17 @@ end
 function CInvtElem:_try_click_tab(iPx, iPy)
     local iOx, iOy = self:get_origin()
 
-    local iTx = iOx + RStylebox.VW_INVT_TAB.NAME.X
-    local iTy = iOx + RStylebox.VW_INVT_TAB.NAME.Y
-    if math.between(iPx, iTx, iTx + 170) and math.between(iPy, iTy, iTy + RStylebox.VW_INVT_TAB.H) then
+    local iTx = iOx + RInventory.VW_INVT_TAB.NAME.X
+    local iTy = iOx + RInventory.VW_INVT_TAB.NAME.Y
+    if math.between(iPx, iTx, iTx + 170) and math.between(iPy, iTy, iTy + RInventory.VW_INVT_TAB.H) then
         local iTab = math.floor((iPx - iTx) / (170 / 5))
         self:update_tab(iTab)
     end
 end
 
 function CInvtElem:onmousereleased(x, y, button)
-    local iTabWidth = RStylebox.VW_INVT_TAB.W
-    local iTabHeight = RStylebox.VW_INVT_TAB.H
+    local iTabWidth = RInventory.VW_INVT_TAB.W
+    local iTabHeight = RInventory.VW_INVT_TAB.H
 
     if button == 1 then
         self:_try_click_tab(x, y)

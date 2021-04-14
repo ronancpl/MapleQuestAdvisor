@@ -77,7 +77,7 @@ function love.load()
     ]]--
 
     log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring() .. "'")
-    pUiInvt:update_inventory(pIvtItems, 200, 200)
+    pUiInvt:update_inventory(pIvtItems)
 end
 
 local function update_interactions()

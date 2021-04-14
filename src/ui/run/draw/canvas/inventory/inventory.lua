@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.constant.style")
+require("ui.constant.view.inventory")
 require("ui.run.draw.canvas.inventory.item")
 
 local function codify_inventory_tab_intervals(pVwInvt)
@@ -125,8 +125,8 @@ local function draw_compose_inventory_tabs(pVwInvt, rgsIntvImgNames, iTabWidth)
     local iPy
     iPx, iPy = pVwInvt:get_origin()
 
-    iPx = iPx + RStylebox.VW_INVT_TAB.NAME.X
-    iPy = iPy + RStylebox.VW_INVT_TAB.NAME.Y
+    iPx = iPx + RInventory.VW_INVT_TAB.NAME.X
+    iPy = iPy + RInventory.VW_INVT_TAB.NAME.Y
 
     local iSlctTab = pVwInvt:get_tab_selected()
     if nIntvImgs > 0 then
@@ -151,8 +151,8 @@ local function draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
     local iPy
     iPx, iPy = pVwInvt:get_origin()
 
-    iPx = iPx + RStylebox.VW_INVT_TAB.NAME.X
-    iPy = iPy + RStylebox.VW_INVT_TAB.NAME.Y + 3
+    iPx = iPx + RInventory.VW_INVT_TAB.NAME.X
+    iPy = iPy + RInventory.VW_INVT_TAB.NAME.Y + 3
 
     local rgpImgNames = ctVwInvt:get_tab_names()
 
@@ -181,8 +181,8 @@ local function draw_inventory_tabs(pVwInvt)
     local rgiIntvVals = codify_inventory_tab_intervals(pVwInvt)
     local rgsIntvImgNames = translate_inventory_tab_intervals(rgiIntvVals)
 
-    local iTabWidth = RStylebox.VW_INVT_TAB.W
-    local iTabHeight = RStylebox.VW_INVT_TAB.H
+    local iTabWidth = RInventory.VW_INVT_TAB.W
+    local iTabHeight = RInventory.VW_INVT_TAB.H
 
     draw_compose_inventory_tabs(pVwInvt, rgsIntvImgNames, iTabWidth)
     draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
@@ -203,7 +203,7 @@ local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
 end
 
 function draw_inventory_item(pVwItem)
-    draw_compose_item_image(pVwItem, RStylebox.VW_INVT_ITEM.W, RStylebox.VW_INVT_ITEM.H)
+    draw_compose_item_image(pVwItem, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H)
 end
 
 local function draw_inventory_items(pVwInvt)

@@ -13,7 +13,8 @@
 require("router.procedures.constant")
 require("struct.component.canvas.style.box.limit")
 require("struct.component.canvas.style.box.text")
-require("ui.constant.style")
+require("ui.constant.view.inventory")
+require("ui.constant.view.style")
 require("ui.run.draw.canvas.style.text_box")
 require("ui.struct.component.element.texture")
 require("ui.struct.component.canvas.style.prefab.item")
@@ -96,7 +97,7 @@ function CStyleBoxText:_load_image(pImgData, iRx, iRy)
         local iIx, iIy = iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y
         m_pBoxImg:load(pImgData, iIx, iIy)
 
-        m_pBoxLimits:set_image_dimensions(RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
+        m_pBoxLimits:set_image_dimensions(RInventory.VW_ITEM.W, RInventory.VW_ITEM.H)
     end
 end
 

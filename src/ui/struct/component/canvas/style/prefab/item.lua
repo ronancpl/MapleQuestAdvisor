@@ -11,7 +11,8 @@
 --]]
 
 require("ui.constant.path")
-require("ui.constant.style")
+require("ui.constant.view.inventory")
+require("ui.constant.view.style")
 require("ui.run.draw.canvas.inventory.item")
 require("ui.struct.component.element.rect")
 require("ui.struct.window.summary")
@@ -29,7 +30,7 @@ function CStyleBoxItem:get_object()
 end
 
 function CStyleBoxItem:load(pItemImgData, iRx, iRy)
-    self.eBox:load(iRx, iRy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
+    self.eBox:load(iRx, iRy, RInventory.VW_ITEM.W, RInventory.VW_ITEM.H)
 
     if pItemImgData ~= nil then
         self.pImgItem = love.graphics.newImage(pItemImgData)
@@ -43,6 +44,6 @@ function CStyleBoxItem:draw(iPx, iPy)
         iPx = iPx + RStylebox.FIL_X
         iPy = iPy + RStylebox.FIL_Y
 
-        draw_item_canvas(m_pImgItem, nil, iPx, iPy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
+        draw_item_canvas(m_pImgItem, nil, iPx, iPy, RInventory.VW_ITEM.W, RInventory.VW_ITEM.H)
     end
 end

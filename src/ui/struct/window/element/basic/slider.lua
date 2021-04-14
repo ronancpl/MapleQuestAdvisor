@@ -191,10 +191,14 @@ function CWndSlider:_calc_segment_size(iLen)
     return iSgmt
 end
 
-function CWndSlider:load(sSliderState, iLen, bDefWidth, bVert)
+function CWndSlider:update_state(sSliderState)
     self:_load_bar(sSliderState)
     self:_load_thumb(sSliderState)
     self:_load_arrows(sSliderState)
+end
+
+function CWndSlider:load(sSliderState, iLen, bDefWidth, bVert)
+    self:update_state(sSliderState)
 
     local nSgmts = self:_calc_segment_size(iLen)
     self:_update_slider(iLen, nSgmts, bDefWidth, bVert)

@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.constant.style")
+require("ui.constant.view.inventory")
 require("ui.run.draw.canvas.inventory.inventory")
 require("ui.struct.component.element.rect")
 require("utils.struct.class")
@@ -49,7 +49,7 @@ function CCanvasItem:load(iId, iCount)
 end
 
 function CCanvasItem:update(iPx, iPy)
-    self.eBox:load(iPx, iPy, RStylebox.VW_INVT_ITEM.W, RStylebox.VW_INVT_ITEM.H)
+    self.eBox:load(iPx, iPy, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H)
 end
 
 function CCanvasItem:draw()

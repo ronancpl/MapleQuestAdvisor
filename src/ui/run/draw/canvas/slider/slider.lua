@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.view.inventory")
+
 local function fetch_draw_rotation(pVwSlider)
     local bVert = pVwSlider:get_orientation()
     return bVert and (3 / 2) * math.pi or 0
@@ -23,10 +25,10 @@ local function calc_slider_bar_fit(pVwSlider, iFilLen)
 end
 
 local function draw_slider_bar_top(pImgLfBar, iX, iY, iR)
-    --love.graphics.draw(pImgLfBar, iX, iY, iR)
+    love.graphics.draw(pImgLfBar, iX, iY, iR)
 
-    local iW, iH = pImgLfBar:getDimensions()
-    love.graphics.rectangle("fill", iX, iY, iR == 0 and iW or iH, iR ~= 0 and iH or iW)
+    --local iW, iH = pImgLfBar:getDimensions()
+    --love.graphics.rectangle("fill", iX, iY, iR == 0 and iW or iH, iR ~= 0 and iH or iW)
 end
 
 local function draw_slider_bar_base(pImgFilBar, iX, iY, iW, iH, iIncX, iIncY, iR, iLoop)
@@ -35,8 +37,8 @@ local function draw_slider_bar_base(pImgFilBar, iX, iY, iW, iH, iIncX, iIncY, iR
     local iPx = iX
     local iPy = iY
     for i = 1, iLoop, 1 do
-        --love.graphics.draw(pImgFilBar, iPx, iPy, iR)
-        love.graphics.rectangle("fill", iPx, iPy, iR == 0 and iIncX or iW, iR ~= 0 and iIncY or iH)
+        love.graphics.draw(pImgFilBar, iPx, iPy, iR)
+        --love.graphics.rectangle("fill", iPx, iPy, iR == 0 and iIncX or iW, iR ~= 0 and iIncY or iH)
 
         iPx = iPx + iIncX
         iPy = iPy + iIncY
@@ -46,10 +48,10 @@ local function draw_slider_bar_base(pImgFilBar, iX, iY, iW, iH, iIncX, iIncY, iR
 end
 
 local function draw_slider_bar_bottom(pImgRgBar, iX, iY, iR)
-    --love.graphics.draw(pImgRgBar, iX, iY, iR)
+    love.graphics.draw(pImgRgBar, iX, iY, iR)
 
-    local iW, iH = pImgRgBar:getDimensions()
-    love.graphics.rectangle("fill", iX, iY, iR == 0 and iW or iH, iR ~= 0 and iH or iW)
+    --local iW, iH = pImgRgBar:getDimensions()
+    --love.graphics.rectangle("fill", iX, iY, iR == 0 and iW or iH, iR ~= 0 and iH or iW)
 end
 
 local function draw_slider_bar(pVwSlider, iX, iY)
@@ -99,7 +101,7 @@ local function draw_slider_bar(pVwSlider, iX, iY)
 
     love.graphics.setColor(0, 0, 1)
 
-    draw_slider_bar_base(pImgFilMidBar, iMidX, iMidY, iMidW, iMidH, iIncX, iIncY, iR, iLoop)
+    draw_slider_bar_base(pImgFilBase, iMidX, iMidY, iMidW, iMidH, iIncX, iIncY, iR, iLoop)
 
     love.graphics.setColor(255, 255, 255, 1.0)
 end
@@ -185,8 +187,8 @@ local function draw_slider_thumb(pVwSlider, iX, iY)
 end
 
 function draw_slider(pVwSlider, iPx, iPy)
-    iPx = iPx + RStylebox.VW_INVT_SLIDER.X
-    iPy = iPy + RStylebox.VW_INVT_SLIDER.Y
+    iPx = iPx + RInventory.VW_INVT_SLIDER.X
+    iPy = iPy + RInventory.VW_INVT_SLIDER.Y
 
     draw_slider_bar(pVwSlider, iPx, iPy)
     draw_slider_arrow(pVwSlider, iPx, iPy)

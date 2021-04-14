@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.view.inventory")
 require("ui.struct.toolkit.color")
 require("ui.struct.toolkit.graphics")
 
@@ -48,8 +49,8 @@ end
 local function fetch_item_tile_box(pImgItem, iPx, iPy)
     local iW, iH = pImgItem:getDimensions()
 
-    local iBw = RStylebox.VW_INVT_ITEM.W
-    local iBh = RStylebox.VW_INVT_ITEM.H
+    local iBw = RInventory.VW_INVT_ITEM.W
+    local iBh = RInventory.VW_INVT_ITEM.H
 
     local fW = iW / iBw, 1.0
     local fH = iH / iBh, 1.0
@@ -79,7 +80,7 @@ local function draw_item_tile(pImgItem, iPx, iPy, iWidth, iHeight)
     local iShHeight = math.min(iHeight, iShH)
 
     local iShPx = iCx - (iShWidth / 2)
-    local iShPy = iPy + RStylebox.VW_INVT_ITEM.H - iShH
+    local iShPy = iPy + RInventory.VW_INVT_ITEM.H - iShH
 
     -- draw shadow
     graphics_draw(pImgShd, iShPx, iShPy, 0, iShWidth, nil)
