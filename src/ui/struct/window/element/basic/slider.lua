@@ -17,7 +17,7 @@ RSliderState = {DISABLED = "disabled", MOUSE_OVER = "mouseOver", NORMAL = "norma
 
 CWndSlider = createClass({
     iLength,    -- slider length
-    eThumb,     -- moves freely inside slider
+    eThumb,         -- moves freely inside slider
     pImgBase,
     pImgPrev,
     pImgNext,
@@ -80,12 +80,20 @@ function CWndSlider:set_current(iCur)
     self.iSgmtCur = iCur
 end
 
-function CWndSlider:get_split()
+function CWndSlider:get_num_segments()
     return self.iSgmtCount
 end
 
-function CWndSlider:_set_split(iCount)
+function CWndSlider:_set_num_segments(iCount)
     self.iSgmtCount = iCount
+end
+
+function CWndSlider:set_num_segments(iCount)
+    self:_set_num_segments(iCount)
+
+    if self:get_current() > iCount then
+        self:set_current(iCount)
+    end
 end
 
 function CWndSlider:get_orientation()
@@ -148,7 +156,7 @@ function CWndSlider:build_thumb(nSgmts, iLen, bDefWidth)
         iWidth = math.floor(iLen / nSgmts)
     end
 
-    self:_set_split(nSgmts)
+    self:_set_num_segments(nSgmts)
     self:set_current(math.min(self:get_current(), nSgmts))
 
     local m_eThumb = self.eThumb
@@ -165,11 +173,30 @@ function CWndSlider:_update_slider(iLen, nSgmts, bDefWidth, bVert)
     self:update_box(iLen, bVert)
 end
 
-function CWndSlider:load(sSliderState, iLen, nSgmts, bDefWidth, bVert)
+function CWndSlider:_calc_trail_length(iLen)
+    local iRollLen = iLen - (2 * self:get_arrow_length())
+    return iRollLen
+end
+
+function CWndSlider:get_trail_length()
+    local iLen = self:get_bar_length()
+    return self:_calc_trail_length(iLen)
+end
+
+function CWndSlider:_calc_segment_size(iLen)
+    local iRollLen = self:_calc_trail_length(iLen)
+    local iBarLen = self:get_bar():getWidth()
+
+    local iSgmt = math.ceil(iRollLen / iBarLen)
+    return iSgmt
+end
+
+function CWndSlider:load(sSliderState, iLen, bDefWidth, bVert)
     self:_load_bar(sSliderState)
     self:_load_thumb(sSliderState)
     self:_load_arrows(sSliderState)
 
+    local nSgmts = self:_calc_segment_size(iLen)
     self:_update_slider(iLen, nSgmts, bDefWidth, bVert)
 end
 

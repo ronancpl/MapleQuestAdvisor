@@ -50,9 +50,7 @@ RStylebox = {
         X = 158,
         Y = 50,
         W = 10,
-        H = 200,
-
-        SEGMENTS = 19
+        H = 200
     },
 
     VW_INVT_THUMB = {

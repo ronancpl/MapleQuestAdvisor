@@ -57,6 +57,10 @@ function CInvtElem:get_tab_selected()
     return self.iSlctTab
 end
 
+function CInvtElem:set_tab_selected(iTab)
+    self.iSlctTab = iTab
+end
+
 function CInvtElem:get_row_selected()
     return self.iSlctRow
 end
@@ -68,7 +72,7 @@ end
 function CInvtElem:_fetch_item_range()
     local m_rgpVwItems = self.rgpVwItems
 
-    local iRow = self:get_row_selected()
+    local iRow = self:get_row_selected() - 1
     local iSt = (iRow * 4) + 1
     local iEn = math.min(#m_rgpVwItems, (iRow + 6) * 4)
 
@@ -136,7 +140,7 @@ end
 function CInvtElem:update_row(iNextSlct)
     local m_pInvt = self.pInvt
 
-    local iRow = math.iclamp(iNextSlct, 0, math.max(math.ceil(m_pInvt:size() / 4), 0))
+    local iRow = math.iclamp(iNextSlct, 1, math.max(math.ceil(m_pInvt:size() / 4), 0))
     self:_set_row_selected(iRow)
     self:_update_item_position(iRow)
 end
@@ -145,6 +149,8 @@ function CInvtElem:update_tab(iNextTab)
     local m_rgpTabVwItems = self.rgpTabVwItems
 
     local iTab = math.iclamp(iNextTab + 1, 1, #m_rgpTabVwItems)
+    self:set_tab_selected(iTab)
+
     local rgpVwIts = m_rgpTabVwItems[iTab]
 
     local m_rgpVwItems = self.rgpVwItems
@@ -154,13 +160,7 @@ function CInvtElem:update_tab(iNextTab)
     self:update_row(0)  -- set to list start
 end
 
-function CInvtElem:load(pInvt, iPx, iPy)
-    local pImg = ctVwInvt:get_background()
-    local iW, iH = pImg:getDimensions()
-    self.eBox:load(iPx, iPy, iW, iH)
-
-    self.pSlider:load(RSliderState.NORMAL, RStylebox.VW_INVT_SLIDER.H, RStylebox.VW_INVT_SLIDER.SEGMENTS, true, true)
-
+function CInvtElem:update_inventory(pInvt)
     self.pInvt = pInvt
     self.iSlctTab = 1
     self.iNewIt = -1
@@ -184,6 +184,23 @@ function CInvtElem:load(pInvt, iPx, iPy)
     end
 
     self:update_tab(0)  -- set to EQUIP
+
+    local m_pSlider = self.pSlider
+
+    local m_rgpVwItems = self.rgpVwItems
+    local iSgmts = math.ceil(#m_rgpVwItems / 4)
+
+    m_pSlider:set_num_segments(iSgmts)
+end
+
+function CInvtElem:load(pInvt, iPx, iPy)
+    local pImg = ctVwInvt:get_background()
+    local iW, iH = pImg:getDimensions()
+    self.eBox:load(iPx, iPy, iW, iH)
+
+    self.pSlider:load(RSliderState.NORMAL, RStylebox.VW_INVT_SLIDER.H, true, true)
+
+    self:update_inventory(pInvt)
 end
 
 function CInvtElem:update(dt)
@@ -194,7 +211,7 @@ function CInvtElem:draw()
     draw_player_inventory(self)
 end
 
-function CInvtElem:_fetch_tab_pos(iPx, iPy)
+function CInvtElem:_try_click_tab(iPx, iPy)
     local iOx, iOy = self:get_origin()
 
     local iTx = iOx + RStylebox.VW_INVT_TAB.NAME.X
@@ -210,10 +227,7 @@ function CInvtElem:onmousereleased(x, y, button)
     local iTabHeight = RStylebox.VW_INVT_TAB.H
 
     if button == 1 then
-        local iTab = self:_fetch_tab_pos(x, y)
-        if iTab ~= nil then
-            self:update_tab(iTab)
-        end
+        self:_try_click_tab(x, y)
     end
 end
 
@@ -223,6 +237,11 @@ function CInvtElem:onwheelmoved(dx, dy)
         local iDlt = -1 * (dy / iAdy)   -- increase on roll-down
 
         local iNextSlct = self:get_row_selected() + iDlt
+
         self:update_row(iNextSlct)
+        iNextSlct = self:get_row_selected()
+
+        local m_pSlider = self.pSlider
+        m_pSlider:set_current(iNextSlct)
     end
 end

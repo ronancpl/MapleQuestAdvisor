@@ -142,14 +142,28 @@ local function draw_slider_arrow(pVwSlider, iX, iY)
     love.graphics.draw(pImgPrev, iPx + iRx, iPy + iRy, iR)
 end
 
-local function draw_slider_thumb(pVwSlider, iX, iY)
-    -- determine thumb position
-
+local function calc_slider_thumb_pos(pVwSlider)
     local iCur = pVwSlider:get_current()
-    local iTotal = pVwSlider:get_split()
+    local iTotal = pVwSlider:get_num_segments()
 
+    local iPos
+
+    local iRollLen = pVwSlider:get_trail_length()
+    if iCur <= 1 then
+        local iThumbGir = pVwSlider:get_thumb_girth()
+        iPos = math.ceil(iThumbGir / 2)
+    elseif iCur >= iTotal then
+        local iArrGir = pVwSlider:get_arrow_girth()
+        iPos = iRollLen - iArrGir
+    else
+        iPos = math.ceil((iCur / iTotal) * iRollLen)
+    end
+
+    return iPos
+end
+
+local function draw_slider_thumb(pVwSlider, iX, iY)
     local iArrLen = pVwSlider:get_arrow_length()
-    local iRollLen = pVwSlider:get_bar_length() - pVwSlider:get_thumb_length() - (2 * iArrLen)
 
     local bVert = pVwSlider:get_orientation()
 
@@ -160,9 +174,9 @@ local function draw_slider_thumb(pVwSlider, iX, iY)
     local iRy = 0
     if bVert then
         iPx = iPx - math.ceil(pVwSlider:get_thumb_girth() / 2)
-        iRy = math.ceil((iCur / iTotal) * iRollLen)
+        iRy = calc_slider_thumb_pos(pVwSlider)
     else
-        iRx = math.ceil((iCur / iTotal) * iRollLen)
+        iRx = calc_slider_thumb_pos(pVwSlider)
         iPy = iPy - math.ceil(pVwSlider:get_thumb_girth() / 2)
     end
 
