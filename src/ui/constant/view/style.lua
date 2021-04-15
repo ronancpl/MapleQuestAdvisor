@@ -31,41 +31,6 @@ RStylebox = {
     VW_ITEM = {
         W = 70,
         H = 70
-    },
-
-    VW_INVT_ITEM = {
-        X = 0,
-        Y = 45,
-
-        ST_X = 8,
-        ST_Y = 5,
-        FIL_X = 4,
-        FIL_Y = 2,
-
-        W = 32,
-        H = 32
-    },
-
-    VW_INVT_SLIDER = {
-        X = 158,
-        Y = 50,
-        W = 10,
-        H = 200
-    },
-
-    VW_INVT_THUMB = {
-        W = 22,
-        H = 14
-    },
-
-    VW_INVT_TAB = {
-        W = 35,
-        H = 20,
-
-        NAME = {
-            X = 2,
-            Y = 23
-        }
     }
 
 }

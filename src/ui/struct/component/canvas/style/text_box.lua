@@ -97,7 +97,7 @@ function CStyleBoxText:_load_image(pImgData, iRx, iRy)
         local iIx, iIy = iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y
         m_pBoxImg:load(pImgData, iIx, iIy)
 
-        m_pBoxLimits:set_image_dimensions(RInventory.VW_ITEM.W, RInventory.VW_ITEM.H)
+        m_pBoxLimits:set_image_dimensions(RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
     end
 end
 

@@ -12,11 +12,6 @@
 
 RInventory = {
 
-    VW_ITEM = {
-        W = 70,
-        H = 70
-    },
-
     VW_INVT = {
         ROWS = 4,
         COLS = 6

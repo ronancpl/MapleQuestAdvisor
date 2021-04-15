@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.view.inventory")
+require("ui.struct.toolkit.canvas")
 require("ui.struct.toolkit.color")
 require("ui.struct.toolkit.graphics")
 
@@ -46,47 +47,61 @@ local function draw_item_count(iCount, iPx, iPy, iWidth, iHeight)
     end
 end
 
-local function fetch_item_tile_box(pImgItem, iPx, iPy)
+local function fetch_item_tile_box(pImgItem, pImgShd, iPx, iPy, iBw, iBh)
     local iW, iH = pImgItem:getDimensions()
 
-    local iBw = RInventory.VW_INVT_ITEM.W
-    local iBh = RInventory.VW_INVT_ITEM.H
+    local iShW
+    local iShH
+    iShW, iShH = pImgShd:getDimensions()
 
-    local fW = iW / iBw, 1.0
-    local fH = iH / iBh, 1.0
+    local fW = iW / iBw
+    local fH = iH / iBh
     iW = fW * iBw
     iH = fH * iBh
 
     local iCx = iPx + (iBw / 2)
     local iCy = iPy + (iBh / 2)
 
-    return iCx, iCy, iW, iH
+    local iImgPx = iCx - (iW / 2)
+    local iImgPy = iCy - (iH / 2)
+
+    local iShWidth = math.min(iW, iShW)
+    local iShHeight = math.min(iH, iShH)
+
+    local iShPx = iCx - (iShWidth / 2)
+    local iShPy = iPy + iBh - iShH
+
+    return iCx, iCy, iW, iH, iImgPx, iImgPy, iShWidth, iShHeight, iShPx, iShPy
 end
 
-local function draw_item_tile(pImgItem, iPx, iPy, iWidth, iHeight)
+local function draw_canvas_item_tile(pImgItem, iWidth, iHeight)
+    local iPx, iPy = 0, 0
+
     -- draw item background
     local pImgShd = ctVwInvt:get_shadow()
 
-    local iShW
-    local iShH
-    iShW, iShH = pImgShd:getDimensions()
-
-    local iCx, iCy, iWidth, iHeight = fetch_item_tile_box(pImgItem, iPx, iPy)
-
-    local iImgPx = iCx - (iWidth / 2)
-    local iImgPy = iCy - (iHeight / 2)
-
-    local iShWidth = math.min(iWidth, iShW)
-    local iShHeight = math.min(iHeight, iShH)
-
-    local iShPx = iCx - (iShWidth / 2)
-    local iShPy = iPy + RInventory.VW_INVT_ITEM.H - iShH
+    local iCx, iCy, iW, iH, iImgPx, iImgPy, iShWidth, iShHeight, iShPx, iShPy = fetch_item_tile_box(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
 
     -- draw shadow
-    graphics_draw(pImgShd, iShPx, iShPy, 0, iShWidth, nil)
+    graphics_canvas_draw(pImgShd, iShPx, iShPy, 0, iShWidth, nil)
 
     -- draw item image
-    graphics_draw(pImgItem, iImgPx, iImgPy, 0, iWidth, iHeight)
+    graphics_canvas_draw(pImgItem, iImgPx, iImgPy, 0, iW, iH)
+end
+
+local function draw_item_tile(pImgItem, iPx, iPy, iWidth, iHeight)
+    local iCnvWidth = RInventory.VW_INVT_ITEM.W
+    local iCnvHeight = RInventory.VW_INVT_ITEM.H
+
+    local pVwCnv = CViewCanvas:new()
+    pVwCnv:load(iCnvWidth, iCnvHeight)
+
+    pVwCnv:render_to(function()
+        love.graphics.clear()
+        draw_canvas_item_tile(pImgItem, iCnvWidth, iCnvHeight)
+    end)
+
+    graphics_draw(pVwCnv:get_canvas(), iPx, iPy, 0)
 end
 
 function draw_item_canvas(pImgItem, iCount, iPx, iPy, iWidth, iHeight)
