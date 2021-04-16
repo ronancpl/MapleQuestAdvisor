@@ -18,10 +18,10 @@ CViewCanvas = createClass({
     iOx = 0,
     iOy = 0,
 
-    iLx,
-    iRx,
-    iTy,
-    iBy
+    iLx = 0,
+    iRx = 0,
+    iTy = 0,
+    iBy = 0
 })
 
 function CViewCanvas:get_canvas()
@@ -47,6 +47,14 @@ function CViewCanvas:alloc_rb(x, y)
     self.iBy = math.max(y, self.iBy)
 end
 
+function CViewCanvas:get_lt()
+    return self.iLx, self.iTy
+end
+
+function CViewCanvas:get_rb()
+    return self.iRx, self.iBy
+end
+
 function CViewCanvas:free()
     self:alloc_lt(0, 0)
     self:alloc_rb(0, 0)
@@ -61,9 +69,12 @@ function CViewCanvas:load(iWidth, iHeight)
 end
 
 function CViewCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
-    local iOx, iOy = self:get_origin()
-    iPx = iPx + iOx
-    iPy = iPy + iOy
+    local iIx, iIy = self:get_origin()
+    iPx = iPx + iIx
+    iPy = iPy + iIy
+
+    self:alloc_lt(iPx, iPy)
+    self:alloc_rb(iPx + iW, iPy + iH)
 
     graphics_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
 end
@@ -71,10 +82,36 @@ end
 function CViewCanvas:render_to(fn_drawing)
     _TK_CANVAS = self
     self.pCanvas:renderTo(fn_drawing)
+
     _TK_CANVAS = nil
+    self:free()
 end
 
 function graphics_canvas_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
     local pCanvas = _TK_CANVAS
+
+    local fSw, fSh = graphics_get_scale(pImg, iW, iH)
+    local iWidth
+    local iHeight
+    iWidth, iHeight = pImg:getDimensions()
+
+    iW = iW or math.floor(fSw * iWidth)
+    iH = iH or math.floor(fSh * iHeight)
+
     pCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
+end
+
+local function calc_draw_ltrb(pCanvas, iPx, iPy)
+    local iLx, iTy = pCanvas:get_lt()
+    local iIx, iIy = pCanvas:get_origin()
+
+    iLx = iPx + iLx
+    iTy = iPy + iTy
+
+    return iLx, iTy
+end
+
+function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iSw, iSh, iOx, iOy, iKx, iKy)
+    local iLx, iTy = calc_draw_ltrb(pCanvas, iPx, iPy)
+    love.graphics.draw(pCanvas:get_canvas(), iLx, iTy, iR, fSw, fSh, iOx, iOy, iKx, iKy)
 end

@@ -59,6 +59,9 @@ local function fetch_item_tile_box(pImgItem, pImgShd, iPx, iPy, iBw, iBh)
     iW = fW * iBw
     iH = fH * iBh
 
+    local iOx = math.max(0, iBw - iW)
+    local iOy = math.max(0, iBh - iH)
+
     local iCx = iPx + (iBw / 2)
     local iCy = iPy + (iBh / 2)
 
@@ -71,7 +74,7 @@ local function fetch_item_tile_box(pImgItem, pImgShd, iPx, iPy, iBw, iBh)
     local iShPx = iCx - (iShWidth / 2)
     local iShPy = iPy + iBh - iShH
 
-    return iCx, iCy, iW, iH, iImgPx, iImgPy, iShWidth, iShHeight, iShPx, iShPy
+    return iCx, iCy, iW, iH, iOx, iOy, iImgPx, iImgPy, iShWidth, iShHeight, iShPx, iShPy
 end
 
 local function draw_canvas_item_tile(pImgItem, iWidth, iHeight)
@@ -80,13 +83,13 @@ local function draw_canvas_item_tile(pImgItem, iWidth, iHeight)
     -- draw item background
     local pImgShd = ctVwInvt:get_shadow()
 
-    local iCx, iCy, iW, iH, iImgPx, iImgPy, iShWidth, iShHeight, iShPx, iShPy = fetch_item_tile_box(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
+    local iCx, iCy, iW, iH, iOx, iOy, iImgPx, iImgPy, iShWidth, iShHeight, iShPx, iShPy = fetch_item_tile_box(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
 
     -- draw shadow
     graphics_canvas_draw(pImgShd, iShPx, iShPy, 0, iShWidth, nil)
 
     -- draw item image
-    graphics_canvas_draw(pImgItem, iImgPx, iImgPy, 0, iW, iH)
+    graphics_canvas_draw(pImgItem, iImgPx, iImgPy, 0, iW, iH, iOx, iOy)
 end
 
 local function draw_item_tile(pImgItem, iPx, iPy, iWidth, iHeight)
@@ -101,7 +104,7 @@ local function draw_item_tile(pImgItem, iPx, iPy, iWidth, iHeight)
         draw_canvas_item_tile(pImgItem, iCnvWidth, iCnvHeight)
     end)
 
-    graphics_draw(pVwCnv:get_canvas(), iPx, iPy, 0)
+    graphics_draw_canvas(pVwCnv, iPx, iPy, 0)
 end
 
 function draw_item_canvas(pImgItem, iCount, iPx, iPy, iWidth, iHeight)

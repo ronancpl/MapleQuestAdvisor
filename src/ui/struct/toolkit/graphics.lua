@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-function graphics_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
+function graphics_get_scale(pImg, iW, iH)
     local fSw, fSh
     if iW ~= nil or iH ~= nil then
         local iWidth
@@ -31,5 +31,10 @@ function graphics_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
         end
     end
 
+    return fSw, fSh
+end
+
+function graphics_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
+    local fSw, fSh = graphics_get_scale(pImg, iW, iH)
     love.graphics.draw(pImg, iPx, iPy, iR, fSw, fSh, iOx, iOy, iKx, iKy)
 end
