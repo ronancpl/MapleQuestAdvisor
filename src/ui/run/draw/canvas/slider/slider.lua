@@ -26,9 +26,6 @@ end
 
 local function draw_slider_bar_top(pImgLfBar, iX, iY, iR)
     love.graphics.draw(pImgLfBar, iX, iY, iR)
-
-    --local iW, iH = pImgLfBar:getDimensions()
-    --love.graphics.rectangle("fill", iX, iY, iR == 0 and iW or iH, iR ~= 0 and iH or iW)
 end
 
 local function draw_slider_bar_base(pImgFilBar, iX, iY, iW, iH, iIncX, iIncY, iR, iLoop)
@@ -38,7 +35,6 @@ local function draw_slider_bar_base(pImgFilBar, iX, iY, iW, iH, iIncX, iIncY, iR
     local iPy = iY
     for i = 1, iLoop, 1 do
         love.graphics.draw(pImgFilBar, iPx, iPy, iR)
-        --love.graphics.rectangle("fill", iPx, iPy, iR == 0 and iIncX or iW, iR ~= 0 and iIncY or iH)
 
         iPx = iPx + iIncX
         iPy = iPy + iIncY
@@ -49,9 +45,6 @@ end
 
 local function draw_slider_bar_bottom(pImgRgBar, iX, iY, iR)
     love.graphics.draw(pImgRgBar, iX, iY, iR)
-
-    --local iW, iH = pImgRgBar:getDimensions()
-    --love.graphics.rectangle("fill", iX, iY, iR == 0 and iW or iH, iR ~= 0 and iH or iW)
 end
 
 local function draw_slider_bar(pVwSlider, iX, iY)

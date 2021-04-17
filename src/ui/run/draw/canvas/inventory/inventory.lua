@@ -11,7 +11,10 @@
 --]]
 
 require("ui.constant.view.inventory")
+require("ui.constant.view.item")
 require("ui.run.draw.canvas.inventory.item")
+require("ui.run.draw.canvas.inventory.tile.desc")
+require("ui.run.draw.canvas.inventory.tile.view")
 
 local function codify_inventory_tab_intervals(pVwInvt)
     local rgiIntvVals = {}
@@ -198,7 +201,7 @@ local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
         local bShowCount = pVwItem:is_visible_count()
 
         local iCount = bShowCount and pVwItem:get_count() or nil
-        draw_item_canvas(pImg, iCount, iPx, iPy, iItemWidth, iItemHeight)
+        draw_item_canvas(pImg, iCount, iPx, iPy, iItemWidth, iItemHeight, RItemTile.INVENTORY)
     end
 end
 

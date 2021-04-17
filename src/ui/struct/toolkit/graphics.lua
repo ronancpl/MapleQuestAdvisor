@@ -29,6 +29,9 @@ function graphics_get_scale(pImg, iW, iH)
             fSh = iH / iHeight
             fSw = fSh
         end
+    else
+        fSh = 1.0
+        fSw = 1.0
     end
 
     return fSw, fSh

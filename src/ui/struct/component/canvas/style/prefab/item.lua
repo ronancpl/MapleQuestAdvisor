@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.path")
+require("ui.constant.view.item")
 require("ui.constant.view.style")
 require("ui.run.draw.canvas.inventory.item")
 require("ui.struct.component.element.rect")
@@ -43,8 +44,6 @@ function CStyleBoxItem:draw(iPx, iPy)
         iPx = iPx + RStylebox.FIL_X
         iPy = iPy + RStylebox.FIL_Y
 
-        ae = 1
-        draw_item_canvas(m_pImgItem, nil, iPx, iPy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
-        ae = nil
+        draw_item_canvas(m_pImgItem, nil, iPx, iPy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H, RItemTile.DESC)
     end
 end

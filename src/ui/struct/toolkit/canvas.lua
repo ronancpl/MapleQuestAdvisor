@@ -64,7 +64,7 @@ function CViewCanvas:load(iWidth, iHeight)
     local iOx = iWidth
     local iOy = iHeight
 
-    self.pCanvas = love.graphics.newCanvas(2 * iOx, 2 * iOy)
+    self.pCanvas = love.graphics.newCanvas(3 * iOx, 3 * iOy)
     self:set_origin(iOx, iOy)
 end
 
@@ -101,17 +101,27 @@ function graphics_canvas_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
     pCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
 end
 
-local function calc_draw_ltrb(pCanvas, iPx, iPy)
+local function fetch_canvas_limits(pCanvas)
     local iLx, iTy = pCanvas:get_lt()
-    local iIx, iIy = pCanvas:get_origin()
+    local iRx, iBy = pCanvas:get_rb()
 
-    iLx = iPx + iLx
-    iTy = iPy + iTy
+    local iOx = iLx
+    local iOy = iTy
 
-    return iLx, iTy
+    local iSw = iRx - iLx
+    local iSh = iBy - iTy
+
+    return iOx, iOy, iSw, iSh
 end
 
-function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iSw, iSh, iOx, iOy, iKx, iKy)
-    local iLx, iTy = calc_draw_ltrb(pCanvas, iPx, iPy)
-    love.graphics.draw(pCanvas:get_canvas(), iLx, iTy, iR, fSw, fSh, iOx, iOy, iKx, iKy)
+function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iKx, iKy)
+    local iOx, iOy, iSw, iSh = fetch_canvas_limits(pCanvas)
+
+    local iIx, iIy = pCanvas:get_origin()
+    iPx = iPx - iIx
+    iPy = iPy - iIy
+
+    love.graphics.setScissor(iPx, iPy, iSw, iSh)
+    love.graphics.draw(pCanvas:get_canvas(), iPx, iPy, iR, 1, 1, iOx, iOy, iKx, iKy)
+    love.graphics.setScissor()
 end
