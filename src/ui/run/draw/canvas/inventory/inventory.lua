@@ -192,8 +192,8 @@ local function draw_inventory_tabs(pVwInvt)
 end
 
 local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
-    local pImg = pVwItem:get_image()
-    if pImg ~= nil then
+    local pVwCanvas = pVwItem:get_view()
+    if pVwCanvas ~= nil then
         local iPx
         local iPy
         iPx, iPy = pVwItem:get_object():get_origin()
@@ -201,7 +201,7 @@ local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
         local bShowCount = pVwItem:is_visible_count()
 
         local iCount = bShowCount and pVwItem:get_count() or nil
-        draw_item_canvas(pImg, iCount, iPx, iPy, iItemWidth, iItemHeight, RItemTile.INVENTORY)
+        draw_item_canvas(pVwCanvas, iCount, iPx, iPy, iItemWidth, iItemHeight, RItemTile.INVENTORY)
     end
 end
 

@@ -10,14 +10,17 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.constant.view.style")
-
 local function fetch_item_tile_center(pImgItem, iPx, iPy, iBw, iBh)
     local iW
     local iH
     iW, iH = pImgItem:getDimensions()
 
-    local fSc = iBw / math.min(iW, iBw)
+    local fSc
+    if iW < iBw and iW < iH then
+        fSc = iBh / math.min(iH, iBh)
+    else
+        fSc = iBw / math.min(iW, iBw)
+    end
 
     local iCx = iPx + (iBw / 2)
     local iCy = iPy + (iBh / 2)
@@ -39,11 +42,25 @@ local function fetch_item_tile_position(fSc, pImg, iCx, iCy)
     return iX, iY, iW, iH
 end
 
-local function fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh)
+local function fetch_shadow_tile_position(fSc, pImg, iCx, iCy, iPy)
+    local iW
+    local iH
+    iW, iH = pImg:getDimensions()
+
+    iW = fSc * iW
+    iH = fSc * iH
+
+    local iX = iCx - (iW / 2)
+    local iY = iPy - iH
+
+    return iX, iY, iW, iH
+end
+
+local function fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh, iPy)
     local iImgX, iImgY, iImgW, iImgH = fetch_item_tile_position(fSc, pImgItem, iCx, iCy)
 
-    local iShX, iShY, iShW, iShH = fetch_item_tile_position(fSc, pImgShd, iCx, iCy)
-    iShY = iBh - (iShY / 2)
+    local iShX, iShY, iShW, iShH = fetch_shadow_tile_position(fSc, pImgShd, iCx, iCy, iPy)
+    iShY = iBh - (iShH)
 
     return iImgX, iImgY, iImgW, iImgH, iShX, iShY, iShW, iShH
 end
@@ -53,7 +70,7 @@ function fetch_item_tile_box_desc(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
     local iBh = iHeight
 
     local iCx, iCy, iW, iH, fSc = fetch_item_tile_center(pImgItem, iPx, iPy, iBw, iBh)
-    local iImgX, iImgY, iImgW, iImgH, iShX, iShY, iShW, iShH = fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh)
+    local iImgX, iImgY, iImgW, iImgH, iShX, iShY, iShW, iShH = fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh, iPy)
 
     return iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShX, iShY, iShW, iShH
 end

@@ -1,0 +1,54 @@
+--[[
+    This file is part of the MapleQuestAdvisor planning tool
+    Copyleft (L) 2020 - 2021 RonanLana
+
+    GNU General Public License v3.0
+
+    Permissions of this strong copyleft license are conditioned on making available complete
+    source code of licensed works and modifications, which include larger works using a licensed
+    work, under the same license. Copyright and license notices must be preserved. Contributors
+    provide an express grant of patent rights.
+--]]
+
+require("ui.constant.path")
+require("ui.struct.canvas.stat.layer.background")
+require("ui.struct.canvas.stat.properties")
+require("ui.struct.window.frame.canvas")
+require("utils.struct.class")
+
+CWndStat = createClass({
+    pCanvas = CWndCanvas:new(),
+    pProp = CStatProperties:new()
+})
+
+function CWndStat:get_properties()
+    return self.pProp
+end
+
+function CWndStat:update_stats(pPlayer, siExpR, siMesoR, siDropR)
+    self.pProp:update_stats(pPlayer, siExpR, siMesoR, siDropR)
+end
+
+function CWndStat:_load_background()
+    local pDirStatImgs = load_image_storage_from_wz_sub(RWndPath.STAT_INFO_WND)
+
+    local pBaseImg = find_image_on_storage(pDirStatImgs, "Stat/backgrnd")
+    self.pProp:set_base_img(pBaseImg)
+end
+
+function CWndStat:load()
+    self:_load_background()
+    self.pCanvas:load({CStatNavBackground, CStatNavText}) -- follows sequence: LLayer
+end
+
+function CWndStat:update(dt)
+    self.pCanvas:update(dt)
+end
+
+function CWndStat:draw()
+    self.pCanvas:draw()
+end
+
+function CWndStat:get_layer(iLayer)
+    return self.pCanvas:get_layer(iLayer)
+end

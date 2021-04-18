@@ -22,7 +22,7 @@ CStyleBoxItem = createClass({
     eBox = CUserboxElem:new(),
     iRy,    -- position: textbox title + whitespace
 
-    pImgItem
+    pView
 })
 
 function CStyleBoxItem:get_object()
@@ -33,17 +33,19 @@ function CStyleBoxItem:load(pItemImgData, iRx, iRy)
     self.eBox:load(iRx, iRy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
 
     if pItemImgData ~= nil then
-        self.pImgItem = love.graphics.newImage(pItemImgData)
+        local pImgItem = love.graphics.newImage(pItemImgData)
+        self.pView = load_item_canvas(pImgItem, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
+
         self.iRy = iRy
     end
 end
 
 function CStyleBoxItem:draw(iPx, iPy)
-    local m_pImgItem = self.pImgItem
-    if m_pImgItem ~= nil then
+    local m_pView = self.pView
+    if m_pView ~= nil then
         iPx = iPx + RStylebox.FIL_X
         iPy = iPy + RStylebox.FIL_Y
 
-        draw_item_canvas(m_pImgItem, nil, iPx, iPy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H, RItemTile.DESC)
+        draw_item_canvas(m_pView, nil, iPx, iPy, nil, nil)
     end
 end

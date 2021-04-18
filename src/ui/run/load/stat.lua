@@ -10,24 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-LLayer = {
-    NAV_WMAP_BACKGROUND = 1, NAV_WMAP_MAPLINK = 2, NAV_WMAP_MAPLIST = 3, NAV_WMAP_MISC = 4, NAV_WMAP_PTEXT = 5,
-    NAV_INVT_ITEM = 1
-}
+require("ui.run.load.window.stat")
 
-LChannel = {
-    OVR_TEXTURE = 2,
-
-    -- Worldmap canvas
-    WMAP_BGRD = 1,
-    WMAP_LINK_IMG = 1,
-    WMAP_MARK_PATH = 2, MARK_TBOX = 3,
-    WMAP_PLAINTXT = 2,
-
-    -- Inventory canvas
-    INVT_ITEMS = 1,
-
-    -- Stat canvas
-    STAT_BGRD = 1, STAT_INFO = 2
-
-}
+function load_frame_stat()
+    local pUiStats = load_interface_stat()
+    return pUiStats
+end

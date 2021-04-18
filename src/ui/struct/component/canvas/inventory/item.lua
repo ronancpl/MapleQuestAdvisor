@@ -12,6 +12,7 @@
 
 require("ui.constant.view.inventory")
 require("ui.run.draw.canvas.inventory.inventory")
+require("ui.run.draw.canvas.inventory.item")
 require("ui.struct.component.element.rect")
 require("utils.struct.class")
 
@@ -19,6 +20,7 @@ CCanvasItem = createClass({
     eBox = CUserboxElem:new(),
 
     pImg,
+    pView,
     iCount
 })
 
@@ -30,6 +32,10 @@ function CCanvasItem:get_image()
     return self.pImg
 end
 
+function CCanvasItem:get_view()
+    return self.pView
+end
+
 function CCanvasItem:get_count()
     return self.iCount
 end
@@ -39,13 +45,19 @@ function CCanvasItem:is_visible_count()
     return not (siType == 1 or siType == 5)
 end
 
+function CCanvasItem:_load_image()
+    local pImg = ctVwInvt:get_image_by_itemid(self.iId)
+
+    self.pImg = pImg
+    self.pView = load_item_canvas(pImg, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H)
+end
+
 function CCanvasItem:load(iId, iCount)
-    self.eBox:load()
-
-    self.pImg = ctVwInvt:get_image_by_itemid(iId)
-
     self.iId = iId
     self.iCount = iCount
+
+    self.eBox:load()
+    self:_load_image(iId)
 end
 
 function CCanvasItem:update(iPx, iPy)

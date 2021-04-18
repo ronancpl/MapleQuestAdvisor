@@ -11,8 +11,27 @@
 --]]
 
 require("ui.constant.view.inventory")
+require("ui.constant.view.item")
+require("ui.run.draw.canvas.inventory.tile.view")
+require("ui.struct.toolkit.canvas")
 require("ui.struct.toolkit.color")
 require("ui.struct.toolkit.graphics")
+
+local function draw_item_tile(pImgItem, iWidth, iHeight, siType)
+    draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType)
+end
+
+function load_item_canvas(pImgItem, iWidth, iHeight)
+    local pVwCnv = CViewCanvas:new()
+    pVwCnv:load(iWidth, iHeight)
+
+    pVwCnv:render_to(function()
+        love.graphics.clear()
+        draw_item_tile(pImgItem, iWidth, iHeight, RItemTile.DESC)
+    end)
+
+    return pVwCnv
+end
 
 local function calc_count_dimensions(rgpImgNums)
     local iAccW = 0
@@ -27,7 +46,7 @@ local function calc_count_dimensions(rgpImgNums)
     return iAccW, iH
 end
 
-local function draw_item_count(iCount, iPx, iPy, iWidth, iHeight, siType)
+local function draw_item_count(iCount, iPx, iPy, iWidth, iHeight)
     if iCount ~= nil then
         local rgpImgNums = ctVwInvt:get_images_by_number(iCount)
 
@@ -46,19 +65,7 @@ local function draw_item_count(iCount, iPx, iPy, iWidth, iHeight, siType)
     end
 end
 
-local function draw_item_tile(pImgItem, iPx, iPy, iCnvWidth, iCnvHeight, siType)
-    local pVwCnv = CViewCanvas:new()
-    pVwCnv:load(iCnvWidth, iCnvHeight)
-
-    pVwCnv:render_to(function()
-        love.graphics.clear()
-        draw_canvas_item_tile(pImgItem, iCnvWidth, iCnvHeight, siType)
-    end)
-
-    graphics_draw_canvas(pVwCnv, iPx, iPy, 0)
-end
-
-function draw_item_canvas(pImgItem, iCount, iPx, iPy, iWidth, iHeight, siType)
-    draw_item_tile(pImgItem, iPx, iPy, iWidth, iHeight, siType)
-    draw_item_count(iCount, iPx, iPy, iWidth, iHeight, siType)
+function draw_item_canvas(pVwCnvItem, iCount, iPx, iPy, iWidth, iHeight)
+    graphics_draw_canvas(pVwCnvItem, iPx, iPy, 0)
+    draw_item_count(iCount, iPx, iPy, iWidth, iHeight)
 end

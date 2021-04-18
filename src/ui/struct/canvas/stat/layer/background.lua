@@ -10,24 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
-LLayer = {
-    NAV_WMAP_BACKGROUND = 1, NAV_WMAP_MAPLINK = 2, NAV_WMAP_MAPLIST = 3, NAV_WMAP_MISC = 4, NAV_WMAP_PTEXT = 5,
-    NAV_INVT_ITEM = 1
-}
+require("ui.struct.canvas.stat.stat")
+require("ui.struct.window.summary")
+require("ui.struct.window.frame.layer")
+require("utils.struct.class")
 
-LChannel = {
-    OVR_TEXTURE = 2,
+CStatNavBackground = createClass({CWndLayer, {}})
 
-    -- Worldmap canvas
-    WMAP_BGRD = 1,
-    WMAP_LINK_IMG = 1,
-    WMAP_MARK_PATH = 2, MARK_TBOX = 3,
-    WMAP_PLAINTXT = 2,
+function CStatNavBackground:build(pStatProp)
+    self:reset()
 
-    -- Inventory canvas
-    INVT_ITEMS = 1,
+    -- add layer elements
 
-    -- Stat canvas
-    STAT_BGRD = 1, STAT_INFO = 2
+    local pBaseProp = CStatElem:new()
+    pBaseProp:load(pStatProp:get_base_img())
 
-}
+    self:add_element(LChannel.STAT_BGRD, pBaseProp)
+end

@@ -20,7 +20,6 @@ function CInventoryNavItems:_build_element(pPropInvt)
     self:add_element(LChannel.INVT_ITEMS, pPropInvt)
 end
 
-
 function CInventoryNavItems:build(pInvtProp)
     self:reset()
 

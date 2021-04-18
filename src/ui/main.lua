@@ -13,12 +13,14 @@
 package.path = package.path .. ';?.lua'
 
 require("composer.field.field")
+require("structs.player")
 require("structs.storage.inventory")
 require("ui.constant.path")
 require("ui.interaction.handler")
 require("ui.run.build.canvas.worldmap.worldmap")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
+require("ui.run.load.stat")
 require("ui.run.load.worldmap")
 require("ui.struct.component.canvas.mouse.storage")
 require("ui.struct.component.canvas.inventory.storage")
@@ -44,6 +46,7 @@ function love.load()
     pEventHdl:reset()
     pEventHdl:install("ui.interaction.run.basic")
     pEventHdl:install("ui.interaction.run.inventory")
+    pEventHdl:install("ui.interaction.run.stat")
     pEventHdl:install("ui.interaction.run.worldmap")
 
     log(LPath.INTERFACE, "load.txt", "Loading user interface...")
@@ -78,6 +81,12 @@ function love.load()
 
     log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring() .. "'")
     pUiInvt:update_inventory(pIvtItems)
+
+    pUiStats = load_frame_stat()
+
+    pPlayer = CPlayer:new({iMapid = 2000000, siLevel = 50, siJob = 122})
+    pUiStats:update_stats(pPlayer, 10, 10, 10)
+
 end
 
 local function update_interactions()
@@ -103,12 +112,12 @@ function love.update(dt)
     pFrameBasic:update(dt)
 
     pUiWmap:update(dt)
-    pUiInvt:update(dt)
+    pUiStats:update(dt)
 end
 
 function love.draw()
     pUiWmap:draw()
-    pUiInvt:draw()
+    pUiStats:draw()
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)

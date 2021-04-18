@@ -10,24 +10,21 @@
     provide an express grant of patent rights.
 --]]
 
-LLayer = {
-    NAV_WMAP_BACKGROUND = 1, NAV_WMAP_MAPLINK = 2, NAV_WMAP_MAPLIST = 3, NAV_WMAP_MISC = 4, NAV_WMAP_PTEXT = 5,
-    NAV_INVT_ITEM = 1
-}
+require("ui.struct.component.element.static")
+require("utils.struct.class")
 
-LChannel = {
-    OVR_TEXTURE = 2,
+CStatElem = createClass({
+    eConst = CStaticElem:new()
+})
 
-    -- Worldmap canvas
-    WMAP_BGRD = 1,
-    WMAP_LINK_IMG = 1,
-    WMAP_MARK_PATH = 2, MARK_TBOX = 3,
-    WMAP_PLAINTXT = 2,
+function CStatElem:load(pImg)
+    self.eConst:load(pImg, 0, 0, 1)
+end
 
-    -- Inventory canvas
-    INVT_ITEMS = 1,
+function CStatElem:update(dt)
+    -- do nothing
+end
 
-    -- Stat canvas
-    STAT_BGRD = 1, STAT_INFO = 2
-
-}
+function CStatElem:draw()
+    self.eConst:draw()
+end
