@@ -35,6 +35,9 @@ RWndPath = {
     -- Stat screen
     STAT_INFO_WND = "UI.wz/UIWindow.img/Stat",
 
+    -- Map tracing elements
+    INTF_TRACER = "UI.wz/UIWindow.img/Trace",
+
     MOUSE = {
         BT_DOWN = "12",
         BT_GAME = "2",

@@ -22,15 +22,19 @@ require("ui.run.load.basic")
 require("ui.run.load.inventory")
 require("ui.run.load.stat")
 require("ui.run.load.worldmap")
-require("ui.struct.component.canvas.mouse.storage")
 require("ui.struct.component.canvas.inventory.storage")
 require("ui.struct.component.canvas.style.storage")
 require("ui.struct.component.canvas.slider.storage")
+require("ui.struct.component.tooltip.mouse.storage")
+require("ui.struct.component.tooltip.tracer.polyline")
+require("ui.struct.component.tooltip.tracer.storage")
+require("ui.trace.trace")
 require("utils.logger.file")
 require("utils.procedure.print")
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
+    love.graphics.setWireframe(love.keyboard.isDown('space'))
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
     ctFieldsWmap = load_resources_worldmap()
@@ -40,6 +44,7 @@ function love.load()
     ctVwStyle = load_image_stock_stylebox()
     ctVwCursor = load_image_stock_mouse()
     ctVwSlider = load_image_stock_slider()
+    ctVwTracer = load_image_stock_tracer()
 
     log(LPath.INTERFACE, "load.txt", "Loading action handler...")
     pEventHdl = CActionHandler:new()
@@ -87,6 +92,10 @@ function love.load()
     pPlayer = CPlayer:new({iMapid = 2000000, siLevel = 50, siJob = 122})
     pUiStats:update_stats(pPlayer, 10, 10, 10)
 
+    local pImgBullet = {ctVwTracer:get_bullet()}
+
+    pVwTrace = CViewPolyline:new()
+    pVwTrace:load(pImgBullet, {100, 100, 400, 400, 500, 300})
 end
 
 local function update_interactions()
@@ -118,6 +127,7 @@ end
 function love.draw()
     pUiWmap:draw()
     pUiStats:draw()
+    pVwTrace:draw()
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)

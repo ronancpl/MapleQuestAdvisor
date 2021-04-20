@@ -104,6 +104,11 @@ function CDynamicElem:update(dt)
     self:_update_animation()
 end
 
+function CDynamicElem:get_instant()
+    local m_eAnima = self.eAnima
+    return m_eAnima:get_instant()
+end
+
 function CDynamicElem:update_drawing()
     local pQuad = self.pQueueDrawingQuads:poll()
     if pQuad ~= nil then

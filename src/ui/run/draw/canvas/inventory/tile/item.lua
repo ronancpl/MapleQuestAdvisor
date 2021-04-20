@@ -47,10 +47,10 @@ end
 local function fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh)
     local iImgX, iImgY, iImgW, iImgH = fetch_item_tile_position(fSc, pImgItem, iCx, iCy)
 
-    local iShX, iShY, iShW, iShH = fetch_item_tile_position(fSc, pImgShd, iCx, iCy)
-    iShY = iBh - (iShY / 2)
+    local iShPx, iShPy, iShW, iShH = fetch_item_tile_position(fSc, pImgShd, iCx, iCy)
+    iShPy = iBh - (iShPy / 2)
 
-    return iImgX, iImgY, iImgW, iImgH, iShX, iShY, iShW, iShH
+    return iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH
 end
 
 function fetch_item_tile_box_invt(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
@@ -58,7 +58,7 @@ function fetch_item_tile_box_invt(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
     local iBh = iHeight
 
     local iCx, iCy, iW, iH, fSc = fetch_item_tile_center(pImgItem, iPx, iPy, iBw, iBh)
-    local iImgX, iImgY, iImgW, iImgH, iShX, iShY, iShW, iShH = fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh)
+    local iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH = fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh)
 
-    return iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShX, iShY, iShW, iShH
+    return iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH
 end

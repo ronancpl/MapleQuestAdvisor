@@ -10,18 +10,22 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.procedure.splitter")
+function split_tuples(nTupleLen, ...)
+    -- fills remainder with nil
 
--- format: X1, X2, Y1, Y2, Z1, Z2...
-function calc_distance(...)
-    local iDist = 0
+    local rgTuples = {}
 
-    local rgCoords = split_tuples(2, ...)
-    for _, pCoords in ipairs(rgCoords) do
-        local iO1, iO2 = unpack(pCoords)
+    local tTable = ...
 
-        iDist = iDist + (math.abs(iO1 - iO2) ^ 2)
+    local i
+    for i = 1, #tTable, nTupleLen do
+        local rgCt = {}
+        for j = 0, nTupleLen - 1, 1 do
+            table.insert(rgCt, tTable[i + j])
+        end
+
+        table.insert(rgTuples, rgCt)
     end
 
-    return math.sqrt(iDist)
+    return rgTuples
 end

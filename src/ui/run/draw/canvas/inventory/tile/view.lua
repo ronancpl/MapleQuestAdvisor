@@ -26,10 +26,10 @@ function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType)
     local pImgShd = ctVwInvt:get_shadow()
 
     local fn_tile_draw = tfn_tile_draw[siType]
-    local iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShX, iShY, iShW, _ = fn_tile_draw(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
+    local iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, _ = fn_tile_draw(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
 
     -- draw shadow
-    graphics_canvas_draw(pImgShd, iShX, iShY, 0, iShW, nil)
+    graphics_canvas_draw(pImgShd, iShPx, iShPy, 0, iShW, nil)
 
     -- draw item image
     graphics_canvas_draw(pImgItem, iImgX, iImgY, 0, iImgW, iImgH)
