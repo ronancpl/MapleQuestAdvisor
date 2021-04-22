@@ -23,6 +23,7 @@ require("ui.run.load.inventory")
 require("ui.run.load.stat")
 require("ui.run.load.worldmap")
 require("ui.struct.component.canvas.inventory.storage")
+require("ui.struct.component.canvas.resource.storage")
 require("ui.struct.component.canvas.style.storage")
 require("ui.struct.component.canvas.slider.storage")
 require("ui.struct.component.tooltip.mouse.storage")
@@ -41,6 +42,7 @@ function love.load()
     ctFieldsMeta = load_meta_resources_fields()
 
     ctVwInvt = load_image_stock_inventory()
+    ctVwRscs = load_image_stock_resources()
     ctVwStyle = load_image_stock_stylebox()
     ctVwCursor = load_image_stock_mouse()
     ctVwSlider = load_image_stock_slider()
@@ -53,6 +55,7 @@ function love.load()
     pEventHdl:install("ui.interaction.run.inventory")
     pEventHdl:install("ui.interaction.run.stat")
     pEventHdl:install("ui.interaction.run.worldmap")
+    pEventHdl:install("ui.interaction.run.resource")
 
     log(LPath.INTERFACE, "load.txt", "Loading user interface...")
     pFrameBasic = load_frame_basic()
@@ -92,10 +95,26 @@ function love.load()
     pPlayer = CPlayer:new({iMapid = 2000000, siLevel = 50, siJob = 122})
     pUiStats:update_stats(pPlayer, 10, 10, 10)
 
-    local pImgBullet = {ctVwTracer:get_bullet()}
+    local rgpQuadBullet = ctVwTracer:get_bullet()
 
     pVwTrace = CViewPolyline:new()
-    pVwTrace:load(pImgBullet, {100, 100, 400, 400, 500, 300})
+    pVwTrace:load(rgpQuadBullet, {100, 100, 400, 400, 500, 300})
+
+    pUiRscs = load_frame_quest_resources()
+
+    local tiItems = {}
+    tiItems[2000000] = 1
+    tiItems[2000004] = 4
+
+    local tiMobs = {}
+    tiMobs[2000000] = 4
+    tiMobs[2220000] = 1
+
+    local iNpc = 1012002
+    local iFieldEnter = 100000000
+
+    pUiRscs:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
+    pUiRscs:set_dimensions(400, 300)
 end
 
 local function update_interactions()
@@ -122,12 +141,14 @@ function love.update(dt)
 
     pUiWmap:update(dt)
     pUiStats:update(dt)
+    pUiRscs:update(dt)
 end
 
 function love.draw()
-    pUiWmap:draw()
-    pUiStats:draw()
-    pVwTrace:draw()
+    --pUiWmap:draw()
+    --pUiStats:draw()
+    --pVwTrace:draw()
+    pUiRscs:draw()
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)

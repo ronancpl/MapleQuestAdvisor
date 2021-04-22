@@ -1,0 +1,105 @@
+--[[
+    This file is part of the MapleQuestAdvisor planning tool
+    Copyleft (L) 2020 - 2021 RonanLana
+
+    GNU General Public License v3.0
+
+    Permissions of this strong copyleft license are conditioned on making available complete
+    source code of licensed works and modifications, which include larger works using a licensed
+    work, under the same license. Copyright and license notices must be preserved. Contributors
+    provide an express grant of patent rights.
+--]]
+
+require("ui.constant.path")
+require("ui.run.build.interface.storage.split")
+require("ui.run.build.interface.storage.basic.image")
+require("ui.struct.component.basic.texture_data")
+require("ui.texture.composition")
+require("utils.struct.class")
+
+CStockResourceTab = createClass({
+    rgpImgTabNames,
+    tpImgTabQuads = {},
+    pImgBgrd
+})
+
+local function load_image(sImgDirPath, sImgName)
+    local pImgData = load_image_from_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath .. "/" .. sImgName .. ".png")
+    return love.graphics.newImage(pImgData)
+end
+
+local function load_tab_quad(tpImgTabQuads, sQuadName)
+    tpImgTabQuads[sQuadName] = load_image(RWndPath.INTF_INVT_TAB, sQuadName)
+end
+
+function CStockResourceTab:load()
+    local m_tpImgTabQuads = self.tpImgTabQuads
+    load_tab_quad(m_tpImgTabQuads, "fill0")
+    load_tab_quad(m_tpImgTabQuads, "fill1")
+    load_tab_quad(m_tpImgTabQuads, "left0")
+    load_tab_quad(m_tpImgTabQuads, "left1")
+    load_tab_quad(m_tpImgTabQuads, "middle0")
+    load_tab_quad(m_tpImgTabQuads, "middle1")
+    load_tab_quad(m_tpImgTabQuads, "middle2")
+    load_tab_quad(m_tpImgTabQuads, "right0")
+    load_tab_quad(m_tpImgTabQuads, "right1")
+end
+
+function CStockResourceTab:get_tab_components()
+    return self.tpImgTabQuads
+end
+
+function CStockResourceTab:get_tab_names()
+    return self.rgpImgTabNames
+end
+
+function CStockResourceTab:get_background()
+    return self.pImgBgrd
+end
+
+CStockResource = createClass({
+    pBgrdTextureData,
+    pStockTab = CStockResourceTab:new(),
+    rgsTabNames = {"NPC", "Items", "Mobs", "Enter"}
+})
+
+function CStockResource:_load_texture_background()
+    local pDirRscImgs = load_image_storage_from_wz_sub(RWndPath.INTF_UI_WND, "Notice3")
+    pDirRscImgs = select_images_from_storage(pDirRscImgs, {})
+
+    local rgpImgBox = {}
+    table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Notice3.c")))
+    table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Notice3.s")))
+    table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Notice3.t")))
+
+    local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = compose_texture_from_imageset(rgpImgBox, 1)
+
+    local pBgrdData = CBasicTexture:new()
+    pBgrdData:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+
+    self.pBgrdTextureData = pBgrdData
+end
+
+function CStockResource:load()
+    self.pStockTab:load()
+    self:_load_texture_background()
+end
+
+function CStockResource:get_background_data()
+    return self.pBgrdTextureData
+end
+
+function CStockResource:get_tab_names()
+    return self.rgsTabNames
+end
+
+function CStockResource:get_tab_components()
+    return self.pStockTab:get_tab_components()
+end
+
+function load_image_stock_resources()
+    local ctVwRscs = CStockResource:new()
+    ctVwRscs:load()
+
+    return ctVwRscs
+end

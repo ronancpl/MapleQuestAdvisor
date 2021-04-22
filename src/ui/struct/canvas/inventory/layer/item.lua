@@ -16,8 +16,8 @@ require("utils.struct.class")
 
 CInventoryNavItems = createClass({CWndLayer, {}})
 
-function CInventoryNavItems:_build_element(pPropInvt)
-    self:add_element(LChannel.INVT_ITEMS, pPropInvt)
+function CInventoryNavItems:_build_element(pElemInvt)
+    self:add_element(LChannel.INVT_ITEMS, pElemInvt)
 end
 
 function CInventoryNavItems:build(pInvtProp)
@@ -25,6 +25,6 @@ function CInventoryNavItems:build(pInvtProp)
 
     -- add layer elements
 
-    local pInvt = pInvtProp:get_inventory()
-    self:_build_element(pInvt)
+    local pElemInvt = pInvtProp:get_inventory()
+    self:_build_element(pElemInvt)
 end

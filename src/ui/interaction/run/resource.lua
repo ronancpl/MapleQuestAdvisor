@@ -10,20 +10,18 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.canvas.stat.element.stat")
-require("ui.struct.window.summary")
-require("ui.struct.window.frame.layer")
-require("utils.struct.class")
+function on_mousemoved(x, y, dx, dy, istouch)
+    pUiRscs:onmousemoved(x, y, dx, dy, istouch)
+end
 
-CStatNavBackground = createClass({CWndLayer, {}})
+function on_mousepressed(x, y, button)
+    pUiRscs:onmousepressed(x, y, button)
+end
 
-function CStatNavBackground:build(pStatProp)
-    self:reset()
+function on_mousereleased(x, y, button)
+    pUiRscs:onmousereleased(x, y, button)
+end
 
-    -- add layer elements
-
-    local pBaseProp = CStatElem:new()
-    pBaseProp:load(pStatProp:get_base_img(), 0, 0)
-
-    self:add_element(LChannel.STAT_BGRD, pBaseProp)
+function on_wheelmoved(dx, dy)
+    pUiRscs:onwheelmoved(dx, dy)
 end

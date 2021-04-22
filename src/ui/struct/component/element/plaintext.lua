@@ -72,7 +72,7 @@ function CTextElem:load(sText, pFont, iLineWidth, iPx, iPy)
     self.eElem:load(iPx, iPy)
 
     local pTxt = love.graphics.newText(pFont)
-    pTxt:setf({{1, 1, 1}, sText}, iLineWidth, "left")
+    pTxt:setf({{0, 0, 0}, sText}, iLineWidth, "left")
 
     self.sText = sText
     self.pTxt = pTxt

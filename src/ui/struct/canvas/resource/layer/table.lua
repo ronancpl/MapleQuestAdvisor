@@ -16,12 +16,16 @@ require("ui.struct.window.summary")
 require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
-CStatNavText = createClass({CWndLayer, {
+CResourceNavTable = createClass({CWndLayer, {
     pFont = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
 }})
 
-function CStatNavText:_build_element(sText, iPx, iPy)
-    local pPropText = CStatElemPlaintext:new()
+function CResourceNavTable:_build_element(pElemRsc)
+    self:add_element(LChannel.RSC_INFO, pElemRsc)
+end
+
+function CResourceNavTable:_build_element(sText, iPx, iPy)
+    local pPropText = CRscElemPlaintext:new()
 
     pPropText:load(sText or "-", self.pFont, 100, iPx, iPy)
     pPropText:visible()
@@ -29,25 +33,11 @@ function CStatNavText:_build_element(sText, iPx, iPy)
     self:add_element(LChannel.WMAP_PLAINTXT, pPropText)
 end
 
-function CStatNavText:build(pStatProp)
+function CResourceNavTable:build(pRscProp)
     self:reset()
 
-    -- add layer elements (character)
-    local pInfoChr = pStatProp:get_info_character()
+    -- add layer elements
 
-    self:_build_element(pInfoChr:get_name(), 60, 35)
-    self:_build_element(pInfoChr:get_job(), 60, 53)
-    self:_build_element(pInfoChr:get_level(), 60, 80)
-    self:_build_element(nil, 60, 98)
-    self:_build_element(nil, 60, 116)
-    self:_build_element(nil, 60, 134)
-    self:_build_element(pInfoChr:get_exp(), 60, 152)
-    self:_build_element(pInfoChr:get_fame(), 60, 170)
-
-    -- add layer elements (server)
-    local pInfoSrv = pStatProp:get_info_server()
-
-    self:_build_element(pInfoSrv:get_exp_rate(), 60, 245)
-    self:_build_element(pInfoSrv:get_meso_rate(), 60, 263)
-    self:_build_element(pInfoSrv:get_drop_rate(), 60, 281)
+    local pElemRsc = pRscProp:get_table()
+    self:_build_element(pElemRsc)
 end

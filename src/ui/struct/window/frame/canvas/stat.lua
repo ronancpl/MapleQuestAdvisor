@@ -12,6 +12,7 @@
 
 require("ui.constant.path")
 require("ui.struct.canvas.stat.layer.background")
+require("ui.struct.canvas.stat.layer.info")
 require("ui.struct.canvas.stat.properties")
 require("ui.struct.window.frame.canvas")
 require("utils.struct.class")
@@ -26,14 +27,18 @@ function CWndStat:get_properties()
 end
 
 function CWndStat:update_stats(pPlayer, siExpR, siMesoR, siDropR)
+    self.pCanvas:reset()
+
     self.pProp:update_stats(pPlayer, siExpR, siMesoR, siDropR)
+    self.pCanvas:build(self.pProp)
 end
 
 function CWndStat:_load_background()
-    local pDirStatImgs = load_image_storage_from_wz_sub(RWndPath.STAT_INFO_WND)
+    local pDirStatImgs = load_image_storage_from_wz_sub(RWndPath.INTF_UI_WND, "Stat")
+    pDirStatImgs = select_images_from_storage(pDirStatImgs, {})
 
-    local pBaseImg = find_image_on_storage(pDirStatImgs, "Stat/backgrnd")
-    self.pProp:set_base_img(pBaseImg)
+    local pImgBase = love.graphics.newImage(find_image_on_storage(pDirStatImgs, "backgrnd"))
+    self.pProp:set_base_img(pImgBase)
 end
 
 function CWndStat:load()

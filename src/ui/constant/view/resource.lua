@@ -10,20 +10,37 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.canvas.stat.element.stat")
-require("ui.struct.window.summary")
-require("ui.struct.window.frame.layer")
-require("utils.struct.class")
+RResourceTable = {
 
-CStatNavBackground = createClass({CWndLayer, {}})
+    VW_TAB = {
+        W = 35,
+        H = 20
 
-function CStatNavBackground:build(pStatProp)
-    self:reset()
+        NAME = {
+            X = 2,
+            Y = 23
+        }
+    }
 
-    -- add layer elements
+    VW_ITEM = {
+        ROWS = 6,
+        COLS = 4,
 
-    local pBaseProp = CStatElem:new()
-    pBaseProp:load(pStatProp:get_base_img(), 0, 0)
+        W = 32,
+        H = 32
+    },
 
-    self:add_element(LChannel.STAT_BGRD, pBaseProp)
-end
+    VW_MOB = {
+        ROWS = 6,
+        COLS = 4,
+
+        W = 32,
+        H = 32
+    },
+
+    VW_FIELD = {
+        W = 210,
+        H = 20
+    }
+
+}

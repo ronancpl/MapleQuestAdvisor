@@ -28,6 +28,9 @@ LChannel = {
     INVT_ITEMS = 1,
 
     -- Stat canvas
-    STAT_BGRD = 1, STAT_INFO = 2
+    STAT_BGRD = 1, STAT_INFO = 2,
+
+    -- Resource canvas
+    RSC_BGRD = 1, RSC_INFO = 2
 
 }

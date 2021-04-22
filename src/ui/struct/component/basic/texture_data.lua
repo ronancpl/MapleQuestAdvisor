@@ -10,21 +10,26 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.component.element.static")
 require("utils.struct.class")
 
-CStatElem = createClass({
-    eConst = CStaticElem:new()
+CBasicTexture = createClass({
+    pImgBox,
+    iIx, iIy, iIw, iIh,
+    iOx, iOy, iOw, iOh
 })
 
-function CStatElem:load(pImg)
-    self.eConst:load(pImg, 0, 0, 1)
+function CBasicTexture:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    self.pImgBox = pImgBox
+    self.iIx = iIx
+    self.iIy = iIy
+    self.iIw = iIw
+    self.iIh = iIh
+    self.iOx = iOx
+    self.iOy = iOy
+    self.iOw = iOw
+    self.iOh = iOh
 end
 
-function CStatElem:update(dt)
-    -- do nothing
-end
-
-function CStatElem:draw()
-    self.eConst:draw()
+function CBasicTexture:get()
+    return self.pImgBox, self.iIx, self.iIy, self.iIw, self.iIh, self.iOx, self.iOy, self.iOw, self.iOh
 end

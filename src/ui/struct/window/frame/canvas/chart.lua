@@ -13,7 +13,7 @@
 require("ui.constant.config")
 require("ui.struct.window.summary")
 require("ui.struct.window.frame.canvas")
-require("ui.struct.window.element.storage")
+require("ui.struct.canvas.worldmap.storage")
 require("ui.struct.canvas.worldmap.layer.background")
 require("ui.struct.canvas.worldmap.layer.fragment")
 require("ui.struct.canvas.worldmap.layer.map_link")
@@ -25,7 +25,7 @@ require("utils.struct.class")
 CWndWmap = createClass({
     pCanvas = CWndCanvas:new(),
     pProp = CWmapProperties:new(),
-    pCache = CWndStorage:new()
+    pCache = CWmapStorage:new()
 })
 
 function CWndWmap:get_properties()

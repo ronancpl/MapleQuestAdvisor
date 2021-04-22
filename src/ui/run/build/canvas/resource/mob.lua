@@ -10,20 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.canvas.stat.element.stat")
-require("ui.struct.window.summary")
-require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
-CStatNavBackground = createClass({CWndLayer, {}})
+CRscMobTable = createClass({
+    tiMobs = {}
+})
 
-function CStatNavBackground:build(pStatProp)
-    self:reset()
+function CRscMobTable:get_name()
+    return self.tiMobs
+end
 
-    -- add layer elements
-
-    local pBaseProp = CStatElem:new()
-    pBaseProp:load(pStatProp:get_base_img(), 0, 0)
-
-    self:add_element(LChannel.STAT_BGRD, pBaseProp)
+function CRscMobTable:set_name(iId, iCount)
+    self.tiMobs[iId] = iCount
 end

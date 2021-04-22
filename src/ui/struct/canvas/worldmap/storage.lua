@@ -15,22 +15,22 @@ require("ui.run.load.interface.worldmap")
 require("utils.provider.xml.provider")
 require("utils.struct.class")
 
-CWndStorage = createClass({
+CWmapStorage = createClass({
     pDirWmapImgs = {},
     tpWmapRegionCache = {},
     pDirHelperQuads,
     pDirHelperImgs
 })
 
-function CWndStorage:_fetch_worldmap_helper()
+function CWmapStorage:_fetch_worldmap_helper()
     self.pDirHelperQuads, self.pDirHelperImgs = load_frame_position_helper()
 end
 
-function CWndStorage:get_worldmap_helper()
+function CWmapStorage:get_worldmap_helper()
     return self.pDirHelperQuads, self.pDirHelperImgs
 end
 
-function CWndStorage:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
+function CWmapStorage:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
     local m_pDirWmapImgs = self.pDirWmapImgs
     local m_tpWmapRegionCache = self.tpWmapRegionCache
 
@@ -49,7 +49,7 @@ function CWndStorage:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
     return pWmapRegion, pDirWmapImgs
 end
 
-function CWndStorage:load_region(sWmapName)
+function CWmapStorage:load_region(sWmapName)
     local pWmapRegion
     local pDirWmapImgs
     pWmapRegion, pDirWmapImgs = self:_fetch_worldmap_region(sWmapName, ctFieldsWmap)
@@ -57,6 +57,6 @@ function CWndStorage:load_region(sWmapName)
     return pWmapRegion, pDirWmapImgs
 end
 
-function CWndStorage:load()
+function CWmapStorage:load()
     self:_fetch_worldmap_helper()
 end

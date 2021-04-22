@@ -10,20 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.canvas.stat.element.stat")
-require("ui.struct.window.summary")
-require("ui.struct.window.frame.layer")
-require("utils.struct.class")
+CCanvasRscItem = createClass({
+    sDesc,
+    iFieldRef
+})
 
-CStatNavBackground = createClass({CWndLayer, {}})
+function CCanvasRscItem:load(sDesc, iFieldRef)
+    self.sDesc = sDesc
+    self.iFieldRef = iFieldRef
+end
 
-function CStatNavBackground:build(pStatProp)
-    self:reset()
+function CCanvasRscItem:get_desc()
+    return self.sDesc
+end
 
-    -- add layer elements
-
-    local pBaseProp = CStatElem:new()
-    pBaseProp:load(pStatProp:get_base_img(), 0, 0)
-
-    self:add_element(LChannel.STAT_BGRD, pBaseProp)
+function CCanvasRscItem:get_field_link()
+    return self.iFieldRef
 end

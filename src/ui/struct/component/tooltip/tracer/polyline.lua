@@ -26,7 +26,10 @@ function CViewPolyline:load(rgpQuads, ...)
 
     self.eDynam:load(0, 0, rgpQuads)
 
-    for _, pImgQuad in ipairs(rgpQuads) do
+    for _, pQuad in ipairs(rgpQuads) do
+        local pImgData = pQuad:get_image():get_img()
+        local pImg = love.graphics.newImage(pImgData)
+
         local rgpQuadMesh = {}
         table.insert(m_rgpDynMesh, rgpQuadMesh)
 
@@ -40,7 +43,7 @@ function CViewPolyline:load(rgpQuads, ...)
             for i = 2, nCoords, 1 do
                 iX2, iY2 = unpack(rgpCoords[i])
 
-                local pTraceMesh = load_trace_dashed(iX1, iY1, iX2, iY2, pImgQuad, 50)
+                local pTraceMesh = load_trace_dashed(iX1, iY1, iX2, iY2, pImg, 50)
                 table.insert(rgpQuadMesh, pTraceMesh)
 
                 iX1, iY1 = iX2, iY2

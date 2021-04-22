@@ -10,20 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.canvas.stat.element.stat")
-require("ui.struct.window.summary")
-require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
-CStatNavBackground = createClass({CWndLayer, {}})
+CRscFieldEnterTable = createClass({
+    iMapid
+})
 
-function CStatNavBackground:build(pStatProp)
-    self:reset()
+function CRscFieldEnterTable:get_field()
+    return self.iMapid
+end
 
-    -- add layer elements
-
-    local pBaseProp = CStatElem:new()
-    pBaseProp:load(pStatProp:get_base_img(), 0, 0)
-
-    self:add_element(LChannel.STAT_BGRD, pBaseProp)
+function CRscFieldEnterTable:set_field(iMapid)
+    self.iMapid = iMapid
 end

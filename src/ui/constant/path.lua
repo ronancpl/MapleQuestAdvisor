@@ -20,6 +20,9 @@ RWndPath = {
     WMAP_HELPER = "Map.wz/MapHelper.img",
     WMAP_DIR = "Map.wz/WorldMap",
 
+    -- Window
+    INTF_UI_WND = "UI.wz/UIWindow.img",
+
     -- Basic
     INTF_BASIC = "UI.wz/Basic.img",
     INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
@@ -31,12 +34,6 @@ RWndPath = {
     -- Inventory screen
     INTF_INVT_TAB = "UI.wz/Basic.img/Tab2",
     INTF_INVT_WND = "UI.wz/UIWindow.img/Item",
-
-    -- Stat screen
-    STAT_INFO_WND = "UI.wz/UIWindow.img/Stat",
-
-    -- Map tracing elements
-    INTF_TRACER = "UI.wz/UIWindow.img/Trace",
 
     MOUSE = {
         BT_DOWN = "12",

@@ -15,19 +15,19 @@ require("ui.constant.path")
 require("utils.struct.class")
 
 CStockTracer = createClass({
-    pImgTrace
+    rgpQuadTrace
 })
 
-function load_image_bullet()
-    local pDirTracerImgs = load_image_storage_from_wz_sub(RWndPath.INTF_TRACER)
-    pDirTracerImgs = select_images_from_storage(pDirTracerImgs, {})
+function load_animation_bullet()
+    local pDirTracerQuads = load_quad_storage_from_wz_sub(RWndPath.INTF_UI_WND, "EnergyBar")
+    pDirTracerQuads = select_animations_from_storage(pDirTracerQuads, {"effect"})
 
-    local pImgBullet = find_image_on_storage(pDirTracerImgs, "bullet")
-    return love.graphics.newImage(pImgBullet)
+    local rgpQuads = find_animation_on_storage(pDirTracerQuads, "effect")
+    return rgpQuads
 end
 
 function CStockTracer:_load_tracer_images()
-    self.pImgTrace = load_image_bullet()
+    self.rgpQuadTrace = load_animation_bullet()
 end
 
 function CStockTracer:load()
@@ -35,7 +35,7 @@ function CStockTracer:load()
 end
 
 function CStockTracer:get_bullet()
-    return self.pImgTrace
+    return self.rgpQuadTrace
 end
 
 function load_image_stock_tracer()

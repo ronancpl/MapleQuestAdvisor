@@ -10,20 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.canvas.stat.element.stat")
-require("ui.struct.window.summary")
-require("ui.struct.window.frame.layer")
-require("utils.struct.class")
+require("ui.struct.window.frame.canvas.resource")
 
-CStatNavBackground = createClass({CWndLayer, {}})
+function load_interface_resources()
+    local pWnd = CWndResource:new()
+    pWnd:load()
 
-function CStatNavBackground:build(pStatProp)
-    self:reset()
-
-    -- add layer elements
-
-    local pBaseProp = CStatElem:new()
-    pBaseProp:load(pStatProp:get_base_img(), 0, 0)
-
-    self:add_element(LChannel.STAT_BGRD, pBaseProp)
+    return pWnd
 end

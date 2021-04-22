@@ -21,6 +21,7 @@ CCanvasItem = createClass({
 
     pImg,
     pView,
+    iId,
     iCount
 })
 
