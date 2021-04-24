@@ -27,6 +27,9 @@ RWndPath = {
     INTF_BASIC = "UI.wz/Basic.img",
     INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
 
+    -- Misc
+    INTF_ITC = "UI.wz/ITC.img",
+
     -- Items
     INTF_ITEM_IMG = "Item.wz/Install/0301.img/0301.img/03010000.info.iconRaw.png",
     INTF_ITEM_NO = "UI.wz/Basic.img/ItemNo",

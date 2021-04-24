@@ -152,7 +152,7 @@ local function draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
     iPx, iPy = pVwRscs:get_origin()
 
     iPx = iPx + RResourceTable.VW_TAB.NAME.X
-    iPy = iPy + RResourceTable.VW_TAB.NAME.Y + 3
+    iPy = iPy + RResourceTable.VW_TAB.NAME.Y + 1
 
     local rgpTxtTabs = ctVwRscs:get_tab_names()
 
@@ -192,6 +192,19 @@ local function draw_resource_items(pVwRscs)
     end
 end
 
+local function draw_resource_field_base(pVwRscs)
+    local pImgBase = ctVwRscs:get_background_text()
+
+    local iPx
+    local iPy
+    iPx, iPy = pVwRscs:get_origin()
+
+    iPx = iPx + RResourceTable.VW_INFO.X
+    iPy = iPy + RResourceTable.VW_INFO.Y
+
+    love.graphics.draw(pImgBase, iPx, iPy)
+end
+
 local function draw_resource_background(pVwRscs)
     local eTexture = pVwRscs:get_background()
 
@@ -200,6 +213,8 @@ local function draw_resource_background(pVwRscs)
     iPx, iPy = pVwRscs:get_origin()
 
     eTexture:draw(iPx, iPy)
+
+    draw_resource_field_base(pVwRscs)
 end
 
 local function draw_resource_slider(pVwRscs)

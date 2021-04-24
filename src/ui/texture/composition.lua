@@ -74,26 +74,26 @@ local function calc_texture_image_params(rgpImgs, nCols)
     return iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh
 end
 
-local function normalize_textureset_params(rgpImgs, nCols, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+local function normalize_textureset_params(rgpImgs, nCols, iBw, iBh, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     local nRows = get_num_rows(rgpImgs, nCols)
 
     -- summarize parameters having insufficient entries with generic inner-box
     if nRows < 3 then
-        iIy = 15
-        iIh = iOh - (2 * 15)
+        iIy = iBh
+        iIh = iOh - (2 * iBh)   -- expected border width/height for the texture
     end
 
     if nCols < 3 then
-        iIx = 15
-        iIw = iOw - (2 * 15)
+        iIx = iBw
+        iIw = iOw - (2 * iBw)
     end
 
     return iIx, iIy, iIw, iIh
 end
 
-local function compose_param_values(rgpImgs, nCols)
+local function compose_param_values(rgpImgs, nCols, iBw, iBh)
     local iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = calc_texture_image_params(rgpImgs, nCols)
-    iIx, iIy, iIw, iIh = normalize_textureset_params(rgpImgs, nCols, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    iIx, iIy, iIw, iIh = normalize_textureset_params(rgpImgs, nCols, iBw, iBh, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
 
     return iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh
 end
@@ -139,14 +139,14 @@ local function merge_texture_image(rgpImgs, nCols, iWidth, iHeight)
     return love.graphics.newImage(pImgData)
 end
 
-function compose_texture_from_imageset(rgpImgs, nCols)
+function compose_texture_from_imageset(rgpImgs, nCols, iBw, iBh)
     --[[
         Image set should have same:
             * Width - share rows
             * Height - share columns
     ]]--
 
-    local iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = compose_param_values(rgpImgs, nCols)
+    local iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = compose_param_values(rgpImgs, nCols, iBw, iBh)
     local pImg = merge_texture_image(rgpImgs, nCols, iOw, iOh)
 
     return pImg, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh

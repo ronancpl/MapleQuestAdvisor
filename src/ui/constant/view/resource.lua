@@ -18,6 +18,11 @@ RResourceTabType = {
 
 RResourceTable = {
 
+    VW_WND = {
+        W = 400,
+        H = 420
+    },
+
     TAB = {
         MOBS = {TYPE = RResourceTabType.GRID, NAME = "Mobs"},
         ITEMS = {TYPE = RResourceTabType.GRID, NAME = "Items"},
@@ -29,7 +34,7 @@ RResourceTable = {
         X = 375,
         Y = 50,
         W = 10,
-        H = 200
+        H = 305
     },
 
     VW_THUMB = {
@@ -38,7 +43,7 @@ RResourceTable = {
     },
 
     VW_TAB = {
-        W = 35,
+        W = 50,
         H = 20,
 
         NAME = {
@@ -81,10 +86,10 @@ RResourceTable = {
 
     VW_INFO = {
         ROWS = 1,
-        COLS = 2,
+        COLS = 16,
 
-        X = 0,
-        Y = 45,
+        X = 20,
+        Y = 41,
 
         ST_X = 8,
         ST_Y = 5,

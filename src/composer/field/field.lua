@@ -12,6 +12,7 @@
 
 require("composer.containers.fields.field_distance_table")
 require("composer.containers.fields.field_meta_table")
+require("composer.string.field")
 require("router.constants.graph")
 require("router.constants.path")
 require("router.procedures.constant")
@@ -183,29 +184,16 @@ local function load_field_overworld_areas(ctFieldsMeta, sFilePath)
     end
 end
 
-local function load_field_names(ctFieldsMeta, pMapStringNode)
-    local pMapStringNode = pMapStringNode:get_child_by_name("Map.img")
-
-    for _, pRegionNode in pairs(pMapStringNode:get_children()) do
-        for _, pFieldNode in pairs(pRegionNode:get_children()) do
-            local iMapid = pFieldNode:get_name_tonumber()
-
-            local sStreetName = pFieldNode:get_child_by_name("streetName"):get_value()
-            local sMapName = pFieldNode:get_child_by_name("mapName"):get_value()
-
-            ctFieldsMeta:set_field_name(iMapid, sStreetName, sMapName)
-        end
+local function init_field_names(ctFieldsMeta, tsMapName, tsStreetName)
+    for iMapid, sMapName in pairs(tsMapName) do
+        local sStreetName = tsStreetName[iMapid]
+        ctFieldsMeta:set_field_name(iMapid, sStreetName, sMapName)
     end
 end
 
-local function load_field_string(ctFieldsMeta)
-    local sDirPath = RPath.RSC_STRINGS
-    local sMapStringsPath = sDirPath .. "/Map.img.xml"
-
-    local pMapStringNode = SXmlProvider:load_xml(sMapStringsPath)
-    load_field_names(ctFieldsMeta, pMapStringNode)
-
-    SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: String
+local function load_field_names(ctFieldsMeta)
+    local tsMapName, tsStreetName = load_field_string()
+    init_field_names(ctFieldsMeta, tsMapName, tsStreetName)
 end
 
 function load_meta_resources_fields()
@@ -216,7 +204,7 @@ function load_meta_resources_fields()
     local ctFieldsMeta = CFieldMetaTable:new()
     load_field_overworld_areas(ctFieldsMeta, sMapOverworldPath)
     load_field_return_areas(ctFieldsMeta, sMapReturnPath)
-    load_field_string(ctFieldsMeta)
+    load_field_names(ctFieldsMeta)
 
     return ctFieldsMeta
 end

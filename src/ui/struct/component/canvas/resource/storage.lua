@@ -22,7 +22,9 @@ require("utils.struct.class")
 CStockResourceTab = createClass({
     rgpTxtTabNames = {},
     tpImgTabQuads = {},
-    pImgBgrd
+
+    pImgBgrd,
+    pImgTextArea
 })
 
 local function load_image(sImgDirPath, sImgName)
@@ -35,7 +37,7 @@ local function load_tab_quad(tpImgTabQuads, sQuadName)
 end
 
 function CStockResourceTab:_load_tab_names()
-    local pFont = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
+    local pFont = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 12)
 
     local m_rgpTxtTabNames = self.rgpTxtTabNames
     clear_table(m_rgpTxtTabNames)
@@ -88,7 +90,7 @@ function CStockResource:_load_texture_background()
     table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Notice3.c")))
     table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Notice3.s")))
 
-    local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = compose_texture_from_imageset(rgpImgBox, 1)
+    local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = compose_texture_from_imageset(rgpImgBox, 1, 15, 15)
 
     local pBgrdData = CBasicTexture:new()
     pBgrdData:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
@@ -96,13 +98,48 @@ function CStockResource:_load_texture_background()
     self.pBgrdTextureData = pBgrdData
 end
 
+function CStockResource:_build_text_field(pImgTextField)
+    local iW, iH = pImgTextField:getDimensions()
+    local pCanvas = love.graphics.newCanvas(iW, iH)
+
+    pCanvas:renderTo(function()
+        love.graphics.clear()
+
+        local iPx, iPy = 0, 0
+
+        love.graphics.setScissor(0, 0, 285, iH)
+        love.graphics.draw(pImgTextField, iPx, iPy)
+
+        love.graphics.setScissor(0, 0, iW - 415, iH)
+        love.graphics.draw(pImgTextField, iPx + 285 - 415, iPy)
+    end)
+
+    local pImgData = pCanvas:newImageData(0, 1, 0, 0, 285 + (iW - 415), iH)
+    return love.graphics.newImage(pImgData)
+end
+
+function CStockResource:_load_text_field()
+    local pDirRscImgs = load_image_storage_from_wz_sub(RWndPath.INTF_ITC, "MyPage")
+    pDirRscImgs = select_images_from_storage(pDirRscImgs, {})
+
+    local pImgTextField = love.graphics.newImage(find_image_on_storage(pDirRscImgs, "MyPage.backgrnd"))
+    local pImg = self:_build_text_field(pImgTextField)
+
+    self.pImgTextArea = pImg
+end
+
 function CStockResource:load()
     self.pStockTab:load()
     self:_load_texture_background()
+    self:_load_text_field()
 end
 
 function CStockResource:get_background_data()
     return self.pBgrdTextureData
+end
+
+function CStockResource:get_background_text()
+    return self.pImgTextArea
 end
 
 function CStockResource:get_tab_names()

@@ -14,7 +14,6 @@ require("composer.field.node.media.storage.storage")
 require("ui.constant.path")
 require("utils.procedure.copy")
 require("utils.procedure.string")
-require("utils.provider.io.wordlist")
 
 local function fetch_figure_subpath(sPath, sBasePath)
     local i = sPath:find(sBasePath)

@@ -44,9 +44,7 @@ function CWndResource:set_dimensions(iWidth, iHeight)
     local m_pProp = self.pProp
     local eTexture = m_pProp:get_table():get_background()
 
-    a = 7
     eTexture:build(iWidth, iHeight)
-    a = nil
 
     self.pCanvas:build(m_pProp)
 end

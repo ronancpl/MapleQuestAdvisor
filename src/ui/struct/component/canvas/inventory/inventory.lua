@@ -140,8 +140,8 @@ function CInvtElem:_try_click_tab(iPx, iPy)
 
     local iTx = iOx + RInventory.VW_INVT_TAB.NAME.X
     local iTy = iOx + RInventory.VW_INVT_TAB.NAME.Y
-    if math.between(iPx, iTx, iTx + 170) and math.between(iPy, iTy, iTy + RInventory.VW_INVT_TAB.H) then
-        local iTab = math.floor((iPx - iTx) / (170 / 5))
+    if math.between(iPx, iTx, iTx + 5 * RInventory.VW_INVT_TAB.W) and math.between(iPy, iTy, iTy + RInventory.VW_INVT_TAB.H) then
+        local iTab = math.floor((iPx - iTx) / RInventory.VW_INVT_TAB.W)
         update_tab_for_inventory(self, iTab)
     end
 end

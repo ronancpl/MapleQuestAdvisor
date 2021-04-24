@@ -19,6 +19,11 @@ local function make_tab_resources_items(pRscProp)
 
     for iId, iCount in pairs(pRscProp:get_info_item():get_items()) do
         local pVwItem = CCanvasRscPicture:new()
+
+        local pImg = ctHrItems:load_image_by_id(iId)
+        local sDesc = ctItemsMeta:get_text(iId, 1)
+        local iFieldRef = 100000000
+
         pVwItem:load(pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID.W, RResourceTable.VW_GRID.H)
 
         table.insert(rgpVwItems, pVwItem)
@@ -32,6 +37,11 @@ local function make_tab_resources_mobs(pRscProp)
 
     for iId, iCount in pairs(pRscProp:get_info_mob():get_mobs()) do
         local pVwItem = CCanvasRscPicture:new()
+
+        local pImg = ctHrMobs:load_image_by_id(iId)
+        local sDesc = ctMobsMeta:get_text(iId)
+        local iFieldRef = 100000000
+
         pVwItem:load(pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID.W, RResourceTable.VW_GRID.H)
 
         table.insert(rgpVwItems, pVwItem)
@@ -44,11 +54,17 @@ local function make_tab_resources_npc(pRscProp)
     local rgpVwItems = {}
 
     local iId = pRscProp:get_info_npc():get_npc()
+    if iId ~= nil then
+        local pVwItem = CCanvasRscPicture:new()
 
-    local pVwItem = CCanvasRscPicture:new()
-    pVwItem:load(pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_PICT.W, RResourceTable.VW_PICT.H)
+        local pImg = ctHrNpcs:load_image_by_id(iId)
+        local sDesc = ctNpcsMeta:get_text(iId)
+        local iFieldRef = 100000000
 
-    table.insert(rgpVwItems, pVwItem)
+        pVwItem:load(pImg, nil, sDesc, iFieldRef, RResourceTable.VW_PICT.W, RResourceTable.VW_PICT.H)
+
+        table.insert(rgpVwItems, pVwItem)
+    end
 
     return rgpVwItems
 end
@@ -58,10 +74,15 @@ local function make_tab_resources_field_enter(pRscProp)
 
     local iId = pRscProp:get_info_field_enter():get_field()
 
-    local pVwItem = CCanvasRscLink:new()
-    pVwItem:load(sDesc, iFieldRef)
+    if iId ~= nil then
+        local sDesc = ctFieldsMeta:get_area_name(iId)
+        local iFieldRef = iId
 
-    table.insert(rgpVwItems, pVwItem)
+        local pVwItem = CCanvasRscLink:new()
+        pVwItem:load(sDesc, iFieldRef)
+
+        table.insert(rgpVwItems, pVwItem)
+    end
 
     return rgpVwItems
 end

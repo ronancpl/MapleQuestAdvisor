@@ -144,8 +144,8 @@ function CRscTableElem:_try_click_tab(iPx, iPy)
 
     local iTx = iOx + RResourceTable.VW_TAB.NAME.X
     local iTy = iOx + RResourceTable.VW_TAB.NAME.Y
-    if math.between(iPx, iTx, iTx + 170) and math.between(iPy, iTy, iTy + RResourceTable.VW_TAB.H) then
-        local iTab = math.floor((iPx - iTx) / (170 / 5))
+    if math.between(iPx, iTx, iTx + 4 * RResourceTable.VW_TAB.W) and math.between(iPy, iTy, iTy + RResourceTable.VW_TAB.H) then
+        local iTab = math.floor((iPx - iTx) / RResourceTable.VW_TAB.W)
 
         local fn_update_tab = self:get_fn_update_tab()
         fn_update_tab(self, iTab)
