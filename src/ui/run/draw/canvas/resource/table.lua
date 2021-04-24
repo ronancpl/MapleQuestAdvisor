@@ -10,10 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-
 require("ui.constant.view.resource")
+require("ui.run.update.canvas.resource.common")
 
-local function codify_inventory_tab_intervals(pVwRscs)
+local function codify_resources_tab_intervals(pVwRscs)
     local rgiIntvVals = {}
 
     local nIntvs = #ctVwRscs:get_tab_names() + 1
@@ -36,7 +36,7 @@ local function codify_inventory_tab_intervals(pVwRscs)
     return rgiIntvVals
 end
 
-local function translate_inventory_tab_intervals(rgiIntvVals)
+local function translate_resources_tab_intervals(rgiIntvVals)
     local rgsIntvNames = {}
     local tiVals = {}
 
@@ -104,7 +104,7 @@ local function calc_fill_value(iCurIdx, iSlctTab)
     return iCurIdx - 1 == iSlctTab and 1 or 0
 end
 
-local function draw_compose_inventory_tabs(pVwRscs, rgsIntvImgNames, iTabWidth)
+local function draw_compose_resource_tabs(pVwRscs, rgsIntvImgNames, iTabWidth)
     local tpTabImgs = ctVwRscs:get_tab_components()
 
     local rgpTabImgs = {}
@@ -146,7 +146,7 @@ local function draw_compose_inventory_tabs(pVwRscs, rgsIntvImgNames, iTabWidth)
     end
 end
 
-local function draw_compose_inventory_tab_names(pVwRscs, iTabWidth, iTabHeight)
+local function draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
     local iPx
     local iPy
     iPx, iPy = pVwRscs:get_origin()
@@ -154,45 +154,45 @@ local function draw_compose_inventory_tab_names(pVwRscs, iTabWidth, iTabHeight)
     iPx = iPx + RResourceTable.VW_TAB.NAME.X
     iPy = iPy + RResourceTable.VW_TAB.NAME.Y + 3
 
-    local rgpImgNames = ctVwInvt:get_tab_names()
+    local rgpTxtTabs = ctVwRscs:get_tab_names()
 
-    local nImgNames = #rgpImgNames
-    if nImgNames > 0 then
-        local iH
-        _, iH = rgpImgNames[1]:getDimensions()
+    local nTabs = #rgpTxtTabs
+    if nTabs > 0 then
+        local iH = rgpTxtTabs[1]:getHeight()
 
         local iOy = math.floor((iTabHeight - iH) / 2)
 
-        for i = 1, nImgNames, 1 do
-            local pImgName = rgpImgNames[i]
+        for i = 1, nTabs, 1 do
+            local pTxtName = rgpTxtTabs[i]
 
-            local iW
-            iW, _ = pImgName:getDimensions()
+            local iW = pTxtName:getWidth()
 
             local iOx = math.floor((iTabWidth - iW) / 2)
-            love.graphics.draw(pImgName, iPx + iOx, iPy + iOy)
+            love.graphics.draw(pTxtName, iPx + iOx, iPy + iOy)
 
             iPx = iPx + iTabWidth
         end
     end
 end
 
-local function draw_resources_tabs(pVwRscs)
-    local rgiIntvVals = codify_inventory_tab_intervals(pVwRscs)
-    local rgsIntvImgNames = translate_inventory_tab_intervals(rgiIntvVals)
+local function draw_resource_tabs(pVwRscs)
+    local rgiIntvVals = codify_resources_tab_intervals(pVwRscs)
+    local rgsIntvImgNames = translate_resources_tab_intervals(rgiIntvVals)
 
     local iTabWidth = RResourceTable.VW_TAB.W
     local iTabHeight = RResourceTable.VW_TAB.H
 
-    draw_compose_inventory_tabs(pVwRscs, rgsIntvImgNames, iTabWidth)
-    draw_compose_inventory_tab_names(pVwRscs, iTabWidth, iTabHeight)
+    draw_compose_resource_tabs(pVwRscs, rgsIntvImgNames, iTabWidth)
+    draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
 end
 
-local function draw_resources_items(pVwRscs)
-    -- do nothing
+local function draw_resource_items(pVwRscs)
+    for _, pVwItem in ipairs(fetch_item_palette_for_resource_table(pVwRscs)) do
+        pVwItem:draw()
+    end
 end
 
-local function draw_resources_background(pVwRscs)
+local function draw_resource_background(pVwRscs)
     local eTexture = pVwRscs:get_background()
 
     local iPx
@@ -202,7 +202,7 @@ local function draw_resources_background(pVwRscs)
     eTexture:draw(iPx, iPy)
 end
 
-local function draw_resources_slider(pVwRscs)
+local function draw_resource_slider(pVwRscs)
     local iPx
     local iPy
     iPx, iPy = pVwRscs:get_origin()
@@ -211,8 +211,8 @@ local function draw_resources_slider(pVwRscs)
 end
 
 function draw_table_resources(pVwRscs)
-    draw_resources_background(pVwRscs)
-    draw_resources_slider(pVwRscs)
-    draw_resources_tabs(pVwRscs)
-    draw_resources_items(pVwRscs)
+    draw_resource_background(pVwRscs)
+    draw_resource_slider(pVwRscs)
+    draw_resource_tabs(pVwRscs)
+    draw_resource_items(pVwRscs)
 end

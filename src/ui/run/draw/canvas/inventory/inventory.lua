@@ -161,16 +161,14 @@ local function draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
 
     local nImgNames = #rgpImgNames
     if nImgNames > 0 then
-        local iH
-        _, iH = rgpImgNames[1]:getDimensions()
+        local iH = rgpImgNames[1]:getHeight()
 
         local iOy = math.floor((iTabHeight - iH) / 2)
 
         for i = 1, nImgNames, 1 do
             local pImgName = rgpImgNames[i]
 
-            local iW
-            iW, _ = pImgName:getDimensions()
+            local iW = pImgName:getWidth()
 
             local iOx = math.floor((iTabWidth - iW) / 2)
             love.graphics.draw(pImgName, iPx + iOx, iPy + iOy)
@@ -210,7 +208,7 @@ function draw_inventory_item(pVwItem)
 end
 
 local function draw_inventory_items(pVwInvt)
-    for _, pVwItem in ipairs(pVwInvt:fetch_item_palette()) do
+    for _, pVwItem in ipairs(fetch_item_palette_for_inventory(pVwInvt)) do
         pVwItem:draw()
     end
 end

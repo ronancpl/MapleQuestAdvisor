@@ -11,6 +11,8 @@
 --]]
 
 require("ui.constant.view.resource")
+require("ui.run.draw.canvas.resource.table")
+require("ui.struct.component.canvas.resource.tab.method")
 require("ui.struct.component.element.texture")
 require("ui.struct.window.element.basic.slider")
 require("utils.struct.class")
@@ -35,6 +37,10 @@ function CRscTableElem:get_background()
     return self.eTexture
 end
 
+function CRscTableElem:get_object()
+    return self.eTexture
+end
+
 function CRscTableElem:get_slider()
     return self.pSlider
 end
@@ -47,129 +53,116 @@ function CRscTableElem:set_tab_selected(iTab)
     self.iSlctTab = iTab
 end
 
-function CRscTableElem:_fetch_item_range()
-    local m_rgpVwItems = self.rgpVwItems
-
-    local iRow = self:get_row_selected() - 1
-    local iSt = (iRow * 4) + 1
-    local iEn = math.min(#m_rgpVwItems, (iRow + 6) * 4)
-
-    return iSt, iEn
+function CRscTableElem:get_row_selected()
+    return self.iSlctRow
 end
 
-function CRscTableElem:_clear_current_item_range()
-    local m_rgpVwItems = self.rgpVwItems
-    local iSt, iEn = unpack(self.rgiCurRange)
-
-    for i = iSt, iEn, 1 do
-        local pVwItem = m_rgpVwItems[i]
-        if pVwItem ~= nil then
-            pVwItem:update(-1, -1)
-        end
-    end
+function CRscTableElem:set_row_selected(iRow)
+    self.iSlctRow = iRow
 end
 
-function CRscTableElem:_update_item_position()
-    local m_rgpVwItems = self.rgpVwItems
-
-    local iSt, iEn = self:_fetch_item_range()
-    self:_clear_current_item_range()
-
-    self.rgiCurRange = {iSt, iEn}
-
-    local m_eBox = self.eBox
-    local iPx, iPy = m_eBox:get_origin()
-
-    iPx = iPx + RInventory.VW_INVT_ITEM.X + RInventory.VW_INVT_ITEM.ST_X
-    iPy = iPy + RInventory.VW_INVT_ITEM.Y + RInventory.VW_INVT_ITEM.ST_Y
-
-    local iIx, iIy
-
-    local iPos = iSt - 1
-    local iBr = math.floor(iPos / RInventory.VW_INVT.ROWS)
-
-    for i = iSt, iEn, 1 do
-        local iPos = i - 1
-        local iC = iPos % RInventory.VW_INVT.ROWS
-
-        iIx = iPx + iC * (RInventory.VW_INVT_ITEM.W + RInventory.VW_INVT_ITEM.FIL_X)
-        iIy = iPy
-
-        local pVwItem = m_rgpVwItems[i]
-        if pVwItem ~= nil then
-            pVwItem:update(iIx, iIy)
-        end
-    end
+function CRscTableElem:get_num_items()
+    return #self.rgpVwItems
 end
 
-function CRscTableElem:update_row(iNextSlct)
-    local m_pInvt = self.pInvt
-
-    local iIvtCols = math.ceil(m_pInvt:size() / RResource.VW_TABLE.ROWS)
-    local iRow = math.iclamp(iNextSlct, 1, math.max(iIvtCols, 1))
-    self:_set_row_selected(iRow)
-    self:_update_item_position(iRow)
+function CRscTableElem:get_view_items()
+    return self.rgpVwItems
 end
 
-function CRscTableElem:update_tab(iNextTab)
+function CRscTableElem:get_tab_items()
+    return self.rgpTabVwItems
+end
+
+function CRscTableElem:clear_tab_items()
     local m_rgpTabVwItems = self.rgpTabVwItems
+    local nTabs = #m_rgpTabVwItems
 
-    local iTab = math.iclamp(iNextTab + 1, 1, #m_rgpTabVwItems)
-    self:set_tab_selected(iTab)
-
-    local rgpVwIts = m_rgpTabVwItems[iTab]
-
-    local m_rgpVwItems = self.rgpVwItems
-    clear_table(m_rgpVwItems)
-    table_append(m_rgpVwItems, rgpVwIts)
-
-    self:update_row(0)  -- set to list start
-end
-
-function CRscTableElem:update_inventory(pInvt, nTabs)
-    self.pInvt = pInvt
-    self.iSlctTab = 1
-    self.iSlctRow = 0
-
-    local m_rgpTabVwItems = self.rgpTabVwItems
     clear_table(m_rgpTabVwItems)
 
     for i = 1, nTabs, 1 do
         m_rgpTabVwItems[i] = {}
     end
+end
 
-    for iId, iCount in pairs(pInvt:get_items()) do
-        local siType = math.floor(iId / 1000000)
+function CRscTableElem:add_tab_items(iTab, rgpVwItems)
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    table_append(m_rgpTabVwItems[iTab], rgpVwItems)
+end
 
-        local pVwItem = CCanvasItem:new()
-        pVwItem:load(iId, iCount)
-
-        local rgpVwItems = m_rgpTabVwItems[siType]
-        table.insert(rgpVwItems, pVwItem)
-    end
-
-    self:update_tab(0)  -- set to EQUIP
-
-    local m_pSlider = self.pSlider
-
+function CRscTableElem:update_view_items(rgpVwItems)
     local m_rgpVwItems = self.rgpVwItems
-    local iSgmts = math.ceil(#m_rgpVwItems / RInventory.VW_INVT.ROWS)
+    clear_table(m_rgpVwItems)
+    table_append(m_rgpVwItems, rgpVwItems)
+end
 
-    m_pSlider:set_num_segments(iSgmts)
+function CRscTableElem:get_view_range()
+    local m_rgiCurRange = self.rgiCurRange
+    return m_rgiCurRange[1], m_rgiCurRange[2]
+end
 
-    local bDisable = iSgmts <= RInventory.VW_INVT.COLS
-    if bDisable then
-        self.pSlider:update_state(RSliderState.DISABLED)
-    else
-        self.pSlider:update_state(RSliderState.NORMAL)
-    end
+function CRscTableElem:set_view_range(iIdxFrom, iIdxTo)
+    local m_rgiCurRange = self.rgiCurRange
+    m_rgiCurRange[1] = iIdxFrom
+    m_rgiCurRange[2] = iIdxTo
+end
+
+function CRscTableElem:get_fn_update_row()
+    local iTab = self:get_tab_selected()
+    return tfn_rsc_update_row[rgiRscTabType[iTab]]
+end
+
+function CRscTableElem:get_fn_update_tab()
+    local iTab = self:get_tab_selected()
+    return tfn_rsc_update_tab[rgiRscTabType[iTab]]
+end
+
+function CRscTableElem:get_fn_update_items()
+    local iTab = self:get_tab_selected()
+    return tfn_rsc_update_items[rgiRscTabType[iTab]]
 end
 
 function CRscTableElem:load(rX, rY, pTextureData)
     local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = pTextureData:get()
 
+    myImgBox = pImgBox
+
     local m_eTexture = self.eTexture
+    a = 7
     m_eTexture:load(rX, rY, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    a = nil
+
+    self.pSlider:load(RSliderState.NORMAL, RResourceTable.VW_SLIDER.H, true, true, RResourceTable.VW_SLIDER.X, RResourceTable.VW_SLIDER.Y)
+
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    for i = 1, 4, 1 do
+        m_rgpTabVwItems[i] = {}
+    end
+end
+
+function CRscTableElem:_try_click_tab(iPx, iPy)
+    local iOx, iOy = self:get_origin()
+
+    local iTx = iOx + RResourceTable.VW_TAB.NAME.X
+    local iTy = iOx + RResourceTable.VW_TAB.NAME.Y
+    if math.between(iPx, iTx, iTx + 170) and math.between(iPy, iTy, iTy + RResourceTable.VW_TAB.H) then
+        local iTab = math.floor((iPx - iTx) / (170 / 5))
+
+        local fn_update_tab = self:get_fn_update_tab()
+        fn_update_tab(self, iTab)
+    end
+end
+
+function CRscTableElem:onmousereleased(x, y, button)
+    local iTabWidth = RResourceTable.VW_TAB.W
+    local iTabHeight = RResourceTable.VW_TAB.H
+
+    if button == 1 then
+        self:_try_click_tab(x, y)
+    end
+end
+
+function CRscTableElem:reset()
+    -- do nothing
 end
 
 function CRscTableElem:update(dt)

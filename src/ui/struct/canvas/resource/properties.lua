@@ -52,16 +52,16 @@ function CRscProperties:get_info_field_enter()
     return self.pInfoFieldEnter
 end
 
-function CResourceProperties:get_origin()
+function CRscProperties:get_origin()
     return self.iCx, self.iCy
 end
 
-function CResourceProperties:set_origin(iCx, iCy)
+function CRscProperties:set_origin(iCx, iCy)
     self.iCx = iCx
     self.iCy = iCy
 end
 
-function CResourceProperties:_update_items(tiItems)
+function CRscProperties:_update_items(tiItems)
     self.pInfoItem = CRscItemTable:new()
 
     for iId, iCount in pairs(tiItems) do
@@ -69,7 +69,7 @@ function CResourceProperties:_update_items(tiItems)
     end
 end
 
-function CResourceProperties:_update_mobs(tiMobs)
+function CRscProperties:_update_mobs(tiMobs)
     self.pInfoMob = CRscMobTable:new()
 
     for iId, iCount in pairs(tiMobs) do
@@ -77,17 +77,17 @@ function CResourceProperties:_update_mobs(tiMobs)
     end
 end
 
-function CResourceProperties:_update_npc(iNpc)
+function CRscProperties:_update_npc(iNpc)
     self.pInfoNpc = CRscNpcTable:new()
     self.pInfoNpc:set_npc(iNpc)
 end
 
-function CResourceProperties:_update_field_enter(iFieldEnter)
+function CRscProperties:_update_field_enter(iFieldEnter)
     self.pInfoFieldEnter = CRscFieldEnterTable:new()
     self.pInfoFieldEnter:set_field(iFieldEnter)
 end
 
-function CResourceProperties:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
+function CRscProperties:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
     self:_update_items(tiItems)
     self:_update_mobs(tiMobs)
     self:_update_npc(iNpc)

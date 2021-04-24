@@ -10,14 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.procedures.constant")
-require("ui.constant.input")
-require("ui.constant.view.style")
-require("ui.run.draw.canvas.inventory.inventory")
+require("ui.run.update.canvas.inventory.table")
 require("ui.struct.component.element.rect")
-require("ui.struct.component.canvas.inventory.item")
 require("ui.struct.window.element.basic.slider")
 require("utils.procedure.copy")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CInvtElem = createClass({
@@ -27,7 +24,8 @@ CInvtElem = createClass({
     pInvt,
     iSlctTab,
     iSlctRow,
-    iNewIt,
+
+    nVwItems,
 
     rgpVwItems = {},
     rgiCurRange = {-1, -1},
@@ -65,140 +63,53 @@ function CInvtElem:get_row_selected()
     return self.iSlctRow
 end
 
-function CInvtElem:_set_row_selected(iRow)
+function CInvtElem:set_row_selected(iRow)
     self.iSlctRow = iRow
 end
 
-function CInvtElem:_fetch_item_range()
-    local m_rgpVwItems = self.rgpVwItems
-
-    local iRow = self:get_row_selected() - 1
-    local iSt = (iRow * 4) + 1
-    local iEn = math.min(#m_rgpVwItems, (iRow + 6) * 4)
-
-    return iSt, iEn
+function CInvtElem:get_num_items()
+    return #self.rgpVwItems
 end
 
-function CInvtElem:fetch_item_palette()
-    local m_rgpVwItems = self.rgpVwItems
-
-    local rgpItems = {}
-    local iSt, iEn = unpack(self.rgiCurRange)
-    for i = iSt, iEn, 1 do
-        table.insert(rgpItems, m_rgpVwItems[i])
-    end
-
-    return rgpItems
+function CInvtElem:get_view_items()
+    return self.rgpVwItems
 end
 
-function CInvtElem:_clear_current_item_range()
-    local m_rgpVwItems = self.rgpVwItems
-    local iSt, iEn = unpack(self.rgiCurRange)
-
-    for i = iSt, iEn, 1 do
-        local pVwItem = m_rgpVwItems[i]
-        if pVwItem ~= nil then
-            pVwItem:update(-1, -1)
-        end
-    end
+function CInvtElem:get_tab_items()
+    return self.rgpTabVwItems
 end
 
-function CInvtElem:_update_item_position()
-    local m_rgpVwItems = self.rgpVwItems
-
-    local iSt, iEn = self:_fetch_item_range()
-    self:_clear_current_item_range()
-
-    self.rgiCurRange = {iSt, iEn}
-
-    local m_eBox = self.eBox
-    local iPx, iPy = m_eBox:get_origin()
-
-    iPx = iPx + RInventory.VW_INVT_ITEM.X + RInventory.VW_INVT_ITEM.ST_X
-    iPy = iPy + RInventory.VW_INVT_ITEM.Y + RInventory.VW_INVT_ITEM.ST_Y
-
-    local iIx, iIy
-
-    local iPos = iSt - 1
-    local iBr = math.floor(iPos / RInventory.VW_INVT.ROWS)
-
-    for i = iSt, iEn, 1 do
-        local iPos = i - 1
-        local iR = math.floor(iPos / RInventory.VW_INVT.ROWS)
-        local iC = iPos % RInventory.VW_INVT.ROWS
-
-        iIx = iPx + iC * (RInventory.VW_INVT_ITEM.W + RInventory.VW_INVT_ITEM.FIL_X)
-        iIy = iPy + (iR - iBr) * (RInventory.VW_INVT_ITEM.H + RInventory.VW_INVT_ITEM.FIL_Y)
-
-        local pVwItem = m_rgpVwItems[i]
-        if pVwItem ~= nil then
-            pVwItem:update(iIx, iIy)
-        end
-    end
-end
-
-function CInvtElem:update_row(iNextSlct)
-    local m_pInvt = self.pInvt
-
-    local iIvtCols = math.ceil(m_pInvt:size() / RInventory.VW_INVT.ROWS)
-    local iRow = math.iclamp(iNextSlct, 1, math.max(iIvtCols - RInventory.VW_INVT.COLS, 1))
-    self:_set_row_selected(iRow)
-    self:_update_item_position(iRow)
-end
-
-function CInvtElem:update_tab(iNextTab)
+function CInvtElem:clear_tab_items()
     local m_rgpTabVwItems = self.rgpTabVwItems
 
-    local iTab = math.iclamp(iNextTab + 1, 1, #m_rgpTabVwItems)
-    self:set_tab_selected(iTab)
-
-    local rgpVwIts = m_rgpTabVwItems[iTab]
-
-    local m_rgpVwItems = self.rgpVwItems
-    clear_table(m_rgpVwItems)
-    table_append(m_rgpVwItems, rgpVwIts)
-
-    self:update_row(0)  -- set to list start
-end
-
-function CInvtElem:update_inventory(pInvt)
-    self.pInvt = pInvt
-    self.iSlctTab = 1
-    self.iNewIt = -1
-    self.iSlctRow = 0
-
-    local m_rgpTabVwItems = self.rgpTabVwItems
+    local nTabs = #m_rgpTabVwItems
     clear_table(m_rgpTabVwItems)
 
-    for i = 1, 5, 1 do
+    for i = 1, nTabs, 1 do
         m_rgpTabVwItems[i] = {}
     end
+end
 
-    for iId, iCount in pairs(pInvt:get_items()) do
-        local siType = math.floor(iId / 1000000)
+function CInvtElem:add_tab_items(iTab, rgpVwItems)
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    table_append(m_rgpTabVwItems[iTab], rgpVwItems)
+end
 
-        local pVwItem = CCanvasItem:new()
-        pVwItem:load(iId, iCount)
-
-        local rgpVwItems = m_rgpTabVwItems[siType]
-        table.insert(rgpVwItems, pVwItem)
-    end
-
-    self:update_tab(0)  -- set to EQUIP
-
-    local m_pSlider = self.pSlider
-
+function CInvtElem:update_view_items(rgpVwItems)
     local m_rgpVwItems = self.rgpVwItems
-    local iSgmts = math.ceil(#m_rgpVwItems / RInventory.VW_INVT.ROWS)
+    clear_table(m_rgpVwItems)
+    table_append(m_rgpVwItems, rgpVwItems)
+end
 
-    m_pSlider:set_num_segments(iSgmts)
+function CInvtElem:get_view_range()
+    local m_rgiCurRange = self.rgiCurRange
+    return m_rgiCurRange[1], m_rgiCurRange[2]
+end
 
-    local bDisable = iSgmts <= RInventory.VW_INVT.COLS
-    if bDisable then
-        self.pSlider:update_state(RSliderState.DISABLED)
-    else
-        self.pSlider:update_state(RSliderState.NORMAL)
-    end
+function CInvtElem:set_view_range(iIdxFrom, iIdxTo)
+    local m_rgiCurRange = self.rgiCurRange
+    m_rgiCurRange[1] = iIdxFrom
+    m_rgiCurRange[2] = iIdxTo
 end
 
 function CInvtElem:load(pInvt, iPx, iPy)
@@ -206,9 +117,14 @@ function CInvtElem:load(pInvt, iPx, iPy)
     local iW, iH = pImg:getDimensions()
     self.eBox:load(iPx, iPy, iW, iH)
 
-    self.pSlider:load(RSliderState.NORMAL, RInventory.VW_INVT_SLIDER.H, true, true)
+    self.pSlider:load(RSliderState.NORMAL, RInventory.VW_INVT_SLIDER.H, true, true, RInventory.VW_INVT_SLIDER.X, RInventory.VW_INVT_SLIDER.Y)
 
-    self:update_inventory(pInvt)
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    for i = 1, 5, 1 do
+        m_rgpTabVwItems[i] = {}
+    end
+
+    update_items_for_inventory(self, pInvt)
 end
 
 function CInvtElem:update(dt)
@@ -226,7 +142,7 @@ function CInvtElem:_try_click_tab(iPx, iPy)
     local iTy = iOx + RInventory.VW_INVT_TAB.NAME.Y
     if math.between(iPx, iTx, iTx + 170) and math.between(iPy, iTy, iTy + RInventory.VW_INVT_TAB.H) then
         local iTab = math.floor((iPx - iTx) / (170 / 5))
-        self:update_tab(iTab)
+        update_tab_for_inventory(self, iTab)
     end
 end
 
@@ -246,7 +162,7 @@ function CInvtElem:onwheelmoved(dx, dy)
 
         local iNextSlct = self:get_row_selected() + iDlt
 
-        self:update_row(iNextSlct)
+        update_row_for_inventory(self, iNextSlct)
         iNextSlct = self:get_row_selected()
 
         local m_pSlider = self.pSlider

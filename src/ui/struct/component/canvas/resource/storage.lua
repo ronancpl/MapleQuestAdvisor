@@ -11,14 +11,16 @@
 --]]
 
 require("ui.constant.path")
+require("ui.constant.view.resource")
 require("ui.run.build.interface.storage.split")
 require("ui.run.build.interface.storage.basic.image")
 require("ui.struct.component.basic.texture_data")
 require("ui.texture.composition")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CStockResourceTab = createClass({
-    rgpImgTabNames,
+    rgpTxtTabNames = {},
     tpImgTabQuads = {},
     pImgBgrd
 })
@@ -32,6 +34,19 @@ local function load_tab_quad(tpImgTabQuads, sQuadName)
     tpImgTabQuads[sQuadName] = load_image(RWndPath.INTF_INVT_TAB, sQuadName)
 end
 
+function CStockResourceTab:_load_tab_names()
+    local pFont = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
+
+    local m_rgpTxtTabNames = self.rgpTxtTabNames
+    clear_table(m_rgpTxtTabNames)
+
+    local rgsTabNames = {RResourceTable.TAB.MOBS.NAME, RResourceTable.TAB.ITEMS.NAME, RResourceTable.TAB.NPC.NAME, RResourceTable.TAB.FIELD_ENTER.NAME}
+    for _, sName in ipairs(rgsTabNames) do
+        local pTxtName = love.graphics.newText(pFont, sName)
+        table.insert(m_rgpTxtTabNames, pTxtName)
+    end
+end
+
 function CStockResourceTab:load()
     local m_tpImgTabQuads = self.tpImgTabQuads
     load_tab_quad(m_tpImgTabQuads, "fill0")
@@ -43,6 +58,8 @@ function CStockResourceTab:load()
     load_tab_quad(m_tpImgTabQuads, "middle2")
     load_tab_quad(m_tpImgTabQuads, "right0")
     load_tab_quad(m_tpImgTabQuads, "right1")
+
+    self:_load_tab_names()
 end
 
 function CStockResourceTab:get_tab_components()
@@ -50,7 +67,7 @@ function CStockResourceTab:get_tab_components()
 end
 
 function CStockResourceTab:get_tab_names()
-    return self.rgpImgTabNames
+    return self.rgpTxtTabNames
 end
 
 function CStockResourceTab:get_background()
@@ -59,18 +76,17 @@ end
 
 CStockResource = createClass({
     pBgrdTextureData,
-    pStockTab = CStockResourceTab:new(),
-    rgsTabNames = {"NPC", "Items", "Mobs", "Enter"}
+    pStockTab = CStockResourceTab:new()
 })
 
 function CStockResource:_load_texture_background()
-    local pDirRscImgs = load_image_storage_from_wz_sub(RWndPath.INTF_UI_WND, "Notice3")
+    local pDirRscImgs = load_image_storage_from_wz_sub(RWndPath.INTF_BASIC, "Notice3")
     pDirRscImgs = select_images_from_storage(pDirRscImgs, {})
 
     local rgpImgBox = {}
+    table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Notice3.t")))
     table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Notice3.c")))
     table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Notice3.s")))
-    table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Notice3.t")))
 
     local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = compose_texture_from_imageset(rgpImgBox, 1)
 
@@ -90,7 +106,7 @@ function CStockResource:get_background_data()
 end
 
 function CStockResource:get_tab_names()
-    return self.rgsTabNames
+    return self.pStockTab:get_tab_names()
 end
 
 function CStockResource:get_tab_components()

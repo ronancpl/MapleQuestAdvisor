@@ -20,7 +20,7 @@ CCanvasRscPicture = createClass({CCanvasRscItem, {
 
     pImg,
     iPictWidth,
-    iPictHeight
+    iPictHeight,
 
     iCount
 }})
@@ -59,5 +59,5 @@ function CCanvasRscPicture:update(iPx, iPy)
 end
 
 function CCanvasRscPicture:draw()
-    draw_resource_picture(self)
+    --draw_resource_picture(self)
 end

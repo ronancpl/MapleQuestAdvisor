@@ -10,6 +10,17 @@
     provide an express grant of patent rights.
 --]]
 
-function aaa()
+require("ui.constant.view.resource")
+require("ui.run.update.canvas.resource.common")
 
+function update_row_for_resource_grid(pVwRscs, iNextSlct)
+    update_row_for_resource_table(pVwRscs, iNextSlct, RResourceTable.VW_GRID)
+end
+
+function update_tab_for_resource_grid(pVwRscs, iNextTab)
+    update_tab_for_resource_table(pVwRscs, iNextTab)
+end
+
+function update_items_for_resource_grid(pVwRscs, pRscProp)
+    update_items_for_resource_table(pVwRscs, pRscProp, RResourceTable.VW_GRID)
 end

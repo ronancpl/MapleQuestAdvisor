@@ -32,9 +32,9 @@ function CCanvasRscLink:load(sDesc, iFieldRef)
 end
 
 function CCanvasRscLink:update(iPx, iPy)
-    self.eBox:load(iPx, iPy, RResourceTable.VW_FIELD.W, RResourceTable.VW_FIELD.H)
+    self.eBox:load(iPx, iPy, RResourceTable.VW_INFO.W, RResourceTable.VW_INFO.H)
 end
 
 function CCanvasRscLink:draw()
-    draw_resource_link(self)
+    --draw_resource_link(self)
 end

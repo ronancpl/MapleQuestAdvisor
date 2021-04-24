@@ -16,10 +16,10 @@ CRscMobTable = createClass({
     tiMobs = {}
 })
 
-function CRscMobTable:get_name()
+function CRscMobTable:get_mobs()
     return self.tiMobs
 end
 
-function CRscMobTable:set_name(iId, iCount)
+function CRscMobTable:put_mob(iId, iCount)
     self.tiMobs[iId] = iCount
 end

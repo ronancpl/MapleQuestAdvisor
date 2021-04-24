@@ -10,12 +10,15 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.struct.component.basic.base")
 require("ui.run.draw.canvas.slider.slider")
 require("utils.struct.class")
 
 RSliderState = {DISABLED = "disabled", MOUSE_OVER = "mouseOver", NORMAL = "normal", PRESSED = "pressed"}
 
 CWndSlider = createClass({
+    eElem = CBasicElem:new(),
+
     iLength,    -- slider length
     eThumb,         -- moves freely inside slider
     pImgBase,
@@ -197,7 +200,8 @@ function CWndSlider:update_state(sSliderState)
     self:_load_arrows(sSliderState)
 end
 
-function CWndSlider:load(sSliderState, iLen, bDefWidth, bVert)
+function CWndSlider:load(sSliderState, iLen, bDefWidth, bVert, rX, rY)
+    self.eElem:load(rX, rY)
     self:update_state(sSliderState)
 
     local nSgmts = self:_calc_segment_size(iLen)
@@ -209,5 +213,6 @@ function CWndSlider:update(dt)
 end
 
 function CWndSlider:draw(iPx, iPy)
-    draw_slider(self, iPx, iPy)
+    local iRx, iRy = self.eElem:get_pos()
+    draw_slider(self, iPx + iRx, iPy + iRy)
 end

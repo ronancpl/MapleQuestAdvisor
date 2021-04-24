@@ -10,21 +10,17 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.component.element.static")
-require("utils.struct.class")
+require("ui.constant.view.resource")
+require("ui.run.update.canvas.resource.common")
 
-CResourceElem = createClass({
-    eConst = CStaticElem:new()
-})
-
-function CResourceElem:load(pImg, iRx, iRy)
-    self.eConst:load(pImg, 0, 0, 1, iRx, iRy)
+function update_row_for_resource_info(pVwRscs, iNextSlct)
+    update_row_for_resource_table(pVwRscs, iNextSlct, RResourceTable.VW_INFO)
 end
 
-function CResourceElem:update(dt)
-    -- do nothing
+function update_tab_for_resource_info(pVwRscs, iNextTab)
+    update_tab_for_resource_table(pVwRscs, iNextTab)
 end
 
-function CResourceElem:draw()
-    self.eConst:draw()
+function update_items_for_resource_info(pVwRscs, pRscProp)
+    update_items_for_resource_table(pVwRscs, pRscProp, RResourceTable.VW_INFO)
 end

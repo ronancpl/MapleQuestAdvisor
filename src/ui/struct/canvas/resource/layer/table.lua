@@ -10,27 +10,18 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.constant.path")
-require("ui.struct.canvas.stat.element.plaintext")
 require("ui.struct.window.summary")
 require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
-CResourceNavTable = createClass({CWndLayer, {
-    pFont = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
-}})
+CResourceNavTable = createClass({CWndLayer, {}})
+
+function CResourceNavTable:get_font()
+    return self.pFont
+end
 
 function CResourceNavTable:_build_element(pElemRsc)
     self:add_element(LChannel.RSC_INFO, pElemRsc)
-end
-
-function CResourceNavTable:_build_element(sText, iPx, iPy)
-    local pPropText = CRscElemPlaintext:new()
-
-    pPropText:load(sText or "-", self.pFont, 100, iPx, iPy)
-    pPropText:visible()
-
-    self:add_element(LChannel.WMAP_PLAINTXT, pPropText)
 end
 
 function CResourceNavTable:build(pRscProp)

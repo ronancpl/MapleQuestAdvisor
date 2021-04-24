@@ -180,9 +180,6 @@ local function draw_slider_thumb(pVwSlider, iX, iY)
 end
 
 function draw_slider(pVwSlider, iPx, iPy)
-    iPx = iPx + RInventory.VW_INVT_SLIDER.X
-    iPy = iPy + RInventory.VW_INVT_SLIDER.Y
-
     draw_slider_bar(pVwSlider, iPx, iPy)
     draw_slider_arrow(pVwSlider, iPx, iPy)
     draw_slider_thumb(pVwSlider, iPx, iPy)

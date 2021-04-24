@@ -20,6 +20,7 @@ require("ui.interaction.handler")
 require("ui.run.build.canvas.worldmap.worldmap")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
+require("ui.run.load.resource")
 require("ui.run.load.stat")
 require("ui.run.load.worldmap")
 require("ui.struct.component.canvas.inventory.storage")
@@ -76,7 +77,6 @@ function love.load()
     pIvtItems:add_item(1072154, 7)
     pIvtItems:add_item(1040103, 7)
 
-    --[[
     pIvtItems:add_item(3010000, 4)
     pIvtItems:add_item(3010001, 2)
     pIvtItems:add_item(3010002, 2)
@@ -84,8 +84,6 @@ function love.load()
     pIvtItems:add_item(3010004, 2)
     pIvtItems:add_item(3010005, 2)
     pIvtItems:add_item(3010006, 2)
-
-    ]]--
 
     log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring() .. "'")
     pUiInvt:update_inventory(pIvtItems)
@@ -113,8 +111,8 @@ function love.load()
     local iNpc = 1012002
     local iFieldEnter = 100000000
 
-    pUiRscs:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
     pUiRscs:set_dimensions(400, 300)
+    pUiRscs:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
 end
 
 local function update_interactions()
@@ -140,14 +138,16 @@ function love.update(dt)
     pFrameBasic:update(dt)
 
     pUiWmap:update(dt)
+    pUiInvt:update(dt)
     pUiStats:update(dt)
     pUiRscs:update(dt)
 end
 
 function love.draw()
-    --pUiWmap:draw()
-    --pUiStats:draw()
-    --pVwTrace:draw()
+    pUiWmap:draw()
+    pUiInvt:draw()
+    pUiStats:draw()
+    pVwTrace:draw()
     pUiRscs:draw()
 end
 
