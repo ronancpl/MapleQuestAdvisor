@@ -99,4 +99,6 @@ function update_resource_items(pVwRscs, pRscProp)
     for siTab, rgpVwItems in pairs(tpVwItems) do
         pVwRscs:add_tab_items(siTab, rgpVwItems)
     end
+
+    pVwRscs:refresh_view_items()
 end

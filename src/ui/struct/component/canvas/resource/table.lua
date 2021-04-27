@@ -95,6 +95,14 @@ function CRscTableElem:update_view_items(rgpVwItems)
     table_append(m_rgpVwItems, rgpVwItems)
 end
 
+function CRscTableElem:refresh_view_items()
+    local rgpTabVwItems = self:get_tab_items()
+    local iTab = self:get_tab_selected()
+
+    local rgpVwItems = rgpTabVwItems[iTab]
+    self:update_view_items(rgpVwItems)
+end
+
 function CRscTableElem:get_view_range()
     local m_rgiCurRange = self.rgiCurRange
     return m_rgiCurRange[1], m_rgiCurRange[2]

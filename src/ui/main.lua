@@ -145,8 +145,32 @@ function love.load()
     tiItems[4010006] = 4
 
     local tiMobs = {}
-    --tiMobs[2000000] = 4
-    --tiMobs[2220000] = 1
+    tiMobs[1110100] = 4
+    tiMobs[1110101] = 1
+    tiMobs[1110130] = 4
+    tiMobs[1120100] = 1
+    tiMobs[1130100] = 4
+    tiMobs[1140100] = 1
+    tiMobs[1140130] = 4
+    tiMobs[1210100] = 1
+    tiMobs[1210101] = 4
+    tiMobs[1210102] = 1
+    tiMobs[1210103] = 4
+    tiMobs[2100100] = 1
+    tiMobs[2100101] = 4
+    tiMobs[2100102] = 1
+    tiMobs[2100103] = 4
+    tiMobs[2100104] = 1
+    tiMobs[2100105] = 4
+    tiMobs[2100106] = 1
+    tiMobs[2100107] = 4
+    tiMobs[2100108] = 1
+    tiMobs[2110200] = 4
+    tiMobs[2110300] = 1
+    tiMobs[2110301] = 4
+    tiMobs[2130100] = 1
+    tiMobs[2130103] = 4
+    tiMobs[2220000] = 1
 
     local iNpc = 1013000
     local iFieldEnter = 100000000

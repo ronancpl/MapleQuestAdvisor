@@ -16,9 +16,6 @@ require("utils.provider.xml.provider")
 local function load_item_names(pItemListNode, tsItemName, tsItemDesc)
     for _, pItemNode in pairs(pItemListNode:get_children()) do
         local iItemid = pItemNode:get_name_tonumber()
-        if iItemid == nil then
-            log_st(LPath.RESOURCE_LOCATION, "entries.txt", "num: ".. tostring(pItemNode:get_name()))
-        end
 
         local pNameNode = pItemNode:get_child_by_name("name")
         local sItemName = pNameNode and pNameNode:get_value() or ""

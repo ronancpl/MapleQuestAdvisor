@@ -11,11 +11,12 @@
 --]]
 
 require("ui.constant.view.resource")
+require("ui.run.draw.canvas.resource.resource")
 require("ui.struct.component.canvas.resource.item.item")
 require("ui.struct.component.element.rect")
 require("utils.struct.class")
 
-CCanvasRscLink = createClass({CCanvasRscItem, {
+CCanvasRscLink = createClass({CCanvasResource, {
     eBox = CUserboxElem:new()
 }})
 
@@ -24,11 +25,11 @@ function CCanvasRscLink:get_object()
 end
 
 function CCanvasRscLink:load(sDesc, iFieldRef)
-    self.eBox:load()
-    self:_load_image(iId)
-
-    self.sDesc = sDesc
     self.iFieldRef = iFieldRef
+    self.sDesc = sDesc
+
+    self.eBox:load()
+    self:load_text(sDesc, iFieldRef)
 end
 
 function CCanvasRscLink:update(iPx, iPy)
@@ -36,5 +37,5 @@ function CCanvasRscLink:update(iPx, iPy)
 end
 
 function CCanvasRscLink:draw()
-    --draw_resource_link(self)
+    draw_resource_link(self)
 end

@@ -11,11 +11,12 @@
 --]]
 
 require("ui.constant.view.inventory")
+require("ui.run.draw.canvas.resource.resource")
 require("ui.struct.component.canvas.resource.item.item")
 require("ui.struct.component.element.rect")
 require("utils.struct.class")
 
-CCanvasRscPicture = createClass({CCanvasRscItem, {
+CCanvasRscPicture = createClass({CCanvasResource, {
     eBox = CUserboxElem:new(),
 
     pImg,
@@ -42,13 +43,14 @@ function CCanvasRscPicture:is_visible_count()
 end
 
 function CCanvasRscPicture:load(pImg, iCount, sDesc, iFieldRef, iPictWidth, iPictHeight)
-    self.pImg = pImg
-    self.iCount = iCount
-
     self.sDesc = sDesc
     self.iFieldRef = iFieldRef
 
     self.eBox:load()
+    self:load_text(sDesc, iFieldRef)
+
+    self.pImg = pImg
+    self.iCount = iCount
 
     self.iPictWidth = iPictWidth
     self.iPictHeight = iPictHeight
@@ -59,5 +61,5 @@ function CCanvasRscPicture:update(iPx, iPy)
 end
 
 function CCanvasRscPicture:draw()
-    --draw_resource_picture(self)
+    draw_resource_picture(self)
 end

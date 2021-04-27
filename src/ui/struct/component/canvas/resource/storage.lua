@@ -76,9 +76,26 @@ function CStockResourceTab:get_background()
     return self.pImgBgrd
 end
 
+CStockResourceItem = createClass({
+    pFontInfo
+})
+
+function CStockResourceItem:_load_fonts()
+    self.pFontInfo = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 12)
+end
+
+function CStockResourceItem:load()
+    self:_load_fonts()
+end
+
+function CStockResourceItem:get_font_info()
+    return self.pFontInfo
+end
+
 CStockResource = createClass({
     pBgrdTextureData,
-    pStockTab = CStockResourceTab:new()
+    pStockTab = CStockResourceTab:new(),
+    pStockItem = CStockResourceItem:new()
 })
 
 function CStockResource:_load_texture_background()
@@ -130,6 +147,8 @@ end
 
 function CStockResource:load()
     self.pStockTab:load()
+    self.pStockItem:load()
+
     self:_load_texture_background()
     self:_load_text_field()
 end
@@ -148,6 +167,10 @@ end
 
 function CStockResource:get_tab_components()
     return self.pStockTab:get_tab_components()
+end
+
+function CStockResource:get_font_info()
+    return self.pStockItem:get_font_info()
 end
 
 function load_image_stock_resources()

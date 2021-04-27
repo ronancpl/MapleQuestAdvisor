@@ -16,7 +16,7 @@ require("ui.struct.window.element.basic.slider")
 local function fetch_item_range(pVwRscs, pConfVw)
     local rgpVwItems = pVwRscs:get_view_items()
 
-    local iRow = pVwRscs:get_row_selected() - 1
+    local iRow = pVwRscs:get_row_selected()
     local iSt = (iRow * pConfVw.COLS) + 1
     local iEn = math.min(#rgpVwItems, (iRow + pConfVw.ROWS) * pConfVw.COLS)
 
@@ -56,7 +56,6 @@ local function update_item_position(pVwRscs, pConfVw)
     pVwRscs:set_view_range(iSt, iEn)
 
     local iPx, iPy = pVwRscs:get_origin()
-
     iPx = iPx + pConfVw.X + pConfVw.ST_X
     iPy = iPy + pConfVw.Y + pConfVw.ST_Y
 
@@ -102,7 +101,7 @@ function update_tab_for_resource_table(pVwRscs, iNextTab)
     fn_update_row(pVwRscs, 0)  -- set to list start
 end
 
-function update_resource_tabs(pVwRscs, pRscProp)
+local function update_resource_tabs(pVwRscs, pRscProp)
     update_resource_items(pVwRscs, pRscProp)
 end
 
@@ -124,4 +123,6 @@ function update_items_for_resource_table(pVwRscs, pRscProp, pConfVw)
     else
         pSlider:update_state(RSliderState.NORMAL)
     end
+
+    update_item_position(pVwRscs, pConfVw)
 end
