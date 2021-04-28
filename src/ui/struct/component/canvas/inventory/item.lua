@@ -57,7 +57,7 @@ function CCanvasItem:load(iId, iCount)
     self.iId = iId
     self.iCount = iCount
 
-    self.eBox:load()
+    self.eBox:load(0, 0, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H)
     self:_load_image(iId)
 end
 

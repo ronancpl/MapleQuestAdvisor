@@ -10,11 +10,29 @@
     provide an express grant of patent rights.
 --]]
 
-local function draw_resource_text_info(pVwRsc, iPx, iPy)
-end
+function draw_resource_tooltip(pVwRsc)
+    local pVwTip = pVwRsc:get_tooltip()
 
-function draw_resource_picture(pVwRsc)
+    local pTextbox = pVwTip:get_textbox()
+    pTextbox:draw()
 end
 
 function draw_resource_link(pVwRsc)
+    local eTxtDesc = pVwRsc:get_object_desc()
+    eTxtDesc:draw()
+
+    local eTxtFieldLink = pVwRsc:get_object_field_link()
+    eTxtFieldLink:draw()
+end
+
+function draw_resource_picture(pVwRsc)
+    if pVwRsc:is_visible_count() then
+        local pImgRsc = pVwRsc:get_image()
+        local iCount = pVwRsc:get_count()
+
+        local iPx, iPy = pVwRsc:get_position()
+
+        local pVwCnvRsc = load_item_canvas(pImgRsc, RResourceTable.VW_GRID.W, RResourceTable.VW_GRID.H)
+        draw_item_canvas(pVwCnvRsc, iCount, iPx, iPy, RResourceTable.VW_GRID.W, RResourceTable.VW_GRID.H)
+    end
 end

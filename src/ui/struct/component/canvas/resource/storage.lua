@@ -77,19 +77,32 @@ function CStockResourceTab:get_background()
 end
 
 CStockResourceItem = createClass({
-    pFontInfo
+    pFontInfo,
+
+    pTooltipBox,
+    iIx, iIy, iIw, iIh
 })
 
 function CStockResourceItem:_load_fonts()
     self.pFontInfo = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 12)
 end
 
+function CStockResourceItem:_load_images()
+    self.pTooltipBox = love.graphics.newImage(ctVwStyle:get_image_data(RWndPath.INTF_SBOX))
+    self.iIx, self.iIy, self.iIw, self.iIh = 3, 3, 115, 6
+end
+
 function CStockResourceItem:load()
     self:_load_fonts()
+    self:_load_images()
 end
 
 function CStockResourceItem:get_font_info()
     return self.pFontInfo
+end
+
+function CStockResourceItem:get_background_tooltip()
+    return self.pTooltipBox, self.iIx, self.iIy, self.iIw, self.iIh
 end
 
 CStockResource = createClass({
@@ -171,6 +184,10 @@ end
 
 function CStockResource:get_font_info()
     return self.pStockItem:get_font_info()
+end
+
+function CStockResource:get_background_tooltip()
+    return self.pStockItem:get_background_tooltip()
 end
 
 function load_image_stock_resources()

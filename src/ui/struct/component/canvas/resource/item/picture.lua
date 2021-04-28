@@ -10,25 +10,18 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("ui.constant.view.inventory")
 require("ui.run.draw.canvas.resource.resource")
 require("ui.struct.component.canvas.resource.item.item")
 require("ui.struct.component.element.rect")
+require("ui.struct.toolkit.subimage")
 require("utils.struct.class")
 
 CCanvasRscPicture = createClass({CCanvasResource, {
-    eBox = CUserboxElem:new(),
-
     pImg,
-    iPictWidth,
-    iPictHeight,
-
     iCount
 }})
-
-function CCanvasRscPicture:get_object()
-    return self.eBox
-end
 
 function CCanvasRscPicture:get_image()
     return self.pImg
@@ -42,22 +35,26 @@ function CCanvasRscPicture:is_visible_count()
     return self.iCount ~= nil
 end
 
-function CCanvasRscPicture:load(pImg, iCount, sDesc, iFieldRef, iPictWidth, iPictHeight)
-    self.sDesc = sDesc
-    self.iFieldRef = iFieldRef
+local function make_icon_image(pImg, iPictWidth, iPictHeight)
+    local fCx, fCy = 0.2, 0.2
+    local iW, iH = pImg:getDimensions()
 
-    self.eBox:load()
-    self:load_text(sDesc, iFieldRef)
+    local iPx = math.iclamp(fCx * iW, 0, iW - iPictWidth)
+    local iPy = math.iclamp(fCy * iH, 0, iH - iPictHeight)
 
-    self.pImg = pImg
+    local pIconImg = make_subimage(pImg, iPx, iPy, iPictWidth, iPictHeight)
+    return pIconImg
+end
+
+function CCanvasRscPicture:load(pImg, iCount, sDesc, iFieldRef, pConfVw)
+    self:_load(sDesc, iFieldRef, pConfVw)
+
+    self.pImg = make_icon_image(pImg, pConfVw.W, pConfVw.H)
     self.iCount = iCount
-
-    self.iPictWidth = iPictWidth
-    self.iPictHeight = iPictHeight
 end
 
 function CCanvasRscPicture:update(iPx, iPy)
-    self.eBox:load(iPx, iPy, self.iPictWidth, self.iPictHeight)
+    self:_update_position(iPx, iPy)
 end
 
 function CCanvasRscPicture:draw()

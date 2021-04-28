@@ -24,7 +24,7 @@ local function make_tab_resources_items(pRscProp)
         local sDesc = ctItemsMeta:get_text(iId, 1)
         local iFieldRef = 100000000
 
-        pVwItem:load(pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID.W, RResourceTable.VW_GRID.H)
+        pVwItem:load(pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -42,7 +42,7 @@ local function make_tab_resources_mobs(pRscProp)
         local sDesc = ctMobsMeta:get_text(iId)
         local iFieldRef = 100000000
 
-        pVwItem:load(pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID.W, RResourceTable.VW_GRID.H)
+        pVwItem:load(pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -61,7 +61,7 @@ local function make_tab_resources_npc(pRscProp)
         local sDesc = ctNpcsMeta:get_text(iId)
         local iFieldRef = 100000000
 
-        pVwItem:load(pImg, nil, sDesc, iFieldRef, RResourceTable.VW_PICT.W, RResourceTable.VW_PICT.H)
+        pVwItem:load(pImg, nil, sDesc, iFieldRef, RResourceTable.VW_PICT)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -79,7 +79,7 @@ local function make_tab_resources_field_enter(pRscProp)
         local iFieldRef = iId
 
         local pVwItem = CCanvasRscLink:new()
-        pVwItem:load(sDesc, iFieldRef)
+        pVwItem:load(sDesc, iFieldRef, RResourceTable.VW_INFO)
 
         table.insert(rgpVwItems, pVwItem)
     end

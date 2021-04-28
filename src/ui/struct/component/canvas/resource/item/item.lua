@@ -11,49 +11,34 @@
 --]]
 
 require("router.constants.path")
+require("ui.struct.component.basic.base")
+require("ui.struct.component.canvas.resource.item.tooltip")
+require("ui.run.draw.canvas.resource.resource")
 require("utils.struct.class")
 
 CCanvasResource = createClass({
-    sDesc,
-    iFieldRef,
-
-    eTxtDesc,
-    eTxtFieldRef
+    eElem = CBasicElem:new(),
+    pTooltip = CCanvasTooltip:new()
 })
 
-function CCanvasResource:load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
-    local pFont = ctVwRscs:get_font_info()
-
-    local eTxtDesc = CTextElem:new()
-    eTxtDesc:load(sDesc, pFont, iLineWidth, iPx, iPy)
-    self.eTxtDesc = eTxtDesc
-
-    local sFieldName = ctFieldsMeta:get_area_name(iFieldRef)
-
-    local eTxtFieldRef = CTextElem:new()
-    eTxtFieldRef:load(sFieldName, pFont, iLineWidth, iPx, iPy)
-    self.eTxtFieldRef = eTxtFieldRef
+function CCanvasResource:_update_position(iRx, iRy)
+    self.eElem:load(iRx, iRy)
 end
 
-function CCanvasResource:load(sDesc, iFieldRef)
-    self.sDesc = sDesc
-    self.iFieldRef = iFieldRef
-
-    self:load_text(sDesc, iFieldRef)
+function CCanvasResource:get_position()
+    return self.eElem:get_pos()
 end
 
-function CCanvasResource:get_desc()
-    return self.sDesc
+function CCanvasResource:_load_tooltip(sDesc)
+    local m_pTooltip = self.pTooltip
+    m_pTooltip:load(sDesc)
 end
 
-function CCanvasResource:get_field_link()
-    return self.iFieldRef
+function CCanvasResource:_load(sDesc)
+    self:_load_tooltip(sDesc)
+    self.eElem:load(-1, -1)
 end
 
-function CCanvasResource:get_text_desc()
-    return self.pTxtDesc
-end
-
-function CCanvasResource:get_text_field_link()
-    return self.pTxtFieldRef
+function CCanvasResource:draw_tooltip()
+    draw_resource_tooltip(self)
 end

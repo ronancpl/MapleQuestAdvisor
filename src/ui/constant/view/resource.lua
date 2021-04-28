@@ -61,6 +61,7 @@ RResourceTable = {
 
         ST_X = 8,
         ST_Y = 5,
+        FIELD_X = 200,
         FIL_X = 4,
         FIL_Y = 2,
 
@@ -77,6 +78,7 @@ RResourceTable = {
 
         ST_X = 8,
         ST_Y = 5,
+        FIELD_X = 200,
         FIL_X = 4,
         FIL_Y = 2,
 
@@ -88,11 +90,12 @@ RResourceTable = {
         ROWS = 1,
         COLS = 16,
 
-        X = 20,
-        Y = 41,
+        X = 0,
+        Y = 45,
 
         ST_X = 8,
         ST_Y = 5,
+        FIELD_X = 200,
         FIL_X = 4,
         FIL_Y = 2,
 

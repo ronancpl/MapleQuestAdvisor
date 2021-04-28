@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("ui.run.update.canvas.resource.entry")
 require("ui.struct.window.element.basic.slider")
 

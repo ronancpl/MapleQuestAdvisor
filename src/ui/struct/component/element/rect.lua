@@ -15,8 +15,8 @@ require("utils.struct.class")
 
 CUserboxElem = createClass({
     eElemLt = CBasicElem:new(),
-    iWidth,
-    iHeight,
+    iWidth = 0,
+    iHeight = 0,
     iZ
 })
 
@@ -46,10 +46,18 @@ function CUserboxElem:get_center()
     return (iLx + iRx) / 2, (iTy + iBy) / 2
 end
 
-function CUserboxElem:load(iLx, iTy, iW, iH, iZ)
+function CUserboxElem:set_position(iLx, iTy)
     self.eElemLt:load(iLx, iTy)
+end
+
+function CUserboxElem:set_dimensions(iLx, iTy)
     self.iWidth = iW
     self.iHeight = iH
+end
+
+function CUserboxElem:load(iLx, iTy, iW, iH, iZ)
+    self:set_position(iLx, iTy)
+    self:set_dimensions(iW, iH)
 
     self.iZ = iZ
 end

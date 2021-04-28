@@ -46,6 +46,6 @@ function CStyleBoxItem:draw(iPx, iPy)
         iPx = iPx + RStylebox.FIL_X
         iPy = iPy + RStylebox.FIL_Y
 
-        draw_item_canvas(m_pView, nil, iPx, iPy, nil, nil)
+        draw_item_canvas(m_pView, nil, iPx, iPy, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
     end
 end
