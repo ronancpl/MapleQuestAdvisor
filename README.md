@@ -98,8 +98,9 @@ At the moment, this tool provides 2 running options:
     * The graphic UI
 
 To run, open the command prompt and point directory with "cd <LOCATION_FOLDER>\src", then for each running option:
-    * `> lua5.1 router/main.lua` : runs the quest routing process.
-    * `> love ui` : opens the UI.
+
+* `> lua5.1 router/main.lua` : runs the quest routing process.
+* `> love ui` : opens the UI.
 
 The route skimming runs through a group of quests around the player's level, and displays volume measurement from quests traveled.
 
