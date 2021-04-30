@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.view.inventory")
+require("ui.constant.view.item")
 require("ui.run.draw.canvas.inventory.inventory")
 require("ui.run.draw.canvas.inventory.item")
 require("ui.struct.component.element.rect")
@@ -50,7 +51,7 @@ function CCanvasItem:_load_image()
     local pImg = ctVwInvt:get_image_by_itemid(self.iId)
 
     self.pImg = pImg
-    self.pView = load_item_canvas(pImg, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H)
+    self.pView = load_item_canvas(pImg, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H, RItemTile.INVENTORY)
 end
 
 function CCanvasItem:load(iId, iCount)

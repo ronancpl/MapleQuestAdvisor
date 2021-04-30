@@ -20,19 +20,16 @@ CInvtProperties = createClass({
     pInvtPlayer
 })
 
-function CInvtProperties:reset()
-    self.pInvtPlayer = load_view_inventory(CInventory:new(), 0, 0)
-end
-
 function CInvtProperties:load()
     self.pInvtPlayer = load_view_inventory(CInventory:new(), 0, 0)
 end
 
-function CInvtProperties:update_inventory(pIvtItems)
-    local m_pInvtPlayer = self.pInvtPlayer
+function CInvtProperties:reset()
+    self.pInvtPlayer:reload_inventory(CInventory:new())
+end
 
-    local iPx, iPy = m_pInvtPlayer:get_origin()
-    m_pInvtPlayer:load(pIvtItems, iPx, iPy)
+function CInvtProperties:update_inventory(pIvtItems)
+    self.pInvtPlayer:reload_inventory(pIvtItems)
 end
 
 function CInvtProperties:get_inventory()

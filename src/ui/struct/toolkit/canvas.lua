@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("ui.struct.toolkit.graphics")
 
 CViewCanvas = createClass({
@@ -18,9 +19,9 @@ CViewCanvas = createClass({
     iOx = 0,
     iOy = 0,
 
-    iLx = 0,
+    iLx = U_INT_MAX,
     iRx = 0,
-    iTy = 0,
+    iTy = U_INT_MAX,
     iBy = 0
 })
 
@@ -56,7 +57,7 @@ function CViewCanvas:get_rb()
 end
 
 function CViewCanvas:free()
-    self:alloc_lt(0, 0)
+    self:alloc_lt(U_INT_MAX, U_INT_MAX)
     self:alloc_rb(0, 0)
 end
 
@@ -95,8 +96,11 @@ function graphics_canvas_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
     local iHeight
     iWidth, iHeight = pImg:getDimensions()
 
-    iW = iW or math.floor(fSw * iWidth)
-    iH = iH or math.floor(fSh * iHeight)
+    local iDw = math.floor(fSw * iWidth)
+    iW = iW and math.min(iW, iDw) or iDw
+
+    local iDh = math.floor(fSh * iHeight)
+    iH = iH and math.min(iH, iDh) or iDh
 
     pCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
 end
@@ -105,23 +109,21 @@ local function fetch_canvas_limits(pCanvas)
     local iLx, iTy = pCanvas:get_lt()
     local iRx, iBy = pCanvas:get_rb()
 
-    local iOx = iLx
-    local iOy = iTy
+    local iOx, iOy = pCanvas:get_origin()
 
     local iSw = iRx - iLx
     local iSh = iBy - iTy
 
-    return iOx, iOy, iSw, iSh
+    return iOx, iOy, iLx, iTy, iSw, iSh
 end
 
 function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iKx, iKy)
-    local iOx, iOy, iSw, iSh = fetch_canvas_limits(pCanvas)
+    local iOx, iOy, iLx, iTy, iSw, iSh = fetch_canvas_limits(pCanvas)
 
-    local iIx, iIy = pCanvas:get_origin()
-    iPx = iPx - iIx
-    iPy = iPy - iIy
+    local iRx = iLx - iOx
+    local iRy = iTy - iOy
 
-    love.graphics.setScissor(iPx, iPy, iSw, iSh)
-    love.graphics.draw(pCanvas:get_canvas(), iPx, iPy, iR, 1, 1, iOx, iOy, iKx, iKy)
+    love.graphics.setScissor(iPx + iRx, iPy + iRy, iSw, iSh)
+    love.graphics.draw(pCanvas:get_canvas(), iPx + iRx, iPy + iRy, iR, 1, 1, iOx, iOy, iKx, iKy)
     love.graphics.setScissor()
 end

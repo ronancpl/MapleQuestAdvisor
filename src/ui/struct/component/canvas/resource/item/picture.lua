@@ -15,7 +15,7 @@ require("ui.constant.view.inventory")
 require("ui.run.draw.canvas.resource.resource")
 require("ui.struct.component.canvas.resource.item.item")
 require("ui.struct.component.element.rect")
-require("ui.struct.toolkit.subimage")
+require("ui.struct.toolkit.canvas")
 require("utils.struct.class")
 
 CCanvasRscPicture = createClass({CCanvasResource, {
@@ -35,21 +35,70 @@ function CCanvasRscPicture:is_visible_count()
     return self.iCount ~= nil
 end
 
-local function make_icon_image(pImg, iPictWidth, iPictHeight)
-    local fCx, fCy = 0.2, 0.2
-    local iW, iH = pImg:getDimensions()
+local function calc_icon_dimension_scale(iPicLength, iImgLength)
+    if iImgLength < iPicLength then
+        return 1.0
+    end
 
-    local iPx = math.iclamp(fCx * iW, 0, iW - iPictWidth)
-    local iPy = math.iclamp(fCy * iH, 0, iH - iPictHeight)
+    local fSc = iPicLength / iImgLength
+    return fSc
+end
 
-    local pIconImg = make_subimage(pImg, iPx, iPy, iPictWidth, iPictHeight)
+local function calc_icon_image_scale(pImg, pRscGrid)
+    local fSc
+
+    local iIw, iIh = pImg:getDimensions()
+    if iIw > iIh then
+        fSc = calc_icon_dimension_scale(pRscGrid.W, iIw)
+    else
+        fSc = calc_icon_dimension_scale(pRscGrid.H, iIh)
+    end
+
+    return fSc
+end
+
+function load_scale_image_canvas(pImg, fSc)
+    local iImgW, iImgH = pImg:getDimensions()
+
+    local iScW = math.ceil(fSc * iImgW)
+    local iScH = math.ceil(fSc * iImgH)
+
+    local iScLim = math.max(iScW, iScH)
+    log_st(LPath.INTERFACE, "_rsc.txt", "f" .. fSc .. " " .. iScLim .. " w" .. iImgW .. ",h" .. iImgH)
+
+    local pVwCnv = CViewCanvas:new()
+    pVwCnv:load(iScLim, iScLim)
+
+    pVwCnv:render_to(function()
+        love.graphics.clear()
+
+        local iDx = math.ceil((iScLim - iScW) / 2)  -- centralized horizontally, next to bottom
+        local iDy = iScLim - iScH
+        graphics_canvas_draw(pImg, 0 + iDx, 0 + iDy, 0, iScW, iScH)
+    end)
+
+    local iLx, iTy = pVwCnv:get_lt()
+
+    local pCnv = pVwCnv:get_canvas()
+    local pImgCnv = pCnv:newImageData(0, 1, iLx, iTy, iScLim, iScLim)
+
+    local pImg = love.graphics.newImage(pImgCnv)
+    return pImg
+end
+
+local function make_icon_image(pImg, pRscGrid)
+    local fSc = calc_icon_image_scale(pImg, pRscGrid)
+
+    local pIconImg = load_scale_image_canvas(pImg, fSc)
     return pIconImg
 end
 
-function CCanvasRscPicture:load(pImg, iCount, sDesc, iFieldRef, pConfVw)
-    self:_load(sDesc, iFieldRef, pConfVw)
+function CCanvasRscPicture:load(siType, pImg, iId, iCount, sDesc, iFieldRef, pConfVw)
+    self:_load(siType, iId, sDesc, iFieldRef, pConfVw)
 
-    self.pImg = make_icon_image(pImg, pConfVw.W, pConfVw.H)
+    local pRscGrid = tpRscGrid[siType]
+
+    self.pImg = make_icon_image(pImg, pRscGrid)
     self.iCount = iCount
 end
 

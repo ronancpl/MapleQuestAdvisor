@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.input")
 require("ui.run.update.canvas.inventory.table")
 require("ui.struct.component.element.rect")
 require("ui.struct.window.element.basic.slider")
@@ -112,19 +113,22 @@ function CInvtElem:set_view_range(iIdxFrom, iIdxTo)
     m_rgiCurRange[2] = iIdxTo
 end
 
-function CInvtElem:load(pInvt, iPx, iPy)
-    local pImg = ctVwInvt:get_background()
-    local iW, iH = pImg:getDimensions()
-    self.eBox:load(iPx, iPy, iW, iH)
-
-    self.pSlider:load(RSliderState.NORMAL, RInventory.VW_INVT_SLIDER.H, true, true, RInventory.VW_INVT_SLIDER.X, RInventory.VW_INVT_SLIDER.Y)
-
+function CInvtElem:reload_inventory(pInvt)
     local m_rgpTabVwItems = self.rgpTabVwItems
     for i = 1, 5, 1 do
         m_rgpTabVwItems[i] = {}
     end
 
     update_items_for_inventory(self, pInvt)
+end
+
+function CInvtElem:load(pInvt, iPx, iPy)
+    local pImg = ctVwInvt:get_background()
+    local iW, iH = pImg:getDimensions()
+    self.eBox:load(iPx, iPy, iW, iH)
+
+    self.pSlider:load(RSliderState.NORMAL, RInventory.VW_INVT_SLIDER.H, true, true, RInventory.VW_INVT_SLIDER.X, RInventory.VW_INVT_SLIDER.Y)
+    self:reload_inventory(pInvt)
 end
 
 function CInvtElem:update(dt)

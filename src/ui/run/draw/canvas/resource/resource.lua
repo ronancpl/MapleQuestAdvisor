@@ -10,6 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.view.item")
+require("ui.constant.view.resource")
+require("ui.run.draw.canvas.inventory.item")
+require("ui.struct.component.canvas.resource.tab.grid")
+
 function draw_resource_tooltip(pVwRsc)
     local pVwTip = pVwRsc:get_tooltip()
 
@@ -31,8 +36,9 @@ function draw_resource_picture(pVwRsc)
         local iCount = pVwRsc:get_count()
 
         local iPx, iPy = pVwRsc:get_position()
+        local pRscGrid = tpRscGrid[pVwRsc:get_type()]
 
-        local pVwCnvRsc = load_item_canvas(pImgRsc, RResourceTable.VW_GRID.W, RResourceTable.VW_GRID.H)
-        draw_item_canvas(pVwCnvRsc, iCount, iPx, iPy, RResourceTable.VW_GRID.W, RResourceTable.VW_GRID.H)
+        local pVwCnvRsc = load_item_canvas(pImgRsc, pRscGrid.W, pRscGrid.H, RItemTile.INVENTORY)
+        draw_item_canvas(pVwCnvRsc, iCount, iPx, iPy, pRscGrid.W, pRscGrid.H)
     end
 end

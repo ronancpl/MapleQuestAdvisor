@@ -52,12 +52,12 @@ function CCanvasResource:_load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
     m_eTxtFieldRef:load(sFieldName, pFont, 10, iPx + pConfVw.FIELD_X + pConfVw.FIL_X, iPy + pConfVw.ST_Y + pConfVw.FIL_Y)
 end
 
-function CCanvasRscLink:load(sDesc, iFieldRef, pConfVw)
+function CCanvasRscLink:load(siType, iId, sDesc, iFieldRef, pConfVw)
     self.sDesc = sDesc
     self.iFieldRef = iFieldRef
     self.pConfVw = pConfVw
 
-    self:_load(sDesc)
+    self:_load(siType, iId, sDesc)
     self:_update_position(-1, -1)
 end
 

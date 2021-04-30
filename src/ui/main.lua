@@ -100,6 +100,21 @@ function love.load()
     pIvtItems:add_item(3010005, 2)
     pIvtItems:add_item(3010006, 2)
 
+    pIvtItems:add_item(2010000, 4)
+    pIvtItems:add_item(2010001, 1)
+    pIvtItems:add_item(2010002, 4)
+    pIvtItems:add_item(2010003, 1)
+    pIvtItems:add_item(2010004, 4)
+    pIvtItems:add_item(2010005, 1)
+    pIvtItems:add_item(2010006, 4)
+    pIvtItems:add_item(4010000, 4)
+    pIvtItems:add_item(4010001, 1)
+    pIvtItems:add_item(4010002, 4)
+    pIvtItems:add_item(4010003, 1)
+    pIvtItems:add_item(4010004, 4)
+    pIvtItems:add_item(4010005, 1)
+    pIvtItems:add_item(4010006, 4)
+
     log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring() .. "'")
     pUiInvt:update_inventory(pIvtItems)
 
@@ -171,6 +186,13 @@ function love.load()
     tiMobs[2130100] = 1
     tiMobs[2130103] = 4
     tiMobs[2220000] = 1
+
+    tiMobs[2110200] = 4
+    tiMobs[2110300] = 1
+    tiMobs[2110301] = 4
+    tiMobs[2130100] = 1
+    tiMobs[2130103] = 4
+    --tiMobs[8500002] = 1
 
     local iNpc = 1013000
     local iFieldEnter = 100000000

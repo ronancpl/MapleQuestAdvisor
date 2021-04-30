@@ -17,6 +17,8 @@ require("ui.struct.component.canvas.resource.item.picture")
 local function make_tab_resources_items(pRscProp)
     local rgpVwItems = {}
 
+    local siType = RResourceTable.TAB.ITEMS.ID
+
     for iId, iCount in pairs(pRscProp:get_info_item():get_items()) do
         local pVwItem = CCanvasRscPicture:new()
 
@@ -24,7 +26,7 @@ local function make_tab_resources_items(pRscProp)
         local sDesc = ctItemsMeta:get_text(iId, 1)
         local iFieldRef = 100000000
 
-        pVwItem:load(pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID)
+        pVwItem:load(siType, pImg, iId, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID.ITEMS)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -35,6 +37,8 @@ end
 local function make_tab_resources_mobs(pRscProp)
     local rgpVwItems = {}
 
+    local siType = RResourceTable.TAB.MOBS.ID
+
     for iId, iCount in pairs(pRscProp:get_info_mob():get_mobs()) do
         local pVwItem = CCanvasRscPicture:new()
 
@@ -42,7 +46,7 @@ local function make_tab_resources_mobs(pRscProp)
         local sDesc = ctMobsMeta:get_text(iId)
         local iFieldRef = 100000000
 
-        pVwItem:load(pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID)
+        pVwItem:load(siType, pImg, iId, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID.MOBS)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -53,6 +57,8 @@ end
 local function make_tab_resources_npc(pRscProp)
     local rgpVwItems = {}
 
+    local siType = RResourceTable.TAB.NPC.ID
+
     local iId = pRscProp:get_info_npc():get_npc()
     if iId ~= nil then
         local pVwItem = CCanvasRscPicture:new()
@@ -61,7 +67,7 @@ local function make_tab_resources_npc(pRscProp)
         local sDesc = ctNpcsMeta:get_text(iId)
         local iFieldRef = 100000000
 
-        pVwItem:load(pImg, nil, sDesc, iFieldRef, RResourceTable.VW_PICT)
+        pVwItem:load(siType, pImg, iId, nil, sDesc, iFieldRef, RResourceTable.VW_GRID.NPCS)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -73,13 +79,14 @@ local function make_tab_resources_field_enter(pRscProp)
     local rgpVwItems = {}
 
     local iId = pRscProp:get_info_field_enter():get_field()
+    local siType = RResourceTable.TAB.FIELD_ENTER.ID
 
     if iId ~= nil then
         local sDesc = ctFieldsMeta:get_area_name(iId)
         local iFieldRef = iId
 
         local pVwItem = CCanvasRscLink:new()
-        pVwItem:load(sDesc, iFieldRef, RResourceTable.VW_INFO)
+        pVwItem:load(siType, iId, sDesc, iFieldRef, RResourceTable.VW_GRID.FIELD_ENTER)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -90,10 +97,10 @@ end
 function update_resource_items(pVwRscs, pRscProp)
     local tpVwItems = {}
 
-    table.insert(tpVwItems, make_tab_resources_items(pRscProp))
-    table.insert(tpVwItems, make_tab_resources_mobs(pRscProp))
-    table.insert(tpVwItems, make_tab_resources_npc(pRscProp))
-    table.insert(tpVwItems, make_tab_resources_field_enter(pRscProp))
+    tpVwItems[RResourceTable.TAB.MOBS.ID] = make_tab_resources_mobs(pRscProp)
+    tpVwItems[RResourceTable.TAB.ITEMS.ID] = make_tab_resources_items(pRscProp)
+    tpVwItems[RResourceTable.TAB.NPC.ID] = make_tab_resources_npc(pRscProp)
+    tpVwItems[RResourceTable.TAB.FIELD_ENTER.ID] = make_tab_resources_field_enter(pRscProp)
 
     pVwRscs:clear_tab_items()
     for siTab, rgpVwItems in pairs(tpVwItems) do

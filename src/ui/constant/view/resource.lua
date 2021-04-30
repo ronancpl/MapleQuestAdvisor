@@ -24,10 +24,10 @@ RResourceTable = {
     },
 
     TAB = {
-        MOBS = {TYPE = RResourceTabType.GRID, NAME = "Mobs"},
-        ITEMS = {TYPE = RResourceTabType.GRID, NAME = "Items"},
-        NPC = {TYPE = RResourceTabType.PICT, NAME = "NPC"},
-        FIELD_ENTER = {TYPE = RResourceTabType.INFO, NAME = "Enter"}
+        MOBS = {ID = 1, TYPE = RResourceTabType.GRID, NAME = "Mobs"},
+        ITEMS = {ID = 2, TYPE = RResourceTabType.GRID, NAME = "Items"},
+        NPC = {ID = 3, TYPE = RResourceTabType.PICT, NAME = "NPC"},
+        FIELD_ENTER = {ID = 4, TYPE = RResourceTabType.INFO, NAME = "Enter"}
     },
 
     VW_SLIDER = {
@@ -53,54 +53,69 @@ RResourceTable = {
     },
 
     VW_GRID = {
-        ROWS = 6,
-        COLS = 4,
+        MOBS = {
+            ROWS = 6,
+            COLS = 4,
 
-        X = 0,
-        Y = 45,
+            X = 0,
+            Y = 45,
 
-        ST_X = 8,
-        ST_Y = 5,
-        FIELD_X = 200,
-        FIL_X = 4,
-        FIL_Y = 2,
+            ST_X = 8,
+            ST_Y = 5,
+            FIELD_X = 200,
+            FIL_X = 4,
+            FIL_Y = 2,
 
-        W = 32,
-        H = 32
-    },
+            W = 100,
+            H = 100
+        },
+        ITEMS = {
+            ROWS = 6,
+            COLS = 4,
 
-    VW_PICT = {
-        ROWS = 1,
-        COLS = 2,
+            X = 0,
+            Y = 45,
 
-        X = 0,
-        Y = 45,
+            ST_X = 8,
+            ST_Y = 5,
+            FIELD_X = 200,
+            FIL_X = 4,
+            FIL_Y = 2,
 
-        ST_X = 8,
-        ST_Y = 5,
-        FIELD_X = 200,
-        FIL_X = 4,
-        FIL_Y = 2,
+            W = 32,
+            H = 32
+        },
+        NPCS = {
+            ROWS = 1,
+            COLS = 2,
 
-        W = 210,
-        H = 200
-    },
+            X = 0,
+            Y = 45,
 
-    VW_INFO = {
-        ROWS = 1,
-        COLS = 16,
+            ST_X = 8,
+            ST_Y = 5,
+            FIELD_X = 200,
+            FIL_X = 4,
+            FIL_Y = 2,
 
-        X = 0,
-        Y = 45,
+            W = 210,
+            H = 200
+        },
+        FIELD_ENTER = {
+            ROWS = 1,
+            COLS = 16,
 
-        ST_X = 8,
-        ST_Y = 5,
-        FIELD_X = 200,
-        FIL_X = 4,
-        FIL_Y = 2,
+            X = 0,
+            Y = 45,
 
-        W = 210,
-        H = 20
+            ST_X = 8,
+            ST_Y = 5,
+            FIELD_X = 200,
+            FIL_X = 4,
+            FIL_Y = 2,
+
+            W = 210,
+            H = 20
+        }
     }
-
 }

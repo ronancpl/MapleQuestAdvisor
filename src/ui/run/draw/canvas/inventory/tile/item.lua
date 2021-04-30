@@ -47,10 +47,19 @@ end
 local function fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh)
     local iImgX, iImgY, iImgW, iImgH = fetch_item_tile_position(fSc, pImgItem, iCx, iCy)
 
-    local iShPx, iShPy, iShW, iShH = fetch_item_tile_position(fSc, pImgShd, iCx, iCy)
+    local iShPx, iShPy, iShW, iShH = fetch_item_tile_position(1.0, pImgShd, iCx, iCy)
     iShPy = iBh - (iShPy / 2)
 
     return iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH
+end
+
+local function amend_item_tile_positions(pImgItem, iImgX, iImgY, iImgW, iImgH)
+    iImgX = iImgX + math.ceil((iImgW - pImgItem:getWidth()) / 2)
+    iImgY = iImgY + math.floor((iImgH - pImgItem:getHeight()) / 2)
+    iImgW = pImgItem:getWidth()
+    iImgH = pImgItem:getHeight()
+
+    return iImgX, iImgY, iImgW, iImgH
 end
 
 function fetch_item_tile_box_invt(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
@@ -59,6 +68,7 @@ function fetch_item_tile_box_invt(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
 
     local iCx, iCy, iW, iH, fSc = fetch_item_tile_center(pImgItem, iPx, iPy, iBw, iBh)
     local iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH = fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh)
+    iImgX, iImgY, iImgW, iImgH = amend_item_tile_positions(pImgItem, iImgX, iImgY, iImgW, iImgH)
 
     return iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH
 end

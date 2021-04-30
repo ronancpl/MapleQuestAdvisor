@@ -50,7 +50,7 @@ function CUserboxElem:set_position(iLx, iTy)
     self.eElemLt:load(iLx, iTy)
 end
 
-function CUserboxElem:set_dimensions(iLx, iTy)
+function CUserboxElem:set_dimensions(iW, iH)
     self.iWidth = iW
     self.iHeight = iH
 end

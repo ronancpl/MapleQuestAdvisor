@@ -11,7 +11,6 @@
 --]]
 
 require("ui.constant.view.inventory")
-require("ui.constant.view.item")
 require("ui.run.draw.canvas.inventory.tile.view")
 require("ui.struct.toolkit.canvas")
 require("ui.struct.toolkit.color")
@@ -21,13 +20,13 @@ local function draw_item_tile(pImgItem, iWidth, iHeight, siType)
     draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType)
 end
 
-function load_item_canvas(pImgItem, iWidth, iHeight)
+function load_item_canvas(pImgItem, iWidth, iHeight, siType)
     local pVwCnv = CViewCanvas:new()
     pVwCnv:load(iWidth, iHeight)
 
     pVwCnv:render_to(function()
         love.graphics.clear()
-        draw_item_tile(pImgItem, iWidth, iHeight, RItemTile.DESC)
+        draw_item_tile(pImgItem, iWidth, iHeight, siType)
     end)
 
     return pVwCnv

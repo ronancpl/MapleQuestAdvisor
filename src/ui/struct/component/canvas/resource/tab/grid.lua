@@ -11,17 +11,5 @@
 --]]
 
 require("ui.constant.view.resource")
-require("ui.run.update.canvas.resource.common")
-require("ui.struct.component.canvas.resource.item.picture")
 
-function update_row_for_resource_pict(pVwRscs, iNextSlct)
-    update_row_for_resource_table(pVwRscs, iNextSlct)
-end
-
-function update_tab_for_resource_pict(pVwRscs, iNextTab)
-    update_tab_for_resource_table(pVwRscs, iNextTab)
-end
-
-function update_items_for_resource_pict(pVwRscs, pRscProp)
-    update_items_for_resource_table(pVwRscs, pRscProp)
-end
+tpRscGrid = {RResourceTable.VW_GRID.MOBS, RResourceTable.VW_GRID.ITEMS, RResourceTable.VW_GRID.NPCS, RResourceTable.VW_GRID.FIELD_ENTER}

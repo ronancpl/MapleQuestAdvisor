@@ -12,6 +12,7 @@
 
 require("router.procedures.constant")
 require("ui.run.update.canvas.resource.entry")
+require("ui.struct.component.canvas.resource.tab.grid")
 require("ui.struct.window.element.basic.slider")
 
 local function fetch_item_range(pVwRscs, pConfVw)
@@ -80,7 +81,9 @@ local function update_item_position(pVwRscs, pConfVw)
     end
 end
 
-function update_row_for_resource_table(pVwRscs, iNextSlct, pConfVw)
+function update_row_for_resource_table(pVwRscs, iNextSlct)
+    local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
+
     local iInvtRows = math.ceil(pVwRscs:get_num_items() / pConfVw.ROWS)
     local iRow = math.iclamp(iNextSlct, 1, math.max(iInvtRows, 1))
 
@@ -106,7 +109,9 @@ local function update_resource_tabs(pVwRscs, pRscProp)
     update_resource_items(pVwRscs, pRscProp)
 end
 
-function update_items_for_resource_table(pVwRscs, pRscProp, pConfVw)
+function update_items_for_resource_table(pVwRscs, pRscProp)
+    local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
+
     pVwRscs:set_tab_selected(1)
     pVwRscs:set_row_selected(0)
 

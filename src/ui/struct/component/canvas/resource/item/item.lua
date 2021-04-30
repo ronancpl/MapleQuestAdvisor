@@ -18,6 +18,8 @@ require("utils.struct.class")
 
 CCanvasResource = createClass({
     eElem = CBasicElem:new(),
+    iId,
+    siType,
     pTooltip = CCanvasTooltip:new()
 })
 
@@ -29,14 +31,25 @@ function CCanvasResource:get_position()
     return self.eElem:get_pos()
 end
 
+function CCanvasResource:get_type()
+    return self.siType
+end
+
+function CCanvasResource:get_id()
+    return self.iId
+end
+
 function CCanvasResource:_load_tooltip(sDesc)
     local m_pTooltip = self.pTooltip
     m_pTooltip:load(sDesc)
 end
 
-function CCanvasResource:_load(sDesc)
-    self:_load_tooltip(sDesc)
+function CCanvasResource:_load(siType, iId, sDesc)
+    self.iId = iId
+    self.siType = siType
     self.eElem:load(-1, -1)
+
+    self:_load_tooltip(sDesc)
 end
 
 function CCanvasResource:draw_tooltip()
