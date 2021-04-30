@@ -85,7 +85,7 @@ function update_row_for_resource_table(pVwRscs, iNextSlct)
     local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
 
     local iInvtRows = math.ceil(pVwRscs:get_num_items() / pConfVw.ROWS)
-    local iRow = math.iclamp(iNextSlct, 1, math.max(iInvtRows, 1))
+    local iRow = math.iclamp(iNextSlct, 0, math.max(iInvtRows, 0))
 
     pVwRscs:set_row_selected(iRow)
 

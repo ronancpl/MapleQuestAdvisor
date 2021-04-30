@@ -40,16 +40,16 @@ function CCanvasRscLink:get_object_field_link()
     return self.eTxtFieldRef
 end
 
-function CCanvasResource:_load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
+function CCanvasRscLink:_load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
     local pFont = ctVwRscs:get_font_info()
 
     local m_eTxtDesc = self.eTxtDesc
-    m_eTxtDesc:load(sDesc, pFont, 10, iPx + pConfVw.ST_X + pConfVw.FIL_X, iPy + pConfVw.ST_Y + pConfVw.FIL_Y)
+    m_eTxtDesc:load(sDesc, pFont, pConfVw.FIELD_X, iPx + pConfVw.ST_X + pConfVw.FIL_X, iPy + pConfVw.ST_Y + pConfVw.FIL_Y)
 
     local sFieldName = ctFieldsMeta:get_area_name(iFieldRef)
 
     local m_eTxtFieldRef = self.eTxtFieldRef
-    m_eTxtFieldRef:load(sFieldName, pFont, 10, iPx + pConfVw.FIELD_X + pConfVw.FIL_X, iPy + pConfVw.ST_Y + pConfVw.FIL_Y)
+    m_eTxtFieldRef:load(sFieldName, pFont, pConfVw.FIELD_X, iPx + pConfVw.FIL_X, iPy + pConfVw.ST_Y + pConfVw.FIELD_Y + pConfVw.FIL_Y)
 end
 
 function CCanvasRscLink:load(siType, iId, sDesc, iFieldRef, pConfVw)

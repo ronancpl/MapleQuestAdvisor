@@ -111,6 +111,7 @@ RResourceTable = {
             ST_X = 8,
             ST_Y = 5,
             FIELD_X = 200,
+            FIELD_Y = 15,
             FIL_X = 4,
             FIL_Y = 2,
 

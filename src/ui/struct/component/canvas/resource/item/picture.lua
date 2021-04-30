@@ -39,8 +39,8 @@ local function calc_image_canvas_pos(pImg, pRscGrid)
     local iImgW, iImgH = pImg:getDimensions()
     local iPicW, iPicH = pRscGrid.W, pRscGrid.H
 
-    local iDx = 0 + math.floor((iPicW - iImgW) / 2)
-    local iDy = 0 + math.floor((iPicH - iImgH) / 2)
+    local iDx = math.ceil((iImgW - iPicW) / 2)  -- centralized horizontally, next to bottom
+    local iDy = iImgH - iPicH
 
     return iDx, iDy
 end
@@ -54,25 +54,19 @@ function load_icon_image_canvas(pImg, pRscGrid)
 
     local iCnvLim = math.max(iImgLim, iPicLim)
 
-    local iPx, iPy = calc_image_canvas_pos(pImg, pRscGrid)
+    local iDx, iDy = calc_image_canvas_pos(pImg, pRscGrid)
 
     local pVwCnv = CViewCanvas:new()
     pVwCnv:load(iCnvLim, iCnvLim)
 
     pVwCnv:render_to(function()
         love.graphics.clear()
-
-        local iDx = math.ceil((iImgW - iPicW) / 2)  -- centralized horizontally, next to bottom
-        local iDy = iImgH - iPicH
-        graphics_canvas_draw(pImg, iPx + iDx, iPy + iDy, 0, iPicW, iPicH)
+        graphics_canvas_draw(pImg, 0, 0, 0, iImgW, iImgH)
     end)
 
-    local iLx, iTy = pVwCnv:get_lt()
+    local pImgData = graphics_canvas_to_image_data(pVwCnv, iDx, iDy, iCnvLim, iCnvLim)
+    local pImg = love.graphics.newImage(pImgData)
 
-    local pCnv = pVwCnv:get_canvas()
-    local pImgCnv = pCnv:newImageData(0, 1, iLx, iTy, iCnvLim, iCnvLim)
-
-    local pImg = love.graphics.newImage(pImgCnv)
     return pImg
 end
 

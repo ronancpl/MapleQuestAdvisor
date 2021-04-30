@@ -117,6 +117,14 @@ local function fetch_canvas_limits(pCanvas)
     return iOx, iOy, iLx, iTy, iSw, iSh
 end
 
+function graphics_canvas_to_image_data(pCanvas, iPx, iPy, iW, iH)
+    local iLx, iTy = pCanvas:get_lt()
+    local pCnv = pCanvas:get_canvas()
+
+    local pImgDataCnv = pCnv:newImageData(0, 1, iLx + iPx, iTy + iPy, iW, iH)
+    return pImgDataCnv
+end
+
 function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iKx, iKy)
     local iOx, iOy, iLx, iTy, iSw, iSh = fetch_canvas_limits(pCanvas)
 
