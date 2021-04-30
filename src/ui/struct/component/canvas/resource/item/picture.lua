@@ -35,61 +35,49 @@ function CCanvasRscPicture:is_visible_count()
     return self.iCount ~= nil
 end
 
-local function calc_icon_dimension_scale(iPicLength, iImgLength)
-    if iImgLength < iPicLength then
-        return 1.0
-    end
-
-    local fSc = iPicLength / iImgLength
-    return fSc
-end
-
-local function calc_icon_image_scale(pImg, pRscGrid)
-    local fSc
-
-    local iIw, iIh = pImg:getDimensions()
-    if iIw > iIh then
-        fSc = calc_icon_dimension_scale(pRscGrid.W, iIw)
-    else
-        fSc = calc_icon_dimension_scale(pRscGrid.H, iIh)
-    end
-
-    return fSc
-end
-
-function load_scale_image_canvas(pImg, fSc)
+local function calc_image_canvas_pos(pImg, pRscGrid)
     local iImgW, iImgH = pImg:getDimensions()
+    local iPicW, iPicH = pRscGrid.W, pRscGrid.H
 
-    local iScW = math.ceil(fSc * iImgW)
-    local iScH = math.ceil(fSc * iImgH)
+    local iDx = 0 + math.floor((iPicW - iImgW) / 2)
+    local iDy = 0 + math.floor((iPicH - iImgH) / 2)
 
-    local iScLim = math.max(iScW, iScH)
-    log_st(LPath.INTERFACE, "_rsc.txt", "f" .. fSc .. " " .. iScLim .. " w" .. iImgW .. ",h" .. iImgH)
+    return iDx, iDy
+end
+
+function load_icon_image_canvas(pImg, pRscGrid)
+    local iImgW, iImgH = pImg:getDimensions()
+    local iPicW, iPicH = pRscGrid.W, pRscGrid.H
+
+    local iImgLim = math.max(iImgW, iImgH)
+    local iPicLim = math.max(iPicW, iPicH)
+
+    local iCnvLim = math.max(iImgLim, iPicLim)
+
+    local iPx, iPy = calc_image_canvas_pos(pImg, pRscGrid)
 
     local pVwCnv = CViewCanvas:new()
-    pVwCnv:load(iScLim, iScLim)
+    pVwCnv:load(iCnvLim, iCnvLim)
 
     pVwCnv:render_to(function()
         love.graphics.clear()
 
-        local iDx = math.ceil((iScLim - iScW) / 2)  -- centralized horizontally, next to bottom
-        local iDy = iScLim - iScH
-        graphics_canvas_draw(pImg, 0 + iDx, 0 + iDy, 0, iScW, iScH)
+        local iDx = math.ceil((iImgW - iPicW) / 2)  -- centralized horizontally, next to bottom
+        local iDy = iImgH - iPicH
+        graphics_canvas_draw(pImg, iPx + iDx, iPy + iDy, 0, iPicW, iPicH)
     end)
 
     local iLx, iTy = pVwCnv:get_lt()
 
     local pCnv = pVwCnv:get_canvas()
-    local pImgCnv = pCnv:newImageData(0, 1, iLx, iTy, iScLim, iScLim)
+    local pImgCnv = pCnv:newImageData(0, 1, iLx, iTy, iCnvLim, iCnvLim)
 
     local pImg = love.graphics.newImage(pImgCnv)
     return pImg
 end
 
 local function make_icon_image(pImg, pRscGrid)
-    local fSc = calc_icon_image_scale(pImg, pRscGrid)
-
-    local pIconImg = load_scale_image_canvas(pImg, fSc)
+    local pIconImg = load_icon_image_canvas(pImg, pRscGrid)
     return pIconImg
 end
 

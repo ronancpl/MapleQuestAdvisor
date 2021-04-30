@@ -26,7 +26,7 @@ function load_item_canvas(pImgItem, iWidth, iHeight, siType)
 
     pVwCnv:render_to(function()
         love.graphics.clear()
-        draw_item_tile(pImgItem, iWidth, iHeight, siType)
+        draw_item_tile(pImgItem, pImgItem:getWidth(), pImgItem:getHeight(), siType)
     end)
 
     return pVwCnv

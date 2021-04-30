@@ -94,8 +94,8 @@ Use the now installed LuaRocks to install the required modules.
 This tool is designed to be a standalone, running in Lua.
 
 At the moment, this tool provides 2 running options:
-    * The quest route skimming
-    * The graphic UI
+* The quest route skimming
+* The graphic UI
 
 To run, open the command prompt and point directory with "cd <LOCATION_FOLDER>\src", then for each running option:
 
