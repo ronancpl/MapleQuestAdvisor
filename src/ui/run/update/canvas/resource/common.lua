@@ -18,7 +18,7 @@ require("ui.struct.window.element.basic.slider")
 local function fetch_item_range(pVwRscs, pConfVw)
     local rgpVwItems = pVwRscs:get_view_items()
 
-    local iRow = pVwRscs:get_row_selected()
+    local iRow = pVwRscs:get_row_selected() - 1
     local iSt = (iRow * pConfVw.COLS) + 1
     local iEn = math.min(#rgpVwItems, (iRow + pConfVw.ROWS) * pConfVw.COLS)
 
@@ -46,6 +46,8 @@ local function clear_current_item_range(pVwRscs)
         for i = iSt, iEn, 1 do
             local pVwItem = rgpVwItems[i]
             if pVwItem ~= nil then
+                pVwItem:hide_tooltip()
+
                 pLyr:remove_element(LChannel.RSC_ITEM, pVwItem)
                 pVwItem:update_position(-1, -1)
             end
@@ -89,11 +91,34 @@ local function update_item_position(pVwRscs, pConfVw)
     end
 end
 
+local function update_resource_slider(pVwRscs, bMoveTop)
+    local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
+
+    local rgpVwItems = pVwRscs:get_view_items()
+    local iSgmts = math.ceil(#rgpVwItems / pConfVw.COLS)
+
+    local pSlider = pVwRscs:get_slider()
+    pSlider:set_num_segments(iSgmts)
+
+    if bMoveTop then
+        pSlider:set_current(0)
+    end
+
+    local bDisable = iSgmts <= pConfVw.ROWS
+    if bDisable then
+        pSlider:update_state(RSliderState.DISABLED)
+    else
+        pSlider:update_state(RSliderState.NORMAL)
+    end
+
+    update_item_position(pVwRscs, pConfVw)
+end
+
 function update_row_for_resource_table(pVwRscs, iNextSlct)
     local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
 
-    local iInvtRows = math.ceil(pVwRscs:get_num_items() / pConfVw.ROWS)
-    local iRow = math.iclamp(iNextSlct, 0, math.max(iInvtRows, 0))
+    local iInvtRows = math.ceil(pVwRscs:get_num_items() / pConfVw.COLS)
+    local iRow = math.iclamp(iNextSlct, 1, math.max(iInvtRows, 1))
 
     pVwRscs:set_row_selected(iRow)
 
@@ -107,12 +132,12 @@ function update_tab_for_resource_table(pVwRscs, iNextTab)
 
     local iTab = math.iclamp(iNextTab + 1, 1, #rgpTabVwItems)
     pVwRscs:set_tab_selected(iTab)
-
-    local rgpVwItems = rgpTabVwItems[iTab]
-    pVwRscs:update_view_items(rgpVwItems)
+    pVwRscs:refresh_view_items()
 
     local fn_update_row = pVwRscs:get_fn_update_row()
-    fn_update_row(pVwRscs, 0)  -- set to list start
+    fn_update_row(pVwRscs, 1)  -- set to list start
+
+    update_resource_slider(pVwRscs, true)
 end
 
 local function update_resource_tabs(pVwRscs, pRscProp)
@@ -120,25 +145,11 @@ local function update_resource_tabs(pVwRscs, pRscProp)
 end
 
 function update_items_for_resource_table(pVwRscs, pRscProp)
-    local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
-
     pVwRscs:set_tab_selected(1)
-    pVwRscs:set_row_selected(0)
+    pVwRscs:set_row_selected(1)
+
+    update_tab_for_resource_table(pVwRscs, 0)  -- set to MOBS
 
     update_resource_tabs(pVwRscs, pRscProp)
-
-    local rgpVwItems = pVwRscs:get_view_items()
-    local iSgmts = math.ceil(#rgpVwItems / pConfVw.ROWS)
-
-    local pSlider = pVwRscs:get_slider()
-    pSlider:set_num_segments(iSgmts)
-
-    local bDisable = iSgmts <= pConfVw.COLS
-    if bDisable then
-        pSlider:update_state(RSliderState.DISABLED)
-    else
-        pSlider:update_state(RSliderState.NORMAL)
-    end
-
-    update_item_position(pVwRscs, pConfVw)
+    update_resource_slider(pVwRscs, true)
 end

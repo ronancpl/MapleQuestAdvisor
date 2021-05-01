@@ -13,18 +13,29 @@
 require("router.procedures.constant")
 require("ui.constant.view.inventory")
 require("ui.run.draw.canvas.resource.resource")
+require("ui.run.load.canvas.resource.picture")
 require("ui.struct.component.canvas.resource.item.item")
 require("ui.struct.component.element.rect")
 require("ui.struct.toolkit.canvas")
 require("utils.struct.class")
 
 CRscElemItemPicture = createClass({CRscElemItem, {
+    eImgOrig = CBasicElem:new(),
+
     pImg,
     iCount
 }})
 
 function CRscElemItemPicture:get_image()
     return self.pImg
+end
+
+function CRscElemItemPicture:get_picture()
+    return self.pCnvImg
+end
+
+function CRscElemItemPicture:get_image_origin()
+    return self.eImgOrig:get_pos()
 end
 
 function CRscElemItemPicture:get_count()
@@ -35,17 +46,23 @@ function CRscElemItemPicture:is_visible_count()
     return self.iCount ~= nil
 end
 
-local function calc_image_canvas_pos(pImg, pRscGrid)
+local function calc_image_canvas_pos(pImg, pRscGrid, bUseShadow)
     local iImgW, iImgH = pImg:getDimensions()
     local iPicW, iPicH = pRscGrid.W, pRscGrid.H
 
-    local iDx = math.ceil((iImgW - iPicW) / 2)  -- centralized horizontally, next to bottom
-    local iDy = iImgH - iPicH
+    local iDx, iDy
+    if bUseShadow then
+        iDx = math.ceil((iImgW - iPicW) / 2)
+        iDy = math.ceil((iImgH - iPicH) / 2)
+    else
+        iDx = math.ceil((iImgW - iPicW) / 2)  -- centralized horizontally, next to bottom
+        iDy = iImgH - iPicH
+    end
 
     return iDx, iDy
 end
 
-function load_icon_image_canvas(pImg, pRscGrid)
+function load_icon_image_canvas(pImg, pRscGrid, bUseShadow)
     local iImgW, iImgH = pImg:getDimensions()
     local iPicW, iPicH = pRscGrid.W, pRscGrid.H
 
@@ -54,7 +71,7 @@ function load_icon_image_canvas(pImg, pRscGrid)
 
     local iCnvLim = math.max(iImgLim, iPicLim)
 
-    local iDx, iDy = calc_image_canvas_pos(pImg, pRscGrid)
+    local iDx, iDy = calc_image_canvas_pos(pImg, pRscGrid, bUseShadow)
 
     local pVwCnv = CViewCanvas:new()
     pVwCnv:load(iCnvLim, iCnvLim)
@@ -64,25 +81,33 @@ function load_icon_image_canvas(pImg, pRscGrid)
         graphics_canvas_draw(pImg, 0, 0, 0, iImgW, iImgH)
     end)
 
-    local pImgData = graphics_canvas_to_image_data(pVwCnv, iDx, iDy, iCnvLim, iCnvLim)
-    local pImg = love.graphics.newImage(pImgData)
+    local pImgData = graphics_canvas_to_image_data(pVwCnv, 0, 0, iCnvLim, iCnvLim)
 
-    return pImg
+    local pImg = love.graphics.newImage(pImgData)
+    return pImg, 0 - iDx, 0 - iDy
 end
 
-local function make_icon_image(pImg, pRscGrid)
-    local pIconImg = load_icon_image_canvas(pImg, pRscGrid)
-    return pIconImg
+local function make_icon_image(pImg, siType)
+    local pRscGrid = tpRscGrid[siType]
+    local bUseShadow = siType == RResourceTable.TAB.ITEMS.ID
+
+    local pIconImg, iDx, iDy = load_icon_image_canvas(pImg, pRscGrid, bUseShadow)
+    return pIconImg, iDx, iDy
 end
 
 function CRscElemItemPicture:load(siType, pImg, iId, iCount, sDesc, iFieldRef, pConfVw)
     self:_load(siType, iId, sDesc, pConfVw.W, pConfVw.H)
     self:_update_position(-1, -1)
 
-    local pRscGrid = tpRscGrid[siType]
+    local rX, rY
+    self.pImg, rX, rY = make_icon_image(pImg, siType)
 
-    self.pImg = make_icon_image(pImg, pRscGrid)
+    local m_eImgOrig = self.eImgOrig
+    m_eImgOrig:load(rX, rY)
+
     self.iCount = iCount
+
+    self.pCnvImg = load_resource_picture(self)
 end
 
 function CRscElemItemPicture:update(dt)

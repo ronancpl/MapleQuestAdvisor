@@ -25,8 +25,8 @@ CWndSlider = createClass({
     pImgPrev,
     pImgNext,
 
-    iSgmtCur = 1,
-    iSgmtCount = 1,
+    iSgmtCur = 0,
+    iSgmtCount = 0,
 
     bVert
 })

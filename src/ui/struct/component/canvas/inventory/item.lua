@@ -51,7 +51,7 @@ function CInvtElemItem:_load_image()
     local pImg = ctVwInvt:get_image_by_itemid(self.iId)
 
     self.pImg = pImg
-    self.pView = load_item_canvas(pImg, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H, RItemTile.INVENTORY)
+    self.pView = load_item_canvas(pImg, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H, RItemTile.INVENTORY, true)
 end
 
 function CInvtElemItem:load(iId, iCount)

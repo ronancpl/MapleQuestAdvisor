@@ -19,8 +19,11 @@ local tfn_tile_draw = {}
 tfn_tile_draw[RItemTile.INVENTORY] = fetch_item_tile_box_invt
 tfn_tile_draw[RItemTile.DESC] = fetch_item_tile_box_desc
 
-function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType)
+function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
     local iPx, iPy = 0, 0
+
+    iOx = iOx or 0
+    iOy = iOy or 0
 
     -- draw item background
     local pImgShd = ctVwInvt:get_shadow()
@@ -28,8 +31,10 @@ function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType)
     local fn_tile_draw = tfn_tile_draw[siType]
     local iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, _ = fn_tile_draw(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
 
-    -- draw shadow
-    graphics_canvas_draw(pImgShd, iShPx, iShPy, 0, iShW, nil)
+    if bUseShadow then
+        -- draw shadow
+        graphics_canvas_draw(pImgShd, iShPx - iOx, iShPy - iOy, 0, iShW, nil)
+    end
 
     -- draw item image
     graphics_canvas_draw(pImgItem, iImgX, iImgY, 0, iImgW, iImgH)

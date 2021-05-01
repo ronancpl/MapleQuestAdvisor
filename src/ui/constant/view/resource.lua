@@ -60,25 +60,23 @@ RResourceTable = {
             X = 0,
             Y = 45,
 
-            ST_X = 8,
+            ST_X = 15,
             ST_Y = 5,
-            FIELD_X = 200,
             FIL_X = 4,
             FIL_Y = 2,
 
-            W = 100,
-            H = 100
+            W = 80,
+            H = 80
         },
         ITEMS = {
             ROWS = 6,
-            COLS = 4,
+            COLS = 8,
 
             X = 0,
             Y = 45,
 
-            ST_X = 8,
+            ST_X = 15,
             ST_Y = 5,
-            FIELD_X = 200,
             FIL_X = 4,
             FIL_Y = 2,
 
@@ -92,9 +90,8 @@ RResourceTable = {
             X = 0,
             Y = 45,
 
-            ST_X = 8,
+            ST_X = 15,
             ST_Y = 5,
-            FIELD_X = 200,
             FIL_X = 4,
             FIL_Y = 2,
 
@@ -108,10 +105,8 @@ RResourceTable = {
             X = 0,
             Y = 45,
 
-            ST_X = 8,
+            ST_X = 15,
             ST_Y = 5,
-            FIELD_X = 200,
-            FIELD_Y = 8,
             FIL_X = 4,
             FIL_Y = 2,
 

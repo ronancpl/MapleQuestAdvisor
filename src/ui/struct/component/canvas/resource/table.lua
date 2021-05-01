@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.input")
 require("ui.constant.view.resource")
 require("ui.run.draw.canvas.resource.table")
 require("ui.run.update.canvas.resource.common")
@@ -101,7 +102,7 @@ function CRscTableElem:add_tab_items(iTab, rgpVwItems)
     table_append(m_rgpTabVwItems[iTab], rgpVwItems)
 end
 
-function CRscTableElem:update_view_items(rgpVwItems)
+function CRscTableElem:_set_view_items(rgpVwItems)
     local m_rgpVwItems = self.rgpVwItems
     clear_table(m_rgpVwItems)
     table_append(m_rgpVwItems, rgpVwItems)
@@ -112,7 +113,7 @@ function CRscTableElem:refresh_view_items()
     local iTab = self:get_tab_selected()
 
     local rgpVwItems = rgpTabVwItems[iTab]
-    self:update_view_items(rgpVwItems)
+    self:_set_view_items(rgpVwItems)
 end
 
 function CRscTableElem:get_fn_update_row()
@@ -136,9 +137,7 @@ function CRscTableElem:load(rX, rY, pTextureData)
     myImgBox = pImgBox
 
     local m_eTexture = self.eTexture
-    a = 7
     m_eTexture:load(rX, rY, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
-    a = nil
 
     self.pSlider:load(RSliderState.NORMAL, RResourceTable.VW_SLIDER.H, true, true, RResourceTable.VW_SLIDER.X, RResourceTable.VW_SLIDER.Y)
 
@@ -179,5 +178,20 @@ function CRscTableElem:onmousereleased(x, y, button)
 
     if button == 1 then
         self:_try_click_tab(x, y)
+    end
+end
+
+function CRscTableElem:onwheelmoved(dx, dy)
+    local iAdy = math.abs(dy)
+    if iAdy >= LInput.MOUSE_WHEEL_MOVE_DY then
+        local iDlt = -1 * (dy / iAdy)   -- increase on roll-down
+
+        local iNextSlct = self:get_row_selected() + iDlt
+
+        update_row_for_resource_table(self, iNextSlct)
+        iNextSlct = self:get_row_selected()
+
+        local m_pSlider = self.pSlider
+        m_pSlider:set_current(iNextSlct)
     end
 end

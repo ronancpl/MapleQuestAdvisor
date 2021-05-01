@@ -16,17 +16,17 @@ require("ui.struct.toolkit.canvas")
 require("ui.struct.toolkit.color")
 require("ui.struct.toolkit.graphics")
 
-local function draw_item_tile(pImgItem, iWidth, iHeight, siType)
-    draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType)
+local function draw_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
+    draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
 end
 
-function load_item_canvas(pImgItem, iWidth, iHeight, siType)
+function load_item_canvas(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
     local pVwCnv = CViewCanvas:new()
     pVwCnv:load(iWidth, iHeight)
 
     pVwCnv:render_to(function()
         love.graphics.clear()
-        draw_item_tile(pImgItem, pImgItem:getWidth(), pImgItem:getHeight(), siType)
+        draw_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
     end)
 
     return pVwCnv
@@ -64,7 +64,10 @@ local function draw_item_count(iCount, iPx, iPy, iWidth, iHeight)
     end
 end
 
-function draw_item_canvas(pVwCnvItem, iCount, iPx, iPy, iWidth, iHeight)
-    graphics_draw_canvas(pVwCnvItem, iPx, iPy, 0)
-    draw_item_count(iCount, iPx, iPy, iWidth, iHeight)
+function draw_item_canvas(pVwCnvItem, iCount, iPx, iPy, iPicW, iPicH, iOx, iOy)
+    iOx = iOx or 0
+    iOy = iOy or 0
+
+    graphics_draw_canvas(pVwCnvItem, iPx + iOx, iPy + iOy, 0)
+    draw_item_count(iCount, iPx, iPy, iPicW, iPicH)
 end

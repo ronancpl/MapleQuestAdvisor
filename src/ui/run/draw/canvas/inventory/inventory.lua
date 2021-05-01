@@ -199,7 +199,7 @@ local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
         local bShowCount = pVwItem:is_visible_count()
 
         local iCount = bShowCount and pVwItem:get_count() or nil
-        draw_item_canvas(pVwCanvas, iCount, iPx, iPy, iItemWidth, iItemHeight, RItemTile.INVENTORY)
+        draw_item_canvas(pVwCanvas, iCount, iPx, iPy, iItemWidth, iItemHeight)
     end
 end
 

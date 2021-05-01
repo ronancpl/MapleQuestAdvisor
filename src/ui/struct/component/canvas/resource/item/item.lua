@@ -69,7 +69,7 @@ function CRscElemItem:draw_tooltip()
     draw_resource_tooltip(self)
 end
 
-function CRscElemItem:onmousehoverin()
+function CRscElemItem:show_tooltip()
     local m_pTooltip = self.pTooltip
     local pTextbox = m_pTooltip:get_textbox()
 
@@ -81,7 +81,7 @@ function CRscElemItem:onmousehoverin()
     end
 end
 
-function CRscElemItem:onmousehoverout()
+function CRscElemItem:hide_tooltip()
     local m_pTooltip = self.pTooltip
     local pTextbox = m_pTooltip:get_textbox()
 
@@ -91,4 +91,12 @@ function CRscElemItem:onmousehoverout()
         local pLyr = pUiRscs:get_layer(LLayer.NAV_RSC_TABLE)
         pLyr:remove_element(LChannel.RSC_DESC, pTextbox)
     end
+end
+
+function CRscElemItem:onmousehoverin()
+    self:show_tooltip()
+end
+
+function CRscElemItem:onmousehoverout()
+    self:hide_tooltip()
 end

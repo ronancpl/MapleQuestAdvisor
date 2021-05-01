@@ -90,8 +90,27 @@ local function update_item_position(pVwInvt)
     end
 end
 
+local function update_inventory_slider(pVwInvt, bMoveTop)
+    local rgpVwItems = pVwInvt:get_view_items()
+    local iSgmts = math.ceil(#rgpVwItems / RInventory.VW_INVT.COLS)
+
+    local pSlider = pVwInvt:get_slider()
+    pSlider:set_num_segments(iSgmts)
+
+    if bMoveTop then
+        pSlider:set_current(0)
+    end
+
+    local bDisable = iSgmts <= RInventory.VW_INVT.ROWS
+    if bDisable then
+        pSlider:update_state(RSliderState.DISABLED)
+    else
+        pSlider:update_state(RSliderState.NORMAL)
+    end
+end
+
 function update_row_for_inventory(pVwInvt, iNextSlct)
-    local iInvtRows = math.ceil(pVwInvt:get_num_items() / RInventory.VW_INVT.ROWS)
+    local iInvtRows = math.ceil(pVwInvt:get_num_items() / RInventory.VW_INVT.COLS)
     local iRow = math.iclamp(iNextSlct, 1, math.max(iInvtRows, 1))
 
     pVwInvt:set_row_selected(iRow)
@@ -104,11 +123,11 @@ function update_tab_for_inventory(pVwInvt, iNextTab)
 
     local iTab = math.iclamp(iNextTab + 1, 1, #rgpTabVwItems)
     pVwInvt:set_tab_selected(iTab)
+    pVwInvt:refresh_view_items()
 
-    local rgpVwItems = rgpTabVwItems[iTab]
-    pVwInvt:update_view_items(rgpVwItems)
+    update_row_for_inventory(pVwInvt, 1)  -- set to list start
 
-    update_row_for_inventory(pVwInvt, 0)  -- set to list start
+    update_inventory_slider(pVwInvt, true)
 end
 
 local function update_inventory_tabs(pVwInvt, pInvt)
@@ -131,22 +150,10 @@ end
 
 function update_items_for_inventory(pVwInvt, pInvt)
     pVwInvt:set_tab_selected(1)
-    pVwInvt:set_row_selected(0)
-
-    update_inventory_tabs(pVwInvt, pInvt)
+    pVwInvt:set_row_selected(1)
 
     update_tab_for_inventory(pVwInvt, 0)  -- set to EQUIP
 
-    local rgpVwItems = pVwInvt:get_view_items()
-    local iSgmts = math.ceil(#rgpVwItems / RInventory.VW_INVT.ROWS)
-
-    local pSlider = pVwInvt:get_slider()
-    pSlider:set_num_segments(iSgmts)
-
-    local bDisable = iSgmts <= RInventory.VW_INVT.COLS
-    if bDisable then
-        pSlider:update_state(RSliderState.DISABLED)
-    else
-        pSlider:update_state(RSliderState.NORMAL)
-    end
+    update_inventory_tabs(pVwInvt, pInvt)
+    update_inventory_slider(pVwInvt, true)
 end

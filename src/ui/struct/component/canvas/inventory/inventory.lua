@@ -96,10 +96,18 @@ function CInvtElem:add_tab_items(iTab, rgpVwItems)
     table_append(m_rgpTabVwItems[iTab], rgpVwItems)
 end
 
-function CInvtElem:update_view_items(rgpVwItems)
+function CInvtElem:_set_view_items(rgpVwItems)
     local m_rgpVwItems = self.rgpVwItems
     clear_table(m_rgpVwItems)
     table_append(m_rgpVwItems, rgpVwItems)
+end
+
+function CInvtElem:refresh_view_items()
+    local rgpTabVwItems = self:get_tab_items()
+    local iTab = self:get_tab_selected()
+
+    local rgpVwItems = rgpTabVwItems[iTab]
+    self:_set_view_items(rgpVwItems)
 end
 
 function CInvtElem:get_view_range()
