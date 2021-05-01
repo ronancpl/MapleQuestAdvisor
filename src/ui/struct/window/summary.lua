@@ -12,7 +12,8 @@
 
 LLayer = {
     NAV_WMAP_BACKGROUND = 1, NAV_WMAP_MAPLINK = 2, NAV_WMAP_MAPLIST = 3, NAV_WMAP_MISC = 4, NAV_WMAP_PTEXT = 5,
-    NAV_INVT_ITEM = 1
+    NAV_INVT_TABLE = 1,
+    NAV_RSC_TABLE = 1
 }
 
 LChannel = {
@@ -25,12 +26,12 @@ LChannel = {
     WMAP_PLAINTXT = 2,
 
     -- Inventory canvas
-    INVT_ITEMS = 1,
+    INVT_BGRD = 1, INVT_ITEM = 1,
 
     -- Stat canvas
     STAT_BGRD = 1, STAT_INFO = 2,
 
     -- Resource canvas
-    RSC_BGRD = 1, RSC_INFO = 2
+    RSC_BGRD = 1, RSC_ITEM = 2, RSC_DESC = 3
 
 }

@@ -187,12 +187,6 @@ local function draw_resource_tabs(pVwRscs)
     draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
 end
 
-local function draw_resource_items(pVwRscs)
-    for _, pVwItem in ipairs(fetch_item_palette_for_resource_table(pVwRscs)) do
-        pVwItem:draw()
-    end
-end
-
 local function draw_resource_field_base(pVwRscs)
     local pImgBase = ctVwRscs:get_background_text()
 
@@ -231,5 +225,4 @@ function draw_table_resources(pVwRscs)
     draw_resource_background(pVwRscs)
     draw_resource_slider(pVwRscs)
     draw_resource_tabs(pVwRscs)
-    draw_resource_items(pVwRscs)
 end

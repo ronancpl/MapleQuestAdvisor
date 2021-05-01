@@ -207,12 +207,6 @@ function draw_inventory_item(pVwItem)
     draw_compose_item_image(pVwItem, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H)
 end
 
-local function draw_inventory_items(pVwInvt)
-    for _, pVwItem in ipairs(fetch_item_palette_for_inventory(pVwInvt)) do
-        pVwItem:draw()
-    end
-end
-
 local function draw_inventory_background(pVwInvt)
     local pImg = ctVwInvt:get_background()
 
@@ -231,9 +225,8 @@ local function draw_inventory_slider(pVwInvt)
     pVwInvt:get_slider():draw(iPx, iPy)
 end
 
-function draw_player_inventory(pVwInvt)
+function draw_table_player_inventory(pVwInvt)
     draw_inventory_background(pVwInvt)
     draw_inventory_slider(pVwInvt)
     draw_inventory_tabs(pVwInvt)
-    draw_inventory_items(pVwInvt)
 end

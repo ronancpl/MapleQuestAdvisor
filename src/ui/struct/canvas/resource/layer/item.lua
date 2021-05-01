@@ -10,25 +10,14 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.summary")
 require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
-CResourceNavTable = createClass({CWndLayer, {}})
+CResourceNavItems = createClass({CWndLayer, {}})
 
-function CResourceNavTable:get_font()
-    return self.pFont
-end
-
-function CResourceNavTable:_build_element(pElemRsc)
-    self:add_element(LChannel.RSC_BGRD, pElemRsc)
-end
-
-function CResourceNavTable:build(pRscProp)
+function CResourceNavItems:build(pWmapProp)
     self:reset()
 
-    -- add layer elements
+    -- do nothing, elements added by interaction
 
-    local pElemRsc = pRscProp:get_table()
-    self:_build_element(pElemRsc)
 end

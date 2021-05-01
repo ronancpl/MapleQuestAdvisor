@@ -14,21 +14,17 @@ require("ui.struct.window.summary")
 require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
-CResourceNavTable = createClass({CWndLayer, {}})
+CInventoryNavTable = createClass({CWndLayer, {}})
 
-function CResourceNavTable:get_font()
-    return self.pFont
+function CInventoryNavTable:_build_element(pElemInvt)
+    self:add_element(LChannel.INVT_TABLE, pElemInvt)
 end
 
-function CResourceNavTable:_build_element(pElemRsc)
-    self:add_element(LChannel.RSC_BGRD, pElemRsc)
-end
-
-function CResourceNavTable:build(pRscProp)
+function CInventoryNavTable:build(pInvtProp)
     self:reset()
 
     -- add layer elements
 
-    local pElemRsc = pRscProp:get_table()
-    self:_build_element(pElemRsc)
+    local pElemInvt = pInvtProp:get_inventory()
+    self:_build_element(pElemInvt)
 end

@@ -10,21 +10,14 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.summary")
 require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
 CInventoryNavItems = createClass({CWndLayer, {}})
 
-function CInventoryNavItems:_build_element(pElemInvt)
-    self:add_element(LChannel.INVT_ITEMS, pElemInvt)
-end
-
-function CInventoryNavItems:build(pInvtProp)
+function CInventoryNavItems:build(pWmapProp)
     self:reset()
 
-    -- add layer elements
+    -- do nothing, elements added by interaction
 
-    local pElemInvt = pInvtProp:get_inventory()
-    self:_build_element(pElemInvt)
 end

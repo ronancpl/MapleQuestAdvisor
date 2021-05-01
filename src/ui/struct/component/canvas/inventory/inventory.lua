@@ -29,7 +29,7 @@ CInvtElem = createClass({
     nVwItems,
 
     rgpVwItems = {},
-    rgiCurRange = {-1, -1},
+    rgiCurRange = {0, -1},
     rgpTabVwItems = {}
 })
 
@@ -136,7 +136,7 @@ function CInvtElem:update(dt)
 end
 
 function CInvtElem:draw()
-    draw_player_inventory(self)
+    draw_table_player_inventory(self)
 end
 
 function CInvtElem:_try_click_tab(iPx, iPy)

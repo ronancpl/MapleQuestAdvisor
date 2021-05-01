@@ -54,7 +54,7 @@ RResourceTable = {
 
     VW_GRID = {
         MOBS = {
-            ROWS = 6,
+            ROWS = 3,
             COLS = 4,
 
             X = 0,
@@ -111,7 +111,7 @@ RResourceTable = {
             ST_X = 8,
             ST_Y = 5,
             FIELD_X = 200,
-            FIELD_Y = 15,
+            FIELD_Y = 8,
             FIL_X = 4,
             FIL_Y = 2,
 

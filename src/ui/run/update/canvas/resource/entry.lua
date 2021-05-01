@@ -20,7 +20,7 @@ local function make_tab_resources_items(pRscProp)
     local siType = RResourceTable.TAB.ITEMS.ID
 
     for iId, iCount in pairs(pRscProp:get_info_item():get_items()) do
-        local pVwItem = CCanvasRscPicture:new()
+        local pVwItem = CRscElemItemPicture:new()
 
         local pImg = ctHrItems:load_image_by_id(iId)
         local sDesc = ctItemsMeta:get_text(iId, 1)
@@ -40,7 +40,7 @@ local function make_tab_resources_mobs(pRscProp)
     local siType = RResourceTable.TAB.MOBS.ID
 
     for iId, iCount in pairs(pRscProp:get_info_mob():get_mobs()) do
-        local pVwItem = CCanvasRscPicture:new()
+        local pVwItem = CRscElemItemPicture:new()
 
         local pImg = ctHrMobs:load_image_by_id(iId)
         local sDesc = ctMobsMeta:get_text(iId)
@@ -61,7 +61,7 @@ local function make_tab_resources_npc(pRscProp)
 
     local iId = pRscProp:get_info_npc():get_npc()
     if iId ~= nil then
-        local pVwItem = CCanvasRscPicture:new()
+        local pVwItem = CRscElemItemPicture:new()
 
         local pImg = ctHrNpcs:load_image_by_id(iId)
         local sDesc = ctNpcsMeta:get_text(iId)
@@ -85,7 +85,7 @@ local function make_tab_resources_field_enter(pRscProp)
         local sDesc = ctFieldsMeta:get_area_name(iId)
         local iFieldRef = iId
 
-        local pVwItem = CCanvasRscLink:new()
+        local pVwItem = CRscElemItemLink:new()
         pVwItem:load(siType, iId, sDesc, iFieldRef, RResourceTable.VW_GRID.FIELD_ENTER)
 
         table.insert(rgpVwItems, pVwItem)

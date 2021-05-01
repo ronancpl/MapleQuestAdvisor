@@ -12,6 +12,7 @@
 
 require("ui.struct.canvas.inventory.properties")
 require("ui.struct.canvas.inventory.layer.item")
+require("ui.struct.canvas.inventory.layer.table")
 require("ui.struct.window.frame.canvas")
 require("utils.struct.class")
 
@@ -28,7 +29,7 @@ function CWndInventory:update_inventory(pIvtItems)
 end
 
 function CWndInventory:load()
-    self.pCanvas:load({CInventoryNavItems})
+    self.pCanvas:load({CInventoryNavTable, CInventoryNavItems})
     self.pProp:load()
 end
 

@@ -38,46 +38,54 @@ function fetch_item_palette_for_inventory(pVwInvt)
 end
 
 local function clear_current_item_range(pVwInvt)
-    local rgpVwItems = pVwInvt:get_view_items()
     local iSt, iEn = pVwInvt:get_view_range()
+    if iSt <= iEn then
+        local rgpVwItems = pVwInvt:get_view_items()
+        local pLyr = pUiInvt:get_layer(LLayer.NAV_INVT_TABLE)
 
-    for i = iSt, iEn, 1 do
-        local pVwItem = rgpVwItems[i]
-        if pVwItem ~= nil then
-            pVwItem:update(-1, -1)
+        for i = iSt, iEn, 1 do
+            local pVwItem = rgpVwItems[i]
+            if pVwItem ~= nil then
+                pLyr:remove_element(LChannel.INVT_ITEM, pVwItem)
+                pVwItem:update_position(-1, -1)
+            end
         end
     end
 end
 
 local function update_item_position(pVwInvt)
-    local rgpVwItems = pVwInvt:get_view_items()
-
     local iSt, iEn = fetch_item_range(pVwInvt)
-    clear_current_item_range(pVwInvt)
+    if iSt <= iEn then
+        local rgpVwItems = pVwInvt:get_view_items()
+        clear_current_item_range(pVwInvt)
 
-    pVwInvt:set_view_range(iSt, iEn)
+        pVwInvt:set_view_range(iSt, iEn)
 
-    local iPx, iPy = pVwInvt:get_origin()
+        local iPx, iPy = pVwInvt:get_origin()
 
-    iPx = iPx + RInventory.VW_INVT_ITEM.X + RInventory.VW_INVT_ITEM.ST_X
-    iPy = iPy + RInventory.VW_INVT_ITEM.Y + RInventory.VW_INVT_ITEM.ST_Y
+        iPx = iPx + RInventory.VW_INVT_ITEM.X + RInventory.VW_INVT_ITEM.ST_X
+        iPy = iPy + RInventory.VW_INVT_ITEM.Y + RInventory.VW_INVT_ITEM.ST_Y
 
-    local iIx, iIy
+        local iIx, iIy
 
-    local iPos = iSt - 1
-    local iBr = math.floor(iPos / RInventory.VW_INVT.COLS)
+        local iPos = iSt - 1
+        local iBr = math.floor(iPos / RInventory.VW_INVT.COLS)
 
-    for i = iSt, iEn, 1 do
-        local iPos = i - 1
-        local iR = math.floor(iPos / RInventory.VW_INVT.COLS)
-        local iC = iPos % RInventory.VW_INVT.COLS
+        local pLyr = pUiInvt:get_layer(LLayer.NAV_INVT_TABLE)
 
-        iIx = iPx + iC * (RInventory.VW_INVT_ITEM.W + RInventory.VW_INVT_ITEM.FIL_X)
-        iIy = iPy + (iR - iBr) * (RInventory.VW_INVT_ITEM.H + RInventory.VW_INVT_ITEM.FIL_Y)
+        for i = iSt, iEn, 1 do
+            local iPos = i - 1
+            local iR = math.floor(iPos / RInventory.VW_INVT.COLS)
+            local iC = iPos % RInventory.VW_INVT.COLS
 
-        local pVwItem = rgpVwItems[i]
-        if pVwItem ~= nil then
-            pVwItem:update(iIx, iIy)
+            iIx = iPx + iC * (RInventory.VW_INVT_ITEM.W + RInventory.VW_INVT_ITEM.FIL_X)
+            iIy = iPy + (iR - iBr) * (RInventory.VW_INVT_ITEM.H + RInventory.VW_INVT_ITEM.FIL_Y)
+
+            local pVwItem = rgpVwItems[i]
+            if pVwItem ~= nil then
+                pLyr:add_element(LChannel.INVT_ITEM, pVwItem)
+                pVwItem:update_position(iIx, iIy)
+            end
         end
     end
 end
@@ -108,7 +116,7 @@ local function update_inventory_tabs(pVwInvt, pInvt)
     for iId, iCount in pairs(pInvt:get_items()) do
         local siType = math.floor(iId / 1000000)
 
-        local pVwItem = CCanvasItem:new()
+        local pVwItem = CInvtElemItem:new()
         pVwItem:load(iId, iCount)
 
         local rgpVwItems = create_inner_table_if_not_exists(tpVwItems, siType)

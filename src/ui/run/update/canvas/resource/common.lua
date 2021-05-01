@@ -38,45 +38,53 @@ function fetch_item_palette_for_resource_table(pVwRscs)
 end
 
 local function clear_current_item_range(pVwRscs)
-    local rgpVwItems = pVwRscs:get_view_items()
     local iSt, iEn = pVwRscs:get_view_range()
+    if iSt <= iEn then
+        local rgpVwItems = pVwRscs:get_view_items()
+        local pLyr = pUiRscs:get_layer(LLayer.NAV_RSC_TABLE)
 
-    for i = iSt, iEn, 1 do
-        local pVwItem = rgpVwItems[i]
-        if pVwItem ~= nil then
-            pVwItem:update(-1, -1)
+        for i = iSt, iEn, 1 do
+            local pVwItem = rgpVwItems[i]
+            if pVwItem ~= nil then
+                pLyr:remove_element(LChannel.RSC_ITEM, pVwItem)
+                pVwItem:update_position(-1, -1)
+            end
         end
     end
 end
 
 local function update_item_position(pVwRscs, pConfVw)
-    local rgpVwItems = pVwRscs:get_view_items()
-
     local iSt, iEn = fetch_item_range(pVwRscs, pConfVw)
-    clear_current_item_range(pVwRscs)
+    if iSt <= iEn then
+        local rgpVwItems = pVwRscs:get_view_items()
+        clear_current_item_range(pVwRscs)
 
-    pVwRscs:set_view_range(iSt, iEn)
+        pVwRscs:set_view_range(iSt, iEn)
 
-    local iPx, iPy = pVwRscs:get_origin()
-    iPx = iPx + pConfVw.X + pConfVw.ST_X
-    iPy = iPy + pConfVw.Y + pConfVw.ST_Y
+        local iPx, iPy = pVwRscs:get_origin()
+        iPx = iPx + pConfVw.X + pConfVw.ST_X
+        iPy = iPy + pConfVw.Y + pConfVw.ST_Y
 
-    local iIx, iIy
+        local iIx, iIy
 
-    local iPos = iSt - 1
-    local iBr = math.floor(iPos / pConfVw.COLS)
+        local iPos = iSt - 1
+        local iBr = math.floor(iPos / pConfVw.COLS)
 
-    for i = iSt, iEn, 1 do
-        local iPos = i - 1
-        local iR = math.floor(iPos / pConfVw.COLS)
-        local iC = iPos % pConfVw.COLS
+        local pLyr = pUiRscs:get_layer(LLayer.NAV_RSC_TABLE)
 
-        iIx = iPx + iC * (pConfVw.W + pConfVw.FIL_X)
-        iIy = iPy + (iR - iBr) * (pConfVw.H + pConfVw.FIL_Y)
+        for i = iSt, iEn, 1 do
+            local iPos = i - 1
+            local iR = math.floor(iPos / pConfVw.COLS)
+            local iC = iPos % pConfVw.COLS
 
-        local pVwItem = rgpVwItems[i]
-        if pVwItem ~= nil then
-            pVwItem:update(iIx, iIy)
+            iIx = iPx + iC * (pConfVw.W + pConfVw.FIL_X)
+            iIy = iPy + (iR - iBr) * (pConfVw.H + pConfVw.FIL_Y)
+
+            local pVwItem = rgpVwItems[i]
+            if pVwItem ~= nil then
+                pVwItem:update_position(iIx, iIy)
+                pLyr:add_element(LChannel.RSC_ITEM, pVwItem)
+            end
         end
     end
 end
@@ -93,6 +101,8 @@ function update_row_for_resource_table(pVwRscs, iNextSlct)
 end
 
 function update_tab_for_resource_table(pVwRscs, iNextTab)
+    clear_current_item_range(pVwRscs)
+
     local rgpTabVwItems = pVwRscs:get_tab_items()
 
     local iTab = math.iclamp(iNextTab + 1, 1, #rgpTabVwItems)

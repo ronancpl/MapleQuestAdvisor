@@ -16,7 +16,7 @@ require("ui.struct.component.canvas.resource.item.item")
 require("ui.struct.component.element.plaintext")
 require("utils.struct.class")
 
-CCanvasRscLink = createClass({CCanvasResource, {
+CRscElemItemLink = createClass({CRscElemItem, {
     sDesc,
     iFieldRef,
 
@@ -24,23 +24,23 @@ CCanvasRscLink = createClass({CCanvasResource, {
     eTxtFieldRef = CTextElem:new()
 }})
 
-function CCanvasRscLink:get_desc()
+function CRscElemItemLink:get_desc()
     return self.sDesc
 end
 
-function CCanvasRscLink:get_field_link()
+function CRscElemItemLink:get_field_link()
     return self.iFieldRef
 end
 
-function CCanvasRscLink:get_object_desc()
+function CRscElemItemLink:get_object_desc()
     return self.eTxtDesc
 end
 
-function CCanvasRscLink:get_object_field_link()
+function CRscElemItemLink:get_object_field_link()
     return self.eTxtFieldRef
 end
 
-function CCanvasRscLink:_load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
+function CRscElemItemLink:_load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
     local pFont = ctVwRscs:get_font_info()
 
     local m_eTxtDesc = self.eTxtDesc
@@ -52,16 +52,20 @@ function CCanvasRscLink:_load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
     m_eTxtFieldRef:load(sFieldName, pFont, pConfVw.FIELD_X, iPx + pConfVw.FIL_X, iPy + pConfVw.ST_Y + pConfVw.FIELD_Y + pConfVw.FIL_Y)
 end
 
-function CCanvasRscLink:load(siType, iId, sDesc, iFieldRef, pConfVw)
+function CRscElemItemLink:load(siType, iId, sDesc, iFieldRef, pConfVw)
+    self:_load(siType, iId, sDesc, pConfVw.W, pConfVw.H)
+    self:_update_position(-1, -1)
+
     self.sDesc = sDesc
     self.iFieldRef = iFieldRef
     self.pConfVw = pConfVw
-
-    self:_load(siType, iId, sDesc)
-    self:_update_position(-1, -1)
 end
 
-function CCanvasRscLink:update(iPx, iPy)
+function CRscElemItemLink:update(dt)
+    -- do nothing
+end
+
+function CRscElemItemLink:update_position(iPx, iPy)
     self:_update_position(iPx, iPy)
 
     local m_sDesc = self.sDesc
@@ -70,6 +74,6 @@ function CCanvasRscLink:update(iPx, iPy)
     self:_load_text(m_sDesc, m_iFieldRef, m_pConfVw, iPx, iPy)
 end
 
-function CCanvasRscLink:draw()
+function CRscElemItemLink:draw()
     draw_resource_link(self)
 end

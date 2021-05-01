@@ -16,42 +16,79 @@ require("ui.struct.component.canvas.resource.item.tooltip")
 require("ui.run.draw.canvas.resource.resource")
 require("utils.struct.class")
 
-CCanvasResource = createClass({
-    eElem = CBasicElem:new(),
+CRscElemItem = createClass({
+    eBox = CUserboxElem:new(),
     iId,
     siType,
     pTooltip = CCanvasTooltip:new()
 })
 
-function CCanvasResource:_update_position(iRx, iRy)
-    self.eElem:load(iRx, iRy)
+function CRscElemItem:_update_position(iRx, iRy)
+    self.eBox:set_position(iRx, iRy)
 end
 
-function CCanvasResource:get_position()
-    return self.eElem:get_pos()
+function CRscElemItem:get_position()
+    return self.eBox:get_origin()
 end
 
-function CCanvasResource:get_type()
+function CRscElemItem:get_object()
+    return self.eBox
+end
+
+function CRscElemItem:get_type()
     return self.siType
 end
 
-function CCanvasResource:get_id()
+function CRscElemItem:get_id()
     return self.iId
 end
 
-function CCanvasResource:_load_tooltip(sDesc)
+function CRscElemItem:_load_tooltip(sDesc)
     local m_pTooltip = self.pTooltip
     m_pTooltip:load(sDesc)
 end
 
-function CCanvasResource:_load(siType, iId, sDesc)
+function CRscElemItem:_load(siType, iId, sDesc, iPictW, iPictH)
     self.iId = iId
     self.siType = siType
-    self.eElem:load(-1, -1)
+    self.eBox:load(-1, -1, iPictW, iPictH)
 
     self:_load_tooltip(sDesc)
 end
 
-function CCanvasResource:draw_tooltip()
+function CRscElemItem:update(dt)
+    -- do nothing
+end
+
+
+function CRscElemItem:reset()
+    -- do nothing
+end
+
+function CRscElemItem:draw_tooltip()
     draw_resource_tooltip(self)
+end
+
+function CRscElemItem:onmousehoverin()
+    local m_pTooltip = self.pTooltip
+    local pTextbox = m_pTooltip:get_textbox()
+
+    if pTextbox ~= nil and not pTextbox:is_visible() then
+        pTextbox:visible()
+
+        local pLyr = pUiRscs:get_layer(LLayer.NAV_RSC_TABLE)
+        pLyr:add_element(LChannel.RSC_DESC, pTextbox)
+    end
+end
+
+function CRscElemItem:onmousehoverout()
+    local m_pTooltip = self.pTooltip
+    local pTextbox = m_pTooltip:get_textbox()
+
+    if pTextbox ~= nil and pTextbox:is_visible() then
+        pTextbox:hidden()
+
+        local pLyr = pUiRscs:get_layer(LLayer.NAV_RSC_TABLE)
+        pLyr:remove_element(LChannel.RSC_DESC, pTextbox)
+    end
 end

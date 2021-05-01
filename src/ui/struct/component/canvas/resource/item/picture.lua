@@ -18,20 +18,20 @@ require("ui.struct.component.element.rect")
 require("ui.struct.toolkit.canvas")
 require("utils.struct.class")
 
-CCanvasRscPicture = createClass({CCanvasResource, {
+CRscElemItemPicture = createClass({CRscElemItem, {
     pImg,
     iCount
 }})
 
-function CCanvasRscPicture:get_image()
+function CRscElemItemPicture:get_image()
     return self.pImg
 end
 
-function CCanvasRscPicture:get_count()
+function CRscElemItemPicture:get_count()
     return self.iCount
 end
 
-function CCanvasRscPicture:is_visible_count()
+function CRscElemItemPicture:is_visible_count()
     return self.iCount ~= nil
 end
 
@@ -75,8 +75,9 @@ local function make_icon_image(pImg, pRscGrid)
     return pIconImg
 end
 
-function CCanvasRscPicture:load(siType, pImg, iId, iCount, sDesc, iFieldRef, pConfVw)
-    self:_load(siType, iId, sDesc, iFieldRef, pConfVw)
+function CRscElemItemPicture:load(siType, pImg, iId, iCount, sDesc, iFieldRef, pConfVw)
+    self:_load(siType, iId, sDesc, pConfVw.W, pConfVw.H)
+    self:_update_position(-1, -1)
 
     local pRscGrid = tpRscGrid[siType]
 
@@ -84,10 +85,14 @@ function CCanvasRscPicture:load(siType, pImg, iId, iCount, sDesc, iFieldRef, pCo
     self.iCount = iCount
 end
 
-function CCanvasRscPicture:update(iPx, iPy)
+function CRscElemItemPicture:update(dt)
+    -- do nothing
+end
+
+function CRscElemItemPicture:update_position(iPx, iPy)
     self:_update_position(iPx, iPy)
 end
 
-function CCanvasRscPicture:draw()
+function CRscElemItemPicture:draw()
     draw_resource_picture(self)
 end

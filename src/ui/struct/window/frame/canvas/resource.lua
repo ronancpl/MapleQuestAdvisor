@@ -11,6 +11,7 @@
 --]]
 
 require("ui.struct.canvas.resource.properties")
+require("ui.struct.canvas.resource.layer.item")
 require("ui.struct.canvas.resource.layer.table")
 require("ui.struct.component.canvas.resource.table")
 require("ui.struct.component.element.texture")
@@ -31,11 +32,11 @@ function CWndResource:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
     local m_pProp = self.pProp
     m_pProp:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
 
+    self.pCanvas:build(m_pProp)
+
     local pVwRscs = m_pProp:get_table()
     local fn_update_items = pVwRscs:get_fn_update_items()
     fn_update_items(pVwRscs, m_pProp)
-
-    self.pCanvas:build(m_pProp)
 end
 
 function CWndResource:set_dimensions(iWidth, iHeight)
@@ -62,7 +63,7 @@ end
 
 function CWndResource:load()
     self:_load_table()
-    self.pCanvas:load({CResourceNavTable}) -- follows sequence: LLayer
+    self.pCanvas:load({CResourceNavTable, CResourceNavItems}) -- follows sequence: LLayer
 end
 
 function CWndResource:update(dt)

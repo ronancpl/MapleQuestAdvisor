@@ -12,6 +12,7 @@
 
 require("ui.constant.view.resource")
 require("ui.run.draw.canvas.resource.table")
+require("ui.run.update.canvas.resource.common")
 require("ui.struct.component.canvas.resource.tab.method")
 require("ui.struct.component.element.texture")
 require("ui.struct.window.element.basic.slider")
@@ -25,7 +26,7 @@ CRscTableElem = createClass({
     iSlctRow,
 
     rgpVwItems = {},
-    rgiCurRange = {-1, -1},
+    rgiCurRange = {0, -1},
     rgpTabVwItems = {}
 })
 
@@ -69,6 +70,17 @@ function CRscTableElem:get_view_items()
     return self.rgpVwItems
 end
 
+function CRscTableElem:get_view_range()
+    local m_rgiCurRange = self.rgiCurRange
+    return m_rgiCurRange[1], m_rgiCurRange[2]
+end
+
+function CRscTableElem:set_view_range(iIdxFrom, iIdxTo)
+    local m_rgiCurRange = self.rgiCurRange
+    m_rgiCurRange[1] = iIdxFrom
+    m_rgiCurRange[2] = iIdxTo
+end
+
 function CRscTableElem:get_tab_items()
     return self.rgpTabVwItems
 end
@@ -101,17 +113,6 @@ function CRscTableElem:refresh_view_items()
 
     local rgpVwItems = rgpTabVwItems[iTab]
     self:update_view_items(rgpVwItems)
-end
-
-function CRscTableElem:get_view_range()
-    local m_rgiCurRange = self.rgiCurRange
-    return m_rgiCurRange[1], m_rgiCurRange[2]
-end
-
-function CRscTableElem:set_view_range(iIdxFrom, iIdxTo)
-    local m_rgiCurRange = self.rgiCurRange
-    m_rgiCurRange[1] = iIdxFrom
-    m_rgiCurRange[2] = iIdxTo
 end
 
 function CRscTableElem:get_fn_update_row()
@@ -147,6 +148,18 @@ function CRscTableElem:load(rX, rY, pTextureData)
     end
 end
 
+function CRscTableElem:reset()
+    -- do nothing
+end
+
+function CRscTableElem:update(dt)
+    -- do nothing
+end
+
+function CRscTableElem:draw()
+    draw_table_resources(self)
+end
+
 function CRscTableElem:_try_click_tab(iPx, iPy)
     local iOx, iOy = self:get_origin()
 
@@ -167,16 +180,4 @@ function CRscTableElem:onmousereleased(x, y, button)
     if button == 1 then
         self:_try_click_tab(x, y)
     end
-end
-
-function CRscTableElem:reset()
-    -- do nothing
-end
-
-function CRscTableElem:update(dt)
-    -- do nothing
-end
-
-function CRscTableElem:draw()
-    draw_table_resources(self)
 end

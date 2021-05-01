@@ -136,3 +136,7 @@ end
 function CStyleBoxText:visible()
     self.bVisible = true
 end
+
+function CStyleBoxText:is_visible()
+    return self.bVisible
+end

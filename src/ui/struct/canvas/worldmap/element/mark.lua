@@ -94,11 +94,11 @@ end
 
 function CWmapElemMark:onmousehoverout()
     local m_pTextbox = self.pTextbox
-    if m_pTextbox then
+    if m_pTextbox ~= nil then
         m_pTextbox:hidden()
 
         local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
-        pLyr:add_element(LChannel.MARK_TBOX, m_pTextbox)
+        pLyr:remove_element(LChannel.MARK_TBOX, m_pTextbox)
     end
 
     local m_pPath = self:get_path()

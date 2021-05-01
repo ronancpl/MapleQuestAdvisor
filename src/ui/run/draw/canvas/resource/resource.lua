@@ -23,9 +23,6 @@ function draw_resource_tooltip(pVwRsc)
 end
 
 function draw_resource_link(pVwRsc)
-    local eTxtDesc = pVwRsc:get_object_desc()
-    eTxtDesc:draw()
-
     local eTxtFieldLink = pVwRsc:get_object_field_link()
     eTxtFieldLink:draw()
 end
