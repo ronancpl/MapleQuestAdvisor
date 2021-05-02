@@ -18,7 +18,6 @@ require("utils.struct.class")
 
 CRscElemItemLink = createClass({CRscElemItem, {
     sDesc,
-    iFieldRef,
 
     eTxtDesc = CTextElem:new(),
     eTxtFieldRef = CTextElem:new()
@@ -26,10 +25,6 @@ CRscElemItemLink = createClass({CRscElemItem, {
 
 function CRscElemItemLink:get_desc()
     return self.sDesc
-end
-
-function CRscElemItemLink:get_field_link()
-    return self.iFieldRef
 end
 
 function CRscElemItemLink:get_object_desc()
@@ -53,11 +48,10 @@ function CRscElemItemLink:_load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
 end
 
 function CRscElemItemLink:load(siType, iId, sDesc, iFieldRef, pConfVw)
-    self:_load(siType, iId, sDesc, pConfVw.W, pConfVw.H)
+    self:_load(siType, iId, sDesc, pConfVw.W, pConfVw.H, iFieldRef)
     self:_update_position(-1, -1)
 
     self.sDesc = sDesc
-    self.iFieldRef = iFieldRef
     self.pConfVw = pConfVw
 end
 

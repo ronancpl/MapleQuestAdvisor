@@ -29,11 +29,11 @@ local function create_descriptor_lookup_resources(tiItems, tiMobs, tiFieldsEnter
     return pLookupRscs
 end
 
-local function generate_quest_resource_graph(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid, iPlayerMapid)
+local function generate_quest_resource_graph(iNpcid, tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid, iPlayerMapid)
     local pLookupRscs = create_descriptor_lookup_resources(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid)
     local pLookupTable = load_solver_resource_lookup(ctFieldsLandscape, ctLoots, ctMobs, ctMobsGroup, ctReactors, ctQuests, pLookupRscs)
 
-    local pQuestResource = build_quest_resource_bean(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid, iPlayerMapid)
+    local pQuestResource = build_quest_resource_bean(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid, iPlayerMapid, iNpcid)
     local pRscTree = build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, pLookupTable, iPlayerMapid, iQuestNpcMapid)
 
     return pRscTree
@@ -94,12 +94,14 @@ function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerS
     local tiMobs = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.MOBS.name), pPlayerState, pQuestChkProp)
     local tiFieldsEnter = fetch_accessor_remaining_requirement(ctAccessors:get_accessor_by_type(RQuest.FIELD_ENTER.name), pPlayerState, pQuestChkProp)
 
+    local iNpcid = pQuestChkProp:get_npc()
+
     local iPlayerMapid = pPlayerState:get_mapid()
-    local iQuestNpcMapid = get_npc_location(pQuestChkProp:get_npc(), iPlayerMapid)
+    local iQuestNpcMapid = get_npc_location(iNpcid, iPlayerMapid)
 
     local iDist = 0
     if iQuestNpcMapid ~= nil then
-        local pRscTree = generate_quest_resource_graph(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid, iPlayerMapid)
+        local pRscTree = generate_quest_resource_graph(iNpcid, tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid, iPlayerMapid)
 
         for iRegionid, pRegionRscTree in pairs(pRscTree:get_field_nodes()) do
             local trgiFieldRscs = fetch_regional_field_resource_graph(ctFieldsDist, pRegionRscTree)

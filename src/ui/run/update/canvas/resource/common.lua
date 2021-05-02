@@ -95,7 +95,9 @@ local function update_resource_slider(pVwRscs, bMoveTop)
     local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
 
     local rgpVwItems = pVwRscs:get_view_items()
+
     local iSgmts = math.ceil(#rgpVwItems / pConfVw.COLS)
+    iSgmts = math.max(iSgmts - pConfVw.ROWS, 0)
 
     local pSlider = pVwRscs:get_slider()
     pSlider:set_num_segments(iSgmts)
@@ -104,7 +106,7 @@ local function update_resource_slider(pVwRscs, bMoveTop)
         pSlider:set_current(0)
     end
 
-    local bDisable = iSgmts <= pConfVw.ROWS
+    local bDisable = iSgmts < 1
     if bDisable then
         pSlider:update_state(RSliderState.DISABLED)
     else
@@ -117,9 +119,7 @@ end
 function update_row_for_resource_table(pVwRscs, iNextSlct)
     local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
 
-    local iInvtRows = math.ceil(pVwRscs:get_num_items() / pConfVw.COLS)
-    local iRow = math.iclamp(iNextSlct, 1, math.max(iInvtRows, 1))
-
+    local iRow = math.iclamp(iNextSlct, 1, math.max(pVwRscs:get_slider():get_num_segments(), 1))
     pVwRscs:set_row_selected(iRow)
 
     update_item_position(pVwRscs, pConfVw)

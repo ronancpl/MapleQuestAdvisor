@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.run.build.canvas.resource.entry")
 require("ui.run.build.canvas.resource.field_enter")
 require("ui.run.build.canvas.resource.item")
 require("ui.run.build.canvas.resource.mob")
@@ -21,6 +22,8 @@ CRscProperties = createClass({
     iCy = 0,
 
     pVwTable,
+
+    tpRscEntries = {},
 
     pInfoItem,
     pInfoMob,
@@ -87,7 +90,38 @@ function CRscProperties:_update_field_enter(iFieldEnter)
     self.pInfoFieldEnter:set_field(iFieldEnter)
 end
 
-function CRscProperties:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
+function CRscProperties:add_field_resources(iMapid, tiItems, tiMobs, iNpc, iFieldEnter)
+    local pRscEntry = CRscFieldEntry:new()
+
+    pRscEntry:set_mobs(tiMobs)
+    pRscEntry:set_items(tiItems)
+    pRscEntry:set_npc(iNpc)
+    pRscEntry:set_field_enter(iFieldEnter)
+
+    local m_tpRscEntries = self.tpRscEntries
+    m_tpRscEntries[iMapid] = pRscEntry
+end
+
+function CRscProperties:_build_header_resources()
+    local tiItems = {}
+    local tiMobs = {}
+    local iNpc = -1
+    local iFieldEnter = -1
+
+    local m_tpRscEntries = self.tpRscEntries
+    for iMapid, pRscEntry in pairs(m_tpRscEntries) do
+        table_merge(tiItems, pRscEntry:get_items())
+        table_merge(tiMobs, pRscEntry:get_mobs())
+        iNpc = pRscEntry:get_npc() or iNpc
+        iFieldEnter = pRscEntry:get_field_enter() or iFieldEnter
+    end
+
+    return tiItems, tiMobs, iNpc, iFieldEnter
+end
+
+function CRscProperties:build()
+    local tiItems, tiMobs, iNpc, iFieldEnter = self:_build_header_resources()
+
     self:_update_items(tiItems)
     self:_update_mobs(tiMobs)
     self:_update_npc(iNpc)

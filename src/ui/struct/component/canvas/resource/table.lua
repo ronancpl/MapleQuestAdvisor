@@ -17,6 +17,8 @@ require("ui.run.update.canvas.resource.common")
 require("ui.struct.component.canvas.resource.tab.method")
 require("ui.struct.component.element.texture")
 require("ui.struct.window.element.basic.slider")
+require("utils.procedure.copy")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CRscTableElem = createClass({

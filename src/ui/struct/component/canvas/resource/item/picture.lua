@@ -96,7 +96,7 @@ local function make_icon_image(pImg, siType)
 end
 
 function CRscElemItemPicture:load(siType, pImg, iId, iCount, sDesc, iFieldRef, pConfVw)
-    self:_load(siType, iId, sDesc, pConfVw.W, pConfVw.H)
+    self:_load(siType, iId, sDesc, pConfVw.W, pConfVw.H, iFieldRef)
     self:_update_position(-1, -1)
 
     local rX, rY

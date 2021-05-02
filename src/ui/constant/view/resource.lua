@@ -57,7 +57,7 @@ RResourceTable = {
             ROWS = 3,
             COLS = 4,
 
-            X = 0,
+            X = 20,
             Y = 45,
 
             ST_X = 15,
@@ -72,7 +72,7 @@ RResourceTable = {
             ROWS = 6,
             COLS = 8,
 
-            X = 0,
+            X = 20,
             Y = 45,
 
             ST_X = 15,
@@ -87,7 +87,7 @@ RResourceTable = {
             ROWS = 1,
             COLS = 2,
 
-            X = 0,
+            X = 20,
             Y = 45,
 
             ST_X = 15,
@@ -102,11 +102,11 @@ RResourceTable = {
             ROWS = 1,
             COLS = 16,
 
-            X = 0,
+            X = 20,
             Y = 45,
 
-            ST_X = 15,
-            ST_Y = 5,
+            ST_X = 5,
+            ST_Y = -10,
             FIL_X = 4,
             FIL_Y = 2,
 

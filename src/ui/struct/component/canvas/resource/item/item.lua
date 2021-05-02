@@ -20,6 +20,7 @@ CRscElemItem = createClass({
     eBox = CUserboxElem:new(),
     iId,
     siType,
+    iFieldRef,
     pTooltip = CCanvasTooltip:new()
 })
 
@@ -43,14 +44,19 @@ function CRscElemItem:get_id()
     return self.iId
 end
 
+function CRscElemItem:get_field_link()
+    return self.iFieldRef
+end
+
 function CRscElemItem:_load_tooltip(sDesc)
     local m_pTooltip = self.pTooltip
     m_pTooltip:load(sDesc)
 end
 
-function CRscElemItem:_load(siType, iId, sDesc, iPictW, iPictH)
+function CRscElemItem:_load(siType, iId, sDesc, iPictW, iPictH, iFieldRef)
     self.iId = iId
     self.siType = siType
+    self.iFieldRef = iFieldRef
     self.eBox:load(-1, -1, iPictW, iPictH)
 
     self:_load_tooltip(sDesc)
@@ -99,4 +105,13 @@ end
 
 function CRscElemItem:onmousehoverout()
     self:hide_tooltip()
+end
+
+function CRscElemItem:onmousereleased(x, y, button)
+    local m_iFieldRef = self.iFieldRef
+
+    if m_iFieldRef ~= nil then
+        local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(m_iFieldRef)
+        pUiWmap:update_region(sWmapName)
+    end
 end

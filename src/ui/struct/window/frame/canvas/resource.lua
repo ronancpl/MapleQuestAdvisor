@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("solver.lookup.constant")
 require("ui.struct.canvas.resource.properties")
 require("ui.struct.canvas.resource.layer.item")
 require("ui.struct.canvas.resource.layer.table")
@@ -26,11 +27,53 @@ function CWndResource:get_properties()
     return self.pProp
 end
 
-function CWndResource:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
+function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
+    local tiItems = {}
+    local tiMobs = {}
+    local iNpc = nil
+    local iFieldEnter = nil
+
+    local pQuestChkProp = pQuestProp:get_requirement()
+
+    local tpItems = pQuestChkProp:get_items():get_items()
+    local tpMobs = pQuestChkProp:get_mobs():get_items()
+
+    for _, iRscid in ipairs(rgiResourceids) do
+        local iRscType = math.floor(iRscid / 1000000000)
+        local iRscUnit = iRscid % 1000000000
+
+        if iRscType == RLookupCategory.MOBS then
+            tiMobs[iRscUnit] = tpMobs[iRscUnit]
+        elseif iRscType == RLookupCategory.ITEMS then
+            tiItems[iRscUnit] = tpItems[iRscUnit]
+        elseif iRscType == RLookupCategory.FIELD_ENTER then
+            iNpc = iRscUnit
+        elseif RLookupCategory.FIELD_NPC then
+            iFieldEnter = iRscUnit
+        end
+    end
+
+    return tiItems, tiMobs, iNpc, iFieldEnter
+end
+
+function CWndResource:_add_resources(pQuestProp, pRscTree)
+    local m_pProp = self.pProp
+
+    for iMapid, pResource in pairs(pRscTree:get_field_nodes()) do
+        local rgiResourceids = pResource:get_resources()
+
+        local tiItems, tiMobs, iNpc, iFieldEnter = self:_fetch_field_resources(pQuestProp, rgiResourceids)
+        m_pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, iFieldEnter)
+    end
+end
+
+function CWndResource:update_resources(pQuestProp, pRscTree)
     self.pCanvas:reset()
 
+    self:_add_resources(pQuestProp, pRscTree)
+
     local m_pProp = self.pProp
-    m_pProp:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
+    m_pProp:build()
 
     self.pCanvas:build(m_pProp)
 

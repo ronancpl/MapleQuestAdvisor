@@ -67,8 +67,9 @@ function CWmapNodeRegion:make_remissive_index_area_region()
     local m_tpAreaNodes = self.tpAreaNodes
 
     for iNodeid, pMarker in pairs(self:get_nodes()) do
-        local rgiMapids = pMarker:get_mapno():list()
-        for _, iMapid in ipairs(rgiMapids) do
+        local rgpMapnoNodes = pMarker:get_mapno():list()
+        for _, pMapnoNode in ipairs(rgpMapnoNodes) do
+            local iMapid = pMapnoNode:get_value()
             m_tpAreaNodes[iMapid] = iNodeid
         end
     end

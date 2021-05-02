@@ -92,7 +92,9 @@ end
 
 local function update_inventory_slider(pVwInvt, bMoveTop)
     local rgpVwItems = pVwInvt:get_view_items()
+
     local iSgmts = math.ceil(#rgpVwItems / RInventory.VW_INVT.COLS)
+    iSgmts = math.max(iSgmts - RInventory.VW_INVT.ROWS, 0)
 
     local pSlider = pVwInvt:get_slider()
     pSlider:set_num_segments(iSgmts)
@@ -101,7 +103,7 @@ local function update_inventory_slider(pVwInvt, bMoveTop)
         pSlider:set_current(0)
     end
 
-    local bDisable = iSgmts <= RInventory.VW_INVT.ROWS
+    local bDisable = iSgmts < 1
     if bDisable then
         pSlider:update_state(RSliderState.DISABLED)
     else
@@ -110,9 +112,7 @@ local function update_inventory_slider(pVwInvt, bMoveTop)
 end
 
 function update_row_for_inventory(pVwInvt, iNextSlct)
-    local iInvtRows = math.ceil(pVwInvt:get_num_items() / RInventory.VW_INVT.COLS)
-    local iRow = math.iclamp(iNextSlct, 1, math.max(iInvtRows, 1))
-
+    local iRow = math.iclamp(iNextSlct, 1, math.max(pVwInvt:get_slider():get_num_segments(), 1))
     pVwInvt:set_row_selected(iRow)
 
     update_item_position(pVwInvt)

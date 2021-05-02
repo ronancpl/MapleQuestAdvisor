@@ -325,8 +325,8 @@ local function create_interregional_resources_descriptor(pQuestResource, rgpPath
     return tpRegionResources, tpPathMapids
 end
 
-function build_quest_resource_bean(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid, iPlayerMapid)
-    local pQuestResource = CSolverQuestResource:new({tiMobs = tiMobs, tiItems = tiItems, iFieldPlayer = iPlayerMapid, tiFieldsEnter = tiFieldsEnter, iFieldNpc = iQuestNpcMapid})
+function build_quest_resource_bean(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid, iPlayerMapid, iQuestNpcid)
+    local pQuestResource = CSolverQuestResource:new({tiMobs = tiMobs, tiItems = tiItems, iFieldPlayer = iPlayerMapid, tiFieldsEnter = tiFieldsEnter, iFieldNpc = iQuestNpcMapid, iNpc = iQuestNpcid})
     return pQuestResource
 end
 

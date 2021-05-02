@@ -130,75 +130,11 @@ function love.load()
 
     pUiRscs = load_frame_quest_resources()
 
-    local tiItems = {}
-    tiItems[1002067] = 1
-    tiItems[1402046] = 1
-    tiItems[1082140] = 1
-    tiItems[1060091] = 1
-    tiItems[1072154] = 1
-    tiItems[1040103] = 1
-    tiItems[2010000] = 4
-    tiItems[2010001] = 1
-    tiItems[2010002] = 4
-    tiItems[2010003] = 1
-    tiItems[2010004] = 4
-    tiItems[2010005] = 1
-    tiItems[2010006] = 4
-    tiItems[3010000] = 1
-    tiItems[3010001] = 4
-    tiItems[3010002] = 1
-    tiItems[3010003] = 4
-    tiItems[3010004] = 1
-    tiItems[3010005] = 4
-    tiItems[3010006] = 1
-    tiItems[4010000] = 4
-    tiItems[4010001] = 1
-    tiItems[4010002] = 4
-    tiItems[4010003] = 1
-    tiItems[4010004] = 4
-    tiItems[4010005] = 1
-    tiItems[4010006] = 4
-
-    local tiMobs = {}
-    tiMobs[1110100] = 4
-    tiMobs[1110101] = 1
-    tiMobs[1110130] = 4
-    tiMobs[1120100] = 1
-    tiMobs[1130100] = 4
-    tiMobs[1140100] = 1
-    tiMobs[1140130] = 4
-    tiMobs[1210100] = 1
-    tiMobs[1210101] = 4
-    tiMobs[1210102] = 1
-    tiMobs[1210103] = 4
-    tiMobs[2100100] = 1
-    tiMobs[2100101] = 4
-    tiMobs[2100102] = 1
-    tiMobs[2100103] = 4
-    tiMobs[2100104] = 1
-    tiMobs[2100105] = 4
-    tiMobs[2100106] = 1
-    tiMobs[2100107] = 4
-    tiMobs[2100108] = 1
-    tiMobs[2110200] = 4
-    tiMobs[2110300] = 1
-    tiMobs[2110301] = 4
-    tiMobs[2130100] = 1
-    tiMobs[2130103] = 4
-    tiMobs[2220000] = 1
-
-    tiMobs[2110200] = 4
-    tiMobs[2110300] = 1
-    tiMobs[2110301] = 4
-    tiMobs[2130100] = 1
-    tiMobs[2130103] = 4
-    --tiMobs[8500002] = 1
-
-    local iNpc = 1013000
-    local iFieldEnter = 100000000
-
     pUiRscs:set_dimensions(RResourceTable.VW_WND.W, RResourceTable.VW_WND.H)
-    pUiRscs:update_resources(tiItems, tiMobs, iNpc, iFieldEnter)
+
+    local pQuestProp = nil
+    local pRscTree = nil
+    pUiRscs:update_resources(pQuestProp, pRscTree)
 end
 
 local function update_interactions()

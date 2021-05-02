@@ -17,7 +17,8 @@ CSolverQuestResource = createClass({
     tiItems,
     iFieldPlayer,
     tiFieldsEnter,
-    iFieldNpc
+    iFieldNpc,
+    iNpc
 })
 
 function CSolverQuestResource:get_mobs()
@@ -38,4 +39,8 @@ end
 
 function CSolverQuestResource:get_field_npc()
     return self.iFieldNpc
+end
+
+function CSolverQuestResource:get_npc()
+    return self.iNpc
 end

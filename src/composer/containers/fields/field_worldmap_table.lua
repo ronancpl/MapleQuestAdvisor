@@ -60,6 +60,11 @@ function CFieldWorldmapTable:get_worldmapid_by_area(iMapid)
     return m_tiAreaWmapId[iMapid]
 end
 
+function CFieldWorldmapTable:get_worldmap_name_by_area(iMapid)
+    local iWmapid = self:get_worldmapid_by_area(iMapid)
+    return "WorldMap" .. string.format("%03d", iWmapid)
+end
+
 function CFieldWorldmapTable:contains(iMapid)
     local m_tiAreaWmapId = self.tiAreaWmapId
     return m_tiAreaWmapId[iMapid]
