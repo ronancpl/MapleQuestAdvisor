@@ -74,7 +74,7 @@ function CWmapProperties:set_origin(iCx, iCy)
     self.iCy = iCy
 end
 
-function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs)
+function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
     self:reset()
 
     local pBaseImgNode = pWmapRegion:get_base_img()
@@ -101,7 +101,7 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs
         local iIdx = pPair[1]
         local pMapNode = pPair[2]
 
-        local pRegionMarker = load_node_worldmap_map_list(self, pMapNode, pDirHelperImgs, pDirWmapImgs, sWmapRegion, iIdx)
+        local pRegionMarker = load_node_worldmap_map_list(self, pMapNode, pDirHelperQuads, pDirWmapImgs, sWmapRegion, iIdx)
         self:add_map_field(pRegionMarker)
     end
 end

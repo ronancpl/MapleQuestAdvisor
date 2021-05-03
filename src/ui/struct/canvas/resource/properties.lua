@@ -127,3 +127,8 @@ function CRscProperties:build()
     self:_update_npc(iNpc)
     self:_update_field_enter(iFieldEnter)
 end
+
+function CRscProperties:get_fields()
+    local m_tpRscEntries = self.tpRscEntries
+    return keys(m_tpRscEntries)
+end

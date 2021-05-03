@@ -39,10 +39,10 @@ function CWndWmap:update_region(sWmapName)
     local pDirWmapImgs
     pWmapRegion, pDirWmapImgs = self.pCache:load_region(sWmapName)
 
-    local pDirHelperImgs
-    pDirHelperQuads, pDirHelperImgs = self.pCache:get_worldmap_helper()
+    local pDirHelperQuads
+    pDirHelperQuads, _ = self.pCache:get_worldmap_helper()
 
-    self.pProp:update_region(pWmapRegion, pDirHelperImgs, pDirWmapImgs)
+    self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
     self.pCanvas:build(self.pProp)
 end
 

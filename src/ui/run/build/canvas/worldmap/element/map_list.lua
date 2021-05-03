@@ -51,16 +51,15 @@ local function load_node_mapno(pMapNode)
     return rgiFields
 end
 
-local function load_node_map_marker(pWmapProp, pMapNode, pDirHelperImgs)
+local function load_node_map_marker(pWmapProp, pMapNode, pDirHelperQuads)
     local iRx
     local iRy
     iRx, iRy = pMapNode:get_spot()
 
     local iType = pMapNode:get_type()
 
-    local sPathImg = "mapImage"
-    local iIdx = iType + 1
-    local rgpQuads = find_animation_image_on_storage(pDirHelperImgs, sPathImg, iIdx)
+    local sPathImg = "npcPos" .. iType
+    local rgpQuads = find_animation_on_storage(pDirHelperQuads, sPathImg)
 
     local pMarker = CWmapElemMark:new()
     pMarker:load(iRx, iRy, rgpQuads, pWmapProp)
@@ -90,12 +89,12 @@ local function load_node_map_textbox(pMapNode, rgiFields)
     return pTextbox
 end
 
-function load_node_worldmap_map_list(pWmapProp, pMapNode, pDirHelperImgs, pDirWmapImgs, sRegionName, iIdx)
+function load_node_worldmap_map_list(pWmapProp, pMapNode, pDirHelperQuads, pDirWmapImgs, sRegionName, iIdx)
     local rgiFields = load_node_mapno(pMapNode)
     local pPath = load_node_map_path(pWmapProp, pMapNode, pDirWmapImgs, sRegionName, iIdx)
     local pTextbox = load_node_map_textbox(pMapNode, rgiFields)
 
-    local pFieldMarker = load_node_map_marker(pWmapProp, pMapNode, pDirHelperImgs)
+    local pFieldMarker = load_node_map_marker(pWmapProp, pMapNode, pDirHelperQuads)
     pFieldMarker:set_mapno(rgiFields)
     pFieldMarker:set_path(pPath)
     pFieldMarker:set_textbox(pTextbox)

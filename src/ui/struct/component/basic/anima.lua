@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("utils.struct.class")
 
 CBasicAnima = createClass({
@@ -18,11 +19,15 @@ CBasicAnima = createClass({
     rgpQuads
 })
 
+function CBasicAnima:set_num_frames(iFrames)
+    self.iLimQuad = math.iclamp(iFrames, 1, #self.rgpQuads)
+end
+
 function CBasicAnima:load(rgpQuads)
     self.rgpQuads = rgpQuads
 
     self.iCurQuad = 1
-    self.iLimQuad = #self.rgpQuads
+    self.iLimQuad = self:set_num_frames(U_INT_MAX)
 end
 
 function CBasicAnima:inspect_quad()

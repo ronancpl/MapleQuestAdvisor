@@ -107,11 +107,40 @@ function CRscElemItem:onmousehoverout()
     self:hide_tooltip()
 end
 
+function CRscElemItem:_is_marker_active(pPropMarker, rgiMapids)
+    for _, iMapid in ipairs(rgiMapids) do
+        if pPropMarker:contains(iMapid) then
+            return true
+        end
+    end
+
+    return false
+end
+
+function CRscElemItem:_activate_region_fields()
+    -- activation based on having resources
+
+    local rgpPropMarkers = pUiWmap:get_properties():get_map_fields()
+    local rgiMapids = pUiRscs:get_properties():get_fields()
+
+    for _, pPropMarker in ipairs(rgpPropMarkers) do
+        pPropMarker:static()
+    end
+
+    for _, pPropMarker in ipairs(rgpPropMarkers) do
+        if self:_is_marker_active(pPropMarker, rgiMapids) then
+            pPropMarker:active()
+        end
+    end
+end
+
 function CRscElemItem:onmousereleased(x, y, button)
     local m_iFieldRef = self.iFieldRef
 
     if m_iFieldRef ~= nil then
         local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(m_iFieldRef)
         pUiWmap:update_region(sWmapName)
+
+        self:_activate_region_fields()
     end
 end

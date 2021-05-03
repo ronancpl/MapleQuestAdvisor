@@ -49,6 +49,11 @@ function CDynamicElem:get_center()
     return (iLx + iRx) / 2, (iTy + iBy) / 2
 end
 
+function CDynamicElem:set_static(bStatic)   -- stops animation
+    local m_eAnima = self.eAnima
+    self:set_num_frames(bStatic and 1 or U_INT_MAX)
+end
+
 function CDynamicElem:load(rX, rY, rgpQuads)
     local m_eElem = self.eElem
     m_eElem:load(rX, rY)

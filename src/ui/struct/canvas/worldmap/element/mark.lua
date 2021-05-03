@@ -34,6 +34,16 @@ function CWmapElemMark:set_mapno(rgiFields)
     self.rgiFields = rgiFields
 end
 
+function CWmapElemMark:contains(iField)
+    for _, iMapid in ipairs(self.rgiFields) do
+        if iMapid == iField then
+            return true
+        end
+    end
+
+    return false
+end
+
 function CWmapElemMark:get_path()
     return self.pPath
 end
@@ -56,7 +66,17 @@ function CWmapElemMark:load(rX, rY, rgpQuads, pWmapProp)
     self.eDynam:after_load()
 end
 
+function CWmapElemMark:active()
+    self.eDynam:set_static(false)
+end
+
+function CWmapElemMark:static()
+    self.eDynam:set_static(true)
+end
+
 function CWmapElemMark:reset()
+    self:static()
+
     local m_pTextbox = self:get_textbox()
     if m_pTextbox ~= nil then
         m_pTextbox:hidden()     -- unrenderize after canvas reset
