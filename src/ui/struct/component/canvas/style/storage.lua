@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.field.node.media.image")
 require("ui.constant.path")
 require("utils.struct.class")
 
@@ -32,7 +33,7 @@ RStyleBoxColor = {
 }
 
 function CStockStyleBox:_load_stylebox_image(sImgPath)
-    local pImgData = love.image.newImageData(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgPath)
+    local pImgData = load_image_from_path(sImgPath)
 
     -- white color-coded as transparent
 

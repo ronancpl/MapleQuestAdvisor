@@ -12,6 +12,7 @@
 
 LInput = {
 
+    REPACKER_REPEAT_SUBDIR = 2,
     MOUSE_WHEEL_MOVE_DY = 1
 
 }

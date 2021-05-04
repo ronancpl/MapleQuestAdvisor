@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.field.node.media.image")
 require("ui.constant.path")
 require("ui.constant.view.resource")
 require("ui.run.build.interface.storage.split")
@@ -28,7 +29,7 @@ CStockResourceTab = createClass({
 })
 
 local function load_image(sImgDirPath, sImgName)
-    local pImgData = load_image_from_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath .. "/" .. sImgName .. ".png")
+    local pImgData = load_image_from_path(sImgDirPath .. "/" .. sImgName .. ".png")
     return love.graphics.newImage(pImgData)
 end
 

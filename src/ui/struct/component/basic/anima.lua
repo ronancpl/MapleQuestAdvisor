@@ -27,7 +27,7 @@ function CBasicAnima:load(rgpQuads)
     self.rgpQuads = rgpQuads
 
     self.iCurQuad = 1
-    self.iLimQuad = self:set_num_frames(U_INT_MAX)
+    self:set_num_frames(U_INT_MAX)
 end
 
 function CBasicAnima:inspect_quad()

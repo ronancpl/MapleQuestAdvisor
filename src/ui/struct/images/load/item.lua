@@ -22,7 +22,7 @@ CStockHeaderItem = createClass({
 })
 
 local function load_image(sImgDirPath, sImgName)
-    local pImgData = load_image_from_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath .. "/" .. sImgName .. ".png")
+    local pImgData = load_image_from_path(sImgDirPath .. "/" .. sImgName .. ".png")
     return love.graphics.newImage(pImgData)
 end
 
@@ -76,13 +76,13 @@ local function fetch_directory_itemids(sDirPath)
     end
 
     local sImgDirPath = table.concat(rgsPath, "/")
-    local tImgFiles = listdir(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath, true)
+    local tImgFiles = list_dir_images_from_path(sImgDirPath)
 
     local tsItemPath = {}
     for sPath, _ in pairs(tImgFiles) do
         local iId = fetch_item_id_from_icon(sPath)
         if iId ~= nil then
-            local sItemPath = string.sub(sPath, string.len(RWndPath.LOVE_IMAGE_DIR_PATH) + 1, -1 * (string.len(".png") + 1))
+            local sItemPath = string.sub(sPath, 0, -1 * (string.len(".png") + 1))
             tsItemPath[iId] = sItemPath
         end
     end

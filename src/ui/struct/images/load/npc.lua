@@ -12,7 +12,6 @@
 
 require("composer.field.node.media.image")
 require("ui.constant.path")
-require("utils.procedure.directory")
 require("utils.provider.io.wordlist")
 require("utils.struct.class")
 
@@ -38,7 +37,7 @@ local function fetch_npc_id_from_stand(sNpcImgPath)
 end
 
 local function fetch_directory_itemids(sDirPath)
-    local tImgFiles = listdir(RWndPath.LOVE_IMAGE_DIR_PATH .. sDirPath, true)
+    local tImgFiles = list_dir_images_from_path(sDirPath)
 
     local tEntries = {}
     for sPath, _ in pairs(tImgFiles) do
@@ -65,7 +64,7 @@ function CStockHeaderNpc:_get_image_path(iId)
         return nil
     end
 
-    local sImgPath = RWndPath.LOVE_IMAGE_DIR_PATH .. "Npc.wz/" .. tostring(iId) .. ".img/stand.0.png"
+    local sImgPath = "Npc.wz/" .. tostring(iId) .. ".img/stand.0.png"
     return sImgPath
 end
 

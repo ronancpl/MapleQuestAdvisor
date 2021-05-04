@@ -60,12 +60,6 @@ function CWmapElemMark:set_textbox(pTextbox)
     self.pTextbox = pTextbox
 end
 
-function CWmapElemMark:load(rX, rY, rgpQuads, pWmapProp)
-    self.eDynam:load(rX, rY, rgpQuads)
-    self.eDynam:instantiate(pWmapProp, true)
-    self.eDynam:after_load()
-end
-
 function CWmapElemMark:active()
     self.eDynam:set_static(false)
 end
@@ -81,6 +75,14 @@ function CWmapElemMark:reset()
     if m_pTextbox ~= nil then
         m_pTextbox:hidden()     -- unrenderize after canvas reset
     end
+end
+
+function CWmapElemMark:load(rX, rY, rgpQuads, pWmapProp)
+    self.eDynam:load(rX, rY, rgpQuads)
+    self.eDynam:instantiate(pWmapProp, true)
+    self.eDynam:after_load()
+
+    self:reset()
 end
 
 function CWmapElemMark:update(dt)

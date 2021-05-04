@@ -21,7 +21,7 @@ require("utils.provider.xml.provider")
 require("utils.struct.class")
 
 local function load_image(sImgDirPath, sImgName)
-    local pImgData = load_image_from_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgDirPath .. "/" .. sImgName .. ".png")
+    local pImgData = load_image_from_path(sImgDirPath .. "/" .. sImgName .. ".png")
     return love.graphics.newImage(pImgData)
 end
 

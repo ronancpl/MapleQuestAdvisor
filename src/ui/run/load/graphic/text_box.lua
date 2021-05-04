@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.field.node.media.image")
 require("ui.struct.component.canvas.style.text_box")
 
 function load_node_text_box(pNodeTextbox)
@@ -23,7 +24,7 @@ function load_node_text_box(pNodeTextbox)
 
     local pTextbox = CStyleBoxText:new()
 
-    local pImgData = love.image.newImageData(RWndPath.LOVE_IMAGE_DIR_PATH .. RWndPath.INTF_ITEM_IMG)
+    local pImgData = load_image_from_path(RWndPath.INTF_ITEM_IMG)
     pTextbox:load(sTitle, sDesc, 100, 100, pImgData)
 
     return pTextbox
