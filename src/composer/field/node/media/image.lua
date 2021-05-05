@@ -42,12 +42,12 @@ local function parse_repacker_path(sImgPath)
     if iIdxRep > -1 then
 
         -- same path prefix until ".wz"
-        for i = 1, iIdxRep - 1, 1 do
+        for i = 1, iIdxRep, 1 do
             table.insert(rgsPathFound, rgsSp[i])
         end
 
         -- repeater
-        for i = iIdxRep, #rgsSp - 1, 1 do
+        for i = iIdxRep + 1, #rgsSp - 1, 1 do
             for j = 1, nSubRepeat, 1 do
                 table.insert(rgsPathFound, rgsSp[i])
             end

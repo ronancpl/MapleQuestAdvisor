@@ -11,7 +11,7 @@
 --]]
 
 require("utils.struct.class")
-local SSet = require("pl.class").Set
+local SSet = require("pl.Set")
 
 CGraphMilestoneStorage = createClass({
     tStorage = {},
@@ -45,7 +45,7 @@ end
 
 function CGraphMilestoneStorage:_get_node(rgpNeighbors)
     local pSetSearch = make_subpath_set(rgpNeighbors)
-    local rgpNeighborVals = pSetSearch:values()
+    local rgpNeighborVals = SSet.values(pSetSearch)
 
     local pParentNode = self.tStorage
     local pCurNode

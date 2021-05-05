@@ -115,7 +115,7 @@ local function init_worldmap(sWmapSubPath)
     return ctFieldsWmap
 end
 
-function load_resources_worldmap()
+function load_resources_worldmap_ui()
     local sDirPath = RPath.RSC_FIELDS
     local sWmapSubPath = sDirPath .. "/WorldMap/"
 

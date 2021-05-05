@@ -266,6 +266,8 @@ function SArray:index_of(fn_select, bFromStart)
 end
 
 function SArray:slice(iFromIdx, iToIdx)     -- creates a sub-list
+    local m_apItems = self.apItems
+
     local rgpNew = SArray:new()
     for _, pItem in cpairs(m_apItems, iFromIdx, iToIdx) do
         rgpNew:add(pItem)

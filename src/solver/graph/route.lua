@@ -14,7 +14,7 @@ require("router.procedures.constant")
 require("solver.graph.tree.constant")
 require("utils.procedure.unpack")
 require("utils.struct.priority_queue")
-local SSet = require("pl.class").Set
+local SSet = require("pl.Set")
 
 local function get_field_priority(iVal)
     return U_INT_MAX - iVal
@@ -32,14 +32,14 @@ local function mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid)
 
     local pSetToExplore = SSet{unpack(rgiMapids)}
 
-    while pSetToExplore:len() > 0 do
+    while SSet.len(pSetToExplore) > 0 do
         local iCurMapid = pQueueFrontierFields:pop()
         pSetToExplore = pSetToExplore - SSet{iCurMapid}
 
         local rgiNextMapids = {}
         for _, iMapid in ipairs(rgiMapids) do
             local pSetMapid = SSet{iMapid}
-            if pSetMapid:issubset(pSetToExplore) then
+            if SSet.issubset(pSetMapid, pSetToExplore) then
                 table.insert(rgiNextMapids, iMapid)
             end
         end

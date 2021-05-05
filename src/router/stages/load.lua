@@ -92,6 +92,15 @@ local function load_resources_internal()
     ctRefine = load_resources_refine()
     --printable(ctRefine)
 
+    ctItemsMeta = load_meta_resources_items()
+    --printable(ctItemsMeta)
+
+    ctMobsMeta = load_meta_resources_mobs()
+    --printable(ctMobsMeta)
+
+    ctNpcsMeta = load_meta_resources_npcs()
+    --printable(ctNpcsMeta)
+
 end
 
 function load_resources()

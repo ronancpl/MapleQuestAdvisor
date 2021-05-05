@@ -13,13 +13,13 @@
 require("utils.struct.class")
 
 CRscFieldEnterTable = createClass({
-    iMapid
+    rgiMapids
 })
 
-function CRscFieldEnterTable:get_field()
-    return self.iMapid
+function CRscFieldEnterTable:get_fields()
+    return self.rgiMapids
 end
 
-function CRscFieldEnterTable:set_field(iMapid)
-    self.iMapid = iMapid
+function CRscFieldEnterTable:set_fields(tMapids)
+    self.rgiMapids = keys(tMapids)
 end

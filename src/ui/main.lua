@@ -45,13 +45,12 @@ function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     love.graphics.setWireframe(love.keyboard.isDown('space'))
 
-    log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
-    ctFieldsWmap = load_resources_worldmap()
-    ctFieldsMeta = load_meta_resources_fields()
+    log(LPath.INTERFACE, "load.txt", "Loading solver metadata...")
+    dofile("router/stage.lua")
 
-    ctItemsMeta = load_meta_resources_items()
-    ctMobsMeta = load_meta_resources_mobs()
-    ctNpcsMeta = load_meta_resources_npcs()
+    log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
+
+    ctFieldsWmap = load_resources_worldmap_ui()
 
     ctHrItems = load_image_header_inventory()
     ctHrMobs = load_image_header_mobs()
@@ -132,8 +131,8 @@ function love.load()
 
     pUiRscs:set_dimensions(RResourceTable.VW_WND.W, RResourceTable.VW_WND.H)
 
-    local pQuestProp = nil
-    local pRscTree = nil
+    local pQuestProp = tRoute:list()[1]
+    local pRscTree = tRoute:get_node_allot(1):get_resource_tree()
     pUiRscs:update_resources(pQuestProp, pRscTree)
 end
 

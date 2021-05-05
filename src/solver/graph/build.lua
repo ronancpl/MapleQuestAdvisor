@@ -19,7 +19,7 @@ require("solver.lookup.constant")
 require("solver.procedures.lookup")
 require("utils.procedure.unpack")
 require("utils.struct.array")
-local SSet = require("pl.class").Set
+local SSet = require("pl.Set")
 
 local function is_resource_leaf(tpRegionResources)
     return tpRegionResources["regional"] ~= nil     -- contains regional descriptor node
@@ -218,7 +218,7 @@ local function fetch_path_region_resources(rgiTransitRegionids, rgiRegionids, ct
         local rgiNeighborRegionids = fetch_region_neighbors(iCurRegionid, ctFieldsLandscape)
         for _, iRegionid in ipairs(rgiNeighborRegionids) do
             local pSetRegionid = SSet{iRegionid}
-            if pSetRegionid:issubset(pSetToExplore) then
+            if SSet.issubset(pSetRegionid, pSetToExplore) then
                 table.insert(rgiNextRegionids, iRegionid)
             end
         end

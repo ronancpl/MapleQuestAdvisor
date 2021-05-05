@@ -50,7 +50,7 @@ end
 local function evaluate_cost_job(pReqAcc, pPlayerState, pQuestChkProp, pQuestRoll)
     local iRet = fetch_accessor_remaining_requirement(pReqAcc, pPlayerState, pQuestChkProp)
 
-    pQuestRoll:has_requisite_job(iRet > 0)
+    pQuestRoll:set_requisite_job(iRet > 0)
 
     return iRet * RQuest.JOBS.Curb
 end

@@ -11,18 +11,18 @@
 --]]
 
 require("utils.struct.class")
-local SSet = require("pl.class").Set
+local SSet = require("pl.Set")
 
 CSolverResource = createClass({
     pSetResources = SSet{}
 })
 
 function CSolverResource:get_resources()
-    return self.pSetResources:values()
+    return SSet.values(self.pSetResources)
 end
 
 function CSolverResource:get_num_resources()
-    return self.pSetResources:len()
+    return SSet.len(self.pSetResources)
 end
 
 function CSolverResource:set_resources(rgiResourceids)

@@ -18,7 +18,7 @@ CRscFieldEntry = createClass({
     tiMobs = {},
     tiItems = {},
     iNpc = nil,
-    bFieldEnter = nil
+    tiFieldsEnter = {}
 })
 
 function CRscFieldEntry:get_mobs()
@@ -52,9 +52,12 @@ function CRscFieldEntry:set_npc(iNpc)
 end
 
 function CRscFieldEntry:get_field_enter()
-    return self.iFieldEnter
+    return self.tiFieldsEnter
 end
 
-function CRscFieldEntry:set_field_enter(iMapid)
-    self.iFieldEnter = iMapid
+function CRscFieldEntry:set_field_enter(tiFieldsEnter)
+    local m_tiFieldsEnter = self.tiFieldsEnter
+
+    clear_table(m_tiFieldsEnter)
+    table_merge(m_tiFieldsEnter, tiFieldsEnter)
 end

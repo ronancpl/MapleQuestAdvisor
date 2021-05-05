@@ -11,11 +11,12 @@
 --]]
 
 require("utils.struct.class")
+local SSet = require("pl.Set")
 
 CFieldRegion = createClass({
     pSetMapids
 })
 
 function CFieldRegion:get_areas()
-    return self.pSetMapids:values()
+    return SSet.values(self.pSetMapids)
 end

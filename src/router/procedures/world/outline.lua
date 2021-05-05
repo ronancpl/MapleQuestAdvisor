@@ -11,7 +11,7 @@
 --]]
 
 require("utils.procedure.unpack")
-local SSet = require("pl.class").Set
+local SSet = require("pl.Set")
 
 local function outline_area_outskirts(iMapid, tiExploredMapids, tFrontierMapids, ctFieldsDist)
     tiExploredMapids[iMapid] = 1
@@ -49,7 +49,7 @@ function fetch_regional_areas(ctFieldsDist)
     local pSetRemaining = SSet{unpack(rgiMapids)}
     for _, iMapid in pairs(rgiMapids) do
         local pSetMapid = SSet{iMapid}
-        if pSetMapid:issubset(pSetRemaining) then
+        if SSet.issubset(pSetMapid, pSetRemaining) then
             local pSetRegional = scan_regional_areas(iMapid, ctFieldsDist)
 
             table.insert(rgpSetRegionAreas, pSetRegional)

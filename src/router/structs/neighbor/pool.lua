@@ -13,7 +13,7 @@
 require("utils.procedure.set")
 require("utils.struct.array")
 require("utils.struct.class")
-local SSet = require("pl.class").Set
+local SSet = require("pl.Set")
 
 CNeighborPool = createClass({
     tAccQuests = {},
@@ -280,7 +280,7 @@ function CNeighborPool:_fetch_accessor_additionals_table(tpSetAccProps)
     for pAcc, pSetProps in pairs(tpSetAccProps) do
         local pAccAdditionals = {}
 
-        for _, pQuestProps in ipairs(pSetProps:values()) do
+        for _, pQuestProps in ipairs(SSet.values(pSetProps)) do
             pAccAdditionals[pQuestProps] = 1
         end
 
@@ -312,7 +312,7 @@ function CNeighborPool:fetch_additional_neighbors(ctAccessors, tpSetAccAdditiona
     local tpAccAdditionals = self:_fetch_accessor_additionals_table(tpSetAccAdditional)
 
     local m_tPropQuests = self.tPropQuests
-    for _, pQuestProps in ipairs(pSetFull:values()) do
+    for _, pQuestProps in ipairs(SSet.values(pSetFull)) do
         local pQuestProp = m_tPropQuests[pQuestProps]
 
         if self:_is_additional_neighbor(ctAccessors, tpAccAdditionals, pQuestProp, pQuestProps) then

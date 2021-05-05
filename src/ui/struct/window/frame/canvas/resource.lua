@@ -31,7 +31,7 @@ function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
     local tiItems = {}
     local tiMobs = {}
     local iNpc = nil
-    local iFieldEnter = nil
+    local tFieldsEnter = {}
 
     local pQuestChkProp = pQuestProp:get_requirement()
 
@@ -49,11 +49,11 @@ function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
         elseif iRscType == RLookupCategory.FIELD_ENTER then
             iNpc = iRscUnit
         elseif RLookupCategory.FIELD_NPC then
-            iFieldEnter = iRscUnit
+            tFieldsEnter[iRscUnit] = 1
         end
     end
 
-    return tiItems, tiMobs, iNpc, iFieldEnter
+    return tiItems, tiMobs, iNpc, tFieldsEnter
 end
 
 function CWndResource:_add_resources(pQuestProp, pRscTree)

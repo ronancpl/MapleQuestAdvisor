@@ -85,18 +85,18 @@ function CRscProperties:_update_npc(iNpc)
     self.pInfoNpc:set_npc(iNpc)
 end
 
-function CRscProperties:_update_field_enter(iFieldEnter)
+function CRscProperties:_update_field_enter(tFieldsEnter)
     self.pInfoFieldEnter = CRscFieldEnterTable:new()
-    self.pInfoFieldEnter:set_field(iFieldEnter)
+    self.pInfoFieldEnter:set_fields(tFieldsEnter)
 end
 
-function CRscProperties:add_field_resources(iMapid, tiItems, tiMobs, iNpc, iFieldEnter)
+function CRscProperties:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)
     local pRscEntry = CRscFieldEntry:new()
 
     pRscEntry:set_mobs(tiMobs)
     pRscEntry:set_items(tiItems)
     pRscEntry:set_npc(iNpc)
-    pRscEntry:set_field_enter(iFieldEnter)
+    pRscEntry:set_field_enter(tFieldsEnter)
 
     local m_tpRscEntries = self.tpRscEntries
     m_tpRscEntries[iMapid] = pRscEntry
@@ -106,26 +106,26 @@ function CRscProperties:_build_header_resources()
     local tiItems = {}
     local tiMobs = {}
     local iNpc = -1
-    local iFieldEnter = -1
+    local tFieldsEnter = {}
 
     local m_tpRscEntries = self.tpRscEntries
     for iMapid, pRscEntry in pairs(m_tpRscEntries) do
         table_merge(tiItems, pRscEntry:get_items())
         table_merge(tiMobs, pRscEntry:get_mobs())
         iNpc = pRscEntry:get_npc() or iNpc
-        iFieldEnter = pRscEntry:get_field_enter() or iFieldEnter
+        table_merge(tFieldsEnter, pRscEntry:get_field_enter())
     end
 
-    return tiItems, tiMobs, iNpc, iFieldEnter
+    return tiItems, tiMobs, iNpc, tFieldsEnter
 end
 
 function CRscProperties:build()
-    local tiItems, tiMobs, iNpc, iFieldEnter = self:_build_header_resources()
+    local tiItems, tiMobs, iNpc, tFieldsEnter = self:_build_header_resources()
 
     self:_update_items(tiItems)
     self:_update_mobs(tiMobs)
     self:_update_npc(iNpc)
-    self:_update_field_enter(iFieldEnter)
+    self:_update_field_enter(tFieldsEnter)
 end
 
 function CRscProperties:get_fields()

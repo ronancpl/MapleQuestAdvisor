@@ -10,16 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-local SSet = require("pl.class").Set
+local SSet = require("pl.Set")
 
 function collection_copy(set)
-    return SSet{unpack(set:values())}
+    return SSet{unpack(SSet.values(set))}
 end
 
 function collection_values(set)
     local tpItems = {}
 
-    for _, pItem in ipairs(set:values()) do
+    for _, pItem in ipairs(SSet.values(set)) do
         tpItems[pItem] = 1
     end
     tpItems[{}] = nil   -- remove empty-table

@@ -18,8 +18,6 @@ CQuestPath = createClass({
     tsSetPath = {},
     tpPathCount = {},
 
-    pPathTree = {},
-
     pPathAllotStack = {},
     pPathValStack = {},
     fAccPathValue = 0.0,

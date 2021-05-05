@@ -60,7 +60,7 @@ local function make_tab_resources_npc(pRscProp)
     local siType = RResourceTable.TAB.NPC.ID
 
     local iId = pRscProp:get_info_npc():get_npc()
-    if iId ~= nil then
+    if iId >= 0 then
         local pVwItem = CRscElemItemPicture:new()
 
         local pImg = ctHrNpcs:load_image_by_id(iId)
@@ -78,10 +78,8 @@ end
 local function make_tab_resources_field_enter(pRscProp)
     local rgpVwItems = {}
 
-    local iId = pRscProp:get_info_field_enter():get_field()
     local siType = RResourceTable.TAB.FIELD_ENTER.ID
-
-    if iId ~= nil then
+    for _, iId in pairs(pRscProp:get_info_field_enter():get_fields()) do
         local sDesc = ctFieldsMeta:get_area_name(iId)
         local iFieldRef = iId
 

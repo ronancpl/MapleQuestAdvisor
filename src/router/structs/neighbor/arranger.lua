@@ -14,7 +14,7 @@ require("router.structs.neighbor.pool")
 require("utils.procedure.set")
 require("utils.struct.array")
 require("utils.struct.class")
-local SSet = require("pl.class").Set
+local SSet = require("pl.Set")
 
 CNeighborArranger = createClass({
     tpUpdatedInvtAccs = {},

@@ -12,7 +12,7 @@
 
 require("utils.procedure.unpack")
 
-local SSet = require("pl.class").Set
+local SSet = require("pl.Set")
 
 local function fetch_static_fields(rgiSrcLoots)
     local pSetFields = SSet{unpack(rgiSrcLoots)}
@@ -23,7 +23,7 @@ function fn_get_static_fields()
     return function(trgiSrcItems, iSrcid)
         local pSetFields = fetch_static_fields(trgiSrcItems[iSrcid])
 
-        local rgiVals = pSetFields:values()
+        local rgiVals = SSet.values(pSetFields)
         return rgiVals
     end
 end
@@ -37,7 +37,7 @@ function fn_get_item_fields(ctItems)
     return function(trgiSrcItems, iSrcid)
         local pSetFields = fetch_item_fields(iSrcid, ctItems)
 
-        local rgiVals = pSetFields:values()
+        local rgiVals = SSet.values(pSetFields)
         return rgiVals
     end
 end
@@ -57,7 +57,7 @@ function fn_get_mob_fields(ctMobsGroup, ctItems)    -- usage of QuestCountGroup 
             pSetFields = pSetFields + SSet{unpack(rgiVals)}
         end
 
-        local rgiVals = pSetFields:values()
+        local rgiVals = SSet.values(pSetFields)
         return rgiVals
     end
 end
