@@ -47,9 +47,9 @@ function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
         elseif iRscType == RLookupCategory.ITEMS then
             tiItems[iRscUnit] = tpItems[iRscUnit]
         elseif iRscType == RLookupCategory.FIELD_ENTER then
-            iNpc = iRscUnit
-        elseif RLookupCategory.FIELD_NPC then
             tFieldsEnter[iRscUnit] = 1
+        elseif iRscType == RLookupCategory.FIELD_NPC then
+            iNpc = iRscUnit
         end
     end
 

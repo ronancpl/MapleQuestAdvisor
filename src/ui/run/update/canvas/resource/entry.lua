@@ -60,6 +60,7 @@ local function make_tab_resources_npc(pRscProp)
     local siType = RResourceTable.TAB.NPC.ID
 
     local iId = pRscProp:get_info_npc():get_npc()
+    iId = 1013000
     if iId >= 0 then
         local pVwItem = CRscElemItemPicture:new()
 
@@ -67,7 +68,7 @@ local function make_tab_resources_npc(pRscProp)
         local sDesc = ctNpcsMeta:get_text(iId)
         local iFieldRef = 100000000
 
-        pVwItem:load(siType, pImg, iId, nil, sDesc, iFieldRef, RResourceTable.VW_GRID.NPCS)
+        pVwItem:load(siType, pImg, iId, 1, sDesc, iFieldRef, RResourceTable.VW_GRID.NPCS)
 
         table.insert(rgpVwItems, pVwItem)
     end

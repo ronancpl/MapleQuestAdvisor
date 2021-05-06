@@ -30,14 +30,12 @@ end
 function draw_resource_picture(pVwRsc)
     local bUseShadow = pVwRsc:get_type() == RResourceTable.TAB.ITEMS.ID
 
-    if pVwRsc:is_visible_count() then
-        local pVwCnvRsc = pVwRsc:get_picture()
-        local iCount = pVwRsc:get_count()
+    local pVwCnvRsc = pVwRsc:get_picture()
+    local iCount = pVwRsc:get_count()
 
-        local iPx, iPy = pVwRsc:get_position()
-        local rX, rY = pVwRsc:get_image_origin()
+    local iPx, iPy = pVwRsc:get_position()
+    local rX, rY = pVwRsc:get_image_origin()
 
-        local pRscGrid = tpRscGrid[pVwRsc:get_type()]
-        draw_item_canvas(pVwCnvRsc, iCount, iPx, iPy, pRscGrid.W, pRscGrid.H, rX, rY)
-    end
+    local pRscGrid = tpRscGrid[pVwRsc:get_type()]
+    draw_item_canvas(pVwCnvRsc, iCount, iPx, iPy, pRscGrid.W, pRscGrid.H, rX, rY)
 end
