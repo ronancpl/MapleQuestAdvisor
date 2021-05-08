@@ -10,17 +10,24 @@
     provide an express grant of patent rights.
 --]]
 
-RGraph = {
+require("ui.struct.path.pathing")
+require("utils.struct.class")
 
-    POOL_MIN_QUESTS = 20,
-    POOL_AHEAD_QUEST_LEVEL = 1,
-    POOL_BEHIND_QUEST_LEVEL = 20,
-    POOL_QUEST_FETCH_PARTITIONS = 15,
-    POOL_QUEST_FETCH_CONTINENT_RATIO = 0.4,
-    POOL_QUEST_FETCH_ROOT_RATIO = 0.2,
+CQuestPathingProperties = createClass({
+    pTrack
+})
 
-    REGION_AREAS_SCRIPT_THRESHOLD = 14,
+function CQuestPathingProperties:load(pRouteLane)
+    local pTrack = CTracePath:new()
+    pTrack:load(pRouteLane)
 
-    LEADING_PATH_CAPACITY = 50
+    self.pTrack = pTrack
+end
 
-}
+function CQuestPathingProperties:get_track()
+    return self.pTrack
+end
+
+function CQuestPathingProperties:reset()
+
+end

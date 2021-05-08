@@ -13,6 +13,8 @@
 package.path = package.path .. ';?.lua'
 
 require("composer.field.field")
+require("composer.field.station")
+require("composer.field.worldmap")
 require("composer.containers.strings.item")
 require("composer.containers.strings.mob")
 require("composer.containers.strings.npc")
@@ -24,6 +26,7 @@ require("ui.interaction.handler")
 require("ui.run.build.canvas.worldmap.worldmap")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
+require("ui.run.load.quest")
 require("ui.run.load.resource")
 require("ui.run.load.stat")
 require("ui.run.load.worldmap")
@@ -37,6 +40,7 @@ require("ui.struct.component.tooltip.tracer.storage")
 require("ui.struct.images.storage.item")
 require("ui.struct.images.storage.mob")
 require("ui.struct.images.storage.npc")
+require("ui.struct.path.pathing")
 require("ui.trace.trace")
 require("utils.logger.file")
 require("utils.procedure.print")
@@ -50,7 +54,18 @@ function love.load()
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 
+    ctFieldsWmap = load_resources_worldmap()
+    --printable(ctFieldsWmap)
+
+    ctFieldsMeta = load_meta_resources_fields()
+    --printable(ctFieldsMeta)
+
+    ctFieldsDist = load_resources_fields(ctFieldsMeta, ctFieldsWmap)
+    --printable(ctFieldsDist)
+
+    ctFieldsLink = load_resources_stations()
     ctFieldsWmap = load_resources_worldmap_ui()
+
 
     ctHrItems = load_image_header_inventory()
     ctHrMobs = load_image_header_mobs()
@@ -127,12 +142,16 @@ function love.load()
     pVwTrace = CViewPolyline:new()
     pVwTrace:load(rgpQuadBullet, {100, 100, 400, 400, 500, 300})
 
-    pUiRscs = load_frame_quest_resources()
+    pUiQuest = load_frame_quest_pathing()
 
+    pUiRscs = load_frame_quest_resources()
     pUiRscs:set_dimensions(RResourceTable.VW_WND.W, RResourceTable.VW_WND.H)
 
-    local pQuestProp = tRoute:list()[1]
-    local pRscTree = tRoute:get_node_allot(1):get_resource_tree()
+    local pTrack = pUiQuest:get_properties():get_track()
+
+    local pPath = pTrack:get_paths()[1]
+    local pQuestProp = pPath:list()[1]
+    local pRscTree = pPath:get_node_allot(1):get_resource_tree()
     pUiRscs:update_resources(pQuestProp, pRscTree)
 end
 
@@ -161,7 +180,7 @@ function love.update(dt)
     pUiWmap:update(dt)
     pUiInvt:update(dt)
     pUiStats:update(dt)
-    pUiRscs:update(dt)
+    --pUiRscs:update(dt)
 end
 
 function love.draw()
@@ -169,7 +188,7 @@ function love.draw()
     pUiInvt:draw()
     pUiStats:draw()
     pVwTrace:draw()
-    pUiRscs:draw()
+    --pUiRscs:draw()
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)

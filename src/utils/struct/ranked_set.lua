@@ -22,7 +22,7 @@ SRankedSet = createClass({
     iBoundaryVal = U_INT_MIN
 })
 
-function SRankedSet:_get_base_value()
+function SRankedSet:get_base_value()
     return self.iBoundaryVal
 end
 
@@ -34,12 +34,12 @@ function SRankedSet:_set_base_value(iVal)
     self.iBoundaryVal = iVal
 end
 
-function SRankedSet:get_boundary()
+function SRankedSet:get_capacity()
     return self.nCapacity
 end
 
-function SRankedSet:set_boundary(iCap)
-    if iCap < self:get_boundary() then
+function SRankedSet:set_capacity(iCap)
+    if iCap < self:get_capacity() then
         self:_reset_base_value()
     end
 
@@ -60,12 +60,6 @@ function SRankedSet:_amend_positions(iPos, iDlt)
             m_tpItPos[pItem] = iItPos + iDlt
         end
     end
-
-    local st = ""
-    for k, v in pairs(m_tpItPos) do
-        st = st .. tostring(k) .. ":" .. tostring(v) .. ","
-    end
-    print("F:" .. iPos .. " >>> [" .. st .. "]")
 end
 
 function SRankedSet:_remove(pItem)
@@ -82,7 +76,7 @@ function SRankedSet:_remove(pItem)
 
         self:_amend_positions(iIdx + 1, -1)
 
-        if m_rgpItems:size() < self:get_boundary() then
+        if m_rgpItems:size() < self:get_capacity() then
             self:_reset_base_value()
         end
     end
@@ -92,40 +86,50 @@ function SRankedSet:remove(pItem)
     self:_remove(pItem)
 end
 
+function SRankedSet:pop()
+    local m_rgpItems = self.rgpItems
+
+    local pItm = m_rgpItems:get_last()
+    self:_remove(pItm)
+
+    return pItm
+end
+
 function SRankedSet:_get_fn_item_position()
     return function(pItem, iVal)
         local m_tpItVal = self.tpItVal
-        return (m_tpItVal[pItem] or -1) - iVal
+        return iVal - m_tpItVal[pItem]
     end
 end
 
-function SRankedSet:add(pItem, iVal)
+function SRankedSet:insert(pItem, iVal)
     self:_reset_base_value()
 
     if self:contains(pItem) then
         self:_remove(pItem)
     end
 
-    if iVal > self:_get_base_value() then
+    if iVal > self:get_base_value() then
         local m_rgpItems = self.rgpItems
+
+        local fn_compare_item_pos = self:_get_fn_item_position()
+
+        local iIdx = m_rgpItems:bsearch(fn_compare_item_pos, iVal, true, true)
+        if iIdx < 1 then iIdx = iIdx + 1 end
+
+        self:_amend_positions(iIdx, 1)
 
         local m_tpItVal = self.tpItVal
         m_tpItVal[pItem] = iVal
 
-        local fn_compare_item_pos = self:_get_fn_item_position()
-        local iIdx = m_rgpItems:bsearch(fn_compare_item_pos, iVal, true, true)
-
         local m_tpItPos = self.tpItPos
         m_tpItPos[pItem] = iIdx
-
-        self:_amend_positions(iIdx + 1, 1)
 
         m_rgpItems:insert(pItem, iIdx)
 
         local nSize = m_rgpItems:size()
-        if nSize > self:get_boundary() then
-            local pItm = m_rgpItems:get_last()
-            self:_remove(pItm)
+        if nSize > self:get_capacity() then
+            self:pop()
 
             local pItm = m_rgpItems:get_last()
             local m_tpItVal = self.tpItVal
@@ -138,15 +142,4 @@ end
 function SRankedSet:list()
     local m_rgpItems = self.rgpItems
     return m_rgpItems:list()
-end
-
-function SRankedSet:dbg()
-    local m_rgpItems = self.rgpItems
-
-    local st = ""
-    for k,v in pairs(m_rgpItems:list()) do
-        st = st .. v .. ","
-    end
-
-    print("> " .. st)
 end

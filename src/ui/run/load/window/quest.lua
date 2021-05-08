@@ -10,17 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
-RGraph = {
+require("ui.struct.window.frame.canvas.quest")
 
-    POOL_MIN_QUESTS = 20,
-    POOL_AHEAD_QUEST_LEVEL = 1,
-    POOL_BEHIND_QUEST_LEVEL = 20,
-    POOL_QUEST_FETCH_PARTITIONS = 15,
-    POOL_QUEST_FETCH_CONTINENT_RATIO = 0.4,
-    POOL_QUEST_FETCH_ROOT_RATIO = 0.2,
+function load_interface_quest_pathing()
+    local pWnd = CWndQuest:new()
+    pWnd:load()
 
-    REGION_AREAS_SCRIPT_THRESHOLD = 14,
-
-    LEADING_PATH_CAPACITY = 50
-
-}
+    return pWnd
+end

@@ -10,6 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.containers.strings.item")
+require("composer.containers.strings.mob")
+require("composer.containers.strings.npc")
 require("composer.field.field")
 require("composer.field.station")
 require("composer.field.worldmap")

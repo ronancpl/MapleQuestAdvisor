@@ -10,12 +10,15 @@
     provide an express grant of patent rights.
 --]]
 
+package.path = package.path .. ';?.lua'
+
 require("router.procedures.quest.accessors")
 require("router.procedures.quest.awarders")
 require("router.stages.load")
 require("router.stages.map")
 require("router.stages.pool")
 require("router.stages.route")
+require("solver.graph.lane")
 require("solver.procedures.lookup")
 require("structs.player")
 
@@ -43,3 +46,4 @@ ctAwarders = init_quest_awarders()
 local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
 
 tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+pRouteLane = generate_subpath_lane(tRoute)
