@@ -20,6 +20,14 @@ CViewPolyline = createClass({
     rgpDynMesh = {}
 })
 
+function CViewPolyline:active()
+    self.eDynam:set_static(false)
+end
+
+function CViewPolyline:static()
+    self.eDynam:set_static(true)
+end
+
 function CViewPolyline:load(rgpQuads, ...)
     local m_rgpDynMesh = self.rgpDynMesh
     clear_table(m_rgpDynMesh)
@@ -50,6 +58,8 @@ function CViewPolyline:load(rgpQuads, ...)
             end
         end
     end
+
+    self.eDynam:after_load()
 end
 
 function CViewPolyline:update(dt)

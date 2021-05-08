@@ -141,6 +141,7 @@ function love.load()
 
     pVwTrace = CViewPolyline:new()
     pVwTrace:load(rgpQuadBullet, {100, 100, 400, 400, 500, 300})
+    pVwTrace:active()
 
     pUiQuest = load_frame_quest_pathing()
 
@@ -180,7 +181,8 @@ function love.update(dt)
     pUiWmap:update(dt)
     pUiInvt:update(dt)
     pUiStats:update(dt)
-    --pUiRscs:update(dt)
+    pVwTrace:update(dt)
+    pUiRscs:update(dt)
 end
 
 function love.draw()
