@@ -62,8 +62,8 @@ function CWndResource:_add_resources(pQuestProp, pRscTree)
     for iMapid, pResource in pairs(pRscTree:get_field_nodes()) do
         local rgiResourceids = pResource:get_resources()
 
-        local tiItems, tiMobs, iNpc, iFieldEnter = self:_fetch_field_resources(pQuestProp, rgiResourceids)
-        m_pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, iFieldEnter)
+        local tiItems, tiMobs, iNpc, tFieldsEnter = self:_fetch_field_resources(pQuestProp, rgiResourceids)
+        m_pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)
     end
 end
 
@@ -73,6 +73,8 @@ function CWndResource:update_resources(pQuestProp, pRscTree)
     self:_add_resources(pQuestProp, pRscTree)
 
     local m_pProp = self.pProp
+    m_pProp:set_resource_tree(pRscTree)
+
     m_pProp:build()
 
     self.pCanvas:build(m_pProp)
@@ -80,6 +82,19 @@ function CWndResource:update_resources(pQuestProp, pRscTree)
     local pVwRscs = m_pProp:get_table()
     local fn_update_items = pVwRscs:get_fn_update_items()
     fn_update_items(pVwRscs, m_pProp)
+end
+
+function CWndResource:get_field_resources()
+    local tpFieldRscs = {}
+
+    local m_pProp = self.pProp
+    local rgiMapids = m_pProp:get_fields()
+    for _, iMapid in pairs(rgiMapids) do
+        local pRscEntry = m_pProp:get_field_resources(iMapid)
+        tpFieldRscs[iMapid] = pRscEntry
+    end
+
+    return tpFieldRscs[iMapid]
 end
 
 function CWndResource:set_dimensions(iWidth, iHeight)

@@ -26,7 +26,6 @@ require("ui.interaction.handler")
 require("ui.run.build.canvas.worldmap.worldmap")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
-require("ui.run.load.quest")
 require("ui.run.load.resource")
 require("ui.run.load.stat")
 require("ui.run.load.worldmap")
@@ -35,12 +34,9 @@ require("ui.struct.component.canvas.resource.storage")
 require("ui.struct.component.canvas.style.storage")
 require("ui.struct.component.canvas.slider.storage")
 require("ui.struct.component.tooltip.mouse.storage")
-require("ui.struct.component.tooltip.tracer.polyline")
-require("ui.struct.component.tooltip.tracer.storage")
 require("ui.struct.images.storage.item")
 require("ui.struct.images.storage.mob")
 require("ui.struct.images.storage.npc")
-require("ui.struct.path.pathing")
 require("ui.trace.trace")
 require("utils.logger.file")
 require("utils.procedure.print")
@@ -66,7 +62,6 @@ function love.load()
     ctFieldsLink = load_resources_stations()
     ctFieldsWmap = load_resources_worldmap_ui()
 
-
     ctHrItems = load_image_header_inventory()
     ctHrMobs = load_image_header_mobs()
     ctHrNpcs = load_image_header_npcs()
@@ -91,10 +86,6 @@ function love.load()
     pFrameBasic = load_frame_basic()
 
     pUiWmap = load_frame_worldmap()
-
-    local sWmapName = "WorldMap010"
-    log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
-    pUiWmap:update_region(sWmapName)
 
     pUiInvt = load_frame_player_inventory()
 
@@ -137,23 +128,12 @@ function love.load()
     pPlayer = CPlayer:new({iMapid = 2000000, siLevel = 50, siJob = 122})
     pUiStats:update_stats(pPlayer, 10, 10, 10)
 
-    local rgpQuadBullet = ctVwTracer:get_bullet()
-
-    pVwTrace = CViewPolyline:new()
-    pVwTrace:load(rgpQuadBullet, {100, 100, 400, 400, 500, 300})
-    pVwTrace:active()
-
-    pUiQuest = load_frame_quest_pathing()
-
     pUiRscs = load_frame_quest_resources()
     pUiRscs:set_dimensions(RResourceTable.VW_WND.W, RResourceTable.VW_WND.H)
 
-    local pTrack = pUiQuest:get_properties():get_track()
-
-    local pPath = pTrack:get_paths()[1]
-    local pQuestProp = pPath:list()[1]
-    local pRscTree = pPath:get_node_allot(1):get_resource_tree()
-    pUiRscs:update_resources(pQuestProp, pRscTree)
+    local sWmapName = "WorldMap010"
+    log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
+    pUiWmap:update_region(sWmapName, pPlayer, pUiRscs)
 end
 
 local function update_interactions()
@@ -181,7 +161,6 @@ function love.update(dt)
     pUiWmap:update(dt)
     pUiInvt:update(dt)
     pUiStats:update(dt)
-    pVwTrace:update(dt)
     pUiRscs:update(dt)
 end
 
@@ -189,8 +168,7 @@ function love.draw()
     pUiWmap:draw()
     pUiInvt:draw()
     pUiStats:draw()
-    pVwTrace:draw()
-    --pUiRscs:draw()
+    pUiRscs:draw()
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)

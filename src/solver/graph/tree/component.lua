@@ -39,6 +39,10 @@ function CSolverTree:add_field_node(iMapid, pResource)
     self.tpResourceNodes[iMapid] = pResource
 end
 
+function CSolverTree:get_field_node(iMapid)
+    return self.tpResourceNodes[iMapid]
+end
+
 function CSolverTree:get_field_nodes()
     return self.tpResourceNodes
 end

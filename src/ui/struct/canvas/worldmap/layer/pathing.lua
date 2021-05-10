@@ -13,9 +13,9 @@
 require("ui.struct.window.frame.layer")
 require("utils.struct.class")
 
-CQuestNavPathing = createClass({CWndLayer, {}})
+CWmapNavPathing = createClass({CWndLayer, {}})
 
-function CQuestNavPathing:build(pQuestProp)
+function CWmapNavPathing:build(pQuestProp)
     self:reset()
 
     -- add layer elements

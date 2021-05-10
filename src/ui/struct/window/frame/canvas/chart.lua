@@ -18,6 +18,7 @@ require("ui.struct.canvas.worldmap.layer.background")
 require("ui.struct.canvas.worldmap.layer.fragment")
 require("ui.struct.canvas.worldmap.layer.map_link")
 require("ui.struct.canvas.worldmap.layer.map_list")
+require("ui.struct.canvas.worldmap.layer.pathing")
 require("ui.struct.canvas.worldmap.layer.plaintext")
 require("ui.struct.canvas.worldmap.properties")
 require("utils.struct.class")
@@ -32,7 +33,7 @@ function CWndWmap:get_properties()
     return self.pProp
 end
 
-function CWndWmap:update_region(sWmapName)
+function CWndWmap:update_region(sWmapName, pPlayer, pUiRscs)
     self.pCanvas:reset()
 
     local pWmapRegion
@@ -42,7 +43,18 @@ function CWndWmap:update_region(sWmapName)
     local pDirHelperQuads
     pDirHelperQuads, _ = self.pCache:get_worldmap_helper()
 
+    local iWmapid = ctFieldsWmap:get_worldmap_id(sWmapName)
+    self.pProp:set_worldmap_id(iWmapid)
+
     self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
+
+    if pPlayer ~= nil and pUiRscs ~= nil then
+        update_worldmap_region_track(self, pUiRscs, pPlayer)
+        update_worldmap_resource_actives(self, pUiRscs)
+    end
+
+    self:activate_region_fields()
+
     self.pCanvas:build(self.pProp)
 end
 
@@ -52,7 +64,7 @@ function CWndWmap:load()
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
     self.pProp:set_origin(iBx / 2, iBy / 2)
 
-    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavInfo}) -- follows sequence: LLayer
+    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavPathing, CWmapNavInfo}) -- follows sequence: LLayer
     self.pCache:load()
 end
 

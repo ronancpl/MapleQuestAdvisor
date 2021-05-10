@@ -88,6 +88,20 @@ Use the now installed LuaRocks to install the required modules.
 
   + Verify whether the packages have been installed by your LuaRocks with: `luarocks list`.
 
+#### 5. Extract XML and images
+
+Use the HaRepacker application, encryption "GMS (old)".
+
+  Select and export each WZ file at a time:
+
+  + For the XMLs, EXPORT (using the "Private Server..." exporting option), to the following location:
+    * `<LOCATION_FOLDER>/lib/xml`
+
+  + For the images, EXPORT (using the "PNG/MP3" exporting option), to the following location:
+    * `<LOCATION_FOLDER>/ui/media`
+
+  After exporting, at both folder locations should be present therein subfolders ending with ".wz".
+
 ---
 ### Using the tool
 

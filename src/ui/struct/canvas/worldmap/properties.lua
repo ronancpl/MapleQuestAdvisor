@@ -13,6 +13,7 @@
 require("ui.run.build.canvas.worldmap.element.base_img")
 require("ui.run.build.canvas.worldmap.element.map_link")
 require("ui.run.build.canvas.worldmap.element.map_list")
+require("ui.struct.path.pathing")
 require("utils.procedure.copy")
 require("utils.procedure.unpack")
 require("utils.struct.class")
@@ -21,9 +22,12 @@ CWmapProperties = createClass({
     iCx = 0,
     iCy = 0,
     sParentMap,
+    iWorldmapId,
     pBaseImg,
     rgpMapList = {},
-    rgpMapLink = {}
+    rgpMapLink = {},
+    tpMapMarker = {},
+    pTrack
 })
 
 function CWmapProperties:reset()
@@ -31,6 +35,11 @@ function CWmapProperties:reset()
     self.pBaseImg = nil
     clear_table(self.rgpMapList)
     clear_table(self.rgpMapLink)
+    clear_table(self.tpMapMarker)
+
+    local pTrack = CTracePath:new()
+    pTrack:load(pRouteLane)
+    self.pTrack = pTrack
 end
 
 function CWmapProperties:get_parent_map()
@@ -39,6 +48,14 @@ end
 
 function CWmapProperties:set_parent_map(sParentMap)
     self.sParentMap = sParentMap
+end
+
+function CWmapProperties:get_worldmap_id()
+    return self.iWorldmapId
+end
+
+function CWmapProperties:set_worldmap_id(iWmapId)
+    self.iWorldmapId = iWmapId
 end
 
 function CWmapProperties:set_base_img(pBaseImg)
@@ -59,10 +76,27 @@ end
 
 function CWmapProperties:add_map_field(pFieldNode)
     table.insert(self.rgpMapList, pFieldNode)
+
+    local m_tpMapMarker = self.tpMapMarker
+    for _, iMapid in pairs(pFieldNode:get_fields()) do
+        m_tpMapMarker[iMapid] = pFieldNode
+    end
 end
 
 function CWmapProperties:get_map_fields()
     return deep_copy(self.rgpMapList)
+end
+
+function CWmapProperties:get_marker_by_mapid(iMapid)
+    return self.tpMapMarker[iMapid]
+end
+
+function CWmapProperties:get_markers()
+    return self.tpMapMarker
+end
+
+function CWmapProperties:get_fields()
+    return keys(self.tpMapMarker)
 end
 
 function CWmapProperties:get_origin()

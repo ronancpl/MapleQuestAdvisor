@@ -35,7 +35,7 @@ function CFieldWorldmapTable:get_region_entries()
     return rgsWmapNames
 end
 
-function CFieldWorldmapTable:_get_worldmap_id(sWmapName)
+function CFieldWorldmapTable:get_worldmap_id(sWmapName)
     return tonumber(sWmapName:sub(9, 11))
 end
 

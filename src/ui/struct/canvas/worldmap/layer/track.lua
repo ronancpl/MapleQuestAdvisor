@@ -10,9 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.load.window.quest")
+require("ui.struct.window.frame.layer")
+require("utils.struct.class")
 
-function load_frame_quest_pathing()
-    local pUiQuest = load_interface_quest_pathing()
-    return pUiQuest
+CWmapNavTrack = createClass({CWndLayer, {
+    pVwTrace
+}})
+
+function CWmapNavTrack:build(pWmapProp)
+    self:reset()
+
+    -- do nothing, elements added by interaction
+
 end

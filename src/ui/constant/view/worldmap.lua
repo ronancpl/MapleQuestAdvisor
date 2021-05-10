@@ -10,24 +10,14 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.path.pathing")
-require("utils.struct.class")
+RWmapMarkerType = {
+    STATION_IN = 1,
+    STATION_OUT = 2,
+    DEFAULT = 3,
+    TARGET = 0
+}
 
-CQuestPathingProperties = createClass({
-    pTrack
-})
-
-function CQuestPathingProperties:load(pRouteLane)
-    local pTrack = CTracePath:new()
-    pTrack:load(pRouteLane)
-
-    self.pTrack = pTrack
-end
-
-function CQuestPathingProperties:get_track()
-    return self.pTrack
-end
-
-function CQuestPathingProperties:reset()
-
-end
+RWmapTooltipType = {
+    PLAYER = "curPos",
+    TARGET = "partyPos"
+}

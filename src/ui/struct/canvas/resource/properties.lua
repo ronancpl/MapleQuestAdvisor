@@ -24,6 +24,7 @@ CRscProperties = createClass({
     pVwTable,
 
     tpRscEntries = {},
+    pRscTree,
 
     pInfoItem,
     pInfoMob,
@@ -131,4 +132,17 @@ end
 function CRscProperties:get_fields()
     local m_tpRscEntries = self.tpRscEntries
     return keys(m_tpRscEntries)
+end
+
+function CRscProperties:get_field_resources(iMapid)
+    local m_tpRscEntries = self.tpRscEntries
+    return m_tpRscEntries[iMapid]
+end
+
+function CRscProperties:get_resource_tree()
+    return self.pRscTree
+end
+
+function CRscProperties:set_resource_tree(pRscTree)
+    self.pRscTree = pRscTree
 end

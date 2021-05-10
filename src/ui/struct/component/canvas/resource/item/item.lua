@@ -117,7 +117,7 @@ function CRscElemItem:_is_marker_active(pPropMarker, rgiMapids)
     return false
 end
 
-function CRscElemItem:_activate_region_fields()
+function CRscElemItem:activate_region_fields()
     -- activation based on having resources
 
     local rgpPropMarkers = pUiWmap:get_properties():get_map_fields()
@@ -139,8 +139,6 @@ function CRscElemItem:onmousereleased(x, y, button)
 
     if m_iFieldRef ~= nil then
         local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(m_iFieldRef)
-        pUiWmap:update_region(sWmapName)
-
-        self:_activate_region_fields()
+        pUiWmap:update_region(sWmapName, nil, nil)
     end
 end
