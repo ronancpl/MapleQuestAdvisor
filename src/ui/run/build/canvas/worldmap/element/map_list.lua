@@ -51,15 +51,20 @@ local function load_node_mapno(pMapNode)
     return rgiFields
 end
 
+local function load_map_marker_quads(pDirHelperQuads, iType)
+    local sPathImg = "npcPos" .. iType
+    local rgpQuads = find_animation_on_storage(pDirHelperQuads, sPathImg)
+
+    return rgpQuads
+end
+
 local function load_node_map_marker(pWmapProp, pMapNode, pDirHelperQuads)
     local iRx
     local iRy
     iRx, iRy = pMapNode:get_spot()
 
     local iType = pMapNode:get_type()
-
-    local sPathImg = "npcPos" .. iType
-    local rgpQuads = find_animation_on_storage(pDirHelperQuads, sPathImg)
+    local rgpQuads = load_map_marker_quads(pDirHelperQuads, iType)
 
     local pMarker = CWmapElemMark:new()
     pMarker:load(iRx, iRy, rgpQuads, pWmapProp)

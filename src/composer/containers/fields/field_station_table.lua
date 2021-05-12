@@ -30,6 +30,10 @@ function CStationConnectionTable:add_hub_link(iSrcMapid, iDestMapid)
     table.insert(tFieldStation, iDestMapid)
 end
 
+function CStationConnectionTable:get_hub_entry(iSrcMapid)
+    return self.tFieldStations[iSrcMapid]
+end
+
 function CStationConnectionTable:get_hub_entries()
     return self.tFieldStations
 end

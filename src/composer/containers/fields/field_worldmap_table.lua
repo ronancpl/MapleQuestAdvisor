@@ -48,7 +48,7 @@ function CFieldWorldmapTable:make_remissive_index_area_region()
         local pWmapRegion
         sWmapName, pWmapRegion = unpack(pPair)
 
-        local iWmapId = self:_get_worldmap_id(sWmapName)
+        local iWmapId = self:get_worldmap_id(sWmapName)
         for _, iMapid in ipairs(pWmapRegion:get_areas()) do
             m_tiAreaWmapId[iMapid] = iWmapId
         end

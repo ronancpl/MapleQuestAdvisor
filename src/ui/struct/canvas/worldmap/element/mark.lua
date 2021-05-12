@@ -10,16 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.run.build.interface.storage.split")
 require("ui.struct.component.element.dynamic")
 require("ui.struct.window.summary")
 require("ui.struct.canvas.worldmap.basic.textbox")
+require("ui.struct.canvas.worldmap.element.mark_ptr")
 require("utils.struct.class")
 
 CWmapElemMark = createClass({
     eDynam = CDynamicElem:new(),
+    siType,
     rgiFields,
     pPath,
-    pTextbox
+    pTextbox,
+    pTooltip
 })
 
 function CWmapElemMark:get_object()
@@ -60,6 +64,37 @@ function CWmapElemMark:set_textbox(pTextbox)
     self.pTextbox = pTextbox
 end
 
+function CWmapElemMark:get_type()
+    return self.siType
+end
+
+function CWmapElemMark:set_type(siType)
+    self.siType = siType
+end
+
+function CWmapElemMark:get_tooltip()
+    return self.sTooltip
+end
+
+local function load_map_marker_quads(pDirHelperQuads, sTooltip)
+    local rgpQuads = find_animation_on_storage(pDirHelperQuads, sTooltip)
+    return rgpQuads
+end
+
+function CWmapElemMark:set_tooltip(sTooltip, pDirHelperQuads, pWmapProp)
+    local pTooltip
+    if sTooltip ~= nil then
+        pTooltip = CWmapElemPointer:new()
+
+        local rgpQuads = load_map_marker_quads(pDirHelperQuads, sTooltip)
+        pTooltip:load(0, -15, pWmapProp, rgpQuads)
+    else
+        pTooltip = nil
+    end
+
+    self.pTooltip = pTooltip
+end
+
 function CWmapElemMark:active()
     self.eDynam:set_static(false)
 end
@@ -96,6 +131,11 @@ end
 
 function CWmapElemMark:draw()
     self.eDynam:draw()
+
+    local m_pTooltip = self.pTooltip
+    if m_pTooltip ~= nil then
+        m_pTooltip:draw()
+    end
 end
 
 function CWmapElemMark:onmousehoverin()

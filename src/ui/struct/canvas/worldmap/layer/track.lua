@@ -17,6 +17,14 @@ CWmapNavTrack = createClass({CWndLayer, {
     pVwTrace
 }})
 
+function CWmapNavTrack:get_trace()
+    return self.pVwTrace
+end
+
+function CWmapNavTrack:set_trace(pVwTrace)
+    self.pVwTrace = pVwTrace
+end
+
 function CWmapNavTrack:build(pWmapProp)
     self:reset()
 

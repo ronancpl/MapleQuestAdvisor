@@ -78,7 +78,9 @@ function CWmapProperties:add_map_field(pFieldNode)
     table.insert(self.rgpMapList, pFieldNode)
 
     local m_tpMapMarker = self.tpMapMarker
-    for _, iMapid in pairs(pFieldNode:get_fields()) do
+
+    local rgpMapnoNodes = pFieldNode:get_mapno()
+    for _, iMapid in ipairs(rgpMapnoNodes) do
         m_tpMapMarker[iMapid] = pFieldNode
     end
 end
@@ -106,6 +108,10 @@ end
 function CWmapProperties:set_origin(iCx, iCy)
     self.iCx = iCx
     self.iCy = iCy
+end
+
+function CWmapProperties:get_track()
+    return self.pTrack
 end
 
 function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)

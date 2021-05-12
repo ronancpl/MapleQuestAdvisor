@@ -89,6 +89,7 @@ function CWndResource:get_field_resources()
 
     local m_pProp = self.pProp
     local rgiMapids = m_pProp:get_fields()
+
     for _, iMapid in pairs(rgiMapids) do
         local pRscEntry = m_pProp:get_field_resources(iMapid)
         tpFieldRscs[iMapid] = pRscEntry

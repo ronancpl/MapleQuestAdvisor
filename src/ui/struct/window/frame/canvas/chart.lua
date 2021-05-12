@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.config")
+require("ui.run.update.canvas.worldmap.track")
 require("ui.struct.window.summary")
 require("ui.struct.window.frame.canvas")
 require("ui.struct.canvas.worldmap.storage")
@@ -18,8 +19,8 @@ require("ui.struct.canvas.worldmap.layer.background")
 require("ui.struct.canvas.worldmap.layer.fragment")
 require("ui.struct.canvas.worldmap.layer.map_link")
 require("ui.struct.canvas.worldmap.layer.map_list")
-require("ui.struct.canvas.worldmap.layer.pathing")
 require("ui.struct.canvas.worldmap.layer.plaintext")
+require("ui.struct.canvas.worldmap.layer.track")
 require("ui.struct.canvas.worldmap.properties")
 require("utils.struct.class")
 
@@ -31,6 +32,33 @@ CWndWmap = createClass({
 
 function CWndWmap:get_properties()
     return self.pProp
+end
+
+local function is_marker_active(pPropMarker, rgiMapids)
+    for _, iMapid in ipairs(rgiMapids) do
+        if pPropMarker:contains(iMapid) then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function activate_region_fields(pUiWmap, pUiRscs)
+    -- activation based on having resources
+
+    local rgpPropMarkers = pUiWmap:get_properties():get_map_fields()
+    local rgiMapids = pUiRscs:get_properties():get_fields()
+
+    for _, pPropMarker in ipairs(rgpPropMarkers) do
+        pPropMarker:static()
+    end
+
+    for _, pPropMarker in ipairs(rgpPropMarkers) do
+        if is_marker_active(pPropMarker, rgiMapids) then
+            pPropMarker:active()
+        end
+    end
 end
 
 function CWndWmap:update_region(sWmapName, pPlayer, pUiRscs)
@@ -49,22 +77,24 @@ function CWndWmap:update_region(sWmapName, pPlayer, pUiRscs)
     self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
 
     if pPlayer ~= nil and pUiRscs ~= nil then
-        update_worldmap_region_track(self, pUiRscs, pPlayer)
+        update_worldmap_region_track(self, pUiRscs, pPlayer, pDirHelperQuads)
         update_worldmap_resource_actives(self, pUiRscs)
     end
 
-    self:activate_region_fields()
+    activate_region_fields(self, pUiRscs)
 
     self.pCanvas:build(self.pProp)
 end
 
 function CWndWmap:load()
+    self.pProp:reset()
+
     local iBx
     local iBy
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
     self.pProp:set_origin(iBx / 2, iBy / 2)
 
-    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavPathing, CWmapNavInfo}) -- follows sequence: LLayer
+    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavTrack, CWmapNavInfo}) -- follows sequence: LLayer
     self.pCache:load()
 end
 

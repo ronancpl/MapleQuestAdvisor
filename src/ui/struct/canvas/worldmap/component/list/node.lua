@@ -17,7 +17,7 @@ CWmapNodeMarker = createClass({CWmapBasicSpot, {
     pImgPath,
     pNodeMapno,
     pNodeTextbox,
-    iType
+    siType
 }})
 
 function CWmapNodeMarker:get_path()
@@ -45,9 +45,9 @@ function CWmapNodeMarker:set_textbox(pNodeTextbox)
 end
 
 function CWmapNodeMarker:get_type()
-    return self.iType
+    return self.siType
 end
 
-function CWmapNodeMarker:set_type(iType)
-    self.iType = iType
+function CWmapNodeMarker:set_type(siType)
+    self.siType = siType
 end

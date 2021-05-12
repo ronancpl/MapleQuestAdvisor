@@ -78,14 +78,14 @@ function load_xml_worldmap_node(pXmlWorldmapElement)
     local pImgPath = load_xml_worldmap_node_path(pXmlWorldmapElement)
     local pNodeMapno = load_xml_worldmap_node_mapno(pXmlWorldmapElement)
     local pNodeTextbox = load_xml_worldmap_comp_textbox(pXmlWorldmapElement)
-    local iType = load_xml_worldmap_comp_type(pXmlWorldmapElement)
+    local siType = load_xml_worldmap_comp_type(pXmlWorldmapElement)
     local iOx, iOy = load_xml_worldmap_comp_spot(pXmlWorldmapElement)
 
     local pNodeMarker = CWmapNodeMarker:new({iOx = iOx, iOy = iOy})
     pNodeMarker:set_path(pImgPath)
     pNodeMarker:set_mapno(pNodeMapno)
     pNodeMarker:set_textbox(pNodeTextbox)
-    pNodeMarker:set_type(iType)
+    pNodeMarker:set_type(siType)
 
     return iNodeid, pNodeMarker
 end

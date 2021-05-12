@@ -10,15 +10,27 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.frame.layer")
+require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 
-CWmapNavPathing = createClass({CWndLayer, {}})
+CWmapElemPointer = createClass({
+    eDynam = CDynamicElem:new()
+})
 
-function CWmapNavPathing:build(pQuestProp)
-    self:reset()
+function CWmapElemPointer:get_object()
+    return self.eDynam
+end
 
-    -- add layer elements
+function CWmapElemPointer:load(rX, rY, pWmapProp, rgpQuads)
+    self.eDynam:load(rX, rY, rgpQuads)
+    self.eDynam:instantiate(pWmapProp, true)
+    self.eDynam:after_load()
+end
 
+function CWmapElemPointer:update(dt)
+    self.eDynam:update(dt)
+end
 
+function CWmapElemPointer:draw()
+    self.eDynam:draw()
 end
