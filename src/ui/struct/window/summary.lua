@@ -22,7 +22,7 @@ LChannel = {
     -- Worldmap canvas
     WMAP_BGRD = 1,
     WMAP_LINK_IMG = 1,
-    WMAP_MARK_PATH = 2, MARK_TBOX = 3,
+    WMAP_MARK_PATH = 1, WMAP_MARK_TBOX = 2, WMAP_MARK_TTIP = 3,
     WMAP_PLAINTXT = 2,
 
     -- Inventory canvas

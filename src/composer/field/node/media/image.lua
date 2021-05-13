@@ -65,6 +65,11 @@ function load_image_from_path(sImgPath)
     return pImgData
 end
 
+function load_image_empty()
+    local pImgData = love.image.newImageData(1, 1)
+    return pImgData
+end
+
 local function extract_prefix_image_path(sPath)
     return string.sub(sPath, string.len(RWndPath.LOVE_IMAGE_DIR_PATH) + 1)
 end

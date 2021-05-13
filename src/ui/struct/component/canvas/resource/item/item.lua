@@ -13,7 +13,6 @@
 require("router.constants.path")
 require("ui.struct.component.basic.base")
 require("ui.struct.component.canvas.resource.item.tooltip")
-require("ui.run.draw.canvas.resource.resource")
 require("utils.struct.class")
 
 CRscElemItem = createClass({
@@ -69,10 +68,6 @@ end
 
 function CRscElemItem:reset()
     -- do nothing
-end
-
-function CRscElemItem:draw_tooltip()
-    draw_resource_tooltip(self)
 end
 
 function CRscElemItem:show_tooltip()

@@ -46,7 +46,7 @@ end
 
 function CDynamicElem:get_center()
     local iLx, iTy, iRx, iBy = self:get_ltrb()
-    return (iLx + iRx) / 2, (iTy + iBy) / 2
+    return math.ceil((iLx + iRx) / 2), math.ceil((iTy + iBy) / 2)
 end
 
 function CDynamicElem:set_static(bStatic)   -- stops animation

@@ -58,16 +58,21 @@ local function load_map_marker_quads(pDirHelperQuads, iType)
     return rgpQuads
 end
 
+function load_quad_map_marker(pMarker, pWmapProp, pDirHelperQuads)
+    local iType = pMarker:get_type()
+    local rgpQuads = load_map_marker_quads(pDirHelperQuads, iType)
+
+    pMarker:reload_quad(rgpQuads, pWmapProp)
+end
+
 local function load_node_map_marker(pWmapProp, pMapNode, pDirHelperQuads)
     local iRx
     local iRy
     iRx, iRy = pMapNode:get_spot()
 
-    local iType = pMapNode:get_type()
-    local rgpQuads = load_map_marker_quads(pDirHelperQuads, iType)
-
     local pMarker = CWmapElemMark:new()
-    pMarker:load(iRx, iRy, rgpQuads, pWmapProp)
+    pMarker:load(iRx, iRy, pMapNode:get_type(), pWmapProp)
+    load_quad_map_marker(pMarker, pWmapProp, pDirHelperQuads)
 
     return pMarker
 end

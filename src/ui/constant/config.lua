@@ -19,8 +19,8 @@ RWndConfig = {
     PTXT_SGMNT_FIL_X = 10,
 
     CAPACITY = {
-        LAYERS = 4,
-        CHANNELS = 4
+        LAYERS = 8,
+        CHANNELS = 8
     },
 
     QUAD_DELAY_DEF = 0.1

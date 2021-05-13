@@ -21,10 +21,15 @@ function CWmapElemPointer:get_object()
     return self.eDynam
 end
 
+function CWmapElemPointer:reset()
+    -- do nothing
+end
+
 function CWmapElemPointer:load(rX, rY, pWmapProp, rgpQuads)
     self.eDynam:load(rX, rY, rgpQuads)
     self.eDynam:instantiate(pWmapProp, true)
     self.eDynam:after_load()
+    self.eDynam:set_static(false)
 end
 
 function CWmapElemPointer:update(dt)

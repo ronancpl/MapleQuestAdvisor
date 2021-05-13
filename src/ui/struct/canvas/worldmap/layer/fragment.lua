@@ -16,7 +16,7 @@ require("utils.struct.class")
 CWmapNavFragment = createClass({CWndLayer, {}})
 
 function CWmapNavFragment:build(pWmapProp)
-    self:reset()
+    --self:reset()
 
     -- do nothing, elements added by interaction
 

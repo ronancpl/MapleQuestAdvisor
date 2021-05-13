@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.field.node.media.image")
 require("ui.run.draw.canvas.style.texture")
 require("ui.run.load.interface.image")
 require("ui.struct.component.basic.base")
@@ -109,7 +110,7 @@ end
 
 function CTextureElem:load(iRx, iRy, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
     if pImgBox == nil then
-        local pImgData = love.image.newImageData(1, 1)
+        local pImgData = load_image_empty()
         pImgBox = love.graphics.newImage(pImgData)
     end
 

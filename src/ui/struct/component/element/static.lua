@@ -50,7 +50,7 @@ end
 
 function CStaticElem:get_center()
     local iLx, iTy, iRx, iBy = self.eImg:get_ltrb()
-    return (iLx + iRx) / 2, (iTy + iBy) / 2
+    return math.ceil((iLx + iRx) / 2), math.ceil((iTy + iBy) / 2)
 end
 
 function CStaticElem:load(pImg, iOx, iOy, iZ, rX, rY)
