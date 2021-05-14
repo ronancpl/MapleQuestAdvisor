@@ -89,20 +89,22 @@ local function load_mapno_text_box(rgiFields)
     return pTextbox
 end
 
-local function load_node_map_textbox(pMapNode, rgiFields)
+local function load_node_map_textbox(pMapNode, rgiFields, pUiRscs)
     local pMapTextbox = pMapNode:get_textbox()
     if pMapTextbox == nil then
         pMapTextbox = load_mapno_text_box(rgiFields)
     end
 
-    local pTextbox = load_node_text_box(pMapTextbox)
+    local pRscProp = pUiRscs:get_properties()
+
+    local pTextbox = load_node_text_box(pMapTextbox, pRscProp)
     return pTextbox
 end
 
-function load_node_worldmap_map_list(pWmapProp, pMapNode, pDirHelperQuads, pDirWmapImgs, sRegionName, iIdx)
+function load_node_worldmap_map_list(pWmapProp, pUiRscs, pMapNode, pDirHelperQuads, pDirWmapImgs, sRegionName, iIdx)
     local rgiFields = load_node_mapno(pMapNode)
     local pPath = load_node_map_path(pWmapProp, pMapNode, pDirWmapImgs, sRegionName, iIdx)
-    local pTextbox = load_node_map_textbox(pMapNode, rgiFields)
+    local pTextbox = load_node_map_textbox(pMapNode, rgiFields, pUiRscs)
 
     local pFieldMarker = load_node_map_marker(pWmapProp, pMapNode, pDirHelperQuads)
     pFieldMarker:set_mapno(rgiFields)

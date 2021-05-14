@@ -20,7 +20,6 @@ require("ui.struct.canvas.worldmap.layer.fragment")
 require("ui.struct.canvas.worldmap.layer.map_link")
 require("ui.struct.canvas.worldmap.layer.map_list")
 require("ui.struct.canvas.worldmap.layer.plaintext")
-require("ui.struct.canvas.worldmap.layer.track")
 require("ui.struct.canvas.worldmap.properties")
 require("utils.struct.class")
 
@@ -74,9 +73,9 @@ function CWndWmap:update_region(sWmapName, pPlayer, pUiRscs)
     local iWmapid = ctFieldsWmap:get_worldmap_id(sWmapName)
     self.pProp:set_worldmap_id(iWmapid)
 
-    self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
+    self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, pUiRscs)
 
-    if pPlayer ~= nil and pUiRscs ~= nil then
+    if pPlayer ~= nil then
         update_worldmap_region_track(self, pUiRscs, pPlayer, pDirHelperQuads)
         update_worldmap_resource_actives(self, pUiRscs)
     end
@@ -94,7 +93,7 @@ function CWndWmap:load()
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
     self.pProp:set_origin(iBx / 2, iBy / 2)
 
-    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavTrack, CWmapNavInfo}) -- follows sequence: LLayer
+    self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavInfo}) -- follows sequence: LLayer
     self.pCache:load()
 end
 

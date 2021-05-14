@@ -10,24 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.frame.layer")
-require("utils.struct.class")
-
-CWmapNavTrack = createClass({CWndLayer, {
-    pVwTrace
-}})
-
-function CWmapNavTrack:get_trace()
-    return self.pVwTrace
-end
-
-function CWmapNavTrack:set_trace(pVwTrace)
-    self.pVwTrace = pVwTrace
-end
-
-function CWmapNavTrack:build(pWmapProp)
-    self:reset()
-
-    -- do nothing, elements added by interaction
+function draw_minitable_resources(pVwRscs)
 
 end

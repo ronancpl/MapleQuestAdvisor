@@ -10,14 +10,20 @@
     provide an express grant of patent rights.
 --]]
 
-RWmapMarkerType = {
-    STATION_IN = 1,
-    STATION_OUT = 2,
-    DEFAULT = 3,
-    TARGET = 0
+RWmapMarkerState = {
+    STATION_IN = false,
+    STATION_OUT = false,
+    DEFAULT = true,
+    PLAYER = false,
+    TARGET = false
 }
 
 RWmapTooltipType = {
     PLAYER = "curPos",
     TARGET = "partyPos"
+}
+
+RWmapTrace = {
+    SEGMENT_LEN = 50,
+    LINE_OFFSET = 25
 }

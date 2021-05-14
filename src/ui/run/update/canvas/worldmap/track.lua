@@ -11,13 +11,14 @@
 --]]
 
 require("solver.graph.tree.component")
+require("solver.lookup.constant")
 require("ui.constant.view.worldmap")
 require("ui.struct.component.tooltip.tracer.polyline")
 require("ui.struct.window.summary")
 require("utils.procedure.unpack")
 
 local function contains_field_npc(pResource)
-    for _, iRscid in ipairs(pResource:get_resources()) do
+    for _, iRscid in pairs(pResource:get_resources()) do
         local iRscType = math.floor(iRscid / 1000000000)
         if iRscType == RLookupCategory.FIELD_NPC then
             return true
@@ -42,7 +43,7 @@ local function reset_worldmap_nodes(pUiWmap, pDirHelperQuads)
 
     local tpMarkers = pWmapProp:get_markers()
     for _, pFieldMarker in pairs(tpMarkers) do
-        pFieldMarker:update_type(RWmapMarkerType.DEFAULT, pWmapProp, pDirHelperQuads)
+        pFieldMarker:set_static(RWmapMarkerState.DEFAULT)
         pFieldMarker:set_tooltip(nil)
     end
 end
@@ -83,9 +84,6 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
     local iOrigMapid = pPlayer:get_mapid()
     local iDestMapid = fetch_field_destination(pRegionRscTree)
 
-    iOrigMapid = 104010000
-    iDestMapid = 102020000
-
     pRegionRscTree:set_field_source(iOrigMapid)
     pRegionRscTree:set_field_destination(iDestMapid)
 
@@ -94,27 +92,33 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
 
     -- setup tooltips for player, destination & stations present
 
-    local siTypeSrc = nil
+    local bStaticSrc = nil
     local sTooltipSrc = nil
-    if is_worldmap_subregion(iRegionidOrig, rgiWmapRegionids) and not has_quest_npc(pRegionRscTree, iOrigMapid) then
-        siTypeSrc = RWmapMarkerType.STATION_IN
+    if is_worldmap_subregion(iRegionidOrig, rgiWmapRegionids) then
         sTooltipSrc = RWmapTooltipType.PLAYER
+        bStaticSrc = RWmapMarkerState.PLAYER
+    else
+        bStaticSrc = RWmapMarkerState.STATION_IN
     end
 
-    local siTypeDest = nil
+    local bStaticDest = nil
     local sTooltipDest = nil
-    if is_worldmap_subregion(iRegionidDest, rgiWmapRegionids) and not has_quest_npc(pRegionRscTree, iDestMapid) then
-        siTypeDest = RWmapMarkerType.STATION_OUT
+    if is_worldmap_subregion(iRegionidDest, rgiWmapRegionids) --[[and has_quest_npc(pRegionRscTree, iDestMapid)--]] then
         sTooltipDest = RWmapTooltipType.TARGET
+        bStaticDest = RWmapMarkerState.TARGET
+    else
+        bStaticDest = RWmapMarkerState.STATION_OUT
     end
+
+    -- apply prepared tooltips for the nodes present on this worldmap
 
     local pWmapProp = pUiWmap:get_properties()
 
     local iRegOrigMapid = ctFieldsMeta:get_field_overworld(pRegionRscTree:get_field_source())
     local pFieldMarkerOrig = pWmapProp:get_marker_by_mapid(iRegOrigMapid)
 
-    if siTypeSrc ~= nil then
-        pFieldMarkerOrig:update_type(siTypeSrc, pWmapProp, pDirHelperQuads)
+    if bStaticSrc ~= nil then
+        pFieldMarkerOrig:set_static(bStaticSrc)
     end
 
     if sTooltipSrc ~= nil then
@@ -124,8 +128,8 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
     local iRegDestMapid = ctFieldsMeta:get_field_overworld(pRegionRscTree:get_field_destination())
     local pFieldMarkerDest = pWmapProp:get_marker_by_mapid(iRegDestMapid)
 
-    if siTypeDest ~= nil then
-        pFieldMarkerDest:update_type(siTypeDest, pWmapProp, pDirHelperQuads)
+    if bStaticDest ~= nil then
+        pFieldMarkerDest:set_static(bStaticDest)
     end
 
     if sTooltipDest ~= nil then
@@ -143,13 +147,13 @@ local function create_waypoint_trace(pUiWmap, pRegionRscTree)
     local iRegDestMapid = pRegionRscTree:get_field_destination()
     local pFieldMarkerDest = pWmapProp:get_marker_by_mapid(iRegDestMapid)
 
-    local x1, y1, _, _ = pFieldMarkerOrig:get_object():get_ltrb()
-    local x2, y2, _, _ = pFieldMarkerDest:get_object():get_ltrb()
+    local x1, y1 = pFieldMarkerOrig:get_object():get_center()
+    local x2, y2 = pFieldMarkerDest:get_object():get_center()
 
     local rgpQuadBullet = ctVwTracer:get_bullet()
 
     local pVwTrace = CViewPolyline:new()
-    pVwTrace:load(rgpQuadBullet, {x1, x2, y1, y2})
+    pVwTrace:load(rgpQuadBullet, {x1, y1, x2, y2})
     pVwTrace:active()
 
     return pVwTrace
@@ -191,7 +195,14 @@ local function build_worldmap_resource_tree(pRscTree, pUiWmap)
     return pWmapRscTree
 end
 
+function clear_worldmap_region_track(pUiWmap)
+    local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
+    pLyr:reset_elements(LChannel.WMAP_MARK_TRACE)
+end
+
 function update_worldmap_region_track(pUiWmap, pUiRscs, pPlayer, pDirHelperQuads)
+    clear_worldmap_region_track(pUiWmap)
+
     reset_worldmap_nodes(pUiWmap, pDirHelperQuads)
 
     local pRscTree = pUiRscs:get_properties():get_resource_tree()
@@ -199,8 +210,9 @@ function update_worldmap_region_track(pUiWmap, pUiRscs, pPlayer, pDirHelperQuads
 
     update_worldmap_resource_nodes(pUiWmap, pWmapRscTree, pPlayer, pDirHelperQuads)
 
-    local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_TRACE)
-    pLyr:set_trace(create_waypoint_trace(pUiWmap, pWmapRscTree))
+    local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
+    local pElemTrace = create_waypoint_trace(pUiWmap, pWmapRscTree)
+    pLyr:add_element(LChannel.WMAP_MARK_TRACE, pElemTrace)
 end
 
 function update_worldmap_resource_actives(pUiWmap, pUiRscs)

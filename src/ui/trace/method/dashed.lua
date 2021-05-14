@@ -50,6 +50,16 @@ local function calc_next_trace_endpoint(fRad, x, y, iDist)
     return nx, ny
 end
 
+local function get_inpoints_from_trace(fRad, x1, y1, x2, y2, iDist)
+    local fRadA, xA, yA, fRadB, xB, yB = fetch_trace_endpoints(fRad, x1, y1, x2, y2)
+
+    local iNextEpDist = iDist / 2
+    xA, yA = calc_next_trace_endpoint(fRadA, xA, yA, -iNextEpDist)
+    xB, yB = calc_next_trace_endpoint(fRadB, xB, yB, -iNextEpDist)
+
+    return xA, yA, xB, yB
+end
+
 local function get_outpoints_from_trace(fRad, x1, y1, x2, y2, iDist)
     local fRadA, xA, yA, fRadB, xB, yB = fetch_trace_endpoints(fRad, x1, y1, x2, y2)
 
@@ -67,6 +77,14 @@ local function find_trace_coords(x1, y1, x2, y2, iDistExt)
 
     local xA, yA, xB, yB = get_outpoints_from_trace(fRad, x1, y1, x2, y2, iDistExt)
     return xA, yA, xB, yB
+end
+
+function find_inward_trace_coords(x1, y1, x2, y2, iDistExt)
+    local fM, fB = calc_trace_params(x1, y1, x2, y2)
+
+    local fRad = get_radius_from_trace(fM)
+
+    return get_inpoints_from_trace(fRad, x1, y1, x2, y2, iDistExt)
 end
 
 local function calc_line_segments(x1, y1, x2, y2, iSgmts)
@@ -102,6 +120,6 @@ function fetch_segments_dashed(x1, y1, x2, y2, iDistSplit, iDistFill)
         xA, yA, xB, yB = x1, y1, x2, y2
     end
 
-    local rgCoords = calc_line_segments(x1, y1, x2, y2, iSgmts)
+    local rgCoords = calc_line_segments(xA, yA, xB, yB, iSgmts)
     return rgCoords
 end

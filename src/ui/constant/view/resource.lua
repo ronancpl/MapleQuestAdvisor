@@ -113,5 +113,67 @@ RResourceTable = {
             W = 210,
             H = 20
         }
+    },
+    VW_GRID_MINI = {
+        MOBS = {
+            ROWS = 3,
+            COLS = 4,
+
+            X = 20,
+            Y = 45,
+
+            ST_X = 15,
+            ST_Y = 5,
+            FIL_X = 4,
+            FIL_Y = 2,
+
+            W = 20,
+            H = 20
+        },
+        ITEMS = {
+            ROWS = 6,
+            COLS = 8,
+
+            X = 20,
+            Y = 45,
+
+            ST_X = 15,
+            ST_Y = 5,
+            FIL_X = 4,
+            FIL_Y = 2,
+
+            W = 20,
+            H = 20
+        },
+        NPCS = {
+            ROWS = 1,
+            COLS = 2,
+
+            X = 20,
+            Y = 45,
+
+            ST_X = 15,
+            ST_Y = 5,
+            FIL_X = 4,
+            FIL_Y = 2,
+
+            W = 80,
+            H = 80
+        },
+        FIELD_ENTER = {
+            ROWS = 1,
+            COLS = 16,
+
+            X = 20,
+            Y = 45,
+
+            ST_X = 5,
+            ST_Y = -10,
+            FIL_X = 4,
+            FIL_Y = 2,
+
+            W = 80,
+            H = 20
+        }
     }
 }

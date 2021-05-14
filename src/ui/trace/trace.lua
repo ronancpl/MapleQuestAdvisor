@@ -13,8 +13,14 @@
 require("ui.trace.polyline")
 require("ui.trace.method.dashed")
 
-function load_trace_dashed(x1, y1, x2, y2, pImgBullet, iLenSp)
+local function fetch_trace_position(x1, y1, x2, y2, iLineOffset)
+    return find_inward_trace_coords(x1, y1, x2, y2, iLineOffset)
+end
+
+function load_trace_dashed(x1, y1, x2, y2, pImgBullet, iLenSp, iLineOffset)
     local fFill = 0.25  -- follow image proportions
+
+    x1, y1, x2, y2 = fetch_trace_position(x1, y1, x2, y2, iLineOffset)
     local rgiCoords = fetch_segments_dashed(x1, y1, x2, y2, (1 - fFill) * iLenSp, fFill * iLenSp)
 
     local rgVxs, rgIdxs, sDrawMode = polyline('none', rgiCoords, 3, 1.0, false)

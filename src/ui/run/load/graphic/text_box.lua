@@ -11,9 +11,9 @@
 --]]
 
 require("composer.field.node.media.image")
-require("ui.struct.component.canvas.style.text_box")
+require("ui.struct.component.canvas.style.mapno_box")
 
-function load_node_text_box(pNodeTextbox)
+function load_node_text_box(pNodeTextbox, pRscProp)
     if pNodeTextbox == nil then     -- empty content
         return nil
     end
@@ -22,10 +22,8 @@ function load_node_text_box(pNodeTextbox)
     local sDesc
     sTitle, sDesc = pNodeTextbox:get_text()
 
-    local pTextbox = CStyleBoxText:new()
-
-    local pImgData = load_image_from_path(RWndPath.INTF_ITEM_IMG)
-    pTextbox:load(sTitle, sDesc, 100, 100, pImgData)
+    local pTextbox = CStyleBoxMapno:new()
+    pTextbox:load(sTitle, sDesc, 100, 100, pRscProp)
 
     return pTextbox
 end

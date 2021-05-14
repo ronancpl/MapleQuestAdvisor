@@ -45,7 +45,7 @@ end
 local function access_parent_map()
     local sParentWmapName = pUiWmap:get_properties():get_parent_map()
     if sParentWmapName ~= "" then
-        pUiWmap:update_region(sParentWmapName, nil, nil)
+        pUiWmap:update_region(sParentWmapName, nil, pUiRscs)
     end
 end
 

@@ -128,12 +128,16 @@ function CWmapElemMark:set_tooltip(sTooltip, pDirHelperQuads, pWmapProp)
     self.pTooltip = pTooltip
 end
 
+function CWmapElemMark:set_static(bStatus)
+    self.eDynam:set_static(bStatus)
+end
+
 function CWmapElemMark:active()
-    self.eDynam:set_static(false)
+    self:set_static(false)
 end
 
 function CWmapElemMark:static()
-    self.eDynam:set_static(true)
+    self:set_static(true)
 end
 
 function CWmapElemMark:reset()

@@ -114,7 +114,7 @@ function CWmapProperties:get_track()
     return self.pTrack
 end
 
-function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
+function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, pUiRscs)
     self:reset()
 
     local pBaseImgNode = pWmapRegion:get_base_img()
@@ -141,7 +141,7 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImg
         local iIdx = pPair[1]
         local pMapNode = pPair[2]
 
-        local pRegionMarker = load_node_worldmap_map_list(self, pMapNode, pDirHelperQuads, pDirWmapImgs, sWmapRegion, iIdx)
+        local pRegionMarker = load_node_worldmap_map_list(self, pUiRscs, pMapNode, pDirHelperQuads, pDirWmapImgs, sWmapRegion, iIdx)
         self:add_map_field(pRegionMarker)
     end
 end

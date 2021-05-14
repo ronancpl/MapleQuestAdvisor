@@ -136,8 +136,6 @@ end
 function CRscTableElem:load(rX, rY, pTextureData)
     local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = pTextureData:get()
 
-    myImgBox = pImgBox
-
     local m_eTexture = self.eTexture
     m_eTexture:load(rX, rY, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
 

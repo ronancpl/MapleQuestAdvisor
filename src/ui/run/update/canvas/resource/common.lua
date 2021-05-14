@@ -12,6 +12,7 @@
 
 require("router.procedures.constant")
 require("ui.run.update.canvas.resource.entry")
+require("ui.run.update.canvas.resource.mini")
 require("ui.struct.component.canvas.resource.tab.grid")
 require("ui.struct.window.element.basic.slider")
 
@@ -152,4 +153,8 @@ function update_items_for_resource_table(pVwRscs, pRscProp)
 
     update_resource_tabs(pVwRscs, pRscProp)
     update_resource_slider(pVwRscs, true)
+end
+
+function update_items_for_resource_mini_table(pVwRscs, pRscProp)
+    update_resource_items_mini(pVwRscs, pRscProp)
 end

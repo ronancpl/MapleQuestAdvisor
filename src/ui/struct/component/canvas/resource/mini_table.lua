@@ -1,0 +1,57 @@
+--[[
+    This file is part of the MapleQuestAdvisor planning tool
+    Copyleft (L) 2020 - 2021 RonanLana
+
+    GNU General Public License v3.0
+
+    Permissions of this strong copyleft license are conditioned on making available complete
+    source code of licensed works and modifications, which include larger works using a licensed
+    work, under the same license. Copyright and license notices must be preserved. Contributors
+    provide an express grant of patent rights.
+--]]
+
+require("ui.run.draw.canvas.resource.mini_table")
+require("ui.struct.component.basic.base")
+require("utils.procedure.copy")
+require("utils.procedure.unpack")
+require("utils.struct.class")
+
+CRscMinitableElem = createClass({
+    eElem = CBasicElem:new(),
+    rgpTabVwItems = {}
+})
+
+function CRscMinitableElem:get_tab_items()
+    return self.rgpTabVwItems
+end
+
+function CRscMinitableElem:clear_tab_items()
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    local nTabs = #m_rgpTabVwItems
+
+    clear_table(m_rgpTabVwItems)
+
+    for i = 1, nTabs, 1 do
+        m_rgpTabVwItems[i] = {}
+    end
+end
+
+function CRscMinitableElem:add_tab_items(iTab, rgpVwItems)
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    table_append(m_rgpTabVwItems[iTab], rgpVwItems)
+end
+
+function CRscMinitableElem:load(rX, rY)
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    for i = 1, 4, 1 do
+        m_rgpTabVwItems[i] = {}
+    end
+end
+
+function CRscMinitableElem:update(dt)
+    -- do nothing
+end
+
+function CRscMinitableElem:draw()
+    draw_minitable_resources(self)
+end

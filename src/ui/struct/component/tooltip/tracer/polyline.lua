@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.view.worldmap")
 require("ui.struct.component.element.dynamic")
 require("utils.procedure.splitter")
 require("utils.procedure.unpack")
@@ -19,6 +20,14 @@ CViewPolyline = createClass({
     eDynam = CDynamicElem:new(),
     rgpDynMesh = {}
 })
+
+function CViewPolyline:get_object()
+    return self.eDynam
+end
+
+function CViewPolyline:reset()
+    -- do nothing
+end
 
 function CViewPolyline:active()
     self.eDynam:set_static(false)
@@ -51,7 +60,7 @@ function CViewPolyline:load(rgpQuads, ...)
             for i = 2, nCoords, 1 do
                 iX2, iY2 = unpack(rgpCoords[i])
 
-                local pTraceMesh = load_trace_dashed(iX1, iY1, iX2, iY2, pImg, 50)
+                local pTraceMesh = load_trace_dashed(iX1, iY1, iX2, iY2, pImg, RWmapTrace.SEGMENT_LEN, RWmapTrace.LINE_OFFSET)
                 table.insert(rgpQuadMesh, pTraceMesh)
 
                 iX1, iY1 = iX2, iY2
