@@ -52,6 +52,20 @@ RResourceTable = {
         }
     },
 
+    VW_BASE = {
+        MOBS = {
+            W = 80,
+            H = 80
+        },
+        ITEMS = {
+            W = 32,
+            H = 32
+        },
+        NPCS = {
+            W = 210,
+            H = 200
+        }
+    },
     VW_GRID = {
         MOBS = {
             ROWS = 3,
@@ -115,32 +129,32 @@ RResourceTable = {
         }
     },
     VW_GRID_MINI = {
+        W = 192,
+        H = 192,
+
+        FIL_X = 4,
+        FIL_Y = 4,
+
         MOBS = {
             ROWS = 3,
             COLS = 4,
 
-            X = 20,
-            Y = 45,
-
             ST_X = 15,
-            ST_Y = 5,
+            ST_Y = 15,
             FIL_X = 4,
-            FIL_Y = 2,
+            FIL_Y = 4,
 
             W = 20,
             H = 20
         },
         ITEMS = {
-            ROWS = 6,
-            COLS = 8,
-
-            X = 20,
-            Y = 45,
+            ROWS = 3,
+            COLS = 4,
 
             ST_X = 15,
-            ST_Y = 5,
+            ST_Y = 15,
             FIL_X = 4,
-            FIL_Y = 2,
+            FIL_Y = 4,
 
             W = 20,
             H = 20
@@ -149,30 +163,24 @@ RResourceTable = {
             ROWS = 1,
             COLS = 2,
 
-            X = 20,
-            Y = 45,
-
             ST_X = 15,
+            ST_Y = 15,
+            FIL_X = 4,
+            FIL_Y = 4,
+
+            W = 38,
+            H = 38
+        },
+        FIELD_ENTER = {
+            ROWS = 3,
+            COLS = 1,
+
+            ST_X = 5,
             ST_Y = 5,
             FIL_X = 4,
             FIL_Y = 2,
 
-            W = 80,
-            H = 80
-        },
-        FIELD_ENTER = {
-            ROWS = 1,
-            COLS = 16,
-
-            X = 20,
-            Y = 45,
-
-            ST_X = 5,
-            ST_Y = -10,
-            FIL_X = 4,
-            FIL_Y = 2,
-
-            W = 80,
+            W = 200,
             H = 20
         }
     }

@@ -74,6 +74,6 @@ function CInvtElemItem:update_position(iPx, iPy)
     self.eBox:load(iPx, iPy, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H)
 end
 
-function CInvtElemItem:draw()
-    draw_inventory_item(self)
+function CInvtElemItem:draw(iRx, iRy)
+    draw_inventory_item(self, iRx, iRy)
 end

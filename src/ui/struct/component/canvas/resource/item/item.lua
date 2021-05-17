@@ -13,6 +13,7 @@
 require("router.constants.path")
 require("ui.struct.component.basic.base")
 require("ui.struct.component.canvas.resource.item.tooltip")
+require("ui.struct.window.summary")
 require("utils.struct.class")
 
 CRscElemItem = createClass({
@@ -39,6 +40,10 @@ function CRscElemItem:get_type()
     return self.siType
 end
 
+function CRscElemItem:get_conf()
+    return self.pConfVw
+end
+
 function CRscElemItem:get_id()
     return self.iId
 end
@@ -52,9 +57,10 @@ function CRscElemItem:_load_tooltip(sDesc)
     m_pTooltip:load(sDesc)
 end
 
-function CRscElemItem:_load(siType, iId, sDesc, iPictW, iPictH, iFieldRef)
+function CRscElemItem:_load(siType, tpRscGrid, iId, sDesc, iPictW, iPictH, iFieldRef)
     self.iId = iId
     self.siType = siType
+    self.pConfVw = tpRscGrid[siType]
     self.iFieldRef = iFieldRef
     self.eBox:load(-1, -1, iPictW, iPictH)
 

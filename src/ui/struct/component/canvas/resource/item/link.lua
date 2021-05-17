@@ -47,8 +47,8 @@ function CRscElemItemLink:_load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
     m_eTxtFieldRef:load(sFieldName, pFont, pConfVw.W - (2 * pConfVw.FIL_X), iPx + pConfVw.FIL_X, iPy + pConfVw.ST_Y + pConfVw.FIL_Y + pConfVw.H + pConfVw.FIL_Y)
 end
 
-function CRscElemItemLink:load(siType, iId, sDesc, iFieldRef, pConfVw)
-    self:_load(siType, iId, sDesc, pConfVw.W, pConfVw.H, iFieldRef)
+function CRscElemItemLink:load(siType, tpRscGrid, iId, sDesc, iFieldRef, pConfVw)
+    self:_load(siType, tpRscGrid, iId, sDesc, pConfVw.W, pConfVw.H, iFieldRef)
     self:_update_position(-1, -1)
 
     self.sDesc = sDesc
@@ -68,6 +68,6 @@ function CRscElemItemLink:update_position(iPx, iPy)
     self:_load_text(m_sDesc, m_iFieldRef, m_pConfVw, iPx, iPy)
 end
 
-function CRscElemItemLink:draw()
-    draw_resource_link(self)
+function CRscElemItemLink:draw(iPx, iPy)
+    draw_resource_link(self, iPx, iPy)
 end

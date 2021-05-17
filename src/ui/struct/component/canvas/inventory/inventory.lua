@@ -42,10 +42,8 @@ function CInvtElem:get_slider()
 end
 
 function CInvtElem:set_origin(iPx, iPy)
-    local pImgBgrd = ctVwInvt:get_background()
-    local iW, iH = pImgBgrd:getDimensions()
-
-    self.eBox:load(iPx, iPy, iW, iH)
+    self.eBox:set_position(iPx, iPy)
+    update_row_for_inventory(self, self:get_row_selected())  -- items follow inventory position
 end
 
 function CInvtElem:get_origin()

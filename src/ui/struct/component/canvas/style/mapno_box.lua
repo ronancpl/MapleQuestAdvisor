@@ -34,6 +34,10 @@ function CStyleBoxMapno:get_object()
     return self.eTexture
 end
 
+function CStyleBoxMapno:get_image()
+    return self.pBoxRsc
+end
+
 function CStyleBoxMapno:get_resources()
     return self.pBoxRsc
 end
@@ -71,12 +75,10 @@ function CStyleBoxMapno:_calc_texture_box_dimensions()
     local m_pBoxLimits = self.pBoxLimits
 
     local iWidth, iHeight = calc_current_boundary(m_pBoxText, m_pBoxLimits)
-    local sWidth, sHeight = m_pBoxText:get_text()
-
     return iWidth, iHeight
 end
 
-function CStyleBoxMapno:_build_texture_box(iRx, iRy)
+function CStyleBoxMapno:_build_texture_box()
     local m_eTexture = self.eTexture
 
     local iWidth, iHeight = self:_calc_texture_box_dimensions()
@@ -99,9 +101,14 @@ function CStyleBoxMapno:_load_resources(pRscProp, iRx, iRy)
         iRy = iRy + iTh + RStylebox.FIL_Y
 
         local iIx, iIy = iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y
-        m_pBoxRsc:load(pRscProp, iIx, iIy)
+        m_pBoxRsc:load(iIx, iIy)
 
-        m_pBoxLimits:set_image_dimensions(RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H)
+        -- minitable dimensions
+        local iTbW
+        local iTbH
+        iTbW, iTbH = fetch_table_dimensions(m_pBoxRsc, pTableConfVw, rgpTabConfVw, siTabIdx)
+
+        m_pBoxLimits:set_image_dimensions(iTbW, iTbH)
 
         self:_update_resources(pRscProp)
     end
@@ -115,7 +122,7 @@ function CStyleBoxMapno:load(sTitle, sDesc, iRx, iRy, pRscProp)
 
     validate_box_boundary(self)
 
-    self:_build_texture_box(iRx, iRy)
+    self:_build_texture_box()
 end
 
 function CStyleBoxMapno:reset()

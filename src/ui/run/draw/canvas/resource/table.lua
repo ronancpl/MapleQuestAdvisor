@@ -12,7 +12,6 @@
 
 require("ui.constant.view.resource")
 require("ui.run.update.canvas.resource.common")
-require("ui.struct.component.canvas.resource.tab.grid")
 
 local function codify_resources_tab_intervals(pVwRscs)
     local rgiIntvVals = {}
@@ -194,7 +193,7 @@ local function draw_resource_field_base(pVwRscs)
     local iPy
     iPx, iPy = pVwRscs:get_origin()
 
-    local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
+    local pConfVw = pVwRscs:get_conf()
     iPx = iPx + pConfVw.X
     iPy = iPy + pConfVw.Y
 

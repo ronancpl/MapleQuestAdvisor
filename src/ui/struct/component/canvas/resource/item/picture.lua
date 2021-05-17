@@ -63,16 +63,25 @@ local function calc_image_canvas_pos(pImg, pRscGrid, bUseShadow)
     return iDx, iDy
 end
 
-function load_icon_image_canvas(pImg, pRscGrid, bUseShadow)
-    local iImgW, iImgH = pImg:getDimensions()
+local function calc_scale_image_data(iDx, iDy, iCnvW, iCnvH, iToW, iToH)
+    local fW = iToW / iCnvW
+    local fH = iToH / iCnvH
+
+    return math.ceil(iDx * fW), math.ceil(iDy * fH)
+end
+
+local function load_icon_image_canvas(pImg, pRscGrid, bUseShadow, pToVw)
+    local iOrgW, iOrgH = pImg:getDimensions()
+    local iImgW, iImgH = pToVw.W, pToVw.H
     local iPicW, iPicH = pRscGrid.W, pRscGrid.H
 
-    local iImgLim = math.max(iImgW, iImgH)
+    local iOrgLim = math.max(iOrgW, iOrgH)
     local iPicLim = math.max(iPicW, iPicH)
 
-    local iCnvLim = math.max(iImgLim, iPicLim)
+    local iCnvLim = math.max(iOrgLim, iPicLim)
 
     local iDx, iDy = calc_image_canvas_pos(pImg, pRscGrid, bUseShadow)
+    iDx, iDy = calc_scale_image_data(iDx, iDy, iCnvLim, iCnvLim, pToVw.W, pToVw.H)
 
     local pVwCnv = CViewCanvas:new()
     pVwCnv:load(iCnvLim, iCnvLim)
@@ -88,20 +97,20 @@ function load_icon_image_canvas(pImg, pRscGrid, bUseShadow)
     return pImg, 0 - iDx, 0 - iDy
 end
 
-local function make_icon_image(pImg, siType)
-    local pRscGrid = tpRscGrid[siType]
+function CRscElemItemPicture:_make_icon_image(pImg, siType, pToVw)
+    local pRscGrid = self:get_conf()
     local bUseShadow = siType == RResourceTable.TAB.ITEMS.ID
 
-    local pIconImg, iDx, iDy = load_icon_image_canvas(pImg, pRscGrid, bUseShadow)
+    local pIconImg, iDx, iDy = load_icon_image_canvas(pImg, pRscGrid, bUseShadow, pToVw)
     return pIconImg, iDx, iDy
 end
 
-function CRscElemItemPicture:load(siType, pImg, iId, iCount, sDesc, iFieldRef, pConfVw)
-    self:_load(siType, iId, sDesc, pConfVw.W, pConfVw.H, iFieldRef)
+function CRscElemItemPicture:load(siType, tpRscGrid, pImg, iId, iCount, sDesc, iFieldRef, pConfVw, pToVw)
+    self:_load(siType, tpRscGrid, iId, sDesc, pConfVw.W, pConfVw.H, iFieldRef)
     self:_update_position(-1, -1)
 
     local rX, rY
-    self.pImg, rX, rY = make_icon_image(pImg, siType)
+    self.pImg, rX, rY = self:_make_icon_image(pImg, siType, pToVw)
 
     local m_eImgOrig = self.eImgOrig
     m_eImgOrig:load(rX, rY)
@@ -119,6 +128,6 @@ function CRscElemItemPicture:update_position(iPx, iPy)
     self:_update_position(iPx, iPy)
 end
 
-function CRscElemItemPicture:draw()
-    draw_resource_picture(self)
+function CRscElemItemPicture:draw(iPx, iPy)
+    draw_resource_picture(self, iPx, iPy)
 end

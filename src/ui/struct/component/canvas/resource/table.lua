@@ -25,6 +25,8 @@ CRscTableElem = createClass({
     eTexture = CTextureElem:new(),
     pSlider = CWndSlider:new(),
 
+    tpRscGrid,
+
     iSlctTab,
     iSlctRow,
 
@@ -71,6 +73,10 @@ end
 
 function CRscTableElem:get_view_items()
     return self.rgpVwItems
+end
+
+function CRscTableElem:get_conf()
+    return self.tpRscGrid[self:get_tab_selected()]
 end
 
 function CRscTableElem:get_view_range()
@@ -133,7 +139,7 @@ function CRscTableElem:get_fn_update_items()
     return tfn_rsc_update_items[rgiRscTabType[iTab]]
 end
 
-function CRscTableElem:load(rX, rY, pTextureData)
+function CRscTableElem:load(rX, rY, pTextureData, tpRscGrid)
     local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = pTextureData:get()
 
     local m_eTexture = self.eTexture
@@ -145,6 +151,8 @@ function CRscTableElem:load(rX, rY, pTextureData)
     for i = 1, 4, 1 do
         m_rgpTabVwItems[i] = {}
     end
+
+    self.tpRscGrid = tpRscGrid
 end
 
 function CRscTableElem:reset()

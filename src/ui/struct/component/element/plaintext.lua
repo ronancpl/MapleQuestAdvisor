@@ -83,7 +83,7 @@ function CTextElem:update(dt)
     -- do nothing
 end
 
-function CTextElem:draw()
+function CTextElem:draw(iRx, iRy)
     local iPx, iPy = self:get_origin()
-    love.graphics.draw(self.pTxt, iPx, iPy)
+    love.graphics.draw(self.pTxt, iPx + (iRx or 0), iPy + (iRy or 0))
 end

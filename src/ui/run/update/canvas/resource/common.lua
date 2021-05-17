@@ -13,7 +13,7 @@
 require("router.procedures.constant")
 require("ui.run.update.canvas.resource.entry")
 require("ui.run.update.canvas.resource.mini")
-require("ui.struct.component.canvas.resource.tab.grid")
+require("ui.struct.window.summary")
 require("ui.struct.window.element.basic.slider")
 
 local function fetch_item_range(pVwRscs, pConfVw)
@@ -64,7 +64,7 @@ local function update_item_position(pVwRscs, pConfVw)
 
         pVwRscs:set_view_range(iSt, iEn)
 
-        local iPx, iPy = pVwRscs:get_origin()
+        local iPx, iPy = 0, 0
         iPx = iPx + pConfVw.X + pConfVw.ST_X
         iPy = iPy + pConfVw.Y + pConfVw.ST_Y
 
@@ -93,7 +93,7 @@ local function update_item_position(pVwRscs, pConfVw)
 end
 
 local function update_resource_slider(pVwRscs, bMoveTop)
-    local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
+    local pConfVw = pVwRscs:get_conf()
 
     local rgpVwItems = pVwRscs:get_view_items()
 
@@ -118,7 +118,7 @@ local function update_resource_slider(pVwRscs, bMoveTop)
 end
 
 function update_row_for_resource_table(pVwRscs, iNextSlct)
-    local pConfVw = tpRscGrid[pVwRscs:get_tab_selected()]
+    local pConfVw = pVwRscs:get_conf()    -- tpRscGrid[pVwRscs:get_tab_selected()]
 
     local iRow = math.iclamp(iNextSlct, 1, math.max(pVwRscs:get_slider():get_num_segments(), 1))
     pVwRscs:set_row_selected(iRow)

@@ -72,8 +72,6 @@ function CStyleBoxText:_calc_texture_box_dimensions()
     local m_pBoxLimits = self.pBoxLimits
 
     local iWidth, iHeight = calc_current_boundary(m_pBoxText, m_pBoxLimits)
-    local sWidth, sHeight = m_pBoxText:get_text()
-
     return iWidth, iHeight
 end
 

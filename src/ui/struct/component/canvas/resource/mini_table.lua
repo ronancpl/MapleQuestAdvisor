@@ -21,6 +21,18 @@ CRscMinitableElem = createClass({
     rgpTabVwItems = {}
 })
 
+function CRscMinitableElem:get_origin()
+    return self.eElem:get_pos()
+end
+
+function CRscMinitableElem:get_object()
+    return self.eElem
+end
+
+function CRscMinitableElem:get_tab_item(siIdx)
+    return self.rgpTabVwItems[siIdx]
+end
+
 function CRscMinitableElem:get_tab_items()
     return self.rgpTabVwItems
 end
@@ -42,10 +54,17 @@ function CRscMinitableElem:add_tab_items(iTab, rgpVwItems)
 end
 
 function CRscMinitableElem:load(rX, rY)
+    self.eElem:load(rX, rY)
+
     local m_rgpTabVwItems = self.rgpTabVwItems
     for i = 1, 4, 1 do
         m_rgpTabVwItems[i] = {}
     end
+end
+
+function CRscMinitableElem:build()
+    -- builds after load of each tab's items
+    load_minitable_resources(self)
 end
 
 function CRscMinitableElem:update(dt)

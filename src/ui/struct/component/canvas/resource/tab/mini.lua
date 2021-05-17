@@ -10,18 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.constant.view.item")
 require("ui.constant.view.resource")
-require("ui.run.draw.canvas.inventory.item")
 
-function load_resource_picture(pVwRsc)
-    local bUseShadow = pVwRsc:get_type() == RResourceTable.TAB.ITEMS.ID
-
-    local pImgRsc = pVwRsc:get_image()
-    local pRscVwConf = pVwRsc:get_conf()
-
-    local iOx, iOy = pVwRsc:get_image_origin()
-
-    local pVwCnvRsc = load_item_canvas(pImgRsc, pRscVwConf.W, pRscVwConf.H, RItemTile.INVENTORY, bUseShadow, iOx, iOy)
-    return pVwCnvRsc
-end
+tpRscGridMini = {RResourceTable.VW_GRID_MINI.MOBS, RResourceTable.VW_GRID_MINI.ITEMS, RResourceTable.VW_GRID_MINI.NPCS, RResourceTable.VW_GRID_MINI.FIELD_ENTER}

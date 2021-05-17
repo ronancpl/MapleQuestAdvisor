@@ -13,7 +13,6 @@
 require("ui.constant.view.item")
 require("ui.constant.view.resource")
 require("ui.run.draw.canvas.inventory.item")
-require("ui.struct.component.canvas.resource.tab.grid")
 
 function draw_resource_tooltip(pVwRsc)
     local pVwTip = pVwRsc:get_tooltip()
@@ -22,12 +21,12 @@ function draw_resource_tooltip(pVwRsc)
     pTextbox:draw()
 end
 
-function draw_resource_link(pVwRsc)
+function draw_resource_link(pVwRsc, iRx, iRy)
     local eTxtFieldLink = pVwRsc:get_object_field_link()
-    eTxtFieldLink:draw()
+    eTxtFieldLink:draw(iRx, iRy)
 end
 
-function draw_resource_picture(pVwRsc)
+function draw_resource_picture(pVwRsc, iRx, iRy)
     local bUseShadow = pVwRsc:get_type() == RResourceTable.TAB.ITEMS.ID
 
     local pVwCnvRsc = pVwRsc:get_picture()
@@ -36,6 +35,6 @@ function draw_resource_picture(pVwRsc)
     local iPx, iPy = pVwRsc:get_position()
     local rX, rY = pVwRsc:get_image_origin()
 
-    local pRscGrid = tpRscGrid[pVwRsc:get_type()]
-    draw_item_canvas(pVwCnvRsc, iCount, iPx, iPy, pRscGrid.W, pRscGrid.H, rX, rY)
+    local pRscConfVw = pVwRsc:get_conf()
+    draw_item_canvas(pVwCnvRsc, iCount, iRx + iPx, iRy + iPy, pRscConfVw.W, pRscConfVw.H, rX, rY)
 end

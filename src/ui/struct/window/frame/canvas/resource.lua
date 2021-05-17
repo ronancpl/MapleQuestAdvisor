@@ -15,6 +15,7 @@ require("ui.struct.canvas.resource.properties")
 require("ui.struct.canvas.resource.layer.item")
 require("ui.struct.canvas.resource.layer.table")
 require("ui.struct.component.canvas.resource.table")
+require("ui.struct.component.canvas.resource.tab.grid")
 require("ui.struct.component.element.texture")
 require("utils.struct.class")
 
@@ -113,7 +114,7 @@ function CWndResource:_load_table()
     local pTextureDataBgrd = ctVwRscs:get_background_data()
 
     local pVwRscs = CRscTableElem:new()
-    pVwRscs:load(0, 0, pTextureDataBgrd)
+    pVwRscs:load(0, 0, pTextureDataBgrd, tpRscGrid)
 
     pVwRscs:set_tab_selected(1)
 

@@ -13,6 +13,7 @@
 require("ui.constant.view.resource")
 require("ui.struct.component.canvas.resource.item.link")
 require("ui.struct.component.canvas.resource.item.picture")
+require("ui.struct.component.canvas.resource.tab.mini")
 
 local function make_tab_resources_items(pRscProp)
     local rgpVwItems = {}
@@ -26,7 +27,7 @@ local function make_tab_resources_items(pRscProp)
         local sDesc = ctItemsMeta:get_text(iId, 1)
         local iFieldRef = 100000000
 
-        pVwItem:load(siType, pImg, iId, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID_MINI.ITEMS)
+        pVwItem:load(siType, tpRscGridMini, pImg, iId, iCount, sDesc, iFieldRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID_MINI.ITEMS)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -46,7 +47,7 @@ local function make_tab_resources_mobs(pRscProp)
         local sDesc = ctMobsMeta:get_text(iId)
         local iFieldRef = 100000000
 
-        pVwItem:load(siType, pImg, iId, iCount, sDesc, iFieldRef, RResourceTable.VW_GRID_MINI.MOBS)
+        pVwItem:load(siType, tpRscGridMini, pImg, iId, iCount, sDesc, iFieldRef, RResourceTable.VW_BASE.MOBS, RResourceTable.VW_GRID_MINI.MOBS)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -60,7 +61,6 @@ local function make_tab_resources_npc(pRscProp)
     local siType = RResourceTable.TAB.NPC.ID
 
     local iId = pRscProp:get_info_npc():get_npc()
-    iId = 1013000
     if iId >= 0 then
         local pVwItem = CRscElemItemPicture:new()
 
@@ -68,7 +68,7 @@ local function make_tab_resources_npc(pRscProp)
         local sDesc = ctNpcsMeta:get_text(iId)
         local iFieldRef = 100000000
 
-        pVwItem:load(siType, pImg, iId, nil, sDesc, iFieldRef, RResourceTable.VW_GRID_MINI.NPCS)
+        pVwItem:load(siType, tpRscGridMini, pImg, iId, nil, sDesc, iFieldRef, RResourceTable.VW_BASE.NPCS, RResourceTable.VW_GRID_MINI.NPCS)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -85,7 +85,7 @@ local function make_tab_resources_field_enter(pRscProp)
         local iFieldRef = iId
 
         local pVwItem = CRscElemItemLink:new()
-        pVwItem:load(siType, iId, sDesc, iFieldRef, RResourceTable.VW_GRID_MINI.FIELD_ENTER)
+        pVwItem:load(siType, tpRscGridMini, iId, sDesc, iFieldRef, RResourceTable.VW_GRID_MINI.FIELD_ENTER)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -105,4 +105,6 @@ function update_resource_items_mini(pVwRscs, pRscProp)
     for siTab, rgpVwItems in pairs(tpVwItems) do
         pVwRscs:add_tab_items(siTab, rgpVwItems)
     end
+
+    pVwRscs:build()
 end
