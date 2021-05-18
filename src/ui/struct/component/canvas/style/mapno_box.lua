@@ -130,10 +130,14 @@ function CStyleBoxMapno:reset()
 end
 
 function CStyleBoxMapno:update(dt)
-    local m_pBoxLimits = self.pBoxLimits
-
     local iMx, iMy = love.mouse.getPosition()
+
+    local m_pBoxLimits = self.pBoxLimits
     m_pBoxLimits:update_box_position(iMx, iMy)
+
+    local m_pBoxRsc = self.pBoxRsc
+    local iRx, iRy = m_pBoxLimits:get_box_position()
+    m_pBoxRsc:update_position(iRx, iRy)
 end
 
 function CStyleBoxMapno:draw()

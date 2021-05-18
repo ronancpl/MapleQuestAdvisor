@@ -94,7 +94,7 @@ local function load_icon_image_canvas(pImg, pRscGrid, bUseShadow, pToVw)
     local pImgData = graphics_canvas_to_image_data(pVwCnv, 0, 0, iCnvLim, iCnvLim)
 
     local pImg = love.graphics.newImage(pImgData)
-    return pImg, 0 - iDx, 0 - iDy
+    return pImg, 0, 0
 end
 
 function CRscElemItemPicture:_make_icon_image(pImg, siType, pToVw)

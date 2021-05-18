@@ -13,6 +13,7 @@
 local bit = require("bit")
 
 require("ui.constant.view.resource")
+require("ui.struct.component.element.texture")
 require("ui.struct.window.summary")
 
 local function fn_get_items(pVwRscs)
@@ -32,7 +33,7 @@ local function fn_get_fields(pVwRscs)
 end
 
 local function is_tab_required(pRscEntry)
-    return true
+    return #pRscEntry > 0
 end
 
 local function fetch_minitable_headers(pVwRscs)
@@ -48,10 +49,9 @@ local function fetch_minitable_headers(pVwRscs)
     for i = 1, #rgpTabConfVw, 1 do
         local fn_get_entry = rgfn_get_entry_rsc[i]
 
-        local pRscEntry = fn_get_entry(pVwRscs)
-        if is_tab_required(pRscEntry) then
+        local pTabVw = fn_get_entry(pVwRscs)
+        if is_tab_required(pTabVw) then
             local pTabConfVw = rgpTabConfVw[i]
-            local pTabVw = rgpTabsVw[i]
 
             table.insert(rgpActiveTabConfVw, pTabConfVw)
             table.insert(rgpActiveTabsVw, pTabVw)
@@ -67,17 +67,41 @@ local function fetch_tab_position(pTableConfVw, siTabIdx)
 
     local btTab = bit.tobit(siTabIdx - 1)
 
-    local iTx = bit.band(btTab, bit.lshift(1, 1)) == 0 and 0 or iW2
-    local iTy = bit.band(btTab, bit.lshift(1, 0)) > 0 and iH2 or 0
+    local iTx = bit.band(btTab, bit.lshift(1, 1)) == 0 and iW2 or 0
+    local iTy = bit.band(btTab, bit.lshift(1, 0)) == 0 and 0 or iH2
 
     return iTx, iTy
+end
+
+function load_minitable_tab_background(pVwRscs)
+    local pTextureData = ctVwRscs:get_background_data()
+    local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = pTextureData:get()
+
+    local pTableConfVw
+    pTableConfVw, _, _ = fetch_minitable_headers(pVwRscs)
+
+    local rgeTextures = {}
+    for i = 1, 4, 1 do
+        local iTx, iTy = fetch_tab_position(pTableConfVw, i)
+
+        local eTexture = CTextureElem:new()
+        eTexture:load(iTx, iTy, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+
+        local pConfVw = RResourceTable.VW_GRID_MINI
+        local iW2 = math.ceil(pConfVw.W / 2)
+        local iH2 = math.ceil(pConfVw.H / 2)
+        eTexture:build(iW2, iH2)
+
+        table.insert(rgeTextures, eTexture)
+    end
+
+    pVwRscs:set_background_tabs(rgeTextures)
 end
 
 function fetch_table_dimensions(pVwRscs)
     local pTableConfVw
     local rgpTabConfVw
-    local rgpTabsVw
-    pTableConfVw, rgpTabConfVw, rgpTabsVw = fetch_minitable_headers(pVwRscs)
+    pTableConfVw, rgpTabConfVw, _ = fetch_minitable_headers(pVwRscs)
 
     local iRightTab = math.max(#rgpTabConfVw, 2)
     local iTx, iTy = fetch_tab_position(pTableConfVw, iRightTab)
@@ -119,13 +143,7 @@ local function update_item_position(pVwRscs, siTabIdx, rgpTabConfVw, rgpTabsVw, 
 
     local pConfVw = rgpTabConfVw[siTabIdx]
 
-    local iPx, iPy = 0, 0
-
-    local iTx, iTy = fetch_tab_item_position(pTableConfVw, rgpTabConfVw, siTabIdx)
-    iPx = iPx + iTx
-    iPy = iPy + iTy
-
-    local iIx, iIy
+    local iPx, iPy = fetch_tab_item_position(pTableConfVw, rgpTabConfVw, siTabIdx)
 
     local iPos = 0
     local iBr = math.floor(iPos / pConfVw.COLS)
@@ -152,6 +170,7 @@ function load_minitable_resources(pVwRscs)
 
     local pTableConfVw
     local rgpTabConfVw
+    local rgpTabsVw
     pTableConfVw, rgpTabConfVw, rgpTabsVw = fetch_minitable_headers(pVwRscs)
 
     for i = 1, #rgpTabConfVw, 1 do
@@ -159,15 +178,32 @@ function load_minitable_resources(pVwRscs)
     end
 end
 
-function draw_minitable_resources(pVwRscs)
-    local rgpTabsVw = pVwRscs:get_tab_items()
-
+local function draw_minitable_background(pVwRscs)
+    local rgeTextures = pVwRscs:get_background_tabs()
     local iPx, iPy = pVwRscs:get_origin()
 
-    local pTableConfVw = RResourceTable.VW_GRID_MINI
+    local rgpTabConfVw
+    _, rgpTabConfVw, _ = fetch_minitable_headers(pVwRscs)
+    for i = 1, #rgpTabConfVw, 1 do
+        local eTexture = rgeTextures[i]
+        local iOx, iOy, _, _ = eTexture:get_ltrb()
+
+        eTexture:draw(iPx + iOx, iPy + iOy)
+    end
+end
+
+local function draw_minitable_items(pVwRscs)
+    local rgpTabsVw = pVwRscs:get_tab_items()
+    local iPx, iPy = pVwRscs:get_origin()
+
     for _, pVwTab in ipairs(rgpTabsVw) do
         for _, pVwItem in ipairs(pVwTab) do
             pVwItem:draw(iPx, iPy)
         end
     end
+end
+
+function draw_minitable_resources(pVwRscs)
+    draw_minitable_background(pVwRscs)
+    draw_minitable_items(pVwRscs)
 end

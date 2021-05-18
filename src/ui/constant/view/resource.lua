@@ -119,8 +119,8 @@ RResourceTable = {
             X = 20,
             Y = 45,
 
-            ST_X = 5,
-            ST_Y = -10,
+            ST_X = 15,
+            ST_Y = 5,
             FIL_X = 4,
             FIL_Y = 2,
 
@@ -175,12 +175,12 @@ RResourceTable = {
             ROWS = 3,
             COLS = 1,
 
-            ST_X = 5,
-            ST_Y = 5,
+            ST_X = 15,
+            ST_Y = 15,
             FIL_X = 4,
             FIL_Y = 2,
 
-            W = 200,
+            W = 130,
             H = 20
         }
     }

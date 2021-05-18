@@ -18,6 +18,8 @@ require("utils.struct.class")
 
 CRscMinitableElem = createClass({
     eElem = CBasicElem:new(),
+    rgeTextures = {},
+
     rgpTabVwItems = {}
 })
 
@@ -27,6 +29,14 @@ end
 
 function CRscMinitableElem:get_object()
     return self.eElem
+end
+
+function CRscMinitableElem:get_background_tabs()
+    return self.rgeTextures
+end
+
+function CRscMinitableElem:set_background_tabs(rgeTextures)
+    self.rgeTextures = rgeTextures
 end
 
 function CRscMinitableElem:get_tab_item(siIdx)
@@ -53,6 +63,10 @@ function CRscMinitableElem:add_tab_items(iTab, rgpVwItems)
     table_append(m_rgpTabVwItems[iTab], rgpVwItems)
 end
 
+function CRscMinitableElem:update_position(iRx, iRy)
+    self.eElem:load(iRx, iRy)
+end
+
 function CRscMinitableElem:load(rX, rY)
     self.eElem:load(rX, rY)
 
@@ -60,6 +74,8 @@ function CRscMinitableElem:load(rX, rY)
     for i = 1, 4, 1 do
         m_rgpTabVwItems[i] = {}
     end
+
+    load_minitable_tab_background(self)
 end
 
 function CRscMinitableElem:build()
