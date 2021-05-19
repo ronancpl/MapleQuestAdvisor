@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.run.update.canvas.position")
 require("ui.struct.canvas.inventory.properties")
 require("ui.struct.canvas.inventory.layer.item")
 require("ui.struct.canvas.inventory.layer.table")
@@ -28,6 +29,16 @@ function CWndInventory:update_inventory(pIvtItems)
     self.pCanvas:build(self.pProp)
 end
 
+function CWndInventory:get_window_position()
+    local pVwInvt = self.pProp:get_inventory()
+    return pVwInvt:get_origin()
+end
+
+function CWndInventory:set_window_position(iRx, iRy)
+    local pVwInvt = self.pProp:get_inventory()
+    pVwInvt:set_origin(iRx, iRy)
+end
+
 function CWndInventory:load()
     self.pCanvas:load({CInventoryNavTable, CInventoryNavItems})
     self.pProp:load()
@@ -38,7 +49,11 @@ function CWndInventory:update(dt)
 end
 
 function CWndInventory:draw()
+    local iRx, iRy = self:get_window_position()
+
+    push_stack_canvas_position(iRx, iRy)
     self.pCanvas:draw()
+    pop_stack_canvas_position()
 end
 
 function CWndInventory:onmousemoved(x, y, dx, dy, istouch)

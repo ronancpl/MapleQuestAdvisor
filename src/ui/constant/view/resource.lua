@@ -129,8 +129,8 @@ RResourceTable = {
         }
     },
     VW_GRID_MINI = {
-        W = 192,
-        H = 192,
+        W = 280,
+        H = 280,
 
         FIL_X = 4,
         FIL_Y = 4,
@@ -144,8 +144,8 @@ RResourceTable = {
             FIL_X = 4,
             FIL_Y = 4,
 
-            W = 20,
-            H = 20
+            W = 24,
+            H = 24
         },
         ITEMS = {
             ROWS = 3,
@@ -156,8 +156,8 @@ RResourceTable = {
             FIL_X = 4,
             FIL_Y = 4,
 
-            W = 20,
-            H = 20
+            W = 24,
+            H = 24
         },
         NPCS = {
             ROWS = 1,
@@ -168,19 +168,19 @@ RResourceTable = {
             FIL_X = 4,
             FIL_Y = 4,
 
-            W = 38,
-            H = 38
+            W = 42,
+            H = 42
         },
         FIELD_ENTER = {
             ROWS = 3,
             COLS = 1,
 
-            ST_X = 15,
-            ST_Y = 15,
+            ST_X = 10,
+            ST_Y = 10,
             FIL_X = 4,
-            FIL_Y = 2,
+            FIL_Y = 5,
 
-            W = 130,
+            W = 134,
             H = 20
         }
     }

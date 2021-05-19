@@ -12,6 +12,7 @@
 
 require("ui.struct.component.basic.base")
 require("ui.run.draw.canvas.slider.slider")
+require("ui.run.update.canvas.position")
 require("utils.struct.class")
 
 RSliderState = {DISABLED = "disabled", MOUSE_OVER = "mouseOver", NORMAL = "normal", PRESSED = "pressed"}
@@ -212,7 +213,11 @@ function CWndSlider:update(dt)
     -- do nothing
 end
 
-function CWndSlider:draw(iPx, iPy)
-    local iRx, iRy = self.eElem:get_pos()
-    draw_slider(self, iPx + iRx, iPy + iRy)
+function CWndSlider:draw()
+    local iRx, iRy = read_canvas_position()
+
+    local iPx, iPy = self.eElem:get_pos()
+    push_stack_canvas_position(iPx + iRx, iPy + iRy)
+    draw_slider(self)
+    pop_stack_canvas_position()
 end

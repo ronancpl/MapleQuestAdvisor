@@ -15,6 +15,7 @@ require("ui.constant.view.item")
 require("ui.run.draw.canvas.inventory.item")
 require("ui.run.draw.canvas.inventory.tile.desc")
 require("ui.run.draw.canvas.inventory.tile.view")
+require("ui.run.update.canvas.position")
 
 local function codify_inventory_tab_intervals(pVwInvt)
     local rgiIntvVals = {}
@@ -189,25 +190,24 @@ local function draw_inventory_tabs(pVwInvt)
     draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
 end
 
-local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight, iRx, iRy)
+local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
     local pVwCanvas = pVwItem:get_view()
     if pVwCanvas ~= nil then
         local iPx
         local iPy
         iPx, iPy = pVwItem:get_object():get_origin()
 
-        iPx = iPx + iRx
-        iPy = iPy + iRy
+        local iRx, iRy = read_canvas_position()
 
         local bShowCount = pVwItem:is_visible_count()
 
         local iCount = bShowCount and pVwItem:get_count() or nil
-        draw_item_canvas(pVwCanvas, iCount, iPx, iPy, iItemWidth, iItemHeight)
+        draw_item_canvas(pVwCanvas, iCount, iPx + iRx, iPy + iRy, iItemWidth, iItemHeight)
     end
 end
 
-function draw_inventory_item(pVwItem, iRx, iRy)
-    draw_compose_item_image(pVwItem, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H, iRx, iRy)
+function draw_inventory_item(pVwItem)
+    draw_compose_item_image(pVwItem, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H)
 end
 
 local function draw_inventory_background(pVwInvt)

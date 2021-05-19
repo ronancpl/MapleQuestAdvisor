@@ -11,6 +11,7 @@
 --]]
 
 require("solver.lookup.constant")
+require("ui.run.update.canvas.position")
 require("ui.struct.canvas.resource.properties")
 require("ui.struct.canvas.resource.layer.item")
 require("ui.struct.canvas.resource.layer.table")
@@ -126,12 +127,26 @@ function CWndResource:load()
     self.pCanvas:load({CResourceNavTable, CResourceNavItems}) -- follows sequence: LLayer
 end
 
+function CWndResource:get_window_position()
+    local pVwRscs = self.pProp:get_table()
+    return pVwRscs:get_origin()
+end
+
+function CWndResource:set_window_position(iRx, iRy)
+    local pVwRscs = self.pProp:get_table()
+    pVwRscs:set_origin(iRx, iRy)
+end
+
 function CWndResource:update(dt)
     self.pCanvas:update(dt)
 end
 
 function CWndResource:draw()
+    local iRx, iRy = self:get_window_position()
+
+    push_stack_canvas_position(iRx, iRy)
     self.pCanvas:draw()
+    pop_stack_canvas_position()
 end
 
 function CWndResource:onmousemoved(x, y, dx, dy, istouch)

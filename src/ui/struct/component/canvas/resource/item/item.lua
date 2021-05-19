@@ -24,12 +24,12 @@ CRscElemItem = createClass({
     pTooltip = CCanvasTooltip:new()
 })
 
-function CRscElemItem:_update_position(iRx, iRy)
-    self.eBox:set_position(iRx, iRy)
+function CRscElemItem:get_origin()
+    return self.eBox:get_origin()
 end
 
-function CRscElemItem:get_position()
-    return self.eBox:get_origin()
+function CRscElemItem:set_origin(iRx, iRy)
+    self.eBox:set_position(iRx, iRy)
 end
 
 function CRscElemItem:get_object()

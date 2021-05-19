@@ -32,7 +32,15 @@ CTextureElem = createClass({
 })
 
 function CTextureElem:get_origin()
-    return self.eImg:get_origin()
+    return self.eElem:get_origin()
+end
+
+function CTextureElem:_load_position(iRx, iRy)
+    self.eElem:load(iRx, iRy)
+end
+
+function CTextureElem:set_origin(iRx, iRy)
+    self:_load_position(iRx, iRy)
 end
 
 function CTextureElem:get_z()
@@ -102,10 +110,6 @@ function CTextureElem:_load_texture(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, 
     self.pImgBox = pImgBox
     self.rgpImgBoxPos = rgpImgBoxPos
     self.eImg:load(0, 0, -1, iOw, iOh)
-end
-
-function CTextureElem:_load_position(iRx, iRy)
-    self.eElem:load(iRx, iRy)
 end
 
 function CTextureElem:load(iRx, iRy, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)

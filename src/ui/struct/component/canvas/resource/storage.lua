@@ -85,7 +85,7 @@ CStockResourceItem = createClass({
 })
 
 function CStockResourceItem:_load_fonts()
-    self.pFontInfo = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 12)
+    self.pFontInfo = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 9)
 end
 
 function CStockResourceItem:_load_images()

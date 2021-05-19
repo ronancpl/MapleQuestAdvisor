@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.view.resource")
+require("ui.run.update.canvas.position")
 require("ui.run.update.canvas.resource.common")
 
 local function codify_resources_tab_intervals(pVwRscs)
@@ -123,7 +124,7 @@ local function draw_compose_resource_tabs(pVwRscs, rgsIntvImgNames, iTabWidth)
 
     local iPx
     local iPy
-    iPx, iPy = pVwRscs:get_origin()
+    iPx, iPy = read_canvas_position()
 
     iPx = iPx + RResourceTable.VW_TAB.NAME.X
     iPy = iPy + RResourceTable.VW_TAB.NAME.Y
@@ -149,7 +150,7 @@ end
 local function draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
     local iPx
     local iPy
-    iPx, iPy = pVwRscs:get_origin()
+    iPx, iPy = read_canvas_position()
 
     iPx = iPx + RResourceTable.VW_TAB.NAME.X
     iPy = iPy + RResourceTable.VW_TAB.NAME.Y + 1
@@ -191,7 +192,7 @@ local function draw_resource_field_base(pVwRscs)
 
     local iPx
     local iPy
-    iPx, iPy = pVwRscs:get_origin()
+    iPx, iPy = read_canvas_position()
 
     local pConfVw = pVwRscs:get_conf()
     iPx = iPx + pConfVw.X
@@ -205,7 +206,7 @@ local function draw_resource_background(pVwRscs)
 
     local iPx
     local iPy
-    iPx, iPy = pVwRscs:get_origin()
+    iPx, iPy = read_canvas_position()
 
     eTexture:draw(iPx, iPy)
 
@@ -215,7 +216,7 @@ end
 local function draw_resource_slider(pVwRscs)
     local iPx
     local iPy
-    iPx, iPy = pVwRscs:get_origin()
+    iPx, iPy = read_canvas_position()
 
     pVwRscs:get_slider():draw(iPx, iPy)
 end

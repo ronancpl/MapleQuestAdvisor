@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.view.inventory")
+require("ui.run.update.canvas.position")
 
 local function fetch_draw_rotation(pVwSlider)
     local bVert = pVwSlider:get_orientation()
@@ -47,7 +48,7 @@ local function draw_slider_bar_bottom(pImgRgBar, iX, iY, iR)
     love.graphics.draw(pImgRgBar, iX, iY, iR)
 end
 
-local function draw_slider_bar(pVwSlider, iX, iY)
+local function draw_slider_bar(pVwSlider)
     local iLen = pVwSlider:get_bar_length()
 
     local pImgFilBase = pVwSlider:get_bar()
@@ -55,6 +56,8 @@ local function draw_slider_bar(pVwSlider, iX, iY)
 
     local iFilLen = iLen
     local iLoop, bVert = calc_slider_bar_fit(pVwSlider, iFilLen)
+
+    local iX, iY = read_canvas_position()
 
     local iPx = iX
     local iPy = iY
@@ -99,7 +102,7 @@ local function draw_slider_bar(pVwSlider, iX, iY)
     love.graphics.setColor(255, 255, 255, 1.0)
 end
 
-local function draw_slider_arrow(pVwSlider, iX, iY)
+local function draw_slider_arrow(pVwSlider)
     local bVert = pVwSlider:get_orientation()
 
     local iRx = 0
@@ -107,6 +110,8 @@ local function draw_slider_arrow(pVwSlider, iX, iY)
 
     local pImgFilBase = pVwSlider:get_bar()
     local _, iFilMidGir = pImgFilBase:getDimensions()
+
+    local iX, iY = read_canvas_position()
 
     local iPx = iX
     local iPy = iY
@@ -157,10 +162,12 @@ local function calc_slider_thumb_pos(pVwSlider)
     return iPos
 end
 
-local function draw_slider_thumb(pVwSlider, iX, iY)
+local function draw_slider_thumb(pVwSlider)
     local iArrLen = pVwSlider:get_arrow_length()
 
     local bVert = pVwSlider:get_orientation()
+
+    local iX, iY = read_canvas_position()
 
     local iPx = iX
     local iPy = iY + 2 * iArrLen
@@ -179,8 +186,8 @@ local function draw_slider_thumb(pVwSlider, iX, iY)
     m_eTexture:draw(iPx + iRx, iPy + iRy, fetch_draw_rotation(pVwSlider))
 end
 
-function draw_slider(pVwSlider, iPx, iPy)
-    draw_slider_bar(pVwSlider, iPx, iPy)
-    draw_slider_arrow(pVwSlider, iPx, iPy)
-    draw_slider_thumb(pVwSlider, iPx, iPy)
+function draw_slider(pVwSlider)
+    draw_slider_bar(pVwSlider)
+    draw_slider_arrow(pVwSlider)
+    draw_slider_thumb(pVwSlider)
 end

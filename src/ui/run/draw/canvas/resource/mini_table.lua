@@ -13,6 +13,7 @@
 local bit = require("bit")
 
 require("ui.constant.view.resource")
+require("ui.run.update.canvas.position")
 require("ui.struct.component.element.texture")
 require("ui.struct.window.summary")
 
@@ -194,16 +195,20 @@ end
 
 local function draw_minitable_items(pVwRscs)
     local rgpTabsVw = pVwRscs:get_tab_items()
-    local iPx, iPy = pVwRscs:get_origin()
 
     for _, pVwTab in ipairs(rgpTabsVw) do
         for _, pVwItem in ipairs(pVwTab) do
-            pVwItem:draw(iPx, iPy)
+            pVwItem:draw()
         end
     end
 end
 
 function draw_minitable_resources(pVwRscs)
+    local iPx, iPy = pVwRscs:get_origin()
+    push_stack_canvas_position(iRx, iRy)
+
     draw_minitable_background(pVwRscs)
     draw_minitable_items(pVwRscs)
+
+    pop_stack_canvas_position()
 end

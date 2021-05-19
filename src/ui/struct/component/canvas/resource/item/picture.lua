@@ -128,6 +128,6 @@ function CRscElemItemPicture:update_position(iPx, iPy)
     self:_update_position(iPx, iPy)
 end
 
-function CRscElemItemPicture:draw(iPx, iPy)
-    draw_resource_picture(self, iPx, iPy)
+function CRscElemItemPicture:draw()
+    draw_resource_picture(self)
 end

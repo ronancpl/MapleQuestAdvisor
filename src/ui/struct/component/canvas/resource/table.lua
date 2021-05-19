@@ -39,6 +39,10 @@ function CRscTableElem:get_origin()
     return self.eTexture:get_origin()
 end
 
+function CRscTableElem:set_position(iPx, iPy)
+    self.eTexture:set_origin(iPx, iPy)
+end
+
 function CRscTableElem:get_background()
     return self.eTexture
 end

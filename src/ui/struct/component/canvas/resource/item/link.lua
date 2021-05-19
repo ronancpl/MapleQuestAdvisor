@@ -61,6 +61,6 @@ function CRscElemItemLink:update_position(iPx, iPy)
     self:_load_text(m_sDesc, m_iFieldRef, m_pConfVw, iPx, iPy)
 end
 
-function CRscElemItemLink:draw(iPx, iPy)
-    draw_resource_link(self, iPx, iPy)
+function CRscElemItemLink:draw()
+    draw_resource_link(self)
 end
