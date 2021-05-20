@@ -108,6 +108,7 @@ end
 
 CStockResource = createClass({
     pBgrdTextureData,
+    pFieldTextureData,
     pStockTab = CStockResourceTab:new(),
     pStockItem = CStockResourceItem:new()
 })
@@ -159,16 +160,45 @@ function CStockResource:_load_text_field()
     self.pImgTextArea = pImg
 end
 
+function CStockResource:_load_field_box_background(pImgFieldLeft, pImgFieldMid, pImgFieldRight)
+    local rgpImgBox = {}
+    table.insert(rgpImgBox, pImgFieldLeft)
+    table.insert(rgpImgBox, pImgFieldMid)
+    table.insert(rgpImgBox, pImgFieldRight)
+
+    local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = compose_texture_from_imageset(rgpImgBox, 3, 15, 15)
+
+    local pFieldData = CBasicTexture:new()
+    pFieldData:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+
+    self.pFieldTextureData = pFieldData
+end
+
+function CStockResource:_load_field_box()
+    local pDirRscImgs = load_image_storage_from_wz_sub(RWndPath.INTF_NOTC_WND, "")
+    pDirRscImgs = select_images_from_storage(pDirRscImgs, {})
+
+    local pImgFieldLeft = love.graphics.newImage(find_image_on_storage(pDirRscImgs, "0.0"))
+    local pImgFieldMid = love.graphics.newImage(find_image_on_storage(pDirRscImgs, "0.1"))
+    local pImgFieldRight = love.graphics.newImage(find_image_on_storage(pDirRscImgs, "0.2"))
+    self:_load_field_box_background(pImgFieldLeft, pImgFieldMid, pImgFieldRight)
+end
+
 function CStockResource:load()
     self.pStockTab:load()
     self.pStockItem:load()
 
     self:_load_texture_background()
     self:_load_text_field()
+    self:_load_field_box()
 end
 
 function CStockResource:get_background_data()
     return self.pBgrdTextureData
+end
+
+function CStockResource:get_field_data()
+    return self.pFieldTextureData
 end
 
 function CStockResource:get_background_text()

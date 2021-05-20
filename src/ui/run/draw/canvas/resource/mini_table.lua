@@ -204,7 +204,7 @@ local function draw_minitable_items(pVwRscs)
 end
 
 function draw_minitable_resources(pVwRscs)
-    local iPx, iPy = pVwRscs:get_origin()
+    local iRx, iRy = pVwRscs:get_origin()
     push_stack_canvas_position(iRx, iRy)
 
     draw_minitable_background(pVwRscs)

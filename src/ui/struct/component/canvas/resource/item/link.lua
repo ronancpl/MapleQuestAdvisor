@@ -43,7 +43,7 @@ end
 
 function CRscElemItemLink:load(siType, tpRscGrid, iId, sDesc, iFieldRef, pConfVw)
     self:_load(siType, tpRscGrid, iId, sDesc, pConfVw.W, pConfVw.H, iFieldRef)
-    self:_update_position(-1, -1)
+    self:_set_origin(-1, -1)
 
     self.pConfVw = pConfVw
 end
@@ -53,7 +53,7 @@ function CRscElemItemLink:update(dt)
 end
 
 function CRscElemItemLink:update_position(iPx, iPy)
-    self:_update_position(iPx, iPy)
+    self:_set_origin(iPx, iPy)
 
     local m_sDesc = self.sDesc
     local m_iFieldRef = self.iFieldRef

@@ -38,6 +38,9 @@ RWndPath = {
     INTF_INVT_TAB = "UI.wz/Basic.img/Tab2",
     INTF_INVT_WND = "UI.wz/UIWindow.img/Item",
 
+    -- Notice screen
+    INTF_NOTC_WND = "UI.wz/UIWindow.img/FloatNotice",
+
     MOUSE = {
         BT_DOWN = "12",
         BT_GAME = "2",

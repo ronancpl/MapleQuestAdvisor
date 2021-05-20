@@ -47,7 +47,6 @@ end
 
 function CInvtElem:set_origin(iPx, iPy)
     self.eBox:set_position(iPx, iPy)
-    -- update_row_for_inventory(self, self:get_row_selected())  -- items follow inventory position TODO
 end
 
 function CInvtElem:get_tab_selected()

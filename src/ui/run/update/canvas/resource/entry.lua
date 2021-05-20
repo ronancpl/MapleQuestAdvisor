@@ -68,7 +68,8 @@ local function make_tab_resources_npc(pRscProp)
         local sDesc = ctNpcsMeta:get_text(iId)
         local iFieldRef = 100000000
 
-        pVwItem:load(siType, tpRscGrid, pImg, iId, nil, sDesc, iFieldRef, RResourceTable.VW_BASE.NPCS, RResourceTable.VW_GRID.NPCS)
+        local pVwBase = {W = pImg:getWidth(), H = pImg:getHeight()}
+        pVwItem:load(siType, tpRscGrid, pImg, iId, nil, sDesc, iFieldRef, pVwBase, pVwBase)
 
         table.insert(rgpVwItems, pVwItem)
     end

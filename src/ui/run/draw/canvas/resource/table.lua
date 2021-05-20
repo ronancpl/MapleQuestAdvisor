@@ -187,9 +187,21 @@ local function draw_resource_tabs(pVwRscs)
     draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
 end
 
-local function draw_resource_field_base(pVwRscs)
-    local pImgBase = ctVwRscs:get_background_text()
+local function draw_resource_field_base_box(pVwRscs, iPx, iPy)
+    local eTexture = pVwRscs:get_background_field()
 
+    local iFx = RResourceTable.VW_WND.VW_FIELD.FIL_X
+    local iFy = RResourceTable.VW_WND.VW_FIELD.FIL_Y
+
+    eTexture:draw(iPx - iFx, iPy - iFy)
+end
+
+local function draw_resource_field_base_text(pVwRscs, iPx, iPy)
+    local pImgBase = ctVwRscs:get_background_text()
+    love.graphics.draw(pImgBase, iPx, iPy)
+end
+
+local function draw_resource_field_base(pVwRscs)
     local iPx
     local iPy
     iPx, iPy = read_canvas_position()
@@ -198,7 +210,8 @@ local function draw_resource_field_base(pVwRscs)
     iPx = iPx + pConfVw.X
     iPy = iPy + pConfVw.Y
 
-    love.graphics.draw(pImgBase, iPx, iPy)
+    draw_resource_field_base_box(pVwRscs, iPx, iPy)
+    draw_resource_field_base_text(pVwRscs, iPx, iPy)
 end
 
 local function draw_resource_background(pVwRscs)

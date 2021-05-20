@@ -20,7 +20,14 @@ RResourceTable = {
 
     VW_WND = {
         W = 400,
-        H = 420
+        H = 420,
+
+        VW_FIELD = {
+            FIL_X = 5,
+            FIL_Y = 5,
+            W = 285,
+            H = 320
+        }
     },
 
     TAB = {
@@ -109,8 +116,8 @@ RResourceTable = {
             FIL_X = 4,
             FIL_Y = 2,
 
-            W = 210,
-            H = 200
+            W = 100,
+            H = 100
         },
         FIELD_ENTER = {
             ROWS = 1,

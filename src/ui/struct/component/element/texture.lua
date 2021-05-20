@@ -32,7 +32,7 @@ CTextureElem = createClass({
 })
 
 function CTextureElem:get_origin()
-    return self.eElem:get_origin()
+    return self.eElem:get_pos()
 end
 
 function CTextureElem:_load_position(iRx, iRy)

@@ -23,5 +23,6 @@ function pop_stack_canvas_position()
 end
 
 function read_canvas_position()
-    return unpack(pStackWndPosition:peek())
+    local pPos = pStackWndPosition:get_top() or {0, 0}
+    return unpack(pPos)
 end

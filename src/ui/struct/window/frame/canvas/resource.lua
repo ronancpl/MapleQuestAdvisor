@@ -104,18 +104,25 @@ function CWndResource:set_dimensions(iWidth, iHeight)
     self.pCanvas:reset()
 
     local m_pProp = self.pProp
-    local eTexture = m_pProp:get_table():get_background()
 
+    local eTexture = m_pProp:get_table():get_background()
     eTexture:build(iWidth, iHeight)
+
+    local iFw = math.min(iWidth - (2 * RResourceTable.VW_WND.VW_FIELD.FIL_X), RResourceTable.VW_WND.VW_FIELD.W + (2 * RResourceTable.VW_WND.VW_FIELD.FIL_X))
+    local iFh = math.min(iHeight - (2 * RResourceTable.VW_WND.VW_FIELD.FIL_Y), RResourceTable.VW_WND.VW_FIELD.H + (2 * RResourceTable.VW_WND.VW_FIELD.FIL_Y))
+
+    local eFieldTexture = m_pProp:get_table():get_background_field()
+    eFieldTexture:build(iFw, iFh)
 
     self.pCanvas:build(m_pProp)
 end
 
 function CWndResource:_load_table()
     local pTextureDataBgrd = ctVwRscs:get_background_data()
+    local pTextureFieldBgrd = ctVwRscs:get_field_data()
 
     local pVwRscs = CRscTableElem:new()
-    pVwRscs:load(0, 0, pTextureDataBgrd, tpRscGrid)
+    pVwRscs:load(0, 0, pTextureDataBgrd, pTextureFieldBgrd, tpRscGrid)
 
     pVwRscs:set_tab_selected(1)
 

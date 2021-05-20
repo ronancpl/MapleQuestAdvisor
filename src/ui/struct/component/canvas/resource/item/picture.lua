@@ -107,7 +107,7 @@ end
 
 function CRscElemItemPicture:load(siType, tpRscGrid, pImg, iId, iCount, sDesc, iFieldRef, pConfVw, pToVw)
     self:_load(siType, tpRscGrid, iId, sDesc, pConfVw.W, pConfVw.H, iFieldRef)
-    self:_update_position(-1, -1)
+    self:_set_origin(-1, -1)
 
     local rX, rY
     self.pImg, rX, rY = self:_make_icon_image(pImg, siType, pToVw)
@@ -125,7 +125,7 @@ function CRscElemItemPicture:update(dt)
 end
 
 function CRscElemItemPicture:update_position(iPx, iPy)
-    self:_update_position(iPx, iPy)
+    self:_set_origin(iPx, iPy)
 end
 
 function CRscElemItemPicture:draw()

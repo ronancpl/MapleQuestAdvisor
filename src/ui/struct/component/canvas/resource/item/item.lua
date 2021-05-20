@@ -28,7 +28,7 @@ function CRscElemItem:get_origin()
     return self.eBox:get_origin()
 end
 
-function CRscElemItem:set_origin(iRx, iRy)
+function CRscElemItem:_set_origin(iRx, iRy)
     self.eBox:set_position(iRx, iRy)
 end
 

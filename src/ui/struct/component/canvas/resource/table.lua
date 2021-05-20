@@ -14,6 +14,7 @@ require("ui.constant.input")
 require("ui.constant.view.resource")
 require("ui.run.draw.canvas.resource.table")
 require("ui.run.update.canvas.resource.common")
+require("ui.struct.component.canvas.resource.tab.grid")
 require("ui.struct.component.canvas.resource.tab.method")
 require("ui.struct.component.element.texture")
 require("ui.struct.window.element.basic.slider")
@@ -22,7 +23,9 @@ require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CRscTableElem = createClass({
-    eTexture = CTextureElem:new(),
+    eTexture,
+    eFieldTexture,
+
     pSlider = CWndSlider:new(),
 
     tpRscGrid,
@@ -45,6 +48,10 @@ end
 
 function CRscTableElem:get_background()
     return self.eTexture
+end
+
+function CRscTableElem:get_background_field()
+    return self.eFieldTexture
 end
 
 function CRscTableElem:get_object()
@@ -143,11 +150,18 @@ function CRscTableElem:get_fn_update_items()
     return tfn_rsc_update_items[rgiRscTabType[iTab]]
 end
 
-function CRscTableElem:load(rX, rY, pTextureData, tpRscGrid)
-    local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = pTextureData:get()
+function CRscTableElem:load(rX, rY, pTextureData, pFieldTextureData, tpRscGrid)
+    local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh
 
-    local m_eTexture = self.eTexture
-    m_eTexture:load(rX, rY, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    local eTexture = CTextureElem:new()
+    pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = pTextureData:get()
+    eTexture:load(rX, rY, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    self.eTexture = eTexture
+
+    local eFieldTexture = CTextureElem:new()
+    pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = pFieldTextureData:get()
+    eFieldTexture:load(rX, rY, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+    self.eFieldTexture = eFieldTexture
 
     self.pSlider:load(RSliderState.NORMAL, RResourceTable.VW_SLIDER.H, true, true, RResourceTable.VW_SLIDER.X, RResourceTable.VW_SLIDER.Y)
 
