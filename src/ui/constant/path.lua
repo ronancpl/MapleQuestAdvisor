@@ -27,6 +27,15 @@ RWndPath = {
     INTF_BASIC = "UI.wz/Basic.img",
     INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
 
+    MOUSE = {
+        BT_DOWN = "12",
+        BT_GAME = "2",
+        BT_NORMAL = "0"
+    },
+    BUTTON = {
+        BT_CLOSE = "BtClose"
+    },
+
     -- Misc
     INTF_ITC = "UI.wz/ITC.img",
 
@@ -39,11 +48,5 @@ RWndPath = {
     INTF_INVT_WND = "UI.wz/UIWindow.img/Item",
 
     -- Notice screen
-    INTF_NOTC_WND = "UI.wz/UIWindow.img/FloatNotice",
-
-    MOUSE = {
-        BT_DOWN = "12",
-        BT_GAME = "2",
-        BT_NORMAL = "0"
-    }
+    INTF_NOTC_WND = "UI.wz/UIWindow.img/FloatNotice"
 }

@@ -236,6 +236,7 @@ end
 
 function draw_table_resources(pVwRscs)
     draw_resource_background(pVwRscs)
-    draw_resource_slider(pVwRscs)
     draw_resource_tabs(pVwRscs)
+    draw_resource_field_base(pVwRscs)
+    draw_resource_slider(pVwRscs)
 end

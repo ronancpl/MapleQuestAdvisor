@@ -14,16 +14,21 @@ require("ui.constant.path")
 require("ui.struct.canvas.stat.layer.background")
 require("ui.struct.canvas.stat.layer.info")
 require("ui.struct.canvas.stat.properties")
+require("ui.struct.component.canvas.canvas")
 require("ui.struct.window.frame.canvas")
 require("utils.struct.class")
 
-CWndStat = createClass({
+CWndStat = createClass({CWndBase, {
     pCanvas = CWndCanvas:new(),
     pProp = CStatProperties:new()
-})
+}})
 
 function CWndStat:get_properties()
     return self.pProp
+end
+
+function CWndStat:set_dimensions(iWidth, iHeight)
+    self:_set_window_size(iWidth, iHeight)
 end
 
 function CWndStat:update_stats(pPlayer, siExpR, siMesoR, siDropR)
@@ -44,6 +49,12 @@ end
 function CWndStat:load()
     self:_load_background()
     self.pCanvas:load({CStatNavBackground, CStatNavText}) -- follows sequence: LLayer
+
+    local iBx
+    local iBy
+    iBx, iBy = self.pProp:get_base_img():getDimensions()
+
+    self:set_dimensions(iBx, iBy)
 end
 
 function CWndStat:update(dt)

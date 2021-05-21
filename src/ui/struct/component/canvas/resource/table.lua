@@ -26,7 +26,7 @@ CRscTableElem = createClass({
     eTexture,
     eFieldTexture,
 
-    pSlider = CWndSlider:new(),
+    pSlider = CSliderElem:new(),
 
     tpRscGrid,
 

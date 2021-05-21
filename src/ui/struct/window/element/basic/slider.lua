@@ -17,7 +17,7 @@ require("utils.struct.class")
 
 RSliderState = {DISABLED = "disabled", MOUSE_OVER = "mouseOver", NORMAL = "normal", PRESSED = "pressed"}
 
-CWndSlider = createClass({
+CSliderElem = createClass({
     eElem = CBasicElem:new(),
 
     iLength,    -- slider length
@@ -32,67 +32,67 @@ CWndSlider = createClass({
     bVert
 })
 
-function CWndSlider:get_arrow_length()
+function CSliderElem:get_arrow_length()
     local iW, iH = self.pImgPrev:getDimensions()
     return bVert and iW or iH
 end
 
-function CWndSlider:get_arrow_girth()
+function CSliderElem:get_arrow_girth()
     local iW, iH = self.pImgPrev:getDimensions()
     return bVert and iH or iW
 end
 
-function CWndSlider:get_bar_length()
+function CSliderElem:get_bar_length()
     return self.iLength
 end
 
-function CWndSlider:get_thumb()
+function CSliderElem:get_thumb()
     return self.eThumb
 end
 
-function CWndSlider:get_thumb_length()
+function CSliderElem:get_thumb_length()
     local iWidth
     iWidth, _ = self.eThumb:get_dimensions()
 
     return iWidth
 end
 
-function CWndSlider:get_thumb_girth()
+function CSliderElem:get_thumb_girth()
     local iHeight
     _, iHeight = self.eThumb:get_dimensions()
 
     return iHeight
 end
 
-function CWndSlider:get_bar()
+function CSliderElem:get_bar()
     return self.pImgBase
 end
 
-function CWndSlider:get_prev()
+function CSliderElem:get_prev()
     return self.pImgPrev
 end
 
-function CWndSlider:get_next()
+function CSliderElem:get_next()
     return self.pImgNext
 end
 
-function CWndSlider:get_current()
+function CSliderElem:get_current()
     return self.iSgmtCur
 end
 
-function CWndSlider:set_current(iCur)
+function CSliderElem:set_current(iCur)
     self.iSgmtCur = iCur
 end
 
-function CWndSlider:get_num_segments()
+function CSliderElem:get_num_segments()
     return self.iSgmtCount
 end
 
-function CWndSlider:_set_num_segments(iCount)
+function CSliderElem:_set_num_segments(iCount)
     self.iSgmtCount = iCount
 end
 
-function CWndSlider:set_num_segments(iCount)
+function CSliderElem:set_num_segments(iCount)
     self:_set_num_segments(iCount)
 
     if self:get_current() > iCount then
@@ -100,11 +100,11 @@ function CWndSlider:set_num_segments(iCount)
     end
 end
 
-function CWndSlider:get_orientation()
+function CSliderElem:get_orientation()
     return self.bVert
 end
 
-function CWndSlider:_set_orientation(bVert)
+function CSliderElem:_set_orientation(bVert)
     self.bVert = bVert
 end
 
@@ -128,17 +128,17 @@ local function make_thumb_empty()
     return eThumb
 end
 
-function CWndSlider:_load_arrows(sThumbName)
+function CSliderElem:_load_arrows(sThumbName)
     self.pImgPrev = ctVwSlider:get_prev(sThumbName)
     self.pImgNext = ctVwSlider:get_next(sThumbName)
 end
 
-function CWndSlider:_load_bar(sThumbName)
+function CSliderElem:_load_bar(sThumbName)
     local pImgFilBase = ctVwSlider:get_bar(sThumbName)
     self.pImgBase = pImgFilBase
 end
 
-function CWndSlider:_load_thumb(sThumbName)
+function CSliderElem:_load_thumb(sThumbName)
     local eThumb
     if sThumbName ~= RSliderState.DISABLED then
         eThumb = make_thumb_texture(ctVwSlider:get_thumb(sThumbName))
@@ -149,7 +149,7 @@ function CWndSlider:_load_thumb(sThumbName)
     self.eThumb = eThumb
 end
 
-function CWndSlider:build_thumb(nSgmts, iLen, bDefWidth)
+function CSliderElem:build_thumb(nSgmts, iLen, bDefWidth)
     local m_eThumb = self.eThumb
 
     local iWidth
@@ -167,27 +167,27 @@ function CWndSlider:build_thumb(nSgmts, iLen, bDefWidth)
     m_eThumb:build(iWidth, iHeight)
 end
 
-function CWndSlider:update_box(iLen, bVert)
+function CSliderElem:update_box(iLen, bVert)
     self.iLength = iLen
     self:_set_orientation(bVert)
 end
 
-function CWndSlider:_update_slider(iLen, nSgmts, bDefWidth, bVert)
+function CSliderElem:_update_slider(iLen, nSgmts, bDefWidth, bVert)
     self:build_thumb(nSgmts, iLen, bDefWidth)
     self:update_box(iLen, bVert)
 end
 
-function CWndSlider:_calc_trail_length(iLen)
+function CSliderElem:_calc_trail_length(iLen)
     local iRollLen = iLen - (2 * self:get_arrow_length())
     return iRollLen
 end
 
-function CWndSlider:get_trail_length()
+function CSliderElem:get_trail_length()
     local iLen = self:get_bar_length()
     return self:_calc_trail_length(iLen)
 end
 
-function CWndSlider:_calc_segment_size(iLen)
+function CSliderElem:_calc_segment_size(iLen)
     local iRollLen = self:_calc_trail_length(iLen)
     local iBarLen = self:get_bar():getWidth()
 
@@ -195,13 +195,13 @@ function CWndSlider:_calc_segment_size(iLen)
     return iSgmt
 end
 
-function CWndSlider:update_state(sSliderState)
+function CSliderElem:update_state(sSliderState)
     self:_load_bar(sSliderState)
     self:_load_thumb(sSliderState)
     self:_load_arrows(sSliderState)
 end
 
-function CWndSlider:load(sSliderState, iLen, bDefWidth, bVert, rX, rY)
+function CSliderElem:load(sSliderState, iLen, bDefWidth, bVert, rX, rY)
     self.eElem:load(rX, rY)
     self:update_state(sSliderState)
 
@@ -209,11 +209,11 @@ function CWndSlider:load(sSliderState, iLen, bDefWidth, bVert, rX, rY)
     self:_update_slider(iLen, nSgmts, bDefWidth, bVert)
 end
 
-function CWndSlider:update(dt)
+function CSliderElem:update(dt)
     -- do nothing
 end
 
-function CWndSlider:draw()
+function CSliderElem:draw()
     local iRx, iRy = read_canvas_position()
 
     local iPx, iPy = self.eElem:get_pos()

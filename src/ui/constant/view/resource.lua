@@ -19,7 +19,7 @@ RResourceTabType = {
 RResourceTable = {
 
     VW_WND = {
-        W = 400,
+        W = 325,
         H = 420,
 
         VW_FIELD = {
@@ -27,6 +27,11 @@ RResourceTable = {
             FIL_Y = 5,
             W = 285,
             H = 320
+        },
+
+        VW_CLOSE = {
+            FIL_X = 5,
+            FIL_Y = 5
         }
     },
 
@@ -38,10 +43,10 @@ RResourceTable = {
     },
 
     VW_SLIDER = {
-        X = 375,
-        Y = 50,
+        X = 295,
+        Y = 60,
         W = 10,
-        H = 305
+        H = 295
     },
 
     VW_THUMB = {

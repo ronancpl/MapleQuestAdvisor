@@ -26,7 +26,7 @@ LChannel = {
     WMAP_PLAINTXT = 2,
 
     -- Inventory canvas
-    INVT_BGRD = 1, INVT_ITEM = 1,
+    INVT_BGRD = 1, INVT_ITEM = 2,
 
     -- Stat canvas
     STAT_BGRD = 1, STAT_INFO = 2,

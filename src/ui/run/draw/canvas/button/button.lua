@@ -10,11 +10,17 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.window.element.basic")
+require("ui.run.update.canvas.position")
 
-function load_storage_basic()
-    local pStorage = CToolBasic:new()
-    pStorage:load()
+function draw_slider(pVwButton)
+    local iPx
+    local iPy
+    iPx, iPy = read_canvas_position()
 
-    return pStorage
+    local iRx
+    local iRy
+    iRx, iRy = pVwButton:get_origin()
+
+    local pImgBase = pVwButton:get_base()
+    love.graphics.draw(pImgBase, iPx + iRx, iPy + iRy)
 end

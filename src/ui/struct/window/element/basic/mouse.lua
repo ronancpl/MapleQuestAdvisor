@@ -18,12 +18,12 @@ require("ui.run.build.interface.storage.split")
 require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 
-CWndCursor = createClass({
+CCursorElem = createClass({
     eDynam = CDynamicElem:new(),
     pCurMouse
 })
 
-function CWndCursor:load_mouse(sCursorName)
+function CCursorElem:load_mouse(sCursorName)
     local rgpCursorQuads = ctVwCursor:get_mouse_animation(sCursorName)
 
     self.eDynam:load(0, 0, rgpCursorQuads)
@@ -31,7 +31,7 @@ function CWndCursor:load_mouse(sCursorName)
     self.eDynam:after_load()
 end
 
-function CWndCursor:_refresh_cursor()
+function CCursorElem:_refresh_cursor()
     local pCurImg = self.eDynam:update_drawing()
     local pNextCursor = pCurImg:get_img()
 
@@ -41,15 +41,15 @@ function CWndCursor:_refresh_cursor()
     end
 end
 
-function CWndCursor:load()
+function CCursorElem:load()
     -- do nothing
 end
 
-function CWndCursor:update(dt)
+function CCursorElem:update(dt)
     self.eDynam:update(dt)
     self:_refresh_cursor()
 end
 
-function CWndCursor:draw()
+function CCursorElem:draw()
     -- do nothing
 end

@@ -20,7 +20,7 @@ require("utils.struct.class")
 
 CInvtElem = createClass({
     eBox = CUserboxElem:new(),
-    pSlider = CWndSlider:new(),
+    pSlider = CSliderElem:new(),
 
     pInvt,
     iSlctTab,

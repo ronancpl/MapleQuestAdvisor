@@ -14,23 +14,27 @@ require("ui.constant.path")
 require("ui.struct.window.element.basic.mouse")
 require("utils.struct.class")
 
-CWndBasic = createClass({
-    pCursor = CWndCursor:new()
+CToolBasic = createClass({
+    pCursor = CCursorElem:new()
 })
 
-function CWndBasic:get_cursor()
+function CToolBasic:get_cursor()
     return self.pCursor
 end
 
-function CWndBasic:load()
+function CToolBasic:get_button()
+    return self.pButton
+end
+
+function CToolBasic:load()
     self.pCursor:load()
     self.pCursor:load_mouse(RWndPath.MOUSE.BT_GAME)
 end
 
-function CWndBasic:update(dt)
+function CToolBasic:update(dt)
     self.pCursor:update(dt)
 end
 
-function CWndBasic:draw()
+function CToolBasic:draw()
     self.pCursor:draw()
 end

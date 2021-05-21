@@ -15,15 +15,16 @@ require("ui.run.update.canvas.position")
 require("ui.struct.canvas.resource.properties")
 require("ui.struct.canvas.resource.layer.item")
 require("ui.struct.canvas.resource.layer.table")
+require("ui.struct.component.canvas.canvas")
 require("ui.struct.component.canvas.resource.table")
 require("ui.struct.component.canvas.resource.tab.grid")
 require("ui.struct.component.element.texture")
 require("utils.struct.class")
 
-CWndResource = createClass({
+CWndResource = createClass({CWndBase, {
     pCanvas = CWndCanvas:new(),
     pProp = CRscProperties:new()
-})
+}})
 
 function CWndResource:get_properties()
     return self.pProp
@@ -101,6 +102,7 @@ function CWndResource:get_field_resources()
 end
 
 function CWndResource:set_dimensions(iWidth, iHeight)
+    self:_set_window_size(iWidth, iHeight)
     self.pCanvas:reset()
 
     local m_pProp = self.pProp
@@ -157,18 +159,22 @@ function CWndResource:draw()
 end
 
 function CWndResource:onmousemoved(x, y, dx, dy, istouch)
+    self:_onmousemoved(x, y, dx, dy, istouch)
     self.pCanvas:onmousemoved(x, y, dx, dy, istouch)
 end
 
 function CWndResource:onmousepressed(x, y, button)
+    self:_onmousepressed(x, y, button)
     self.pCanvas:onmousepressed(x, y, button)
 end
 
 function CWndResource:onmousereleased(x, y, button)
+    self:_onmousereleased(x, y, button)
     self.pCanvas:onmousereleased(x, y, button)
 end
 
 function CWndResource:onwheelmoved(dx, dy)
+    self:_onwheelmoved(dx, dy)
     self.pCanvas:onwheelmoved(dx, dy)
 end
 

@@ -12,6 +12,7 @@
 
 require("ui.constant.config")
 require("ui.run.update.canvas.worldmap.track")
+require("ui.struct.component.canvas.canvas")
 require("ui.struct.window.summary")
 require("ui.struct.window.frame.canvas")
 require("ui.struct.canvas.worldmap.storage")
@@ -23,11 +24,11 @@ require("ui.struct.canvas.worldmap.layer.plaintext")
 require("ui.struct.canvas.worldmap.properties")
 require("utils.struct.class")
 
-CWndWmap = createClass({
+CWndWmap = createClass({CWndBase, {
     pCanvas = CWndCanvas:new(),
     pProp = CWmapProperties:new(),
     pCache = CWmapStorage:new()
-})
+}})
 
 function CWndWmap:get_properties()
     return self.pProp
@@ -85,12 +86,18 @@ function CWndWmap:update_region(sWmapName, pPlayer, pUiRscs)
     self.pCanvas:build(self.pProp)
 end
 
-function CWndWmap:load()
-    self.pProp:reset()
+function CWndWmap:set_dimensions(iWidth, iHeight)
+    self:_set_window_size(iWidth, iHeight)
+end
 
+function CWndWmap:load()
     local iBx
     local iBy
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
+
+    self:set_dimensions(iBx, iBy)
+    self.pProp:reset()
+
     self.pProp:set_origin(iBx / 2, iBy / 2)
 
     self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavInfo}) -- follows sequence: LLayer
@@ -106,14 +113,17 @@ function CWndWmap:draw()
 end
 
 function CWndWmap:onmousemoved(x, y, dx, dy, istouch)
+    self:_onmousemoved(x, y, dx, dy, istouch)
     self.pCanvas:onmousemoved(x, y, dx, dy, istouch)
 end
 
 function CWndWmap:onmousepressed(x, y, button)
+    self:_onmousepressed(x, y, button)
     self.pCanvas:onmousepressed(x, y, button)
 end
 
 function CWndWmap:onmousereleased(x, y, button)
+    self:_onmousereleased(x, y, button)
     self.pCanvas:onmousereleased(x, y, button)
 end
 
