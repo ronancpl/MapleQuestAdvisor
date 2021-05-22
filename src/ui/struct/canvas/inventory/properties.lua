@@ -17,8 +17,20 @@ require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CInvtProperties = createClass({
+    iRx = 0,
+    iRy = 0,
+
     pInvtPlayer
 })
+
+function CInvtProperties:get_position()
+    return self.iRx, self.iRy
+end
+
+function CInvtProperties:set_position(iRx, iRy)
+    self.iRx = iRx
+    self.iRy = iRy
+end
 
 function CInvtProperties:load()
     self.pInvtPlayer = load_view_inventory(CInventory:new(), 0, 0)
@@ -34,8 +46,4 @@ end
 
 function CInvtProperties:get_inventory()
     return self.pInvtPlayer
-end
-
-function CInvtProperties:set_inventory_origin(iPx, iPy)
-    self.pInvtPlayer:set_origin(iPx, iPy)
 end

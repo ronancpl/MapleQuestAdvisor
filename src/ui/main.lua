@@ -22,6 +22,7 @@ require("structs.player")
 require("structs.storage.inventory")
 require("ui.constant.path")
 require("ui.interaction.handler")
+require("ui.interaction.window")
 require("ui.run.build.canvas.worldmap.worldmap")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
@@ -87,6 +88,8 @@ function love.load()
     log(LPath.INTERFACE, "load.txt", "Loading user interface...")
     pFrameBasic = load_frame_basic()
 
+    pWndHandler = CWndHandler:new()
+
     pUiWmap = load_frame_worldmap()
 
     pUiInvt = load_frame_player_inventory()
@@ -135,6 +138,11 @@ function love.load()
     local sWmapName = "WorldMap010"
     log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
     pUiWmap:update_region(sWmapName, pPlayer, pUiRscs)
+
+    pWndHandler:set_opened(pUiWmap)
+    pWndHandler:set_opened(pUiInvt)
+    pWndHandler:set_opened(pUiStats)
+    pWndHandler:set_opened(pUiRscs)
 end
 
 local function update_interactions()
@@ -159,17 +167,17 @@ function love.update(dt)
 
     pFrameBasic:update(dt)
 
-    pUiWmap:update(dt)
-    pUiInvt:update(dt)
-    pUiStats:update(dt)
-    pUiRscs:update(dt)
+    pWndHandler:update()
+
+    for _, pWnd in ipairs(pWndHandler:list_opened()) do
+        pWnd:update(dt)
+    end
 end
 
 function love.draw()
-    pUiWmap:draw()
-    pUiInvt:draw()
-    pUiStats:draw()
-    pUiRscs:draw()
+    for _, pWnd in ipairs(pWndHandler:list_opened()) do
+        pWnd:draw()
+    end
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)

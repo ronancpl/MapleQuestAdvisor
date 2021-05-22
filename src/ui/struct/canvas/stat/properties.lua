@@ -15,8 +15,9 @@ require("ui.run.build.canvas.stat.server")
 require("utils.struct.class")
 
 CStatProperties = createClass({
-    iCx = 0,
-    iCy = 0,
+    iRx = 0,
+    iRy = 0,
+
     pBaseImg,
     pInfoChr = CCharInfoTable:new(),
     pInfoSrv = CServerInfoTable:new()
@@ -34,13 +35,13 @@ function CStatProperties:get_base_img()
     return self.pBaseImg
 end
 
-function CStatProperties:get_origin()
-    return self.iCx, self.iCy
+function CStatProperties:get_position()
+    return self.iRx, self.iRy
 end
 
-function CStatProperties:set_origin(iCx, iCy)
-    self.iCx = iCx
-    self.iCy = iCy
+function CStatProperties:set_position(iRx, iRy)
+    self.iRx = iRx
+    self.iRy = iRy
 end
 
 function CStatProperties:_set_info_character(pPlayer)

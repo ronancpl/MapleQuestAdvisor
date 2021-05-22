@@ -115,10 +115,6 @@ function CWndWmap:update(dt)
 end
 
 function CWndWmap:draw()
-    if not self:is_window_visible() then
-        return
-    end
-
     local iRx, iRy = self:get_window_position()
 
     push_stack_canvas_position(iRx, iRy)

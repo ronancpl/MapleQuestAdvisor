@@ -18,8 +18,6 @@ require("utils.struct.class")
 
 CWndBase = createClass({
     pBtClose,
-    bVisible,
-
     pCtrlChannel = CWndChannel:new()
 })
 
@@ -39,20 +37,12 @@ function CWndBase:_onwheelmoved(dx, dy)
     self.pCtrlChannel:onwheelmoved(dx, dy)
 end
 
-function CWndBase:is_window_visible()
-    return self.bVisible
-end
-
-function CWndBase:_set_visible(bVisible)
-    self.bVisible = bVisible
-end
-
 function CWndBase:close()
-    self:_set_visible(false)
+    pWndHandler:set_closed(self)
 end
 
 function CWndBase:open()
-    self:_set_visible(true)
+    pWndHandler:set_opened(self)
 end
 
 function CWndBase:get_bt_close()
@@ -66,7 +56,7 @@ end
 
 function CWndBase:_set_fn_trigger()
     local pBtClose = self:get_bt_close()
-    pBtClose:set_fn_trigger(self.close, self, false)
+    pBtClose:set_fn_trigger(self.close, self)
 end
 
 function CWndBase:_load_bt_close(iWidth, iHeight)

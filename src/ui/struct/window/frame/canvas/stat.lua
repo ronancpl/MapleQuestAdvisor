@@ -29,7 +29,11 @@ function CWndStat:get_properties()
 end
 
 function CWndStat:get_window_position()
-    return self.pProp:get_origin()
+    return self.pProp:get_position()
+end
+
+function CWndStat:set_window_position(iRx, iRy)
+    self.pProp:set_position(iRx, iRy)
 end
 
 function CWndStat:set_dimensions(iWidth, iHeight)
@@ -55,11 +59,12 @@ function CWndStat:load()
     self:_load_background()
     self.pCanvas:load({CStatNavBackground, CStatNavText}) -- follows sequence: LLayer
 
-    local iBx
-    local iBy
-    iBx, iBy = self.pProp:get_base_img():getDimensions()
+    local iWidth
+    local iHeight
+    iWidth, iHeight = self.pProp:get_base_img():getDimensions()
 
-    self:_load(iBx, iBy)
+    self:_load(iWidth, iHeight)
+    self:set_dimensions(iWidth, iHeight)
 end
 
 function CWndStat:update(dt)
@@ -68,10 +73,6 @@ function CWndStat:update(dt)
 end
 
 function CWndStat:draw()
-    if not self:is_window_visible() then
-        return
-    end
-
     local iRx, iRy = self:get_window_position()
 
     push_stack_canvas_position(iRx, iRy)

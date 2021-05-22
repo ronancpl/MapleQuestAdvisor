@@ -31,13 +31,11 @@ function CWndInventory:update_inventory(pIvtItems)
 end
 
 function CWndInventory:get_window_position()
-    local pVwInvt = self.pProp:get_inventory()
-    return pVwInvt:get_origin()
+    return self.pProp:get_position()
 end
 
 function CWndInventory:set_window_position(iRx, iRy)
-    local pVwInvt = self.pProp:get_inventory()
-    pVwInvt:set_origin(iRx, iRy)
+    self.pProp:set_position(iRx, iRy)
 end
 
 function CWndInventory:set_dimensions(iWidth, iHeight)
@@ -62,10 +60,6 @@ function CWndInventory:update(dt)
 end
 
 function CWndInventory:draw()
-    if not self:is_window_visible() then
-        return
-    end
-
     local iRx, iRy = self:get_window_position()
 
     push_stack_canvas_position(iRx, iRy)

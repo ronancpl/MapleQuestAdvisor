@@ -32,13 +32,11 @@ function CWndResource:get_properties()
 end
 
 function CWndResource:get_window_position()
-    local pVwRscs = self.pProp:get_table()
-    return pVwRscs:get_origin()
+    return self.pProp:get_position()
 end
 
 function CWndResource:set_window_position(iRx, iRy)
-    local pVwRscs = self.pProp:get_table()
-    pVwRscs:set_origin(iRx, iRy)
+    self.pProp:set_position(iRx, iRy)
 end
 
 function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
@@ -157,10 +155,6 @@ function CWndResource:update(dt)
 end
 
 function CWndResource:draw()
-    if not self:is_window_visible() then
-        return
-    end
-
     local iRx, iRy = self:get_window_position()
 
     push_stack_canvas_position(iRx, iRy)
