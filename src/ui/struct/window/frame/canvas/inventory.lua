@@ -53,6 +53,7 @@ function CWndInventory:load()
     iBx, iBy = pImg:getDimensions()
 
     self:_load(iBx, iBy, RWndBtClose.TYPE2)
+    self:set_dimensions(iBx, iBy)
 end
 
 function CWndInventory:update(dt)

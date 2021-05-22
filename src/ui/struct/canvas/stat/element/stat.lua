@@ -17,6 +17,10 @@ CStatElem = createClass({
     eConst = CStaticElem:new()
 })
 
+function CStatElem:get_object()
+    return self.eConst
+end
+
 function CStatElem:load(pImg, iRx, iRy)
     self.eConst:load(pImg, 0, 0, 1, iRx, iRy)
 end

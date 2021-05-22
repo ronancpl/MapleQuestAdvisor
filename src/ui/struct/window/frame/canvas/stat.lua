@@ -95,7 +95,6 @@ function CWndStat:onmousepressed(x, y, button)
 end
 
 function CWndStat:onmousereleased(x, y, button)
-    log_st(LPath.INTERFACE, "_rsc.txt", " >> " .. x .. "," .. y .. " " .. tostring(pBtClsVwConf == RResourceTable.VW_WND.VW_CLOSE2) .. " " .. tostring(pBtClsVwConf == RResourceTable.VW_WND.VW_CLOSE1))
     self:_onmousereleased(x, y, button)
     self.pCanvas:onmousereleased(x, y, button)
 end

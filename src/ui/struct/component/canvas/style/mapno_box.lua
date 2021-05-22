@@ -23,6 +23,7 @@ require("utils.struct.class")
 
 CStyleBoxMapno = createClass({
     eTexture = CTextureElem:new(),
+
     pBoxRsc = CRscMinitableElem:new(),
     pBoxText = CStyleText:new(),
     pBoxLimits = CStyleLimit:new(),

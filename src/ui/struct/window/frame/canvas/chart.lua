@@ -102,8 +102,9 @@ function CWndWmap:load()
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
 
     self:_load(iBx, iBy, RWndBtClose.TYPE1)
-    self.pProp:reset()
+    self:set_dimensions(iBx, iBy)
 
+    self.pProp:reset()
     self.pProp:set_origin(iBx / 2, iBy / 2)
 
     self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavInfo}) -- follows sequence: LLayer

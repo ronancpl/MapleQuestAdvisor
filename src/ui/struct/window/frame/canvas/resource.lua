@@ -142,11 +142,12 @@ function CWndResource:_load_table()
 end
 
 function CWndResource:load()
-    local iWidth, iHeight = RResourceTable.VW_WND.W, RResourceTable.VW_WND.H
-    self:_load(iWidth, iHeight, RWndBtClose.TYPE1)
     self:_load_table()
 
+    local iWidth, iHeight = RResourceTable.VW_WND.W, RResourceTable.VW_WND.H
+    self:_load(iWidth, iHeight, RWndBtClose.TYPE1)
     self:set_dimensions(iWidth, iHeight)
+
     self.pCanvas:load({CResourceNavTable, CResourceNavItems}) -- follows sequence: LLayer
 end
 

@@ -72,8 +72,10 @@ function CStyleLimit:trim(iBoxWidth)
 end
 
 function CStyleLimit:update_box_position(iMx, iMy)
-    local iBx = self:get_width()
-    local iBy = self:get_height()
+    local iIw, iIh = self:get_image_dimensions()
+
+    local iBx = self:get_width() + (iIw and (iIw + RStylebox.FIL_X or 0)) + (2 * RStylebox.FIL_X)
+    local iBy = math.max(self:get_height(), (iIh and (iIh - RStylebox.FIL_Y or 0))) - RStylebox.FIL_Y
 
     self.iRx = math.iclamp(iMx + 20, 0, RStylebox.WND_LIM_X - iBx)
     self.iRy = math.iclamp(iMy + 23, 0, RStylebox.WND_LIM_Y - iBy)

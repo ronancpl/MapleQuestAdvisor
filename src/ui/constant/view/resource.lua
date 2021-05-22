@@ -35,7 +35,7 @@ RResourceTable = {
         },
 
         VW_CLOSE2 = {
-            FIL_X = 25,
+            FIL_X = 20,
             FIL_Y = 6
         }
 

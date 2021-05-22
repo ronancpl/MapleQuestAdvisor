@@ -34,7 +34,7 @@ local function fn_get_fields(pVwRscs)
 end
 
 local function is_tab_required(pRscEntry)
-    return #pRscEntry > 0
+    return pRscEntry ~= nil and #pRscEntry > 0
 end
 
 local function fetch_minitable_headers(pVwRscs)
