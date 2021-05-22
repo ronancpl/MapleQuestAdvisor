@@ -20,6 +20,7 @@ require("ui.struct.component.canvas.canvas")
 require("ui.struct.component.canvas.resource.table")
 require("ui.struct.component.canvas.resource.tab.grid")
 require("ui.struct.component.element.texture")
+require("ui.struct.window.type")
 require("utils.struct.class")
 
 CWndResource = createClass({CWndBase, {
@@ -142,7 +143,7 @@ end
 
 function CWndResource:load()
     local iWidth, iHeight = RResourceTable.VW_WND.W, RResourceTable.VW_WND.H
-    self:_load(iWidth, iHeight)
+    self:_load(iWidth, iHeight, RWndBtClose.TYPE1)
     self:_load_table()
 
     self:set_dimensions(iWidth, iHeight)

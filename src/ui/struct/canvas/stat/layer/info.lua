@@ -35,7 +35,7 @@ function CStatNavText:build(pStatProp)
     -- add layer elements (character)
     local pInfoChr = pStatProp:get_info_character()
 
-    self:_build_element(pInfoChr:get_name(), 60, 35)
+    self:_build_element(pInfoChr:get_name(), 60, 33)
     self:_build_element(pInfoChr:get_job(), 60, 53)
     self:_build_element(pInfoChr:get_level(), 60, 80)
     self:_build_element(nil, 60, 98)

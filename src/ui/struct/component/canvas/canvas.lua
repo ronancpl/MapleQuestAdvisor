@@ -51,7 +51,9 @@ end
 
 function CWndBase:_set_window_size(iWidth, iHeight)
     local pBtClose = self:get_bt_close()
-    pBtClose:set_origin(iWidth - RResourceTable.VW_WND.VW_CLOSE.FIL_X, RResourceTable.VW_WND.VW_CLOSE.FIL_Y)
+    local pBtClsVwConf = pBtClose:get_conf()
+
+    pBtClose:set_origin(iWidth - pBtClsVwConf.FIL_X, pBtClsVwConf.FIL_Y)
 end
 
 function CWndBase:_set_fn_trigger()
@@ -59,9 +61,9 @@ function CWndBase:_set_fn_trigger()
     pBtClose:set_fn_trigger(self.close, self)
 end
 
-function CWndBase:_load_bt_close(iWidth, iHeight)
+function CWndBase:_load_bt_close(iWidth, iHeight, pBtClsVwConf)
     local pBtClose = CButtonElem:new()
-    pBtClose:load()
+    pBtClose:load(pBtClsVwConf)
 
     self.pBtClose = pBtClose
 
@@ -72,13 +74,13 @@ function CWndBase:_load_bt_close(iWidth, iHeight)
     self:_set_fn_trigger()
 end
 
-function CWndBase:_load_control_channel(iWidth, iHeight)
-    self:_load_bt_close(iWidth, iHeight)
+function CWndBase:_load_control_channel(iWidth, iHeight, pBtClsVwConf)
+    self:_load_bt_close(iWidth, iHeight, pBtClsVwConf)
 end
 
-function CWndBase:_load(iWidth, iHeight)
+function CWndBase:_load(iWidth, iHeight, pBtClsVwConf)
     self:open()
-    self:_load_control_channel(iWidth, iHeight)
+    self:_load_control_channel(iWidth, iHeight, pBtClsVwConf)
 end
 
 function CWndBase:_update(dt)

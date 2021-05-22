@@ -16,6 +16,7 @@ require("ui.struct.canvas.stat.layer.background")
 require("ui.struct.canvas.stat.layer.info")
 require("ui.struct.canvas.stat.properties")
 require("ui.struct.component.canvas.canvas")
+require("ui.struct.window.type")
 require("ui.struct.window.frame.canvas")
 require("utils.struct.class")
 
@@ -57,14 +58,15 @@ end
 
 function CWndStat:load()
     self:_load_background()
-    self.pCanvas:load({CStatNavBackground, CStatNavText}) -- follows sequence: LLayer
 
     local iWidth
     local iHeight
     iWidth, iHeight = self.pProp:get_base_img():getDimensions()
 
-    self:_load(iWidth, iHeight)
+    self:_load(iWidth, iHeight, RWndBtClose.TYPE2)
     self:set_dimensions(iWidth, iHeight)
+
+    self.pCanvas:load({CStatNavBackground, CStatNavText}) -- follows sequence: LLayer
 end
 
 function CWndStat:update(dt)
@@ -80,6 +82,22 @@ function CWndStat:draw()
     pop_stack_canvas_position()
 
     self:_draw()
+end
+
+function CWndStat:onmousemoved(x, y, dx, dy, istouch)
+    self:_onmousemoved(x, y, dx, dy, istouch)
+    self.pCanvas:onmousemoved(x, y, dx, dy, istouch)
+end
+
+function CWndStat:onmousepressed(x, y, button)
+    self:_onmousepressed(x, y, button)
+    self.pCanvas:onmousepressed(x, y, button)
+end
+
+function CWndStat:onmousereleased(x, y, button)
+    log_st(LPath.INTERFACE, "_rsc.txt", " >> " .. x .. "," .. y .. " " .. tostring(pBtClsVwConf == RResourceTable.VW_WND.VW_CLOSE2) .. " " .. tostring(pBtClsVwConf == RResourceTable.VW_WND.VW_CLOSE1))
+    self:_onmousereleased(x, y, button)
+    self.pCanvas:onmousereleased(x, y, button)
 end
 
 function CWndStat:get_layer(iLayer)

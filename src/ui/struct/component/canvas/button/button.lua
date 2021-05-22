@@ -21,7 +21,8 @@ CButtonElem = createClass({
     eDynam = CDynamicElem:new(),
     bPressed = false,
     rgpArgs,
-    fn_act
+    fn_act,
+    pBtClsVwConf
 })
 
 function CButtonElem:get_object()
@@ -71,7 +72,12 @@ function CButtonElem:onmousereleased(x, y, button)
     end
 end
 
-function CButtonElem:load(rX, rY)
+function CButtonElem:get_conf()
+    return self.pBtClsVwConf
+end
+
+function CButtonElem:load(pBtClsVwConf, rX, rY)
+    self.pBtClsVwConf = pBtClsVwConf
     self:set_origin(rX, rY)
     self:update_state(RButtonState.NORMAL)
 end

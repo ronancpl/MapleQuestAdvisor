@@ -15,6 +15,7 @@ require("ui.struct.canvas.inventory.properties")
 require("ui.struct.canvas.inventory.layer.item")
 require("ui.struct.canvas.inventory.layer.table")
 require("ui.struct.component.canvas.canvas")
+require("ui.struct.window.type")
 require("ui.struct.window.frame.canvas")
 require("utils.struct.class")
 
@@ -51,7 +52,7 @@ function CWndInventory:load()
     local pImg = ctVwInvt:get_background()
     iBx, iBy = pImg:getDimensions()
 
-    self:_load(iBx, iBy)
+    self:_load(iBx, iBy, RWndBtClose.TYPE2)
 end
 
 function CWndInventory:update(dt)

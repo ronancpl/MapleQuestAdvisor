@@ -15,6 +15,7 @@ require("ui.run.update.canvas.position")
 require("ui.run.update.canvas.worldmap.track")
 require("ui.struct.component.canvas.canvas")
 require("ui.struct.window.summary")
+require("ui.struct.window.type")
 require("ui.struct.window.frame.canvas")
 require("ui.struct.canvas.worldmap.storage")
 require("ui.struct.canvas.worldmap.layer.background")
@@ -100,7 +101,7 @@ function CWndWmap:load()
     local iBy
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
 
-    self:_load(iBx, iBy)
+    self:_load(iBx, iBy, RWndBtClose.TYPE1)
     self.pProp:reset()
 
     self.pProp:set_origin(iBx / 2, iBy / 2)
