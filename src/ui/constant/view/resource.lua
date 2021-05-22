@@ -29,6 +29,10 @@ RResourceTable = {
             H = 320
         },
 
+        VW_HANDLE = {
+            H = 20
+        },
+
         VW_CLOSE = {
             FIL_X = 25,
             FIL_Y = 15

@@ -18,9 +18,6 @@ require("ui.run.build.canvas.resource.npc")
 require("utils.struct.class")
 
 CRscProperties = createClass({
-    iRx = 0,
-    iRy = 0,
-
     pVwTable,
 
     tpRscEntries = {},
@@ -54,15 +51,6 @@ end
 
 function CRscProperties:get_info_field_enter()
     return self.pInfoFieldEnter
-end
-
-function CRscProperties:get_position()
-    return self.iRx, self.iRy
-end
-
-function CRscProperties:set_position(iRx, iRy)
-    self.iRx = iRx
-    self.iRy = iRy
 end
 
 function CRscProperties:_update_items(tiItems)

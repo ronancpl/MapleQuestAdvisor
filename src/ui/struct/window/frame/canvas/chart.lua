@@ -37,7 +37,11 @@ function CWndWmap:get_properties()
 end
 
 function CWndWmap:get_window_position()
-    return 0, 0
+    return self:get_position()
+end
+
+function CWndWmap:set_window_position(iRx, iRy)
+    self:set_position(iRx, iRy)
 end
 
 local function is_marker_active(pPropMarker, rgiMapids)
@@ -102,10 +106,11 @@ function CWndWmap:load()
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
 
     self:_load(iBx, iBy, RWndBtClose.TYPE1)
-    self:set_dimensions(iBx, iBy)
 
     self.pProp:reset()
     self.pProp:set_origin(iBx / 2, iBy / 2)
+
+    self:set_dimensions(iBx, iBy)
 
     self.pCanvas:load({CWmapNavBackground, CWmapNavMapLink, CWmapNavMapList, CWmapNavFragment, CWmapNavInfo}) -- follows sequence: LLayer
     self.pCache:load()

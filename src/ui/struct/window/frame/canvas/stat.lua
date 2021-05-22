@@ -30,11 +30,11 @@ function CWndStat:get_properties()
 end
 
 function CWndStat:get_window_position()
-    return self.pProp:get_position()
+    return self:get_position()
 end
 
 function CWndStat:set_window_position(iRx, iRy)
-    self.pProp:set_position(iRx, iRy)
+    self:set_position(iRx, iRy)
 end
 
 function CWndStat:set_dimensions(iWidth, iHeight)

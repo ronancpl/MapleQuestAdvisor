@@ -33,11 +33,11 @@ function CWndResource:get_properties()
 end
 
 function CWndResource:get_window_position()
-    return self.pProp:get_position()
+    return self:get_position()
 end
 
 function CWndResource:set_window_position(iRx, iRy)
-    self.pProp:set_position(iRx, iRy)
+    self:set_position(iRx, iRy)
 end
 
 function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
@@ -142,10 +142,10 @@ function CWndResource:_load_table()
 end
 
 function CWndResource:load()
-    self:_load_table()
-
     local iWidth, iHeight = RResourceTable.VW_WND.W, RResourceTable.VW_WND.H
+
     self:_load(iWidth, iHeight, RWndBtClose.TYPE1)
+    self:_load_table()
     self:set_dimensions(iWidth, iHeight)
 
     self.pCanvas:load({CResourceNavTable, CResourceNavItems}) -- follows sequence: LLayer

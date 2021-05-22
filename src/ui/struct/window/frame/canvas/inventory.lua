@@ -32,11 +32,11 @@ function CWndInventory:update_inventory(pIvtItems)
 end
 
 function CWndInventory:get_window_position()
-    return self.pProp:get_position()
+    return self:get_position()
 end
 
 function CWndInventory:set_window_position(iRx, iRy)
-    self.pProp:set_position(iRx, iRy)
+    self:set_position(iRx, iRy)
 end
 
 function CWndInventory:set_dimensions(iWidth, iHeight)
@@ -44,16 +44,17 @@ function CWndInventory:set_dimensions(iWidth, iHeight)
 end
 
 function CWndInventory:load()
-    self.pCanvas:load({CInventoryNavTable, CInventoryNavItems})
-    self.pProp:load()
-
     local iBx
     local iBy
     local pImg = ctVwInvt:get_background()
     iBx, iBy = pImg:getDimensions()
 
     self:_load(iBx, iBy, RWndBtClose.TYPE2)
+
     self:set_dimensions(iBx, iBy)
+
+    self.pCanvas:load({CInventoryNavTable, CInventoryNavItems})
+    self.pProp:load()
 end
 
 function CWndInventory:update(dt)

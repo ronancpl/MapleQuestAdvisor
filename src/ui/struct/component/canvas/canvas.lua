@@ -12,14 +12,29 @@
 
 require("ui.constant.path")
 require("ui.constant.view.resource")
-require("ui.struct.component.canvas.button.button")
+require("ui.struct.component.canvas.window.button")
+require("ui.struct.component.canvas.window.handle")
 require("ui.struct.window.frame.channel")
 require("utils.struct.class")
 
 CWndBase = createClass({
     pBtClose,
+    pHdlWnd,
+
+    iRx,
+    iRy,
+
     pCtrlChannel = CWndChannel:new()
 })
+
+function CWndBase:get_position()
+    return self.iRx, self.iRy
+end
+
+function CWndBase:set_position(iRx, iRy)
+    self.iRx = iRx
+    self.iRy = iRy
+end
 
 function CWndBase:_onmousemoved(x, y, dx, dy, istouch)
     self.pCtrlChannel:onmousemoved(x, y, dx, dy, istouch)
@@ -49,6 +64,10 @@ function CWndBase:get_bt_close()
     return self.pBtClose
 end
 
+function CWndBase:get_handle_pos()
+    return self.pHdlWnd
+end
+
 function CWndBase:_set_window_size(iWidth, iHeight)
     local pBtClose = self:get_bt_close()
     local pBtClsVwConf = pBtClose:get_conf()
@@ -56,9 +75,21 @@ function CWndBase:_set_window_size(iWidth, iHeight)
     pBtClose:set_origin(iWidth - pBtClsVwConf.FIL_X, pBtClsVwConf.FIL_Y)
 end
 
-function CWndBase:_set_fn_trigger()
+function CWndBase:fn_close()
+    return function()
+        self:close()
+    end
+end
+
+function CWndBase:fn_set_position()
+    return function(iPx, iPy)
+        self:set_position(iPx, iPy)
+    end
+end
+
+function CWndBase:_set_fn_trigger_bt_close()
     local pBtClose = self:get_bt_close()
-    pBtClose:set_fn_trigger(self.close, self)
+    pBtClose:set_fn_trigger(self:fn_close())
 end
 
 function CWndBase:_load_bt_close(iWidth, iHeight, pBtClsVwConf)
@@ -71,16 +102,34 @@ function CWndBase:_load_bt_close(iWidth, iHeight, pBtClsVwConf)
     m_pCtrlChannel:add_element(pBtClose)
 
     self:_set_window_size(iWidth, iHeight)
-    self:_set_fn_trigger()
+    self:_set_fn_trigger_bt_close()
+end
+
+function CWndBase:_set_fn_trigger_pos_handle()
+    local pHdlWnd = self:get_handle_pos()
+    pHdlWnd:set_fn_trigger(self:fn_set_position())
+end
+
+function CWndBase:_load_hdl_pos(iWidth)
+    local pHdlWnd = CHandleElem:new()
+    pHdlWnd:load(0, 0, iWidth, RResourceTable.VW_WND.VW_HANDLE.H)
+    self.pHdlWnd = pHdlWnd
+
+    local m_pCtrlChannel = self.pCtrlChannel
+    m_pCtrlChannel:add_element(pHdlWnd)
+
+    self:_set_fn_trigger_pos_handle()
 end
 
 function CWndBase:_load_control_channel(iWidth, iHeight, pBtClsVwConf)
     self:_load_bt_close(iWidth, iHeight, pBtClsVwConf)
+    self:_load_hdl_pos(iWidth)
 end
 
 function CWndBase:_load(iWidth, iHeight, pBtClsVwConf)
-    self:open()
+    self:set_position(0, 0)
     self:_load_control_channel(iWidth, iHeight, pBtClsVwConf)
+    self:open()
 end
 
 function CWndBase:_update(dt)
