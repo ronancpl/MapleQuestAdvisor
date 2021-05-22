@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.config")
+require("ui.run.update.canvas.position")
 require("ui.run.update.canvas.worldmap.track")
 require("ui.struct.component.canvas.canvas")
 require("ui.struct.window.summary")
@@ -32,6 +33,10 @@ CWndWmap = createClass({CWndBase, {
 
 function CWndWmap:get_properties()
     return self.pProp
+end
+
+function CWndWmap:get_window_position()
+    return 0, 0
 end
 
 local function is_marker_active(pPropMarker, rgiMapids)
@@ -95,7 +100,7 @@ function CWndWmap:load()
     local iBy
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
 
-    self:set_dimensions(iBx, iBy)
+    self:_load(iBx, iBy)
     self.pProp:reset()
 
     self.pProp:set_origin(iBx / 2, iBy / 2)
@@ -105,11 +110,22 @@ function CWndWmap:load()
 end
 
 function CWndWmap:update(dt)
+    self:_update(dt)
     self.pCanvas:update(dt)
 end
 
 function CWndWmap:draw()
+    if not self:is_window_visible() then
+        return
+    end
+
+    local iRx, iRy = self:get_window_position()
+
+    push_stack_canvas_position(iRx, iRy)
     self.pCanvas:draw()
+    pop_stack_canvas_position()
+
+    self:_draw()
 end
 
 function CWndWmap:onmousemoved(x, y, dx, dy, istouch)

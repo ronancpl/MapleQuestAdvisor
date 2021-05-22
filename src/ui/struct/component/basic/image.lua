@@ -52,15 +52,19 @@ end
 function CBasicImage:instantiate(pWmapProp, bFlipOrigin)
     local pBasicImg = CBasicImage:new()
 
-    local iCx
-    local iCy
-    iCx, iCy = pWmapProp:get_origin()
-
     local pImg = love.graphics.newImage(self.pImg)
-    if bFlipOrigin then
-        pBasicImg:load(pImg, iCx - self.iOx, iCy - self.iOy, self.iZ)
+    if pWmapProp ~= nil then
+        local iCx
+        local iCy
+        iCx, iCy = pWmapProp:get_origin()
+
+        if bFlipOrigin then
+            pBasicImg:load(pImg, iCx - self.iOx, iCy - self.iOy, self.iZ)
+        else
+            pBasicImg:load(pImg, iCx + self.iOx, iCy + self.iOy, self.iZ)
+        end
     else
-        pBasicImg:load(pImg, iCx + self.iOx, iCy + self.iOy, self.iZ)
+        pBasicImg:load(pImg, self.iOx, self.iOy, self.iZ)
     end
 
     return pBasicImg

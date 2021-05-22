@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.path")
+require("ui.run.update.canvas.position")
 require("ui.struct.canvas.stat.layer.background")
 require("ui.struct.canvas.stat.layer.info")
 require("ui.struct.canvas.stat.properties")
@@ -25,6 +26,10 @@ CWndStat = createClass({CWndBase, {
 
 function CWndStat:get_properties()
     return self.pProp
+end
+
+function CWndStat:get_window_position()
+    return self.pProp:get_origin()
 end
 
 function CWndStat:set_dimensions(iWidth, iHeight)
@@ -54,15 +59,26 @@ function CWndStat:load()
     local iBy
     iBx, iBy = self.pProp:get_base_img():getDimensions()
 
-    self:set_dimensions(iBx, iBy)
+    self:_load(iBx, iBy)
 end
 
 function CWndStat:update(dt)
+    self:_update(dt)
     self.pCanvas:update(dt)
 end
 
 function CWndStat:draw()
+    if not self:is_window_visible() then
+        return
+    end
+
+    local iRx, iRy = self:get_window_position()
+
+    push_stack_canvas_position(iRx, iRy)
     self.pCanvas:draw()
+    pop_stack_canvas_position()
+
+    self:_draw()
 end
 
 function CWndStat:get_layer(iLayer)

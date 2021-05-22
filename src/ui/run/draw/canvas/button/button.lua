@@ -12,15 +12,7 @@
 
 require("ui.run.update.canvas.position")
 
-function draw_slider(pVwButton)
-    local iPx
-    local iPy
-    iPx, iPy = read_canvas_position()
-
-    local iRx
-    local iRy
-    iRx, iRy = pVwButton:get_origin()
-
-    local pImgBase = pVwButton:get_base()
-    love.graphics.draw(pImgBase, iPx + iRx, iPy + iRy)
+function draw_button(pVwButton)
+    local eDynam = pVwButton:get_object()
+    eDynam:draw()
 end

@@ -10,39 +10,40 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.struct.component.basic.base")
-require("ui.run.draw.canvas.slider.slider")
+require("ui.run.draw.canvas.button.button")
 require("ui.run.update.canvas.position")
+require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 
 RButtonState = {DISABLED = "disabled", MOUSE_OVER = "mouseOver", NORMAL = "normal", PRESSED = "pressed"}
 
 CButtonElem = createClass({
-    eElem = CBasicElem:new(),
-    pImgBase,
+    eDynam = CDynamicElem:new(),
+    bPressed = false,
     rgpArgs,
     fn_act
 })
 
-function CButtonElem:get_thumb()
-    return self.eElem
+function CButtonElem:get_object()
+    return self.eDynam
 end
 
 function CButtonElem:get_origin()
-    return self.eElem:get_pos()
+    return self.eDynam:get_pos()
 end
 
 function CButtonElem:set_origin(rX, rY)
-    self.eElem:load(rX, rY)
-end
-
-function CButtonElem:get_base()
-    return self.pImgBase
+    self.eDynam:set_pos(rX, rY)
 end
 
 function CButtonElem:_load_button(sButtonName)
-    local pImgBase = ctVwButton:get_button(sButtonName)
-    self.pImgBase = pImgBase
+    local rgpQuads = ctVwButton:get_button(sButtonName)
+
+    local rX, rY = self:get_origin()
+    self.eDynam:load(rX, rY, rgpQuads)
+    self.eDynam:instantiate()
+    self.eDynam:after_load()
+    self.eDynam:set_static(false)
 end
 
 function CButtonElem:update_state(sButtonState)
@@ -54,6 +55,14 @@ function CButtonElem:set_fn_trigger(fn_act, ...)
     self.fn_act = fn_act
 end
 
+function CButtonElem:onmousehoverin()
+    self:update_state(love.mouse.isDown(1) and RButtonState.PRESSED or RButtonState.MOUSE_OVER)
+end
+
+function CButtonElem:onmousehoverout()
+    self:update_state(RButtonState.NORMAL)
+end
+
 function CButtonElem:onmousereleased(x, y, button)
     local m_fn_act = self.fn_act
     if m_fn_act ~= nil then
@@ -62,9 +71,9 @@ function CButtonElem:onmousereleased(x, y, button)
     end
 end
 
-function CButtonElem:load(sButtonState, rX, rY)
+function CButtonElem:load(rX, rY)
     self:set_origin(rX, rY)
-    self:update_state(sButtonState)
+    self:update_state(RButtonState.NORMAL)
 end
 
 function CButtonElem:update(dt)
@@ -74,7 +83,7 @@ end
 function CButtonElem:draw()
     local iRx, iRy = read_canvas_position()
 
-    local iPx, iPy = self.eElem:get_pos()
+    local iPx, iPy = self.eDynam:get_pos()
     push_stack_canvas_position(iPx + iRx, iPy + iRy)
     draw_button(self)
     pop_stack_canvas_position()

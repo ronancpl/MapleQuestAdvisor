@@ -32,9 +32,6 @@ RWndPath = {
         BT_GAME = "2",
         BT_NORMAL = "0"
     },
-    BUTTON = {
-        BT_CLOSE = "BtClose"
-    },
 
     -- Misc
     INTF_ITC = "UI.wz/ITC.img",

@@ -54,9 +54,18 @@ function CDynamicElem:set_static(bStatic)   -- stops animation
     m_eAnima:set_num_frames(bStatic and 1 or U_INT_MAX)
 end
 
-function CDynamicElem:load(rX, rY, rgpQuads)
+function CDynamicElem:get_pos()
+    local m_eElem = self.eElem
+    return m_eElem:get_pos()
+end
+
+function CDynamicElem:set_pos(rX, rY)
     local m_eElem = self.eElem
     m_eElem:load(rX, rY)
+end
+
+function CDynamicElem:load(rX, rY, rgpQuads)
+    self:set_pos(rX, rY)
 
     local m_eAnima = self.eAnima
     m_eAnima:load(rgpQuads)
@@ -125,11 +134,13 @@ function CDynamicElem:update_drawing()
     return pQuad:get_image()
 end
 
-function CDynamicElem:draw()
+function CDynamicElem:draw(iRx, iRy)
     local pImg = self:update_drawing()
 
     local m_eElem = self.eElem
     local iPx, iPy = m_eElem:get_pos()
+    iPx = iPx + (iRx or 0)
+    iPy = iPy + (iRy or 0)
 
     local iOx, iOy = pImg:get_origin()
     love.graphics.draw(pImg:get_img(), iPx+iOx, iPy+iOy)

@@ -62,6 +62,11 @@ function CStockButton:_load_button(sButtonName)
     m_trgpButtonQuads[sButtonName] = rgpButtonQuads
 end
 
+function CStockButton:get_button(sButtonName)
+    local m_trgpButtonQuads = self.trgpButtonQuads
+    return m_trgpButtonQuads[sButtonName]
+end
+
 function CStockButton:load()
     self:_load_basic_images()
 

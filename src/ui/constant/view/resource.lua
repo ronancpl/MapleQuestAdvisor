@@ -30,8 +30,8 @@ RResourceTable = {
         },
 
         VW_CLOSE = {
-            FIL_X = 5,
-            FIL_Y = 5
+            FIL_X = 25,
+            FIL_Y = 15
         }
     },
 
@@ -44,9 +44,9 @@ RResourceTable = {
 
     VW_SLIDER = {
         X = 295,
-        Y = 60,
+        Y = 70,
         W = 10,
-        H = 295
+        H = 290
     },
 
     VW_THUMB = {

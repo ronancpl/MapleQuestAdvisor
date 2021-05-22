@@ -13,41 +13,46 @@
 require("ui.constant.path")
 require("ui.constant.view.resource")
 require("ui.struct.component.canvas.button.button")
+require("ui.struct.window.frame.channel")
 require("utils.struct.class")
 
 CWndBase = createClass({
-    pBtClose = CButtonElem:new()
+    pBtClose,
+    bVisible,
+
+    pCtrlChannel = CWndChannel:new()
 })
 
-local function is_mouse_in_range(pElem, x, y)
-    local iLx, iTy, iRx, iBy = pElem:get_object():get_ltrb()
-    return math.between(x, iLx, iRx) and math.between(y, iTy, iBy)
-end
-
 function CWndBase:_onmousemoved(x, y, dx, dy, istouch)
-    -- do nothing
+    self.pCtrlChannel:onmousemoved(x, y, dx, dy, istouch)
 end
 
 function CWndBase:_onmousepressed(x, y, button)
-    -- do nothing
+    self.pCtrlChannel:onmousepressed(x, y, button)
 end
 
 function CWndBase:_onmousereleased(x, y, button)
-    local pElem = self.pBtClose
-    if is_mouse_in_range(pElem, x, y) then
-        local fn_onmousereleased = pElem.onmousereleased
-        if fn_onmousereleased ~= nil then
-            fn_onmousereleased(pElem, x, y, button)
-        end
-    end
+    self.pCtrlChannel:onmousereleased(x, y, button)
 end
 
 function CWndBase:_onwheelmoved(dx, dy)
-    -- do nothing
+    self.pCtrlChannel:onwheelmoved(dx, dy)
 end
 
-function CWndBase:_load(iWidth, iHeight)
-    self.pBtClose:load(RWndPath.BUTTON.BT_CLOSE, iWidth - RResourceTable.VW_WND.VW_CLOSE.FIL_X, iHeight - RResourceTable.VW_WND.VW_CLOSE.FIL_Y)
+function CWndBase:is_window_visible()
+    return self.bVisible
+end
+
+function CWndBase:_set_visible(bVisible)
+    self.bVisible = bVisible
+end
+
+function CWndBase:close()
+    self:_set_visible(false)
+end
+
+function CWndBase:open()
+    self:_set_visible(true)
 end
 
 function CWndBase:get_bt_close()
@@ -55,5 +60,41 @@ function CWndBase:get_bt_close()
 end
 
 function CWndBase:_set_window_size(iWidth, iHeight)
-    self.pBtClose:set_origin(iWidth - RResourceTable.VW_WND.VW_CLOSE.FIL_X, iHeight - RResourceTable.VW_WND.VW_CLOSE.FIL_Y)
+    local pBtClose = self:get_bt_close()
+    pBtClose:set_origin(iWidth - RResourceTable.VW_WND.VW_CLOSE.FIL_X, RResourceTable.VW_WND.VW_CLOSE.FIL_Y)
+end
+
+function CWndBase:_set_fn_trigger()
+    local pBtClose = self:get_bt_close()
+    pBtClose:set_fn_trigger(self.close, self, false)
+end
+
+function CWndBase:_load_bt_close(iWidth, iHeight)
+    local pBtClose = CButtonElem:new()
+    pBtClose:load()
+
+    self.pBtClose = pBtClose
+
+    local m_pCtrlChannel = self.pCtrlChannel
+    m_pCtrlChannel:add_element(pBtClose)
+
+    self:_set_window_size(iWidth, iHeight)
+    self:_set_fn_trigger()
+end
+
+function CWndBase:_load_control_channel(iWidth, iHeight)
+    self:_load_bt_close(iWidth, iHeight)
+end
+
+function CWndBase:_load(iWidth, iHeight)
+    self:open()
+    self:_load_control_channel(iWidth, iHeight)
+end
+
+function CWndBase:_update(dt)
+    self.pCtrlChannel:update(dt)
+end
+
+function CWndBase:_draw()
+    self.pCtrlChannel:draw()
 end

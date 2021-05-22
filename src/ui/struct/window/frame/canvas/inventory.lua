@@ -53,19 +53,26 @@ function CWndInventory:load()
     local pImg = ctVwInvt:get_background()
     iBx, iBy = pImg:getDimensions()
 
-    self:set_dimensions(iBx, iBy)
+    self:_load(iBx, iBy)
 end
 
 function CWndInventory:update(dt)
+    self:_update(dt)
     self.pCanvas:update(dt)
 end
 
 function CWndInventory:draw()
+    if not self:is_window_visible() then
+        return
+    end
+
     local iRx, iRy = self:get_window_position()
 
     push_stack_canvas_position(iRx, iRy)
     self.pCanvas:draw()
     pop_stack_canvas_position()
+
+    self:_draw()
 end
 
 function CWndInventory:onmousemoved(x, y, dx, dy, istouch)

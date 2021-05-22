@@ -38,19 +38,23 @@ end
 function CBasicQuad:instantiate(pWmapProp, bFlipOrigin)
     local pBasicQuad = CBasicQuad:new()
 
-    local iCx
-    local iCy
-    iCx, iCy = pWmapProp:get_origin()
-
     local iOx
     local iOy
     iOx, iOy = self.eImg:get_origin()
 
     local pImg = love.graphics.newImage(self.eImg:get_img())
-    if bFlipOrigin then
-        pBasicQuad:load(pImg, iCx - iOx, iCy - iOy, self.iZ, self.iDelay)
+    if pWmapProp ~= nil then
+        local iCx
+        local iCy
+        iCx, iCy = pWmapProp:get_origin()
+
+        if bFlipOrigin then
+            pBasicQuad:load(pImg, iCx - iOx, iCy - iOy, self.iZ, self.iDelay)
+        else
+            pBasicQuad:load(pImg, iCx + iOx, iCy + iOy, self.iZ, self.iDelay)
+        end
     else
-        pBasicQuad:load(pImg, iCx + iOx, iCy + iOy, self.iZ, self.iDelay)
+        pBasicQuad:load(pImg, iOx, iOy, self.iZ, self.iDelay)
     end
 
     return pBasicQuad
