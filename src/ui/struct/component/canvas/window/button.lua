@@ -87,10 +87,5 @@ function CButtonElem:update(dt)
 end
 
 function CButtonElem:draw()
-    local iRx, iRy = read_canvas_position()
-
-    local iPx, iPy = self.eDynam:get_pos()
-    push_stack_canvas_position(iPx + iRx, iPy + iRy)
     draw_button(self)
-    pop_stack_canvas_position()
 end

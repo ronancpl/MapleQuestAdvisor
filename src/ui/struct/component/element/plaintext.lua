@@ -12,9 +12,9 @@
 
 require("ui.run.draw.canvas.style.texture")
 require("ui.run.load.interface.image")
-require("ui.run.update.canvas.position")
 require("ui.struct.component.basic.base")
 require("ui.struct.component.basic.texture")
+require("ui.struct.toolkit.graphics")
 require("ui.struct.window.summary")
 require("utils.struct.class")
 
@@ -85,11 +85,6 @@ function CTextElem:update(dt)
 end
 
 function CTextElem:draw()
-    local iRx, iRy = read_canvas_position()
-
-    iRx = iRx or 0
-    iRy = iRy or 0
-
     local iPx, iPy = self:get_origin()
-    love.graphics.draw(self.pTxt, iPx + iRx, iPy + iRy)
+    graphics_draw(self.pTxt, iPx, iPy)
 end

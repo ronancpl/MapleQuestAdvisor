@@ -54,7 +54,7 @@ local function draw_item_count(iCount, iPx, iPy, iWidth, iHeight)
         local iY = iPy + iHeight - iH
 
         for _, pImgNum in ipairs(rgpImgNums) do
-            love.graphics.draw(pImgNum, iX, iY)
+            graphics_draw(pImgNum, iX, iY)
 
             local iW
             iW, _ = pImgNum:getDimensions()

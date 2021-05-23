@@ -131,7 +131,9 @@ function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iKx, iKy)
     local iRx = iLx - iOx
     local iRy = iTy - iOy
 
-    love.graphics.setScissor(iPx + iRx, iPy + iRy, iSw, iSh)
-    love.graphics.draw(pCanvas:get_canvas(), iPx + iRx, iPy + iRy, iR, 1, 1, iOx, iOy, iKx, iKy)
+    local iTx, iTy = read_canvas_position()
+
+    love.graphics.setScissor(iPx + iRx + iTx, iPy + iRy + iTy, iSw, iSh)
+    love.graphics.draw(pCanvas:get_canvas(), iPx + iRx + iTx, iPy + iRy + iTy, iR, 1, 1, iOx, iOy, iKx, iKy)
     love.graphics.setScissor()
 end

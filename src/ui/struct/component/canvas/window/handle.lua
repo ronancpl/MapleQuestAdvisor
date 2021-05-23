@@ -11,7 +11,6 @@
 --]]
 
 require("ui.run.draw.canvas.window.button")
-require("ui.run.update.canvas.position")
 require("ui.struct.component.element.rect")
 require("utils.struct.class")
 

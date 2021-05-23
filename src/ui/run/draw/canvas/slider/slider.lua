@@ -11,7 +11,7 @@
 --]]
 
 require("ui.constant.view.inventory")
-require("ui.run.update.canvas.position")
+require("ui.struct.toolkit.graphics")
 
 local function fetch_draw_rotation(pVwSlider)
     local bVert = pVwSlider:get_orientation()
@@ -26,26 +26,26 @@ local function calc_slider_bar_fit(pVwSlider, iFilLen)
 end
 
 local function draw_slider_bar_top(pImgLfBar, iX, iY, iR)
-    love.graphics.draw(pImgLfBar, iX, iY, iR)
+    graphics_draw(pImgLfBar, iX, iY, iR)
 end
 
 local function draw_slider_bar_base(pImgFilBar, iX, iY, iW, iH, iIncX, iIncY, iR, iLoop)
-    love.graphics.setScissor(iX, iY, iW, iH)    -- rational loop value
+    graphics_set_scissor(iX, iY, iW, iH)    -- rational loop value
 
     local iPx = iX
     local iPy = iY
     for i = 1, iLoop, 1 do
-        love.graphics.draw(pImgFilBar, iPx, iPy, iR)
+        graphics_draw(pImgFilBar, iPx, iPy, iR)
 
         iPx = iPx + iIncX
         iPy = iPy + iIncY
     end
 
-    love.graphics.setScissor()
+    graphics_set_scissor()
 end
 
 local function draw_slider_bar_bottom(pImgRgBar, iX, iY, iR)
-    love.graphics.draw(pImgRgBar, iX, iY, iR)
+    graphics_draw(pImgRgBar, iX, iY, iR)
 end
 
 local function draw_slider_bar(pVwSlider)
@@ -57,7 +57,7 @@ local function draw_slider_bar(pVwSlider)
     local iFilLen = iLen
     local iLoop, bVert = calc_slider_bar_fit(pVwSlider, iFilLen)
 
-    local iX, iY = read_canvas_position()
+    local iX, iY = 0, 0
 
     local iPx = iX
     local iPy = iY
@@ -111,10 +111,8 @@ local function draw_slider_arrow(pVwSlider)
     local pImgFilBase = pVwSlider:get_bar()
     local _, iFilMidGir = pImgFilBase:getDimensions()
 
-    local iX, iY = read_canvas_position()
-
-    local iPx = iX
-    local iPy = iY
+    local iPx = 0
+    local iPy = 0
 
     local iBarLen = pVwSlider:get_bar_length()
 
@@ -136,10 +134,10 @@ local function draw_slider_arrow(pVwSlider)
     local iR = fetch_draw_rotation(pVwSlider)
 
     local pImgNext = pVwSlider:get_next()
-    love.graphics.draw(pImgNext, iPx, iPy, iR)
+    graphics_draw(pImgNext, iPx, iPy, iR)
 
     local pImgPrev = pVwSlider:get_prev()
-    love.graphics.draw(pImgPrev, iPx + iRx, iPy + iRy, iR)
+    graphics_draw(pImgPrev, iPx + iRx, iPy + iRy, iR)
 end
 
 local function calc_slider_thumb_pos(pVwSlider)
@@ -167,7 +165,7 @@ local function draw_slider_thumb(pVwSlider)
 
     local bVert = pVwSlider:get_orientation()
 
-    local iX, iY = read_canvas_position()
+    local iX, iY = 0, 0
 
     local iPx = iX
     local iPy = iY + 2 * iArrLen

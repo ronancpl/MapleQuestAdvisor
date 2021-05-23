@@ -39,5 +39,18 @@ end
 
 function graphics_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
     local fSw, fSh = graphics_get_scale(pImg, iW, iH)
-    love.graphics.draw(pImg, iPx, iPy, iR, fSw, fSh, iOx, iOy, iKx, iKy)
+    local iRx, iRy = read_canvas_position()
+
+    love.graphics.draw(pImg, iPx + iRx, iPy + iRy, iR, fSw, fSh, iOx, iOy, iKx, iKy)
+end
+
+function graphics_set_scissor(iX, iY, iW, iH)
+    if iX == nil then
+        love.graphics.setScissor()
+    else
+        local iRx, iRy = read_canvas_position()
+        local iPx, iPy = iX, iY
+
+        love.graphics.setScissor(iPx + iRx, iPy + iRy, iW, iH)
+    end
 end

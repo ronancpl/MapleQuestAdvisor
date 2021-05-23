@@ -181,7 +181,6 @@ end
 
 local function draw_minitable_background(pVwRscs)
     local rgeTextures = pVwRscs:get_background_tabs()
-    local iPx, iPy = pVwRscs:get_origin()
 
     local rgpTabConfVw
     _, rgpTabConfVw, _ = fetch_minitable_headers(pVwRscs)
@@ -189,7 +188,7 @@ local function draw_minitable_background(pVwRscs)
         local eTexture = rgeTextures[i]
         local iOx, iOy, _, _ = eTexture:get_ltrb()
 
-        eTexture:draw(iPx + iOx, iPy + iOy)
+        eTexture:draw(iOx, iOy)
     end
 end
 

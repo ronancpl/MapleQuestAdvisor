@@ -12,6 +12,7 @@
 
 require("ui.constant.view.worldmap")
 require("ui.struct.component.element.dynamic")
+require("ui.struct.toolkit.graphics")
 require("utils.procedure.splitter")
 require("utils.procedure.unpack")
 require("utils.struct.class")
@@ -80,6 +81,6 @@ function CViewPolyline:draw()
 
     local m_rgpDynMesh = self.rgpDynMesh
     for _, pTraceMesh in ipairs(m_rgpDynMesh[iCurQuad]) do
-        love.graphics.draw(pTraceMesh, 0, 0)
+        graphics_draw(pTraceMesh, 0, 0)
     end
 end

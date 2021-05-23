@@ -10,8 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.run.update.canvas.position")
-
 function draw_button(pVwButton)
     local eDynam = pVwButton:get_object()
     eDynam:draw()

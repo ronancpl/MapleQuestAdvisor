@@ -13,6 +13,7 @@
 require("ui.run.load.interface.image")
 require("ui.struct.component.basic.base")
 require("ui.struct.component.basic.image")
+require("ui.struct.toolkit.graphics")
 require("utils.struct.class")
 
 CStaticElem = createClass({
@@ -73,5 +74,5 @@ function CStaticElem:draw()
     local m_eImg = self.eImg
     local iOx, iOy = m_eImg:get_origin()
 
-    love.graphics.draw(m_eImg:get_img(), iPx+iOx, iPy+iOy)
+    graphics_draw(m_eImg:get_img(), iPx+iOx, iPy+iOy)
 end

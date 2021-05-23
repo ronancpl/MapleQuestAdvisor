@@ -15,7 +15,7 @@ require("ui.constant.view.item")
 require("ui.run.draw.canvas.inventory.item")
 require("ui.run.draw.canvas.inventory.tile.desc")
 require("ui.run.draw.canvas.inventory.tile.view")
-require("ui.run.update.canvas.position")
+require("ui.struct.toolkit.graphics")
 
 local function codify_inventory_tab_intervals(pVwInvt)
     local rgiIntvVals = {}
@@ -74,16 +74,16 @@ local function draw_compose_fill(iFilVal, iX, iY, tpTabImgs, iTabWidth, rgiTabWi
     local iWidthT2 = rgiTabWidths[iImgIdx]
     local iFilWidth = iTabWidth - iWidthT1 - iWidthT2
 
-    love.graphics.setScissor(iX, iY, iFilWidth, iFilImgHeight)
+    graphics_set_scissor(iX, iY, iFilWidth, iFilImgHeight)
 
     local iPx = iX
     local iPy = iY
     for i = 1, math.ceil(iFilWidth / iFilImgWidth), 1 do
-        love.graphics.draw(pImg, iPx, iPy)
+        graphics_draw(pImg, iPx, iPy)
         iPx = iPx + iFilImgWidth
     end
 
-    love.graphics.setScissor()
+    graphics_set_scissor()
 
     return iPx, iPy
 end
@@ -96,7 +96,7 @@ local function draw_compose_tab_part(iX, iY, pImg)
     local iH
     iW, iH = pImg:getDimensions()
 
-    love.graphics.draw(pImg, iPx, iPy)
+    graphics_draw(pImg, iPx, iPy)
 
     iPx = iPx + iW
     iPy = iPy + iH
@@ -172,7 +172,7 @@ local function draw_compose_inventory_tab_names(pVwInvt, iTabWidth, iTabHeight)
             local iW = pImgName:getWidth()
 
             local iOx = math.floor((iTabWidth - iW) / 2)
-            love.graphics.draw(pImgName, iPx + iOx, iPy + iOy)
+            graphics_draw(pImgName, iPx + iOx, iPy + iOy)
 
             iPx = iPx + iTabWidth
         end
@@ -197,12 +197,10 @@ local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
         local iPy
         iPx, iPy = pVwItem:get_object():get_origin()
 
-        local iRx, iRy = read_canvas_position()
-
         local bShowCount = pVwItem:is_visible_count()
 
         local iCount = bShowCount and pVwItem:get_count() or nil
-        draw_item_canvas(pVwCanvas, iCount, iPx + iRx, iPy + iRy, iItemWidth, iItemHeight)
+        draw_item_canvas(pVwCanvas, iCount, iPx, iPy, iItemWidth, iItemHeight)
     end
 end
 
@@ -217,7 +215,7 @@ local function draw_inventory_background(pVwInvt)
     local iPy
     iPx, iPy = pVwInvt:get_origin()
 
-    love.graphics.draw(pImg, iPx, iPy)
+    graphics_draw(pImg, iPx, iPy)
 end
 
 local function draw_inventory_slider(pVwInvt)

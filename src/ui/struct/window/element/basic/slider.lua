@@ -214,10 +214,8 @@ function CSliderElem:update(dt)
 end
 
 function CSliderElem:draw()
-    local iRx, iRy = read_canvas_position()
-
     local iPx, iPy = self.eElem:get_pos()
-    push_stack_canvas_position(iPx + iRx, iPy + iRy)
+    push_stack_canvas_position(iPx, iPy)
     draw_slider(self)
     pop_stack_canvas_position()
 end

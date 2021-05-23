@@ -112,13 +112,13 @@ function CWmapElemMark:set_tooltip(sTooltip, pDirHelperQuads, pWmapProp)
 
         local rgpQuads = load_map_marker_quads(pDirHelperQuads, sTooltip)
 
-        local x, y, _, _ = self:get_object():get_center()
+        local iPx, iPy = self:get_object():get_center()
 
         local iCx
         local iCy
         iCx, iCy = pWmapProp:get_origin()
 
-        pTooltip:load(x - iCx, y - 10 - iCy, pWmapProp, rgpQuads)
+        pTooltip:load(iPx - iCx, iPy - 10 - iCy, pWmapProp, rgpQuads)
     else
         pTooltip = nil
     end

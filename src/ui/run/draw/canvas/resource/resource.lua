@@ -13,7 +13,6 @@
 require("ui.constant.view.item")
 require("ui.constant.view.resource")
 require("ui.run.draw.canvas.inventory.item")
-require("ui.run.update.canvas.position")
 
 function draw_resource_tooltip(pVwRsc)
     local pVwTip = pVwRsc:get_tooltip()
@@ -34,10 +33,9 @@ function draw_resource_picture(pVwRsc)
     local iCount = pVwRsc:get_count()
 
     local iPx, iPy = pVwRsc:get_origin()
-    local iRx, iRy = read_canvas_position()
 
     local rX, rY = pVwRsc:get_image_origin()
 
     local pRscConfVw = pVwRsc:get_conf()
-    draw_item_canvas(pVwCnvRsc, iCount, iPx + iRx, iPy + iRy, pRscConfVw.W, pRscConfVw.H, rX, rY)
+    draw_item_canvas(pVwCnvRsc, iCount, iPx, iPy, pRscConfVw.W, pRscConfVw.H, rX, rY)
 end

@@ -12,6 +12,7 @@
 
 require("ui.constant.path")
 require("ui.constant.view.resource")
+require("ui.run.update.canvas.position")
 require("ui.struct.component.canvas.window.button")
 require("ui.struct.component.canvas.window.handle")
 require("ui.struct.window.frame.channel")
@@ -137,5 +138,9 @@ function CWndBase:_update(dt)
 end
 
 function CWndBase:_draw()
+    local iRx, iRy = self:get_position()
+
+    push_stack_canvas_position(iRx, iRy)
     self.pCtrlChannel:draw()
+    pop_stack_canvas_position()
 end

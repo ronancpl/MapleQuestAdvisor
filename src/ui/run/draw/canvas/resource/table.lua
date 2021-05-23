@@ -11,8 +11,8 @@
 --]]
 
 require("ui.constant.view.resource")
-require("ui.run.update.canvas.position")
 require("ui.run.update.canvas.resource.common")
+require("ui.struct.toolkit.graphics")
 
 local function codify_resources_tab_intervals(pVwRscs)
     local rgiIntvVals = {}
@@ -71,16 +71,16 @@ local function draw_compose_fill(iFilVal, iX, iY, tpTabImgs, iTabWidth, rgiTabWi
     local iWidthT2 = rgiTabWidths[iImgIdx]
     local iFilWidth = iTabWidth - iWidthT1 - iWidthT2
 
-    love.graphics.setScissor(iX, iY, iFilWidth, iFilImgHeight)
+    graphics_set_scissor(iX, iY, iFilWidth, iFilImgHeight)
 
     local iPx = iX
     local iPy = iY
     for i = 1, math.ceil(iFilWidth / iFilImgWidth), 1 do
-        love.graphics.draw(pImg, iPx, iPy)
+        graphics_draw(pImg, iPx, iPy)
         iPx = iPx + iFilImgWidth
     end
 
-    love.graphics.setScissor()
+    graphics_set_scissor()
 
     return iPx, iPy
 end
@@ -93,7 +93,7 @@ local function draw_compose_tab_part(iX, iY, pImg)
     local iH
     iW, iH = pImg:getDimensions()
 
-    love.graphics.draw(pImg, iPx, iPy)
+    graphics_draw(pImg, iPx, iPy)
 
     iPx = iPx + iW
     iPy = iPy + iH
@@ -124,7 +124,7 @@ local function draw_compose_resource_tabs(pVwRscs, rgsIntvImgNames, iTabWidth)
 
     local iPx
     local iPy
-    iPx, iPy = read_canvas_position()
+    iPx, iPy = 0, 0
 
     iPx = iPx + RResourceTable.VW_TAB.NAME.X
     iPy = iPy + RResourceTable.VW_TAB.NAME.Y
@@ -150,7 +150,7 @@ end
 local function draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
     local iPx
     local iPy
-    iPx, iPy = read_canvas_position()
+    iPx, iPy = 0, 0
 
     iPx = iPx + RResourceTable.VW_TAB.NAME.X
     iPy = iPy + RResourceTable.VW_TAB.NAME.Y + 1
@@ -169,7 +169,7 @@ local function draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
             local iW = pTxtName:getWidth()
 
             local iOx = math.floor((iTabWidth - iW) / 2)
-            love.graphics.draw(pTxtName, iPx + iOx, iPy + iOy)
+            graphics_draw(pTxtName, iPx + iOx, iPy + iOy)
 
             iPx = iPx + iTabWidth
         end
@@ -198,13 +198,13 @@ end
 
 local function draw_resource_field_base_text(pVwRscs, iPx, iPy)
     local pImgBase = ctVwRscs:get_background_text()
-    love.graphics.draw(pImgBase, iPx, iPy)
+    graphics_draw(pImgBase, iPx, iPy)
 end
 
 local function draw_resource_field_base(pVwRscs)
     local iPx
     local iPy
-    iPx, iPy = read_canvas_position()
+    iPx, iPy = 0, 0
 
     local pConfVw = pVwRscs:get_conf()
     iPx = iPx + pConfVw.X
@@ -219,7 +219,7 @@ local function draw_resource_background(pVwRscs)
 
     local iPx
     local iPy
-    iPx, iPy = read_canvas_position()
+    iPx, iPy = 0, 0
 
     eTexture:draw(iPx, iPy)
 
@@ -229,7 +229,7 @@ end
 local function draw_resource_slider(pVwRscs)
     local iPx
     local iPy
-    iPx, iPy = read_canvas_position()
+    iPx, iPy = 0, 0
 
     pVwRscs:get_slider():draw(iPx, iPy)
 end

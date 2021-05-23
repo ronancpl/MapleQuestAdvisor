@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.view.style")
+require("ui.struct.toolkit.graphics")
 
 local function compose_box_text(pBoxText, pBoxLimit)
     local sTitle
@@ -189,8 +190,8 @@ local function draw_text_box_contents(pTextbox)
         iRyDesc = 0
     end
 
-    love.graphics.draw(pTxtTitle, iRx + iTdx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
-    love.graphics.draw(pTxtDesc, iRx + iTdx + RStylebox.FIL_X, iRy + iRyDesc + RStylebox.FIL_Y)
+    graphics_draw(pTxtTitle, iRx + iTdx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y)
+    graphics_draw(pTxtDesc, iRx + iTdx + RStylebox.FIL_X, iRy + iRyDesc + RStylebox.FIL_Y)
 end
 
 function draw_text_box(pTextbox)

@@ -13,6 +13,7 @@
 require("ui.run.load.interface.image")
 require("ui.struct.component.basic.anima")
 require("ui.struct.component.basic.base")
+require("ui.struct.toolkit.graphics")
 require("utils.struct.class")
 require("utils.struct.queue")
 
@@ -143,5 +144,5 @@ function CDynamicElem:draw(iRx, iRy)
     iPy = iPy + (iRy or 0)
 
     local iOx, iOy = pImg:get_origin()
-    love.graphics.draw(pImg:get_img(), iPx+iOx, iPy+iOy)
+    graphics_draw(pImg:get_img(), iPx+iOx, iPy+iOy)
 end

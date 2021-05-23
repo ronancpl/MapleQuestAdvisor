@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.struct.toolkit.graphics")
+
 local function fetch_outer_split(pImgBox)
     local iWidth
     local iHeight
@@ -438,5 +440,5 @@ function draw_canvas_texture_box(pCanvas, pImgBox, rgpBoxQuads, pGrowth, iBoxWid
 end
 
 function draw_texture_box(pCanvas, iPx, iPy, iR)
-    love.graphics.draw(pCanvas, iPx, iPy, iR)
+    graphics_draw(pCanvas, iPx, iPy, iR)
 end
