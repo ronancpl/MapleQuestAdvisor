@@ -27,8 +27,8 @@ CWndInventory = createClass({CWndBase, {
 function CWndInventory:update_inventory(pIvtItems)
     self.pCanvas:reset()
 
-    self.pProp:update_inventory(pIvtItems)
     self.pCanvas:build(self.pProp)
+    self.pProp:update_inventory(pIvtItems)
 end
 
 function CWndInventory:get_window_position()

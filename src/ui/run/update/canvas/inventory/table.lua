@@ -56,10 +56,10 @@ end
 local function update_item_position(pVwInvt)
     local iSt, iEn = fetch_item_range(pVwInvt)
     if iSt <= iEn then
-        local rgpVwItems = pVwInvt:get_view_items()
         clear_current_item_range(pVwInvt)
-
         pVwInvt:set_view_range(iSt, iEn)
+
+        local rgpVwItems = pVwInvt:get_view_items()
 
         local iPx, iPy = pVwInvt:get_origin()
 
@@ -94,7 +94,7 @@ local function update_inventory_slider(pVwInvt, bMoveTop)
     local rgpVwItems = pVwInvt:get_view_items()
 
     local iSgmts = math.ceil(#rgpVwItems / RInventory.VW_INVT.COLS)
-    iSgmts = math.max(iSgmts - RInventory.VW_INVT.ROWS, 0)
+    iSgmts = math.max(iSgmts - RInventory.VW_INVT.ROWS, 0) + 1
 
     local pSlider = pVwInvt:get_slider()
     pSlider:set_num_segments(iSgmts)
@@ -103,7 +103,7 @@ local function update_inventory_slider(pVwInvt, bMoveTop)
         pSlider:set_current(0)
     end
 
-    local bDisable = iSgmts < 1
+    local bDisable = iSgmts < 2
     if bDisable then
         pSlider:update_state(RSliderState.DISABLED)
     else
@@ -119,10 +119,12 @@ function update_row_for_inventory(pVwInvt, iNextSlct)
 end
 
 function update_tab_for_inventory(pVwInvt, iNextTab)
-    local rgpTabVwItems = pVwInvt:get_tab_items()
+    clear_current_item_range(pVwInvt)
 
+    local rgpTabVwItems = pVwInvt:get_tab_items()
     local iTab = math.iclamp(iNextTab + 1, 1, #rgpTabVwItems)
     pVwInvt:set_tab_selected(iTab)
+
     pVwInvt:refresh_view_items()
 
     update_row_for_inventory(pVwInvt, 1)  -- set to list start
@@ -152,8 +154,6 @@ function update_items_for_inventory(pVwInvt, pInvt)
     pVwInvt:set_tab_selected(1)
     pVwInvt:set_row_selected(1)
 
-    update_tab_for_inventory(pVwInvt, 0)  -- set to EQUIP
-
     update_inventory_tabs(pVwInvt, pInvt)
-    update_inventory_slider(pVwInvt, true)
+    update_tab_for_inventory(pVwInvt, 0)  -- set to EQUIP
 end

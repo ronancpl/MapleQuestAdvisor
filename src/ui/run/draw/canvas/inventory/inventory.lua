@@ -193,6 +193,11 @@ end
 local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
     local pVwCanvas = pVwItem:get_view()
     if pVwCanvas ~= nil then
+        local pImg = pVwItem:get_image()
+
+        local iOx = math.floor((iItemWidth - pImg:getWidth()) / 2)
+        local iOy = math.floor((iItemHeight - pImg:getHeight()) / 2)
+
         local iPx
         local iPy
         iPx, iPy = pVwItem:get_object():get_origin()
@@ -200,7 +205,7 @@ local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
         local bShowCount = pVwItem:is_visible_count()
 
         local iCount = bShowCount and pVwItem:get_count() or nil
-        draw_item_canvas(pVwCanvas, iCount, iPx, iPy, iItemWidth, iItemHeight)
+        draw_item_canvas(pVwCanvas, iCount, iPx, iPy, iItemWidth, iItemHeight, iOx, iOy)
     end
 end
 

@@ -13,8 +13,8 @@
 RInventory = {
 
     VW_INVT = {
-        COLS = 6,
-        ROWS = 4
+        COLS = 4,
+        ROWS = 6
     },
 
     VW_INVT_ITEM = {
