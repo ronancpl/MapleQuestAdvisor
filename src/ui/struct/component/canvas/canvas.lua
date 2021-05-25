@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.config")
 require("ui.constant.path")
 require("ui.constant.view.resource")
 require("ui.run.update.canvas.position")
@@ -24,8 +25,11 @@ CWndBase = createClass({
 
     iRx,
     iRy,
+    iW,
+    iH,
 
-    pCtrlChannel = CWndChannel:new()
+    pCtrlChannel = CWndChannel:new(),
+    pSureChannel = CWndChannel:new()    -- for in-elements interactions only
 })
 
 function CWndBase:get_position()
@@ -37,20 +41,46 @@ function CWndBase:set_position(iRx, iRy)
     self.iRy = iRy
 end
 
+function CWndBase:get_dimensions()
+    return self.iW, self.iH
+end
+
+function CWndBase:_set_dimensions(iWidth, iHeight)
+    self.iW = iWidth
+    self.iH = iHeight
+end
+
+function CWndBase:grab_set_position(dx, dy)
+    local iPx, iPy = self:get_position()
+    local iWx, iWy = self:get_dimensions()
+
+    self.iRx = math.iclamp(iPx + dx, 0, RWndConfig.WND_LIM_X - iWx)
+    self.iRy = math.iclamp(iPy + dy, 0, RWndConfig.WND_LIM_Y - iWy)
+end
+
+function CWndBase:fetch_relative_pos(x, y)
+    local iPx, iPy = self:get_position()
+    return x - iPx, y - iPy
+end
+
 function CWndBase:_onmousemoved(x, y, dx, dy, istouch)
     self.pCtrlChannel:onmousemoved(x, y, dx, dy, istouch)
+    self.pSureChannel:onmousemoved(x, y, dx, dy, istouch, true)
 end
 
 function CWndBase:_onmousepressed(x, y, button)
     self.pCtrlChannel:onmousepressed(x, y, button)
+    self.pSureChannel:onmousepressed(x, y, button, true)
 end
 
 function CWndBase:_onmousereleased(x, y, button)
     self.pCtrlChannel:onmousereleased(x, y, button)
+    self.pSureChannel:onmousereleased(x, y, button, true)
 end
 
 function CWndBase:_onwheelmoved(dx, dy)
     self.pCtrlChannel:onwheelmoved(dx, dy)
+    self.pSureChannel:onwheelmoved(dx, dy, true)
 end
 
 function CWndBase:close()
@@ -74,6 +104,8 @@ function CWndBase:_set_window_size(iWidth, iHeight)
     local pBtClsVwConf = pBtClose:get_conf()
 
     pBtClose:set_origin(iWidth - pBtClsVwConf.FIL_X, pBtClsVwConf.FIL_Y)
+
+    self:_set_dimensions(iWidth, iHeight)
 end
 
 function CWndBase:fn_close()
@@ -82,9 +114,21 @@ function CWndBase:fn_close()
     end
 end
 
-function CWndBase:fn_set_position()
-    return function(iPx, iPy)
-        self:set_position(iPx, iPy)
+function CWndBase:_fn_set_position()
+    return function(dx, dy)
+        self:grab_set_position(dx, dy)
+    end
+end
+
+function CWndBase:_fn_register_sure()
+    return function(pElem)
+        self.pSureChannel:add_element(pElem)
+    end
+end
+
+function CWndBase:_fn_unregister_sure()
+    return function(pElem)
+        self.pSureChannel:remove_element(pElem)
     end
 end
 
@@ -108,7 +152,17 @@ end
 
 function CWndBase:_set_fn_trigger_pos_handle()
     local pHdlWnd = self:get_handle_pos()
-    pHdlWnd:set_fn_trigger(self:fn_set_position())
+    pHdlWnd:set_fn_trigger(self:_fn_set_position())
+end
+
+function CWndBase:_set_fn_trigger_reg_sure()
+    local pHdlWnd = self:get_handle_pos()
+    pHdlWnd:set_fn_reg_sure(self:_fn_register_sure())
+end
+
+function CWndBase:_set_fn_trigger_unreg_sure()
+    local pHdlWnd = self:get_handle_pos()
+    pHdlWnd:set_fn_unreg_sure(self:_fn_unregister_sure())
 end
 
 function CWndBase:_load_hdl_pos(iWidth)
@@ -120,6 +174,8 @@ function CWndBase:_load_hdl_pos(iWidth)
     m_pCtrlChannel:add_element(pHdlWnd)
 
     self:_set_fn_trigger_pos_handle()
+    self:_set_fn_trigger_reg_sure()
+    self:_set_fn_trigger_unreg_sure()
 end
 
 function CWndBase:_load_control_channel(iWidth, iHeight, pBtClsVwConf)

@@ -25,9 +25,6 @@ RStylebox = {
     FIL_Y = 10,
     UPD_Y = CRLF,       -- + font height
 
-    WND_LIM_X = 640,
-    WND_LIM_Y = 470,
-
     VW_ITEM = {
         W = 70,
         H = 70

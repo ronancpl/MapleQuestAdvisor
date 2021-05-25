@@ -12,6 +12,8 @@
 
 RWndConfig = {
 
+    WND_LIM_X = 640,
+    WND_LIM_Y = 470,
     WMAP_BGRD_SIZE = {640, 470},
 
     PTXT_BOARD = {650, 480},

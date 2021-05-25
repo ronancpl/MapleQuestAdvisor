@@ -16,8 +16,9 @@ require("utils.struct.class")
 
 CHandleElem = createClass({
     eBox = CUserboxElem:new(),
-    rgpArgs,
-    fn_act
+    fn_act,
+    fn_reg_sure,
+    fn_unreg_sure
 })
 
 function CHandleElem:get_object()
@@ -28,24 +29,35 @@ function CHandleElem:get_origin()
     return self.eBox:get_origin()
 end
 
-function CHandleElem:set_origin(rX, rY)
-    self.eBox:set_position(rX, rY)
+function CHandleElem:set_origin(dx, dy)
+    local m_fn_act = self.fn_act    -- in-canvas relative pos unchanged, whole canvas pos changes
+    m_fn_act(dx, dy)
 end
 
-function CHandleElem:update_origin(dX, dY)
-    local rX, rY = self:get_origin()
-    self:set_origin(rX + dX, rY + dY)
-end
-
-function CHandleElem:set_fn_trigger(fn_act, ...)
-    self.rgpArgs = {...}
+function CHandleElem:set_fn_trigger(fn_act)
     self.fn_act = fn_act
 end
 
+function CHandleElem:set_fn_reg_sure(fn_sure)
+    self.fn_reg_sure = fn_sure
+end
+
+function CHandleElem:set_fn_unreg_sure(fn_sure)
+    self.fn_unreg_sure = fn_sure
+end
+
 function CHandleElem:onmousemoved(x, y, dx, dy, istouch)
-    if love.mouse.isDown(1) then
-        self:update_origin(dx, dy)
+    if love.mouse.isDown(1) == true then
+        self:set_origin(dx, dy)
     end
+end
+
+function CHandleElem:onmousepressed(x, y, button)
+    self.fn_reg_sure(self)
+end
+
+function CHandleElem:onmousereleased(x, y, button)
+    self.fn_unreg_sure(self)
 end
 
 function CHandleElem:load(iPx, iPy, iW, iH)

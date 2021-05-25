@@ -11,6 +11,7 @@
 --]]
 
 require("router.procedures.constant")
+require("ui.constant.config")
 require("ui.constant.view.style")
 require("utils.struct.class")
 
@@ -77,8 +78,8 @@ function CStyleLimit:update_box_position(iMx, iMy)
     local iBx = self:get_width() + (iIw and (iIw + RStylebox.FIL_X) or 0) + (2 * RStylebox.FIL_X)
     local iBy = math.max(self:get_height(), iIh or 0) - (2 * RStylebox.FIL_Y)
 
-    self.iRx = math.iclamp(iMx + 20, 0, RStylebox.WND_LIM_X - iBx)
-    self.iRy = math.iclamp(iMy + 23, 0, RStylebox.WND_LIM_Y - iBy)
+    self.iRx = math.iclamp(iMx + 20, 0, RWndConfig.WND_LIM_X - iBx)
+    self.iRy = math.iclamp(iMy + 23, 0, RWndConfig.WND_LIM_Y - iBy)
 end
 
 function CStyleLimit:get_box_position()

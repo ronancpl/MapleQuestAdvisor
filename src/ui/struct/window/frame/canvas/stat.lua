@@ -85,18 +85,24 @@ function CWndStat:draw()
 end
 
 function CWndStat:onmousemoved(x, y, dx, dy, istouch)
-    self:_onmousemoved(x, y, dx, dy, istouch)
-    self.pCanvas:onmousemoved(x, y, dx, dy, istouch)
+    local iPx, iPy = self:fetch_relative_pos(x, y)
+
+    self:_onmousemoved(iPx, iPy, dx, dy, istouch)
+    self.pCanvas:onmousemoved(iPx, iPy, dx, dy, istouch)
 end
 
 function CWndStat:onmousepressed(x, y, button)
-    self:_onmousepressed(x, y, button)
-    self.pCanvas:onmousepressed(x, y, button)
+    local iPx, iPy = self:fetch_relative_pos(x, y)
+
+    self:_onmousepressed(iPx, iPy, button)
+    self.pCanvas:onmousepressed(iPx, iPy, button)
 end
 
 function CWndStat:onmousereleased(x, y, button)
-    self:_onmousereleased(x, y, button)
-    self.pCanvas:onmousereleased(x, y, button)
+    local iPx, iPy = self:fetch_relative_pos(x, y)
+
+    self:_onmousereleased(iPx, iPy, button)
+    self.pCanvas:onmousereleased(iPx, iPy, button)
 end
 
 function CWndStat:get_layer(iLayer)

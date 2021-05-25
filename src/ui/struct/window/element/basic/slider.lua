@@ -32,6 +32,10 @@ CSliderElem = createClass({
     bVert
 })
 
+function CSliderElem:get_origin()
+    return self.eElem:get_pos()
+end
+
 function CSliderElem:get_arrow_length()
     local iW, iH = self.pImgPrev:getDimensions()
     return bVert and iW or iH
@@ -214,8 +218,5 @@ function CSliderElem:update(dt)
 end
 
 function CSliderElem:draw()
-    local iPx, iPy = self.eElem:get_pos()
-    push_stack_canvas_position(iPx, iPy)
     draw_slider(self)
-    pop_stack_canvas_position()
 end

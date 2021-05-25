@@ -57,7 +57,7 @@ local function draw_slider_bar(pVwSlider)
     local iFilLen = iLen
     local iLoop, bVert = calc_slider_bar_fit(pVwSlider, iFilLen)
 
-    local iX, iY = 0, 0
+    local iX, iY = pVwSlider:get_origin()
 
     local iPx = iX
     local iPy = iY
@@ -111,8 +111,8 @@ local function draw_slider_arrow(pVwSlider)
     local pImgFilBase = pVwSlider:get_bar()
     local _, iFilMidGir = pImgFilBase:getDimensions()
 
-    local iPx = 0
-    local iPy = 0
+    local iX, iY = pVwSlider:get_origin()
+    local iPx, iPy = iX, iY
 
     local iBarLen = pVwSlider:get_bar_length()
 
@@ -165,7 +165,7 @@ local function draw_slider_thumb(pVwSlider)
 
     local bVert = pVwSlider:get_orientation()
 
-    local iX, iY = 0, 0
+    local iX, iY = pVwSlider:get_origin()
 
     local iPx = iX
     local iPy = iY + 2 * iArrLen
