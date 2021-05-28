@@ -12,6 +12,7 @@
 
 require("router.procedures.constant")
 require("structs.storage.inventory")
+require("utils.procedure.copy")
 require("utils.struct.class")
 
 CCompositeInventory = createClass({
@@ -79,6 +80,10 @@ function CCompositeInventory:get_inventory()
     end
 
     return m_ivtExport
+end
+
+function CCompositeInventory:export_table()
+    return table_copy(self:get_inventory():get_items())
 end
 
 function CCompositeInventory:debug_inventory()

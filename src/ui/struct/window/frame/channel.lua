@@ -93,55 +93,97 @@ function CWndChannel:_update_state_hover(pElem, bHover)
     end
 end
 
-function CWndChannel:onmousemoved(x, y, dx, dy, istouch)
+function CWndChannel:filter_elements(fn_filter)
     local m_tpRegisteredElements = self.tpRegisteredElements
-    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
+
+    if fn_filter ~= nil then
+        local rgpElems = {}
+
+        for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
+            if fn_filter(pElem) then
+                table.insert(rgpElems, pElem)
+            end
+        end
+
+        return rgpElems
+    else
+        return keys(m_tpRegisteredElements)
+    end
+end
+
+local function fn_mouse_in_range(bToAll, x, y)
+    if bToAll ~= false then
+        return nil
+    else
+        local fn_filter = function (pElem) return is_mouse_in_range(pElem, x, y) end
+        return fn_filter
+    end
+end
+
+function CWndChannel:_in_onmousemoved(pElem, x, y, dx, dy, istouch)
+    local fn_onmousemoved = pElem.onmousemoved
+    if fn_onmousemoved ~= nil then
+        fn_onmousemoved(pElem, x, y, dx, dy, istouch)
+    end
+end
+
+function CWndChannel:onmousemoved(x, y, dx, dy, istouch, bToAll)
+    for _, pElem in ipairs(self:filter_elements(fn_mouse_in_range(true, x, y))) do
         local bHover = is_mouse_in_range(pElem, x, y)
-        if bHover then
-            local fn_onmousemoved = pElem.onmousemoved
-            if fn_onmousemoved ~= nil then
-                fn_onmousemoved(pElem, x, y, dx, dy, istouch)
-            end
+        if bHover or bToAll then
+            self:_in_onmousemoved(pElem, x, y, dx, dy, istouch)
         end
 
-        self:_update_state_hover(pElem, bHover)
-    end
-end
-
-function CWndChannel:onmousepressed(x, y, button)
-    local m_tpRegisteredElements = self.tpRegisteredElements
-    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
-        if is_mouse_in_range(pElem, x, y) then
-            local fn_onmousepressed = pElem.onmousepressed
-            if fn_onmousepressed ~= nil then
-                fn_onmousepressed(pElem, x, y, button)
-            end
+        if bToAll == nil then
+            self:_update_state_hover(pElem, bHover)
         end
     end
 end
 
-function CWndChannel:onmousereleased(x, y, button)
-    local m_tpRegisteredElements = self.tpRegisteredElements
-    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
-        if is_mouse_in_range(pElem, x, y) then
-            local fn_onmousereleased = pElem.onmousereleased
-            if fn_onmousereleased ~= nil then
-                fn_onmousereleased(pElem, x, y, button)
-            end
+function CWndChannel:_in_onmousepressed(pElem, x, y, button)
+    local fn_onmousepressed = pElem.onmousepressed
+    if fn_onmousepressed ~= nil then
+        fn_onmousepressed(pElem, x, y, button)
+    end
+end
+
+function CWndChannel:onmousepressed(x, y, button, bToAll)
+    for _, pElem in ipairs(self:filter_elements(fn_mouse_in_range(bToAll, x, y))) do
+        if is_mouse_in_range(pElem, x, y) or bToAll then
+            self:_in_onmousepressed(pElem, x, y, button)
         end
     end
 end
 
-function CWndChannel:onwheelmoved(dx, dy)
+function CWndChannel:_in_onmousereleased(pElem, x, y, button)
+    local fn_onmousereleased = pElem.onmousereleased
+    if fn_onmousereleased ~= nil then
+        fn_onmousereleased(pElem, x, y, button)
+    end
+end
+
+function CWndChannel:onmousereleased(x, y, button, bToAll)
+    for _, pElem in ipairs(self:filter_elements(fn_mouse_in_range(bToAll, x, y))) do
+        if is_mouse_in_range(pElem, x, y) or bToAll then
+            self:_in_onmousereleased(pElem, x, y, button)
+        end
+    end
+end
+
+function CWndChannel:_in_onwheelmoved(pElem, dx, dy)
+    local fn_onwheelmoved = pElem.onwheelmoved
+    if fn_onwheelmoved ~= nil then
+        fn_onwheelmoved(pElem, dx, dy)
+    end
+end
+
+function CWndChannel:onwheelmoved(dx, dy, bToAll)
     local x, y = love.mouse.getPosition()
 
     local m_tpRegisteredElements = self.tpRegisteredElements
-    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
-        if is_mouse_in_range(pElem, x, y) then
-            local fn_onwheelmoved = pElem.onwheelmoved
-            if fn_onwheelmoved ~= nil then
-                fn_onwheelmoved(pElem, dx, dy)
-            end
+    for _, pElem in ipairs(self:filter_elements(fn_mouse_in_range(bToAll, x, y))) do
+        if is_mouse_in_range(pElem, x, y) or bToAll then
+            self:_in_onwheelmoved(pElem, dx, dy)
         end
     end
 end

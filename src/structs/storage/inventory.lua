@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.copy")
 require("utils.procedure.unpack")
 require("utils.struct.array")
 require("utils.struct.class")
@@ -101,6 +102,10 @@ function CInventory:empty()
     for _, iId in pairs(keys(self:get_items())) do
         self:remove_item(iId)
     end
+end
+
+function CCompositeInventory:export_table()
+    return table_copy(self:get_items())
 end
 
 function CInventory:tostring()

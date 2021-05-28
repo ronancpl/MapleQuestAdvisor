@@ -151,6 +151,32 @@ function CPlayer:get_mobs()
     return self.ivtMobs
 end
 
+function CPlayer:export_table()
+    local tpItems = {}
+
+    tpItems.siJob = self.siJob
+    tpItems.siLevel = self.siLevel
+    tpItems.liExp = self.liExp
+    tpItems.liExpUpdt = self.liExpUpdt
+    tpItems.iMapid = self.iMapid
+    tpItems.iMeso = self.iMeso
+    tpItems.siFame = self.siFame
+    tpItems.siGender = self.siGender
+
+    return tpItems
+end
+
+function CPlayer:export_inventory_tables()
+    local rgpInvts = {}
+
+    table.insert(rgpInvts, ivtItems:export_table())
+    table.insert(rgpInvts, ivtSkills:export_table())
+    table.insert(rgpInvts, ivtQuests:export_table())
+    table.insert(rgpInvts, ivtMobs:export_table())
+
+    return rgpInvts
+end
+
 function CPlayer:debug_player_state()
     local st = ""
     st = st .. " JOB: " .. self.siJob
