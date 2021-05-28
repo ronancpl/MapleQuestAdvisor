@@ -25,7 +25,7 @@ function save_inventory(pPlayer)
 
     local pEnv, pCon = nsql_new()
 
-    nsql_kv_add(pCon, RPersistPath.SAVE_INVENTORY, sJson)
+    nsql_kv_add(pCon, RPersistPath.INVENTORY, sJson)
     nsql_commit()
 
     nsql_close(pCon, pEnv)

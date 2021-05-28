@@ -12,6 +12,7 @@
 
 require("router.structs.inventory.inventory_ex")
 require("structs.storage.inventory")
+require("utils.procedure.copy")
 require("utils.struct.class")
 
 CPlayer = createClass({
@@ -166,15 +167,26 @@ function CPlayer:export_table()
     return tpItems
 end
 
+function CPlayer:import_table(tpItems)
+    table_merge(self, tpItems)
+end
+
 function CPlayer:export_inventory_tables()
     local rgpInvts = {}
 
-    table.insert(rgpInvts, ivtItems:export_table())
-    table.insert(rgpInvts, ivtSkills:export_table())
-    table.insert(rgpInvts, ivtQuests:export_table())
-    table.insert(rgpInvts, ivtMobs:export_table())
+    table.insert(rgpInvts, self.ivtItems:export_table())
+    table.insert(rgpInvts, self.ivtSkills:export_table())
+    table.insert(rgpInvts, self.ivtQuests:export_table())
+    table.insert(rgpInvts, self.ivtMobs:export_table())
 
     return rgpInvts
+end
+
+function CPlayer:import_inventory_tables(rgpItems)
+    self.ivtItems:import_table(rgpItems[1])
+    self.ivtSkills:import_table(rgpItems[2])
+    self.ivtQuests:import_table(rgpItems[3])
+    self.ivtMobs:import_table(rgpItems[4])
 end
 
 function CPlayer:debug_player_state()

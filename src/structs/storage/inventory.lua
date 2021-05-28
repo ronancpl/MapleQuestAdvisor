@@ -104,8 +104,16 @@ function CInventory:empty()
     end
 end
 
-function CCompositeInventory:export_table()
+function CInventory:export_table()
     return table_copy(self:get_items())
+end
+
+function CInventory:import_table(tpItems)
+    self:empty()
+
+    for iId, iCount in pairs(tpItems) do
+        self:add_item(iId, iCount)
+    end
 end
 
 function CInventory:tostring()

@@ -12,8 +12,8 @@
 
 RPersistPath = {
 
-    SAVE_RATES = "field_rates",
-    SAVE_STAT = "character_info",
-    SAVE_INVENTORY = "character_inventory"
+    RATES = "field_rates",
+    STAT = "character_info",
+    INVENTORY = "character_inventory"
 
 }

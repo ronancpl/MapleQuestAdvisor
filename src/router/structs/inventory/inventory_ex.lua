@@ -86,6 +86,15 @@ function CCompositeInventory:export_table()
     return table_copy(self:get_inventory():get_items())
 end
 
+function CCompositeInventory:import_table(tpItems)
+    self.ivtRaw:empty()
+    self.ivtComp:empty()
+
+    for iId, iCount in pairs(tpItems) do
+        self:add_item(iId, iCount)
+    end
+end
+
 function CCompositeInventory:debug_inventory()
     local st = ""
     for iId, iCount in pairs(self:get_inventory():get_items()) do

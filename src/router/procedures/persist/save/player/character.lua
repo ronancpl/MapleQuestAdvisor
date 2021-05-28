@@ -25,7 +25,7 @@ function save_player(pPlayer)
 
     local pEnv, pCon = nsql_new()
 
-    nsql_kv_add(pCon, RPersistPath.SAVE_STAT, sJson)
+    nsql_kv_add(pCon, RPersistPath.STAT, sJson)
     nsql_commit()
 
     nsql_close(pCon, pEnv)

@@ -12,15 +12,13 @@
 
 require("router.constants.persistence")
 require("utils.persist.unqlite")
-require("utils.provider.json.encode")
+require("utils.provider.json.decode")
 
-function save_rates(pInfoSrv)
-    local sJson = encode_stream(pInfoSrv:get_exp_rate(), pInfoSrv:get_meso_rate(), pInfoSrv:get_drop_rate())
-
+function load_player(pPlayer)
     local pEnv, pCon = nsql_new()
-
-    nsql_kv_add(pCon, RPersistPath.RATES, sJson)
-    nsql_commit()
-
+    local sJson = nsql_kv_fetch(pCon, RPersistPath.STAT)
     nsql_close(pCon, pEnv)
+
+    local tpItems = decode_item(sJson)
+    pPlayer:import_table(tpItems)
 end
