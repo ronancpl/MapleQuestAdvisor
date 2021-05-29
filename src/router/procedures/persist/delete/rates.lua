@@ -10,16 +10,14 @@
     provide an express grant of patent rights.
 --]]
 
-RPersistPath = {
+require("router.constants.persistence")
+require("utils.persist.nosql")
+require("utils.provider.json.encode")
 
-    RATES = "field_rates",
-    STAT = "character_info",
-    INVENTORY = "character_inventory"
+function delete_rates(pInfoSrv)
+    local sJson = encode_stream(pInfoSrv:get_exp_rate(), pInfoSrv:get_meso_rate(), pInfoSrv:get_drop_rate())
 
-}
-
-RPersistKey = {
-
-    DEFAULT = 1
-
-}
+    local pCon = nsql_new()
+    nsql_kv_delete(pCon, RPersistPath.RATES, RPersistKey.DEFAULT)
+    nsql_close(pCon)
+end

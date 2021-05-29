@@ -11,13 +11,13 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.unqlite")
+require("utils.persist.nosql")
 require("utils.provider.json.decode")
 
 function load_rates(pInfoSrv)
-    local pEnv, pCon = nsql_new()
-    local sJson = nsql_kv_fetch(pCon, RPersistPath.RATES)
-    nsql_close(pCon, pEnv)
+    local pCon = nsql_new()
+    local sJson = nsql_kv_fetch(pCon, RPersistPath.RATES, RPersistKey.DEFAULT)
+    nsql_close(pCon)
 
     local iExpR, iMesoR, iDropR = decode_stream(sJson)
     pInfoSrv:set_exp_rate(iExpR)

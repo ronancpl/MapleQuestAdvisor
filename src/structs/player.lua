@@ -16,6 +16,7 @@ require("utils.procedure.copy")
 require("utils.struct.class")
 
 CPlayer = createClass({
+    iId = 1,
     siJob = -1,
     siLevel = 1,
     liExp = 0,
@@ -29,6 +30,14 @@ CPlayer = createClass({
     ivtQuests = CInventory:new(),
     ivtMobs = CInventory:new()
 })
+
+function CPlayer:get_id()
+    return self.iId
+end
+
+function CPlayer:set_id(iId)
+    self.iId = iId
+end
 
 function CPlayer:get_job()
     return self.siJob

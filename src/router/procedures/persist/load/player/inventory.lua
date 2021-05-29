@@ -11,13 +11,13 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.unqlite")
+require("utils.persist.nosql")
 require("utils.provider.json.decode")
 
 function load_inventory(pPlayer)
-    local pEnv, pCon = nsql_new()
-    local sJson = nsql_kv_fetch(pCon, RPersistPath.INVENTORY)
-    nsql_close(pCon, pEnv)
+    local pCon = nsql_new()
+    local sJson = nsql_kv_fetch(pCon, RPersistPath.INVENTORY, pPlayer:get_id())
+    nsql_close(pCon)
 
     local tpItems = decode_item(sJson)
     pPlayer:import_inventory_tables(tpItems)

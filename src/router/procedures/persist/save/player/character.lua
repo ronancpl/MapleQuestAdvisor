@@ -11,7 +11,7 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.unqlite")
+require("utils.persist.nosql")
 require("utils.provider.json.encode")
 
 local function fetch_player_data(pPlayer)
@@ -23,10 +23,9 @@ function save_player(pPlayer)
     local sPlayerInfo = fetch_player_data(pPlayer)
     local sJson = encode_item(sPlayerInfo)
 
-    local pEnv, pCon = nsql_new()
+    local pCon = nsql_new()
 
-    nsql_kv_add(pCon, RPersistPath.STAT, sJson)
-    nsql_commit()
+    nsql_kv_add(pCon, RPersistPath.STAT, pPlayer:get_id(), sJson)
 
-    nsql_close(pCon, pEnv)
+    nsql_close(pCon)
 end

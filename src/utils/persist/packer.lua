@@ -10,16 +10,17 @@
     provide an express grant of patent rights.
 --]]
 
-RPersistPath = {
+math.randomseed(os.time())
 
-    RATES = "field_rates",
-    STAT = "character_info",
-    INVENTORY = "character_inventory"
+local function nsql_gen_key()
+    return math.random()
+end
 
-}
+function nsql_pack(sVal, sKey)
+    local rgpTuple = {sKey or nsql_gen_key(), 0, sVal}
+    return rgpTuple
+end
 
-RPersistKey = {
-
-    DEFAULT = 1
-
-}
+function nsql_unpack(rgpTuple)
+    return rgpTuple[3], rgpTuple[1]
+end

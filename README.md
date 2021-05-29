@@ -85,6 +85,7 @@ Use the now installed LuaRocks to install the required modules.
     * `luarocks install luabitop` : bit-to-bit operations.
     * `luarocks install penlight` : STL-like for operating data structures with Lua.
     * `luarocks install xml2lua` : XML parser.
+    * `luarocks install --server=https://luarocks.org/dev lua-resty-tarantool` : NoSQL DB connector.
 
   + Verify whether the packages have been installed by your LuaRocks with: `luarocks list`.
 
