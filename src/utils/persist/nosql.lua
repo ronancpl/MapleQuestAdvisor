@@ -10,34 +10,34 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.persist.packer")
-require("utils.persist.tarantool")
+require("utils.persist.unqlite")
 
-function nsql_new()
-    return tnt_new()
+function nsql_new(sDataSource)
+    return unq_new(sDataSource)
 end
 
-function nsql_kv_add(pCon, sTable, pVal)
-    local rgpData = nsql_pack(pVal)
-    tnt_kv_add(pCon, sTable, rgpData)
+function nsql_kv_add(pCon, pKey, pVal)
+    unq_kv_add(pCon, pKey, pVal)
 end
 
-function nsql_kv_replace(pCon, sTable, pKey, pVal)
-    local rgpData = nsql_pack(pVal, pKey)
-    tnt_kv_replace(pCon, sTable, rgpData)
+function nsql_kv_delete(pCon, pKey)
+    unq_kv_delete(pCon, pKey)
 end
 
-function nsql_kv_delete(pCon, sTable, pKey)
-    tnt_kv_delete(pCon, sTable, pKey)
+function nsql_kv_fetch(pCon, pKey)
+    if pKey then
+        local pData, pRes = unq_kv_fetch(pCon, pKey)
+        return pData, pRes
+    else
+        local rgpData = unq_kv_fetch_all(pCon)
+        return rgpData, true
+    end
 end
 
-function nsql_kv_fetch(pCon, sTable, sNode, pSlctPredicate, sIter, pOpt)
-    local rgpData = tnt_kv_fetch(pCon, sTable, sNode, pSlctPredicate, sIter, pOpt)
-
-    local pData, pKey = nsql_unpack(rgpData)
-    return pData, pKey
+function nsql_commit(pCon)
+    return unq_commit(pCon)
 end
 
-function nsql_close(pCon)
-    tnt_close(pCon)
+function nsql_close(pCon, pEnv)
+    unq_close(pCon, pEnv)
 end

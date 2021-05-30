@@ -45,6 +45,10 @@ If you liked this project, please don't forget to __star__ the repo ;) .
     * Git - download and install with default paths, select-default all options on installation wizard;
     * mingw-get-setup.exe - download and install with default paths, at package catalogue: "All packages" tab -> opt for "mingw32-gcc": "bin" and "dev";
 
+    Essentials, found at https://drive.google.com/drive/folders/1W2asy-LDG2RsGFRyBuR4x9gF9fHQHMv8:
+
+    * UnQLite.zip - Embeddable NoSQL Database Engine;
+
     LuaRocks and LOVE packages selected during development were:
 
     * luarocks-3.3.1-win32.zip;
@@ -54,6 +58,7 @@ If you liked this project, please don't forget to __star__ the repo ;) .
 
     For expediency later when setting environment variables, it is recommended to use the following install paths:
 
+    * Extract UnQLite.zip into "C:\"; (or some path containing **no spaces** in between);
     * Git - use default install path;
     * Open and install mingw32-gcc, opt to place into "C:\MinGW" (default path);
     * Extract LuaRocks into "C:\Program Files (x86)";
@@ -69,6 +74,7 @@ If you liked this project, please don't forget to __star__ the repo ;) .
 
   + Add into User Variables:
     * LUADATA - `C:\Program Files (x86)\luarocks-3.3.1-win32\win32\lua5.1`
+    * UNQDATA - `C:\UnQLite`
 
   + Add into System Variables:
     * LUA_CPATH - `%LUADATA%\LuaRocks\lib\lua\5.1\?.dll;c:\program files (x86)\luarocks-3.3.1-win32\win32\lua5.1\lib\lua\5.1\?.dll;`
@@ -85,7 +91,7 @@ Use the now installed LuaRocks to install the required modules.
     * `luarocks install luabitop` : bit-to-bit operations.
     * `luarocks install penlight` : STL-like for operating data structures with Lua.
     * `luarocks install xml2lua` : XML parser.
-    * `luarocks install --server=https://luarocks.org/dev lua-resty-tarantool` : NoSQL DB connector.
+    * `luarocks install luanosql-unqlite UNQLITE_DIR="%UNQDATA%\lib" UNQLITE_INCDIR="%UNQDATA%\include"` : NoSQL DB connector.
 
   + Verify whether the packages have been installed by your LuaRocks with: `luarocks list`.
 

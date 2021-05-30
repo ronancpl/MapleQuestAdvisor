@@ -17,9 +17,9 @@ require("utils.provider.json.encode")
 function save_rates(pInfoSrv)
     local sJson = encode_stream(pInfoSrv:get_exp_rate(), pInfoSrv:get_meso_rate(), pInfoSrv:get_drop_rate())
 
-    local pCon = nsql_new()
+    local pEnv, pCon = nsql_new(RPersistPath.RATES)
 
-    nsql_kv_add(pCon, RPersistPath.RATES, RPersistKey.DEFAULT, sJson)
+    nsql_kv_add(pCon, RPersistKey.DEFAULT, sJson)
 
-    nsql_close(pCon)
+    nsql_close(pCon, pEnv)
 end

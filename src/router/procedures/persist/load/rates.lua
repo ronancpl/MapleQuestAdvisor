@@ -15,9 +15,9 @@ require("utils.persist.nosql")
 require("utils.provider.json.decode")
 
 function load_rates(pInfoSrv)
-    local pCon = nsql_new()
-    local sJson = nsql_kv_fetch(pCon, RPersistPath.RATES, RPersistKey.DEFAULT)
-    nsql_close(pCon)
+    local pEnv, pCon = nsql_new(RPersistPath.RATES)
+    local sJson = nsql_kv_fetch(pCon, RPersistKey.DEFAULT)
+    nsql_close(pCon, pEnv)
 
     local iExpR, iMesoR, iDropR = decode_stream(sJson)
     pInfoSrv:set_exp_rate(iExpR)

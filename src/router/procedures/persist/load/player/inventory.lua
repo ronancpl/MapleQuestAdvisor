@@ -15,9 +15,9 @@ require("utils.persist.nosql")
 require("utils.provider.json.decode")
 
 function load_inventory(pPlayer)
-    local pCon = nsql_new()
-    local sJson = nsql_kv_fetch(pCon, RPersistPath.INVENTORY, pPlayer:get_id())
-    nsql_close(pCon)
+    local pEnv, pCon = nsql_new(RPersistPath.INVENTORY)
+    local sJson = nsql_kv_fetch(pCon, pPlayer:get_id())
+    nsql_close(pCon, pEnv)
 
     local tpItems = decode_item(sJson)
     pPlayer:import_inventory_tables(tpItems)

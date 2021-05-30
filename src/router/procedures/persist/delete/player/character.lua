@@ -15,7 +15,7 @@ require("utils.persist.nosql")
 require("utils.provider.json.decode")
 
 function load_player(pPlayer)
-    local pCon = nsql_new()
-    nsql_kv_delete(pCon, RPersistPath.STAT, pPlayer:get_id())
-    nsql_close(pCon)
+    local pEnv, pCon = nsql_new(RPersistPath.STAT)
+    nsql_kv_delete(pCon, pPlayer:get_id())
+    nsql_close(pCon, pEnv)
 end

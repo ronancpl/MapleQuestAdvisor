@@ -23,9 +23,9 @@ function save_inventory(pPlayer)
     local sInvtInfo = fetch_inventory_data(pPlayer)
     local sJson = encode_item(sInvtInfo)
 
-    local pCon = nsql_new()
+    local pEnv, pCon = nsql_new(RPersistPath.INVENTORY)
 
-    nsql_kv_add(pCon, RPersistPath.INVENTORY, pPlayer:get_id(), sJson)
+    nsql_kv_add(pCon, pPlayer:get_id(), sJson)
 
-    nsql_close(pCon)
+    nsql_close(pCon, pEnv)
 end

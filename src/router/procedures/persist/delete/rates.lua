@@ -17,7 +17,7 @@ require("utils.provider.json.encode")
 function delete_rates(pInfoSrv)
     local sJson = encode_stream(pInfoSrv:get_exp_rate(), pInfoSrv:get_meso_rate(), pInfoSrv:get_drop_rate())
 
-    local pCon = nsql_new()
-    nsql_kv_delete(pCon, RPersistPath.RATES, RPersistKey.DEFAULT)
-    nsql_close(pCon)
+    local pEnv, pCon = nsql_new(RPersistPath.RATES)
+    nsql_kv_delete(pCon, RPersistKey.DEFAULT)
+    nsql_close(pCon, pEnv)
 end
