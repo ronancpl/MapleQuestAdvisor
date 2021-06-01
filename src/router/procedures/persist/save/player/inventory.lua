@@ -11,7 +11,7 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.nosql")
+require("utils.persist.rdbms")
 require("utils.provider.json.encode")
 
 local function fetch_inventory_data(pPlayer)
@@ -23,9 +23,9 @@ function save_inventory(pPlayer)
     local sInvtInfo = fetch_inventory_data(pPlayer)
     local sJson = encode_item(sInvtInfo)
 
-    local pEnv, pCon = nsql_new(RPersistPath.INVENTORY)
+    local pEnv, pCon = rdbms_new(RPersistPath.INVENTORY)
 
-    nsql_kv_add(pCon, pPlayer:get_id(), sJson)
+    rdbms_kv_add(pCon, pPlayer:get_id(), sJson)
 
-    nsql_close(pCon, pEnv)
+    rdbms_close(pCon, pEnv)
 end

@@ -11,15 +11,15 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.nosql")
+require("utils.persist.rdbms")
 require("utils.provider.json.encode")
 
 function save_rates(pInfoSrv)
     local sJson = encode_stream(pInfoSrv:get_exp_rate(), pInfoSrv:get_meso_rate(), pInfoSrv:get_drop_rate())
 
-    local pEnv, pCon = nsql_new(RPersistPath.RATES)
+    local pEnv, pCon = rdbms_new(RPersistPath.RATES)
 
-    nsql_kv_add(pCon, RPersistKey.DEFAULT, sJson)
+    rdbms_kv_add(pCon, RPersistKey.DEFAULT, sJson)
 
-    nsql_close(pCon, pEnv)
+    rdbms_close(pCon, pEnv)
 end

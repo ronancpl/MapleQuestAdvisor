@@ -10,34 +10,30 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.persist.unqlite")
+require("utils.persist.sqlite")
 
-function nsql_new(sDataSource)
-    return unq_new(sDataSource)
+function rdbms_new(sDataSource)
+    return sq3_new(sDataSource)
 end
 
-function nsql_kv_add(pCon, pKey, pVal)
-    unq_kv_add(pCon, pKey, pVal)
+function rdbms_kv_add(pCon, pKey, pVal)
+    sq3_kv_add(pCon, pKey, pVal)
 end
 
-function nsql_kv_delete(pCon, pKey)
-    unq_kv_delete(pCon, pKey)
+function rdbms_kv_delete(pCon, pKey)
+    sq3_kv_delete(pCon, pKey)
 end
 
-function nsql_kv_fetch(pCon, pKey)
+function rdbms_kv_fetch(pCon, pKey)
     if pKey then
-        local pData, pRes = unq_kv_fetch(pCon, pKey)
+        local pData, pRes = sq3_kv_fetch(pCon, pKey)
         return pData, pRes
     else
-        local rgpData = unq_kv_fetch_all(pCon)
+        local rgpData = sq3_kv_fetch_all(pCon)
         return rgpData, true
     end
 end
 
-function nsql_commit(pCon)
-    return unq_commit(pCon)
-end
-
-function nsql_close(pCon, pEnv)
-    unq_close(pCon, pEnv)
+function rdbms_close(pCon, pEnv)
+    sq3_close(pCon, pEnv)
 end

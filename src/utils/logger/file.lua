@@ -17,6 +17,7 @@ LPath = {
     LOG_DIR = "logs/",
 
     FALLBACK = "digression/",
+    DB = "sql/",
     INTERFACE = "ui/",
     QUEST_BOARD = "pool/",
     QUEST_PATH = "path/",

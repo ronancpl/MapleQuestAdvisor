@@ -11,11 +11,11 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.nosql")
+require("utils.persist.rdbms")
 require("utils.provider.json.decode")
 
-function load_inventory(pPlayer)
-    local pEnv, pCon = nsql_new(RPersistPath.INVENTORY)
-    nsql_kv_delete(pCon, pPlayer:get_id())
-    nsql_close(pCon, pEnv)
+function delete_inventory(pPlayer)
+    local pEnv, pCon = rdbms_new(RPersistPath.INVENTORY)
+    rdbms_kv_delete(pCon, pPlayer:get_id())
+    rdbms_close(pCon, pEnv)
 end

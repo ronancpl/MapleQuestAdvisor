@@ -158,6 +158,13 @@ function love.load()
     load_rates(pInfoSrv)
     load_inventory(pPlayer)
     load_player(pPlayer)
+
+    delete_rates(pInfoSrv)
+    delete_inventory(pPlayer)
+    delete_player(pPlayer)
+
+
+
 end
 
 local function update_interactions()
