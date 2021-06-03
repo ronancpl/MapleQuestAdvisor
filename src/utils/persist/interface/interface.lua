@@ -28,7 +28,7 @@ function run_persist_interface()
     clear_table(tpRes)
 end
 
-local function yield_response(rgpArgs)  -- await results
+local function yield_response(rgpArgs)
     local tpCall = pSrvRdbms:get_table_calls()
     local tpRes = pSrvRdbms:get_table_results()
 
@@ -36,7 +36,7 @@ local function yield_response(rgpArgs)  -- await results
 
     local pRes
     repeat
-        pRes = tpRes[rgpArgs]
+        pRes = tpRes[rgpArgs]   -- polls for result
     until pRes ~= nil
 
     tpRes[rgpArgs] = nil

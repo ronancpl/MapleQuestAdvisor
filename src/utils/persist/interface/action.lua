@@ -48,5 +48,5 @@ function execute_rdbms_action(rgpArgs)
     local pFnType = rgpArgs[1]
 
     local fn_action = tfn_db_actions[pFnType]
-    return fn_action(rgpArgs)
+    return {fn_action(rgpArgs)}
 end

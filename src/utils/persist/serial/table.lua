@@ -10,15 +10,26 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.constants.persistence")
-require("utils.persist.act.call")
+require("router.constants.path")
 require("utils.provider.json.decode")
+require("utils.provider.json.encode")
 
-function load_player(pPlayer)
-    local pEnv, pCon = db_new(RPersistPath.STAT)
-    local sJson = db_kv_fetch(pCon, pPlayer:get_id())
-    db_close(pCon, pEnv)
+function load_file_resultset()
+    local fIn = io.open(RPath.TMP_DB .. "/result.txt", "r")
 
-    local tpItems = decode_item(sJson)
-    pPlayer:import_table(tpItems)
+    local sJson = fIn:read("*a")
+    local tpTable = decode_stream(sJson)
+
+    fIn:close()
+
+    return tpTable
+end
+
+function save_file_resultset(tpTable)
+    local fOut = io.open(RPath.TMP_DB .. "/result.txt", "w")
+
+    local sJson = encode_stream(tpTable)
+    fOut:write(sJson)
+
+    fOut:close()
 end

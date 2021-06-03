@@ -58,8 +58,8 @@ function love.load()
 
     log(LPath.INTERFACE, "load.txt", "Loading solver metadata...")
 
-    dofile("ui/setup/persist/start.lua")
-    dofile("ui/setup/stage.lua")
+    dofile("router/stage.lua")
+    dofile("utils/persist/act/start.lua")
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 

@@ -11,8 +11,7 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.call")
-require("utils.provider.json.decode")
+require("utils.persist.act.call")
 
 function delete_inventory(pPlayer)
     local pEnv, pCon = db_new(RPersistPath.INVENTORY)

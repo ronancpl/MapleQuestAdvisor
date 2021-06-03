@@ -13,10 +13,10 @@
 local json = require("json")
 
 function decode_item(sJson)
-    return json.decode(sJson)
+    return json:decode(sJson)
 end
 
 function decode_stream(sJson)
-    local rgpStream = json.decode(sJson)
+    local rgpStream = json:decode(sJson)
     return unpack(rgpStream)
 end

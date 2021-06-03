@@ -11,7 +11,7 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.call")
+require("utils.persist.act.call")
 require("utils.provider.json.encode")
 
 function save_rates(pInfoSrv)

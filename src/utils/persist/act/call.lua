@@ -11,19 +11,20 @@
 --]]
 
 local function open_rdbms_script(...)
-    local sCmdRdbms = "lua5.1 ui/setup/persist/fetch.lua "
+    local sCmdRdbms = "lua5.1 utils/persist/act/fetch.lua"
 
     local sArgs = ""
     for _, pItem in pairs(...) do
         sArgs = sArgs .. tostring(pItem)
     end
 
-    local pHdl = io.popen(sCmdRdbms .. sArgs)
+    local pHdl = io.popen(sCmdRdbms .. " " .. sArgs)
     return pHdl
 end
 
 local function collect_rdbms_result()
-    local pRes = dofile("ui/setup/persist/fetch.lua")
+    dofile("utils/persist/act/fetch.lua")
+    local pRes = dofile("utils/persist/act/collect.lua")
     return pRes
 end
 

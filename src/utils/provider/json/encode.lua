@@ -12,15 +12,15 @@
 
 local json = require("json")
 
-function encode_item(pInfoSrv, pItem)
-    return json.encode({pItem})
+function encode_item(pItem)
+    return json:encode({pItem})
 end
 
-function encode_stream(pInfoSrv, ...)
+function encode_stream(...)
     local rgpStream = {}
     for _, pItem in pairs(...) do
         table_append(rgpStream, pItem)
     end
 
-    return json.encode(rgpStream)
+    return json:encode(rgpStream)
 end

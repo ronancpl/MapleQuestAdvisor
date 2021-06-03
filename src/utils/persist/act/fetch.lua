@@ -10,5 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-local pRes = SERIALIZE_OUT()
-return pRes
+require("utils.persist.interface.interface")
+require("utils.persist.serial.table")
+
+local rgpRdbmsArgs = args
+local pRes = send_rdbms_action(rgpRdbmsArgs)
+
+save_file_resultset(pRes)

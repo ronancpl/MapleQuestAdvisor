@@ -37,3 +37,7 @@ end
 function CRdbmsSession:get_rdbms_con()
     return self.pCon
 end
+
+function CRdbmsSession:set_rdbms_con(pCon)
+    self.pCon = pCon
+end
