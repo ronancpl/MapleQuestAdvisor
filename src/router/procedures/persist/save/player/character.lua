@@ -11,7 +11,7 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.rdbms")
+require("utils.persist.call")
 require("utils.provider.json.encode")
 
 local function fetch_player_data(pPlayer)
@@ -23,9 +23,9 @@ function save_player(pPlayer)
     local sPlayerInfo = fetch_player_data(pPlayer)
     local sJson = encode_item(sPlayerInfo)
 
-    local pEnv, pCon = rdbms_new(RPersistPath.STAT)
+    local pEnv, pCon = db_new(RPersistPath.STAT)
 
-    rdbms_kv_add(pCon, pPlayer:get_id(), sJson)
+    db_kv_add(pCon, pPlayer:get_id(), sJson)
 
-    rdbms_close(pCon, pEnv)
+    db_close(pCon, pEnv)
 end

@@ -11,11 +11,11 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.rdbms")
+require("utils.persist.call")
 require("utils.provider.json.decode")
 
 function delete_inventory(pPlayer)
-    local pEnv, pCon = rdbms_new(RPersistPath.INVENTORY)
-    rdbms_kv_delete(pCon, pPlayer:get_id())
-    rdbms_close(pCon, pEnv)
+    local pEnv, pCon = db_new(RPersistPath.INVENTORY)
+    db_kv_delete(pCon, pPlayer:get_id())
+    db_close(pCon, pEnv)
 end

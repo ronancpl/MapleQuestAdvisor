@@ -11,11 +11,11 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.rdbms")
+require("utils.persist.call")
 require("utils.provider.json.decode")
 
 function delete_player(pPlayer)
-    local pEnv, pCon = rdbms_new(RPersistPath.STAT)
-    rdbms_kv_delete(pCon, pPlayer:get_id())
-    rdbms_close(pCon, pEnv)
+    local pEnv, pCon = db_new(RPersistPath.STAT)
+    db_kv_delete(pCon, pPlayer:get_id())
+    db_close(pCon, pEnv)
 end

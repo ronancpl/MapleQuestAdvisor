@@ -10,15 +10,30 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.constants.persistence")
-require("utils.persist.call")
-require("utils.provider.json.decode")
+require("utils.persist.statements")
+require("utils.struct.class")
 
-function load_player(pPlayer)
-    local pEnv, pCon = db_new(RPersistPath.STAT)
-    local sJson = db_kv_fetch(pCon, pPlayer:get_id())
-    db_close(pCon, pEnv)
+CRdbmsSession = createClass({
+    pStorageStmt = CPreparedStorage:new(),
 
-    local tpItems = decode_item(sJson)
-    pPlayer:import_table(tpItems)
+    tpCall = {},
+    tpRes = {},
+
+    pCon = nil
+})
+
+function CRdbmsSession:get_storage_statements()
+    return self.pStorageStmt
+end
+
+function CRdbmsSession:get_table_calls()
+    return self.tpCall
+end
+
+function CRdbmsSession:get_table_results()
+    return self.tpRes
+end
+
+function CRdbmsSession:get_rdbms_con()
+    return self.pCon
 end

@@ -10,22 +10,26 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.setup.persist")
 require("utils.persist.sqlite")
 
 function rdbms_new(sDataSource)
-    return sq3_new(sDataSource)
+    local pCon = sq3_new(sDataSource)
+    return pCon
 end
 
 function rdbms_kv_add(pCon, pKey, pVal)
-    sq3_kv_add(pCon, pKey, pVal)
+    local iId, pRes = sq3_kv_add(pCon, pKey, pVal)
+    return iId, pRes
 end
 
 function rdbms_kv_delete(pCon, pKey)
-    sq3_kv_delete(pCon, pKey)
+    local pRes = sq3_kv_delete(pCon, pKey)
+    return pRes
 end
 
 function rdbms_kv_fetch(pCon, pKey)
-    if pKey then
+    if pKey ~= nil then
         local pData, pRes = sq3_kv_fetch(pCon, pKey)
         return pData, pRes
     else
@@ -34,6 +38,6 @@ function rdbms_kv_fetch(pCon, pKey)
     end
 end
 
-function rdbms_close(pCon, pEnv)
-    sq3_close(pCon, pEnv)
+function rdbms_close(pCon)
+    sq3_close(pCon)
 end

@@ -11,13 +11,13 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.rdbms")
+require("utils.persist.call")
 require("utils.provider.json.encode")
 
 function delete_rates(pInfoSrv)
     local sJson = encode_stream(pInfoSrv:get_exp_rate(), pInfoSrv:get_meso_rate(), pInfoSrv:get_drop_rate())
 
-    local pEnv, pCon = rdbms_new(RPersistPath.RATES)
-    rdbms_kv_delete(pCon, RPersistKey.DEFAULT)
-    rdbms_close(pCon, pEnv)
+    local pEnv, pCon = db_new(RPersistPath.RATES)
+    db_kv_delete(pCon, RPersistKey.DEFAULT)
+    db_close(pCon, pEnv)
 end

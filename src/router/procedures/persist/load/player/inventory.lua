@@ -11,13 +11,13 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.rdbms")
+require("utils.persist.call")
 require("utils.provider.json.decode")
 
 function load_inventory(pPlayer)
-    local pEnv, pCon = rdbms_new(RPersistPath.INVENTORY)
-    local sJson = rdbms_kv_fetch(pCon, pPlayer:get_id())
-    rdbms_close(pCon, pEnv)
+    local pEnv, pCon = db_new(RPersistPath.INVENTORY)
+    local sJson = db_kv_fetch(pCon, pPlayer:get_id())
+    db_close(pCon, pEnv)
 
     local tpItems = decode_item(sJson)
     pPlayer:import_inventory_tables(tpItems)

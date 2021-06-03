@@ -10,17 +10,16 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.persist.statements")
-
-local sqlite3 = require("sqlite3")
-local pStorageStmt = CPreparedStorage:new()
-
 function sq3_new(sDataSource)
+    local sqlite3 = require('lsqlite3complete')
+
     local pCon = sqlite3.open(sDataSource)
     return pCon
 end
 
 function sq3_kv_add(pCon, sTable, sColName, pKey, pVal)
+    local sqlite3 = require('lsqlite3complete')
+
     local pStmt = pStorageStmt:get_insert_stmt(2)
     pStmt:bind_values({sColName, pKey, pVal})
 
@@ -60,6 +59,8 @@ function sq3_kv_fetch_all(pCon, sTable)
     pStmt:bind_values({sTable})
 
     pCon:exec(pStmt)
+
+    local sqlite3 = require('lsqlite3complete')
 
     local tpItems = {}
 

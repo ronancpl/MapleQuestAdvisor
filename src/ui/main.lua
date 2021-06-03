@@ -18,6 +18,9 @@ require("composer.field.worldmap")
 require("composer.containers.strings.item")
 require("composer.containers.strings.mob")
 require("composer.containers.strings.npc")
+require("router.procedures.persist.delete.rates")
+require("router.procedures.persist.delete.player.character")
+require("router.procedures.persist.delete.player.inventory")
 require("router.procedures.persist.load.rates")
 require("router.procedures.persist.load.player.character")
 require("router.procedures.persist.load.player.inventory")
@@ -54,7 +57,9 @@ function love.load()
     love.graphics.setWireframe(love.keyboard.isDown('space'))
 
     log(LPath.INTERFACE, "load.txt", "Loading solver metadata...")
-    dofile("router/stage.lua")
+
+    dofile("ui/setup/persist/start.lua")
+    dofile("ui/setup/stage.lua")
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 
@@ -136,7 +141,7 @@ function love.load()
 
     pUiStats = load_frame_stat()
 
-    pPlayer = CPlayer:new({iMapid = 2000000, siLevel = 50, siJob = 122})
+    pPlayer = CPlayer:new({iId = 1, iMapid = 110000000, siLevel = 50, siJob = 122})
     pUiStats:update_stats(pPlayer, 10, 10, 10)
 
     pUiRscs = load_frame_quest_resources()
@@ -162,9 +167,6 @@ function love.load()
     delete_rates(pInfoSrv)
     delete_inventory(pPlayer)
     delete_player(pPlayer)
-
-
-
 end
 
 local function update_interactions()

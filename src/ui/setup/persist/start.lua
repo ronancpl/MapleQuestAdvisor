@@ -10,15 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.constants.persistence")
-require("utils.persist.call")
-require("utils.provider.json.decode")
+require("utils.persist.interface.interface")
+require("utils.persist.interface.session")
 
-function load_player(pPlayer)
-    local pEnv, pCon = db_new(RPersistPath.STAT)
-    local sJson = db_kv_fetch(pCon, pPlayer:get_id())
-    db_close(pCon, pEnv)
-
-    local tpItems = decode_item(sJson)
-    pPlayer:import_table(tpItems)
-end
+pRdbms = CRdbmsSession:new({})
+run_persist_interface()
