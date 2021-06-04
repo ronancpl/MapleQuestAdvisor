@@ -23,3 +23,12 @@ RPersistKey = {
     DEFAULT = 1
 
 }
+
+RPersist = {
+
+    INTERFACE_SLEEP_MS = 1000,
+    SESSION_SLEEP_MS = 1000,
+
+    BUSY_RETRIES = 5
+
+}

@@ -15,9 +15,9 @@ require("utils.persist.act.call")
 require("utils.provider.json.decode")
 
 function load_inventory(pPlayer)
-    local pEnv, pCon = db_new(RPersistPath.INVENTORY)
+    local pCon = db_new(RPersistPath.INVENTORY)
     local sJson = db_kv_fetch(pCon, pPlayer:get_id())
-    db_close(pCon, pEnv)
+    db_close(pCon)
 
     local tpItems = decode_item(sJson)
     pPlayer:import_inventory_tables(tpItems)

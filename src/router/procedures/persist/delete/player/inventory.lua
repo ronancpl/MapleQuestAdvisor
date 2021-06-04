@@ -14,7 +14,7 @@ require("router.constants.persistence")
 require("utils.persist.act.call")
 
 function delete_inventory(pPlayer)
-    local pEnv, pCon = db_new(RPersistPath.INVENTORY)
+    local pCon = db_new(RPersistPath.INVENTORY)
     db_kv_delete(pCon, pPlayer:get_id())
-    db_close(pCon, pEnv)
+    db_close(pCon)
 end

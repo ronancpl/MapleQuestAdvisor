@@ -23,9 +23,9 @@ function save_player(pPlayer)
     local sPlayerInfo = fetch_player_data(pPlayer)
     local sJson = encode_item(sPlayerInfo)
 
-    local pEnv, pCon = db_new(RPersistPath.STAT)
+    local pCon = db_new(RPersistPath.STAT)
 
     db_kv_add(pCon, pPlayer:get_id(), sJson)
 
-    db_close(pCon, pEnv)
+    db_close(pCon)
 end

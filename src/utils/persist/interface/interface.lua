@@ -10,18 +10,35 @@
     provide an express grant of patent rights.
 --]]
 
-require("utils.persist.interface.rdbms")
+require("router.constants.persistence")
+require("utils.persist.rdbms")
+require("utils.persist.interface.session")
 require("utils.procedure.copy")
 
-function run_persist_interface()
-    sleep()     -- gets to start on use
+function sleep(n)
+    os.execute("sleep " .. tonumber(n))
+end
 
-    local tpCall = pSrvRdbms:get_table_calls()
-    local tpRes = pSrvRdbms:get_table_results()
-
+function run_persist_interface(pRdbms)
+    local i = 0
     repeat
-        for rgpRdbmsArgs, _ in pairs(tpCall) do
-            tpRes[rgpRdbmsArgs] = execute_rdbms_action(rgpRdbmsArgs)
+        local tpCall = pRdbms:load_call()
+
+        local tpRes = {}
+        if next(tpCall) ~= nil then
+            i = 0
+
+            for rgpRdbmsArgs, _ in pairs(tpCall) do
+                tpRes[rgpRdbmsArgs] = execute_rdbms_action(rgpRdbmsArgs)
+            end
+
+            pRdbms:store_all_results(tpRes)
+        else
+            if i >= RPersist.BUSY_RETRIES then
+                sleep(RPersist.INTERFACE_SLEEP_MS)
+            else
+                i = i + 1
+            end
         end
     until false
 
@@ -29,38 +46,22 @@ function run_persist_interface()
 end
 
 local function yield_response(rgpArgs)
-    local tpCall = pSrvRdbms:get_table_calls()
-    local tpRes = pSrvRdbms:get_table_results()
-
-    tpCall[rgpArgs] = 1
+    local pTmpRdbms = CRdbmsSession:new()
+    pTmpRdbms:store_call(rgpArgs)
 
     local pRes
+    local bCanSleep
     repeat
-        pRes = tpRes[rgpArgs]   -- polls for result
+        pRes, bCanSleep = pTmpRdbms:pop_result(rgpArgs)   -- polls for result
+        sleep(RPersist.SESSION_SLEEP_MS)
     until pRes ~= nil
 
-    tpRes[rgpArgs] = nil
-    tpCall[rgpArgs] = nil
-
-    return pRes, next(tpCall) == nil
-end
-
-local function sleep()
-
-end
-
-local function wake()
-
+    return pRes, bCanSleep
 end
 
 function send_rdbms_action(rgpRdbmsArgs)
-    wake()
-
     local rgpArgs = table_copy(rgpRdbmsArgs)
-    local pRes, bCanSleep = yield_response(rgpArgs)
-    if bCanSleep then
-        sleep()
-    end
+    local pRes, _ = yield_response(rgpArgs)
 
     return pRes
 end

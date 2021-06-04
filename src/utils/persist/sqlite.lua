@@ -50,7 +50,7 @@ function sq3_kv_fetch(pCon, sTable, sColName, pKey)
     local pStmt = pStorageStmt:get_select_stmt(3, "SELECT * FROM ? WHERE ?=?")
     pStmt:bind_values({sTable, sColName, pKey})
 
-    local pRes = pCon:exec()
+    local pRes = pCon:exec(pStmt)
     return pRes
 end
 

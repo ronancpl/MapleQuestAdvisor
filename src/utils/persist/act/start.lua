@@ -10,8 +10,11 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.constants.path")
+require("utils.logger.error")
 require("utils.persist.interface.interface")
 require("utils.persist.interface.session")
 
+pcall_log(RPath.TMP_DB .. "/")
 pRdbms = CRdbmsSession:new({})
-run_persist_interface()
+run_persist_interface(pRdbms)

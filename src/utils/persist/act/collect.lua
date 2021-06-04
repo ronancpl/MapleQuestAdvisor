@@ -12,5 +12,5 @@
 
 require("utils.persist.serial.table")
 
-local pRes = load_file_resultset()
-return pRes
+local pRes = load_file_resultset("result.txt")
+return unpack(pRes)

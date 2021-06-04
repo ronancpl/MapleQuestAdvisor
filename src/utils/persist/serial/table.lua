@@ -14,19 +14,24 @@ require("router.constants.path")
 require("utils.provider.json.decode")
 require("utils.provider.json.encode")
 
-function load_file_resultset()
-    local fIn = io.open(RPath.TMP_DB .. "/result.txt", "r")
+function load_file_resultset(sFileSubpath)
+    local fIn = io.open("../" .. RPath.TMP_DB .. "/" .. sFileSubpath, "r")
 
-    local sJson = fIn:read("*a")
-    local tpTable = decode_stream(sJson)
+    local tpTable
+    if fIn ~= nil then
+        local sJson = fIn:read("*a")
+        tpTable = decode_stream(sJson)
 
-    fIn:close()
+        fIn:close()
+    else
+        tpTable = {}
+    end
 
     return tpTable
 end
 
-function save_file_resultset(tpTable)
-    local fOut = io.open(RPath.TMP_DB .. "/result.txt", "w")
+function save_file_resultset(sFileSubpath, tpTable)
+    local fOut = io.open("../" .. RPath.TMP_DB .. "/" .. sFileSubpath, "w")
 
     local sJson = encode_stream(tpTable)
     fOut:write(sJson)

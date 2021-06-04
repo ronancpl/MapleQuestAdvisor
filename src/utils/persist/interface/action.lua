@@ -20,27 +20,27 @@ RSqlFunction = {
 
 local tfn_db_actions = {
 
-    RSqlFunction.NEW =      function(rgpArgs)   -- global var assigned
+    RSqlFunction.NEW =      function(rgpArgs)
                                 local pCon = rdbms_new(rgpArgs[2])
-                                pRdbms:set_rdbms_con(pCon)
+                                pRdbms:set_rdbms_ds(pCon)           -- session connection assigned
                                 return pCon
                             end,
 
     RSqlFunction.ADD =      function(rgpArgs)
-                                return rdbms_kv_add(pRdbms:get_rdbms_con(), rgpArgs[2], rgpArgs[3])
+                                return rdbms_kv_add(pRdbms:get_rdbms_ds(), rgpArgs[2], rgpArgs[3])
                             end,
 
     RSqlFunction.DELETE =   function(rgpArgs)
-                                return rdbms_kv_delete(pRdbms:get_rdbms_con(), rgpArgs[2])
+                                return rdbms_kv_delete(pRdbms:get_rdbms_ds(), rgpArgs[2])
                             end,
 
     RSqlFunction.FETCH =    function(rgpArgs)
-                                return rdbms_kv_fetch(pRdbms:get_rdbms_con(), rgpArgs[2])
+                                return rdbms_kv_fetch(pRdbms:get_rdbms_ds(), rgpArgs[2])
                             end,
 
     RSqlFunction.CLOSE =    function(rgpArgs)
-                                rdbms_close(pRdbms:get_rdbms_con())
-                                pRdbms:set_rdbms_con(nil)
+                                rdbms_close(pRdbms:get_rdbms_ds())
+                                pRdbms:set_rdbms_ds(nil)
                             end
 }
 

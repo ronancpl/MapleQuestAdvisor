@@ -10,7 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.setup.persist")
 require("utils.persist.sqlite")
 
 function rdbms_new(sDataSource)
@@ -31,9 +30,13 @@ end
 function rdbms_kv_fetch(pCon, pKey)
     if pKey ~= nil then
         local pData, pRes = sq3_kv_fetch(pCon, pKey)
+
+        log_st(LPath.DB, "_db.txt", " >> '" .. tostring(pKey) .. " " .. type(pData))
         return pData, pRes
     else
         local rgpData = sq3_kv_fetch_all(pCon)
+
+        log_st(LPath.DB, "_db.txt", " >> '" .. tostring(pKey) .. " " .. type(rgpData))
         return rgpData, true
     end
 end

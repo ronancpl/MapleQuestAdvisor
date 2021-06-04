@@ -1,4 +1,5 @@
 logs/
+dbstate/
 lib/xml/*
 !lib/xml/Map.wz
 **/media/images/

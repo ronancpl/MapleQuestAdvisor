@@ -13,7 +13,6 @@
 require("utils.persist.interface.interface")
 require("utils.persist.serial.table")
 
-local rgpRdbmsArgs = args
+local rgpRdbmsArgs = arg
 local pRes = send_rdbms_action(rgpRdbmsArgs)
-
-save_file_resultset(pRes)
+save_file_resultset("result.txt", pRes)

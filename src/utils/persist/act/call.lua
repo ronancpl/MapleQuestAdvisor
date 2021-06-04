@@ -23,32 +23,37 @@ local function open_rdbms_script(...)
 end
 
 local function collect_rdbms_result()
-    dofile("utils/persist/act/fetch.lua")
     local pRes = dofile("utils/persist/act/collect.lua")
     return pRes
 end
 
 function db_new(sDataSource)
+    log_st(LPath.DB, "_new.txt", " new '" .. sDataSource .. "'")
     local pHdl = open_rdbms_script({sDataSource})
     return collect_rdbms_result()
 end
 
 function db_kv_add(pCon, pKey, pVal)
-    local pHdl = open_rdbms_script({pCon, pKey, pVal})
+    log_st(LPath.DB, "_new.txt", " add '" .. tostring(pKey) .. "' " .. tostring(pVal))
+    local pHdl = open_rdbms_script({nil, pKey, pVal})
     return collect_rdbms_result()
 end
 
 function db_kv_fetch(pCon, pKey)
-    local pHdl = open_rdbms_script({pCon, pKey})
+    log_st(LPath.DB, "_new.txt", " ftc '" .. tostring(pKey) .. "'")
+    local pHdl = open_rdbms_script({nil, pKey})     -- interface has connection assigned
     return collect_rdbms_result()
 end
 
 function db_kv_delete(pCon, pKey)
-    local pHdl = open_rdbms_script({pCon, pKey})
+    log_st(LPath.DB, "_new.txt", " del '" .. tostring(pKey) .. "'")
+    local pHdl = open_rdbms_script({nil, pKey})
+
     return collect_rdbms_result()
 end
 
-function db_close(pCon, pEnv)
-    local pHdl = open_rdbms_script({pCon, pEnv})
+function db_close(pCon)
+    log_st(LPath.DB, "_new.txt", " close '" .. tostring(pCon) .. "'")
+    local pHdl = open_rdbms_script({nil})
     return collect_rdbms_result()
 end
