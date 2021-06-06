@@ -15,10 +15,12 @@ require("utils.persist.act.call")
 require("utils.provider.json.decode")
 
 function load_player(pPlayer)
-    local pCon = db_new(RPersistPath.STAT)
-    local sJson = db_kv_fetch(pCon, pPlayer:get_id())
+    local pCon = db_new(RPersistPath.DB)
+    local sJson = db_kv_fetch(pCon, RPersistPath.STAT, "id", pPlayer:get_id())
     db_close(pCon)
 
-    local tpItems = decode_item(sJson)
-    pPlayer:import_table(tpItems)
+    if sJson ~= nil then
+        local tpItems = decode_item(sJson)
+        pPlayer:import_table(tpItems)
+    end
 end

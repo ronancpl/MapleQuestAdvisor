@@ -48,3 +48,19 @@ function table_append(rgDest, tOrig)
         table.insert(rgDest, v)
     end
 end
+
+function table_tostring(e)
+    local st = ""
+
+    if type(e) == "table" then
+        for k, v in pairs(e) do
+            local ck = k ~= e and table_tostring(k) or tostring(k)
+            local cv = v ~= e and table_tostring(v) or tostring(v)
+            st = st .. ck .. ":" .. cv .. ", "
+        end
+    else
+        st = st .. tostring(e)  -- string, number, etc
+    end
+
+    return st
+end

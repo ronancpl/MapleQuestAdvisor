@@ -13,13 +13,13 @@
 local json = require("json")
 
 function encode_item(pItem)
-    return json:encode({pItem})
+    return json:encode(pItem)
 end
 
 function encode_stream(...)
     local rgpStream = {}
-    for _, pItem in pairs(...) do
-        table_append(rgpStream, pItem)
+    for _, pItem in ipairs(...) do
+        table.insert(rgpStream, pItem)
     end
 
     return json:encode(rgpStream)

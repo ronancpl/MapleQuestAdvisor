@@ -12,6 +12,8 @@
 
 RPersistPath = {
 
+    DB = "data.db",
+
     RATES = "field_rates",
     STAT = "character_info",
     INVENTORY = "character_inventory"
@@ -21,6 +23,14 @@ RPersistPath = {
 RPersistKey = {
 
     DEFAULT = 1
+
+}
+
+RPersistTable = {   -- first element as primary key
+
+    RATES = "id,content",
+    STAT = "cid,content",
+    INVENTORY = "cid,content"
 
 }
 

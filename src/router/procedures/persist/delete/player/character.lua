@@ -14,7 +14,7 @@ require("router.constants.persistence")
 require("utils.persist.act.call")
 
 function delete_player(pPlayer)
-    local pCon = db_new(RPersistPath.STAT)
-    db_kv_delete(pCon, pPlayer:get_id())
+    local pCon = db_new(RPersistPath.DB)
+    db_kv_delete(pCon, RPersistPath.STAT, "id", pPlayer:get_id())
     db_close(pCon)
 end

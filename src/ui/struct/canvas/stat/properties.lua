@@ -46,12 +46,12 @@ function CStatProperties:get_info_character()
     return self.pInfoChr
 end
 
-function CStatProperties:_set_info_server(siExpRate, siMesoRate, siDropRate)
+function CStatProperties:_set_info_server(siExpR, siMesoR, siDropR)
     local m_pInfoSrv = self.pInfoSrv
 
-    m_pInfoSrv:set_exp_rate(siExpRate)
-    m_pInfoSrv:set_meso_rate(siMesoRate)
-    m_pInfoSrv:set_drop_rate(siDropRate)
+    m_pInfoSrv:set_exp_rate(siExpR)
+    m_pInfoSrv:set_meso_rate(siMesoR)
+    m_pInfoSrv:set_drop_rate(siDropR)
 end
 
 function CStatProperties:get_info_server()
@@ -60,5 +60,5 @@ end
 
 function CStatProperties:update_stats(pPlayer, siExpR, siMesoR, siDropR)
     self:_set_info_character(pPlayer)
-    self:_set_info_server(siExpRate, siMesoRate, siDropRate)
+    self:_set_info_server(siExpR, siMesoR, siDropR)
 end

@@ -15,19 +15,14 @@ require("utils.persist.act.call")
 require("utils.provider.json.decode")
 
 function load_rates(pInfoSrv)
-    local pCon = db_new(RPersistPath.RATES)
-    local sJson = db_kv_fetch(pCon, RPersistKey.DEFAULT)
-
-    local st = ""
-    for k, v in pairs(sJson) do
-        st = st .. tostring(k) .. ":" .. tostring(v) .. ","
-    end
-
-    log_st(LPath.DB, "_db.txt", " >> '" .. tostring(sJson) .. " " .. type(sJson) .. " | >" .. st .. "<")
+    local pCon = db_new(RPersistPath.DB)
+    local sJson = db_kv_fetch(pCon, RPersistPath.RATES, "id", RPersistKey.DEFAULT)
     db_close(pCon)
 
-    local iExpR, iMesoR, iDropR = decode_stream(sJson)
-    pInfoSrv:set_exp_rate(iExpR)
-    pInfoSrv:set_meso_rate(iMesoR)
-    pInfoSrv:set_drop_rate(iDropR)
+    if sJson ~= nil then
+        local iExpR, iMesoR, iDropR = decode_stream(sJson)
+        pInfoSrv:set_exp_rate(iExpR)
+        pInfoSrv:set_meso_rate(iMesoR)
+        pInfoSrv:set_drop_rate(iDropR)
+    end
 end

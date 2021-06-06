@@ -59,7 +59,8 @@ function love.load()
     log(LPath.INTERFACE, "load.txt", "Loading solver metadata...")
 
     dofile("router/stage.lua")
-    dofile("utils/persist/act/start.lua")
+
+    --local pHdl = io.popen("lua5.1 utils/persist/act/start.lua")
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 
@@ -142,6 +143,8 @@ function love.load()
     pUiStats = load_frame_stat()
 
     pPlayer = CPlayer:new({iId = 1, iMapid = 110000000, siLevel = 50, siJob = 122})
+    pPlayer:get_items():get_inventory():include_inventory(pIvtItems)
+
     pUiStats:update_stats(pPlayer, 10, 10, 10)
 
     pUiRscs = load_frame_quest_resources()
@@ -155,18 +158,30 @@ function love.load()
     pWndHandler:set_opened(pUiStats)
     pWndHandler:set_opened(pUiRscs)
 
+    --[[
+
+    log(LPath.INTERFACE, "load.txt", "Loading persisted data")
+
     local pInfoSrv = pUiStats:get_properties():get_info_server()
     save_player(pPlayer)
     save_inventory(pPlayer)
     save_rates(pInfoSrv)
 
+    log(LPath.DB, "rdbms.txt", "Saving data")
+
     load_rates(pInfoSrv)
     load_inventory(pPlayer)
     load_player(pPlayer)
 
+    log(LPath.DB, "rdbms.txt", "Loading data")
+
     delete_rates(pInfoSrv)
     delete_inventory(pPlayer)
     delete_player(pPlayer)
+
+    log(LPath.DB, "rdbms.txt", "Deleting data")
+
+    ]]--
 end
 
 local function update_interactions()

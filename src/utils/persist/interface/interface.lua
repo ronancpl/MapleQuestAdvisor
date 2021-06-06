@@ -11,7 +11,9 @@
 --]]
 
 require("router.constants.persistence")
+require("utils.persist.act.call")
 require("utils.persist.rdbms")
+require("utils.persist.interface.action")
 require("utils.persist.interface.session")
 require("utils.procedure.copy")
 
@@ -19,8 +21,14 @@ function sleep(n)
     os.execute("sleep " .. tonumber(n))
 end
 
+function setup_persist_interface(pRdbms)
+    local tpTableCols = load_db_table_cols()
+    execute_rdbms_setup(pRdbms:get_rdbms_ds(), tpTableCols)
+end
+
 function run_persist_interface(pRdbms)
     local i = 0
+
     repeat
         local tpCall = pRdbms:load_call()
 
@@ -28,8 +36,8 @@ function run_persist_interface(pRdbms)
         if next(tpCall) ~= nil then
             i = 0
 
-            for rgpRdbmsArgs, _ in pairs(tpCall) do
-                tpRes[rgpRdbmsArgs] = execute_rdbms_action(rgpRdbmsArgs)
+            for sKeyArgs, rgpRdbmsArgs in pairs(tpCall) do
+                tpRes[sKeyArgs] = execute_rdbms_action(rgpRdbmsArgs)
             end
 
             pRdbms:store_all_results(tpRes)
@@ -47,6 +55,7 @@ end
 
 local function yield_response(rgpArgs)
     local pTmpRdbms = CRdbmsSession:new()
+
     pTmpRdbms:store_call(rgpArgs)
 
     local pRes
@@ -59,9 +68,26 @@ local function yield_response(rgpArgs)
     return pRes, bCanSleep
 end
 
-function send_rdbms_action(rgpRdbmsArgs)
-    local rgpArgs = table_copy(rgpRdbmsArgs)
-    local pRes, _ = yield_response(rgpArgs)
+local function get_rdbms_args(tpCmdArgs)
+    local rgpArgs = {}
 
+    local i = 1
+    while true do
+        local pArg = tpCmdArgs[i]
+        if pArg == nil then
+            break
+        end
+
+        table.insert(rgpArgs, pArg)
+        i = i + 1
+    end
+
+    return rgpArgs
+end
+
+function send_rdbms_action(tpCmdArgs)
+    local rgpRdbmsArgs = get_rdbms_args(tpCmdArgs)
+
+    local pRes, _ = yield_response(rgpRdbmsArgs)
     return pRes
 end

@@ -10,11 +10,21 @@
     provide an express grant of patent rights.
 --]]
 
+package.path = package.path .. ';?.lua'
+
 require("router.constants.path")
+require("router.constants.persistence")
 require("utils.logger.error")
+require("utils.logger.file")
+require("utils.persist.act.call")
 require("utils.persist.interface.interface")
 require("utils.persist.interface.session")
 
 pcall_log(RPath.TMP_DB .. "/")
+tpTableCols = load_db_table_cols()
+
 pRdbms = CRdbmsSession:new({})
+pRdbms:set_rdbms_ds(RPersistPath.DB)
+
+setup_persist_interface(pRdbms)
 run_persist_interface(pRdbms)

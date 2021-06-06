@@ -10,14 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.constants.persistence")
-require("utils.persist.act.call")
-require("utils.provider.json.encode")
-
-function save_rates(pInfoSrv)
-    local sJson = encode_stream({pInfoSrv:get_exp_rate(), pInfoSrv:get_meso_rate(), pInfoSrv:get_drop_rate()})
-
-    local pCon = db_new(RPersistPath.DB)
-    db_kv_add(pCon, RPersistPath.RATES, db_pk_table(RPersistTable.RATES), {RPersistKey.DEFAULT, sJson})
-    db_close(pCon)
-end
+RSqlFunction = {
+    NEW = 0,
+    ADD = 1,
+    DELETE = 2,
+    FETCH = 3,
+    CLOSE = 4
+}

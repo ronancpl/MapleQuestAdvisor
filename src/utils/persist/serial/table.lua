@@ -20,7 +20,7 @@ function load_file_resultset(sFileSubpath)
     local tpTable
     if fIn ~= nil then
         local sJson = fIn:read("*a")
-        tpTable = decode_stream(sJson)
+        tpTable = decode_item(sJson)
 
         fIn:close()
     else
@@ -33,7 +33,7 @@ end
 function save_file_resultset(sFileSubpath, tpTable)
     local fOut = io.open("../" .. RPath.TMP_DB .. "/" .. sFileSubpath, "w")
 
-    local sJson = encode_stream(tpTable)
+    local sJson = encode_item(tpTable)
     fOut:write(sJson)
 
     fOut:close()

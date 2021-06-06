@@ -12,20 +12,19 @@
 
 require("router.constants.persistence")
 require("utils.persist.act.call")
+require("utils.procedure.copy")
 require("utils.provider.json.encode")
 
 local function fetch_player_data(pPlayer)
     local tpData = pPlayer:export_table()
-    return tpData
+    return table_tostring(tpData)
 end
 
 function save_player(pPlayer)
     local sPlayerInfo = fetch_player_data(pPlayer)
     local sJson = encode_item(sPlayerInfo)
 
-    local pCon = db_new(RPersistPath.STAT)
-
-    db_kv_add(pCon, pPlayer:get_id(), sJson)
-
+    local pCon = db_new(RPersistPath.DB)
+    db_kv_add(pCon, RPersistPath.STAT, db_pk_table(RPersistTable.STAT), {pPlayer:get_id(), sJson})
     db_close(pCon)
 end

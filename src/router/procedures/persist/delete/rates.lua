@@ -15,9 +15,7 @@ require("utils.persist.act.call")
 require("utils.provider.json.encode")
 
 function delete_rates(pInfoSrv)
-    local sJson = encode_stream({pInfoSrv:get_exp_rate(), pInfoSrv:get_meso_rate(), pInfoSrv:get_drop_rate()})
-
-    local pCon = db_new(RPersistPath.RATES)
-    db_kv_delete(pCon, RPersistKey.DEFAULT)
+    local pCon = db_new(RPersistPath.DB)
+    db_kv_delete(pCon, RPersistPath.RATES, "id", RPersistKey.DEFAULT)
     db_close(pCon)
 end

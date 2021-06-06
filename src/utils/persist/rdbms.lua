@@ -12,31 +12,31 @@
 
 require("utils.persist.sqlite")
 
+function rdbms_setup(sDataSource, tpTableCols)
+    sq3_setup(sDataSource, tpTableCols)
+end
+
 function rdbms_new(sDataSource)
     local pCon = sq3_new(sDataSource)
     return pCon
 end
 
-function rdbms_kv_add(pCon, pKey, pVal)
-    local iId, pRes = sq3_kv_add(pCon, pKey, pVal)
+function rdbms_kv_add(pCon, sTable, rgpVals, pKey)
+    local iId, pRes = sq3_kv_add(pCon, sTable, rgpVals, pKey)
     return iId, pRes
 end
 
-function rdbms_kv_delete(pCon, pKey)
-    local pRes = sq3_kv_delete(pCon, pKey)
+function rdbms_kv_delete(pCon, sTable, pKey, pVal)
+    local pRes = sq3_kv_delete(pCon, sTable, pKey, pVal)
     return pRes
 end
 
-function rdbms_kv_fetch(pCon, pKey)
+function rdbms_kv_fetch(pCon, sTable, pKey, pVal)
     if pKey ~= nil then
-        local pData, pRes = sq3_kv_fetch(pCon, pKey)
-
-        log_st(LPath.DB, "_db.txt", " >> '" .. tostring(pKey) .. " " .. type(pData))
+        local pData, pRes = sq3_kv_fetch(pCon, sTable, pKey, pVal)
         return pData, pRes
     else
         local rgpData = sq3_kv_fetch_all(pCon)
-
-        log_st(LPath.DB, "_db.txt", " >> '" .. tostring(pKey) .. " " .. type(rgpData))
         return rgpData, true
     end
 end

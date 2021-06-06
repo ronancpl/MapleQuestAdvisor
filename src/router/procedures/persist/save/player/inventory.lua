@@ -12,20 +12,19 @@
 
 require("router.constants.persistence")
 require("utils.persist.act.call")
+require("utils.procedure.copy")
 require("utils.provider.json.encode")
 
 local function fetch_inventory_data(pPlayer)
     local tpData = pPlayer:export_inventory_tables()
-    return tpData
+    return table_tostring(tpData)
 end
 
 function save_inventory(pPlayer)
     local sInvtInfo = fetch_inventory_data(pPlayer)
     local sJson = encode_item(sInvtInfo)
 
-    local pCon = db_new(RPersistPath.INVENTORY)
-
-    db_kv_add(pCon, pPlayer:get_id(), sJson)
-
+    local pCon = db_new(RPersistPath.DB)
+    db_kv_add(pCon, RPersistPath.INVENTORY, db_pk_table(RPersistTable.INVENTORY), {pPlayer:get_id(), sJson})
     db_close(pCon)
 end

@@ -15,10 +15,12 @@ require("utils.persist.act.call")
 require("utils.provider.json.decode")
 
 function load_inventory(pPlayer)
-    local pCon = db_new(RPersistPath.INVENTORY)
-    local sJson = db_kv_fetch(pCon, pPlayer:get_id())
+    local pCon = db_new(RPersistPath.DB)
+    local sJson = db_kv_fetch(pCon, RPersistPath.INVENTORY, "id", pPlayer:get_id())
     db_close(pCon)
 
-    local tpItems = decode_item(sJson)
-    pPlayer:import_inventory_tables(tpItems)
+    if sJson ~= nil then
+        local tpItems = decode_item(sJson)
+        pPlayer:import_inventory_tables(tpItems)
+    end
 end
