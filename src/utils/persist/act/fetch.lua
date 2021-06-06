@@ -18,5 +18,6 @@ require("utils.persist.interface.interface")
 require("utils.persist.serial.args")
 require("utils.persist.serial.table")
 
+local rgpRdbmsArgs = unserialize_rdbms_args(arg)
 local pRes = send_rdbms_action(rgpRdbmsArgs)
 save_file_resultset("result.txt", pRes)
