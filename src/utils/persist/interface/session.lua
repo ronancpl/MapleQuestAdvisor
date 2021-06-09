@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.constants.persistence")
 require("utils.persist.statements")
 require("utils.persist.serial.table")
 require("utils.procedure.copy")
@@ -25,29 +26,29 @@ function CRdbmsSession:get_storage_statements()
 end
 
 function CRdbmsSession:load_call()  -- I/O due to temporary session
-    local tpTable = load_file_resultset("call.txt") or {}
-    --save_file_resultset("call.txt", {})
+    local tpTable = load_file_resultset(RPersistFile.RS_CALL) or {}
+    --save_file_resultset(RPersistFile.RS_CALL, {})
 
     return tpTable
 end
 
 function CRdbmsSession:store_call(rgpArgs)
-    local tpTable = load_file_resultset("call.txt") or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_CALL) or {}
 
     local sArgsKey = tostring(rgpArgs)
     tpTable[sArgsKey] = rgpArgs         -- insert new DB operation request
 
-    save_file_resultset("call.txt", tpTable)
+    save_file_resultset(RPersistFile.RS_CALL, tpTable)
 end
 
 function CRdbmsSession:pop_result(rgpArgs)
-    local tpTable = load_file_resultset("response.txt") or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_RESPONSE) or {}
 
     local sKeyArgs = tostring(rgpArgs)
     local tpRes = tpTable[sKeyArgs]
     if tpRes ~= nil then
         tpTable[sKeyArgs] = nil
-        save_file_resultset("response.txt", tpTable)
+        save_file_resultset(RPersistFile.RS_RESPONSE, tpTable)
 
         return tpRes, next(tpTable) == nil
     else
@@ -56,17 +57,17 @@ function CRdbmsSession:pop_result(rgpArgs)
 end
 
 function CRdbmsSession:store_result(rgpArgs)
-    local tpTable = load_file_resultset("response.txt") or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_RESPONSE) or {}
     tpTable[rgpArgs] = 1
 
-    save_file_resultset("response.txt", tpTable)
+    save_file_resultset(RPersistFile.RS_RESPONSE, tpTable)
 end
 
 function CRdbmsSession:store_all_results(tpArgs)
-    local tpTable = load_file_resultset("response.txt") or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_RESPONSE) or {}
     table_merge(tpTable, tpArgs)
 
-    save_file_resultset("response.txt", tpTable)
+    save_file_resultset(RPersistFile.RS_RESPONSE, tpTable)
 end
 
 function CRdbmsSession:get_rdbms_ds()

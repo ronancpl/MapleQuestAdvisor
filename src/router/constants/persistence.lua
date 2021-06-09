@@ -42,3 +42,12 @@ RPersist = {
     BUSY_RETRIES = 5
 
 }
+
+RPersistFile = {
+
+    RS_JOURNAL = "#tmp",
+    RS_CALL = "call.txt",
+    RS_RESPONSE = "response.txt",
+    RS_ARRAYS = "arrays.txt"
+
+}

@@ -16,7 +16,7 @@ require("utils.provider.json.decode")
 
 function load_rates(pInfoSrv)
     local pCon = db_new(RPersistPath.DB)
-    local sJson = db_kv_fetch(pCon, RPersistPath.RATES, "id", RPersistKey.DEFAULT)
+    local sJson = db_kv_select(pCon, RPersistPath.RATES, "content", db_pk_table(RPersistTable.RATES), RPersistKey.DEFAULT)
     db_close(pCon)
 
     if sJson ~= nil then

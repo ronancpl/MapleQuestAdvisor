@@ -16,7 +16,7 @@ require("utils.provider.json.decode")
 
 function load_player(pPlayer)
     local pCon = db_new(RPersistPath.DB)
-    local sJson = db_kv_fetch(pCon, RPersistPath.STAT, "id", pPlayer:get_id())
+    local sJson = db_kv_select(pCon, RPersistPath.STAT, "content", db_pk_table(RPersistTable.STAT), pPlayer:get_id())
     db_close(pCon)
 
     if sJson ~= nil then

@@ -49,12 +49,12 @@ end
 local function make_sq3_update_stmt(pCon, sQuerySql, sTableName, sKey, sValue)
     local sKey, sValue = unpack(pKeyVal)
 
-    local pStmt = pCon:prepare(sQuerySql or "update " .. sTableName .. " set " .. sKey .. "=" .. sValue)
+    local pStmt = pCon:prepare(sQuerySql or "update " .. sTableName .. " set " .. sKey .. "=" .. tostring(sValue))
     return pStmt
 end
 
 local function make_sq3_delete_stmt(pCon, sQuerySql, sTableName, sKey, sValue)
-    local pStmt = pCon:prepare(sQuerySql or "delete from " .. sTableName .. " where " .. sKey .. "=" .. sValue)
+    local pStmt = pCon:prepare(sQuerySql or "delete from " .. sTableName .. " where " .. sKey .. "=" .. tostring(sValue))
     return pStmt
 end
 
@@ -63,7 +63,7 @@ local function make_sq3_select_stmt(pCon, sQuerySql, sTableName, sKey, sValue)
         local pStmt = pCon:prepare(sQuerySql or ("select * from " .. sTableName))
         return pStmt
     else
-        local pStmt = pCon:prepare(sQuerySql or ("select * from " .. sTableName .. " where " .. sKey .. "=" .. sValue))
+        local pStmt = pCon:prepare(sQuerySql or ("select * from " .. sTableName .. " where " .. sKey .. "=" .. tostring(sValue)))
         return pStmt
     end
 end

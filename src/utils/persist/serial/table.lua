@@ -11,10 +11,38 @@
 --]]
 
 require("router.constants.path")
+require("router.constants.persistence")
 require("utils.provider.json.decode")
 require("utils.provider.json.encode")
 
+function sleep(n)
+    os.execute("sleep " .. tonumber(n))
+end
+
+local function wait_for_hold_file_resultset()
+    while true do
+        local fIn = io.open("../" .. RPath.TMP_DB .. "/" .. RPersistFile.RS_JOURNAL, "r")
+        if fIn == nil then
+            local fOut = io.open("../" .. RPath.TMP_DB .. "/" .. RPersistFile.RS_JOURNAL, "w")
+            if fOut ~= nil then
+                return fOut
+            end
+        end
+
+        sleep(RPersist.INTERFACE_SLEEP_MS)
+    end
+end
+
+local function release_file_resultset(fOut)
+    if fOut ~= nil then
+        fOut:close()
+    end
+
+    os.remove("../" .. RPath.TMP_DB .. "/" .. RPersistFile.RS_JOURNAL)
+end
+
 function load_file_resultset(sFileSubpath)
+    local fLock = wait_for_hold_file_resultset()
     local fIn = io.open("../" .. RPath.TMP_DB .. "/" .. sFileSubpath, "r")
 
     local tpTable
@@ -27,14 +55,22 @@ function load_file_resultset(sFileSubpath)
         tpTable = {}
     end
 
+    release_file_resultset(fLock)
     return tpTable
 end
 
 function save_file_resultset(sFileSubpath, tpTable)
-    local fOut = io.open("../" .. RPath.TMP_DB .. "/" .. sFileSubpath, "w")
+    local sFilePath = "../" .. RPath.TMP_DB .. "/" .. sFileSubpath
+
+    local fLock = wait_for_hold_file_resultset()
+    local fOut = io.open(sFilePath, "w")
+    while fOut == nil do
+        fOut = io.open(sFilePath, "w")
+    end
 
     local sJson = encode_item(tpTable)
     fOut:write(sJson)
 
     fOut:close()
+    release_file_resultset(fLock)
 end

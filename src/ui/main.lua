@@ -50,6 +50,7 @@ require("ui.struct.images.storage.mob")
 require("ui.struct.images.storage.npc")
 require("ui.trace.trace")
 require("utils.logger.file")
+require("utils.persist.act.call")
 require("utils.procedure.print")
 
 function love.load()
@@ -61,6 +62,7 @@ function love.load()
     dofile("router/stage.lua")
 
     --local pHdl = io.popen("lua5.1 utils/persist/act/start.lua")
+    tpTableCols = load_db_table_cols()
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 

@@ -11,7 +11,6 @@
 --]]
 
 require("router.constants.persistence")
-require("utils.persist.act.call")
 require("utils.persist.rdbms")
 require("utils.persist.interface.action")
 require("utils.persist.interface.session")

@@ -42,6 +42,23 @@ local function execute_prep_statement(pCon, pStmt)
     return pRes
 end
 
+local function execute_prep_query(pCon, pStmt)
+    pCon:exec('begin')
+
+    local rgpRows = {}
+
+    local pStep = pStmt:step()
+    while (pStep == sqlite3.ROW) do
+        local rgpVals = pStmt:get_values()
+        table.insert(rgpRows, rgpVals)
+
+        pStep = pStmt:step()
+    end
+
+    --pStmt:finalize()      -- Reusing statement
+    return rgpRows
+end
+
 function sq3_kv_add(pCon, sTable, rgpVals, pKey)
     pCon = make_connection(pRdbms:get_rdbms_ds())     -- no actual connection through API
     local pStorageStmt = pRdbms:get_storage_statements()
@@ -50,17 +67,16 @@ function sq3_kv_add(pCon, sTable, rgpVals, pKey)
 
     pCon:exec('begin')
 
-    pStmt:bind_values(unpack(rgpVals))     -- pVal : insert tuple
+    pStmt:bind_values(unpack(rgpVals))     -- rgpVals : insert tuple
     pStmt:step()
     pStmt:reset()
 
     --pStmt:finalize()      -- Reusing statement
 
     local pRes = pCon:exec('commit')
-
     if pRes ~= sqlite3.OK then
         local iIdx = find_rdbms_col(sTable, pKey)
-        pStmt = pStorageStmt:get_update_stmt(pCon, 0, sTable, pKey, pVal[iIdx] or "")
+        pStmt = pStorageStmt:get_update_stmt(pCon, 0, sTable, pKey, rgpVals[iIdx] or "")
 
         local pRes = execute_prep_statement(pCon, pStmt)
         assert(pRes ~= sqlite3.OK)
@@ -83,13 +99,18 @@ function sq3_kv_delete(pCon, sTable, sColName, pVal)
 end
 
 function sq3_kv_fetch(pCon, sTable, sColName, pVal)
+    log_st(LPath.DB, "_vf_fetch.txt", " >> " .. tostring(sTable) .. " | " .. tostring(sColName) .. " " .. tostring(pVal))
     pCon = make_connection(pRdbms:get_rdbms_ds())
 
     local pStorageStmt = pRdbms:get_storage_statements()
     local pStmt = pStorageStmt:get_select_stmt(pCon, 0, nil, sTable, sColName, pVal)
 
-    local pRes = execute_prep_statement(pCon, pStmt)
-    return pRes
+    local rgpRows = execute_prep_query(pCon, pStmt)
+    if next(rgpRows) ~= nil then
+        return rgpRows[1]
+    else
+        return nil
+    end
 end
 
 function sq3_kv_fetch_all(pCon, sTable)
@@ -98,23 +119,8 @@ function sq3_kv_fetch_all(pCon, sTable)
     local pStorageStmt = pRdbms:get_storage_statements()
     local pStmt = pStorageStmt:get_select_stmt(pCon, 0, nil, sTable)
 
-    execute_prep_statement(pCon, pStmt)
-
-    local tpItems = {}
-
-    local pNext
-    while pNext ~= sqlite3.DONE do
-        pNext = pStmt:step()
-
-        if pNext ~= sqlite3.ROW then
-            log(LPath.DB, "Error " .. tostring(pNext) .. " trying to parse query with '" .. sTable .. "', have result-set: [" .. tostring(pStmt:get_named_types()) .. "]")
-            pNext = sqlite3.DONE
-        else
-            tpItems[pStmt:get_value(0)] = pStmt:get_values()
-        end
-    end
-
-    return tpItems
+    local rgpRows = execute_prep_query(pCon, pStmt)
+    return rgpRows
 end
 
 function sq3_close(pCon)

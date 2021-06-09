@@ -10,7 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.constants.persistence")
 require("utils.persist.serial.table")
 
-local pRes = load_file_resultset("result.txt")
+local pRes = load_file_resultset(RPersistFile.RS_RESPONSE)
 return unpack(pRes)

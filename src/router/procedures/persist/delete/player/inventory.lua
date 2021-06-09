@@ -15,6 +15,6 @@ require("utils.persist.act.call")
 
 function delete_inventory(pPlayer)
     local pCon = db_new(RPersistPath.DB)
-    db_kv_delete(pCon, RPersistPath.INVENTORY, "id", pPlayer:get_id())
+    db_kv_delete(pCon, RPersistPath.INVENTORY, "cid", pPlayer:get_id())
     db_close(pCon)
 end

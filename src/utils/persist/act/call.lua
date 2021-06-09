@@ -45,6 +45,7 @@ end
 function find_rdbms_col(tpTableCols, sTableName, sColName)
     local i = -1
 
+    tpTableCols = load_db_table_cols()
     local tpCols = tpTableCols[sTableName]
     if tpCols ~= nil then
         i = tpCols[sColName] or -1
@@ -86,6 +87,11 @@ function db_kv_fetch(pCon, sTable, pKey, pVal)
 
     local pRes = collect_rdbms_result()
     return pRes
+end
+
+function db_kv_select(pCon, sTable, sColName, pKey, pVal)
+    local pRes = db_kv_fetch(pCon, sTable, pKey, pVal)
+    return pRes ~= nil and pRes[find_rdbms_col(tpTableCols, sTable, sColName)] or pRes
 end
 
 function db_kv_delete(pCon, sTable, pKey, pVal)

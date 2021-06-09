@@ -10,12 +10,13 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.constants.persistence")
 require("utils.persist.serial.table")
 require("utils.procedure.copy")
 require("utils.procedure.string")
 
 local function put_index_rdbms_args(rgpArgs)
-    local tpTable = load_file_resultset("arrays.txt") or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_ARRAYS) or {}
 
     for i = 1, #rgpArgs, 1 do
         local pItem = rgpArgs[i]
@@ -25,11 +26,11 @@ local function put_index_rdbms_args(rgpArgs)
         end
     end
 
-    save_file_resultset("arrays.txt", tpTable)
+    save_file_resultset(RPersistFile.RS_ARRAYS, tpTable)
 end
 
 local function take_index_rdbms_arg(tpArrays)
-    local tpTable = load_file_resultset("arrays.txt") or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_ARRAYS) or {}
 
     local tpRdbmsArrs = {}
 
@@ -40,7 +41,7 @@ local function take_index_rdbms_arg(tpArrays)
         tpTable[sTableMeta] = nil
     end
 
-    save_file_resultset("arrays.txt", tpTable)
+    save_file_resultset(RPersistFile.RS_ARRAYS, tpTable)
 
     return tpRdbmsArrs
 end

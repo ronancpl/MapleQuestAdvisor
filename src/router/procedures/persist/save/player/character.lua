@@ -12,8 +12,10 @@
 
 require("router.constants.persistence")
 require("utils.persist.act.call")
+require("utils.persist.sqlite")
 require("utils.procedure.copy")
 require("utils.provider.json.encode")
+require("utils.persist.interface.session")
 
 local function fetch_player_data(pPlayer)
     local tpData = pPlayer:export_table()
@@ -26,5 +28,14 @@ function save_player(pPlayer)
 
     local pCon = db_new(RPersistPath.DB)
     db_kv_add(pCon, RPersistPath.STAT, db_pk_table(RPersistTable.STAT), {pPlayer:get_id(), sJson})
+
+    local i = find_rdbms_col(load_db_table_cols(), RPersistPath.STAT, "cid")
+    local j = find_rdbms_col(load_db_table_cols(), RPersistPath.STAT, "content")
+
+    pRdbms = CRdbmsSession:new({})
+    pRdbms:set_rdbms_ds(RPersistPath.DB)
+    local rgpData = sq3_kv_fetch(pCon, RPersistPath.STAT, "cid", 1)[2]
+    log_st(LPath.DB, "_add_fetch.txt", " >> " .. tostring(pKey) .. " | " .. tostring(i) .. " " .. tostring(j) .. " >> '" .. rgpData .. "'")
+
     db_close(pCon)
 end
