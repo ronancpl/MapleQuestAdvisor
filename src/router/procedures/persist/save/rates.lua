@@ -19,5 +19,9 @@ function save_rates(pInfoSrv)
 
     local pCon = db_new(RPersistPath.DB)
     db_kv_add(pCon, RPersistPath.RATES, db_pk_table(RPersistTable.RATES), {RPersistKey.DEFAULT, sJson})
+
+    local sJson = db_kv_select(pCon, RPersistPath.RATES, "content", db_pk_table(RPersistTable.RATES), RPersistKey.DEFAULT)
+    log_st(LPath.DB, "_save.txt", "RATES : '" .. sJson .. "'")
+
     db_close(pCon)
 end

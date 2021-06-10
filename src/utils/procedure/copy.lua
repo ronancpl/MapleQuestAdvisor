@@ -49,7 +49,7 @@ function table_append(rgDest, tOrig)
     end
 end
 
-function table_tostring(e)
+local function table_tostring_internal(e)
     local st = ""
 
     if type(e) == "table" then
@@ -60,6 +60,18 @@ function table_tostring(e)
         end
     else
         st = st .. tostring(e)  -- string, number, etc
+    end
+
+    return st
+end
+
+function table_tostring(e)
+    local st
+
+    if type(e) == "table" then
+        st = "{" .. table_tostring_internal(e):sub(1, -3) .. "}"
+    else
+        st = table_tostring_internal(e)
     end
 
     return st

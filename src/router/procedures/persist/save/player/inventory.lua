@@ -17,7 +17,7 @@ require("utils.provider.json.encode")
 
 local function fetch_inventory_data(pPlayer)
     local tpData = pPlayer:export_inventory_tables()
-    return table_tostring(tpData)
+    return (tpData)
 end
 
 function save_inventory(pPlayer)
@@ -26,5 +26,9 @@ function save_inventory(pPlayer)
 
     local pCon = db_new(RPersistPath.DB)
     db_kv_add(pCon, RPersistPath.INVENTORY, db_pk_table(RPersistTable.INVENTORY), {pPlayer:get_id(), sJson})
+
+    local sJson = db_kv_select(pCon, RPersistPath.INVENTORY, "content", db_pk_table(RPersistTable.INVENTORY), RPersistKey.DEFAULT)
+    log_st(LPath.DB, "_save.txt", tostring(RPersistPath.INVENTORY) .. " >> '" .. sJson .. "'")
+
     db_close(pCon)
 end

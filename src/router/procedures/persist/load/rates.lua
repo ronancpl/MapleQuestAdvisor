@@ -24,5 +24,6 @@ function load_rates(pInfoSrv)
         pInfoSrv:set_exp_rate(iExpR)
         pInfoSrv:set_meso_rate(iMesoR)
         pInfoSrv:set_drop_rate(iDropR)
+        log_st(LPath.DB, "_load.txt", "RATES : '" .. iExpR .. " " .. iMesoR .. " " .. iDropR .. "'")
     end
 end

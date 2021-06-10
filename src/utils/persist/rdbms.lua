@@ -36,7 +36,7 @@ function rdbms_kv_fetch(pCon, sTable, pKey, pVal)
         local pData, pRes = sq3_kv_fetch(pCon, sTable, pKey, pVal)
         return pData, pRes
     else
-        local rgpData = sq3_kv_fetch_all(pCon)
+        local rgpData = sq3_kv_fetch_all(pCon, sTable)
         return rgpData, true
     end
 end

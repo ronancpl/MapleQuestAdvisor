@@ -35,8 +35,8 @@ end
 function CRdbmsSession:store_call(rgpArgs)
     local tpTable = load_file_resultset(RPersistFile.RS_CALL) or {}
 
-    local sArgsKey = tostring(rgpArgs)
-    tpTable[sArgsKey] = rgpArgs         -- insert new DB operation request
+    local sKeyArgs = tostring(rgpArgs)
+    tpTable[sKeyArgs] = rgpArgs         -- insert new DB operation request
 
     save_file_resultset(RPersistFile.RS_CALL, tpTable)
 end

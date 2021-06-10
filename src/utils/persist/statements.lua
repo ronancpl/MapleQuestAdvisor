@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.constants.persistence")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
@@ -36,6 +37,7 @@ end
 
 local function make_sq3_create_stmt(pCon, sParams, sTableName)
     local pStmt = pCon:prepare("create table " .. sTableName .. "(" .. sParams .. ")")
+    log_st(LPath.DB, "_vq_stmt.txt", " >> " .. ("create table " .. sTableName .. "(" .. sParams .. ")") .. " | " .. tostring(pStmt))
     return pStmt
 end
 
@@ -43,6 +45,7 @@ local function make_sq3_insert_stmt(pCon, nCols, sTableName)
     local sParams = fetch_sq3_params_clause(nCols)
 
     local pStmt = pCon:prepare("insert into " .. sTableName .. " values(" .. sParams .. ")")
+    log_st(LPath.DB, "_vq_stmt.txt", " >> " .. ("insert into " .. sTableName .. " values(" .. sParams .. ")") .. " | " .. tostring(pStmt))
     return pStmt
 end
 
@@ -59,30 +62,33 @@ local function make_sq3_delete_stmt(pCon, sQuerySql, sTableName, sKey, sValue)
 end
 
 local function make_sq3_select_stmt(pCon, sQuerySql, sTableName, sKey, sValue)
+    local sqlite3 = require('lsqlite3complete')
+    pCon = sqlite3.open(RPersistPath.DB)
+
     if sKey == nil then
-        local pStmt = pCon:prepare(sQuerySql or ("select * from " .. sTableName))
+        local pStmt = pCon:prepare(sQuerySql or ("select * from '" .. sTableName .. "'"))
         return pStmt
     else
-        local pStmt = pCon:prepare(sQuerySql or ("select * from " .. sTableName .. " where " .. sKey .. "=" .. tostring(sValue)))
+        local pStmt = pCon:prepare(sQuerySql or ("select * from '" .. sTableName .. "' where " .. sKey .. "=" .. tostring(sValue)))
         return pStmt
     end
 end
 
 local function fetch_stmt(pCon, nCols, sParams, m_tpClauses, fn_make_stmt, sTable)
-    local pStmt = m_tpClauses[nCols]
+    local pStmt = m_tpClauses[sTable]
     if pStmt == nil then
         pStmt = fn_make_stmt(pCon, sParams, sTable)
-        m_tpClauses[nCols] = pStmt
+        m_tpClauses[sTable] = pStmt
     end
 
     return pStmt
 end
 
 local function compose_fetch_stmt(pCon, nCols, m_tpClauses, fn_make_stmt, sSelectSql, sTable, sKey, sValue)
-    local pStmt = m_tpClauses[nCols]
+    local pStmt = m_tpClauses[sTable]
     if pStmt == nil then
         pStmt = fn_make_stmt(pCon, sSelectSql, sTable, sKey, sValue)
-        m_tpClauses[nCols] = pStmt
+        m_tpClauses[sTable] = pStmt
     end
 
     return pStmt

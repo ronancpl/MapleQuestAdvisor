@@ -17,5 +17,9 @@ require("utils.provider.json.encode")
 function delete_rates(pInfoSrv)
     local pCon = db_new(RPersistPath.DB)
     db_kv_delete(pCon, RPersistPath.RATES, "id", RPersistKey.DEFAULT)
+
+    local sJson = db_kv_select(pCon, RPersistPath.RATES, "content", db_pk_table(RPersistTable.RATES), pPlayer:get_id())
+    log_st(LPath.DB, "_delete.txt", "RATES : '" .. sJson .. "'")
+
     db_close(pCon)
 end

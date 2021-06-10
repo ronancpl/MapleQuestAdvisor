@@ -21,7 +21,6 @@ function sleep(n)
 end
 
 function setup_persist_interface(pRdbms)
-    local tpTableCols = load_db_table_cols()
     execute_rdbms_setup(pRdbms:get_rdbms_ds(), tpTableCols)
 end
 
@@ -36,6 +35,7 @@ function run_persist_interface(pRdbms)
             i = 0
 
             for sKeyArgs, rgpRdbmsArgs in pairs(tpCall) do
+                log_st(LPath.DB, "_test.txt", " EXEC >> '" .. tostring(sKeyArgs) .. "'")
                 tpRes[sKeyArgs] = execute_rdbms_action(rgpRdbmsArgs)
             end
 

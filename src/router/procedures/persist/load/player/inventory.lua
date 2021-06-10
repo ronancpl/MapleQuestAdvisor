@@ -22,5 +22,6 @@ function load_inventory(pPlayer)
     if sJson ~= nil then
         local tpItems = decode_item(sJson)
         pPlayer:import_inventory_tables(tpItems)
+        log_st(LPath.DB, "_load.txt", "INVENTORY : '" .. table_tostring(tpItems) .. "'")
     end
 end
