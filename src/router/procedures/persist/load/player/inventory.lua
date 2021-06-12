@@ -14,14 +14,24 @@ require("router.constants.persistence")
 require("utils.persist.act.call")
 require("utils.provider.json.decode")
 
+local function load_inventory_data(sJson)
+    local rgpInvtItems = {}
+
+    local rgsInvtInfo = decode_item(sJson)
+    for iId, sInvt in pairs(rgsInvtInfo) do
+        rgpInvtItems[iId] = decode_item(sInvt)
+    end
+
+    return rgpInvtItems
+end
+
 function load_inventory(pPlayer)
     local pCon = db_new(RPersistPath.DB)
     local sJson = db_kv_select(pCon, RPersistPath.INVENTORY, "content", db_pk_table(RPersistTable.INVENTORY), pPlayer:get_id())
     db_close(pCon)
 
     if sJson ~= nil then
-        local tpItems = decode_item(sJson)
+        local tpItems = load_inventory_data(sJson)
         pPlayer:import_inventory_tables(tpItems)
-        log_st(LPath.DB, "_load.txt", "INVENTORY : '" .. table_tostring(tpItems) .. "'")
     end
 end

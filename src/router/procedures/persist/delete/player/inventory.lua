@@ -16,9 +16,5 @@ require("utils.persist.act.call")
 function delete_inventory(pPlayer)
     local pCon = db_new(RPersistPath.DB)
     db_kv_delete(pCon, RPersistPath.INVENTORY, "cid", pPlayer:get_id())
-
-    local sJson = db_kv_select(pCon, RPersistPath.INVENTORY, "content", db_pk_table(RPersistTable.INVENTORY), pPlayer:get_id())
-    log_st(LPath.DB, "_delete.txt", "INVENTORY : '" .. sJson .. "'")
-
     db_close(pCon)
 end

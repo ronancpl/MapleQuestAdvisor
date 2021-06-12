@@ -105,14 +105,19 @@ function CInventory:empty()
 end
 
 function CInventory:export_table()
-    return table_copy(self:get_items())
+    local tpItems = {}
+    for iId, iCount in pairs(self:get_items()) do
+        tpItems["\"" .. tostring(iId) .. "\""] = iCount
+    end
+
+    return tpItems
 end
 
 function CInventory:import_table(tpItems)
     self:empty()
 
-    for iId, iCount in pairs(tpItems) do
-        self:add_item(iId, iCount)
+    for sId, iCount in pairs(tpItems) do
+        self:add_item(tonumber(sId:sub(2, -2)), iCount)
     end
 end
 

@@ -29,8 +29,5 @@ function save_player(pPlayer)
     local pCon = db_new(RPersistPath.DB)
     db_kv_add(pCon, RPersistPath.STAT, db_pk_table(RPersistTable.STAT), {pPlayer:get_id(), sJson})
 
-    local sJson = db_kv_fetch(pCon, RPersistPath.STAT, "cid", 1)[2]
-    log_st(LPath.DB, "_save.txt", tostring(RPersistPath.STAT) .. " >> '" .. table_tostring(sJson) .. "'")
-
     db_close(pCon)
 end

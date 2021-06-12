@@ -11,6 +11,7 @@
 --]]
 
 require("router.procedures.constant")
+require("router.procedures.inventory.handle")
 require("structs.storage.inventory")
 require("utils.struct.class")
 
@@ -89,8 +90,8 @@ function CCompositeInventory:import_table(tpItems)
     self.ivtRaw:empty()
     self.ivtComp:empty()
 
-    for iId, iCount in pairs(tpItems) do
-        self:add_item(iId, iCount)
+    for sId, iCount in pairs(tpItems) do
+        self:add_item(tonumber(sId), iCount)
     end
 end
 

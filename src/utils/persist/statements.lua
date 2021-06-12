@@ -45,7 +45,6 @@ local function make_sq3_insert_stmt(pCon, nCols, sTableName)
     local sParams = fetch_sq3_params_clause(nCols)
 
     local pStmt = pCon:prepare("insert into " .. sTableName .. " values(" .. sParams .. ")")
-    log_st(LPath.DB, "_vq_stmt.txt", " >> " .. ("insert into " .. sTableName .. " values(" .. sParams .. ")") .. " | " .. tostring(pStmt))
     return pStmt
 end
 
@@ -84,10 +83,10 @@ local function fetch_stmt(pCon, nCols, sParams, m_tpClauses, fn_make_stmt, sTabl
     return pStmt
 end
 
-local function compose_fetch_stmt(pCon, nCols, m_tpClauses, fn_make_stmt, sSelectSql, sTable, sKey, sValue)
+local function compose_fetch_stmt(pCon, nCols, m_tpClauses, fn_make_stmt, sStmtSql, sTable, sKey, sValue)
     local pStmt = m_tpClauses[sTable]
     if pStmt == nil then
-        pStmt = fn_make_stmt(pCon, sSelectSql, sTable, sKey, sValue)
+        pStmt = fn_make_stmt(pCon, sStmtSql, sTable, sKey, sValue)
         m_tpClauses[sTable] = pStmt
     end
 
@@ -108,25 +107,25 @@ function CPreparedStorage:get_insert_stmt(pCon, nCols, sTableName)
     return fetch_stmt(pCon, nCols, nCols, m_tpClauses, fn_make_stmt, sTableName)
 end
 
-function CPreparedStorage:get_update_stmt(pCon, nBinds, sSelectSql, sTableName, sKey, sValue)
+function CPreparedStorage:get_update_stmt(pCon, nBinds, sStmtSql, sTableName, sKey, sValue)
     local m_tpClauses = self.tpCreateClauses
     local fn_make_stmt = make_sq3_update_stmt
 
-    return compose_fetch_stmt(pCon, nBinds, m_tpClauses, fn_make_stmt, sSelectSql, sTableName, sKey, sValue)
+    return compose_fetch_stmt(pCon, nBinds, m_tpClauses, fn_make_stmt, sStmtSql, sTableName, sKey, sValue)
 end
 
-function CPreparedStorage:get_delete_stmt(pCon, nBinds, sSelectSql, sTableName, sKey, sValue)
+function CPreparedStorage:get_delete_stmt(pCon, nBinds, sStmtSql, sTableName, sKey, sValue)
     local m_tpClauses = self.tpCreateClauses
     local fn_make_stmt = make_sq3_delete_stmt
 
-    return compose_fetch_stmt(pCon, nBinds, m_tpClauses, fn_make_stmt, sSelectSql, sTableName, sKey, sValue)
+    return compose_fetch_stmt(pCon, nBinds, m_tpClauses, fn_make_stmt, sStmtSql, sTableName, sKey, sValue)
 end
 
-function CPreparedStorage:get_select_stmt(pCon, nBinds, sSelectSql, sTableName, sKey, sValue)
+function CPreparedStorage:get_select_stmt(pCon, nBinds, sStmtSql, sTableName, sKey, sValue)
     local m_tpClauses = self.tpCreateClauses
     local fn_make_stmt = make_sq3_select_stmt
 
-    return compose_fetch_stmt(pCon, nBinds, m_tpClauses, fn_make_stmt, sSelectSql, sTableName, sKey, sValue)
+    return compose_fetch_stmt(pCon, nBinds, m_tpClauses, fn_make_stmt, sStmtSql, sTableName, sKey, sValue)
 end
 
 local function finalize_clauses(tpClause)

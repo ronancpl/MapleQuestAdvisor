@@ -16,9 +16,5 @@ require("utils.persist.act.call")
 function delete_player(pPlayer)
     local pCon = db_new(RPersistPath.DB)
     db_kv_delete(pCon, RPersistPath.STAT, "cid", pPlayer:get_id())
-
-    local sJson = db_kv_select(pCon, RPersistPath.STAT, "content", db_pk_table(RPersistTable.STAT), pPlayer:get_id())
-    log_st(LPath.DB, "_delete.txt", "STAT : '" .. tostring(sJson) .. "'")
-
     db_close(pCon)
 end

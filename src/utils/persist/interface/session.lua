@@ -42,13 +42,13 @@ function CRdbmsSession:store_call(rgpArgs)
 end
 
 function CRdbmsSession:pop_result(rgpArgs)
-    local tpTable = load_file_resultset(RPersistFile.RS_RESPONSE) or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_RDBMS) or {}
 
     local sKeyArgs = tostring(rgpArgs)
     local tpRes = tpTable[sKeyArgs]
     if tpRes ~= nil then
         tpTable[sKeyArgs] = nil
-        save_file_resultset(RPersistFile.RS_RESPONSE, tpTable)
+        save_file_resultset(RPersistFile.RS_RDBMS, tpTable)
 
         return tpRes, next(tpTable) == nil
     else
@@ -57,17 +57,17 @@ function CRdbmsSession:pop_result(rgpArgs)
 end
 
 function CRdbmsSession:store_result(rgpArgs)
-    local tpTable = load_file_resultset(RPersistFile.RS_RESPONSE) or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_RDBMS) or {}
     tpTable[rgpArgs] = 1
 
-    save_file_resultset(RPersistFile.RS_RESPONSE, tpTable)
+    save_file_resultset(RPersistFile.RS_RDBMS, tpTable)
 end
 
 function CRdbmsSession:store_all_results(tpArgs)
-    local tpTable = load_file_resultset(RPersistFile.RS_RESPONSE) or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_RDBMS) or {}
     table_merge(tpTable, tpArgs)
 
-    save_file_resultset(RPersistFile.RS_RESPONSE, tpTable)
+    save_file_resultset(RPersistFile.RS_RDBMS, tpTable)
 end
 
 function CRdbmsSession:get_rdbms_ds()

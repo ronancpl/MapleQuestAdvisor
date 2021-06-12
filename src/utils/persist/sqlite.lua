@@ -76,7 +76,7 @@ function sq3_kv_add(pCon, sTable, rgpVals, pKey)
     local pRes = pCon:exec('commit')
     if pRes ~= sqlite3.OK then
         local iIdx = find_rdbms_col(load_db_table_cols(), sTable, pKey)
-        pStmt = pStorageStmt:get_update_stmt(pCon, 0, sTable, pKey, rgpVals[iIdx] or "")
+        pStmt = pStorageStmt:get_update_stmt(pCon, 0, nil, sTable, pKey, rgpVals[iIdx] or "")
 
         local pRes = execute_prep_statement(pCon, pStmt)
         assert(pRes ~= sqlite3.OK)
@@ -92,14 +92,13 @@ function sq3_kv_delete(pCon, sTable, sColName, pVal)
     pCon = make_connection(pRdbms:get_rdbms_ds())
 
     local pStorageStmt = pRdbms:get_storage_statements()
-    local pStmt = pStorageStmt:get_delete_stmt(pCon, 0, sTable, sColName, pVal)
+    local pStmt = pStorageStmt:get_delete_stmt(pCon, 0, nil, sTable, sColName, pVal)
 
     local pRes = execute_prep_statement(pCon, pStmt)
     return pRes
 end
 
 function sq3_kv_fetch(pCon, sTable, sColName, pVal)
-    log_st(LPath.DB, "_vf_fetch.txt", " >> " .. tostring(sTable) .. " | " .. tostring(sColName) .. " " .. tostring(pVal))
     pCon = make_connection(pRdbms:get_rdbms_ds())
 
     local pStorageStmt = pRdbms:get_storage_statements()

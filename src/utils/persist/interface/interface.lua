@@ -35,7 +35,6 @@ function run_persist_interface(pRdbms)
             i = 0
 
             for sKeyArgs, rgpRdbmsArgs in pairs(tpCall) do
-                log_st(LPath.DB, "_test.txt", " EXEC >> '" .. tostring(sKeyArgs) .. "'")
                 tpRes[sKeyArgs] = execute_rdbms_action(rgpRdbmsArgs)
             end
 

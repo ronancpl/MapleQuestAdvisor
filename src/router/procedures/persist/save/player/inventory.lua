@@ -16,19 +16,22 @@ require("utils.procedure.copy")
 require("utils.provider.json.encode")
 
 local function fetch_inventory_data(pPlayer)
-    local tpData = pPlayer:export_inventory_tables()
-    return (tpData)
+    local rgpInvts = pPlayer:export_inventory_tables()
+
+    local rgsInvtInfo = {}
+    for _, tpInvtItems in ipairs(rgpInvts) do
+        table.insert(rgsInvtInfo, table_tostring(tpInvtItems))
+    end
+
+    return rgsInvtInfo
 end
 
 function save_inventory(pPlayer)
-    local sInvtInfo = fetch_inventory_data(pPlayer)
-    local sJson = encode_item(sInvtInfo)
+    local rgsInvtInfo = fetch_inventory_data(pPlayer)
+    local sJson = encode_item(rgsInvtInfo)
 
     local pCon = db_new(RPersistPath.DB)
     db_kv_add(pCon, RPersistPath.INVENTORY, db_pk_table(RPersistTable.INVENTORY), {pPlayer:get_id(), sJson})
-
-    local sJson = db_kv_select(pCon, RPersistPath.INVENTORY, "content", db_pk_table(RPersistTable.INVENTORY), RPersistKey.DEFAULT)
-    log_st(LPath.DB, "_save.txt", tostring(RPersistPath.INVENTORY) .. " >> '" .. sJson .. "'")
 
     db_close(pCon)
 end

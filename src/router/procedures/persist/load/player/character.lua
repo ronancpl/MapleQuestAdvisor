@@ -22,6 +22,5 @@ function load_player(pPlayer)
     if sJson ~= nil then
         local tpItems = decode_item(sJson)
         pPlayer:import_table(tpItems)
-        log_st(LPath.DB, "_load.txt", "STAT : '" .. table_tostring(tpItems) .. "'")
     end
 end
