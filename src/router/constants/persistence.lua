@@ -47,6 +47,7 @@ RPersistFile = {
 
     RS_JOURNAL = "#tmp",
     RS_CALL = "call.txt",
+    RS_CALL_RET = "call_ret.txt",
     RS_RDBMS = "exec.txt",
     RS_RESPONSE = "response.txt",
     RS_ARRAYS = "arrays.txt"

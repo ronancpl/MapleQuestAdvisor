@@ -26,15 +26,30 @@ function CRdbmsSession:get_storage_statements()
 end
 
 function CRdbmsSession:load_call()  -- I/O due to temporary session
-    local tpTable = reset_file_resultset(RPersistFile.RS_CALL) or {}
+    local tpTable = load_file_resultset(RPersistFile.RS_CALL) or {}
     return tpTable
+end
+
+local function cross_list_call_returned(tpTable, tpTableRet)
+    for sRetKeyArgs, _ in ipairs(tpTableRet) do
+        tpTable[sRetKeyArgs] = nil
+    end
+end
+
+local function store_call_returned(sKeyArgs)
+    local tpTable = load_file_resultset(RPersistFile.RS_CALL_RET) or {}
+    tpTable[sKeyArgs] = 1
+    save_file_resultset(RPersistFile.RS_CALL_RET, tpTable)
 end
 
 function CRdbmsSession:store_call(rgpArgs)
     local tpTable = load_file_resultset(RPersistFile.RS_CALL) or {}
+    local tpTableRet = reset_file_resultset(RPersistFile.RS_CALL_RET) or {}
 
     local sKeyArgs = tostring(rgpArgs)
     tpTable[sKeyArgs] = rgpArgs         -- insert new DB operation request
+
+    cross_list_call_returned(tpTable, tpTableRet)   -- unload done DB operations
 
     save_file_resultset(RPersistFile.RS_CALL, tpTable)
 end
@@ -46,6 +61,8 @@ function CRdbmsSession:pop_result(rgpArgs)
     local tpRes = tpTable[sKeyArgs]
     if tpRes ~= nil then
         tpTable[sKeyArgs] = nil
+        store_call_returned(sKeyArgs)
+
         save_file_resultset(RPersistFile.RS_RDBMS, tpTable)
 
         return tpRes, next(tpTable) == nil

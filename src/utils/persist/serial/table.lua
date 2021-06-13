@@ -74,6 +74,15 @@ function save_file_resultset(sFileSubpath, tpTable)
 
     local fOut = io.open(sFilePath, "w")
 
+    local iNil = 0
+    if fOut == nil then -- really shouldn't happen
+        repeat
+            fOut = io.open(sFilePath, "w")
+            iNil = iNil + 1
+        until fOut ~= nil or iNil >= 5
+    end
+
+
     local sJson = encode_item(tpTable)
     fOut:write(sJson)
 
