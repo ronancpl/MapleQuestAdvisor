@@ -26,9 +26,7 @@ function CRdbmsSession:get_storage_statements()
 end
 
 function CRdbmsSession:load_call()  -- I/O due to temporary session
-    local tpTable = load_file_resultset(RPersistFile.RS_CALL) or {}
-    --save_file_resultset(RPersistFile.RS_CALL, {})
-
+    local tpTable = reset_file_resultset(RPersistFile.RS_CALL) or {}
     return tpTable
 end
 

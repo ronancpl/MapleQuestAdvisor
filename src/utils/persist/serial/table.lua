@@ -16,7 +16,7 @@ require("utils.provider.json.decode")
 require("utils.provider.json.encode")
 
 function sleep(n)
-    os.execute("sleep " .. tonumber(n))
+    --os.execute("sleep " .. tonumber(n))
 end
 
 local function wait_for_hold_file_resultset()
@@ -41,7 +41,7 @@ local function release_file_resultset(fOut)
     os.remove("../" .. RPath.TMP_DB .. "/" .. RPersistFile.RS_JOURNAL)
 end
 
-function load_file_resultset(sFileSubpath)
+function load_file_resultset(sFileSubpath, bEraseFile)
     local fLock = wait_for_hold_file_resultset()
     local fIn = io.open("../" .. RPath.TMP_DB .. "/" .. sFileSubpath, "r")
 
@@ -55,18 +55,24 @@ function load_file_resultset(sFileSubpath)
         tpTable = {}
     end
 
+    if bEraseFile then
+        os.remove("../" .. RPath.TMP_DB .. "/" .. sFileSubpath)
+    end
+
     release_file_resultset(fLock)
     return tpTable
+end
+
+function reset_file_resultset(sFileSubpath)     -- load + erase
+    return load_file_resultset(sFileSubpath, true)
 end
 
 function save_file_resultset(sFileSubpath, tpTable)
     local sFilePath = "../" .. RPath.TMP_DB .. "/" .. sFileSubpath
 
     local fLock = wait_for_hold_file_resultset()
+
     local fOut = io.open(sFilePath, "w")
-    while fOut == nil do
-        fOut = io.open(sFilePath, "w")
-    end
 
     local sJson = encode_item(tpTable)
     fOut:write(sJson)

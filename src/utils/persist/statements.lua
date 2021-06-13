@@ -15,8 +15,11 @@ require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CPreparedStorage = createClass({
+    tpCreateClauses = {},
+    tpInstClauses = {},
     tpSlctClauses = {},
-    tpCreateClauses = {}
+    tpUpdtClauses = {},
+    tpDltClauses = {}
 })
 
 local function fetch_sq3_params_clause(nCols)
@@ -37,7 +40,6 @@ end
 
 local function make_sq3_create_stmt(pCon, sParams, sTableName)
     local pStmt = pCon:prepare("create table " .. sTableName .. "(" .. sParams .. ")")
-    log_st(LPath.DB, "_vq_stmt.txt", " >> " .. ("create table " .. sTableName .. "(" .. sParams .. ")") .. " | " .. tostring(pStmt))
     return pStmt
 end
 
@@ -101,28 +103,28 @@ function CPreparedStorage:get_create_stmt(pCon, sParams, sTableName)
 end
 
 function CPreparedStorage:get_insert_stmt(pCon, nCols, sTableName)
-    local m_tpClauses = self.tpSlctClauses
+    local m_tpClauses = self.tpInstClauses
     local fn_make_stmt = make_sq3_insert_stmt
 
     return fetch_stmt(pCon, nCols, nCols, m_tpClauses, fn_make_stmt, sTableName)
 end
 
 function CPreparedStorage:get_update_stmt(pCon, nBinds, sStmtSql, sTableName, sKey, sValue)
-    local m_tpClauses = self.tpCreateClauses
+    local m_tpClauses = self.tpUpdtClauses
     local fn_make_stmt = make_sq3_update_stmt
 
     return compose_fetch_stmt(pCon, nBinds, m_tpClauses, fn_make_stmt, sStmtSql, sTableName, sKey, sValue)
 end
 
 function CPreparedStorage:get_delete_stmt(pCon, nBinds, sStmtSql, sTableName, sKey, sValue)
-    local m_tpClauses = self.tpCreateClauses
+    local m_tpClauses = self.tpDltClauses
     local fn_make_stmt = make_sq3_delete_stmt
 
     return compose_fetch_stmt(pCon, nBinds, m_tpClauses, fn_make_stmt, sStmtSql, sTableName, sKey, sValue)
 end
 
 function CPreparedStorage:get_select_stmt(pCon, nBinds, sStmtSql, sTableName, sKey, sValue)
-    local m_tpClauses = self.tpCreateClauses
+    local m_tpClauses = self.tpSlctClauses
     local fn_make_stmt = make_sq3_select_stmt
 
     return compose_fetch_stmt(pCon, nBinds, m_tpClauses, fn_make_stmt, sStmtSql, sTableName, sKey, sValue)
@@ -135,9 +137,8 @@ local function finalize_clauses(tpClause)
 end
 
 function CPreparedStorage:reset()
-    local m_tpSlctClauses = self.tpSlctClauses
-    finalize_clauses(m_tpSlctClauses)
-
-    local m_tpCreateClauses = self.tpCreateClauses
-    finalize_clauses(m_tpCreateClauses)
+    local rgpClauses = {self.tpCreateClauses, self.tpInstClauses, self.tpSlctClauses, self.tpUpdtClauses, self.tpDltClauses}
+    for _, tpClauses in ipairs(rgpClauses) do
+        finalize_clauses(tpClauses)
+    end
 end
