@@ -28,14 +28,17 @@ function run_persist_interface(pRdbms)
     local i = 0
 
     repeat
-        local tpCall = pRdbms:load_call()
+        local tpCall, rgpCallSeq = pRdbms:load_call()
 
         local tpRes = {}
         if next(tpCall) ~= nil then
             i = 0
 
-            for sKeyArgs, rgpRdbmsArgs in pairs(tpCall) do
-                tpRes[sKeyArgs] = execute_rdbms_action(rgpRdbmsArgs)
+            for _, sKeyArgs in ipairs(rgpCallSeq) do
+                local rgpRdbmsArgs = tpCall[sKeyArgs]
+                if rgpRdbmsArgs ~= nil then
+                    tpRes[sKeyArgs] = execute_rdbms_action(rgpRdbmsArgs)
+                end
             end
 
             pRdbms:store_all_results(tpRes)

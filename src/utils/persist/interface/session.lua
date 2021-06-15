@@ -27,11 +27,35 @@ end
 
 function CRdbmsSession:load_call()  -- I/O due to temporary session
     local tpTable = load_file_resultset(RPersistFile.RS_CALL) or {}
-    return tpTable
+    local rgsTableSeq = load_file_resultset(RPersistFile.RS_CALL_SEQ) or {}
+    return tpTable, rgsTableSeq
 end
 
-local function cross_list_call_returned(tpTable, tpTableRet)
-    for sRetKeyArgs, _ in ipairs(tpTableRet) do
+local function cross_list_call_sequence_returned(tpTable, rgsTableSeq, tpTableRet)
+    local rgiTableRet = {}
+
+    for sKeyArgs, _ in pairs(tpTableRet) do
+        local nTableSeq = #rgsTableSeq
+        for i = 1, nTableSeq, 1 do
+            if rgsTableSeq[i] == sKeyArgs then
+                table.insert(rgiTableRet, i)
+                break
+            end
+        end
+    end
+    table.sort(rgiTableRet)
+
+    local nTableRet = #rgiTableRet
+    for i = nTableRet, 1, -1 do
+        local iIdx = rgiTableRet[i]
+        table.remove(rgsTableSeq, iIdx)
+    end
+end
+
+local function cross_list_call_returned(tpTable, rgsTableSeq, tpTableRet)
+    cross_list_call_sequence_returned(tpTable, rgsTableSeq, tpTableRet)
+
+    for sRetKeyArgs, _ in pairs(tpTableRet) do
         tpTable[sRetKeyArgs] = nil
     end
 end
@@ -44,14 +68,17 @@ end
 
 function CRdbmsSession:store_call(rgpArgs)
     local tpTable = load_file_resultset(RPersistFile.RS_CALL) or {}
+    local rgsTableSeq = load_file_resultset(RPersistFile.RS_CALL_SEQ) or {}
     local tpTableRet = reset_file_resultset(RPersistFile.RS_CALL_RET) or {}
 
     local sKeyArgs = tostring(rgpArgs)
     tpTable[sKeyArgs] = rgpArgs         -- insert new DB operation request
+    table.insert(rgsTableSeq, sKeyArgs)
 
-    cross_list_call_returned(tpTable, tpTableRet)   -- unload done DB operations
+    cross_list_call_returned(tpTable, rgsTableSeq, tpTableRet)   -- unload done DB operations
 
     save_file_resultset(RPersistFile.RS_CALL, tpTable)
+    save_file_resultset(RPersistFile.RS_CALL_SEQ, rgsTableSeq)
 end
 
 function CRdbmsSession:pop_result(rgpArgs)

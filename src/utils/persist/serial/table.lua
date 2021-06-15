@@ -79,9 +79,9 @@ function save_file_resultset(sFileSubpath, tpTable)
         repeat
             fOut = io.open(sFilePath, "w")
             iNil = iNil + 1
+            sleep(RPersist.INTERFACE_SLEEP_MS)
         until fOut ~= nil or iNil >= 5
     end
-
 
     local sJson = encode_item(tpTable)
     fOut:write(sJson)
