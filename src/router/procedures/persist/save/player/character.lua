@@ -12,7 +12,6 @@
 
 require("router.constants.persistence")
 require("utils.persist.act.call")
-require("utils.persist.sqlite")
 require("utils.procedure.copy")
 require("utils.provider.json.encode")
 require("utils.persist.interface.session")

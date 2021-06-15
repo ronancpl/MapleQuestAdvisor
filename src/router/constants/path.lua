@@ -24,6 +24,7 @@ RPath = {
     RSC_META_LOOTS = "lib/csv",
     RSC_META_SCRIPTS = "lib/supply",
 
-    TMP_DB = "dbstate"
+    TMP_DB = "dbstate",
+    TMP_LOCK = "lock"
 
 }
