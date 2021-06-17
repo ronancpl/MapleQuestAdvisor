@@ -52,8 +52,9 @@ require("ui.trace.trace")
 require("utils.logger.file")
 require("utils.persist.act.call")
 require("utils.persist.serial.databus")
-require("utils.persist.serial.table")
+--require("utils.persist.serial.table")
 require("utils.procedure.print")
+require("utils.struct.maptimed")
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
@@ -63,11 +64,12 @@ function love.load()
 
     dofile("router/stage.lua")
 
-    reset_persist_handles()
-    init_persist_interface()
-    close_persist_interface()
+    dofile("persist/init.lua")
+    dofile("persist/close.lua")
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
+
+    ctInactiveTextures = SMapTimed:new()
 
     ctFieldsWmap = load_resources_worldmap()
     --printable(ctFieldsWmap)
@@ -271,5 +273,5 @@ function love.wheelmoved(dx, dy)
 end
 
 function love.quit()
-    close_persist_interface()
+    dofile("persist/close.lua")
 end

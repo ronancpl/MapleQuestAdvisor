@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.constants.timer")
 require("router.procedures.constant")
 require("struct.component.canvas.style.box.limit")
 require("struct.component.canvas.style.box.text")
@@ -79,11 +80,21 @@ function CStyleBoxMapno:_calc_texture_box_dimensions()
     return iWidth, iHeight
 end
 
-function CStyleBoxMapno:_build_texture_box()
+function CStyleBoxMapno:_show_texture_box()
     local m_eTexture = self.eTexture
+    if not m_eTexture:is_ready() then
+        local iWidth, iHeight = self:_calc_texture_box_dimensions()
+        m_eTexture:build(iWidth, iHeight)
+    end
 
-    local iWidth, iHeight = self:_calc_texture_box_dimensions()
-    m_eTexture:build(iWidth, iHeight)
+    ctInactiveTextures:remove(m_eTexture)   -- remove from unload list
+end
+
+function CStyleBoxMapno:_hide_texture_box()
+    local m_eTexture = self.eTexture
+    if m_eTexture:is_ready() then
+        ctInactiveTextures:put(m_eTexture, 1, RTimer.TM_TEXTURE_TBOX)   -- add to unload list
+    end
 end
 
 function CStyleBoxMapno:_update_resources(pRscProp)
@@ -122,8 +133,6 @@ function CStyleBoxMapno:load(sTitle, sDesc, iRx, iRy, pRscProp)
     self:_load_resources(pRscProp, iRx, iRy)
 
     validate_box_boundary(self)
-
-    self:_build_texture_box()
 end
 
 function CStyleBoxMapno:reset()
@@ -149,10 +158,14 @@ end
 
 function CStyleBoxMapno:hidden()
     self.bVisible = false
+
+    self:_hide_texture_box()
 end
 
 function CStyleBoxMapno:visible()
     self.bVisible = true
+
+    self:_show_texture_box()
 end
 
 function CStyleBoxMapno:is_visible()

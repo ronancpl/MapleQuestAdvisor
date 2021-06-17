@@ -49,10 +49,10 @@ function table_append(rgDest, tOrig)
     end
 end
 
-function table_intersection(tDest, tOrig)
+function table_intersection(tTable, tOther)
     local tItrs = {}
-    for k, v in pairs(tDest) do
-        if tOrig[k] == nil then
+    for k, v in pairs(tTable) do
+        if tOther[k] == nil then
             tItrs[k] = v
         end
     end

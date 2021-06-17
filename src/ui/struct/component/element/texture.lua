@@ -21,7 +21,9 @@ require("utils.struct.class")
 CTextureElem = createClass({
     eElem = CBasicElem:new(),
     eImg = CBasicOutline:new(),
+
     pCanvas,
+    bReady,
 
     pImgBox,
     rgpImgBoxPos,
@@ -138,6 +140,16 @@ function CTextureElem:build(iWidth, iHeight)
     self.rgpBoxQuads, self.pBoxGrowth = build_pattern_box(self.pImgBox, self.rgpImgBoxPos, iWidth, iHeight)
 
     self:_prepare_canvas()
+    self.bReady = true
+end
+
+function CTextureElem:unbuild()
+    self.bReady = false
+    self.pCanvas = nil
+end
+
+function CTextureElem:is_ready()
+    return self.bReady
 end
 
 function CTextureElem:update(dt)
