@@ -17,7 +17,7 @@ require("utils.persist.interface.session")
 require("utils.procedure.copy")
 
 function sleep(n)
-    os.execute("sleep " .. tonumber(n))
+    --os.execute("sleep " .. tonumber(n))
 end
 
 function setup_persist_interface(pRdbms)

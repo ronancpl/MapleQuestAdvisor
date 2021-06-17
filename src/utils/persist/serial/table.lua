@@ -15,15 +15,17 @@ require("router.constants.persistence")
 require("utils.provider.json.decode")
 require("utils.provider.json.encode")
 
+local json = require("json")
+
 function sleep(n)
     --os.execute("sleep " .. tonumber(n))
 end
 
-local function wait_for_hold_file_resultset()
+local function wait_for_hold_file_resultset(sFileSubpath)
     while true do
-        local fIn = io.open("../" .. RPath.TMP_DB .. "/" .. RPersistFile.RS_JOURNAL, "r")
+        local fIn = io.open("../" .. RPath.TMP_DB .. "/" .. RPath.TMP_LOCK .. "/" .. sFileSubpath .. RPersistFile.RS_JOURNAL, "r")
         if fIn == nil then
-            local fOut = io.open("../" .. RPath.TMP_DB .. "/" .. RPersistFile.RS_JOURNAL, "w")
+            local fOut = io.open("../" .. RPath.TMP_DB .. "/" .. RPath.TMP_LOCK .. "/" .. sFileSubpath .. RPersistFile.RS_JOURNAL, "w")
             if fOut ~= nil then
                 return fOut
             end
@@ -33,16 +35,16 @@ local function wait_for_hold_file_resultset()
     end
 end
 
-local function release_file_resultset(fOut)
+local function release_file_resultset(fOut, sFileSubpath)
     if fOut ~= nil then
         fOut:close()
     end
 
-    os.remove("../" .. RPath.TMP_DB .. "/" .. RPersistFile.RS_JOURNAL)
+    os.remove("../" .. RPath.TMP_DB .. "/" .. RPath.TMP_LOCK .. "/" .. sFileSubpath .. RPersistFile.RS_JOURNAL)
 end
 
 function load_file_resultset(sFileSubpath, bEraseFile)
-    local fLock = wait_for_hold_file_resultset()
+    local fLock = wait_for_hold_file_resultset(sFileSubpath)
     local fIn = io.open("../" .. RPath.TMP_DB .. "/" .. sFileSubpath, "r")
 
     local tpTable
@@ -59,7 +61,7 @@ function load_file_resultset(sFileSubpath, bEraseFile)
         os.remove("../" .. RPath.TMP_DB .. "/" .. sFileSubpath)
     end
 
-    release_file_resultset(fLock)
+    release_file_resultset(fLock, sFileSubpath)
     return tpTable
 end
 
@@ -70,7 +72,7 @@ end
 function save_file_resultset(sFileSubpath, tpTable)
     local sFilePath = "../" .. RPath.TMP_DB .. "/" .. sFileSubpath
 
-    local fLock = wait_for_hold_file_resultset()
+    local fLock = wait_for_hold_file_resultset(sFileSubpath)
 
     local fOut = io.open(sFilePath, "w")
 
@@ -80,12 +82,26 @@ function save_file_resultset(sFileSubpath, tpTable)
             fOut = io.open(sFilePath, "w")
             iNil = iNil + 1
             sleep(RPersist.INTERFACE_SLEEP_MS)
-        until fOut ~= nil or iNil >= 5
+        until fOut ~= nil
     end
 
     local sJson = encode_item(tpTable)
     fOut:write(sJson)
 
     fOut:close()
-    release_file_resultset(fLock)
+    release_file_resultset(fLock, sFileSubpath)
+end
+
+local function remove_file_resultset(sFileSubpath)
+    os.remove("../" .. RPath.TMP_DB .. "/" .. RPath.TMP_LOCK .. "/" .. sFileSubpath .. RPersistFile.RS_JOURNAL)
+    os.remove("../" .. RPath.TMP_DB .. "/" .. sFileSubpath)
+end
+
+function reset_persist_handles()
+    remove_file_resultset(RPersistFile.RS_CALL)
+    remove_file_resultset(RPersistFile.RS_CALL_RET)
+    remove_file_resultset(RPersistFile.RS_CALL_SEQ)
+    remove_file_resultset(RPersistFile.RS_RDBMS)
+    remove_file_resultset(RPersistFile.RS_RESPONSE)
+    remove_file_resultset(RPersistFile.RS_ARRAYS)
 end

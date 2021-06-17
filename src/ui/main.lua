@@ -51,6 +51,8 @@ require("ui.struct.images.storage.npc")
 require("ui.trace.trace")
 require("utils.logger.file")
 require("utils.persist.act.call")
+require("utils.persist.serial.databus")
+require("utils.persist.serial.table")
 require("utils.procedure.print")
 
 function love.load()
@@ -61,7 +63,8 @@ function love.load()
 
     dofile("router/stage.lua")
 
-    local pHdl = io.popen("lua5.1 utils/persist/act/start.lua")
+    reset_persist_handles()
+    init_persist_interface()
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 
@@ -190,45 +193,9 @@ function love.load()
     pWndHandler:set_opened(pUiStats)
     pWndHandler:set_opened(pUiRscs)
 
+    local pInfoSrv = pUiStats:get_properties():get_info_server()
+
     log(LPath.INTERFACE, "load.txt", "Loading persisted data")
-
-    require("ui.run.build.canvas.stat.server")
-    local pInfoSrv = CServerInfoTable:new({siExpRate= 10, siMesoRate= 10, siDropRate= 10})
-    log(LPath.INTERFACE, "_test.txt", "1")
-
-    local pIvtItems = CInventory:new()
-    log(LPath.INTERFACE, "_test.txt", "2")
-    pIvtItems:add_item(1002067, 1)
-    pIvtItems:add_item(1402046, 1)
-    pIvtItems:add_item(1082140, 1)
-    pIvtItems:add_item(1060091, 7)
-    pIvtItems:add_item(1072154, 7)
-    pIvtItems:add_item(1040103, 7)
-
-    pIvtItems:add_item(3010000, 4)
-    pIvtItems:add_item(3010001, 2)
-    pIvtItems:add_item(3010002, 2)
-    pIvtItems:add_item(3010003, 2)
-    pIvtItems:add_item(3010004, 2)
-    pIvtItems:add_item(3010005, 2)
-    pIvtItems:add_item(3010006, 2)
-
-    pIvtItems:add_item(2010000, 4)
-    pIvtItems:add_item(2010001, 1)
-    pIvtItems:add_item(2010002, 4)
-    pIvtItems:add_item(2010003, 1)
-    pIvtItems:add_item(2010004, 4)
-    pIvtItems:add_item(2010005, 1)
-    pIvtItems:add_item(2010006, 4)
-    pIvtItems:add_item(4010000, 4)
-    pIvtItems:add_item(4010001, 1)
-    pIvtItems:add_item(4010002, 4)
-    pIvtItems:add_item(4010003, 1)
-    pIvtItems:add_item(4010004, 4)
-    pIvtItems:add_item(4010005, 1)
-    pIvtItems:add_item(4010006, 4)
-    local pPlayer = CPlayer:new({iId = 1, iMapid = 110000000, siLevel = 50, siJob = 122})
-    pPlayer:get_items():get_inventory():include_inventory(pIvtItems)
 
     save_player(pPlayer)
     save_inventory(pPlayer)
@@ -247,7 +214,6 @@ function love.load()
     delete_player(pPlayer)
 
     log(LPath.DB, "rdbms.txt", "Deleting data")
-
 end
 
 local function update_interactions()
@@ -299,4 +265,8 @@ end
 
 function love.wheelmoved(dx, dy)
     pEventHdl:push("on_wheelmoved", {dx, dy})
+end
+
+function love.quit()
+    close_persist_interface()
 end

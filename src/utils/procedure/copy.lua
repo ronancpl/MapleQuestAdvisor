@@ -49,6 +49,17 @@ function table_append(rgDest, tOrig)
     end
 end
 
+function table_intersection(tDest, tOrig)
+    local tItrs = {}
+    for k, v in pairs(tDest) do
+        if tOrig[k] == nil then
+            tItrs[k] = v
+        end
+    end
+
+    return tItrs
+end
+
 local function table_tostring_internal(e)
     local st = ""
 

@@ -25,6 +25,7 @@ RPath = {
     RSC_META_SCRIPTS = "lib/supply",
 
     TMP_DB = "dbstate",
-    TMP_LOCK = "lock"
+    TMP_LOCK = "lock",
+    TMP_PID = "pid"
 
 }
