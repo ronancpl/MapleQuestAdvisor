@@ -12,14 +12,26 @@
 
 local json = require("json")
 
+local function has_lua_pids(osLines)
+    local rgsLines = {}
+    for _, sLine in osLines do
+        table.insert(rgsLines, sLine)
+    end
+
+    return #rgsLines > 0 and string.find(rgsLines[1], ",") > -1
+end
+
 local function load_lua_pids(sFilePath)
     local tpPids = {}
 
     local fIn = assert( io.open(sFilePath, "r") )
     if fIn ~= nil then
-        for sLine in fIn:lines() do
-            local rgsArgs = json:decode("[" .. sLine .. "]")
-            tpPids[rgsArgs[2]] = 1
+        local osLines = fIn:lines()
+        if has_lua_pids(osLines) then
+            for sLine in osLines do
+                local rgsArgs = json:decode("[" .. sLine .. "]")
+                tpPids[rgsArgs[2]] = 1
+            end
         end
 
         fIn:close()
@@ -34,15 +46,15 @@ function fetch_popen_pid(sThenFilePath, sNowFilePath)
 end
 
 function init_persist_interface()
-    local sThenFilePath = "init.txt"
+    local sThenFilePath = "../" .. RPath.TMP_DB .. "/" .. RPath.TMP_PID .. "/" .. "init.txt"
 
     os.execute("TASKLIST /fi \"IMAGENAME eq lua5.1.exe\" /nh /fo csv > " .. sThenFilePath)
     local pHdl = io.popen("lua5.1 utils/persist/act/start.lua")
 end
 
 function close_persist_interface()
-    local sThenFilePath = "init.txt"
-    local sNowFilePath = "end.txt"
+    local sThenFilePath = "../" .. RPath.TMP_DB .. "/" .. RPath.TMP_PID .. "/" .. "init.txt"
+    local sNowFilePath = "../" .. RPath.TMP_DB .. "/" .. RPath.TMP_PID .. "/" .. "end.txt"
     os.execute("TASKLIST /fi \"IMAGENAME eq lua5.1.exe\" /nh /fo csv > " .. sNowFilePath)
 
     local rgiPids = fetch_popen_pid(sNowFilePath, sThenFilePath)

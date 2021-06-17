@@ -12,7 +12,7 @@
 
 RPersistPath = {
 
-    DB = "data.db",
+    DB = "../dbstate/data.db",
 
     RATES = "field_rates",
     STAT = "character_info",
