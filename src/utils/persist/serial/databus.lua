@@ -60,7 +60,6 @@ function close_persist_interface()
 
     local rgiPids = fetch_popen_pid(sThenFilePath, sNowFilePath)
     for _, iPid in ipairs(rgiPids) do
-        log(LPath.INTERFACE, "_tkvw.txt", "tk >> " .. tostring(iPid))
         os.execute("TASKKILL /F /IM " .. iPid)
     end
 

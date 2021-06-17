@@ -63,9 +63,7 @@ function love.load()
     log(LPath.INTERFACE, "load.txt", "Loading solver metadata...")
 
     dofile("router/stage.lua")
-
-    dofile("persist/init.lua")
-    dofile("persist/close.lua")
+    --dofile("persist/init.lua")    -- initialized as background process
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 
@@ -198,7 +196,6 @@ function love.load()
 
     local pInfoSrv = pUiStats:get_properties():get_info_server()
 
-    --[[
     log(LPath.INTERFACE, "load.txt", "Loading persisted data")
 
     save_player(pPlayer)
@@ -218,7 +215,7 @@ function love.load()
     delete_player(pPlayer)
 
     log(LPath.DB, "rdbms.txt", "Deleting data")
-    --]]
+
 end
 
 local function update_interactions()

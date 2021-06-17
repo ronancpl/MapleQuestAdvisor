@@ -90,7 +90,7 @@ end
 function CStyleBoxText:_hide_texture_box()
     local m_eTexture = self.eTexture
     if m_eTexture:is_ready() then
-        ctInactiveTextures:put(m_eTexture, 1, RTimer.TM_TEXTURE_TBOX)   -- add to unload list
+        ctInactiveTextures:insert(m_eTexture, 1, RTimer.TM_TEXTURE_TBOX)   -- add to unload list
     end
 end
 
