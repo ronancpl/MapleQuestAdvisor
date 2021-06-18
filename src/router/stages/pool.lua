@@ -70,3 +70,17 @@ function pool_load_graph_quests(pGridQuests, pPlayer, sDatePath, sTimePath)
     local tQuests = pool_load_graph_quests_from_file(pGridQuests, sFilePath)
     return tQuests
 end
+
+function pool_read_graph_quests(pGridQuests, sFilePath)
+    local tQuests = pool_load_graph_quests_from_file(pGridQuests, sFilePath)
+    return tQuests
+end
+
+function pool_write_graph_quests(tQuests, sFilePath)
+    local fOut = io.open(sFilePath, "w")
+    if fOut ~= nil then
+        local sRoute = route_csvify_quest_pool(tQuests)
+        fOut:write(sRoute)
+        io.close(fOut)
+    end
+end

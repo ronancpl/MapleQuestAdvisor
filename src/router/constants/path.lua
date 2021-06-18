@@ -26,6 +26,8 @@ RPath = {
 
     TMP_DB = "dbstate",
     TMP_LOCK = "lock",
-    TMP_PID = "pid"
+    TMP_PID = "pid",
+
+    SAV_ROUTE = "route/latest.sav"
 
 }
