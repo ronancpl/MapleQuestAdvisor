@@ -11,31 +11,50 @@
 --]]
 
 require("router.constants.path")
-require("router.stages.pool")
 require("router.stages.route")
-require("solver.graph.lane")
-require("ui.struct.path.pathing")
+require("router.structs.lane")
+require("utils.procedure.string")
+require("utils.provider.io.wordlist")
 
-local function load_route_save(pGridQuests, pPlayer)
-    local tQuests = pool_read_graph_quests(pGridQuests, RPath.SAV_ROUTE)
-    local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+local function load_route_quests()
+    local rgsPaths = {}
 
-    local pRouteLane = generate_subpath_lane(tRoute)
+    local fIn = io.open("../" .. RPath.SAV_ROUTE, "r")
+    if fIn ~= nil then
+        for sLine in fIn:lines() do
+            table.insert(rgsPaths, sLine)
+        end
 
-    local pTrack = CTracePath:new()
-    pTrack:load(pRouteLane)
+        io.close(fIn)
+    end
 
-    return pTrack
+    return rgsPaths
 end
 
-function run_bt_load(pGridQuests, pPlayer)  -- loads last quest laning action
-    load_route_save(pGridQuests, pPlayer)
+local function load_track_lane(pPlayer)
+    local rgsPaths = load_route_quests()
+    local pLeadingPath = load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+    local pRouteLane = generate_subpath_lane(pLeadingPath)
+
+    return pRouteLane
 end
 
-local function write_route_save(tQuests)
-    pool_write_graph_quests(tQuests, RPath.SAV_ROUTE)
+function run_bt_load(pPlayer)  -- loads last quest laning action
+    return load_track_lane(pPlayer)
 end
 
-function run_bt_save(pTrack)  -- saves last quest laning action
-    write_route_save(tQuests)
+local function write_track_quests(pLeadingPath)
+    local fOut = io.open("../" .. RPath.SAV_ROUTE, "w")
+    if fOut ~= nil then
+        local rgsPaths = csvify_route_quest_path(pLeadingPath)
+        for _, sRoute in ipairs(rgsPaths) do
+            fOut:write(sRoute .. "\n")
+        end
+
+        io.close(fOut)
+    end
+end
+
+function run_bt_save(pLeadingPath)  -- saves last quest laning action
+    write_track_quests(pLeadingPath)
 end

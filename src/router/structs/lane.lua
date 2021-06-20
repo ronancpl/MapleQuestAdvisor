@@ -58,3 +58,22 @@ function CQuestLane:get_sublanes()
 
     return tpEntries
 end
+
+function CQuestLane:sublanes_tostring(sPath, rgsLanePaths)
+    local tpEntries = self:get_sublanes()
+    if next(tpEntries) ~= nil then
+        for pQuestProp, pSublane in pairs(tpEntries) do
+            local sSubpath = sPath .. pQuestProp:get_name() .. ","
+            pSublane:sublanes_tostring(sSubpath, rgsLanePaths)
+        end
+    else
+        table.insert(rgsLanePaths, sPath)
+    end
+end
+
+function CQuestLane:list_quest_paths()
+    local rgsPaths = {}
+    self:sublanes_tostring("", rgsPaths)
+
+    return rgsPaths
+end

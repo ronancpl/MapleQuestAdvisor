@@ -26,6 +26,10 @@ function CTracePath:load(pLane)
     self.pStackProp:export(U_INT_MAX)
 end
 
+function CTracePath:get_root_lane()
+    return self.pRootLane
+end
+
 function CTracePath:get_paths()
     local rgpPaths = self.pRootLane:get_paths()
     return rgpPaths

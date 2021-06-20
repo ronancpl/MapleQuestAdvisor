@@ -11,6 +11,7 @@
 --]]
 
 require("router.procedures.constant")
+require("utils.procedure.copy")
 require("utils.struct.array")
 require("utils.struct.class")
 
@@ -142,4 +143,9 @@ end
 function SRankedSet:list()
     local m_rgpItems = self.rgpItems
     return m_rgpItems:list()
+end
+
+function SRankedSet:get_entry_set()
+    local m_tpItVal = self.tpItVal
+    table_copy(m_tpItVal)
 end

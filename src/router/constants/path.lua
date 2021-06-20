@@ -28,6 +28,6 @@ RPath = {
     TMP_LOCK = "lock",
     TMP_PID = "pid",
 
-    SAV_ROUTE = "route/latest.sav"
+    SAV_ROUTE = "route/latest.csv"
 
 }

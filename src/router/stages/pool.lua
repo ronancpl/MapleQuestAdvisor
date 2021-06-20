@@ -18,7 +18,7 @@ require("utils.provider.text.csv")
 require("utils.struct.table")
 
 local function route_csvify_quest_pool(tQuests)
-    local sQuests = ",\"quest\"\n"
+    local sQuests = "\"nil\",\"quest\"\n"
     for _, pPair in ipairs(spairs(tQuests:get_entry_set(), function (a, b) return a:get_quest_id() < b:get_quest_id() end)) do
         local pQuest = pPair[1]
         sQuests = sQuests .. "0," .. pQuest:get_quest_id() .. "\n"
@@ -69,18 +69,4 @@ function pool_load_graph_quests(pGridQuests, pPlayer, sDatePath, sTimePath)
 
     local tQuests = pool_load_graph_quests_from_file(pGridQuests, sFilePath)
     return tQuests
-end
-
-function pool_read_graph_quests(pGridQuests, sFilePath)
-    local tQuests = pool_load_graph_quests_from_file(pGridQuests, sFilePath)
-    return tQuests
-end
-
-function pool_write_graph_quests(tQuests, sFilePath)
-    local fOut = io.open(sFilePath, "w")
-    if fOut ~= nil then
-        local sRoute = route_csvify_quest_pool(tQuests)
-        fOut:write(sRoute)
-        io.close(fOut)
-    end
 end

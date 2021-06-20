@@ -95,6 +95,18 @@ function CStationConnectionTable:get_stations_to_region(tiFieldRegion, iSrcMapid
     local m_tTravelRegions = self.tTravelRegions
     local iSrcRegionid = tiFieldRegion[iSrcMapid]
 
-    local rgpSrcStationMapLinks = m_tTravelRegions[iSrcRegionid][iDestRegionid]
-    return rgpSrcStationMapLinks or {}
+    local tStationsFrom = m_tTravelRegions[iSrcRegionid]
+    if tStationsFrom == nil then
+        log(LPath.FALLBACK, "stations.txt", "NOT found stations 'FROM' region #" .. iSrcRegionid)
+        tStationsFrom = {}
+    end
+
+    local tStationsTo = tStationsFrom[iDestRegionid]
+    if tStationsTo == nil then
+        log(LPath.FALLBACK, "stations.txt", "NOT found stations 'TO' region #" .. iDestRegionid)
+        tStationsTo = {}
+    end
+
+    local rgpSrcStationMapLinks = tStationsTo
+    return rgpSrcStationMapLinks
 end

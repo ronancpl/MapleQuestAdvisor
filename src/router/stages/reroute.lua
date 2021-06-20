@@ -1,0 +1,159 @@
+--[[
+    This file is part of the MapleQuestAdvisor planning tool
+    Copyleft (L) 2020 - 2021 RonanLana
+
+    GNU General Public License v3.0
+
+    Permissions of this strong copyleft license are conditioned on making available complete
+    source code of licensed works and modifications, which include larger works using a licensed
+    work, under the same license. Copyright and license notices must be preserved. Contributors
+    provide an express grant of patent rights.
+--]]
+
+require("structs.player")
+require("router.procedures.graph.outer")
+require("router.procedures.player.update")
+require("router.structs.frontier.frontier")
+require("router.structs.neighbor.arranger")
+require("router.structs.recall.milestone")
+require("router.structs.path")
+require("router.structs.trajectory")
+require("utils.provider.io.wordlist")
+require("utils.struct.ranked_set")
+
+function csvify_route_quest_path(pLeadingPath)
+    local rgsPaths = ""
+    for pQuestPath, fVal in pairs(pLeadingPath:get_entry_set()) do
+        local st = ""
+        for _, pQuestProp in pairs(pQuestPath:list()) do
+            st = st .. pQuestProp:get_name() .. ","
+        end
+        st = st .. tostring(fVal)
+
+        table.insert(rgsPaths, st)
+    end
+
+    return rgsPaths
+end
+
+local function load_quest_paths(rgsPaths)
+    local rgpPaths = {}
+    for _, sPath in ipairs(rgsPaths) do
+        local rgsLineSp = split_csv(sPath)
+
+        local rgpQuestProps = {}
+        table.remove(rgsLineSp)     -- fVal
+
+        for _, sQuestName in ipairs(rgsLineSp) do
+            local iQuestid = tonumber(sQuestName:sub(1, -2))
+            local bStart = string.starts_with(sQuestName:sub(-1), "S")
+
+            local pQuest = ctQuests:get_quest_by_id(iQuestid)
+            local pQuestProp = bStart and pQuest:get_start() or pQuest:get_end()
+
+            table.insert(rgpQuestProps, pQuestProp)
+        end
+
+        table.insert(rgpPaths, rgpQuestProps)
+    end
+
+    return rgpPaths
+end
+
+local function route_internal_node(rgpPoolProps, rgpQuestProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+    local pQuestTree = CGraphTree:new()
+    local pQuestMilestone = CGraphMilestone:new()
+
+    pQuestTree:install_entries(rgpPoolProps)
+
+    while true do
+        local pQuestProp = table.remove(rgpQuestProps, 1)   -- this is reroute: iterate over elements from list, rather than frontier
+        if pQuestProp == nil then
+            break
+        elseif not pCurrentPath:is_in_path(pQuestProp) then
+            pQuestProp:install_player_state(pPlayerState)       -- allow find quest requisites and rewards player-state specific
+
+            route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+            local iBcktCount = route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
+
+            local rgpRefeedQuests
+            _, rgpRefeedQuests = pFrontierQuests:fetch(pQuestTree, iBcktCount)      -- retrieve all nodes from frontier that have been backtracked
+            pFrontierQuests:restack_quests(rgpRefeedQuests)                         -- set skipped quests again for frontier checkout
+
+            pFrontierQuests:update(pPlayerState)
+
+            pQuestProp:extract_player_state()
+        end
+    end
+end
+
+local function route_internal(tQuests, pPlayer, rgpQuestProps, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+    local pPlayerState = CPlayer:new(pPlayer)
+    local pCurrentPath = CQuestPath:new()
+
+    local rgpPoolProps = make_quest_pool_list(tQuests)
+    apply_initial_player_state(pPlayerState, rgpPoolProps)  -- set up quest properties for graphing
+
+    if #rgpQuestProps > 0 then
+        local pQuestProp = rgpQuestProps[1]
+        if is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
+            local pFrontierQuests = CQuestFrontier:new()
+            pFrontierQuests:init(ctAccessors)
+
+            pFrontierQuests:add(pQuestProp, pPlayerState, ctAccessors)
+
+            local pFrontierArranger = CNeighborArranger:new()
+            pFrontierArranger:init(ctAccessors, rgpPoolProps)
+
+            route_internal_node(rgpPoolProps, rgpQuestProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+        end
+    end
+end
+
+local function make_leading_paths()
+    local pSetLeadingPath = SRankedSet:new()
+    pSetLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
+
+    return pSetLeadingPath
+end
+
+local function fetch_quest_props(rgpFixedPaths)
+    local tQuests = STable:new()
+    for _, rgpQuestProps in pairs(rgpFixedPaths) do
+        for _, pQuestProp in pairs(rgpQuestProps) do
+            local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
+            tQuests:insert(pQuest, 1)
+        end
+    end
+
+    return tQuests
+end
+
+function load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+    local rgpFixedPaths = load_quest_paths(rgsPaths)
+
+    local tQuests = fetch_quest_props(rgpFixedPaths)
+    log(LPath.OVERALL, "log.txt", "Load route quest board... (" .. tQuests:size() .. " quests)")
+
+    local pLeadingPath = make_leading_paths()
+
+    log(LPath.OVERALL, "log.txt", "Total of quests to search: " .. tQuests:size())
+    while not rgpFixedPaths:is_empty() do
+        local rgpQuestProps = rgpFixedPaths:remove_last()
+        route_internal(tQuests, pPlayer, rgpQuestProps, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+    end
+
+    log(LPath.OVERALL, "log.txt", "Search finished.")
+
+    local st = ""
+    for _, pQuestPath in pairs(pLeadingPath:list()) do
+        for _, pQuestProp in pairs(pQuestPath:list()) do
+            st = st .. pQuestProp:get_name() .. ", "
+        end
+        st = st .. "\n"
+    end
+    print("PATH : " .. st)
+
+    --print_path_search_counts()
+    return pLeadingPath
+end

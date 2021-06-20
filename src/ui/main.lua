@@ -33,6 +33,7 @@ require("ui.constant.path")
 require("ui.interaction.handler")
 require("ui.interaction.window")
 require("ui.run.build.canvas.worldmap.worldmap")
+require("ui.run.control.procedures")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
 require("ui.run.load.resource")
@@ -155,6 +156,22 @@ function love.load()
     pUiRscs = load_frame_quest_resources()
 
     local pTrack = pUiWmap:get_properties():get_track()
+    local st = ""
+    for k, v in pairs(pTrack:get_sublanes()) do
+        st = st .. tostring(k:get_quest_id()) .. ","
+    end
+    log_st(LPath.INTERFACE, "_vw.txt", " >> LANES" .. " : " .. st)
+
+    run_bt_save(tRoute)
+
+    local pGridQuests = load_grid_quests(ctQuests)
+    local pTrack = run_bt_load(pPlayer)
+
+    local st = ""
+    for k, v in pairs(pTrack:get_sublanes()) do
+        st = st .. tostring(k:get_quest_id()) .. ","
+    end
+    log_st(LPath.INTERFACE, "_vw.txt", " << LANES" .. " : " .. st)
 
     local pPath = pTrack:get_sublanes()[keys(pTrack:get_sublanes())[1]]:get_paths()[1]
     local pQuestProp = pPath:list()[1]

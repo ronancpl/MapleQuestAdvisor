@@ -32,9 +32,6 @@ local function make_pool_list(tQuests)
     local rgpQuests = SArray:new()
 
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
-        local pQuestProp
-        pQuestProp = pQuest:get_start()
-
         rgpQuests:add(pQuest)
     end
 
