@@ -248,15 +248,6 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsD
 
     log(LPath.OVERALL, "log.txt", "Search finished.")
 
-    local st = ""
-    for _, pQuestPath in pairs(pLeadingPath:list()) do
-        for _, pQuestProp in pairs(pQuestPath:list()) do
-            st = st .. pQuestProp:get_name() .. ", "
-        end
-        st = st .. "\n"
-    end
-    print("PATH : " .. st)
-
     --print_path_search_counts()
     return pLeadingPath
 end

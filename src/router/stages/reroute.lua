@@ -11,6 +11,7 @@
 --]]
 
 require("structs.player")
+require("router.procedures.constant")
 require("router.procedures.graph.outer")
 require("router.procedures.player.update")
 require("router.structs.frontier.frontier")
@@ -18,6 +19,7 @@ require("router.structs.neighbor.arranger")
 require("router.structs.recall.milestone")
 require("router.structs.path")
 require("router.structs.trajectory")
+require("utils.procedure.unpack")
 require("utils.provider.io.wordlist")
 require("utils.struct.ranked_set")
 
@@ -117,6 +119,48 @@ local function make_leading_paths()
     return pSetLeadingPath
 end
 
+local function fetch_most_value_path(pLeadingPath, rgpPaths)
+    local pMvPath = nil
+    local fMaxVal = U_INT_MIN
+
+    local tpItVal = pLeadingPath:get_entry_set()
+
+    for _, pPath in ipairs(rgpPaths) do
+        local fVal = tpItVal[pPath]
+        if fMaxVal < pLeadingPath:get(pPath) then
+            pMvPath = pPath
+            fMaxVal = fVal
+        end
+    end
+
+    return pMvPath
+end
+
+local function filter_route_paths(pLeadingPath)
+    local tpPaths = {}
+
+    for _, pPath in ipairs(pLeadingPath:list()) do
+        local st = ""
+        for _, pQuestProp in ipairs(pPath:list()) do
+            st = st .. pQuestProp:get_name()
+        end
+
+        local rgpPaths = create_inner_table_if_not_exists(tpPaths, st)
+        table.insert(rgpPaths, pPath)
+    end
+
+    for _, rgpPaths in pairs(tpPaths) do
+        if #rgpPaths > 1 then
+            local pMvPath = fetch_most_value_path(pLeadingPath, rgpPaths)
+            for _, pPath in ipairs(rgpPaths) do
+                if pPath ~= pMvPath then
+                    pLeadingPath:remove(pPath)
+                end
+            end
+        end
+    end
+end
+
 function load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     local rgpFixedPaths = load_quest_paths(rgsPaths)
 
@@ -131,15 +175,7 @@ function load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctF
     end
 
     log(LPath.OVERALL, "log.txt", "Search finished.")
-
-    local st = ""
-    for _, pQuestPath in pairs(pLeadingPath:list()) do
-        for _, pQuestProp in pairs(pQuestPath:list()) do
-            st = st .. pQuestProp:get_name() .. ", "
-        end
-        st = st .. "\n"
-    end
-    print("PATH : " .. st)
+    filter_route_paths(pLeadingPath)
 
     --print_path_search_counts()
     return pLeadingPath

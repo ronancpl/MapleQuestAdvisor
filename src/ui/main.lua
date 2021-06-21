@@ -156,31 +156,13 @@ function love.load()
     pUiRscs = load_frame_quest_resources()
 
     local pTrack = pUiWmap:get_properties():get_track()
-    local st = ""
-    for k, v in pairs(pTrack:get_sublanes()) do
-        st = st .. tostring(k:get_quest_id()) .. ","
-    end
-    log_st(LPath.INTERFACE, "_vw.txt", " >> LANES" .. " : " .. st)
 
     run_bt_save(tRoute)
     save_board_quests(tQuests)
 
     local pGridQuests = load_grid_quests(ctQuests)
-
-    local tQuests2 = tQuests
     tQuests = load_board_quests()
-
-    local ti1 = table_intersection(tQuests, tQuests2)
-    local ti2 = table_intersection(tQuests2, tQuests)
-    log_st(LPath.INTERFACE, "_vb.txt", " >> LANES" .. " : " .. tostring(next(ti1) ~= nil) .. " " .. tostring(next(ti2) ~= nil))
-
     local pTrack = run_bt_load(pPlayer)
-
-    local st = ""
-    for k, v in pairs(pTrack:get_sublanes()) do
-        st = st .. tostring(k:get_quest_id()) .. ","
-    end
-    log_st(LPath.INTERFACE, "_vw.txt", " << LANES" .. " : " .. st)
 
     local pPath = pTrack:get_sublanes()[keys(pTrack:get_sublanes())[1]]:get_paths()[1]
     local pQuestProp = pPath:list()[1]
