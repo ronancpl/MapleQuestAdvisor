@@ -148,4 +148,6 @@ end
 function SRankedSet:get_entry_set()
     local m_tpItVal = self.tpItVal
     table_copy(m_tpItVal)
+
+    return m_tpItVal
 end

@@ -43,7 +43,7 @@ pGridQuests:ignore_underleveled_quests(pPlayer:get_level())
 ctAccessors = init_quest_accessors()
 ctAwarders = init_quest_awarders()
 
-local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
+tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
 
 tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
 pRouteLane = generate_subpath_lane(tRoute)

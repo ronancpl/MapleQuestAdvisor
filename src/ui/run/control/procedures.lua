@@ -11,10 +11,44 @@
 --]]
 
 require("router.constants.path")
-require("router.stages.route")
+require("router.stages.reroute")
 require("router.structs.lane")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
+require("utils.struct.table")
+
+function load_board_quests()
+    local tQuests = STable:new()
+
+    local fIn = io.open("../" .. RPath.SAV_QBOARD, "r")
+    if fIn ~= nil then
+        for sLine in fIn:lines() do
+            local rgsQuests = split_csv(sLine)
+
+            for _, sQuestid in ipairs(rgsQuests) do
+                local pQuest = ctQuests:get_quest_by_id(tonumber(sQuestid))
+                tQuests:insert(pQuest, 1)
+            end
+        end
+
+        io.close(fIn)
+    end
+
+    return tQuests
+end
+
+function save_board_quests(tQuests)
+    local fOut = io.open("../" .. RPath.SAV_QBOARD, "w")
+    if fOut ~= nil then
+        local st = ""
+        for pQuest, _ in pairs(tQuests:get_entry_set()) do
+            st = st .. tostring(pQuest:get_quest_id()) .. ","
+        end
+        fOut:write(st)
+
+        io.close(fOut)
+    end
+end
 
 local function load_route_quests()
     local rgsPaths = {}

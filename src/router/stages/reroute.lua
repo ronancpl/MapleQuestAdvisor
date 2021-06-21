@@ -22,7 +22,7 @@ require("utils.provider.io.wordlist")
 require("utils.struct.ranked_set")
 
 function csvify_route_quest_path(pLeadingPath)
-    local rgsPaths = ""
+    local rgsPaths = {}
     for pQuestPath, fVal in pairs(pLeadingPath:get_entry_set()) do
         local st = ""
         for _, pQuestProp in pairs(pQuestPath:list()) do
@@ -37,7 +37,7 @@ function csvify_route_quest_path(pLeadingPath)
 end
 
 local function load_quest_paths(rgsPaths)
-    local rgpPaths = {}
+    local rgpPaths = SArray:new()
     for _, sPath in ipairs(rgsPaths) do
         local rgsLineSp = split_csv(sPath)
 
@@ -54,7 +54,7 @@ local function load_quest_paths(rgsPaths)
             table.insert(rgpQuestProps, pQuestProp)
         end
 
-        table.insert(rgpPaths, rgpQuestProps)
+        rgpPaths:add(rgpQuestProps)
     end
 
     return rgpPaths
@@ -67,7 +67,7 @@ local function route_internal_node(rgpPoolProps, rgpQuestProps, pFrontierQuests,
     pQuestTree:install_entries(rgpPoolProps)
 
     while true do
-        local pQuestProp = table.remove(rgpQuestProps, 1)   -- this is reroute: iterate over elements from list, rather than frontier
+        local pQuestProp = pFrontierQuests:peek()
         if pQuestProp == nil then
             break
         elseif not pCurrentPath:is_in_path(pQuestProp) then
@@ -117,22 +117,9 @@ local function make_leading_paths()
     return pSetLeadingPath
 end
 
-local function fetch_quest_props(rgpFixedPaths)
-    local tQuests = STable:new()
-    for _, rgpQuestProps in pairs(rgpFixedPaths) do
-        for _, pQuestProp in pairs(rgpQuestProps) do
-            local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
-            tQuests:insert(pQuest, 1)
-        end
-    end
-
-    return tQuests
-end
-
 function load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     local rgpFixedPaths = load_quest_paths(rgsPaths)
 
-    local tQuests = fetch_quest_props(rgpFixedPaths)
     log(LPath.OVERALL, "log.txt", "Load route quest board... (" .. tQuests:size() .. " quests)")
 
     local pLeadingPath = make_leading_paths()

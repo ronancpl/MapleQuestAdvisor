@@ -163,8 +163,17 @@ function love.load()
     log_st(LPath.INTERFACE, "_vw.txt", " >> LANES" .. " : " .. st)
 
     run_bt_save(tRoute)
+    save_board_quests(tQuests)
 
     local pGridQuests = load_grid_quests(ctQuests)
+
+    local tQuests2 = tQuests
+    tQuests = load_board_quests()
+
+    local ti1 = table_intersection(tQuests, tQuests2)
+    local ti2 = table_intersection(tQuests2, tQuests)
+    log_st(LPath.INTERFACE, "_vb.txt", " >> LANES" .. " : " .. tostring(next(ti1) ~= nil) .. " " .. tostring(next(ti2) ~= nil))
+
     local pTrack = run_bt_load(pPlayer)
 
     local st = ""

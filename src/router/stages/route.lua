@@ -42,7 +42,7 @@ local function fn_compare_quest_id(a, b)
     return CQuestProperties.compare(a, b) < 0
 end
 
-local function make_quest_pool_list(tQuests)
+function make_quest_pool_list(tQuests)
     local rgpPool = SArray:new()
 
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
@@ -98,7 +98,7 @@ local function route_path_copy(pQuestPath)
     return pPathNew
 end
 
-local function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     route_quest_permit_complete(pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
     local pQuestRoll
@@ -148,7 +148,7 @@ local function route_quest_log_returned_path(pCurrentPath, rgpBcktQuests)
     log(LPath.QUEST_PATH, "path-" .. pCurrentPath:get_fetch_time() .. ".txt", sPath)
 end
 
-local function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
+function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
     local rgpBcktQuests = {}
 
     while not pQuestTree:is_empty() do
