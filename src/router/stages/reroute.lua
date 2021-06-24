@@ -127,7 +127,7 @@ local function fetch_most_value_path(pLeadingPath, rgpPaths)
 
     for _, pPath in ipairs(rgpPaths) do
         local fVal = tpItVal[pPath]
-        if fMaxVal < pLeadingPath:get(pPath) then
+        if fMaxVal < fVal then
             pMvPath = pPath
             fMaxVal = fVal
         end

@@ -12,9 +12,6 @@
 
 package.path = package.path .. ';?.lua'
 
-require("composer.field.field")
-require("composer.field.station")
-require("composer.field.worldmap")
 require("composer.containers.strings.item")
 require("composer.containers.strings.mob")
 require("composer.containers.strings.npc")
@@ -27,12 +24,12 @@ require("router.procedures.persist.load.player.inventory")
 require("router.procedures.persist.save.rates")
 require("router.procedures.persist.save.player.character")
 require("router.procedures.persist.save.player.inventory")
+require("router.stages.load")
 require("structs.player")
 require("structs.storage.inventory")
 require("ui.constant.path")
 require("ui.interaction.handler")
 require("ui.interaction.window")
-require("ui.run.build.canvas.worldmap.worldmap")
 require("ui.run.control.procedures")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
@@ -65,22 +62,11 @@ function love.load()
 
     dofile("router/stage.lua")
     --dofile("persist/init.lua")    -- initialized as background process
+    load_resources_worldmap_ui()
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 
     ctInactiveTextures = SMapTimed:new()
-
-    ctFieldsWmap = load_resources_worldmap()
-    --printable(ctFieldsWmap)
-
-    ctFieldsMeta = load_meta_resources_fields()
-    --printable(ctFieldsMeta)
-
-    ctFieldsDist = load_resources_fields(ctFieldsMeta, ctFieldsWmap)
-    --printable(ctFieldsDist)
-
-    ctFieldsLink = load_resources_stations()
-    ctFieldsWmap = load_resources_worldmap_ui()
 
     ctHrItems = load_image_header_inventory()
     ctHrMobs = load_image_header_mobs()
@@ -148,7 +134,7 @@ function love.load()
 
     pUiStats = load_frame_stat()
 
-    pPlayer = CPlayer:new({iId = 1, iMapid = 110000000, siLevel = 50, siJob = 122})
+    pPlayer = CPlayer:new({iId = 1, iMapid = 2000000, siLevel = 50, siJob = 122})
     pPlayer:get_items():get_inventory():include_inventory(pIvtItems)
 
     pUiStats:update_stats(pPlayer, 10, 10, 10)

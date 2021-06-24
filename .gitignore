@@ -2,6 +2,7 @@ logs/
 dbstate/
 *.db*
 lib/xml/*
+route/**
 !lib/xml/Map.wz
 **/media/images/
 
