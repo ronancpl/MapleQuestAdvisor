@@ -14,7 +14,8 @@ require("router.procedures.constant")
 require("ui.struct.toolkit.graphics")
 
 CViewCanvas = createClass({
-    pImgData,
+    pImgCnv,
+    pImgDataCnv,
 
     iOx = 0,
     iOy = 0,
@@ -26,7 +27,11 @@ CViewCanvas = createClass({
 })
 
 function CViewCanvas:get_image()
-    return self.pImgData
+    return self.pImgCnv
+end
+
+function CViewCanvas:get_image_data()
+    return self.pImgDataCnv
 end
 
 function CViewCanvas:get_origin()
@@ -71,7 +76,7 @@ function CViewCanvas:load(iWidth, iHeight)
     local iOx = iWidth
     local iOy = iHeight
 
-    self.pImgData = nil
+    self.pImgDataCnv = nil
     self:set_origin(iOx, iOy)
 end
 
@@ -86,7 +91,7 @@ function CViewCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
     graphics_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
 end
 
-local function graphics_canvas_to_image_data(pCnv, iPx, iPy, iW, iH)
+function CViewCanvas:_graphics_canvas_to_image_data(pCnv, iPx, iPy, iW, iH)
     iPx = iPx or 0
     iPy = iPy or 0
 
@@ -94,7 +99,7 @@ local function graphics_canvas_to_image_data(pCnv, iPx, iPy, iW, iH)
     iW = iW or iWidth
     iH = iH or iHeight
 
-    local iLx, iTy = self:get_lt()
+    local iLx, iTy = 0,0
 
     local pImgDataCnv = pCnv:newImageData(0, 1, iLx + iPx, iTy + iPy, iW, iH)
     return pImgDataCnv
@@ -107,7 +112,9 @@ function CViewCanvas:render_to(fn_drawing, iPx, iPy, iW, iH)
     local pCnv = self:alloc_canvas(iCw, iCh)
 
     pCnv:renderTo(fn_drawing)
-    self.pImgData = graphics_canvas_to_image_data(pCnv, iPx, iPy, iW, iH)
+
+    self.pImgDataCnv = self:_graphics_canvas_to_image_data(pCnv, iPx, iPy, iW, iH)
+    self.pImgCnv = love.graphics.newImage(self.pImgDataCnv)
 
     self:free(pCnv)
     _TK_CANVAS = nil

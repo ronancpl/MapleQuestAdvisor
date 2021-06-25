@@ -91,7 +91,7 @@ local function load_icon_image_canvas(pImg, pRscGrid, bUseShadow, pToVw)
         graphics_canvas_draw(pImg, 0, 0, 0, iImgW, iImgH)
     end, 0, 0, iCnvLim, iCnvLim)
 
-    local pImg = love.graphics.newImage(pImgData)
+    local pImg = love.graphics.newImage(pVwCnv:get_image_data())
     return pImg, 0, 0
 end
 
