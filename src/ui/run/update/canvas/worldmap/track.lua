@@ -81,10 +81,9 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
 
     -- verify if current worldmap contains the player and destination
 
-    local iOrigMapid = pPlayer:get_mapid()
-    local iDestMapid = fetch_field_destination(pRegionRscTree)
+    local iOrigMapid = pRegionRscTree:get_field_source()
 
-    pRegionRscTree:set_field_source(iOrigMapid)
+    local iDestMapid = fetch_field_destination(pRegionRscTree)  -- destination has quest NPC
     pRegionRscTree:set_field_destination(iDestMapid)
 
     local iRegionidOrig = ctFieldsLandscape:get_region_by_mapid(iOrigMapid) or -1

@@ -66,12 +66,20 @@ function CWmapProperties:get_base_img()
     return self.pBaseImg
 end
 
+function CWmapProperties:reset_map_links()
+    clear_table(self.rgpMapLink)
+end
+
 function CWmapProperties:add_map_link(pLinkNode)
     table.insert(self.rgpMapLink, pLinkNode)
 end
 
 function CWmapProperties:get_map_links()
     return deep_copy(self.rgpMapLink)
+end
+
+function CWmapProperties:reset_map_fields()
+    clear_table(self.rgpMapList)
 end
 
 function CWmapProperties:add_map_field(pFieldNode)
@@ -127,6 +135,7 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImg
 
     local sWmapRegion = pWmapRegion:get_name()
 
+    self:reset_map_links()
     local tpLinks = pWmapRegion:get_links()
     for _, pPair in ipairs(spairs(tpLinks, function (a, b) return a < b end)) do
         local iIdx = pPair[1]
@@ -136,6 +145,7 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImg
         self:add_map_link(pRegionLink)
     end
 
+    self:reset_map_fields()
     local tpNodes = pWmapRegion:get_nodes()
     for _, pPair in ipairs(spairs(tpNodes, function (a, b) return a < b end)) do
         local iIdx = pPair[1]

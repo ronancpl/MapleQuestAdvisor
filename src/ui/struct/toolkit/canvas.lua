@@ -14,7 +14,7 @@ require("router.procedures.constant")
 require("ui.struct.toolkit.graphics")
 
 CViewCanvas = createClass({
-    pCanvas,
+    pImgData,
 
     iOx = 0,
     iOy = 0,
@@ -25,8 +25,8 @@ CViewCanvas = createClass({
     iBy = 0
 })
 
-function CViewCanvas:get_canvas()
-    return self.pCanvas
+function CViewCanvas:get_image()
+    return self.pImgData
 end
 
 function CViewCanvas:get_origin()
@@ -56,16 +56,22 @@ function CViewCanvas:get_rb()
     return self.iRx, self.iBy
 end
 
-function CViewCanvas:free()
+function CViewCanvas:alloc_canvas(iW, iH)
+    return ctPoolCnv:take_canvas(iW, iH)
+end
+
+function CViewCanvas:free(pCnv)
     self:alloc_lt(U_INT_MAX, U_INT_MAX)
     self:alloc_rb(0, 0)
+
+    ctPoolCnv:put_canvas(pCnv)
 end
 
 function CViewCanvas:load(iWidth, iHeight)
     local iOx = iWidth
     local iOy = iHeight
 
-    self.pCanvas = love.graphics.newCanvas(3 * iOx, 3 * iOy)
+    self.pImgData = nil
     self:set_origin(iOx, iOy)
 end
 
@@ -80,12 +86,31 @@ function CViewCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
     graphics_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
 end
 
-function CViewCanvas:render_to(fn_drawing)
-    _TK_CANVAS = self
-    self.pCanvas:renderTo(fn_drawing)
+local function graphics_canvas_to_image_data(pCnv, iPx, iPy, iW, iH)
+    iPx = iPx or 0
+    iPy = iPy or 0
 
+    local iWidth, iHeight = self:get_origin()
+    iW = iW or iWidth
+    iH = iH or iHeight
+
+    local iLx, iTy = self:get_lt()
+
+    local pImgDataCnv = pCnv:newImageData(0, 1, iLx + iPx, iTy + iPy, iW, iH)
+    return pImgDataCnv
+end
+
+function CViewCanvas:render_to(fn_drawing, iPx, iPy, iW, iH)
+    _TK_CANVAS = self
+
+    local iCw, iCh = self:get_origin()
+    local pCnv = self:alloc_canvas(iCw, iCh)
+
+    pCnv:renderTo(fn_drawing)
+    self.pImgData = graphics_canvas_to_image_data(pCnv, iPx, iPy, iW, iH)
+
+    self:free(pCnv)
     _TK_CANVAS = nil
-    self:free()
 end
 
 function graphics_canvas_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
@@ -117,14 +142,6 @@ local function fetch_canvas_limits(pCanvas)
     return iOx, iOy, iLx, iTy, iSw, iSh
 end
 
-function graphics_canvas_to_image_data(pCanvas, iPx, iPy, iW, iH)
-    local iLx, iTy = pCanvas:get_lt()
-    local pCnv = pCanvas:get_canvas()
-
-    local pImgDataCnv = pCnv:newImageData(0, 1, iLx + iPx, iTy + iPy, iW, iH)
-    return pImgDataCnv
-end
-
 function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iKx, iKy)
     local iOx, iOy, iLx, iTy, iSw, iSh = fetch_canvas_limits(pCanvas)
 
@@ -134,6 +151,6 @@ function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iKx, iKy)
     local iTx, iTy = read_canvas_position()
 
     love.graphics.setScissor(iPx + iRx + iTx, iPy + iRy + iTy, iSw, iSh)
-    love.graphics.draw(pCanvas:get_canvas(), iPx + iRx + iTx, iPy + iRy + iTy, iR, 1, 1, iOx, iOy, iKx, iKy)
+    love.graphics.draw(pCanvas:get_image(), iPx + iRx + iTx, iPy + iRy + iTy, iR, 1, 1, iOx, iOy, iKx, iKy)
     love.graphics.setScissor()
 end

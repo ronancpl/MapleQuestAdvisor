@@ -21,7 +21,7 @@ CInvtElemItem = createClass({
     eBox = CUserboxElem:new(),
 
     pImg,
-    pView,
+    pViewCnv,
     iId,
     iCount
 })
@@ -35,7 +35,7 @@ function CInvtElemItem:get_image()
 end
 
 function CInvtElemItem:get_view()
-    return self.pView
+    return self.pViewCnv
 end
 
 function CInvtElemItem:get_count()
@@ -51,7 +51,7 @@ function CInvtElemItem:_load_image()
     local pImg = ctVwInvt:get_image_by_itemid(self.iId)
 
     self.pImg = pImg
-    self.pView = load_item_canvas(pImg, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H, RItemTile.INVENTORY, true)
+    self.pViewCnv = load_item_canvas(pImg, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H, RItemTile.INVENTORY, true)
 end
 
 function CInvtElemItem:load(iId, iCount)

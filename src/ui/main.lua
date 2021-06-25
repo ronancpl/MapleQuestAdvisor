@@ -30,6 +30,7 @@ require("structs.storage.inventory")
 require("ui.constant.path")
 require("ui.interaction.handler")
 require("ui.interaction.window")
+require("ui.run.build.canvas.worldmap.worldmap")
 require("ui.run.control.procedures")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
@@ -46,6 +47,7 @@ require("ui.struct.component.tooltip.tracer.storage")
 require("ui.struct.images.storage.item")
 require("ui.struct.images.storage.mob")
 require("ui.struct.images.storage.npc")
+require("ui.struct.window.canvas_pool")
 require("ui.trace.trace")
 require("utils.logger.file")
 require("utils.persist.act.call")
@@ -62,10 +64,11 @@ function love.load()
 
     dofile("router/stage.lua")
     --dofile("persist/init.lua")    -- initialized as background process
-    load_resources_worldmap_ui()
+    ctFieldsWmap = load_resources_worldmap_ui()
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 
+    ctPoolCnv = CPoolCanvas:new()
     ctInactiveTextures = SMapTimed:new()
 
     ctHrItems = load_image_header_inventory()

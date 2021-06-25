@@ -32,7 +32,7 @@ function CRscElemItemPicture:get_image()
 end
 
 function CRscElemItemPicture:get_picture()
-    return self.pCnvImg
+    return self.pVwImgDataRsc
 end
 
 function CRscElemItemPicture:get_image_origin()
@@ -89,9 +89,7 @@ local function load_icon_image_canvas(pImg, pRscGrid, bUseShadow, pToVw)
     pVwCnv:render_to(function()
         love.graphics.clear()
         graphics_canvas_draw(pImg, 0, 0, 0, iImgW, iImgH)
-    end)
-
-    local pImgData = graphics_canvas_to_image_data(pVwCnv, 0, 0, iCnvLim, iCnvLim)
+    end, 0, 0, iCnvLim, iCnvLim)
 
     local pImg = love.graphics.newImage(pImgData)
     return pImg, 0, 0
@@ -117,7 +115,7 @@ function CRscElemItemPicture:load(siType, tpRscGrid, pImg, iId, iCount, sDesc, i
 
     self.iCount = iCount
 
-    self.pCnvImg = load_resource_picture(self)
+    self.pVwImgDataRsc = load_resource_picture(self)
 end
 
 function CRscElemItemPicture:update(dt)
