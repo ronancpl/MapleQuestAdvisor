@@ -81,9 +81,8 @@ function CViewCanvas:load(iWidth, iHeight)
 end
 
 function CViewCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
-    local iIx, iIy = self:get_origin()
-    iPx = iPx + iIx
-    iPy = iPy + iIy
+    iPx = 0
+    iPy = 0
 
     self:alloc_lt(iPx, iPy)
     self:alloc_rb(iPx + iW, iPy + iH)
@@ -152,12 +151,12 @@ end
 function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iKx, iKy)
     local iOx, iOy, iLx, iTy, iSw, iSh = fetch_canvas_limits(pCanvas)
 
-    local iRx = iLx - iOx
+    local iRx = iLx
     local iRy = iTy - iOy
 
     local iTx, iTy = read_canvas_position()
 
-    love.graphics.setScissor(iPx + iRx + iTx, iPy + iRy + iTy, iSw, iSh)
+    love.graphics.setScissor(iPx + iRx + iTx - iOx, iPy + iRy + iTy - iOy, iSw, iSh)
     love.graphics.draw(pCanvas:get_image(), iPx + iRx + iTx, iPy + iRy + iTy, iR, 1, 1, iOx, iOy, iKx, iKy)
     love.graphics.setScissor()
 end
