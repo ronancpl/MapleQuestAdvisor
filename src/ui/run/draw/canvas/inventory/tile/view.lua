@@ -33,7 +33,7 @@ function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iO
 
     if bUseShadow then
         -- draw shadow
-        graphics_canvas_draw(pImgShd, iShPx, iShPy, 0, iShW, nil)
+        graphics_canvas_draw(pImgShd, iShPx - iOx, iShPy - iOy, 0, iShW, nil)
     end
 
     -- draw item image

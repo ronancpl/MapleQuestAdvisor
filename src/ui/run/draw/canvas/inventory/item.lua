@@ -22,6 +22,10 @@ end
 
 function load_item_canvas(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
     local pVwCnv = CViewCanvas:new()
+
+    local iImgW, iImgH = pImgItem:getDimensions()
+    local iWidth = math.max(iWidth, iImgW)
+    local iHeight = math.max(iHeight, iImgH)
     pVwCnv:load(iWidth, iHeight)
 
     pVwCnv:render_to(function()

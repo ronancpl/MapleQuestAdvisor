@@ -20,7 +20,6 @@ function make_subimage(pImg, iX, iY, iW, iH)
         love.graphics.draw(pImg, -iX, -iY)
     end)
 
-    print()
     local pImgData = pCanvas:newImageData(0, 1, 0, 0, iW - iX, iH - iY)
     return love.graphics.newImage(pImgData)
 end
