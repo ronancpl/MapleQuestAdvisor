@@ -73,8 +73,8 @@ function draw_item_canvas(pVwCnvItem, iCount, iPx, iPy, iPicW, iPicH, iOx, iOy)
     iOy = iOy or 0
 
     local iIx, iIy = pVwCnvItem:get_origin()
-    iOx = iOx + iIx
-    iOy = iOx + iIy
+    iOx = iOx + iIx - math.floor(iPicW / 2)
+    iOy = iOx + iIy - math.floor(iPicH / 2)
 
     graphics_draw_canvas(pVwCnvItem, iPx + iOx, iPy + iOy, 0)
     draw_item_count(iCount, iPx, iPy, iPicW, iPicH)

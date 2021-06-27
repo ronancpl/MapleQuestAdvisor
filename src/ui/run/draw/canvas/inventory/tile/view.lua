@@ -37,5 +37,5 @@ function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iO
     end
 
     -- draw item image
-    graphics_canvas_draw(pImgItem, iImgX, iImgY, 0, iImgW, iImgH)
+    graphics_canvas_draw(pImgItem, iImgX - iOx, iImgY - iOy, 0, iImgW, iImgH)
 end

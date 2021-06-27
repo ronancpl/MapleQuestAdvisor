@@ -81,9 +81,6 @@ function CViewCanvas:load(iWidth, iHeight)
 end
 
 function CViewCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
-    iPx = 0
-    iPy = 0
-
     self:alloc_lt(iPx, iPy)
     self:alloc_rb(iPx + iW, iPy + iH)
 
