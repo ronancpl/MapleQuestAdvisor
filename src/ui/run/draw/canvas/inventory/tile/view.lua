@@ -29,7 +29,11 @@ function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iO
     local pImgShd = ctVwInvt:get_shadow()
 
     local fn_tile_draw = tfn_tile_draw[siType]
-    local iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, _ = fn_tile_draw(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
+
+    local iImgW, iImgH = pImgItem:getDimensions()
+    local iCnvW = math.max(iWidth, iImgW)
+    local iCnvH = math.max(iHeight, iImgH)
+    local iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, _ = fn_tile_draw(pImgItem, pImgShd, iPx, iPy, iCnvW, iCnvH)
 
     if bUseShadow then
         -- draw shadow
@@ -37,5 +41,5 @@ function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iO
     end
 
     -- draw item image
-    graphics_canvas_draw(pImgItem, iImgX - iOx, iImgY - iOy, 0, iImgW, iImgH)
+    graphics_canvas_draw(pImgItem, iImgX, iImgY, 0, iImgW, iImgH)
 end

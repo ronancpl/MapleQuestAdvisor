@@ -24,9 +24,9 @@ function load_item_canvas(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iO
     local pVwCnv = CViewCanvas:new()
 
     local iImgW, iImgH = pImgItem:getDimensions()
-    local iWidth = math.max(iWidth, iImgW)
-    local iHeight = math.max(iHeight, iImgH)
-    pVwCnv:load(iWidth, iHeight)
+    local iCnvW = math.max(iWidth, iImgW)
+    local iCnvH = math.max(iHeight, iImgH)
+    pVwCnv:load(iCnvW, iCnvH)
 
     pVwCnv:render_to(function()
         love.graphics.clear()
@@ -73,8 +73,8 @@ function draw_item_canvas(pVwCnvItem, iCount, iPx, iPy, iPicW, iPicH, iOx, iOy)
     iOy = iOy or 0
 
     local iIx, iIy = pVwCnvItem:get_origin()
-    iOx = iOx + iIx - math.floor(iPicW / 2)
-    iOy = iOx + iIy - math.floor(iPicH / 2)
+    iOx = iOx + iIx
+    iOy = iOx + iIy
 
     graphics_draw_canvas(pVwCnvItem, iPx + iOx, iPy + iOy, 0)
     draw_item_count(iCount, iPx, iPy, iPicW, iPicH)
