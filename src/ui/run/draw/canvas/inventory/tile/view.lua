@@ -33,7 +33,7 @@ function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iO
     local iImgW, iImgH = pImgItem:getDimensions()
     local iCnvW = math.max(iWidth, iImgW)
     local iCnvH = math.max(iHeight, iImgH)
-    local iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, _ = fn_tile_draw(pImgItem, pImgShd, iPx, iPy, iCnvW, iCnvH)
+    local iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, _ = fn_tile_draw(pImgItem, pImgShd, iPx - iOx, iPy - iOy, iCnvW, iCnvH)
 
     if bUseShadow then
         -- draw shadow

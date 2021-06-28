@@ -195,8 +195,8 @@ local function draw_compose_item_image(pVwItem, iItemWidth, iItemHeight)
     if pVwCanvas ~= nil then
         local pImg = pVwItem:get_image()
 
-        local iOx = math.floor((iItemWidth - pImg:getWidth()) / 2)
-        local iOy = math.floor((iItemHeight - pImg:getHeight()) / 2)
+        local iOx = math.floor(math.min(iItemWidth - pImg:getWidth(), 0) / 2)
+        local iOy = math.floor(math.min(iItemHeight - pImg:getHeight(), 0) / 2)
 
         local iPx
         local iPy

@@ -139,8 +139,8 @@ local function fetch_canvas_limits(pCanvas)
 
     local iOx, iOy = pCanvas:get_origin()
 
-    local iSw = iRx - iLx
-    local iSh = iBy - iTy
+    local iSw = iRx
+    local iSh = iBy
 
     return iOx, iOy, iLx, iTy, iSw, iSh
 end
@@ -148,8 +148,8 @@ end
 function graphics_draw_canvas(pCanvas, iPx, iPy, iR, iKx, iKy)
     local iOx, iOy, iLx, iTy, iSw, iSh = fetch_canvas_limits(pCanvas)
 
-    local iRx = iLx
-    local iRy = iTy - iOy
+    local iRx = 0
+    local iRy = 0 - iOy
 
     local iTx, iTy = read_canvas_position()
 

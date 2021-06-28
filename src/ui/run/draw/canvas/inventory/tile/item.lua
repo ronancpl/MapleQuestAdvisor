@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("ui.constant.view.inventory")
 
 local function fetch_item_tile_center(pImgItem, iPx, iPy, iBw, iBh)
@@ -52,12 +53,17 @@ local function fetch_shadow_tile_position(pImgShd, pImgItem, iPx, iPy, iBw, iBh)
     local iShPx, iShPy, iShW, iShH = fetch_item_tile_position(1.0, pImgShd, iOx, iOy)
     iShPy = iBh - pImgShd:getHeight()
 
-    return iShPx - iRx, iShPy - iRy, iShW, iShH
+    return iShPx - iRx, iShPy, iShW, iShH
 end
 
-local function amend_item_tile_positions(iCx, iCy, pImgItem, iImgX, iImgY, iImgW, iImgH, iBw, iBh)
-    iImgX = math.max(0, iCx - math.floor(math.max(iImgW, iBw) / 2))
-    iImgY = math.max(0, iCy - math.floor(math.max(iImgH, iBh) / 2))
+local function amend_item_tile_positions(iCx, iCy, iImgX, iImgY, iImgW, iImgH, iBw, iBh)
+    iImgX = iCx - math.ceil(iImgW / 2)
+    iImgX = math.iclamp(iImgX, 0, iBw - iImgW)
+    iImgX = math.ceil(iImgX / 2)
+
+    iImgY = iCy - math.ceil(iImgH / 2)
+    iImgY = math.iclamp(iImgY, 0, iBh - iImgH)
+    iImgY = math.ceil(iImgY / 2)
 
     return iImgX, iImgY, iImgW, iImgH
 end
@@ -72,7 +78,7 @@ function fetch_item_tile_box_invt(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
     local iCx, iCy, iW, iH, fSc = fetch_item_tile_center(pImgItem, iPx, iPy, iBw, iBh)
     local iImgX, iImgY, iImgW, iImgH = fetch_item_tile_scale(pImgItem, fSc, iCx, iCy)
     local iShPx, iShPy, iShW, iShH = fetch_shadow_tile_position(pImgShd, pImgItem, iPx, iPy, iBw, iBh)
-    iImgX, iImgY, iImgW, iImgH = amend_item_tile_positions(iCx, iCy, pImgItem, iImgX, iImgY, iImgW, iImgH, iBw, iBh)
+    iImgX, iImgY, iImgW, iImgH = amend_item_tile_positions(iCx, iCy, iImgX, iImgY, iImgW, iImgH, iBw, iBh)
 
     return iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH
 end
