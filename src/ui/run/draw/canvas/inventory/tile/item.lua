@@ -51,7 +51,7 @@ local function fetch_shadow_tile_position(pImgShd, pImgItem, iPx, iPy, iBw, iBh)
     local iOy = iPy + math.ceil(iBh / 2)
 
     local iShPx, iShPy, iShW, iShH = fetch_item_tile_position(1.0, pImgShd, iOx, iOy)
-    iShPy = iBh - pImgShd:getHeight()
+    iShPy = iBh - pImgShd:getHeight() - math.floor(math.max(pImgItem:getHeight() - iBh, 0) / 2)
 
     return iShPx - iRx, iShPy, iShW, iShH
 end
