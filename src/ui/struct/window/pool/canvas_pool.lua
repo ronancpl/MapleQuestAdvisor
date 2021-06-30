@@ -44,7 +44,7 @@ function CPoolCanvas:_take_canvas(iWidth, iHeight)
     local pCnv = self:_fetch_canvas(iWidth, iHeight)
     if pCnv == nil then
         pCnv = love.graphics.newCanvas(iWidth, iHeight)
-        self.ctInactiveCanvases:insert(pCnv, 1, RTimer.TM_CANVAS_POOL)
+        self.ctInactiveCanvases:insert(pCnv, 1, RTimer.TM_UI_POOL)
     end
 
     return pCnv
@@ -62,5 +62,5 @@ function CPoolCanvas:put_canvas(pCnv)
     local rgpCnvs = create_inner_table_if_not_exists(self.tpCanvasEntries, iKey)
 
     table.insert(rgpCnvs, pCnv)
-    self.ctInactiveCanvases:insert(pCnv, 1, RTimer.TM_CANVAS_POOL)
+    self.ctInactiveCanvases:insert(pCnv, 1, RTimer.TM_UI_POOL)
 end

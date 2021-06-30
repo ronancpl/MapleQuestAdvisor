@@ -10,18 +10,34 @@
     provide an express grant of patent rights.
 --]]
 
+function fetch_ui_window()
+    return pUiInvt
+end
+
 function on_mousemoved(x, y, dx, dy, istouch)
-    pUiInvt:onmousemoved(x, y, dx, dy, istouch)
+    local pUiWnd = fetch_ui_window()
+
+    if pUiWnd:is_closed() then return end
+    pUiWnd:onmousemoved(x, y, dx, dy, istouch)
 end
 
 function on_mousepressed(x, y, button)
-    pUiInvt:onmousepressed(x, y, button)
+    local pUiWnd = fetch_ui_window()
+
+    if pUiWnd:is_closed() then return end
+    pUiWnd:onmousepressed(x, y, button)
 end
 
 function on_mousereleased(x, y, button)
-    pUiInvt:onmousereleased(x, y, button)
+    local pUiWnd = fetch_ui_window()
+
+    if pUiWnd:is_closed() then return end
+    pUiWnd:onmousereleased(x, y, button)
 end
 
 function on_wheelmoved(dx, dy)
-    pUiInvt:onwheelmoved(dx, dy)
+    local pUiWnd = fetch_ui_window()
+
+    if pUiWnd:is_closed() then return end
+    pUiWnd:onwheelmoved(dx, dy)
 end

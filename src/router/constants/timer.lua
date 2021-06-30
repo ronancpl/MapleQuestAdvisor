@@ -19,6 +19,6 @@ RTimer = {
     UPDT_LONG = 5 * 60 * 1000,
 
     TM_TEXTURE_TBOX = 10 * 60 * 1000,
-    TM_CANVAS_POOL = 10 * 60 * 1000
+    TM_UI_POOL = 10 * 60 * 1000
 
 }

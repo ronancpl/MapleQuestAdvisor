@@ -24,8 +24,8 @@ CStyleText = createClass({
 })
 
 function CStyleText:load_font(sTitleFont, iTitleSz, sDescFont, iDescSz)
-    self.pFontTitle = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. sTitleFont, iTitleSz)
-    self.pFontDesc = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. sDescFont, iDescSz)
+    self.pFontTitle = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. sTitleFont, iTitleSz)
+    self.pFontDesc = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. sDescFont, iDescSz)
 end
 
 function CStyleText:update_text(sTitle, sDesc)

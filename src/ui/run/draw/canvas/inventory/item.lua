@@ -30,7 +30,6 @@ function load_item_canvas(pImgItem, iWidth, iHeight, siType, bUseShadow, bEqp, i
 
     pVwCnv:render_to(function()
         love.graphics.clear()
-        log_st(LPath.DB, "_val.txt", " '" .. tostring(siType) .. "'")
         draw_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, bEqp, iOx, iOy)
     end)
 

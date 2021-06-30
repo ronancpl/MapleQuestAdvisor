@@ -83,6 +83,10 @@ function CWndBase:_onwheelmoved(dx, dy)
     self.pSureChannel:onwheelmoved(dx, dy, true)
 end
 
+function CWndBase:is_closed()
+    return pWndHandler:is_closed(self)
+end
+
 function CWndBase:close()
     pWndHandler:set_closed(self)
 end

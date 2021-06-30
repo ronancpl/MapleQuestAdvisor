@@ -47,7 +47,8 @@ require("ui.struct.component.tooltip.tracer.storage")
 require("ui.struct.images.storage.item")
 require("ui.struct.images.storage.mob")
 require("ui.struct.images.storage.npc")
-require("ui.struct.window.canvas_pool")
+require("ui.struct.window.pool.canvas_pool")
+require("ui.struct.window.pool.font_pool")
 require("ui.trace.trace")
 require("utils.logger.file")
 require("utils.persist.act.call")
@@ -69,6 +70,7 @@ function love.load()
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
 
     ctPoolCnv = CPoolCanvas:new()
+    ctPoolFont = CPoolFont:new()
     ctInactiveTextures = SMapTimed:new()
 
     ctHrItems = load_image_header_inventory()
@@ -172,8 +174,9 @@ function love.load()
 
     local pRscNode = CSolverResource:new()
     pRscTreeRegion:add_field_node(104010000, pRscNode)
-
     local rgiResourceids = {1002220000, 2003010000, 2003010001, 2003010002, 2004010000, 2004010001, 2004010002}
+
+    pRscTreeRegion:set_resources(rgiResourceids)
     pRscNode:set_resources(rgiResourceids)
 
     local pRscNode = CSolverResource:new()

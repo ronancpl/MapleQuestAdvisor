@@ -27,6 +27,10 @@ function CWndHandler:set_opened(pWnd)
     self.tpWndClosed[pWnd] = nil
 end
 
+function CWndHandler:is_closed(pWnd)
+    return self.tpWndOpened[pWnd] == nil
+end
+
 function CWndHandler:set_closed(pWnd)
     self.tpActClosed[pWnd] = 1
     self.tpWndOpened[pWnd] = nil
