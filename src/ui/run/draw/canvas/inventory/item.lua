@@ -16,11 +16,11 @@ require("ui.struct.toolkit.canvas")
 require("ui.struct.toolkit.color")
 require("ui.struct.toolkit.graphics")
 
-local function draw_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
-    draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
+local function draw_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, bEqp, iOx, iOy)
+    draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, bEqp, iOx, iOy)
 end
 
-function load_item_canvas(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
+function load_item_canvas(pImgItem, iWidth, iHeight, siType, bUseShadow, bEqp, iOx, iOy)
     local pVwCnv = CViewCanvas:new()
 
     local iImgW, iImgH = pImgItem:getDimensions()
@@ -30,7 +30,8 @@ function load_item_canvas(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iO
 
     pVwCnv:render_to(function()
         love.graphics.clear()
-        draw_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
+        log_st(LPath.DB, "_val.txt", " '" .. tostring(siType) .. "'")
+        draw_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, bEqp, iOx, iOy)
     end)
 
     return pVwCnv
@@ -75,11 +76,11 @@ function draw_item_canvas(pVwCnvItem, iCount, iPx, iPy, iPicW, iPicH, iOx, iOy)
     local iIx, iIy = pVwCnvItem:get_origin()
 
     local iRx, iBy = pVwCnvItem:get_rb()
-    iRx = math.floor(math.max(iPicW - iRx, 0) / 2)
-    iBy = math.floor(math.max(iPicH - iBy, 0) / 2)
+    iEx = math.floor(math.max(iPicW - iRx, 0) / 2)
+    iEy = math.floor(math.max(iPicH - iBy, 0) / 2)
 
-    iOx = iOx + iIx + iRx
-    iOy = iOx + iIy + iBy
+    iOx = iOx + iIx + iEx
+    iOy = iOx + iIy + iEy
 
     graphics_draw_canvas(pVwCnvItem, iPx + iOx, iPy + iOy, 0)
     draw_item_count(iCount, iPx, iPy, iPicW, iPicH)

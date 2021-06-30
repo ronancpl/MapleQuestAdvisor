@@ -65,12 +65,9 @@ local function fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh,
     return iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH
 end
 
-function fetch_item_tile_box_desc(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
-    local iBw = iWidth
-    local iBh = iHeight
-
-    local iCx, iCy, iW, iH, fSc = fetch_item_tile_center(pImgItem, iPx, iPy, iBw, iBh)
-    local iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH = fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iBw, iBh, iPx, iPy)
+function fetch_item_tile_box_desc(pImgItem, pImgShd, bEqp, iPx, iPy, iCnvW, iCnvH, iBw, iBh)
+    local iCx, iCy, iW, iH, fSc = fetch_item_tile_center(pImgItem, iPx, iPy, iCnvW, iCnvH)
+    local iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH = fetch_item_tile_scale(pImgItem, pImgShd, fSc, iCx, iCy, iCnvW, iCnvH, iPx, iPy)
 
     return iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH
 end

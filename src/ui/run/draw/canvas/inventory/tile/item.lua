@@ -43,7 +43,7 @@ local function fetch_item_tile_scale(pImgItem, fSc, iCx, iCy)
     return iImgX, iImgY, iImgW, iImgH
 end
 
-local function fetch_shadow_tile_position(pImgShd, pImgItem, iPx, iPy, iBw, iBh)
+local function fetch_shadow_tile_position(pImgShd, pImgItem, iPx, iPy, iBw, iBh, iRx, iBy)
     local iRx = math.floor((iBw - pImgItem:getWidth()) / 2)
     local iRy = math.floor((iBh - pImgItem:getHeight()) / 2)
 
@@ -51,12 +51,16 @@ local function fetch_shadow_tile_position(pImgShd, pImgItem, iPx, iPy, iBw, iBh)
     local iOy = iPy + math.ceil(iBh / 2)
 
     local iShPx, iShPy, iShW, iShH = fetch_item_tile_position(1.0, pImgShd, iOx, iOy)
-    iShPy = iBh - pImgShd:getHeight() - math.floor(math.max(pImgItem:getHeight() - iBh, 0) / 2)
+    iShPy = math.min(math.ceil((iBh - pImgItem:getHeight()) / 2), 0)
+    iShPy = iBh - pImgShd:getHeight()
 
-    return iShPx - iRx, iShPy, iShW, iShH
+    local iEx = 0
+    local iEy = math.floor(math.max(iBh - iBy, 0) / 2) + 4
+
+    return iShPx - iRx - iEx, iShPy - iEy, iShW, iShH
 end
 
-local function amend_item_tile_positions(iCx, iCy, iImgX, iImgY, iImgW, iImgH, iBw, iBh)
+local function amend_item_tile_positions(bEqp, iCx, iCy, iImgX, iImgY, iImgW, iImgH, iBw, iBh, iRx, iBy)
     iImgX = iCx - math.ceil(iImgW / 2)
     iImgX = math.iclamp(iImgX, 0, iBw - iImgW)
     iImgX = math.ceil(iImgX / 2)
@@ -65,20 +69,21 @@ local function amend_item_tile_positions(iCx, iCy, iImgX, iImgY, iImgW, iImgH, i
     iImgY = math.iclamp(iImgY, 0, iBh - iImgH)
     iImgY = math.ceil(iImgY / 2)
 
+    if not bEqp then
+        iImgY = math.floor(math.max(iBh - iBy, 0) / 2)
+    end
+
     return iImgX, iImgY, iImgW, iImgH
 end
 
-function fetch_item_tile_box_invt(pImgItem, pImgShd, iPx, iPy, iWidth, iHeight)
-    local iBw = iWidth
-    local iBh = iHeight
-
+function fetch_item_tile_box_invt(pImgItem, pImgShd, bEqp, iPx, iPy, iCnvW, iCnvH, iBw, iBh)
     local iImgW = pImgItem:getWidth()
     local iImgH = pImgItem:getHeight()
 
-    local iCx, iCy, iW, iH, fSc = fetch_item_tile_center(pImgItem, iPx, iPy, iBw, iBh)
+    local iCx, iCy, iW, iH, fSc = fetch_item_tile_center(pImgItem, iPx, iPy, iCnvW, iCnvH)
     local iImgX, iImgY, iImgW, iImgH = fetch_item_tile_scale(pImgItem, fSc, iCx, iCy)
-    local iShPx, iShPy, iShW, iShH = fetch_shadow_tile_position(pImgShd, pImgItem, iPx, iPy, iBw, iBh)
-    iImgX, iImgY, iImgW, iImgH = amend_item_tile_positions(iCx, iCy, iImgX, iImgY, iImgW, iImgH, iBw, iBh)
+    iImgX, iImgY, iImgW, iImgH = amend_item_tile_positions(bEqp, iCx, iCy, iImgX, iImgY, iImgW, iImgH, iCnvW, iCnvH, iBw, iBh)
 
+    local iShPx, iShPy, iShW, iShH = fetch_shadow_tile_position(pImgShd, pImgItem, iPx, iPy, iCnvW, iCnvH, iBw, iBh)
     return iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, iShH
 end

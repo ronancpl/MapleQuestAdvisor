@@ -34,7 +34,7 @@ function CStyleBoxItem:load(pItemImgData, iRx, iRy)
 
     if pItemImgData ~= nil then
         local pImgItem = love.graphics.newImage(pItemImgData)
-        self.pVwCnv = load_item_canvas(pImgItem, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H, RItemTile.DESC, true)
+        self.pVwCnv = load_item_canvas(pImgItem, RStylebox.VW_ITEM.W, RStylebox.VW_ITEM.H, RItemTile.DESC, true, nil)
 
         self.iRy = iRy
     end

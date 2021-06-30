@@ -22,6 +22,6 @@ function load_resource_picture(pVwRsc)
 
     local iOx, iOy = pVwRsc:get_image_origin()
 
-    local pVwCnvRsc = load_item_canvas(pImgRsc, pRscVwConf.W, pRscVwConf.H, RItemTile.INVENTORY, bUseShadow, iOx, iOy)
+    local pVwCnvRsc = load_item_canvas(pImgRsc, pRscVwConf.W, pRscVwConf.H, RItemTile.INVENTORY, bUseShadow, nil, iOx, iOy)
     return pVwCnvRsc
 end

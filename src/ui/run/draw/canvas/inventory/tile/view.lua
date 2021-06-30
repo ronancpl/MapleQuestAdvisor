@@ -19,7 +19,7 @@ local tfn_tile_draw = {}
 tfn_tile_draw[RItemTile.INVENTORY] = fetch_item_tile_box_invt
 tfn_tile_draw[RItemTile.DESC] = fetch_item_tile_box_desc
 
-function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iOx, iOy)
+function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, bEqp, iOx, iOy)
     local iPx, iPy = 0, 0
 
     iOx = iOx or 0
@@ -33,7 +33,7 @@ function draw_canvas_item_tile(pImgItem, iWidth, iHeight, siType, bUseShadow, iO
     local iImgW, iImgH = pImgItem:getDimensions()
     local iCnvW = math.max(iWidth, iImgW)
     local iCnvH = math.max(iHeight, iImgH)
-    local iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, _ = fn_tile_draw(pImgItem, pImgShd, iPx - iOx, iPy - iOy, iCnvW, iCnvH)
+    local iCx, iCy, iImgX, iImgY, iImgW, iImgH, iShPx, iShPy, iShW, _ = fn_tile_draw(pImgItem, pImgShd, bEqp, iPx - iOx, iPy - iOy, iCnvW, iCnvH, iWidth, iHeight)
 
     if bUseShadow then
         -- draw shadow

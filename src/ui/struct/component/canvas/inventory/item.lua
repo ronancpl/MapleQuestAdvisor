@@ -47,11 +47,17 @@ function CInvtElemItem:is_visible_count()
     return not (siType == 1 or siType == 5)
 end
 
+function CInvtElemItem:is_equipment()
+    local siType = math.floor(self.iId / 1000000)
+    return siType == 1
+end
+
 function CInvtElemItem:_load_image()
     local pImg = ctVwInvt:get_image_by_itemid(self.iId)
+    local bEqp = self:is_equipment()
 
     self.pImg = pImg
-    self.pViewCnv = load_item_canvas(pImg, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H, RItemTile.INVENTORY, true)
+    self.pViewCnv = load_item_canvas(pImg, RInventory.VW_INVT_ITEM.W, RInventory.VW_INVT_ITEM.H, RItemTile.INVENTORY, true, bEqp)
 end
 
 function CInvtElemItem:load(iId, iCount)

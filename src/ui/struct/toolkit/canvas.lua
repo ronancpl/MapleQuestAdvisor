@@ -80,7 +80,7 @@ function CViewCanvas:load(iWidth, iHeight)
     self:set_origin(iOx, iOy)
 end
 
-function CViewCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
+function CViewCanvas:_update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
     self:alloc_lt(iPx, iPy)
     self:alloc_rb(iPx + iW, iPy + iH)
 
@@ -130,7 +130,7 @@ function graphics_canvas_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
     local iDh = math.floor(fSh * iHeight)
     iH = iH and math.min(iH, iDh) or iDh
 
-    pCanvas:update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
+    pCanvas:_update_draw(pImg, iPx, iPy, iR, iW, iH, iOx, iOy, iKx, iKy)
 end
 
 local function fetch_canvas_limits(pCanvas)
