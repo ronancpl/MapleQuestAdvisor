@@ -155,35 +155,11 @@ function love.load()
     tQuests = load_board_quests()
     local pTrack = run_bt_load(pPlayer)
 
-    local pPath = pTrack:get_sublanes()[keys(pTrack:get_sublanes())[1]]:get_paths()[1]
+    local pPath = pTrack:get_paths()[1]
     local pQuestProp = pPath:list()[1]
     local pLeRscTree = pPath:get_node_allot(1):get_resource_tree()
 
-    pRscTree = CSolverTree:new()
-    pRscTree:set_field_source(pLeRscTree:get_field_source())
-    pRscTree:set_field_destination(pLeRscTree:get_field_destination())
-
-    local iVal = keys(pLeRscTree:get_field_nodes())[1]
-    local pLeRscTreeRegion = pLeRscTree:get_field_node(iVal)
-
-    pRscTreeRegion = CSolverTree:new()
-    pRscTreeRegion:set_field_source(104000000)
-    pRscTreeRegion:set_field_destination(103000000)
-
-    pRscTree:add_field_node(25, pRscTreeRegion)
-
-    local pRscNode = CSolverResource:new()
-    pRscTreeRegion:add_field_node(104010000, pRscNode)
-    local rgiResourceids = {1002220000, 2003010000, 2003010001, 2003010002, 2004010000, 2004010001, 2004010002}
-
-    pRscTreeRegion:set_resources(rgiResourceids)
-    pRscNode:set_resources(rgiResourceids)
-
-    local pRscNode = CSolverResource:new()
-    pRscTreeRegion:add_field_node(103000000, pRscNode)
-    pRscNode:set_resources({4001013000})
-
-    pUiRscs:update_resources(pQuestProp, pRscTree)
+    pUiRscs:update_resources(pQuestProp, pLeRscTree)
 
     local sWmapName = "WorldMap010"
     log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
@@ -215,6 +191,16 @@ function love.load()
     delete_player(pPlayer)
 
     log(LPath.DB, "rdbms.txt", "Deleting data")
+
+    local rgpPoolProps = {}
+    for _, pQuest in pairs(tQuests:get_entry_set()) do
+        table.insert(rgpPoolProps, pQuest:get_start())
+        table.insert(rgpPoolProps, pQuest:get_end())
+    end
+
+    player_lane_move_ahead(pTrack, pQuestProp, pPlayer, rgpPoolProps)
+
+    player_lane_move_back(pTrack, pQuestProp, pPlayer, rgpPoolProps)
 
 end
 

@@ -49,9 +49,11 @@ end
 
 function CTracePath:_pop_lane()
     local pLane = self.pStackLane:pop()
-    self.pStackProp:pop()
+    local pQuestProp = self.pStackProp:pop()
 
     self.pRootLane = pLane
+
+    return pQuestProp
 end
 
 function CTracePath:move_ahead(pQuestProp)
@@ -67,5 +69,20 @@ function CTracePath:move_ahead(pQuestProp)
 end
 
 function CTracePath:move_back()
-    self:_pop_lane()
+    return self:_pop_lane()
+end
+
+function CTracePath:to_string()
+    local st = ""
+    for _, pQuestProp in ipairs(self.pStackProp:list()) do
+        st = st .. pQuestProp:get_name() .. ", "
+    end
+
+    st = st .. " >> ["
+    for pQuestProp, _ in pairs(self.pRootLane:get_sublanes()) do
+        st = st .. pQuestProp:get_name() .. ", "
+    end
+    st = st .. "]"
+
+    return st
 end

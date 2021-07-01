@@ -58,3 +58,14 @@ function SStack:export(iLimitCount)
 
     return rgpItems
 end
+
+function SStack:list()
+    local m_rgpItems = self.rgpItems
+
+    local rgpItems = {}
+    for _, pItem in ipairs(m_rgpItems) do
+        table.insert(rgpItems, pItem)
+    end
+
+    return rgpItems
+end

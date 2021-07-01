@@ -10,7 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-function fetch_ui_window()
+local function fetch_ui_window()
     return pUiInvt
 end
 
