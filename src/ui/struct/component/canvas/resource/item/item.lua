@@ -71,9 +71,12 @@ function CRscElemItem:update(dt)
     -- do nothing
 end
 
-
 function CRscElemItem:reset()
     -- do nothing
+end
+
+function CRscElemItem:free()
+    self.pTooltip:free()
 end
 
 function CRscElemItem:show_tooltip()

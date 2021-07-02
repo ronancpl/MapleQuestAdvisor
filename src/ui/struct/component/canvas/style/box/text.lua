@@ -21,11 +21,22 @@ CStyleText = createClass({
     sDesc,
     pFontDesc,
     pTxtDesc,
+
+    sTitleFont,
+    iTitleSz,
+    sDescFont,
+    iDescSz
 })
 
 function CStyleText:load_font(sTitleFont, iTitleSz, sDescFont, iDescSz)
-    self.pFontTitle = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. sTitleFont, iTitleSz)
-    self.pFontDesc = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. sDescFont, iDescSz)
+    self.sTitleFont = RWndPath.LOVE_FONT_DIR_PATH .. sTitleFont
+    self.iTitleSz = iTitleSz
+
+    self.sDescFont = RWndPath.LOVE_FONT_DIR_PATH .. sDescFont
+    self.iDescSz = iDescSz
+
+    self.pFontTitle = ctPoolFont:take_font(self.sTitleFont, iTitleSz)
+    self.pFontDesc = ctPoolFont:take_font(self.sDescFont, iDescSz)
 end
 
 function CStyleText:update_text(sTitle, sDesc)
@@ -48,4 +59,9 @@ end
 
 function CStyleText:get_drawable()
     return self.pTxtTitle, self.pTxtDesc
+end
+
+function CStyleText:free()
+    ctPoolFont:put_font(self.pFontTitle, self.sTitleFont, self.iTitleSz)
+    ctPoolFont:put_font(self.pFontDesc, self.sDescFont, self.iDescSz)
 end

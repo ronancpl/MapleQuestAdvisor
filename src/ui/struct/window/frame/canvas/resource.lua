@@ -56,13 +56,13 @@ function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
         local iRscUnit = iRscid % 1000000000
 
         if iRscType == RLookupCategory.MOBS then
-            tiMobs[iRscUnit] = tpMobs[iRscUnit]
+            tiMobs[iRscUnit] = 1
         elseif iRscType == RLookupCategory.ITEMS then
-            tiItems[iRscUnit] = tpItems[iRscUnit]
+            tiItems[iRscUnit] = 1
         elseif iRscType == RLookupCategory.FIELD_ENTER then
             tFieldsEnter[iRscUnit] = 1
         elseif iRscType == RLookupCategory.FIELD_NPC then
-            iNpc = iRscUnit
+            iNpc = 1
         end
     end
 

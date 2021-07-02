@@ -23,6 +23,10 @@ function CCanvasTooltip:load(sDesc)
     m_pTextbox:load("", sDesc, 0, 0, nil)
 end
 
+function CCanvasTooltip:free()
+    self.pTextbox:free()
+end
+
 function CCanvasTooltip:get_textbox()
     return self.pTextbox
 end

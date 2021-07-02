@@ -10,47 +10,37 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.constants.timer")
-require("utils.procedure.unpack")
 require("utils.struct.class")
-require("utils.struct.maptimed")
+require("utils.struct.pool")
 
 CPoolFont = createClass({
 
-    ctInactiveFonts = SMapTimed:new(),
-    tpFontEntries = {}
+    pPool = CPool:new()
 
 })
 
-local function fetch_key_table_font(sFont, iHeight)
+local function get_key_table_font(sFont, iHeight)
     return sFont .. tostring(iHeight)
 end
 
-function CPoolFont:_fetch_font(sFont, iHeight)
-    local sFont = fetch_key_table_font(sFont, iHeight)
-
-    local m_tpFontEntries = self.tpFontEntries
-    local rgpFonts = create_inner_table_if_not_exists(m_tpFontEntries, sFont)
-
-    local pFont = table.remove(rgpFonts)
-    if pFont ~= nil then
-        self.ctInactiveFonts:remove(pFont)
-    end
-
-    return pFont
+local function fn_create_item(sFont, iHeight)
+    return love.graphics.newFont(sFont, iHeight)
 end
 
-function CPoolFont:_take_font(sFont, iHeight)
-    local pFont = self:_fetch_font(sFont, iHeight)
-    if pFont == nil then
-        pFont = love.graphics.newFont(sFont, iHeight)
-        self.ctInactiveFonts:insert(pFont, 1, RTimer.TM_UI_POOL)
-    end
-
-    return pFont
+function CPoolFont:init()
+    self.pPool:load(get_key_table_font, fn_create_item)
 end
 
 function CPoolFont:take_font(sFont, iHeight)
-    local pFont = self:_take_font(sFont, iHeight)
+    local m_pPool = self.pPool
+
+    local pFont = m_pPool:take_object({sFont, iHeight})
+    log_st(LPath.INTERFACE, "_vwf.txt", " load '" .. tostring(pFont) .. " | " .. tostring(sFont) .. " " .. tostring(iHeight) .. "'")
     return pFont
+end
+
+function CPoolFont:put_font(pFont, sFont, iHeight)
+    log_st(LPath.INTERFACE, "_vwf.txt", " free '" .. tostring(pFont) .. " | " .. tostring(sFont) .. " " .. tostring(iHeight) .. "'")
+    local m_pPool = self.pPool
+    m_pPool:put_object(pFont, {sFont, iHeight})
 end

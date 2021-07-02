@@ -13,6 +13,7 @@
 require("router.constants.path")
 require("router.stages.reroute")
 require("router.structs.lane")
+require("ui.struct.path.pathing")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
 require("utils.struct.table")
@@ -70,7 +71,9 @@ local function load_track_lane(pPlayer)
     local pLeadingPath = load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     local pRouteLane = generate_subpath_lane(pLeadingPath)
 
-    return pRouteLane
+    local pTrack = CTracePath:new()
+    pTrack:load(pRouteLane)
+    return pTrack
 end
 
 function run_bt_load(pPlayer)  -- loads last quest laning action

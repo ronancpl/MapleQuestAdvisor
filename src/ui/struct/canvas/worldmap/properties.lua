@@ -79,7 +79,12 @@ function CWmapProperties:get_map_links()
 end
 
 function CWmapProperties:reset_map_fields()
-    clear_table(self.rgpMapList)
+    local m_rgpMapList = self.rgpMapList
+    for _, pFieldNode in ipairs(m_rgpMapList) do
+        pFieldNode:free()
+    end
+
+    clear_table(m_rgpMapList)
 end
 
 function CWmapProperties:add_map_field(pFieldNode)

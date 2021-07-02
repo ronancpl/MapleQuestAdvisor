@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.player.update")
+
 function player_lane_move_ahead(pTrack, pQuestProp, pPlayerState, rgpPoolProps)
     local bSuccess = pTrack:move_ahead(pQuestProp)
     if bSuccess then

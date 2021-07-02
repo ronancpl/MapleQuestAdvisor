@@ -68,6 +68,10 @@ function CWmapElemMark:set_textbox(pTextbox)
     self.pTextbox = pTextbox
 end
 
+function CWmapElemMark:free()
+    self.pTextbox:free()
+end
+
 function CWmapElemMark:get_type()
     return self.siType
 end

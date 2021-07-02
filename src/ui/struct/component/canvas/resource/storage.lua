@@ -38,7 +38,7 @@ local function load_tab_quad(tpImgTabQuads, sQuadName)
 end
 
 function CStockResourceTab:_load_tab_names()
-    local pFont = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 12)
+    local pFont = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 12)
 
     local m_rgpTxtTabNames = self.rgpTxtTabNames
     clear_table(m_rgpTxtTabNames)
@@ -85,7 +85,7 @@ CStockResourceItem = createClass({
 })
 
 function CStockResourceItem:_load_fonts()
-    self.pFontInfo = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 9)
+    self.pFontInfo = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 9)
 end
 
 function CStockResourceItem:_load_images()

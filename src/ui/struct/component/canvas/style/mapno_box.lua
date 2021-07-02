@@ -171,3 +171,8 @@ end
 function CStyleBoxMapno:is_visible()
     return self.bVisible
 end
+
+function CStyleBoxMapno:free()
+    log_st(LPath.INTERFACE, "_vwf1.txt", " free2 '" .. tostring(self.pBoxText))
+    self.pBoxText:free()
+end

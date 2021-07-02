@@ -10,57 +10,37 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.constants.timer")
-require("utils.procedure.unpack")
 require("utils.struct.class")
-require("utils.struct.maptimed")
+require("utils.struct.pool")
+
+local bit = require("bit")
 
 CPoolCanvas = createClass({
 
-    ctInactiveCanvases = SMapTimed:new(),
-    tpCanvasEntries = {}
+    pPool = CPool:new()
 
 })
 
-local function fetch_key_table_canvas(iWidth, iHeight)
+local function get_key_table_canvas(iWidth, iHeight)
     return bit.lshift(iWidth, 30) + iHeight
 end
 
-function CPoolCanvas:_fetch_canvas(iWidth, iHeight)
-    local iKey = fetch_key_table_canvas(iWidth, iHeight)
-
-    local m_tpCanvasEntries = self.tpCanvasEntries
-    local rgpCnvs = create_inner_table_if_not_exists(m_tpCanvasEntries, iKey)
-
-    local pCnv = table.remove(rgpCnvs)
-    if pCnv ~= nil then
-        self.ctInactiveCanvases:remove(pCnv)
-    end
-
-    return pCnv
+local function fn_create_item(iWidth, iHeight)
+    return love.graphics.newCanvas(iWidth, iHeight)
 end
 
-function CPoolCanvas:_take_canvas(iWidth, iHeight)
-    local pCnv = self:_fetch_canvas(iWidth, iHeight)
-    if pCnv == nil then
-        pCnv = love.graphics.newCanvas(iWidth, iHeight)
-        self.ctInactiveCanvases:insert(pCnv, 1, RTimer.TM_UI_POOL)
-    end
-
-    return pCnv
+function CPoolCanvas:init()
+    self.pPool:load(get_key_table_canvas, fn_create_item)
 end
 
 function CPoolCanvas:take_canvas(iWidth, iHeight)
-    local pCnv = self:_take_canvas(iWidth, iHeight)
-    return pCnv
+    local m_pPool = self.pPool
+    return m_pPool:take_object({iWidth, iHeight})
 end
 
 function CPoolCanvas:put_canvas(pCnv)
+    local m_pPool = self.pPool
+
     local iWidth, iHeight = pCnv:getDimensions()
-    local iKey = fetch_key_table_canvas(iWidth, iHeight)
-
-    local rgpCnvs = create_inner_table_if_not_exists(self.tpCanvasEntries, iKey)
-
-    table.insert(rgpCnvs, pCnv)
-    self.ctInactiveCanvases:insert(pCnv, 1, RTimer.TM_UI_POOL)
+    m_pPool:put_object(pCnv, {iWidth, iHeight})
 end

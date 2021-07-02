@@ -105,10 +105,23 @@ function CRscTableElem:get_tab_items()
     return self.rgpTabVwItems
 end
 
+function CRscTableElem:free_tab_fonts()
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    local nTabs = #m_rgpTabVwItems
+
+    for i = 1, nTabs, 1 do
+        local rgpVwItems = m_rgpTabVwItems[i]
+        for _, pVwItem in ipairs(rgpVwItems) do
+            pVwItem:free()
+        end
+    end
+end
+
 function CRscTableElem:clear_tab_items()
     local m_rgpTabVwItems = self.rgpTabVwItems
     local nTabs = #m_rgpTabVwItems
 
+    self:free_tab_fonts()
     clear_table(m_rgpTabVwItems)
 
     for i = 1, nTabs, 1 do

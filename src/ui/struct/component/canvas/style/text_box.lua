@@ -125,6 +125,11 @@ function CStyleBoxText:reset()
     -- do nothing
 end
 
+function CStyleBoxText:free()
+    log_st(LPath.INTERFACE, "_vwf1.txt", " free1 '" .. tostring(self.pBoxText))
+    self.pBoxText:free()
+end
+
 function CStyleBoxText:update(dt)
     local m_pBoxLimits = self.pBoxLimits
 
