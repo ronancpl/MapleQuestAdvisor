@@ -27,7 +27,8 @@ CWmapElemMark = createClass({
     rgiFields,
     pPath,
     pTextbox,
-    pTooltip
+    pTooltip,
+    pPair
 })
 
 function CWmapElemMark:get_object()
@@ -130,6 +131,14 @@ function CWmapElemMark:set_tooltip(sTooltip, pDirHelperQuads, pWmapProp)
     self:remove_tooltip_element()
     self:add_tooltip_element(pTooltip)
     self.pTooltip = pTooltip
+end
+
+function CWmapElemMark:get_metadata()
+    return self.pPair
+end
+
+function CWmapElemMark:set_metadata(pMapNode, iIdx)
+    self.pPair = {pMapNode, iIdx}
 end
 
 function CWmapElemMark:set_static(bStatus)

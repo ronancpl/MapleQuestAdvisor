@@ -15,7 +15,8 @@ require("utils.struct.pool")
 
 CPoolFont = createClass({
 
-    pPool = CPool:new()
+    pPoolFont = CPool:new(),
+    pPoolText = CPool:new()
 
 })
 
@@ -27,20 +28,39 @@ local function fn_create_item(sFont, iHeight)
     return love.graphics.newFont(sFont, iHeight)
 end
 
+local function get_key_table_text(pFont)
+    return tostring(pFont)
+end
+
+local function fn_create_item_text(pFont)
+    return love.graphics.newText(pFont)
+end
+
 function CPoolFont:init()
-    self.pPool:load(get_key_table_font, fn_create_item)
+    self.pPoolFont:load(get_key_table_font, fn_create_item)
+    self.pPoolText:load(get_key_table_text, fn_create_item_text)
 end
 
 function CPoolFont:take_font(sFont, iHeight)
-    local m_pPool = self.pPool
+    local m_pPool = self.pPoolFont
 
     local pFont = m_pPool:take_object({sFont, iHeight})
-    log_st(LPath.INTERFACE, "_vwf.txt", " load '" .. tostring(pFont) .. " | " .. tostring(sFont) .. " " .. tostring(iHeight) .. "'")
     return pFont
 end
 
 function CPoolFont:put_font(pFont, sFont, iHeight)
-    log_st(LPath.INTERFACE, "_vwf.txt", " free '" .. tostring(pFont) .. " | " .. tostring(sFont) .. " " .. tostring(iHeight) .. "'")
-    local m_pPool = self.pPool
+    local m_pPool = self.pPoolFont
     m_pPool:put_object(pFont, {sFont, iHeight})
+end
+
+function CPoolFont:take_text(pFont)
+    local m_pPoolText = self.pPoolText
+
+    local pText = m_pPoolText:take_object({pFont})
+    return pText
+end
+
+function CPoolFont:put_text(pFont, pText)
+    local m_pPoolText = self.pPoolText
+    m_pPoolText:put_object(pFont, {pText})
 end

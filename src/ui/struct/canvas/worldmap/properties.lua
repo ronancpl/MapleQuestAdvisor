@@ -30,12 +30,23 @@ CWmapProperties = createClass({
     pTrack
 })
 
+function CWmapProperties:reset_map_fields()
+    local m_rgpMapList = self.rgpMapList
+    for _, pRegionMarker in ipairs(m_rgpMapList) do
+        ctPoolWmap:put_region(pRegionMarker, pRegionMarker:get_metadata(), pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
+    end
+    clear_table(m_rgpMapList)
+
+    local m_tpMapMarker = self.tpMapMarker
+    clear_table(m_tpMapMarker)
+end
+
 function CWmapProperties:reset()
     self.sParentMap = nil
     self.pBaseImg = nil
-    clear_table(self.rgpMapList)
+
+    self:reset_map_fields()
     clear_table(self.rgpMapLink)
-    clear_table(self.tpMapMarker)
 
     local pTrack = CTracePath:new()
     pTrack:load(pRouteLane)
@@ -76,15 +87,6 @@ end
 
 function CWmapProperties:get_map_links()
     return deep_copy(self.rgpMapLink)
-end
-
-function CWmapProperties:reset_map_fields()
-    local m_rgpMapList = self.rgpMapList
-    for _, pFieldNode in ipairs(m_rgpMapList) do
-        pFieldNode:free()
-    end
-
-    clear_table(m_rgpMapList)
 end
 
 function CWmapProperties:add_map_field(pFieldNode)
@@ -128,6 +130,7 @@ function CWmapProperties:get_track()
 end
 
 function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, pUiRscs)
+    pUiRscs:get_properties():get_table():clear_tab_items()
     self:reset()
 
     local pBaseImgNode = pWmapRegion:get_base_img()
@@ -150,13 +153,11 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImg
         self:add_map_link(pRegionLink)
     end
 
-    self:reset_map_fields()
     local tpNodes = pWmapRegion:get_nodes()
     for _, pPair in ipairs(spairs(tpNodes, function (a, b) return a < b end)) do
-        local iIdx = pPair[1]
-        local pMapNode = pPair[2]
+        local pRegionMarker = ctPoolWmap:take_region(pPair, self, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
 
-        local pRegionMarker = load_node_worldmap_map_list(self, pUiRscs, pMapNode, pDirHelperQuads, pDirWmapImgs, sWmapRegion, iIdx)
         self:add_map_field(pRegionMarker)
+        pRegionMarker:free()    -- unused text obj
     end
 end

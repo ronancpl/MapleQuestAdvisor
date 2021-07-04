@@ -15,8 +15,8 @@ require("utils.struct.class")
 
 CStyleText = createClass({
     sTitle,
-    pFontTitle,
-    pTxtTitle,
+    pFontTitle = nil,
+    pTxtTitle = nil,
 
     sDesc,
     pFontDesc,
@@ -44,9 +44,19 @@ function CStyleText:update_text(sTitle, sDesc)
     self.sDesc = sDesc
 end
 
-function CStyleText:update_format(pTxtTitle, pTxtDesc)
+function CStyleText:_free_format(pFontTitle, pFontDesc)
+    if self.pTxtTitle ~= nil then ctPoolFont:put_text(pFontTitle, self.pTxtTitle) end
+    if self.pTxtDesc ~= nil then ctPoolFont:put_text(pFontDesc, self.pTxtDesc) end
+end
+
+function CStyleText:_load_format(pTxtTitle, pTxtDesc)
     self.pTxtTitle = pTxtTitle
     self.pTxtDesc = pTxtDesc
+end
+
+function CStyleText:update_format(pTxtTitle, pFontTitle, pTxtDesc, pFontDesc)
+    self:_free_format(pFontTitle, pFontDesc)
+    self:_load_format(pTxtTitle, pTxtDesc)
 end
 
 function CStyleText:get_font()

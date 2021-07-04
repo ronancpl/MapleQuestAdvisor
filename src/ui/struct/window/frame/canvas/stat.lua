@@ -10,11 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
-require("ui.constant.path")
-require("ui.run.update.canvas.position")
+require("ui.struct.canvas.stat.properties")
 require("ui.struct.canvas.stat.layer.background")
 require("ui.struct.canvas.stat.layer.info")
-require("ui.struct.canvas.stat.properties")
 require("ui.struct.component.canvas.canvas")
 require("ui.struct.window.type")
 require("ui.struct.window.frame.canvas")
@@ -49,10 +47,7 @@ function CWndStat:update_stats(pPlayer, siExpR, siMesoR, siDropR)
 end
 
 function CWndStat:_load_background()
-    local pDirStatImgs = load_image_storage_from_wz_sub(RWndPath.INTF_UI_WND, "Stat")
-    pDirStatImgs = select_images_from_storage(pDirStatImgs, {})
-
-    local pImgBase = love.graphics.newImage(find_image_on_storage(pDirStatImgs, "backgrnd"))
+    local pImgBase = ctPoolImg:take_image("Stat", "backgrnd")
     self.pProp:set_base_img(pImgBase)
 end
 

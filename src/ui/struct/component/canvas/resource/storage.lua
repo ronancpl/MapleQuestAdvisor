@@ -89,7 +89,7 @@ function CStockResourceItem:_load_fonts()
 end
 
 function CStockResourceItem:_load_images()
-    self.pTooltipBox = love.graphics.newImage(ctVwStyle:get_image_data(RWndPath.INTF_SBOX))
+    self.pTooltipBox = ctVwStyle:get_image(RWndPath.INTF_SBOX)
     self.iIx, self.iIy, self.iIw, self.iIh = 3, 3, 115, 6
 end
 

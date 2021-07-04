@@ -47,7 +47,19 @@ function CRscMinitableElem:get_tab_items()
     return self.rgpTabVwItems
 end
 
-function CRscMinitableElem:clear_tab_items()
+function CRscMinitableElem:_free_tab_items()
+    local m_rgpTabVwItems = self.rgpTabVwItems
+    local nTabs = #m_rgpTabVwItems
+
+    for i = 1, nTabs, 1 do
+        local rgpVwItems = m_rgpTabVwItems[i]
+        for _, pVwItem in pairs(rgpVwItems) do
+            pVwItem:free()
+        end
+    end
+end
+
+function CRscMinitableElem:_reset_tab_items()
     local m_rgpTabVwItems = self.rgpTabVwItems
     local nTabs = #m_rgpTabVwItems
 
@@ -56,6 +68,11 @@ function CRscMinitableElem:clear_tab_items()
     for i = 1, nTabs, 1 do
         m_rgpTabVwItems[i] = {}
     end
+end
+
+function CRscMinitableElem:clear_tab_items()
+    self:_free_tab_items()
+    self:_reset_tab_items()
 end
 
 function CRscMinitableElem:add_tab_items(iTab, rgpVwItems)

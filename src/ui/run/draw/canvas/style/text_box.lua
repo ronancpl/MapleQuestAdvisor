@@ -24,13 +24,13 @@ local function compose_box_text(pBoxText, pBoxLimit)
 
     local iLineWidth = pBoxLimit:get_width()
 
-    local pTxtTitle = love.graphics.newText(pFontTitle)
+    local pTxtTitle = ctPoolFont:take_text(pFontTitle)
     pTxtTitle:setf({{1, 1, 1}, sTitle}, iLineWidth, "center")
 
-    local pTxtDesc = love.graphics.newText(pFontDesc)
+    local pTxtDesc = ctPoolFont:take_text(pFontDesc)
     pTxtDesc:setf({{1, 1, 1}, sDesc}, iLineWidth, "left")
 
-    pBoxText:update_format(pTxtTitle, pTxtDesc)
+    pBoxText:update_format(pTxtTitle, pFontTitle, pTxtDesc, pFontDesc)
 end
 
 local function fetch_text_wrap(sText, iLimWidth, pFont)

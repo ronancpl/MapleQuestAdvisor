@@ -15,7 +15,8 @@ require("ui.constant.path")
 require("utils.struct.class")
 
 CStockStyleBox = createClass({
-    tpImgDatum = {}
+    tpImgDatum = {},
+    tpImgs = {}
 })
 
 local function ink(sHexColor)   -- hex color conversion by litearc
@@ -50,6 +51,17 @@ end
 function CStockStyleBox:get_image_data(sImgPath)
     local pImgData = self.tpImgDatum[sImgPath]
     return pImgData
+end
+
+function CStockStyleBox:get_image(sImgPath)
+    local pImgData = self:get_image_data(sImgPath)
+
+    local pImg = self.tpImgs[pImgData]
+    if pImg == nil then
+        pImg = love.graphics.newImage(pImgData)
+    end
+
+    return pImg
 end
 
 function load_image_stock_stylebox()

@@ -92,7 +92,6 @@ function CWndWmap:update_region(sWmapName, pPlayer, pUiRscs)
     end
 
     activate_region_fields(self, pUiRscs)
-
     self.pCanvas:build(self.pProp)
 end
 

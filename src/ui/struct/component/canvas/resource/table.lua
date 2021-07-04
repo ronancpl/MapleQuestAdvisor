@@ -35,7 +35,7 @@ CRscTableElem = createClass({
 
     rgpVwItems = {},
     rgiCurRange = {0, -1},
-    rgpTabVwItems = {}
+    rgpTabVwItems = {abc = "abc"}
 })
 
 function CRscTableElem:get_origin()
@@ -105,7 +105,7 @@ function CRscTableElem:get_tab_items()
     return self.rgpTabVwItems
 end
 
-function CRscTableElem:free_tab_fonts()
+function CRscTableElem:_free_tab_items()
     local m_rgpTabVwItems = self.rgpTabVwItems
     local nTabs = #m_rgpTabVwItems
 
@@ -117,16 +117,19 @@ function CRscTableElem:free_tab_fonts()
     end
 end
 
-function CRscTableElem:clear_tab_items()
+function CRscTableElem:_reset_tab_items()
     local m_rgpTabVwItems = self.rgpTabVwItems
     local nTabs = #m_rgpTabVwItems
-
-    self:free_tab_fonts()
     clear_table(m_rgpTabVwItems)
 
     for i = 1, nTabs, 1 do
         m_rgpTabVwItems[i] = {}
     end
+end
+
+function CRscTableElem:clear_tab_items()
+    self:_free_tab_items()
+    self:_reset_tab_items()
 end
 
 function CRscTableElem:add_tab_items(iTab, rgpVwItems)

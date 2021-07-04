@@ -110,6 +110,7 @@ function load_node_worldmap_map_list(pWmapProp, pUiRscs, pMapNode, pDirHelperQua
     pFieldMarker:set_mapno(rgiFields)
     pFieldMarker:set_path(pPath)
     pFieldMarker:set_textbox(pTextbox)
+    pFieldMarker:set_metadata(pMapNode, iIdx)
 
     return pFieldMarker
 end

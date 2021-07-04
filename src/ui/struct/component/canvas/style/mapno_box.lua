@@ -55,7 +55,7 @@ end
 function CStyleBoxMapno:_load_texture(iRx, iRy)
     local m_eTexture = self.eTexture
 
-    local pImgBox = love.graphics.newImage(ctVwStyle:get_image_data(RWndPath.INTF_SBOX))
+    local pImgBox = ctVwStyle:get_image(RWndPath.INTF_SBOX)
     m_eTexture:load(iRx, iRy, pImgBox, 3, 3, 115, 6)
 end
 
@@ -173,6 +173,5 @@ function CStyleBoxMapno:is_visible()
 end
 
 function CStyleBoxMapno:free()
-    log_st(LPath.INTERFACE, "_vwf1.txt", " free2 '" .. tostring(self.pBoxText))
     self.pBoxText:free()
 end

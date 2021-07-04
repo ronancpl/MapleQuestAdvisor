@@ -50,6 +50,8 @@ require("ui.struct.images.storage.mob")
 require("ui.struct.images.storage.npc")
 require("ui.struct.window.pool.canvas_pool")
 require("ui.struct.window.pool.font_pool")
+require("ui.struct.window.pool.image_pool")
+require("ui.struct.window.pool.worldmap_pool")
 require("ui.trace.trace")
 require("utils.logger.file")
 require("utils.persist.act.call")
@@ -75,6 +77,12 @@ function love.load()
 
     ctPoolFont = CPoolFont:new()
     ctPoolFont:init()
+
+    ctPoolImg = CPoolImage:new()
+    ctPoolImg:init()
+
+    ctPoolWmap = CPoolWorldmap:new()
+    ctPoolWmap:init()
 
     ctInactiveTextures = SMapTimed:new()
 

@@ -148,7 +148,17 @@ local function make_tab_resources_field_enter(pRscProp)
     return rgpVwItems
 end
 
-function update_resource_items_mini(pVwRscs, pRscProp)
+_tpVwItemsA = {}
+
+local function clear_resource_items(pVwRscs)
+    for siTab, rgpVwItems in pairs(_tpVwItemsA) do
+        pVwRscs:add_tab_items(siTab, rgpVwItems)
+    end
+
+    pVwRscs:clear_tab_items()
+end
+
+local function insert_resource_items(pVwRscs, pRscProp)
     local tpVwItems = {}
 
     tpVwItems[RResourceTable.TAB.MOBS.ID] = make_tab_resources_mobs(pRscProp)
@@ -156,10 +166,16 @@ function update_resource_items_mini(pVwRscs, pRscProp)
     tpVwItems[RResourceTable.TAB.NPC.ID] = make_tab_resources_npc(pRscProp)
     tpVwItems[RResourceTable.TAB.FIELD_ENTER.ID] = make_tab_resources_field_enter(pRscProp)
 
-    pVwRscs:clear_tab_items()
     for siTab, rgpVwItems in pairs(tpVwItems) do
         pVwRscs:add_tab_items(siTab, rgpVwItems)
     end
+
+    _tpVwItemsA = tpVwItems
+end
+
+function update_resource_items_mini(pVwRscs, pRscProp)
+    clear_resource_items(pVwRscs)
+    insert_resource_items(pVwRscs, pRscProp)
 
     pVwRscs:build()
 end
