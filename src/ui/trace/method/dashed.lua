@@ -120,6 +120,20 @@ function fetch_segments_dashed(x1, y1, x2, y2, iDistSplit, iDistFill)
         xA, yA, xB, yB = x1, y1, x2, y2
     end
 
-    local rgCoords = calc_line_segments(xA, yA, xB, yB, iSgmts)
+    while true do
+        local rgCoords = calc_line_segments(xA, yA, xB, yB, iSgmts)
+        if rgCoords[1] ~= "nan" then
+            break
+        else
+            iDistSplit = math.floor(iDistSplit / 2)
+            iDistFill = math.floor(iDistFill / 2)
+
+            if iDistSplit < 1 or iDistFill < 1 then
+                rgCoords = nil
+                break
+            end
+        end
+    end
+
     return rgCoords
 end

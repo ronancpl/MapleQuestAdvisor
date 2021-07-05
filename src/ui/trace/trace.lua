@@ -23,17 +23,22 @@ function load_trace_dashed(x1, y1, x2, y2, pImgBullet, iLenSp, iLineOffset)
     x1, y1, x2, y2 = fetch_trace_position(x1, y1, x2, y2, iLineOffset)
     local rgiCoords = fetch_segments_dashed(x1, y1, x2, y2, (1 - fFill) * iLenSp, fFill * iLenSp)
 
-    local rgVxs, rgIdxs, sDrawMode = polyline('none', rgiCoords, 3, 1.0, false)
-    for i=1,#rgVxs,4 do
-      rgVxs[i + 0][3], rgVxs[i + 0][4] = 0, 0
-      rgVxs[i + 1][3], rgVxs[i + 1][4] = 0, 1
-      rgVxs[i + 2][3], rgVxs[i + 2][4] = 1, 1
-      rgVxs[i + 3][3], rgVxs[i + 3][4] = 1, 0
-    end
+    local pTraceMesh
+    if rgiCoords ~= nil then
+        local rgVxs, rgIdxs, sDrawMode = polyline('none', rgiCoords, 3, 1.0, false)
+        for i=1,#rgVxs,4 do
+          rgVxs[i + 0][3], rgVxs[i + 0][4] = 0, 0
+          rgVxs[i + 1][3], rgVxs[i + 1][4] = 0, 1
+          rgVxs[i + 2][3], rgVxs[i + 2][4] = 1, 1
+          rgVxs[i + 3][3], rgVxs[i + 3][4] = 1, 0
+        end
 
-    local pTraceMesh = love.graphics.newMesh(rgVxs, sDrawMode)
-    pTraceMesh:setVertexMap(rgIdxs)
-    pTraceMesh:setTexture(pImgBullet)
+        pTraceMesh = love.graphics.newMesh(rgVxs, sDrawMode)
+        pTraceMesh:setVertexMap(rgIdxs)
+        pTraceMesh:setTexture(pImgBullet)
+    else
+        pTraceMesh = nil
+    end
 
     return pTraceMesh
 end

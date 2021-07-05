@@ -62,6 +62,10 @@ function CViewPolyline:load(rgpQuads, ...)
                 iX2, iY2 = unpack(rgpCoords[i])
 
                 local pTraceMesh = load_trace_dashed(iX1, iY1, iX2, iY2, pImg, RWmapTrace.SEGMENT_LEN, RWmapTrace.LINE_OFFSET)
+                if pTraceMesh == nil then
+                    break
+                end
+
                 table.insert(rgpQuadMesh, pTraceMesh)
 
                 iX1, iY1 = iX2, iY2
