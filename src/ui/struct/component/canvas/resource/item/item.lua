@@ -116,6 +116,6 @@ function CRscElemItem:onmousereleased(x, y, button)
 
     if m_iFieldRef ~= nil then
         local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(m_iFieldRef)
-        pUiWmap:update_region(sWmapName, nil, pUiRscs)
+        pUiWmap:update_region(sWmapName, pUiRscs)
     end
 end

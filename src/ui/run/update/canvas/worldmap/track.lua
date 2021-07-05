@@ -114,25 +114,28 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
     local pWmapProp = pUiWmap:get_properties()
 
     local iRegOrigMapid = ctFieldsMeta:get_field_overworld(pRegionRscTree:get_field_source())
+
     local pFieldMarkerOrig = pWmapProp:get_marker_by_mapid(iRegOrigMapid)
+    if pFieldMarkerOrig ~= nil then
+        if bStaticSrc ~= nil then
+            pFieldMarkerOrig:set_static(bStaticSrc)
+        end
 
-    if bStaticSrc ~= nil then
-        pFieldMarkerOrig:set_static(bStaticSrc)
-    end
-
-    if sTooltipSrc ~= nil then
-        pFieldMarkerOrig:set_tooltip(sTooltipSrc, pDirHelperQuads, pWmapProp)
+        if sTooltipSrc ~= nil then
+            pFieldMarkerOrig:set_tooltip(sTooltipSrc, pDirHelperQuads, pWmapProp)
+        end
     end
 
     local iRegDestMapid = ctFieldsMeta:get_field_overworld(pRegionRscTree:get_field_destination())
     local pFieldMarkerDest = pWmapProp:get_marker_by_mapid(iRegDestMapid)
+    if pFieldMarkerDest ~= nil then
+        if bStaticDest ~= nil then
+            pFieldMarkerDest:set_static(bStaticDest)
+        end
 
-    if bStaticDest ~= nil then
-        pFieldMarkerDest:set_static(bStaticDest)
-    end
-
-    if sTooltipDest ~= nil then
-        pFieldMarkerDest:set_tooltip(sTooltipDest, pDirHelperQuads, pWmapProp)
+        if sTooltipDest ~= nil then
+            pFieldMarkerDest:set_tooltip(sTooltipDest, pDirHelperQuads, pWmapProp)
+        end
     end
 end
 
@@ -146,14 +149,19 @@ local function create_waypoint_trace(pUiWmap, pRegionRscTree)
     local iRegDestMapid = pRegionRscTree:get_field_destination()
     local pFieldMarkerDest = pWmapProp:get_marker_by_mapid(iRegDestMapid)
 
-    local x1, y1 = pFieldMarkerOrig:get_object():get_center()
-    local x2, y2 = pFieldMarkerDest:get_object():get_center()
+    local pVwTrace
+    if pFieldMarkerOrig ~= nil and pFieldMarkerDest ~= nil then
+        local x1, y1 = pFieldMarkerOrig:get_object():get_center()
+        local x2, y2 = pFieldMarkerDest:get_object():get_center()
 
-    local rgpQuadBullet = ctVwTracer:get_bullet()
+        local rgpQuadBullet = ctVwTracer:get_bullet()
 
-    local pVwTrace = CViewPolyline:new()
-    pVwTrace:load(rgpQuadBullet, {x1, y1, x2, y2})
-    pVwTrace:active()
+        pVwTrace = CViewPolyline:new()
+        pVwTrace:load(rgpQuadBullet, {x1, y1, x2, y2})
+        pVwTrace:active()
+    else
+        pVwTrace = nil
+    end
 
     return pVwTrace
 end
@@ -211,7 +219,9 @@ function update_worldmap_region_track(pUiWmap, pUiRscs, pPlayer, pDirHelperQuads
 
     local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
     local pElemTrace = create_waypoint_trace(pUiWmap, pWmapRscTree)
-    pLyr:add_element(LChannel.WMAP_MARK_TRACE, pElemTrace)
+    if pElemTrace ~= nil then
+        pLyr:add_element(LChannel.WMAP_MARK_TRACE, pElemTrace)
+    end
 end
 
 function update_worldmap_resource_actives(pUiWmap, pUiRscs)

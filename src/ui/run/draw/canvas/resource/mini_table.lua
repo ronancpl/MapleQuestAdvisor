@@ -12,6 +12,7 @@
 
 local bit = require("bit")
 
+require("router.procedures.constant")
 require("ui.constant.view.resource")
 require("ui.run.update.canvas.position")
 require("ui.struct.component.element.texture")
@@ -134,7 +135,7 @@ local function reset_item_position(pVwRscs)
 
     for _, pVwTab in ipairs(rgpTabsVw) do
         for _, pVwItem in ipairs(pVwTab) do
-            pVwItem:update_position(-1, -1)
+            pVwItem:update_position(U_INT_MIN, U_INT_MIN)
         end
     end
 end

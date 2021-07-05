@@ -20,7 +20,10 @@ CPoolWorldmap = createClass({
 })
 
 local function get_key_table_image(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
-    return pPair
+    local iIdx = pPair[1]
+    local pMapNode = pPair[2]
+
+    return tostring(iIdx) .. tostring(pMapNode)
 end
 
 local function fn_create_item(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)

@@ -29,7 +29,9 @@ require("utils.struct.class")
 CWndWmap = createClass({CWndBase, {
     pCanvas = CWndCanvas:new(),
     pProp = CWmapProperties:new(),
-    pCache = CWmapStorage:new()
+    pCache = CWmapStorage:new(),
+
+    pPlayer = nil
 }})
 
 function CWndWmap:get_properties()
@@ -42,6 +44,14 @@ end
 
 function CWndWmap:set_window_position(iRx, iRy)
     self:set_position(iRx, iRy)
+end
+
+function CWndWmap:get_player()
+    return self.pPlayer
+end
+
+function CWndWmap:set_player(pPlayer)
+    self.pPlayer = pPlayer
 end
 
 local function is_marker_active(pPropMarker, rgiMapids)
@@ -71,7 +81,7 @@ local function activate_region_fields(pUiWmap, pUiRscs)
     end
 end
 
-function CWndWmap:update_region(sWmapName, pPlayer, pUiRscs)
+function CWndWmap:update_region(sWmapName, pUiRscs)
     self.pCanvas:reset()
 
     local pWmapRegion
@@ -86,13 +96,14 @@ function CWndWmap:update_region(sWmapName, pPlayer, pUiRscs)
 
     self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, pUiRscs)
 
+    local pPlayer = self:get_player()
     if pPlayer ~= nil then
         update_worldmap_region_track(self, pUiRscs, pPlayer, pDirHelperQuads)
         update_worldmap_resource_actives(self, pUiRscs)
     end
 
-    activate_region_fields(self, pUiRscs)
     self.pCanvas:build(self.pProp)
+    activate_region_fields(self, pUiRscs)
 end
 
 function CWndWmap:set_dimensions(iWidth, iHeight)

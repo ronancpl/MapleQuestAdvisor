@@ -200,7 +200,9 @@ function love.load()
 
     local sWmapName = "WorldMap010"
     log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
-    pUiWmap:update_region(sWmapName, pPlayer, pUiRscs)
+
+    pUiWmap:set_player(pPlayer)
+    pUiWmap:update_region(sWmapName, pUiRscs)
 
     pWndHandler:set_opened(pUiWmap)
     pWndHandler:set_opened(pUiInvt)

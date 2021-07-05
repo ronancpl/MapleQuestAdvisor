@@ -138,7 +138,7 @@ function CWmapElemMark:get_metadata()
 end
 
 function CWmapElemMark:set_metadata(pMapNode, iIdx)
-    self.pPair = {pMapNode, iIdx}
+    self.pPair = {iIdx, pMapNode}
 end
 
 function CWmapElemMark:set_static(bStatus)
