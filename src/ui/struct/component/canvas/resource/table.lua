@@ -35,7 +35,7 @@ CRscTableElem = createClass({
 
     rgpVwItems = {},
     rgiCurRange = {0, -1},
-    rgpTabVwItems = {abc = "abc"}
+    rgpTabVwItems = {}
 })
 
 function CRscTableElem:get_origin()

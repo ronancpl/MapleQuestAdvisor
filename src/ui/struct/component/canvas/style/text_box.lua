@@ -18,6 +18,7 @@ require("ui.constant.view.resource")
 require("ui.constant.view.inventory")
 require("ui.constant.view.style")
 require("ui.run.draw.canvas.style.text_box")
+require("ui.run.update.canvas.position")
 require("ui.struct.component.element.texture")
 require("ui.struct.component.canvas.style.prefab.item")
 require("utils.struct.class")
@@ -130,13 +131,16 @@ function CStyleBoxText:free()
 end
 
 function CStyleBoxText:update(dt)
-    local m_pBoxLimits = self.pBoxLimits
-
-    local iMx, iMy = love.mouse.getPosition()
-    m_pBoxLimits:update_box_position(iMx, iMy)
+    -- do nothing
 end
 
 function CStyleBoxText:draw()
+    local iMx, iMy = love.mouse.getPosition()
+    local iRx, iRy = read_canvas_position()
+
+    local m_pBoxLimits = self.pBoxLimits
+    m_pBoxLimits:update_box_position(iMx - iRx, iMy - iRy)
+
     if self.bVisible then
         draw_text_box(self)
     end

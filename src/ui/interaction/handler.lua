@@ -20,7 +20,9 @@ CActionHandler = createClass({
     rgsActions = {"on_mousemoved", "on_mousepressed", "on_mousereleased", "on_wheelmoved"},
 
     tpHandleActions = SMapQueue:new(),
-    trgfn_actions = {}
+    ttfn_actions = {},
+
+    tpReqHdls = {}
 
 })
 
@@ -30,26 +32,35 @@ function CActionHandler:reset()
 
     m_tpHandleActions:init(m_rgsActions)
 
-    local m_trgfn_actions = self.trgfn_actions
-    clear_table(m_trgfn_actions)
+    local m_ttfn_actions = self.ttfn_actions
+    clear_table(m_ttfn_actions)
     for _, sFnName in ipairs(m_rgsActions) do
-        m_trgfn_actions[sFnName] = {}
+        m_ttfn_actions[sFnName] = {}
     end
 end
 
 function CActionHandler:install(sInteractionPath)
     local m_rgsActions = self.rgsActions
-    local m_trgfn_actions = self.trgfn_actions
+    local m_ttfn_actions = self.ttfn_actions
 
-    local bReqHdl = require(sInteractionPath)
-    if bReqHdl then
+    local pReqHdl = require(sInteractionPath)
+    if pReqHdl then
+        self.tpReqHdls[sInteractionPath] = pReqHdl
+
         for _, sFnName in ipairs(m_rgsActions) do
             local fn_action = _G[sFnName]
 
-            local rgfn_acts = m_trgfn_actions[sFnName]
-            table.insert(rgfn_acts, fn_action)
+            local tfn_acts = m_ttfn_actions[sFnName]
+            tfn_acts[sInteractionPath] = fn_action
         end
     end
+end
+
+function CActionHandler:bind(sInteractionPath, pUiWnd)
+    local pReqHdl = self.tpReqHdls[sInteractionPath]
+    self.tpReqHdls[sInteractionPath] = nil  -- clear reference to handler
+
+    self.tpReqHdls[pUiWnd] = pReqHdl        -- binds the interaction handler to UI window
 end
 
 function CActionHandler:push(sFnName, rgpActionArgs)
@@ -58,13 +69,13 @@ function CActionHandler:push(sFnName, rgpActionArgs)
 end
 
 function CActionHandler:_export_action(sFnName, iMaxPerAction)
-    local m_trgfn_actions = self.trgfn_actions
+    local m_ttfn_actions = self.ttfn_actions
     local m_tpHandleActions = self.tpHandleActions
 
     local rgpActions = {}
 
-    local rgfn_actions = m_trgfn_actions[sFnName]
-    if rgfn_actions ~= nil then
+    local tfn_actions = m_ttfn_actions[sFnName]
+    if tfn_actions ~= nil then
         iMaxPerAction = iMaxPerAction or U_INT_MAX
 
         local nActions = math.min(m_tpHandleActions:get_size(sFnName), iMaxPerAction)
@@ -73,22 +84,31 @@ function CActionHandler:_export_action(sFnName, iMaxPerAction)
             table.insert(rgpActions, rgpArgs)
         end
 
-        rgfn_actions = table_copy(rgfn_actions)
+        tfn_actions = table_copy(tfn_actions)
     else
-        rgfn_actions = {}
+        tfn_actions = {}
     end
 
-    return rgfn_actions, rgpActions
+    return tfn_actions, rgpActions
 end
 
-function CActionHandler:export(iMaxPerAction)
+function CActionHandler:export(iMaxPerAction, pFocusWnd)
     local m_rgsActions = self.rgsActions
 
     local rgpActions = {}
     for _, sFnName in ipairs(m_rgsActions) do
-        local rgfn_actions
+        local tfn_actions
         local rgpArgs
-        rgfn_actions, rgpArgs = self:_export_action(sFnName, iMaxPerAction)
+        tfn_actions, rgpArgs = self:_export_action(sFnName, iMaxPerAction)
+
+        local rgfn_actions = {}
+        if pFocusWnd ~= nil and tfn_actions[pFocusWnd] ~= nil then
+            table.insert(rgfn_actions, tfn_actions[pFocusWnd])
+        else
+            for _, fn_act in pairs(tfn_actions) do
+                table.insert(rgfn_actions, fn_act)
+            end
+        end
 
         table.insert(rgpActions, {rgfn_actions, rgpArgs})
     end

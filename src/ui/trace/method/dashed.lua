@@ -105,26 +105,31 @@ end
 
 function fetch_segments_dashed(x1, y1, x2, y2, iDistSplit, iDistFill)
     local iDist = calc_distance({x1, x2, y1, y2})
-    local iDistSgmt = iDistSplit + iDistFill
 
-    local iSgmts = math.floor(iDist / iDistSgmt)
-    local iIntervals = iSgmts + 1
-
-    local iDistTrace = iDistSgmt * iSgmts + iDistFill
-    local iDistExt = iDistTrace - iDist
-
-    local xA, yA, xB, yB
-    if iDistExt > 0 then
-        xA, yA, xB, yB = find_trace_coords(x1, y1, x2, y2, iDistExt)
-    else
-        xA, yA, xB, yB = x1, y1, x2, y2
-    end
-
+    local rgCoords
     while true do
-        local rgCoords = calc_line_segments(xA, yA, xB, yB, iSgmts)
-        if rgCoords[1] ~= "nan" then
+        local iDistSgmt = iDistSplit + iDistFill
+
+        local iSgmts = math.floor(iDist / iDistSgmt)
+        local iIntervals = iSgmts + 1
+
+        local iDistTrace = iDistSgmt * iSgmts + iDistFill
+        local iDistExt = iDistTrace - iDist
+
+        local xA, yA, xB, yB
+        if iDistExt > 0 then
+            xA, yA, xB, yB = find_trace_coords(x1, y1, x2, y2, iDistExt)
+        else
+            xA, yA, xB, yB = x1, y1, x2, y2
+        end
+
+        rgCoords = calc_line_segments(xA, yA, xB, yB, iSgmts)
+
+        if rgCoords[1] == rgCoords[1] then
             break
         else
+            -- or nan
+
             iDistSplit = math.floor(iDistSplit / 2)
             iDistFill = math.floor(iDistFill / 2)
 

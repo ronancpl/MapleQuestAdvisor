@@ -81,7 +81,7 @@ local function activate_region_fields(pUiWmap, pUiRscs)
     end
 end
 
-function CWndWmap:update_region(sWmapName, pUiRscs)
+function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc)
     self.pCanvas:reset()
 
     local pWmapRegion
@@ -91,14 +91,19 @@ function CWndWmap:update_region(sWmapName, pUiRscs)
     local pDirHelperQuads
     pDirHelperQuads, _ = self.pCache:get_worldmap_helper()
 
-    local iWmapid = ctFieldsWmap:get_worldmap_id(sWmapName)
-    self.pProp:set_worldmap_id(iWmapid)
+    self.pProp:set_worldmap_name(sWmapName)
 
     self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, pUiRscs)
 
     local pPlayer = self:get_player()
     if pPlayer ~= nil then
         update_worldmap_region_track(self, pUiRscs, pPlayer, pDirHelperQuads)
+    end
+
+    if pVwRsc ~= nil then
+        local pRscTree = pUiRscs:get_properties():get_resource_tree()
+        select_worldmap_resource_active(pUiWmap, pRscTree, pVwRsc)
+    else
         update_worldmap_resource_actives(self, pUiRscs)
     end
 

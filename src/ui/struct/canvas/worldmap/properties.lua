@@ -22,7 +22,7 @@ CWmapProperties = createClass({
     iCx = 0,
     iCy = 0,
     sParentMap,
-    iWorldmapId,
+    sWmapName,
     pBaseImg,
     rgpMapList = {},
     rgpMapLink = {},
@@ -61,12 +61,13 @@ function CWmapProperties:set_parent_map(sParentMap)
     self.sParentMap = sParentMap
 end
 
-function CWmapProperties:get_worldmap_id()
-    return self.iWorldmapId
+function CWmapProperties:get_worldmap_name()
+    return self.sWmapName
+
 end
 
-function CWmapProperties:set_worldmap_id(iWmapId)
-    self.iWorldmapId = iWmapId
+function CWmapProperties:set_worldmap_name(sWmapName)
+    self.sWmapName = sWmapName
 end
 
 function CWmapProperties:set_base_img(pBaseImg)
@@ -130,7 +131,6 @@ function CWmapProperties:get_track()
 end
 
 function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, pUiRscs)
-    pUiRscs:get_properties():get_table():clear_tab_items()
     self:reset()
 
     local pBaseImgNode = pWmapRegion:get_base_img()

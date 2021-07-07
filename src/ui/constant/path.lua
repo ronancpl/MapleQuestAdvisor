@@ -30,7 +30,8 @@ RWndPath = {
     MOUSE = {
         BT_DOWN = "12",
         BT_GAME = "2",
-        BT_NORMAL = "0"
+        BT_NORMAL = "0",
+        BT_CLICKABLE = "4"
     },
 
     -- Misc

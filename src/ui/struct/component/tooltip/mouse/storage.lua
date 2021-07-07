@@ -71,6 +71,7 @@ function CStockCursor:_load_mouse_animations()
     self:_load_mouse_cursor(RWndPath.MOUSE.BT_DOWN)
     self:_load_mouse_cursor(RWndPath.MOUSE.BT_NORMAL)
     self:_load_mouse_cursor(RWndPath.MOUSE.BT_GAME)
+    self:_load_mouse_cursor(RWndPath.MOUSE.BT_CLICKABLE)
 end
 
 function CStockCursor:load()

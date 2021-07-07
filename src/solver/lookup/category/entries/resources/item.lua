@@ -19,7 +19,7 @@ function install_lookup_category_entries_item(pLookupTab, trgpEntries, rgiRscids
 end
 
 function locate_lookup_category_entries_item(pLookupTab, ctItems, pLandscape)
-    local fn_src_item_fields = fn_get_item_fields(ctItems)
+    local fn_src_item_fields = fn_get_resource_fields(ctItems)
     pLookupTab:locate(fn_src_item_fields, pLandscape, false)
 end
 

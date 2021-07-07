@@ -16,7 +16,8 @@ require("utils.struct.class")
 CSolverTree = createClass({CSolverResource, {
     iSrcMapid,
     iDestMapid,
-    tpResourceNodes = {}
+    tpResourceNodes = {},
+    tpResourceFields = {}
 }})
 
 function CSolverTree:get_field_source()
@@ -47,18 +48,36 @@ function CSolverTree:get_field_nodes()
     return self.tpResourceNodes
 end
 
+function CSolverTree:make_remissive_index_resource_fields()
+    local m_tpResourceNodes = self.tpResourceNodes
+    local m_tpResourceFields = self.tpResourceFields
+
+    for iMapid, pResource in pairs(m_tpResourceNodes) do
+        local rgiResourceids = pResource:get_resources()
+        for _, iResourceid in ipairs(rgiResourceids) do
+            local rgiFields = create_inner_table_if_not_exists(m_tpResourceFields, iResourceid)
+            table.insert(rgiFields, iMapid)
+        end
+    end
+end
+
+function CSolverTree:get_fields_from_resource(iResourceid)
+    local m_tpResourceFields = self.tpResourceFields
+    return m_tpResourceFields[iResourceid] or {}
+end
+
 function CSolverTree:debug_descriptor_region(iRegionid)
     local pRscTree = self
 
-    print("Regionid:", iRegionid)
+    log(LPath.PROCEDURES, "resources_quest.txt", "Regionid:", iRegionid)
 
     local iSrcMapid = pRscTree:get_field_source()
     local iDestMapid = pRscTree:get_field_destination()
-    print("Src: " .. iSrcMapid .. " Dest: " .. iDestMapid)
+    log(LPath.PROCEDURES, "resources_quest.txt", "Src: " .. iSrcMapid .. " Dest: " .. iDestMapid)
 
     local rgiRscs = pRscTree:get_resources()
 
-    print("Rscs:")
+    log(LPath.PROCEDURES, "resources_quest.txt", "Rscs:")
     local tpFieldRscs = pRscTree:get_field_nodes()
     for iMapid, pRsc in pairs(tpFieldRscs) do
         local st = ""
@@ -69,9 +88,9 @@ function CSolverTree:debug_descriptor_region(iRegionid)
             st = st .. "{" .. iRscType .. ":" .. iRscUnit .. "}" .. ", "
         end
 
-        print("  " .. iMapid .. " : " .. st)
+        log(LPath.PROCEDURES, "resources_quest.txt", "  " .. iMapid .. " : " .. st)
     end
-    print("---------")
+    log(LPath.PROCEDURES, "resources_quest.txt", "---------")
 end
 
 function CSolverTree:debug_descriptor_tree()
@@ -83,11 +102,11 @@ function CSolverTree:debug_descriptor_tree()
     local tpFieldRscs = pRscTree:get_field_nodes()
     local rgiRscs = pRscTree:get_resources()
 
-    print("DEBUG TREE")
+    log(LPath.PROCEDURES, "resources_quest.txt", "DEBUG TREE")
     for iRegionid, pRegionRscTree in pairs(tpFieldRscs) do
-        print("DEBUG REGION #" .. iRegionid)
+        log(LPath.PROCEDURES, "resources_quest.txt", "DEBUG REGION #" .. iRegionid)
         pRegionRscTree:debug_descriptor_region(iRegionid)
-        print("-----")
+        log(LPath.PROCEDURES, "resources_quest.txt", "-----")
     end
-    print("=====")
+    log(LPath.PROCEDURES, "resources_quest.txt", "=====")
 end

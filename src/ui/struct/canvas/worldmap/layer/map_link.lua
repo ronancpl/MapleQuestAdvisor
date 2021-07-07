@@ -229,3 +229,8 @@ function CWmapNavMapLink:remove_link_visible(pLinkVisible)
     local m_pSetLinkVisible = self.pSetLinkVisible
     m_pSetLinkVisible:remove(pLinkVisible)
 end
+
+function CWmapNavMapLink:is_link_visible(pLinkVisible)
+    local m_pSetLinkVisible = self.pSetLinkVisible
+    return m_pSetLinkVisible:contains(pLinkVisible)
+end

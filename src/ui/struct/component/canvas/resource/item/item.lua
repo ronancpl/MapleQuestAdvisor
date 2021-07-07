@@ -11,6 +11,7 @@
 --]]
 
 require("router.constants.path")
+require("solver.graph.resource.label")
 require("ui.struct.component.basic.base")
 require("ui.struct.component.canvas.resource.item.tooltip")
 require("ui.struct.window.summary")
@@ -20,6 +21,7 @@ CRscElemItem = createClass({
     eBox = CUserboxElem:new(),
     iId,
     siType,
+    bMini,
     iFieldRef,
     pTooltip = CCanvasTooltip:new()
 })
@@ -48,6 +50,10 @@ function CRscElemItem:get_id()
     return self.iId
 end
 
+function CRscElemItem:get_resource_id()
+    return get_tab_resource_id(self.siType, self.iId)
+end
+
 function CRscElemItem:get_field_link()
     return self.iFieldRef
 end
@@ -57,9 +63,10 @@ function CRscElemItem:_load_tooltip(sDesc)
     m_pTooltip:load(sDesc)
 end
 
-function CRscElemItem:_load(siType, tpRscGrid, iId, sDesc, iPictW, iPictH, iFieldRef)
+function CRscElemItem:_load(siType, iId, tpRscGrid, sDesc, iPictW, iPictH, iFieldRef, bMini)
     self.iId = iId
     self.siType = siType
+    self.bMini = bMini
     self.pConfVw = tpRscGrid[siType]
     self.iFieldRef = iFieldRef
     self.eBox:load(-1, -1, iPictW, iPictH)
@@ -104,11 +111,17 @@ function CRscElemItem:hide_tooltip()
 end
 
 function CRscElemItem:onmousehoverin()
+    pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_CLICKABLE)
     self:show_tooltip()
 end
 
 function CRscElemItem:onmousehoverout()
     self:hide_tooltip()
+    pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
+end
+
+function CRscElemItem:_act_inspect_resource(sWmapName)
+    pUiWmap:update_region(sWmapName, pUiRscs, self)
 end
 
 function CRscElemItem:onmousereleased(x, y, button)
@@ -116,6 +129,8 @@ function CRscElemItem:onmousereleased(x, y, button)
 
     if m_iFieldRef ~= nil then
         local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(m_iFieldRef)
-        pUiWmap:update_region(sWmapName, pUiRscs)
+
+        self:_act_inspect_resource(sWmapName)
+        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
     end
 end

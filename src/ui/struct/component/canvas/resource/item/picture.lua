@@ -70,7 +70,24 @@ local function calc_scale_image_data(iDx, iDy, iCnvW, iCnvH, iToW, iToH)
     return math.ceil(iDx * fW), math.ceil(iDy * fH)
 end
 
-local function load_icon_image_canvas(pImg, pRscGrid, bUseShadow, pToVw)
+local function render_on_canvas_icon_image(siType, bMini, pVwCnv, pImg, iOrgW, iOrgH, iImgW, iImgH, iPicW, iPicH)
+    local bUseDefault = siType == RResourceTable.TAB.MOBS.ID or bMini
+    if bUseDefault then
+        pVwCnv:render_to(function()
+            love.graphics.clear()
+            graphics_canvas_draw(pImg, 0, 0, 0, iImgW, iImgH)
+        end, 0, 0, iCnvLim, iCnvLim)
+    else
+        local iImgX, iImgY = math.floor((iPicW - iOrgW) / 2), math.floor((iPicH - iOrgH) / 2)
+
+        pVwCnv:render_to(function()
+            love.graphics.clear()
+            graphics_canvas_draw(pImg, iImgX, iImgY, 0, iOrgW, iOrgH)
+        end)
+    end
+end
+
+local function load_icon_image_canvas(pImg, pRscGrid, bUseShadow, siType, bMini, pToVw)
     local iOrgW, iOrgH = pImg:getDimensions()
     local iImgW, iImgH = pToVw.W, pToVw.H
     local iPicW, iPicH = pRscGrid.W, pRscGrid.H
@@ -85,30 +102,26 @@ local function load_icon_image_canvas(pImg, pRscGrid, bUseShadow, pToVw)
 
     local pVwCnv = CViewCanvas:new()
     pVwCnv:load(iCnvLim, iCnvLim)
-
-    pVwCnv:render_to(function()
-        love.graphics.clear()
-        graphics_canvas_draw(pImg, 0, 0, 0, iImgW, iImgH)
-    end, 0, 0, iCnvLim, iCnvLim)
+    render_on_canvas_icon_image(siType, bMini, pVwCnv, pImg, iOrgW, iOrgH, iImgW, iImgH, iPicW, iPicH)
 
     local pImg = love.graphics.newImage(pVwCnv:get_image_data())
     return pImg, 0, 0
 end
 
-function CRscElemItemPicture:_make_icon_image(pImg, siType, pToVw)
+function CRscElemItemPicture:_make_icon_image(pImg, siType, bMini, pToVw)
     local pRscGrid = self:get_conf()
     local bUseShadow = siType == RResourceTable.TAB.ITEMS.ID
 
-    local pIconImg, iDx, iDy = load_icon_image_canvas(pImg, pRscGrid, bUseShadow, pToVw)
+    local pIconImg, iDx, iDy = load_icon_image_canvas(pImg, pRscGrid, bUseShadow, siType, bMini, pToVw)
     return pIconImg, iDx, iDy
 end
 
-function CRscElemItemPicture:load(siType, tpRscGrid, pImg, iId, iCount, sDesc, iFieldRef, pConfVw, pToVw)
-    self:_load(siType, tpRscGrid, iId, sDesc, pConfVw.W, pConfVw.H, iFieldRef)
+function CRscElemItemPicture:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, iFieldRef, pConfVw, pToVw, bMini)
+    self:_load(siType, iId, tpRscGrid, sDesc, pConfVw.W, pConfVw.H, iFieldRef, bMini)
     self:_set_origin(-1, -1)
 
     local rX, rY
-    self.pImg, rX, rY = self:_make_icon_image(pImg, siType, pToVw)
+    self.pImg, rX, rY = self:_make_icon_image(pImg, siType, bMini, pToVw)
 
     local m_eImgOrig = self.eImgOrig
     m_eImgOrig:load(rX, rY)

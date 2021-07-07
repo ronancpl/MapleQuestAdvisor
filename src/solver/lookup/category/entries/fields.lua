@@ -33,18 +33,18 @@ local function fetch_item_fields(iSrcid, ctResources)
     return SSet{unpack(rgiMapids)}
 end
 
-function fn_get_item_fields(ctItems)
+function fn_get_resource_fields(ctResources)
     return function(trgiSrcItems, iSrcid)
-        local pSetFields = fetch_item_fields(iSrcid, ctItems)
+        local pSetFields = fetch_item_fields(iSrcid, ctResources)
 
         local rgiVals = SSet.values(pSetFields)
         return rgiVals
     end
 end
 
-function fn_get_mob_fields(ctMobsGroup, ctItems)    -- usage of QuestCountGroup found thanks to Shavit, Arnah
+function fn_get_mob_fields(ctMobsGroup, ctMobs)    -- usage of QuestCountGroup found thanks to Shavit, Arnah
     return function(trgiSrcItems, iSrcid)
-        local fn_item_fields = fn_get_item_fields(ctItems)
+        local fn_rsc_fields = fn_get_resource_fields(ctMobs)
 
         local rgiMobs = ctMobsGroup:get_locations(iSrcid)
         if rgiMobs == nil then
@@ -53,7 +53,7 @@ function fn_get_mob_fields(ctMobsGroup, ctItems)    -- usage of QuestCountGroup 
 
         local pSetFields = SSet{}
         for _, iMobid in ipairs(rgiMobs) do
-            local rgiVals = fn_item_fields(trgiSrcItems, iMobid)
+            local rgiVals = fn_rsc_fields(trgiSrcItems, iMobid)
             pSetFields = pSetFields + SSet{unpack(rgiVals)}
         end
 

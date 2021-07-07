@@ -224,19 +224,62 @@ function update_worldmap_region_track(pUiWmap, pUiRscs, pPlayer, pDirHelperQuads
     end
 end
 
-function update_worldmap_resource_actives(pUiWmap, pUiRscs)
+local function reset_worldmap_resource_actives(pUiWmap)
     local pWmapProp = pUiWmap:get_properties()
 
     local rgpFieldMarkers = pWmapProp:get_markers()
     for _, pFieldMarker in ipairs(rgpFieldMarkers) do
         pFieldMarker:static()
     end
+end
+
+local function apply_worldmap_resource_actives(pUiWmap, pUiRscs)
+    local pWmapProp = pUiWmap:get_properties()
 
     local pRscTree = pUiRscs:get_properties():get_resource_tree()
     local pWmapRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap)
 
-    for iMapid, _ in ipairs(pWmapRscTree:get_field_nodes()) do
+    for iMapid, _ in pairs(pWmapRscTree:get_field_nodes()) do
         local pFieldMarker = pWmapProp:get_marker_by_mapid(iMapid)
-        pFieldMarker:active()
+        if pFieldMarker ~= nil then
+            pFieldMarker:active()
+        end
     end
+end
+
+function update_worldmap_resource_actives(pUiWmap, pUiRscs)
+    reset_worldmap_resource_actives(pUiWmap)
+    apply_worldmap_resource_actives(pUiWmap, pUiRscs)
+end
+
+local function apply_selected_worldmap_resource_active(pUiWmap, pRscTree, pVwRsc)
+    local pWmapProp = pUiWmap:get_properties()
+
+    local sWmapName = pWmapProp:get_worldmap_name()
+    local pWmapRegion = ctFieldsWmap:get_region_entry(sWmapName)
+
+    local tRegions = {}
+    for _, iMapid in ipairs(pWmapRegion:get_areas()) do
+        local iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
+        if iRegionid ~= nil then
+            tRegions[iRegionid] = 1
+        end
+    end
+
+    local iRscid = pVwRsc:get_resource_id()
+    for iRegionid, _ in pairs(tRegions) do
+        local pRscRegion = pRscTree:get_field_node(iRegionid)
+        if pRscRegion ~= nil then
+            local rgiMapids = pRscRegion:get_fields_from_resource(iRscid)
+            for _, iMapid in ipairs(rgiMapids) do
+                local pFieldMarker = pWmapProp:get_marker_by_mapid(iMapid)
+                pFieldMarker:active()
+            end
+        end
+    end
+end
+
+function select_worldmap_resource_active(pUiWmap, pRscTree, pVwRsc)
+    reset_worldmap_resource_actives(pUiWmap)
+    apply_selected_worldmap_resource_active(pUiWmap, pRscTree, pVwRsc)
 end

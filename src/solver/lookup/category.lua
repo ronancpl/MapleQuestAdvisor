@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("solver.graph.resource.label")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 
@@ -19,10 +20,6 @@ CSolverLookupCategory = createClass({
     tRegionRscFields = {},
     tRscRegions = {}
 })
-
-function CSolverLookupCategory:_get_tab_resource_id(iRscid)
-    return (self.iTabId * 1000000000) + iRscid
-end
 
 function CSolverLookupCategory:_init_entries(trgpEntries, fn_get_srcid)
     local m_tSrcItems = self.tSrcItems
@@ -43,14 +40,15 @@ function CSolverLookupCategory:_fetch_resource_regions(pLandscape, rgiFields)
 
     for _, iMapid in ipairs(rgiFields) do
         local iRegionid = pLandscape:get_region_by_mapid(iMapid)
+        if iRegionid ~= nil then
+            local rgiFields = trgiRegionFields[iRegionid]
+            if rgiFields == nil then
+                rgiFields = {}
+                trgiRegionFields[iRegionid] = rgiFields
+            end
 
-        local rgiFields = trgiRegionFields[iRegionid]
-        if rgiFields == nil then
-            rgiFields = {}
-            trgiRegionFields[iRegionid] = rgiFields
+            table.insert(rgiFields, iMapid)
         end
-
-        table.insert(rgiFields, iMapid)
     end
 
     return trgiRegionFields
@@ -123,7 +121,7 @@ function CSolverLookupCategory:debug_resources()
 
     for iRegion, trgiRegionRscFields in pairs(m_tRegionRscFields) do
         if next(trgiRegionRscFields) ~= nil then
-            print("REGIONAL #" .. iRegion)
+            log(LPath.PROCEDURES, "resources_lookup.txt", "REGIONAL #" .. iRegion)
             for iRscid, rgiRegionRscFields in pairs(trgiRegionRscFields) do
                 local iRscUnit = iRscid % 1000000000
 
@@ -132,13 +130,13 @@ function CSolverLookupCategory:debug_resources()
                     st = st .. iMapid .. ", "
                 end
                 st = st .. "]"
-                print(st)
+                log(LPath.PROCEDURES, "resources_lookup.txt", st)
             end
-            print()
+            log(LPath.PROCEDURES, "resources_lookup.txt", "")
         end
     end
 
-    print("---------")
+    log(LPath.PROCEDURES, "resources_lookup.txt", "---------")
 end
 
 local function get_fn_rscid(bRscInt)
@@ -208,7 +206,7 @@ function CSolverLookupCategory:get_resource_regions()
     local tRscRegions = {}
 
     for iRscid, rgiRegions in pairs(m_tRscRegions) do
-        local iExtRscid = self:_get_tab_resource_id(iRscid)
+        local iExtRscid = get_tab_resource_id(self.iTabId, iRscid)
         tRscRegions[iExtRscid] = rgiRegions
     end
 
@@ -221,7 +219,7 @@ function CSolverLookupCategory:get_resource_fields(iRegionid)
     local trgiRscFields = self.tRegionRscFields[iRegionid]
     if trgiRscFields ~= nil then
         for iRscid, rgiFields in pairs(trgiRscFields) do
-            local iExtRscid = self:_get_tab_resource_id(iRscid)     -- differentiates from resources of other tables
+            local iExtRscid = get_tab_resource_id(self.iTabId, iRscid)     -- differentiates from resources of other tables
             local rgiMapids = deep_copy(rgiFields)
 
             tResourceFields[iExtRscid] = rgiMapids

@@ -63,6 +63,13 @@ function CWndBase:fetch_relative_pos(x, y)
     return x - iPx, y - iPy
 end
 
+function CWndBase:get_ltrb()
+    local iRx, iRy = self:get_position()
+    local iW, iH = self:get_dimensions()
+
+    return iRx, iRy, iRx + iW, iRy + iH
+end
+
 function CWndBase:_onmousemoved(x, y, dx, dy, istouch)
     self.pCtrlChannel:onmousemoved(x, y, dx, dy, istouch)
     self.pSureChannel:onmousemoved(x, y, dx, dy, istouch, true)

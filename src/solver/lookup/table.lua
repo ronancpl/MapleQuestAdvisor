@@ -92,10 +92,10 @@ function CSolverLookupTable:debug_lookup_table()
 
     local i = 1
     for _, pLookupTab in ipairs(m_rgpLookupTabs) do
-        print(" ==== LOOKUP " .. rgpTabs[i] .. " ====")
+        log(LPath.PROCEDURES, "resources_lookup.txt", " ==== LOOKUP " .. rgpTabs[i] .. " ====")
         pLookupTab:debug_resources()
-        print("  =================================== ")
-        print()
+        log(LPath.PROCEDURES, "resources_lookup.txt", "  =================================== ")
+        log(LPath.PROCEDURES, "resources_lookup.txt", "")
 
         i = i + 1
     end

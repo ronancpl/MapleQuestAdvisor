@@ -78,6 +78,13 @@ function SArraySet:get(iIdx)
     return m_apItems:get(iIdx)
 end
 
+function SArraySet:contains(pItem)
+    local m_tpSetItems = self.tpSetItems
+
+    local iIdx = m_tpSetItems[pItem]
+    return iIdx ~= nil
+end
+
 function SArraySet:size()
     local m_apItems = self.apItems
     return m_apItems:size()

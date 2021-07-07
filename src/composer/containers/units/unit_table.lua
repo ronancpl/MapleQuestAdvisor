@@ -56,7 +56,7 @@ function CUnitTable:get_keys()
 end
 
 function CUnitTable:debug_locations()
-    print("Resource '" .. self.sRscName .. "' fields:")
+    log(LPath.PROCEDURES, "resources_location.txt", "Resource '" .. self.sRscName .. "' fields:")
 
     for iSrcid, tFields in pairs(self.tUnitFields) do
         local rgiFields = tFields
@@ -65,7 +65,7 @@ function CUnitTable:debug_locations()
         for iField, _ in pairs(rgiFields) do
             st = st .. iField .. ", "
         end
-        print(iSrcid .. " .. [" .. st .. "]")
+        log(LPath.PROCEDURES, "resources_location.txt", iSrcid .. " : [" .. st .. "]")
     end
 
 end

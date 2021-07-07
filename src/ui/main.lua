@@ -204,9 +204,14 @@ function love.load()
     pUiWmap:set_player(pPlayer)
     pUiWmap:update_region(sWmapName, pUiRscs)
 
-    pWndHandler:set_opened(pUiWmap)
+    pEventHdl:bind("ui.interaction.run.inventory", pUiInvt)
+    pEventHdl:bind("ui.interaction.run.stat", pUiStats)
+    pEventHdl:bind("ui.interaction.run.worldmap", pUiWmap)
+    pEventHdl:bind("ui.interaction.run.resource", pUiRscs)
+
     pWndHandler:set_opened(pUiInvt)
     pWndHandler:set_opened(pUiStats)
+    pWndHandler:set_opened(pUiWmap)
     pWndHandler:set_opened(pUiRscs)
 
     local pInfoSrv = pUiStats:get_properties():get_info_server()
@@ -244,7 +249,7 @@ function love.load()
 end
 
 local function update_interactions()
-    local rgpEvents = pEventHdl:export()
+    local rgpEvents = pEventHdl:export(nil, pWndHandler:get_focus_wnd())
     for _, pEvent in ipairs(rgpEvents) do
         local rgfn_actions
         local rgpActions
@@ -279,6 +284,7 @@ function love.draw()
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)
+    pWndHandler:on_mousemoved(x, y, dx, dy, istouch)
     pEventHdl:push("on_mousemoved", {x, y, dx, dy, istouch})
 end
 
