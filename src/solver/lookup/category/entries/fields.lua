@@ -47,7 +47,7 @@ function fn_get_mob_fields(ctMobsGroup, ctMobs)    -- usage of QuestCountGroup f
         local fn_rsc_fields = fn_get_resource_fields(ctMobs)
 
         local rgiMobs = ctMobsGroup:get_locations(iSrcid)
-        if rgiMobs == nil then
+        if #rgiMobs < 1 then
             rgiMobs = {iSrcid}
         end
 
@@ -57,7 +57,6 @@ function fn_get_mob_fields(ctMobsGroup, ctMobs)    -- usage of QuestCountGroup f
             pSetFields = pSetFields + SSet{unpack(rgiVals)}
         end
 
-        local rgiVals = SSet.values(pSetFields)
-        return rgiVals
+        return SSet.values(pSetFields)
     end
 end

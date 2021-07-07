@@ -20,7 +20,7 @@ end
 
 function locate_lookup_category_entries_static(pLookupTab, pLandscape)
     local fn_rsc_static_fields = fn_get_static_fields()
-    pLookupTab:locate(fn_rsc_static_fields, pLandscape, true)
+    pLookupTab:locate(fn_rsc_static_fields, pLandscape, nil)
 end
 
 function array_lookup_category_entries_static(pLookupTab)

@@ -20,7 +20,7 @@ end
 
 function locate_lookup_category_entries_mob(pLookupTab, ctMobs, ctMobsGroup, pLandscape)
     local fn_src_item_fields = fn_get_mob_fields(ctMobsGroup, ctMobs)
-    pLookupTab:locate(fn_src_item_fields, pLandscape, false)
+    pLookupTab:locate(fn_src_item_fields, pLandscape, true)
 end
 
 function array_lookup_category_entries_mob(pLookupTab)
