@@ -60,6 +60,19 @@ require("utils.persist.serial.databus")
 require("utils.procedure.print")
 require("utils.struct.maptimed")
 
+local function is_tree_leaf(pRscNode)
+    return pRscNode.make_remissive_index_resource_fields == nil
+end
+
+local function make_remissive_index_tree_resource_fields(pRscNode)
+    if not is_tree_leaf(pRscNode) then
+        pRscNode:make_remissive_index_resource_fields()
+        for _, pRegionRscTree in pairs(pRscNode:get_field_nodes()) do
+            make_remissive_index_tree_resource_fields(pRegionRscTree)
+        end
+    end
+end
+
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     love.graphics.setWireframe(love.keyboard.isDown('space'))
@@ -196,6 +209,7 @@ function love.load()
     pRscTreeRegion:add_field_node(103000000, pRscNode)
     pRscNode:set_resources({4001013000})
 
+    pRscTree:make_remissive_index_resource_fields()
     pUiRscs:update_resources(pQuestProp, pRscTree)
 
     local sWmapName = "WorldMap010"
@@ -209,10 +223,11 @@ function love.load()
     pEventHdl:bind("ui.interaction.run.worldmap", pUiWmap)
     pEventHdl:bind("ui.interaction.run.resource", pUiRscs)
 
-    pWndHandler:set_opened(pUiInvt)
-    pWndHandler:set_opened(pUiStats)
+    -- in open order
     pWndHandler:set_opened(pUiWmap)
     pWndHandler:set_opened(pUiRscs)
+    pWndHandler:set_opened(pUiInvt)
+    pWndHandler:set_opened(pUiStats)
 
     local pInfoSrv = pUiStats:get_properties():get_info_server()
 

@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.copy")
 require("utils.procedure.unpack")
 require("utils.struct.class")
 require("utils.struct.mapqueue")
@@ -81,7 +82,19 @@ function CWndHandler:update()
 end
 
 function CWndHandler:list_opened()
-    return self.rgpWnds
+    local rgpOpenWnds = {}
+
+    local m_tpWndOpened = self.tpWndOpened
+    local m_rgpWnds = self.rgpWnds
+
+    local rgpWnds = table_copy(m_rgpWnds)   -- in open order
+    for _, pWnd in ipairs(rgpWnds) do
+        if m_tpWndOpened[pWnd] ~= nil then
+            table.insert(rgpOpenWnds, pWnd)
+        end
+    end
+
+    return rgpOpenWnds
 end
 
 local function is_mouse_in_range(pUiWnd, x, y)

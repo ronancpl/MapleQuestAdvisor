@@ -48,7 +48,7 @@ function CSolverTree:get_field_nodes()
     return self.tpResourceNodes
 end
 
-function CSolverTree:make_remissive_index_resource_fields()
+function CSolverTree:_make_remissive_index_node_fields()
     local m_tpResourceNodes = self.tpResourceNodes
     local m_tpResourceFields = self.tpResourceFields
 
@@ -59,6 +59,23 @@ function CSolverTree:make_remissive_index_resource_fields()
             table.insert(rgiFields, iMapid)
         end
     end
+end
+
+local function is_tree_leaf(pRscNode)
+    return pRscNode._make_remissive_index_tree_resource_fields == nil
+end
+
+function CSolverTree:_make_remissive_index_tree_resource_fields()
+    self:_make_remissive_index_node_fields()
+    for _, pRegionRscTree in pairs(self:get_field_nodes()) do
+        if not is_tree_leaf(pRegionRscTree) then
+            pRegionRscTree:_make_remissive_index_tree_resource_fields()
+        end
+    end
+end
+
+function CSolverTree:make_remissive_index_resource_fields()
+    self:_make_remissive_index_tree_resource_fields()
 end
 
 function CSolverTree:get_fields_from_resource(iResourceid)

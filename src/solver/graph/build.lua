@@ -93,26 +93,11 @@ local function build_descriptor_tree(pRscTree, tpTreeResources, tpPathMapids)
     pRscTree:set_resources(rgiTreeResourceids:list())
 end
 
-local function is_tree_leaf(pRscNode)
-    return pRscNode.make_remissive_index_resource_fields == nil
-end
-
-local function make_remissive_index_tree_resource_fields(pRscNode)
-    if not is_tree_leaf(pRscNode) then
-        pRscNode:make_remissive_index_resource_fields()
-        for _, pRegionRscTree in pairs(pRscNode:get_field_nodes()) do
-            make_remissive_index_tree_resource_fields(pRegionRscTree)
-        end
-    end
-end
-
 local function create_tree_interregional_resources(tpRegionResources, tpPathMapids)
     local pRscTree = CSolverTree:new()
 
     build_descriptor_tree(pRscTree, tpRegionResources, tpPathMapids)
-    make_remissive_index_tree_resource_fields(pRscTree)
-
-    pRscTree:debug_descriptor_tree()
+    pRscTree:make_remissive_index_resource_fields()
 
     return pRscTree
 end

@@ -28,14 +28,6 @@ function filter_resource_table_entries(trgpEntries, rgiResources)
         tpFilteredEntries[iRscid] = rgpLoots
     end
 
-    if A then
-        local st = ""
-        for iRscid, v in pairs(tpFilteredEntries) do
-            st = st .. tostring(iRscid) .. ","
-        end
-        log_st(LPath.PROCEDURES, "_vwmobs.txt", " >> '" .. st .. "'")
-    end
-
     return tpFilteredEntries
 end
 
