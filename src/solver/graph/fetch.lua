@@ -55,19 +55,21 @@ local function create_model_quest_resource_graph(ctFieldsDist, iSrcMapid, tpFiel
         table.insert(rgiMetaRscs, iRsc)
     end
 
-    local nCols = #rgiMetaRscs
-    for iMapid, pResource in pairs(tpFieldRscs) do
-        local rgiFieldCols
-        local rgiFieldCosts
-        rgiFieldCols, rgiFieldCosts = fetch_model_resource_field_values(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iSrcMapid, pResource, tiRscIdxs)
+    if iSrcMapid > -1 then
+        local nCols = #rgiMetaRscs
+        for iMapid, pResource in pairs(tpFieldRscs) do
+            local rgiFieldCols
+            local rgiFieldCosts
+            rgiFieldCols, rgiFieldCosts = fetch_model_resource_field_values(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iSrcMapid, pResource, tiRscIdxs)
 
-        local iRscDist = ctFieldsLandscape:fetch_field_distance(iSrcMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
-        local iRscDistCost = calc_resource_field_cost(iRscDist)
+            local iRscDist = ctFieldsLandscape:fetch_field_distance(iSrcMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
+            local iRscDistCost = calc_resource_field_cost(iRscDist)
 
-        local rgiRowValues = make_model_row_values(nCols, rgiFieldCols, rgiFieldCosts, iRscDistCost)
-        table.insert(rgpTableValues, rgiRowValues)
+            local rgiRowValues = make_model_row_values(nCols, rgiFieldCols, rgiFieldCosts, iRscDistCost)
+            table.insert(rgpTableValues, rgiRowValues)
 
-        table.insert(rgiMetaFields, iMapid)
+            table.insert(rgiMetaFields, iMapid)
+        end
     end
 
     return rgpTableValues, rgiMetaFields, rgiMetaRscs

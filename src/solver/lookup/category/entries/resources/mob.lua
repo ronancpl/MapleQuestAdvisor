@@ -15,7 +15,7 @@ require("solver.lookup.category.entries.tables")
 
 function install_lookup_category_entries_mob(pLookupTab, trgpEntries, rgiRscids)
     local tpFilteredEntries = filter_resource_table_entries(trgpEntries, rgiRscids)
-    pLookupTab:init(tpFilteredEntries, false)
+    pLookupTab:init(tpFilteredEntries, true)
 end
 
 function locate_lookup_category_entries_mob(pLookupTab, ctMobs, ctMobsGroup, pLandscape)

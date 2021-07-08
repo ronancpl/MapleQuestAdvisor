@@ -30,7 +30,14 @@ function CSolverLookupCategory:_init_entries(trgpEntries, fn_get_srcid)
             local pLoot = rgpSrcLoots[1]
 
             local iSrcid = fn_get_srcid(pLoot)
-            m_tSrcItems[iSrcid] = deep_copy(rgpSrcLoots)
+
+            local rgpLoots = m_tSrcItems[iSrcid]
+            if rgpLoots == nil then
+                rgpLoots = {}
+                m_tSrcItems[iSrcid] = rgpLoots
+            end
+
+            table.insert(rgpLoots, pLoot)
         end
     end
 end
@@ -41,13 +48,13 @@ function CSolverLookupCategory:_fetch_resource_regions(pLandscape, rgiFields)
     for _, iMapid in ipairs(rgiFields) do
         local iRegionid = pLandscape:get_region_by_mapid(iMapid)
         if iRegionid ~= nil then
-            local rgiFields = trgiRegionFields[iRegionid]
-            if rgiFields == nil then
-                rgiFields = {}
-                trgiRegionFields[iRegionid] = rgiFields
+            local rgiRegFields = trgiRegionFields[iRegionid]
+            if rgiRegFields == nil then
+                rgiRegFields = {}
+                trgiRegionFields[iRegionid] = rgiRegFields
             end
 
-            table.insert(rgiFields, iMapid)
+            table.insert(rgiRegFields, iMapid)
         end
     end
 
@@ -139,7 +146,7 @@ function CSolverLookupCategory:debug_resources()
     log(LPath.PROCEDURES, "resources_lookup.txt", "---------")
 end
 
-local function get_fn_rscid(bRscInt)
+local function get_fn_srcid(bRscInt)
     local fn_get_rscid
 
     if bRscInt == nil then
@@ -153,16 +160,16 @@ local function get_fn_rscid(bRscInt)
     return fn_get_rscid
 end
 
-local function get_fn_srcid(bRscInt)
-    local fn_get_srcid
+local function get_fn_rscid(bRscInt)
+    local fn_get_rscid
 
-    if bRscInt then
-        fn_get_srcid = function(pRsc) return pRsc end
+    if bRscInt == nil then
+        fn_get_rscid = function(pRsc) return pRsc end
     else
-        fn_get_srcid = function(pRsc) return pRsc:get_sourceid() end
+        fn_get_rscid = function(pRsc) return pRsc:get_itemid() end
     end
 
-    return fn_get_srcid
+    return fn_get_rscid
 end
 
 function CSolverLookupCategory:init(trgpEntries, bRscInt)

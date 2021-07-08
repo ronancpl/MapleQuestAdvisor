@@ -15,7 +15,7 @@ require("solver.lookup.category.entries.tables")
 
 function install_lookup_category_entries_static(pLookupTab, trgpEntries, rgiRscids)
     local tpFilteredEntries = filter_resource_table_entries(trgpEntries, rgiRscids)
-    pLookupTab:init(tpFilteredEntries, true)
+    pLookupTab:init(tpFilteredEntries, nil)
 end
 
 function locate_lookup_category_entries_static(pLookupTab, pLandscape)

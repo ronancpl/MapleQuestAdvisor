@@ -226,8 +226,8 @@ function love.load()
     -- in open order
     pWndHandler:set_opened(pUiWmap)
     pWndHandler:set_opened(pUiRscs)
-    pWndHandler:set_opened(pUiInvt)
     pWndHandler:set_opened(pUiStats)
+    pWndHandler:set_opened(pUiInvt)
 
     local pInfoSrv = pUiStats:get_properties():get_info_server()
 
