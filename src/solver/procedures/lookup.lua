@@ -21,22 +21,18 @@ local function fetch_lookup_resources(pLandscape, ctLoots, ctMobs, ctMobsGroup, 
     local rgpCategoryTables = {}
 
     rgiRscids = pLookupRscs[RLookupCategory.MOBS]
-
     local pLookupMobTab = init_lookup_category_mob_table(ctLoots, ctMobs, ctMobsGroup, pLandscape, rgiRscids)
     table.insert(rgpCategoryTables, pLookupMobTab)
 
     rgiRscids = pLookupRscs[RLookupCategory.ITEMS]
-
     local pLookupItemTab = init_lookup_category_item_table(ctLoots, ctMobs, ctReactors, pLandscape, rgiRscids)
     table.insert(rgpCategoryTables, pLookupItemTab)
 
     rgiRscids = pLookupRscs[RLookupCategory.FIELD_ENTER]
-
     local pLookupFieldEnterTab = init_lookup_category_field_enter_table(ctQuests, pLandscape, rgiRscids)
     table.insert(rgpCategoryTables, pLookupFieldEnterTab)
 
     rgiRscids = pLookupRscs[RLookupCategory.FIELD_NPC]
-
     local pLookupFieldNpcTab = init_lookup_category_field_npc_table(pLandscape, rgiRscids)
     table.insert(rgpCategoryTables, pLookupFieldNpcTab)
 

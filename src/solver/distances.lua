@@ -43,7 +43,7 @@ local function get_npc_return_locations(iNpcid)
     local tReturnMapids = {}
 
     for _, iMapid in ipairs(ctNpcs:get_locations(iNpcid)) do
-        local iRetMapid = ctFieldsMeta:get_field_return(iMapid) or iMapid
+        local iRetMapid = ctFieldsMeta:get_field_return(iMapid)
         tReturnMapids[iRetMapid] = iMapid
     end
 

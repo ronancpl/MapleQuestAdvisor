@@ -40,7 +40,7 @@ function CFieldMetaTable:add_field_return(iSrcid, iDestId)
 end
 
 function CFieldMetaTable:get_field_return(iSrcid)
-    return self.tFieldReturn[iSrcid]
+    return self.tFieldReturn[iSrcid] or iSrcid
 end
 
 function CFieldMetaTable:add_field_overworld(iSrcid, iDestId)

@@ -26,9 +26,7 @@ function CSolverLookupCategory:_init_entries(trgpEntries, fn_get_srcid)
     clear_table(m_tSrcItems)
 
     for _, rgpSrcLoots in pairs(trgpEntries) do
-        if #rgpSrcLoots > 0 then
-            local pLoot = rgpSrcLoots[1]
-
+        for _, pLoot in ipairs(rgpSrcLoots) do
             local iSrcid = fn_get_srcid(pLoot)
 
             local rgpLoots = m_tSrcItems[iSrcid]
@@ -65,12 +63,12 @@ function CSolverLookupCategory:_locate_resource_fields(pLandscape, fn_get_rscid,
     local m_tRegionRscFields = self.tRegionRscFields
     local m_tSrcItems = self.tSrcItems
 
-    for iSrcid, rgpItems in pairs(m_tSrcItems) do
+    for iSrcid, rgpLoots in pairs(m_tSrcItems) do
         local rgiFields = fn_get_src_fields(m_tSrcItems, iSrcid)
 
         for iRegionid, rgiMapids in pairs(self:_fetch_resource_regions(pLandscape, rgiFields)) do
-            for _, pItem in ipairs(rgpItems) do
-                local iRscid = fn_get_rscid(pItem)
+            for _, pLoot in ipairs(rgpLoots) do
+                local iRscid = fn_get_rscid(pLoot)
 
                 local tpRegionRscs = m_tRegionRscFields[iRegionid]
                 if tpRegionRscs == nil then

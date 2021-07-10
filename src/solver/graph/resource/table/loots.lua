@@ -21,7 +21,7 @@ CRetrieveItemTable = createClass({
 
 function CRetrieveItemTable:_add_loot_field_to_table_acquisition_loot(ctFieldsLandscape, ctFieldsMeta, iSrcid, iMapid, pLoot)
     local iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
-    local iFieldReturn = ctFieldsMeta:get_field_return(iMapid) or iMapid
+    local iFieldReturn = ctFieldsMeta:get_field_return(iMapid)
 
     local m_tpRegionAreaLoots = self.tpRegionAreaLoots
     local tAreaLoot = create_inner_table_if_not_exists(m_tpRegionAreaLoots, iRegionid)

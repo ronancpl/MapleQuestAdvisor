@@ -179,6 +179,7 @@ local function build_worldmap_resource_tree(pRscTree, pUiWmap)
     local rgiRegionids = get_worldmap_regionids(pUiWmap)
     for _, iWmapRegionid in ipairs(rgiRegionids) do
         local pRegionRscTree = pRscTree:get_field_node(iWmapRegionid)
+        log_st(LPath.INTERFACE, "_vwa.txt", " reg " .. tostring(iWmapRegionid) .. " " .. tostring(pRegionRscTree ~= nil))
         if pRegionRscTree ~= nil then
             for iMapid, pRsc in pairs(pRegionRscTree:get_field_nodes()) do
                 pWmapRscTree:add_field_node(iMapid, pRsc)
@@ -213,7 +214,15 @@ function update_worldmap_region_track(pUiWmap, pUiRscs, pPlayer, pDirHelperQuads
     reset_worldmap_nodes(pUiWmap, pDirHelperQuads)
 
     local pRscTree = pUiRscs:get_properties():get_resource_tree()
+
+    log(LPath.PROCEDURES, "resources_quest.txt", "--- FROM --")
+    pRscTree:debug_descriptor_tree()
+    log(LPath.PROCEDURES, "resources_quest.txt", "--- TO --")
+
     local pWmapRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap)
+    pWmapRscTree:debug_descriptor_tree()
+
+    log(LPath.PROCEDURES, "resources_quest.txt", "...........")
 
     update_worldmap_resource_nodes(pUiWmap, pWmapRscTree, pPlayer, pDirHelperQuads)
 

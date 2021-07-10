@@ -45,8 +45,8 @@ local function get_world_map_section_id(ctFieldsWmap, iMapid)
 end
 
 local function in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid)
-    local iRetMapid = ctFieldsMeta:get_field_return(iMapid) or iMapid
-    local iRetToMapid = ctFieldsMeta:get_field_return(iToMapid) or iToMapid
+    local iRetMapid = ctFieldsMeta:get_field_return(iMapid)
+    local iRetToMapid = ctFieldsMeta:get_field_return(iToMapid)
 
     return get_world_map_section_id(ctFieldsWmap, iRetMapid) == get_world_map_section_id(ctFieldsWmap, iRetToMapid)
 end
