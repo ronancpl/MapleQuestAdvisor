@@ -10,16 +10,10 @@
     provide an express grant of patent rights.
 --]]
 
-package.path = package.path .. ';?.lua'
-
 require("composer.quest.quest")
-require("router.procedures.quest.accessors")
-require("router.procedures.quest.awarders")
-require("router.stages.load")
-require("router.stages.map")
 require("router.stages.pool")
 require("router.stages.route")
-require("solver.procedures.lookup")
+require("solver.graph.lane")
 require("structs.player")
 
 local function create_player()
@@ -28,24 +22,17 @@ local function create_player()
     return pPlayer
 end
 
-load_resources()
-
-load_regions_overworld(ctFieldsDist, ctFieldsLink)
-load_distances_overworld(ctFieldsLandscape, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
-
-load_script_resources()
-load_loot_retrieval_resources()
-
-for i = 1, 100, 1 do
+function generate_quest_route(pPlayer)
     local pGridQuests = load_grid_quests(ctQuests)
-    local pPlayer = create_player()
     pGridQuests:ignore_underleveled_quests(pPlayer:get_level())
 
-    ctAccessors = init_quest_accessors()
-    ctAwarders = init_quest_awarders()
-
-    print("Generation graph #" .. i)
     local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
 
     local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+    local pRouteLane = generate_subpath_lane(tRoute)
+
+    return pRouteLane, tRoute, tQuests
 end
+
+pPlayer = create_player()
+pRouteLane, tRoute, tQuests = generate_quest_route(pPlayer)

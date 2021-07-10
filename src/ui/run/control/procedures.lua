@@ -95,3 +95,10 @@ end
 function run_bt_save(pLeadingPath)  -- saves last quest laning action
     write_track_quests(pLeadingPath)
 end
+
+function load_lookahead_track(pPlayer)
+    local pPlayerCopy = CPlayer:new()
+    pPlayerCopy:copy(pPlayer)
+
+    return load_track_lane(pPlayerCopy)
+end

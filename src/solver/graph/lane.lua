@@ -86,3 +86,7 @@ function generate_subpath_lane(pSetRoutePaths)
 
     return pLane
 end
+
+function merge_subpath_lane(pLane, pOtherLane)
+    pLane:merge_lane(pOtherLane)
+end

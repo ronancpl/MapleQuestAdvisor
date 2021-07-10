@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.route")
 require("router.procedures.constant")
 require("utils.struct.class")
 require("utils.struct.stack")
@@ -70,6 +71,53 @@ end
 
 function CTracePath:move_back()
     return self:_pop_lane()
+end
+
+function CTracePath:trim_back()
+    local m_pStackLane = self.pStackLane
+    local nLanes = m_pStackLane:size()
+
+    for i = 1, nLanes - RWndConfig.TRACK.MAX_BEHIND_TO_RETURN, 1 do
+        m_pStackLane:pop_fifo()
+    end
+end
+
+function CTracePath:_route_ahead(pPlayerState, pPath)
+    local pPlayerCopy = pPlayerState:clone()
+
+    local rgpQuestProps = pPath:list()
+    local pLastQuestProp = table.remove(rgpQuestProps)
+
+    local pSublane = self:get_root_lane()
+    local _, pQuestProp in ipairs(rgpQuestProps) do
+        progress_player_state(ctAwarders, pQuestProp, pPlayerCopy, {})
+        pSublane = pSublane:get_sublane(pQuestProp)
+    end
+
+    progress_player_state(ctAwarders, pLastQuestProp, pPlayerCopy, {})
+    local pRouteLane, _, _ = generate_quest_route(pPlayerCopy)
+
+    self:add_sublane(pLastQuestProp, pRouteLane)
+end
+
+function CTracePath:look_ahead(pPlayerState, bBroadcastLookahead)
+    if bBroadcastLookahead then
+        for _, pPath in ipairs(self:get_paths()) do
+            local nQuestsAhead = pPath:size()
+            if nQuestsAhead < RWndConfig.TRACK.MAX_AHEAD_TO_SEARCH then
+                self:_route_ahead(pPlayerState, pPath)
+            end
+        end
+    else
+        local nQuestsAhead = U_INT_MIN
+        for _, pPath in ipairs(self:get_paths()) do
+            nQuestsAhead = math.max(nQuestsAhead, pPath:size())
+        end
+
+        if nQuestsAhead < RWndConfig.TRACK.MAX_AHEAD_TO_SEARCH then
+            self:_route_ahead(pPlayerState, self.pRootLane:get_path())
+        end
+    end
 end
 
 function CTracePath:to_string()

@@ -15,6 +15,7 @@ package.path = package.path .. ';?.lua'
 require("composer.containers.strings.item")
 require("composer.containers.strings.mob")
 require("composer.containers.strings.npc")
+require("composer.quest.quest")
 require("router.procedures.persist.delete.rates")
 require("router.procedures.persist.delete.player.character")
 require("router.procedures.persist.delete.player.inventory")
@@ -25,7 +26,6 @@ require("router.procedures.persist.save.rates")
 require("router.procedures.persist.save.player.character")
 require("router.procedures.persist.save.player.inventory")
 require("router.stages.load")
-require("structs.player")
 require("structs.storage.inventory")
 require("ui.constant.path")
 require("ui.interaction.handler")
@@ -80,7 +80,11 @@ function love.load()
     log(LPath.INTERFACE, "load.txt", "Loading solver metadata...")
 
     dofile("router/stage.lua")
+    dofile("router/route.lua")
+
     --dofile("persist/init.lua")    -- initialized as background process
+    tpDbTableCols = load_db_table_cols()
+
     ctFieldsWmap = load_resources_worldmap_ui()
 
     log(LPath.INTERFACE, "load.txt", "Loading graphic asset...")
@@ -178,7 +182,7 @@ function love.load()
     save_board_quests(tQuests)
 
     local pGridQuests = load_grid_quests(ctQuests)
-    tQuests = load_board_quests()
+    local tQuests = load_board_quests()
     local pTrack = run_bt_load(pPlayer)
 
     local pPath = pTrack:get_paths()[1]
@@ -196,14 +200,30 @@ function love.load()
     pRscTreeRegion:set_field_source(104000000)
     pRscTreeRegion:set_field_destination(103000000)
 
-    pRscTree:add_field_node(25, pRscTreeRegion)
+    pRscTree:add_field_node(23, pRscTreeRegion)
 
-    local pRscNode = CSolverResource:new()
-    pRscTreeRegion:add_field_node(104010000, pRscNode)
+    local pRscNode1 = CSolverResource:new()
+    pRscTreeRegion:add_field_node(104000400, pRscNode1)
+    local rgiResourceids = {2003010001, 2003010002}
+    pRscNode1:set_resources(rgiResourceids)
+
+    local pRscNode2 = CSolverResource:new()
+    pRscTreeRegion:add_field_node(103020000, pRscNode2)
+    local rgiResourceids = {1002220000, 2003010000}
+    pRscNode2:set_resources(rgiResourceids)
+
+    local pRscNode3 = CSolverResource:new()
+    pRscTreeRegion:add_field_node(104010000, pRscNode3)
+    local rgiResourceids = {2004010000, 2004010001}
+    pRscNode3:set_resources(rgiResourceids)
+
+    local pRscNode4 = CSolverResource:new()
+    pRscTreeRegion:add_field_node(104040000, pRscNode4)
+    local rgiResourceids = {2004010002}
+    pRscNode4:set_resources(rgiResourceids)
+
     local rgiResourceids = {1002220000, 2003010000, 2003010001, 2003010002, 2004010000, 2004010001, 2004010002}
-
     pRscTreeRegion:set_resources(rgiResourceids)
-    pRscNode:set_resources(rgiResourceids)
 
     local pRscNode = CSolverResource:new()
     pRscTreeRegion:add_field_node(103000000, pRscNode)

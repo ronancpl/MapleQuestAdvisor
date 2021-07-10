@@ -75,7 +75,7 @@ function sq3_kv_add(pCon, sTable, rgpVals, pKey)
 
     local pRes = pCon:exec('commit')
     if pRes ~= sqlite3.OK then
-        local iIdx = find_rdbms_col(load_db_table_cols(), sTable, pKey)
+        local iIdx = find_rdbms_col(tpDbTableCols, sTable, pKey)
         pStmt = pStorageStmt:get_update_stmt(pCon, 0, nil, sTable, pKey, rgpVals[iIdx] or "")
 
         local pRes = execute_prep_statement(pCon, pStmt)

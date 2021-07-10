@@ -10,31 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
-local function get_system_directory_path(sFileDir)
-    return "..\\\\" .. sFileDir:gsub("%s", ""):gsub("[%,%?%!%:%;%@%[%]%_%{%}%~%/]", "\\\\")
-end
-
-local function get_directory_path(sPath)
-    local iIdx = (sPath:reverse()):find("/")
-    return (sPath:sub(1, -iIdx-1))
-end
-
-local function create_directory_if_not_exists(sPath)
-    local sFileDir = get_directory_path(sPath)
-
-    local sSysPath = get_system_directory_path(sFileDir)
-    local iResp = os.execute("cd " .. sSysPath .. "")
-    if iResp == 1 then   -- path not exists
-        iResp = os.execute("mkdir " .. sSysPath)
-        if iResp ~= 0 then
-            error(iResp)
-        end
-
-        os.execute("cd " .. sSysPath)
-    end
-
-    return sSysPath
-end
+require("utils.logger.directory")
 
 function pcall_log(sPath)
     local bResult, oRet = pcall(

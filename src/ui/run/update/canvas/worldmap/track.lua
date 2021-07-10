@@ -179,7 +179,6 @@ local function build_worldmap_resource_tree(pRscTree, pUiWmap)
     local rgiRegionids = get_worldmap_regionids(pUiWmap)
     for _, iWmapRegionid in ipairs(rgiRegionids) do
         local pRegionRscTree = pRscTree:get_field_node(iWmapRegionid)
-        log_st(LPath.INTERFACE, "_vwa.txt", " reg " .. tostring(iWmapRegionid) .. " " .. tostring(pRegionRscTree ~= nil))
         if pRegionRscTree ~= nil then
             for iMapid, pRsc in pairs(pRegionRscTree:get_field_nodes()) do
                 pWmapRscTree:add_field_node(iMapid, pRsc)
@@ -210,24 +209,14 @@ end
 
 function update_worldmap_region_track(pUiWmap, pUiRscs, pPlayer, pDirHelperQuads)
     clear_worldmap_region_track(pUiWmap)
-
     reset_worldmap_nodes(pUiWmap, pDirHelperQuads)
 
     local pRscTree = pUiRscs:get_properties():get_resource_tree()
-
-    log(LPath.PROCEDURES, "resources_quest.txt", "--- FROM --")
-    pRscTree:debug_descriptor_tree()
-    log(LPath.PROCEDURES, "resources_quest.txt", "--- TO --")
-
-    local pWmapRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap)
-    pWmapRscTree:debug_descriptor_tree()
-
-    log(LPath.PROCEDURES, "resources_quest.txt", "...........")
-
-    update_worldmap_resource_nodes(pUiWmap, pWmapRscTree, pPlayer, pDirHelperQuads)
+    local pWmapRegionRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap)
+    update_worldmap_resource_nodes(pUiWmap, pWmapRegionRscTree, pPlayer, pDirHelperQuads)
 
     local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
-    local pElemTrace = create_waypoint_trace(pUiWmap, pWmapRscTree)
+    local pElemTrace = create_waypoint_trace(pUiWmap, pWmapRegionRscTree)
     if pElemTrace ~= nil then
         pLyr:add_element(LChannel.WMAP_MARK_TRACE, pElemTrace)
     end
@@ -236,8 +225,8 @@ end
 local function reset_worldmap_resource_actives(pUiWmap)
     local pWmapProp = pUiWmap:get_properties()
 
-    local rgpFieldMarkers = pWmapProp:get_markers()
-    for _, pFieldMarker in ipairs(rgpFieldMarkers) do
+    local tpMarkers = pWmapProp:get_markers()
+    for _, pFieldMarker in pairs(tpMarkers) do
         pFieldMarker:static()
     end
 end

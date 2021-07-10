@@ -21,10 +21,10 @@ require("utils.persist.interface.interface")
 require("utils.persist.interface.session")
 
 pcall_log(RPath.TMP_DB .. "/")
-tpTableCols = load_db_table_cols()
+tpDbTableCols = load_db_table_cols()
 
 pRdbms = CRdbmsSession:new({})
 pRdbms:set_rdbms_ds(RPersistPath.DB)
 
-setup_persist_interface(pRdbms)
+setup_persist_interface_if_not_exists(pRdbms)
 run_persist_interface(pRdbms)

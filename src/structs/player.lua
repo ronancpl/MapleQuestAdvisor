@@ -198,6 +198,15 @@ function CPlayer:import_inventory_tables(rgpItems)
     self.ivtMobs:import_table(rgpItems[4])
 end
 
+function CPlayer:clone()
+    local pCopy = CPlayer:new()
+
+    pCopy:import_table(self:export_table())
+    pCopy:import_inventory_tables(self:export_inventory_tables())
+
+    return pCopy
+end
+
 function CPlayer:debug_player_state()
     local st = ""
     st = st .. " JOB: " .. self.siJob

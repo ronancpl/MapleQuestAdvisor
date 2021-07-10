@@ -47,6 +47,13 @@ function SStack:pop()
     return pItem
 end
 
+function SStack:pop_fifo()
+    local m_rgpItems = self.rgpItems
+    local pItem = table.remove(1, m_rgpItems)
+
+    return pItem
+end
+
 function SStack:export(iLimitCount)
     iLimitCount = math.min(iLimitCount, self:size())
 

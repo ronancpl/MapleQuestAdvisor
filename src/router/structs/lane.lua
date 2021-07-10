@@ -18,6 +18,11 @@ CQuestLane = createClass({
     tpSublanes = {}
 })
 
+function CQuestLane:get_capacity()
+    local m_pSetPaths = self.pSetPaths
+    return m_pSetPaths:get_capacity()
+end
+
 function CQuestLane:set_capacity(iCap)
     local m_pSetPaths = self.pSetPaths
     m_pSetPaths:set_capacity(iCap)
@@ -76,4 +81,19 @@ function CQuestLane:list_quest_paths()
     self:sublanes_tostring("", rgsPaths)
 
     return rgsPaths
+end
+
+function CQuestLane:merge_lane(pOtherLane)
+    self:set_capacity(pOtherLane:get_capacity())
+
+    for pPath, fVal in pairs(self.pSetPaths:get_entry_set()) do
+        self:add_path(pPath, fVal)
+    end
+
+    for pQuestProp, pLane in pairs(pOtherLane:get_sublanes()) do
+        local pLaneCopy = CQuestLane:new()
+        pLaneCopy:merge_lane(pLane)
+
+        self:add_sublane(pQuestProp, pLaneCopy)
+    end
 end

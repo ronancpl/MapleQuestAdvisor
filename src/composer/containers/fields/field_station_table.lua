@@ -115,3 +115,23 @@ function CStationConnectionTable:get_stations_to_region(tiFieldRegion, iSrcMapid
     local rgpSrcStationMapLinks = tStationsTo
     return rgpSrcStationMapLinks
 end
+
+function CStationConnectionTable:debug_stations()
+    local m_tTravelRegions = self.tTravelRegions
+
+    log(LPath.PROCEDURES, "resources_station.txt", " ---- REGION LINKS ----")
+    for iSrcRegionid, tStationsFrom in pairs(m_tTravelRegions) do
+
+        log(LPath.PROCEDURES, "resources_station.txt", "FROM #" .. tostring(iSrcRegionid) .. ":")
+
+        for iDestRegionid, rgpSrcStationMapLinks in pairs(tStationsFrom) do
+            local st = ""
+            for _, iMapid in ipairs(rgpSrcStationMapLinks) do
+                st = st .. tostring(iMapid) .. ","
+            end
+            log(LPath.PROCEDURES, "resources_station.txt", "    #" .. tostring(iDestRegionid) .. " : [" .. st .. "]")
+        end
+    end
+
+    log(LPath.PROCEDURES, "resources_station.txt", " ----------------------")
+end

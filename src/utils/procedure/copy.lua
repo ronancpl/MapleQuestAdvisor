@@ -60,6 +60,15 @@ function table_intersection(tTable, tOther)
     return tItrs
 end
 
+function table_select(tTable, rgKeys)
+    local tDest = {}
+    for _, k in ipairs(rgKeys) do
+        tDest[k] = tTable[k]
+    end
+
+    return tDest
+end
+
 local function table_tostring_internal(e)
     local st = ""
 

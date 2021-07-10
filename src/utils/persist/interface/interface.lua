@@ -10,7 +10,9 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.constants.path")
 require("router.constants.persistence")
+require("utils.logger.directory")
 require("utils.persist.rdbms")
 require("utils.persist.interface.action")
 require("utils.persist.interface.session")
@@ -20,8 +22,21 @@ function sleep(n)
     --os.execute("sleep " .. tonumber(n))
 end
 
-function setup_persist_interface(pRdbms)
-    execute_rdbms_setup(pRdbms:get_rdbms_ds(), tpTableCols)
+local function get_system_directory_path(sFileDir)
+    return "..\\\\" .. sFileDir:gsub("%s", ""):gsub("[%,%?%!%:%;%@%[%]%_%{%}%~%/]", "\\\\")
+end
+
+function setup_persist_interface_if_not_exists(pRdbms)
+    local fIn = io.open(RPersistPath.DB, "r")
+    if fIn == nil then
+        create_directory_if_not_exists(RPath.TMP_DB .. "/" .. RPath.TMP_PID)
+        os.execute("mkdir " .. get_system_directory_path(RPath.TMP_DB .. "/" .. RPath.TMP_PID) .. "")
+
+        create_directory_if_not_exists(RPath.TMP_DB .. "/" .. RPath.TMP_LOCK)
+        os.execute("mkdir " .. get_system_directory_path(RPath.TMP_DB .. "/" .. RPath.TMP_LOCK) .. "")
+
+        execute_rdbms_setup(pRdbms:get_rdbms_ds(), tpDbTableCols)
+    end
 end
 
 function run_persist_interface(pRdbms)

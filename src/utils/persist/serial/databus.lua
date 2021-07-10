@@ -41,7 +41,7 @@ local function load_lua_pids(sFilePath)
     return tpPids
 end
 
-function fetch_popen_pid(sThenFilePath, sNowFilePath)
+local function fetch_popen_pid(sThenFilePath, sNowFilePath)
     local rgiPids = keys(table_intersection(load_lua_pids(sNowFilePath), load_lua_pids(sThenFilePath)))
     return rgiPids
 end
