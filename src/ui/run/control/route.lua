@@ -53,36 +53,40 @@ function save_board_quests(tQuests)
 end
 
 local function load_route_quests()
-    local rgsPaths = {}
+    local rgsLines = {}
 
     local fIn = io.open("../" .. RPath.SAV_ROUTE, "r")
     if fIn ~= nil then
         for sLine in fIn:lines() do
-            table.insert(rgsPaths, sLine)
+            table.insert(rgsLines, sLine)
         end
 
         io.close(fIn)
     end
 
-    return rgsPaths
+    local tRoute = csv_read_route_quest_path(rgsLines)
+    return tRoute
 end
 
-local function load_track_lane(pPlayer, tRoute)
+local function load_track_lane()
+    local tRoute = load_route_quests()
     local pRouteLane = generate_subpath_lane(tRoute)
 
     local pTrack = CTracePath:new()
     pTrack:load(pRouteLane)
-    return pTrack
+
+    return pTrack, tRoute
 end
 
-function run_bt_load(pPlayer, tRoute)  -- loads last quest laning action
-    return load_track_lane(pPlayer, tRoute)
+function run_route_bt_load()  -- loads last quest laning action
+    local pTrack, tRoute = load_track_lane()
+    return pTrack, tRoute
 end
 
-local function write_track_quests(pLeadingPath)
+local function write_track_quests(tRoute)
     local fOut = io.open("../" .. RPath.SAV_ROUTE, "w")
     if fOut ~= nil then
-        local rgsPaths = csvify_route_quest_path(pLeadingPath)
+        local rgsPaths = csvify_route_quest_path(tRoute)
         for _, sRoute in ipairs(rgsPaths) do
             fOut:write(sRoute .. "\n")
         end
@@ -91,8 +95,8 @@ local function write_track_quests(pLeadingPath)
     end
 end
 
-function run_bt_save(pLeadingPath)  -- saves last quest laning action
-    write_track_quests(pLeadingPath)
+function run_route_bt_save(tRoute)  -- saves last quest laning action
+    write_track_quests(tRoute)
 end
 
 function load_lookahead_track(pPlayer)

@@ -11,6 +11,7 @@
 --]]
 
 require("composer.field.node.media.storage.storage")
+require("ui.constant.input")
 require("ui.constant.path")
 require("utils.procedure.copy")
 require("utils.procedure.directory")

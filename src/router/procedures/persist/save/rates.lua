@@ -14,7 +14,8 @@ require("router.constants.persistence")
 require("utils.persist.act.call")
 require("utils.provider.json.encode")
 
-function save_rates(pInfoSrv)
+function save_rates(pUiStats)
+    local pInfoSrv = pUiStats:get_properties():get_info_server()
     local sJson = encode_stream({pInfoSrv:get_exp_rate(), pInfoSrv:get_meso_rate(), pInfoSrv:get_drop_rate()})
 
     local pCon = db_new(RPersistPath.DB)

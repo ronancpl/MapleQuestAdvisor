@@ -33,11 +33,5 @@ function load_inventory(pPlayer)
     if sJson ~= nil then
         local tpItems = load_inventory_data(sJson)
         pPlayer:import_inventory_tables(tpItems)
-
-        local st = ""
-        for k, v in pairs(pPlayer:get_items():get_inventory():get_items()) do
-            st = st .. tostring(k) .. ":" .. tostring(v) .. ","
-        end
-        log_st(LPath.DB, "_info.txt", "INVT : '" .. st .. "'")
     end
 end

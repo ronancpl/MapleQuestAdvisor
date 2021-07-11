@@ -27,9 +27,16 @@ function csvify_route_quest_path(pLeadingPath)
     local rgsPaths = {}
     for pQuestPath, fVal in pairs(pLeadingPath:get_entry_set()) do
         local st = ""
-        for _, pQuestProp in pairs(pQuestPath:list()) do
-            st = st .. pQuestProp:get_name() .. ","
+
+        local rgpQuestProps = pQuestPath:list()
+        local nQuestProps = #rgpQuestProps
+        for i = 1, nQuestProps, 1 do
+            local pQuestProp = rgpQuestProps[i]
+            local fValIdx = pQuestPath:get_node_value(i)
+
+            st = st .. pQuestProp:get_name() .. "," .. tostring(fValIdx) .. ","
         end
+
         st = st .. tostring(fVal)
 
         table.insert(rgsPaths, st)
@@ -38,24 +45,54 @@ function csvify_route_quest_path(pLeadingPath)
     return rgsPaths
 end
 
-local function load_quest_paths(rgsPaths)
-    local rgpPaths = SArray:new()
-    for _, sPath in ipairs(rgsPaths) do
-        local rgsLineSp = split_csv(sPath)
+local function make_leading_paths()
+    local pSetLeadingPath = SRankedSet:new()
+    pSetLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
 
-        local rgpQuestProps = {}
-        table.remove(rgsLineSp)     -- fVal
+    return pSetLeadingPath
+end
 
-        for _, sQuestName in ipairs(rgsLineSp) do
-            local iQuestid = tonumber(sQuestName:sub(1, -2))
-            local bStart = string.starts_with(sQuestName:sub(-1), "S")
+local function find_quest_by_name(sQuestName)
+    local iQuestid = tonumber(sQuestName:sub(1, -2))
+    local bStart = string.starts_with(sQuestName:sub(-1), "S")
 
-            local pQuest = ctQuests:get_quest_by_id(iQuestid)
-            local pQuestProp = bStart and pQuest:get_start() or pQuest:get_end()
+    local pQuest = ctQuests:get_quest_by_id(iQuestid)
+    local pQuestProp = bStart and pQuest:get_start() or pQuest:get_end()
 
-            table.insert(rgpQuestProps, pQuestProp)
+    return pQuestProp
+end
+
+function csv_read_route_quest_path(rgsLines)
+    local pLeadingPath = make_leading_paths()
+    for _, sLine in ipairs(rgsLines) do
+        local rgsLineSp = split_csv(sLine)
+
+        local sVal = table.remove(rgsLineSp)
+        local fVal = tonumber(sVal)
+
+        local pQuestPath = CQuestPath:new()
+
+        local nSp = #rgsLineSp
+        for i = 1, nSp, 2 do
+            local sQuestName = rgsLineSp[i]
+            local fValIdx = tonumber(rgsLineSp[i + 1])
+
+            local pQuestProp = find_quest_by_name(sQuestName)
+            pQuestPath:add(pQuestProp, nil, fValIdx)
         end
 
+        pLeadingPath:insert(pQuestPath, fVal)
+    end
+
+    return pLeadingPath
+end
+
+local function load_quest_paths(rgsLines)
+    local pLeadingPath = csv_read_route_quest_path(rgsLines)
+
+    local rgpPaths = SArray:new()
+    for _, pPath in ipairs(pLeadingPath:list()) do
+        local rgpQuestProps = pPath:list()
         rgpPaths:add(rgpQuestProps)
     end
 
@@ -110,13 +147,6 @@ local function route_internal(tQuests, pPlayer, rgpQuestProps, pLeadingPath, ctA
             route_internal_node(rgpPoolProps, rgpQuestProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
         end
     end
-end
-
-local function make_leading_paths()
-    local pSetLeadingPath = SRankedSet:new()
-    pSetLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
-
-    return pSetLeadingPath
 end
 
 local function fetch_most_value_path(pLeadingPath, rgpPaths)

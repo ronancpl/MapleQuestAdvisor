@@ -10,17 +10,13 @@
     provide an express grant of patent rights.
 --]]
 
-require("router.constants.persistence")
-require("utils.persist.act.call")
-require("utils.provider.json.decode")
+require("router.procedures.persist.load.rates")
+require("router.procedures.persist.save.rates")
 
-function load_rates(pUiStats, pPlayer)
-    local pCon = db_new(RPersistPath.DB)
-    local sJson = db_kv_select(pCon, RPersistPath.RATES, "content", db_pk_table(RPersistTable.RATES), RPersistKey.DEFAULT)
-    db_close(pCon)
+function run_rates_bt_load(pUiStats, pPlayer)
+    load_rates(pUiStats, pPlayer)
+end
 
-    if sJson ~= nil then
-        local iExpR, iMesoR, iDropR = decode_stream(sJson)
-        pUiStats:update_stats(pPlayer, iExpR, iMesoR, iDropR)
-    end
+function run_rates_bt_save(pUiStats)
+    save_rates(pUiStats)
 end
