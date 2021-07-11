@@ -13,6 +13,7 @@
 require("router.constants.path")
 require("router.stages.reroute")
 require("router.structs.lane")
+require("structs.player")
 require("ui.struct.path.pathing")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
@@ -66,18 +67,16 @@ local function load_route_quests()
     return rgsPaths
 end
 
-local function load_track_lane(pPlayer)
-    local rgsPaths = load_route_quests()
-    local pLeadingPath = load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
-    local pRouteLane = generate_subpath_lane(pLeadingPath)
+local function load_track_lane(pPlayer, tRoute)
+    local pRouteLane = generate_subpath_lane(tRoute)
 
     local pTrack = CTracePath:new()
     pTrack:load(pRouteLane)
     return pTrack
 end
 
-function run_bt_load(pPlayer)  -- loads last quest laning action
-    return load_track_lane(pPlayer)
+function run_bt_load(pPlayer, tRoute)  -- loads last quest laning action
+    return load_track_lane(pPlayer, tRoute)
 end
 
 local function write_track_quests(pLeadingPath)

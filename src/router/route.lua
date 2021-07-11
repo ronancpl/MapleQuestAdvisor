@@ -14,15 +14,8 @@ require("composer.quest.quest")
 require("router.stages.pool")
 require("router.stages.route")
 require("solver.graph.lane")
-require("structs.player")
 
-local function create_player()
-    local pPlayer = CPlayer:new({iMapid = 2000000, siLevel = 50, siJob = 122})
-
-    return pPlayer
-end
-
-function generate_quest_route(pPlayer)
+function generate_quest_route(pPlayer, pUiWmap)
     local pGridQuests = load_grid_quests(ctQuests)
     pGridQuests:ignore_underleveled_quests(pPlayer:get_level())
 
@@ -31,8 +24,7 @@ function generate_quest_route(pPlayer)
     local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     local pRouteLane = generate_subpath_lane(tRoute)
 
-    return pRouteLane, tRoute, tQuests
-end
+    pUiWmap:get_properties():set_quest_route(pRouteLane)
 
-pPlayer = create_player()
-pRouteLane, tRoute, tQuests = generate_quest_route(pPlayer)
+    return pRouteLane, tQuests, tRoute
+end

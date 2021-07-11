@@ -49,7 +49,7 @@ end
 
 function SStack:pop_fifo()
     local m_rgpItems = self.rgpItems
-    local pItem = table.remove(1, m_rgpItems)
+    local pItem = table.remove(m_rgpItems, 1)
 
     return pItem
 end

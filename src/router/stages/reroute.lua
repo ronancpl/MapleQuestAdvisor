@@ -10,7 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-require("structs.player")
 require("router.procedures.constant")
 require("router.procedures.graph.outer")
 require("router.procedures.player.update")
@@ -19,6 +18,7 @@ require("router.structs.neighbor.arranger")
 require("router.structs.recall.milestone")
 require("router.structs.path")
 require("router.structs.trajectory")
+require("structs.player")
 require("utils.procedure.unpack")
 require("utils.provider.io.wordlist")
 require("utils.struct.ranked_set")

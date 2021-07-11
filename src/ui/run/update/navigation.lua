@@ -13,7 +13,7 @@
 require("router.procedures.constant")
 require("router.procedures.player.update")
 
-local function lookahead_lane_on_move(pTrack)
+local function lookahead_lane_on_move(pTrack, pPlayerState)
     local iMinAhead = U_INT_MAX
     for _, pPath in ipairs(pTrack:get_paths()) do
         iMinAhead = math.min(iMinAhead, pPath:size())
@@ -27,7 +27,7 @@ end
 function player_lane_move_ahead(pTrack, pQuestProp, pPlayerState, rgpPoolProps)
     local bSuccess = pTrack:move_ahead(pQuestProp)
     if bSuccess then
-        lookahead_lane_on_move(pTrack)
+        lookahead_lane_on_move(pTrack, pPlayerState)
         progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
     else
         log(LPath.FALLBACK, "quest_lane.txt", " NOT FOUND quest " .. tostring(pQuestProp:get_name()) .. " ON ROUTE '" .. pTrack:to_string() .. "'")

@@ -91,7 +91,7 @@ function CCompositeInventory:import_table(tpItems)
     self.ivtComp:empty()
 
     for sId, iCount in pairs(tpItems) do
-        self:add_item(tonumber(sId), iCount)
+        self:add_item(tonumber(sId) or sId, iCount)
     end
 end
 

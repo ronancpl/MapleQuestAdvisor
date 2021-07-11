@@ -27,7 +27,9 @@ CWmapProperties = createClass({
     rgpMapList = {},
     rgpMapLink = {},
     tpMapMarker = {},
-    pTrack
+    pTrack,
+
+    pRouteLane
 })
 
 function CWmapProperties:reset_map_fields()
@@ -49,8 +51,17 @@ function CWmapProperties:reset()
     clear_table(self.rgpMapLink)
 
     local pTrack = CTracePath:new()
-    pTrack:load(pRouteLane)
+    pTrack:load(self:get_quest_route())     -- must clear route specifically
     self.pTrack = pTrack
+end
+
+function CWmapProperties:get_quest_route()
+    return self.pRouteLane
+end
+
+function CWmapProperties:set_quest_route(pQuestLane)
+    self.pRouteLane = pQuestLane
+    self:reset()
 end
 
 function CWmapProperties:get_parent_map()

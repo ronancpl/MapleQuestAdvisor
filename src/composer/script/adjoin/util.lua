@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("utils.procedure.unpack")
+
 function fn_get_entry_key(bIntUnit)
     if bIntUnit then
         return function(sScriptName) return tonumber(string.sub(sScriptName, 0, -4)) end    -- removes ".js"

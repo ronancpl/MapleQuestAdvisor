@@ -26,6 +26,7 @@ require("router.procedures.persist.save.rates")
 require("router.procedures.persist.save.player.character")
 require("router.procedures.persist.save.player.inventory")
 require("router.stages.load")
+require("structs.player")
 require("structs.storage.inventory")
 require("ui.constant.path")
 require("ui.interaction.handler")
@@ -59,6 +60,7 @@ require("utils.persist.serial.databus")
 --require("utils.persist.serial.table")
 require("utils.procedure.print")
 require("utils.struct.maptimed")
+require("utils.struct.ranked_set")
 
 local function is_tree_leaf(pRscNode)
     return pRscNode.make_remissive_index_resource_fields == nil
@@ -73,6 +75,23 @@ local function make_remissive_index_tree_resource_fields(pRscNode)
     end
 end
 
+local function make_leading_paths()
+    local pSetLeadingPath = SRankedSet:new()
+    pSetLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
+
+    return pSetLeadingPath
+end
+
+local function load_route_quests(pTrack)
+    local pSetLeadingPath = make_leading_paths()
+
+    for pQuestPath, fVal in pairs(pTrack:get_root_lane():get_path_entries()) do
+        pSetLeadingPath:insert(pQuestPath, fVal)
+    end
+
+    return pSetLeadingPath
+end
+
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     love.graphics.setWireframe(love.keyboard.isDown('space'))
@@ -80,6 +99,9 @@ function love.load()
     log(LPath.INTERFACE, "load.txt", "Loading solver metadata...")
 
     dofile("router/stage.lua")
+
+    pPlayer = CPlayer:new({iId = 1, iMapid = 2000000, siLevel = 50, siJob = 122})
+
     dofile("router/route.lua")
 
     --dofile("persist/init.lua")    -- initialized as background process
@@ -131,6 +153,8 @@ function love.load()
 
     pUiWmap = load_frame_worldmap()
 
+    local _, tQuests, tRoute = generate_quest_route(pPlayer, pUiWmap)
+
     pUiInvt = load_frame_player_inventory()
 
     local pIvtItems = CInventory:new()
@@ -169,7 +193,6 @@ function love.load()
 
     pUiStats = load_frame_stat()
 
-    pPlayer = CPlayer:new({iId = 1, iMapid = 2000000, siLevel = 50, siJob = 122})
     pPlayer:get_items():get_inventory():include_inventory(pIvtItems)
 
     pUiStats:update_stats(pPlayer, 10, 10, 10)
@@ -181,9 +204,9 @@ function love.load()
     run_bt_save(tRoute)
     save_board_quests(tQuests)
 
-    local pGridQuests = load_grid_quests(ctQuests)
+    local tRoute = load_route_quests(pTrack)
     local tQuests = load_board_quests()
-    local pTrack = run_bt_load(pPlayer)
+    local pTrack = run_bt_load(pPlayer, tRoute)
 
     local pPath = pTrack:get_paths()[1]
     local pQuestProp = pPath:list()[1]

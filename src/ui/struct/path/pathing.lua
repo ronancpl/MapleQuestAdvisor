@@ -12,6 +12,7 @@
 
 require("router.route")
 require("router.procedures.constant")
+require("ui.constant.config")
 require("utils.struct.class")
 require("utils.struct.stack")
 
@@ -89,29 +90,29 @@ function CTracePath:_route_ahead(pPlayerState, pPath)
     local pLastQuestProp = table.remove(rgpQuestProps)
 
     local pSublane = self:get_root_lane()
-    local _, pQuestProp in ipairs(rgpQuestProps) do
+    for _, pQuestProp in ipairs(rgpQuestProps) do
         progress_player_state(ctAwarders, pQuestProp, pPlayerCopy, {})
         pSublane = pSublane:get_sublane(pQuestProp)
     end
 
     progress_player_state(ctAwarders, pLastQuestProp, pPlayerCopy, {})
-    local pRouteLane, _, _ = generate_quest_route(pPlayerCopy)
+    local pRouteLane = generate_quest_route(pPlayerCopy)
 
-    self:add_sublane(pLastQuestProp, pRouteLane)
+    pSublane:add_sublane(pLastQuestProp, pRouteLane)
 end
 
 function CTracePath:look_ahead(pPlayerState, bBroadcastLookahead)
     if bBroadcastLookahead then
-        for _, pPath in ipairs(self:get_paths()) do
-            local nQuestsAhead = pPath:size()
+        for _, pSubpath in ipairs(self:get_paths()) do
+            local nQuestsAhead = pSubpath:size()
             if nQuestsAhead < RWndConfig.TRACK.MAX_AHEAD_TO_SEARCH then
-                self:_route_ahead(pPlayerState, pPath)
+                self:_route_ahead(pPlayerState, pSubpath)
             end
         end
     else
         local nQuestsAhead = U_INT_MIN
-        for _, pPath in ipairs(self:get_paths()) do
-            nQuestsAhead = math.max(nQuestsAhead, pPath:size())
+        for _, pSubpath in ipairs(self:get_paths()) do
+            nQuestsAhead = math.max(nQuestsAhead, pSubpath:size())
         end
 
         if nQuestsAhead < RWndConfig.TRACK.MAX_AHEAD_TO_SEARCH then

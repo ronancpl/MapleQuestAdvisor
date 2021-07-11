@@ -279,10 +279,10 @@ local function should_supress_quest(pQuest)
 end
 
 function apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
-    local tQuests = ctQuests:get_quests()
+    local tpQuests = ctQuests:get_quests()
     local tpNpcField = {}
 
-    for _, pQuest in pairs(tQuests) do
+    for _, pQuest in pairs(tpQuests) do
         if not should_supress_quest(pQuest) then
             local iStartNpc = pQuest:get_start():get_requirement():get_npc()
 

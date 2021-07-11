@@ -43,6 +43,11 @@ function CQuestLane:get_paths()
     return m_pSetPaths:list()
 end
 
+function CQuestLane:get_path_entries()
+    local m_pSetPaths = self.pSetPaths
+    return m_pSetPaths:get_entry_set()
+end
+
 function CQuestLane:add_sublane(pQuestProp, pLane)
     local m_tpSublanes = self.tpSublanes
     m_tpSublanes[pQuestProp] = pLane
@@ -86,7 +91,7 @@ end
 function CQuestLane:merge_lane(pOtherLane)
     self:set_capacity(pOtherLane:get_capacity())
 
-    for pPath, fVal in pairs(self.pSetPaths:get_entry_set()) do
+    for pPath, fVal in pairs(self:get_path_entries()) do
         self:add_path(pPath, fVal)
     end
 
