@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("ui.constant.view.inventory")
 require("ui.constant.view.item")
 require("ui.run.draw.canvas.inventory.inventory")
@@ -43,12 +44,12 @@ function CInvtElemItem:get_count()
 end
 
 function CInvtElemItem:is_visible_count()
-    local siType = math.floor(self.iId / 1000000)
+    local siType = math.iclamp(math.floor(self.iId / 1000000), 1, 5)
     return not (siType == 1 or siType == 5)
 end
 
 function CInvtElemItem:is_equipment()
-    local siType = math.floor(self.iId / 1000000)
+    local siType = math.iclamp(math.floor(self.iId / 1000000), 1, 5)
     return siType == 1
 end
 

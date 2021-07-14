@@ -21,5 +21,10 @@ function CPlayerMetaTable:add_exp_to_next_level(iExpNeeded)
 end
 
 function CPlayerMetaTable:get_exp_to_next_level(iLevel)
-    return self.tExpTnl[iLevel]
+    local iExpTnl = self.tExpTnl[iLevel]
+    if iExpTnl == nil then
+        log(LPath.FALLBACK, "exp_tnl.txt", "NOT found exp 'TO' level " .. tostring(iLevel))
+    end
+
+    return iExpTnl
 end

@@ -24,7 +24,7 @@ function load_trace_dashed(x1, y1, x2, y2, pImgBullet, iLenSp, iLineOffset)
     local rgiCoords = fetch_segments_dashed(x1, y1, x2, y2, (1 - fFill) * iLenSp, fFill * iLenSp)
 
     local pTraceMesh
-    if rgiCoords ~= nil then
+    if rgiCoords ~= nil and #rgiCoords > 0 then
         local rgVxs, rgIdxs, sDrawMode = polyline('none', rgiCoords, 3, 1.0, false)
         for i=1,#rgVxs,4 do
           rgVxs[i + 0][3], rgVxs[i + 0][4] = 0, 0

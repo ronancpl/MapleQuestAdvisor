@@ -11,6 +11,7 @@
 --]]
 
 require("router.constants.quest")
+require("router.procedures.constant")
 
 local function calc_single_fitness(pTypeFit, sTypeTag)
     local iTypeBoost = pTypeFit[sTypeTag]
@@ -35,7 +36,7 @@ local rgpTypeFit = {RQuest.ITEMS.EQUIP, RQuest.ITEMS.USE, RQuest.ITEMS.SETUP, RQ
 local sFitType = "Boost"
 
 function calc_item_fitness(iId, iCount)
-    local iType = math.floor(iId / 1000000)
+    local iType = math.iclamp(math.floor(iId / 1000000), 1, 5)
 
     local iValue = calc_type_fitness(rgpTypeFit, sFitType, iType, iCount)
     return iValue

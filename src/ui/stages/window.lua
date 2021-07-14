@@ -12,6 +12,9 @@
 
 require("ui.interaction.handler")
 require("ui.interaction.window")
+require("ui.run.control.player")
+require("ui.run.control.rates")
+require("ui.run.control.route")
 require("ui.run.load.basic")
 require("ui.run.load.inventory")
 require("ui.run.load.resource")
@@ -36,6 +39,12 @@ local function load_route_quests(pTrack)
     return pSetLeadingPath
 end
 
+local function save_to_bt(pPlayer, pUiStats)
+    save_player(pPlayer)
+    save_inventory(pPlayer)
+    save_rates(pUiStats)
+end
+
 log(LPath.INTERFACE, "load.txt", "Loading action handler...")
 pEventHdl = CActionHandler:new()
 pEventHdl:reset()
@@ -44,6 +53,8 @@ pEventHdl:install("ui.interaction.run.inventory")
 pEventHdl:install("ui.interaction.run.stat")
 pEventHdl:install("ui.interaction.run.worldmap")
 pEventHdl:install("ui.interaction.run.resource")
+
+pPlayer = CPlayer:new({iId = 1})
 
 log(LPath.INTERFACE, "load.txt", "Loading user interface...")
 pWndHandler = CWndHandler:new()
@@ -54,75 +65,37 @@ pUiInvt = load_frame_player_inventory()
 pUiStats = load_frame_stat()
 pUiRscs = load_frame_quest_resources()
 
-pPlayer = CPlayer:new({iId = 1})
 local _, tQuests, tRoute = generate_quest_route(pPlayer, pUiWmap)
+
+local pIvtItems = pPlayer:get_items():get_inventory()
+log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring() .. "'")
+pUiInvt:update_inventory(pIvtItems)
+
+
+-- save enviroment info
+save_to_bt(pPlayer, pUiStats)
+run_route_bt_save(tRoute)
+save_board_quests(tQuests)
 
 -- load enviroment info
 run_rates_bt_load(pUiStats, pPlayer)
 run_player_bt_load(pPlayer)
 
-log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring() .. "'")
-local pIvtItems = pPlayer:get_items():get_inventory()
-pUiInvt:update_inventory(pIvtItems)
-
 local tQuests = load_board_quests()
-local pTrack, tRoute = run_route_bt_load()
+local pTrack, tRoute = run_route_bt_load(pPlayer)
+
 
 local pPath = pTrack:get_paths()[1]
 local pQuestProp = pPath:list()[1]
-local pLeRscTree = pPath:get_node_allot(1):get_resource_tree()
 
-local pRscTree = CSolverTree:new()
-pRscTree:set_field_source(pLeRscTree:get_field_source())
-pRscTree:set_field_destination(pLeRscTree:get_field_destination())
+local pRscTree = pPath:get_node_allot(1):get_resource_tree()
 
-local iVal = keys(pLeRscTree:get_field_nodes())[1]
-local pLeRscTreeRegion = pLeRscTree:get_field_node(iVal)
-
-pRscTreeRegion = CSolverTree:new()
-pRscTreeRegion:set_field_source(104000000)
-pRscTreeRegion:set_field_destination(103000000)
-
-pRscTree:add_field_node(23, pRscTreeRegion)
-
-local pRscNode1 = CSolverResource:new()
-pRscTreeRegion:add_field_node(104000400, pRscNode1)
-local rgiResourceids = {2003010001, 2003010002}
-pRscNode1:set_resources(rgiResourceids)
-
-local pRscNode2 = CSolverResource:new()
-pRscTreeRegion:add_field_node(103020000, pRscNode2)
-local rgiResourceids = {1002220000, 2003010000}
-pRscNode2:set_resources(rgiResourceids)
-
-local pRscNode3 = CSolverResource:new()
-pRscTreeRegion:add_field_node(104010000, pRscNode3)
-local rgiResourceids = {2004010000, 2004010001}
-pRscNode3:set_resources(rgiResourceids)
-
-local pRscNode4 = CSolverResource:new()
-pRscTreeRegion:add_field_node(104040000, pRscNode4)
-local rgiResourceids = {2004010002}
-pRscNode4:set_resources(rgiResourceids)
-
-local rgiResourceids = {1002220000, 2003010000, 2003010001, 2003010002, 2004010000, 2004010001, 2004010002}
-pRscTreeRegion:set_resources(rgiResourceids)
-
-local pRscNode = CSolverResource:new()
-pRscTreeRegion:add_field_node(103000000, pRscNode)
-pRscNode:set_resources({4001013000})
-
-pRscTree:make_remissive_index_resource_fields()
 pUiRscs:update_resources(pQuestProp, pRscTree)
+
+pUiStats:update_stats(pPlayer, 10, 10, 10)
 
 local sWmapName = "WorldMap010"
 log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
-
-pInfoSrv = pUiStats:get_properties():get_info_server()
-
-save_player(pPlayer)
-save_inventory(pPlayer)
-save_rates(pInfoSrv)
 
 pUiWmap:set_player(pPlayer)
 pUiWmap:update_region(sWmapName, pUiRscs)

@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
+
 local function fetch_effective_unit_count_to_item(iId, iCount, pPlayerState)
     local iRegionid = ctFieldsLandscape:get_region_by_mapid(pPlayerState:get_mapid())
 
@@ -33,7 +35,7 @@ function fetch_inventory_split_count(tiItems)
     local tiTypeCount = {}
 
     for iId, iCount in pairs(tiItems) do
-        local iType = math.floor(iId / 1000000)
+        local iType = math.iclamp(math.floor(iId / 1000000), 1, 5)
         tiTypeCount[iType] = (tiTypeCount[iType] or 0) + iCount
     end
 

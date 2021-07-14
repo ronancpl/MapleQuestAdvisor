@@ -28,6 +28,9 @@ CWndBase = createClass({
     iW,
     iH,
 
+    iMx = 0,
+    iMy = 0,
+
     pCtrlChannel = CWndChannel:new(),
     pSureChannel = CWndChannel:new()    -- for in-elements interactions only
 })
@@ -50,17 +53,17 @@ function CWndBase:_set_dimensions(iWidth, iHeight)
     self.iH = iHeight
 end
 
-function CWndBase:grab_set_position(dx, dy)
-    local iPx, iPy = self:get_position()
-    local iWx, iWy = self:get_dimensions()
-
-    self.iRx = math.iclamp(iPx + dx, 0, RWndConfig.WND_LIM_X - iWx)
-    self.iRy = math.iclamp(iPy + dy, 0, RWndConfig.WND_LIM_Y - iWy)
-end
-
 function CWndBase:fetch_relative_pos(x, y)
     local iPx, iPy = self:get_position()
     return x - iPx, y - iPy
+end
+
+function CWndBase:grab_set_position(x, y)
+    local iWx, iWy = self:get_dimensions()
+
+    local iRx = math.iclamp(x, 0, RWndConfig.WND_LIM_X - iWx)
+    local iRy = math.iclamp(y, 0, RWndConfig.WND_LIM_Y - iWy)
+    self:set_position(iRx, iRy)
 end
 
 function CWndBase:get_ltrb()
@@ -76,6 +79,8 @@ function CWndBase:_onmousemoved(x, y, dx, dy, istouch)
 end
 
 function CWndBase:_onmousepressed(x, y, button)
+    self.iMx, self.iMy = self:fetch_relative_pos(x, y)
+
     self.pCtrlChannel:onmousepressed(x, y, button)
     self.pSureChannel:onmousepressed(x, y, button, true)
 end
@@ -126,20 +131,20 @@ function CWndBase:fn_close()
 end
 
 function CWndBase:_fn_set_position()
-    return function(dx, dy)
-        self:grab_set_position(dx, dy)
+    return function(x, y)
+        self:grab_set_position(x, y)
     end
 end
 
 function CWndBase:_fn_register_sure()
     return function(pElem)
-        self.pSureChannel:add_element(pElem)
+        --self.pSureChannel:add_element(pElem)
     end
 end
 
 function CWndBase:_fn_unregister_sure()
     return function(pElem)
-        self.pSureChannel:remove_element(pElem)
+        --self.pSureChannel:remove_element(pElem)
     end
 end
 

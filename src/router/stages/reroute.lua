@@ -62,7 +62,12 @@ local function find_quest_by_name(sQuestName)
     return pQuestProp
 end
 
-function csv_read_route_quest_path(rgsLines)
+local function load_quest_roll(pQuestProp, pPlayerState)
+    local _, pQuestRoll = evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
+    return pQuestRoll
+end
+
+function csv_read_route_quest_path(rgsLines, pPlayerState)
     local pLeadingPath = make_leading_paths()
     for _, sLine in ipairs(rgsLines) do
         local rgsLineSp = split_csv(sLine)
@@ -78,7 +83,9 @@ function csv_read_route_quest_path(rgsLines)
             local fValIdx = tonumber(rgsLineSp[i + 1])
 
             local pQuestProp = find_quest_by_name(sQuestName)
-            pQuestPath:add(pQuestProp, nil, fValIdx)
+            local pQuestRoll = load_quest_roll(pQuestProp, pPlayerState)
+
+            pQuestPath:add(pQuestProp, pQuestRoll, fValIdx)
         end
 
         pLeadingPath:insert(pQuestPath, fVal)
@@ -87,8 +94,8 @@ function csv_read_route_quest_path(rgsLines)
     return pLeadingPath
 end
 
-local function load_quest_paths(rgsLines)
-    local pLeadingPath = csv_read_route_quest_path(rgsLines)
+local function load_quest_paths(rgsLines, pPlayer)
+    local pLeadingPath = csv_read_route_quest_path(rgsLines, pPlayer)
 
     local rgpPaths = SArray:new()
     for _, pPath in ipairs(pLeadingPath:list()) do
@@ -192,7 +199,7 @@ local function filter_route_paths(pLeadingPath)
 end
 
 function load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
-    local rgpFixedPaths = load_quest_paths(rgsPaths)
+    local rgpFixedPaths = load_quest_paths(rgsPaths, pPlayer)
 
     log(LPath.OVERALL, "log.txt", "Load route quest board... (" .. tQuests:size() .. " quests)")
 

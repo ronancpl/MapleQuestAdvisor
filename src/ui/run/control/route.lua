@@ -52,7 +52,7 @@ function save_board_quests(tQuests)
     end
 end
 
-local function load_route_quests()
+local function load_route_quests(pPlayer)
     local rgsLines = {}
 
     local fIn = io.open("../" .. RPath.SAV_ROUTE, "r")
@@ -64,12 +64,12 @@ local function load_route_quests()
         io.close(fIn)
     end
 
-    local tRoute = csv_read_route_quest_path(rgsLines)
+    local tRoute = csv_read_route_quest_path(rgsLines, pPlayer)
     return tRoute
 end
 
-local function load_track_lane()
-    local tRoute = load_route_quests()
+local function load_track_lane(pPlayer)
+    local tRoute = load_route_quests(pPlayer)
     local pRouteLane = generate_subpath_lane(tRoute)
 
     local pTrack = CTracePath:new()
@@ -78,8 +78,8 @@ local function load_track_lane()
     return pTrack, tRoute
 end
 
-function run_route_bt_load()  -- loads last quest laning action
-    local pTrack, tRoute = load_track_lane()
+function run_route_bt_load(pPlayer)  -- loads last quest laning action
+    local pTrack, tRoute = load_track_lane(pPlayer)
     return pTrack, tRoute
 end
 

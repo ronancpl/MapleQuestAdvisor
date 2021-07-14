@@ -135,7 +135,7 @@ end
 local function update_inventory_tabs(pVwInvt, pInvt)
     local tpVwItems = {}
     for iId, iCount in pairs(pInvt:get_items()) do
-        local siType = math.floor(iId / 1000000)
+        local siType = math.iclamp(math.floor(iId / 1000000), 1, 5)
 
         local pVwItem = CInvtElemItem:new()
         pVwItem:load(iId, iCount)

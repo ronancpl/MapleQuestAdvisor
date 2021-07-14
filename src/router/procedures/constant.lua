@@ -28,6 +28,10 @@ function get_region_id(iMapid)
 end
 
 function math.iclamp(val, min, max)
+    if min > max then
+        error("[ERROR] ICLAMP: Minimum value provided is higher than maximum.")
+    end
+
     return math.floor(math.min(math.max(val, min), max))
 end
 

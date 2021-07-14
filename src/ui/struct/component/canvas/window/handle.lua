@@ -29,9 +29,9 @@ function CHandleElem:get_origin()
     return self.eBox:get_origin()
 end
 
-function CHandleElem:set_origin(dx, dy)
+function CHandleElem:set_origin(x, y)
     local m_fn_act = self.fn_act    -- in-canvas relative pos unchanged, whole canvas pos changes
-    m_fn_act(dx, dy)
+    m_fn_act(x, y)
 end
 
 function CHandleElem:set_fn_trigger(fn_act)
@@ -48,7 +48,7 @@ end
 
 function CHandleElem:onmousemoved(x, y, dx, dy, istouch)
     if love.mouse.isDown(1) == true then
-        self:set_origin(dx, dy)
+        self:set_origin(x, y)
     end
 end
 

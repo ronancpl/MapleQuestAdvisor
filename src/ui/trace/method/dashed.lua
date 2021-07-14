@@ -93,8 +93,8 @@ local function calc_line_segments(x1, y1, x2, y2, iSgmts)
 
     local rgCoords = {}
     for i = 0, iSgmts, 1 do
-        local cx = x1 + (i * dx)
-        local cy = y1 + (i * dy)
+        local cx = math.floor(x1 + (i * dx))
+        local cy = math.floor(y1 + (i * dy))
 
         table.insert(rgCoords, cx)
         table.insert(rgCoords, cy)
