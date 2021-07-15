@@ -59,11 +59,13 @@ function CWndBase:fetch_relative_pos(x, y)
 end
 
 function CWndBase:grab_set_position(x, y)
-    local iWx, iWy = self:get_dimensions()
+    if pWndHandler:is_focus_wnd(pWnd) then
+        local iWx, iWy = self:get_dimensions()
 
-    local iRx = math.iclamp(x, 0, RWndConfig.WND_LIM_X - iWx)
-    local iRy = math.iclamp(y, 0, RWndConfig.WND_LIM_Y - iWy)
-    self:set_position(iRx, iRy)
+        local iRx = math.iclamp(x - self.iMx, 0, RWndConfig.WND_LIM_X - iWx)
+        local iRy = math.iclamp(y - self.iMy, 0, RWndConfig.WND_LIM_Y - iWy)
+        self:set_position(iRx, iRy)
+    end
 end
 
 function CWndBase:get_ltrb()
@@ -104,7 +106,7 @@ function CWndBase:close()
 end
 
 function CWndBase:open()
-    pWndHandler:set_opened(self)
+    --pWndHandler:set_opened(self)
 end
 
 function CWndBase:get_bt_close()
@@ -138,13 +140,13 @@ end
 
 function CWndBase:_fn_register_sure()
     return function(pElem)
-        --self.pSureChannel:add_element(pElem)
+        self.pSureChannel:add_element(pElem)
     end
 end
 
 function CWndBase:_fn_unregister_sure()
     return function(pElem)
-        --self.pSureChannel:remove_element(pElem)
+        self.pSureChannel:remove_element(pElem)
     end
 end
 

@@ -97,7 +97,7 @@ function CWndHandler:list_opened()
     return rgpOpenWnds
 end
 
-local function is_mouse_in_range(pUiWnd, x, y)
+function CWndHandler:_is_mouse_in_range(pUiWnd, x, y)
     local iLx, iTy, iRx, iBy = pUiWnd:get_ltrb()
     return math.between(x, iLx, iRx) and math.between(y, iTy, iBy)
 end
@@ -106,11 +106,13 @@ function CWndHandler:get_focus_wnd()
     return self.pFocusUiWnd
 end
 
+end
+
 function CWndHandler:_find_mouse_focus_wnd(x, y)
     local rgpWndOpened = self:list_opened()
     for i = #rgpWndOpened, 1, -1 do
         local pUiWnd = rgpWndOpened[i]
-        if is_mouse_in_range(pUiWnd, x, y) then
+        if self:_is_mouse_in_range(pUiWnd, x, y) then
             return pUiWnd
         end
     end
@@ -120,7 +122,7 @@ end
 
 function CWndHandler:_is_mouse_in_wnd(x, y)
     local m_pFocusUiWnd = self.pFocusUiWnd
-    return m_pFocusUiWnd ~= nil and is_mouse_in_range(m_pFocusUiWnd, x, y)
+    return m_pFocusUiWnd ~= nil and self:_is_mouse_in_range(m_pFocusUiWnd, x, y)
 end
 
 function CWndHandler:on_mousemoved(x, y, dx, dy, istouch)
@@ -128,7 +130,7 @@ function CWndHandler:on_mousemoved(x, y, dx, dy, istouch)
         self.bUpdFocus = true
     end
 
-    if self.bUpdFocus then
+    if true then
         local pUiWnd = self:_find_mouse_focus_wnd(x, y)
         if pUiWnd ~= nil then
             self.pFocusUiWnd = pUiWnd

@@ -71,6 +71,7 @@ local pIvtItems = pPlayer:get_items():get_inventory()
 log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring() .. "'")
 pUiInvt:update_inventory(pIvtItems)
 
+--[[
 
 -- save enviroment info
 save_to_bt(pPlayer, pUiStats)
@@ -83,12 +84,17 @@ run_player_bt_load(pPlayer)
 
 local tQuests = load_board_quests()
 local pTrack, tRoute = run_route_bt_load(pPlayer)
+]]--
 
+local pTrack = pUiWmap:get_properties():get_quest_route()
 
 local pPath = pTrack:get_paths()[1]
 local pQuestProp = pPath:list()[1]
 
 local pRscTree = pPath:get_node_allot(1):get_resource_tree()
+if pRscTree == nil then
+    pRscTree = CSolverTree:new()
+end
 
 pUiRscs:update_resources(pQuestProp, pRscTree)
 

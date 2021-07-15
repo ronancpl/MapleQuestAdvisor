@@ -101,15 +101,14 @@ end
 function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     route_quest_permit_complete(pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
-    local pQuestRoll
-    local fValue
-    fValue, pQuestRoll = evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
+    local fValue, pQuestRoll = evaluate_quest_utility(ctFieldsDist, ctAccessors, ctPlayersMeta, pQuestProp, pPlayerState)
     fValue = math.max(fValue, 0.001)
 
     pCurrentPath:add(pQuestProp, pQuestRoll, fValue)
 
     if pCurrentPath:value() > pLeadingPath:get_base_value() then    -- try add, ignores if not meet leaderboard
-        pLeadingPath:insert(route_path_copy(pCurrentPath), pCurrentPath:value())
+        local pPath = route_path_copy(pCurrentPath)
+        pLeadingPath:insert(pPath, pCurrentPath:value())
     end
 
     local iPathSize = pCurrentPath:size()

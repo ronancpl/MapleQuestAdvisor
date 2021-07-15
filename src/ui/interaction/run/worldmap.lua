@@ -10,15 +10,15 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.interaction.run.window")
+
 local function fetch_ui_window()
     return pUiWmap
 end
 
 function on_mousemoved(x, y, dx, dy, istouch)
     local pUiWnd = fetch_ui_window()
-
-    if pUiWnd:is_closed() then return end
-    pUiWnd:onmousemoved(x, y, dx, dy, istouch)
+    _on_mousemoved(pUiWnd, x, y, dx, dy, istouch)
 end
 
 function on_mousepressed(x, y, button)
@@ -30,17 +30,15 @@ function on_mousepressed(x, y, button)
         pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_DOWN)
     end
 
-    pUiWnd:onmousepressed(x, y, button)
+    _on_mousepressed(pUiWnd, x, y, button)
 end
 
 function on_mousereleased(x, y, button)
     local pUiWnd = fetch_ui_window()
+    _on_mousereleased(pUiWnd, x, y, button)
+end
 
-    if pUiWnd:is_closed() then return end
-
-    if button == 1 then
-        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
-    end
-
-    pUiWnd:onmousereleased(x, y, button)
+function on_wheelmoved(dx, dy)
+    local pUiWnd = fetch_ui_window()
+    _on_wheelmoved(pUiWnd, dx, dy)
 end

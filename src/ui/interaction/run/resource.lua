@@ -10,34 +10,28 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.interaction.run.window")
+
 local function fetch_ui_window()
     return pUiRscs
 end
 
 function on_mousemoved(x, y, dx, dy, istouch)
     local pUiWnd = fetch_ui_window()
-
-    if pUiWnd:is_closed() then return end
-    pUiWnd:onmousemoved(x, y, dx, dy, istouch)
+    _on_mousemoved(pUiWnd, x, y, dx, dy, istouch)
 end
 
 function on_mousepressed(x, y, button)
     local pUiWnd = fetch_ui_window()
-
-    if pUiWnd:is_closed() then return end
-    pUiWnd:onmousepressed(x, y, button)
+    _on_mousepressed(pUiWnd, x, y, button)
 end
 
 function on_mousereleased(x, y, button)
     local pUiWnd = fetch_ui_window()
-
-    if pUiWnd:is_closed() then return end
-    pUiWnd:onmousereleased(x, y, button)
+    _on_mousereleased(pUiWnd, x, y, button)
 end
 
 function on_wheelmoved(dx, dy)
     local pUiWnd = fetch_ui_window()
-
-    if pUiWnd:is_closed() then return end
-    pUiWnd:onwheelmoved(dx, dy)
+    _on_wheelmoved(pUiWnd, dx, dy)
 end

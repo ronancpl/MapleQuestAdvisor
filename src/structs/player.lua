@@ -60,26 +60,19 @@ function CPlayer:_update_exp_over_level(bUndo, iExpOver)
 end
 
 function CPlayer:_update_exp()
-    if self.liExpUpdt >= 0 and self.liExpUpdt < ctPlayersMeta:get_exp_to_next_level(self.siLevel) then
-        self.liExp = self.liExpUpdt
-    else
-        local iExpOver = self.liExpUpdt - (self.liExpUpdt >= 0 and self.liExp or 0)
-
-        local iExpSt = self.liExp
-        while true do
-            if iExpOver < 0 then
-                iExpSt = 0
-                iExpOver = self:_update_exp_over_level(true, iExpOver)
-            elseif iExpSt + iExpOver >= ctPlayersMeta:get_exp_to_next_level(self.siLevel) then
-                iExpSt = 0
-                iExpOver = self:_update_exp_over_level(false, iExpOver)
-            else
-                break
-            end
+    local iExpOver = self.liExpUpdt
+    while true do
+        if iExpOver < 0 then
+            iExpOver = self:_update_exp_over_level(true, iExpOver)
+        elseif iExpOver >= ctPlayersMeta:get_exp_to_next_level(self.siLevel) then
+            iExpOver = self:_update_exp_over_level(false, iExpOver)
+        else
+            break
         end
-
-        self.liExp = iExpOver
     end
+
+    self.liExp = iExpOver
+    self.liExpUpdt = self.liExp
 end
 
 function CPlayer:get_level()
@@ -101,7 +94,7 @@ function CPlayer:set_exp(liExp)
 end
 
 function CPlayer:add_exp(liExp)
-    self.liExpUpdt = self.liExp + liExp
+    self.liExpUpdt = self.liExpUpdt + liExp
     self:_update_exp()
 end
 
