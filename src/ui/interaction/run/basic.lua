@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.path")
+
 function on_mousepressed(x, y, button)
     if button == 1 then
         pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_DOWN)
@@ -18,6 +20,6 @@ end
 
 function on_mousereleased(x, y, button)
     if button == 1 then
-        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
+        pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_DOWN)
     end
 end

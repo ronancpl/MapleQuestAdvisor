@@ -43,8 +43,6 @@ local function fetch_minitable_headers(pVwRscs)
     local rgpTabConfVw = {pTableConfVw.ITEMS, pTableConfVw.MOBS, pTableConfVw.NPCS, pTableConfVw.FIELD_ENTER}
     local rgfn_get_entry_rsc = {fn_get_items, fn_get_mobs, fn_get_npcs, fn_get_fields}
 
-    local rgpTabsVw = pVwRscs:get_tab_items()
-
     local rgpActiveTabConfVw = {}
     local rgpActiveTabsVw = {}
 
@@ -63,7 +61,11 @@ local function fetch_minitable_headers(pVwRscs)
     return pTableConfVw, rgpActiveTabConfVw, rgpActiveTabsVw
 end
 
-local function fetch_tab_position(pTableConfVw, siTabIdx)
+local function fetch_tab_position(pTableConfVw, rgpTabConfVw, siTabIdx)
+    if rgpTabConfVw ~= nil and #rgpTabConfVw < 3 then       -- head start at half table
+        siTabIdx = siTabIdx + 2
+    end
+
     local iW2 = math.ceil(pTableConfVw.W / 2)
     local iH2 = math.ceil(pTableConfVw.H / 2)
 
@@ -80,11 +82,11 @@ function load_minitable_tab_background(pVwRscs)
     local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = pTextureData:get()
 
     local pTableConfVw
-    pTableConfVw, _, _ = fetch_minitable_headers(pVwRscs)
+    pTableConfVw, rgpTabConfVw, _ = fetch_minitable_headers(pVwRscs)
 
     local rgeTextures = {}
     for i = 1, 4, 1 do
-        local iTx, iTy = fetch_tab_position(pTableConfVw, i)
+        local iTx, iTy = fetch_tab_position(pTableConfVw, rgpTabConfVw, i)
 
         local eTexture = CTextureElem:new()
         eTexture:load(iTx, iTy, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
@@ -105,13 +107,17 @@ function fetch_table_dimensions(pVwRscs)
     local rgpTabConfVw
     pTableConfVw, rgpTabConfVw, _ = fetch_minitable_headers(pVwRscs)
 
-    local iRightTab = math.max(#rgpTabConfVw, 2)
-    local iTx, iTy = fetch_tab_position(pTableConfVw, iRightTab)
+    local nTabs = #rgpTabConfVw
+    if nTabs > 0 then
+        local iTx, iTy = fetch_tab_position(pTableConfVw, nil, nTabs)
 
-    local iW2 = math.ceil(pTableConfVw.W / 2)
-    local iH2 = math.ceil(pTableConfVw.H / 2)
+        local iW2 = math.ceil(pTableConfVw.W / 2)
+        local iH2 = math.ceil(pTableConfVw.H / 2)
 
-    return iTx + iW2, iTy + iH2
+        return pTableConfVw.W - iTx, iH2 - iTy
+    else
+        return 0, 0
+    end
 end
 
 local function fetch_tab_item_position(pTableConfVw, rgpTabConfVw, siTabIdx)
@@ -120,7 +126,7 @@ local function fetch_tab_item_position(pTableConfVw, rgpTabConfVw, siTabIdx)
     local iPx = 0
     local iPy = 0
 
-    local iTx, iTy = fetch_tab_position(pTableConfVw, siTabIdx)
+    local iTx, iTy = fetch_tab_position(pTableConfVw, rgpTabConfVw, siTabIdx)
     iPx = iPx + iTx
     iPy = iPy + iTy
 

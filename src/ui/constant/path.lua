@@ -28,10 +28,12 @@ RWndPath = {
     INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
 
     MOUSE = {
-        BT_DOWN = "12",
-        BT_GAME = "2",
-        BT_NORMAL = "0",
-        BT_CLICKABLE = "4"
+        BT_DOWN = 12,
+        BT_GAME = 2,
+        BT_NORMAL = 0,
+        BT_CLICKABLE = 4,
+        BT_SCROLL_X = 8,
+        BT_SCROLL_Y = 7
     },
 
     -- Misc

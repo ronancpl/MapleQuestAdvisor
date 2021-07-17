@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.path")
 require("ui.struct.component.basic.base")
 require("ui.run.draw.canvas.slider.slider")
 require("ui.run.update.canvas.position")
@@ -31,6 +32,10 @@ CSliderElem = createClass({
 
     bVert
 })
+
+function CSliderElem:get_object()
+    return self
+end
 
 function CSliderElem:get_origin()
     return self.eElem:get_pos()
@@ -104,12 +109,36 @@ function CSliderElem:set_num_segments(iCount)
     end
 end
 
-function CSliderElem:get_orientation()
+function CSliderElem:is_vert()
     return self.bVert
 end
 
 function CSliderElem:_set_orientation(bVert)
     self.bVert = bVert
+end
+
+function CSliderElem:get_ltrb()
+    local iLx, iTy = self:get_origin()
+    local iRx, iBy
+
+    local iLen = self:get_bar_length()
+
+    local iGir = self:get_arrow_girth()
+
+    local bVert = self:is_vert()
+    if bVert then
+        iLx = iLx - math.ceil(iGir / 2)
+
+        iRx = iLx + iGir
+        iBy = iTy + iLen
+    else
+        iTy = iTy - math.ceil(iGir / 2)
+
+        iRx = iLx + iLen
+        iBy = iTy + iGir
+    end
+
+    return iLx, iTy, iRx, iBy
 end
 
 local function make_thumb_texture(pImgThumb)
@@ -199,18 +228,118 @@ function CSliderElem:_calc_segment_size(iLen)
     return iSgmt
 end
 
+local function is_in_range(x, y, iLx, iTy, iRx, iBy)
+    return math.between(x, iLx, iRx) and math.between(y, iTy, iBy)
+end
+
+local function is_mouse_in_range(pElem, x, y)
+    local iLx, iTy, iRx, iBy = pElem:get_ltrb()
+    return is_in_range(x, y, iLx, iTy, iRx, iBy)
+end
+
+function CSliderElem:_get_current_state(sSliderState)
+    if sSliderState ~= RSliderState.DISABLED then
+        local x, y = love.mouse.getPosition()
+        if is_mouse_in_range(self, x, y) then
+            sSliderState = RSliderState.MOUSE_OVER
+        end
+    end
+
+    return sSliderState
+end
+
 function CSliderElem:update_state(sSliderState)
+    sSliderState = self:_get_current_state(sSliderState)
+
     self:_load_bar(sSliderState)
     self:_load_thumb(sSliderState)
     self:_load_arrows(sSliderState)
 end
 
+function CSliderElem:onmousehoverin()
+    if self:is_vert() then
+        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_SCROLL_Y)
+    else
+        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_SCROLL_X)
+    end
+end
+
+function CSliderElem:onmousehoverout()
+    if self:is_vert() then
+        pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_SCROLL_Y)
+    else
+        pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_SCROLL_X)
+    end
+end
+
+function CSliderElem:get_arrow_positions()
+    local bVert = self:is_vert()
+
+    local iRx = 0
+    local iRy = 0
+
+    local pImgFilBase = self:get_bar()
+    local _, iFilMidGir = pImgFilBase:getDimensions()
+
+    local iX, iY = self:get_origin()
+    local iPx, iPy = iX, iY
+
+    local iBarLen = self:get_bar_length()
+
+    local iArrLen = self:get_arrow_length()
+    local iArrGir = self:get_arrow_girth()
+
+    if bVert then
+        iPx = iPx - math.ceil(iFilMidGir / 2)
+        iPy = iPy + iArrGir
+
+        iRy = iBarLen - iArrGir
+    else
+        iPx = iPx + iArrGir
+        iPy = iPy - math.ceil(iFilMidGir / 2)
+
+        iRx = iBarLen - iArrGir
+    end
+
+    return iPx, iPy, iPx + iRx, iPy + iRy
+end
+
+function CSliderElem:onmousereleased(x, y, button)
+    local iNx, iNy, iPx, iPy = self:get_arrow_positions()
+    local bVert = self:is_vert()
+
+    local iX, iY
+    if bVert then
+        iX = self:get_arrow_length()
+        iY = self:get_arrow_girth()
+
+        iNy = iNy - iY
+        iPy = iPy - iY
+    else
+        iX = self:get_arrow_girth()
+        iY = self:get_arrow_length()
+
+        iNx = iNx - iX
+        iPx = iPx - iX
+    end
+
+    if is_in_range(x, y, iNx, iNy, iNx + iX, iNy + iY) then
+        local pInvt = pUiInvt:get_properties():get_inventory()
+        pInvt:_update_row(1)
+    elseif is_in_range(x, y, iPx, iPy, iPx + iX, iPy + iY) then
+        local pInvt = pUiInvt:get_properties():get_inventory()
+        pInvt:_update_row(-1)
+    end
+end
+
 function CSliderElem:load(sSliderState, iLen, bDefWidth, bVert, rX, rY)
     self.eElem:load(rX, rY)
-    self:update_state(sSliderState)
+    self:update_state(RSliderState.DISABLED)
 
     local nSgmts = self:_calc_segment_size(iLen)
     self:_update_slider(iLen, nSgmts, bDefWidth, bVert)
+
+    self:update_state(sSliderState)
 end
 
 function CSliderElem:update(dt)

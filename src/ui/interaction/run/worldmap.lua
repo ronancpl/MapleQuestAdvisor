@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("ui.constant.path")
 require("ui.interaction.run.window")
 
 local function fetch_ui_window()
@@ -23,13 +24,6 @@ end
 
 function on_mousepressed(x, y, button)
     local pUiWnd = fetch_ui_window()
-
-    if pUiWnd:is_closed() then return end
-
-    if button == 1 then
-        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_DOWN)
-    end
-
     _on_mousepressed(pUiWnd, x, y, button)
 end
 

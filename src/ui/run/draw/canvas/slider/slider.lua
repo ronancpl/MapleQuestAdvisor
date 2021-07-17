@@ -14,13 +14,13 @@ require("ui.constant.view.inventory")
 require("ui.struct.toolkit.graphics")
 
 local function fetch_draw_rotation(pVwSlider)
-    local bVert = pVwSlider:get_orientation()
+    local bVert = pVwSlider:is_vert()
     return bVert and (3 / 2) * math.pi or 0
 end
 
 local function calc_slider_bar_fit(pVwSlider, iFilLen)
     local iLoop = math.ceil(pVwSlider:get_bar_length() / iFilLen)
-    local bVert = pVwSlider:get_orientation()
+    local bVert = pVwSlider:is_vert()
 
     return iLoop, bVert
 end
@@ -103,51 +103,24 @@ local function draw_slider_bar(pVwSlider)
 end
 
 local function draw_slider_arrow(pVwSlider)
-    local bVert = pVwSlider:get_orientation()
-
-    local iRx = 0
-    local iRy = 0
-
-    local pImgFilBase = pVwSlider:get_bar()
-    local _, iFilMidGir = pImgFilBase:getDimensions()
-
-    local iX, iY = pVwSlider:get_origin()
-    local iPx, iPy = iX, iY
-
-    local iBarLen = pVwSlider:get_bar_length()
-
-    local iArrLen = pVwSlider:get_arrow_length()
-    local iArrGir = pVwSlider:get_arrow_girth()
-
-    if bVert then
-        iPx = iPx - math.ceil(iFilMidGir / 2)
-        iPy = iPy + iArrGir
-
-        iRy = iBarLen - iArrGir
-    else
-        iPx = iPx + iArrGir
-        iPy = iPy - math.ceil(iFilMidGir / 2)
-
-        iRx = iBarLen - iArrGir
-    end
-
+    local iNx, iNy, iPx, iPy = pVwSlider:get_arrow_positions()
     local iR = fetch_draw_rotation(pVwSlider)
 
     local pImgNext = pVwSlider:get_next()
-    graphics_draw(pImgNext, iPx, iPy, iR)
+    graphics_draw(pImgNext, iNx, iNy, iR)
 
     local pImgPrev = pVwSlider:get_prev()
-    graphics_draw(pImgPrev, iPx + iRx, iPy + iRy, iR)
+    graphics_draw(pImgPrev, iPx, iPy, iR)
 end
 
 local function calc_slider_thumb_pos(pVwSlider)
-    local iCur = pVwSlider:get_current()
-    local iTotal = pVwSlider:get_num_segments()
+    local iCur = pVwSlider:get_current() - 1
+    local iTotal = pVwSlider:get_num_segments() - 1
 
     local iPos
 
     local iRollLen = pVwSlider:get_trail_length()
-    if iCur <= 1 then
+    if iCur <= 0 then
         local iThumbGir = pVwSlider:get_thumb_girth()
         iPos = math.ceil(iThumbGir / 2)
     elseif iCur >= iTotal then
@@ -163,7 +136,7 @@ end
 local function draw_slider_thumb(pVwSlider)
     local iArrLen = pVwSlider:get_arrow_length()
 
-    local bVert = pVwSlider:get_orientation()
+    local bVert = pVwSlider:is_vert()
 
     local iX, iY = pVwSlider:get_origin()
 

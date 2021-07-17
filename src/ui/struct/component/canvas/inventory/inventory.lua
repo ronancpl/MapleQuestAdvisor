@@ -155,6 +155,16 @@ function CInvtElem:_try_click_tab(iPx, iPy)
     end
 end
 
+function CInvtElem:_update_row(iDlt)
+    local iNextSlct = self:get_row_selected() + iDlt
+
+    update_row_for_inventory(self, iNextSlct)
+    iNextSlct = self:get_row_selected()
+
+    local m_pSlider = self.pSlider
+    m_pSlider:set_current(iNextSlct)
+end
+
 function CInvtElem:onmousereleased(x, y, button)
     local iTabWidth = RInventory.VW_INVT_TAB.W
     local iTabHeight = RInventory.VW_INVT_TAB.H
@@ -168,13 +178,6 @@ function CInvtElem:onwheelmoved(dx, dy)
     local iAdy = math.abs(dy)
     if iAdy >= LInput.MOUSE_WHEEL_MOVE_DY then
         local iDlt = -1 * (dy / iAdy)   -- increase on roll-down
-
-        local iNextSlct = self:get_row_selected() + iDlt
-
-        update_row_for_inventory(self, iNextSlct)
-        iNextSlct = self:get_row_selected()
-
-        local m_pSlider = self.pSlider
-        m_pSlider:set_current(iNextSlct)
+        self:_update_row(iDlt)
     end
 end

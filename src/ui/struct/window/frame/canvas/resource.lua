@@ -168,23 +168,17 @@ end
 
 function CWndResource:onmousemoved(x, y, dx, dy, istouch)
     self:_onmousemoved(x, y, dx, dy, istouch)
-
-    local iPx, iPy = self:fetch_relative_pos(x, y)
-    self.pCanvas:onmousemoved(iPx, iPy, dx, dy, istouch)
+    self.pCanvas:onmousemoved(x, y, dx, dy, istouch)
 end
 
 function CWndResource:onmousepressed(x, y, button)
     self:_onmousepressed(x, y, button)
-
-    local iPx, iPy = self:fetch_relative_pos(x, y)
-    self.pCanvas:onmousepressed(iPx, iPy, button)
+    self.pCanvas:onmousepressed(x, y, button)
 end
 
 function CWndResource:onmousereleased(x, y, button)
     self:_onmousereleased(x, y, button)
-
-    local iPx, iPy = self:fetch_relative_pos(x, y)
-    self.pCanvas:onmousereleased(iPx, iPy, button)
+    self.pCanvas:onmousereleased(x, y, button)
 end
 
 function CWndResource:onwheelmoved(dx, dy)

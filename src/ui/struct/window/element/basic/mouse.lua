@@ -18,17 +18,83 @@ require("ui.run.build.interface.storage.split")
 require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 
+local bit = require("bit")
+
 CCursorElem = createClass({
     eDynam = CDynamicElem:new(),
-    pCurMouse
+    pCurMouse,
+    btState = 0,
+    bScrollVert,
+    iCursorId = -1
 })
 
-function CCursorElem:load_mouse(sCursorName)
-    local rgpCursorQuads = ctVwCursor:get_mouse_animation(sCursorName)
+function CCursorElem:_reset_state_bitfield()
+    self.btState = bit.tobit(0)
+end
 
-    self.eDynam:load(0, 0, rgpCursorQuads)
-    --self.eDynam:instantiate()
-    self.eDynam:after_load()
+function CCursorElem:_update_state_bitfield(iId, bApply)
+    local m_btState = self.btState
+    if bApply then
+        local btOpt = bit.lshift(1, iId)
+        self.btState = bit.bor(m_btState, btOpt)
+    else
+        local btOpt = bit.bnot(bit.lshift(1, iId))
+        self.btState = bit.band(m_btState, btOpt)
+    end
+end
+
+RMouseState = {
+    PRESSED = 0,
+    SCROLL = 1,
+    CLICKABLE = 2
+}
+
+function CCursorElem:_update_state_mouse(iOpt)
+    local iCursorId = math.abs(iOpt)
+    if iCursorId == RWndPath.MOUSE.BT_DOWN then
+        self:_update_state_bitfield(RMouseState.PRESSED, iOpt > 0)
+    elseif iCursorId == RWndPath.MOUSE.BT_SCROLL_X or iCursorId == RWndPath.MOUSE.BT_SCROLL_Y then
+        self.bScrollVert = iCursorId == RWndPath.MOUSE.BT_SCROLL_Y
+        self:_update_state_bitfield(RMouseState.SCROLL, iOpt > 0)
+    elseif iCursorId == RWndPath.MOUSE.BT_CLICKABLE then
+        self:_update_state_bitfield(RMouseState.CLICKABLE, iOpt > 0)
+    elseif iCursorId == RWndPath.MOUSE.BT_NORMAL then
+        self:_reset_state_bitfield()
+    end
+end
+
+function CCursorElem:_fetch_mouse_state(iCursorOpt)
+    local iUpdateCursorId = math.abs(iCursorOpt)
+
+    local m_btState = self.btState
+    if bit.band(m_btState, bit.lshift(1, RMouseState.PRESSED)) ~= 0 then
+        return RWndPath.MOUSE.BT_DOWN
+    elseif bit.band(m_btState, bit.lshift(1, RMouseState.SCROLL)) ~= 0 then
+        return self.bScrollVert and RWndPath.MOUSE.BT_SCROLL_Y or RWndPath.MOUSE.BT_SCROLL_X
+    elseif bit.band(m_btState, bit.lshift(1, RMouseState.CLICKABLE)) ~= 0 then
+        return RWndPath.MOUSE.BT_CLICKABLE
+    else
+        return RWndPath.MOUSE.BT_NORMAL
+    end
+end
+
+function CCursorElem:_fetch_state(iCursorOpt)
+    self:_update_state_mouse(iCursorOpt)
+
+    local iNextCursorId = self:_fetch_mouse_state(iCursorOpt)
+    return iNextCursorId
+end
+
+function CCursorElem:load_mouse(iCursorOpt)
+    local iNewCursorId = self:_fetch_state(iCursorOpt)
+    if self.iCursorId ~= iNewCursorId then
+        self.iCursorId = iNewCursorId
+
+        local rgpCursorQuads = ctVwCursor:get_mouse_animation(iNewCursorId)
+        self.eDynam:load(0, 0, rgpCursorQuads)
+        --self.eDynam:instantiate()
+        self.eDynam:after_load()
+    end
 end
 
 function CCursorElem:_refresh_cursor()

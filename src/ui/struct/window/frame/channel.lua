@@ -68,9 +68,9 @@ function CWndChannel:reset_elements()
     clear_table(m_tpElemHover)
 end
 
-local function is_mouse_in_range(pElem, x, y, wx, wy)
+local function is_mouse_in_range(pElem, x, y)
     local iLx, iTy, iRx, iBy = pElem:get_object():get_ltrb()
-    return math.between(x, iLx + wx, iRx + wx) and math.between(y, iTy + wy, iBy + wy)
+    return math.between(x, iLx, iRx) and math.between(y, iTy, iBy)
 end
 
 function CWndChannel:_update_state_hover(pElem, bHover)
@@ -100,12 +100,37 @@ function CWndChannel:_in_onmousemoved(pElem, x, y, dx, dy, istouch)
     end
 end
 
-function CWndChannel:onmousemoved(x, y, dx, dy, istouch, bToAll)
-    local iRx, iRy = read_canvas_position()
+local function list_interactive_elements(pElem)
+    local rgpInterElems = {}
+
+    table.insert(rgpInterElems, pElem)
+    if pElem.pSlider ~= nil then table.insert(rgpInterElems, pElem.pSlider) end
+
+    return rgpInterElems
+end
+
+function CWndChannel:_list_interactive_elements()
+    local rgpElems = {}
 
     local m_tpRegisteredElements = self.tpRegisteredElements
-    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
-        local bHover = is_mouse_in_range(pElem, x, y, iRx, iRy)
+    for pElem, _ in pairs(m_tpRegisteredElements) do
+        for _, pInterElem in ipairs(list_interactive_elements(pElem)) do
+            table.insert(rgpElems, pInterElem)
+        end
+        table.insert(rgpElems, Elem)
+    end
+
+    return rgpElems
+end
+
+function CWndChannel:onmousemoved(x, y, dx, dy, istouch, bToAll)
+    local m_tpRegisteredElements = self.tpRegisteredElements
+
+    local wx, wy = read_canvas_position()
+    wx, wy = x - wx, y - wy
+
+    for _, pElem in ipairs(self:_list_interactive_elements()) do
+        local bHover = is_mouse_in_range(pElem, wx, wy)
         if bHover or bToAll then
             self:_in_onmousemoved(pElem, x, y, dx, dy, istouch)
         end
@@ -124,11 +149,8 @@ function CWndChannel:_in_onmousepressed(pElem, x, y, button)
 end
 
 function CWndChannel:onmousepressed(x, y, button, bToAll)
-    local iRx, iRy = read_canvas_position()
-
-    local m_tpRegisteredElements = self.tpRegisteredElements
-    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
-        if is_mouse_in_range(pElem, x, y, iRx, iRy) or bToAll then
+    for _, pElem in ipairs(self:_list_interactive_elements()) do
+        if is_mouse_in_range(pElem, x, y) or bToAll then
             self:_in_onmousepressed(pElem, x, y, button)
         end
     end
@@ -142,11 +164,8 @@ function CWndChannel:_in_onmousereleased(pElem, x, y, button)
 end
 
 function CWndChannel:onmousereleased(x, y, button, bToAll)
-    local iRx, iRy = read_canvas_position()
-
-    local m_tpRegisteredElements = self.tpRegisteredElements
-    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
-        if is_mouse_in_range(pElem, x, y, iRx, iRy) or bToAll then
+    for _, pElem in ipairs(self:_list_interactive_elements()) do
+        if is_mouse_in_range(pElem, x, y) or bToAll then
             self:_in_onmousereleased(pElem, x, y, button)
         end
     end
@@ -161,11 +180,13 @@ end
 
 function CWndChannel:onwheelmoved(dx, dy, bToAll)
     local x, y = love.mouse.getPosition()
-    local iRx, iRy = read_canvas_position()
+    local wx, wy = read_canvas_position()
 
-    local m_tpRegisteredElements = self.tpRegisteredElements
-    for _, pElem in ipairs(keys(m_tpRegisteredElements)) do
-        if is_mouse_in_range(pElem, x, y, iRx, iRy) or bToAll then
+    x = x - wx
+    y = y - wy
+
+    for _, pElem in ipairs(self:_list_interactive_elements()) do
+        if is_mouse_in_range(pElem, x, y) or bToAll then
             self:_in_onwheelmoved(pElem, dx, dy)
         end
     end

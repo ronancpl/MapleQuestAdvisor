@@ -13,37 +13,41 @@
 require("ui.run.update.canvas.position")
 
 function _on_mousemoved(pUiWnd, x, y, dx, dy, istouch)
-    if pUiWnd:is_closed() then return end
+    local fn_onwnd_act = pUiWnd.onmousemoved
+    if pUiWnd:is_closed() or not fn_onwnd_act or not pWndHandler:is_focus_wnd(pUiWnd) then return end
 
     local iRx, iRy = pUiWnd:get_position()
     push_stack_canvas_position(iRx, iRy)
-    pUiWnd:onmousemoved(x, y, dx, dy, istouch)
+    fn_onwnd_act(pUiWnd, x, y, dx, dy, istouch)
     pop_stack_canvas_position()
 end
 
 function _on_mousepressed(pUiWnd, x, y, button)
-    if pUiWnd:is_closed() then return end
+    local fn_onwnd_act = pUiWnd.onmousepressed
+    if pUiWnd:is_closed() or not fn_onwnd_act or not pWndHandler:is_focus_wnd(pUiWnd) then return end
 
-    local iRx, iRy = pUiWnd:get_position()
-    push_stack_canvas_position(iRx, iRy)
-    pUiWnd:onmousepressed(x, y, button)
+    local wx, wy = pUiWnd:get_position()
+    push_stack_canvas_position(wx, wy)
+    fn_onwnd_act(pUiWnd, x - wx, y - wy, button)
     pop_stack_canvas_position()
 end
 
 function _on_mousereleased(pUiWnd, x, y, button)
-    if pUiWnd:is_closed() then return end
+    local fn_onwnd_act = pUiWnd.onmousereleased
+    if pUiWnd:is_closed() or not fn_onwnd_act or not pWndHandler:is_focus_wnd(pUiWnd) then return end
 
-    local iRx, iRy = pUiWnd:get_position()
-    push_stack_canvas_position(iRx, iRy)
-    pUiWnd:onmousereleased(x, y, button)
+    local wx, wy = pUiWnd:get_position()
+    push_stack_canvas_position(wx, wy)
+    fn_onwnd_act(pUiWnd, x - wx, y - wy, button)
     pop_stack_canvas_position()
 end
 
 function _on_wheelmoved(pUiWnd, dx, dy)
-    if pUiWnd:is_closed() then return end
+    local fn_onwnd_act = pUiWnd.onwheelmoved
+    if pUiWnd:is_closed() or not fn_onwnd_act or not pWndHandler:is_focus_wnd(pUiWnd) then return end
 
-    local iRx, iRy = pUiWnd:get_position()
-    push_stack_canvas_position(iRx, iRy)
-    pUiWnd:onwheelmoved(dx, dy)
+    local wx, wy = pUiWnd:get_position()
+    push_stack_canvas_position(wx, wy)
+    fn_onwnd_act(pUiWnd, dx, dy)
     pop_stack_canvas_position()
 end

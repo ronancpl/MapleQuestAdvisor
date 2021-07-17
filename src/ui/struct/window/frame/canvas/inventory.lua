@@ -35,6 +35,10 @@ function CWndInventory:get_window_position()
     return self:get_position()
 end
 
+function CWndInventory:get_properties()
+    return self.pProp
+end
+
 function CWndInventory:set_window_position(iRx, iRy)
     self:set_position(iRx, iRy)
 end
@@ -74,23 +78,17 @@ end
 
 function CWndInventory:onmousemoved(x, y, dx, dy, istouch)
     self:_onmousemoved(x, y, dx, dy, istouch)
-
-    local iPx, iPy = self:fetch_relative_pos(x, y)
-    self.pCanvas:onmousemoved(iPx, iPy, dx, dy, istouch)
+    self.pCanvas:onmousemoved(x, y, dx, dy, istouch)
 end
 
 function CWndInventory:onmousepressed(x, y, button)
     self:_onmousepressed(x, y, button)
-
-    local iPx, iPy = self:fetch_relative_pos(x, y)
-    self.pCanvas:onmousepressed(iPx, iPy, button)
+    self.pCanvas:onmousepressed(x, y, button)
 end
 
 function CWndInventory:onmousereleased(x, y, button)
     self:_onmousereleased(x, y, button)
-
-    local iPx, iPy = self:fetch_relative_pos(x, y)
-    self.pCanvas:onmousereleased(iPx, iPy, button)
+    self.pCanvas:onmousereleased(x, y, button)
 end
 
 function CWndInventory:onwheelmoved(dx, dy)

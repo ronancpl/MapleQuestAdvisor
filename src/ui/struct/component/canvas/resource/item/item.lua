@@ -12,6 +12,7 @@
 
 require("router.constants.path")
 require("solver.graph.resource.label")
+require("ui.constant.path")
 require("ui.struct.component.basic.base")
 require("ui.struct.component.canvas.resource.item.tooltip")
 require("ui.struct.window.summary")
@@ -117,7 +118,7 @@ end
 
 function CRscElemItem:onmousehoverout()
     self:hide_tooltip()
-    pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
+    pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_CLICKABLE)
 end
 
 function CRscElemItem:_act_inspect_resource(sWmapName)
@@ -131,6 +132,6 @@ function CRscElemItem:onmousereleased(x, y, button)
         local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(m_iFieldRef)
 
         self:_act_inspect_resource(sWmapName)
-        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
+        pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_CLICKABLE)
     end
 end

@@ -59,7 +59,7 @@ function CWndBase:fetch_relative_pos(x, y)
 end
 
 function CWndBase:grab_set_position(x, y)
-    if pWndHandler:is_focus_wnd(pWnd) then
+    if pWndHandler:is_focus_wnd(self) then
         local iWx, iWy = self:get_dimensions()
 
         local iRx = math.iclamp(x - self.iMx, 0, RWndConfig.WND_LIM_X - iWx)
@@ -81,7 +81,7 @@ function CWndBase:_onmousemoved(x, y, dx, dy, istouch)
 end
 
 function CWndBase:_onmousepressed(x, y, button)
-    self.iMx, self.iMy = self:fetch_relative_pos(x, y)
+    self.iMx, self.iMy = x, y
 
     self.pCtrlChannel:onmousepressed(x, y, button)
     self.pSureChannel:onmousepressed(x, y, button, true)
@@ -113,7 +113,7 @@ function CWndBase:get_bt_close()
     return self.pBtClose
 end
 
-function CWndBase:get_handle_pos()
+function CWndBase:get_wnd_handle()
     return self.pHdlWnd
 end
 
@@ -169,17 +169,17 @@ function CWndBase:_load_bt_close(iWidth, iHeight, pBtClsVwConf)
 end
 
 function CWndBase:_set_fn_trigger_pos_handle()
-    local pHdlWnd = self:get_handle_pos()
+    local pHdlWnd = self:get_wnd_handle()
     pHdlWnd:set_fn_trigger(self:_fn_set_position())
 end
 
 function CWndBase:_set_fn_trigger_reg_sure()
-    local pHdlWnd = self:get_handle_pos()
+    local pHdlWnd = self:get_wnd_handle()
     pHdlWnd:set_fn_reg_sure(self:_fn_register_sure())
 end
 
 function CWndBase:_set_fn_trigger_unreg_sure()
-    local pHdlWnd = self:get_handle_pos()
+    local pHdlWnd = self:get_wnd_handle()
     pHdlWnd:set_fn_unreg_sure(self:_fn_unregister_sure())
 end
 

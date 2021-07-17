@@ -34,14 +34,14 @@ end
 local function create_cursor_from_quad(pQuad)
     local pQuadImg = pQuad:get_image()
 
-    local pImg = pQuadImg:get_img()
-    local pCursor = love.mouse.newCursor(pImg, 0, 0)
-
     local iOx
     local iOy
     local iZ
     iOx, iOy = pQuadImg:get_origin()
     iZ = pQuadImg:get_z()
+
+    local pImg = pQuadImg:get_img()
+    local pCursor = love.mouse.newCursor(pImg, iOx, iOy)
 
     local pCursorQuad = CBasicQuad:new()
 
@@ -51,7 +51,9 @@ local function create_cursor_from_quad(pQuad)
     return pCursorQuad
 end
 
-function CStockCursor:_load_mouse_cursor(sCursorName)
+function CStockCursor:_load_mouse_cursor(iCursorId)
+    local sCursorName = tostring(iCursorId)
+
     local m_pDirBasicQuads = self.pDirBasicQuads
     local rgpQuads = find_animation_on_storage(m_pDirBasicQuads, sCursorName)
 
@@ -62,7 +64,7 @@ function CStockCursor:_load_mouse_cursor(sCursorName)
     end
 
     local m_trgpCursorQuads = self.trgpCursorQuads
-    m_trgpCursorQuads[sCursorName] = rgpCursorQuads
+    m_trgpCursorQuads[iCursorId] = rgpCursorQuads
 end
 
 function CStockCursor:_load_mouse_animations()
@@ -72,6 +74,8 @@ function CStockCursor:_load_mouse_animations()
     self:_load_mouse_cursor(RWndPath.MOUSE.BT_NORMAL)
     self:_load_mouse_cursor(RWndPath.MOUSE.BT_GAME)
     self:_load_mouse_cursor(RWndPath.MOUSE.BT_CLICKABLE)
+    self:_load_mouse_cursor(RWndPath.MOUSE.BT_SCROLL_X)
+    self:_load_mouse_cursor(RWndPath.MOUSE.BT_SCROLL_Y)
 end
 
 function CStockCursor:load()
@@ -79,9 +83,9 @@ function CStockCursor:load()
     self:_load_mouse_animations()
 end
 
-function CStockCursor:get_mouse_animation(sCursorName)
+function CStockCursor:get_mouse_animation(iCursorId)
     local m_trgpCursorQuads = self.trgpCursorQuads
-    return m_trgpCursorQuads[sCursorName]
+    return m_trgpCursorQuads[iCursorId]
 end
 
 function load_image_stock_mouse()

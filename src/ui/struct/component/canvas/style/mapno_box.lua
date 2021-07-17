@@ -115,14 +115,14 @@ function CStyleBoxMapno:_load_resources(pRscProp, iRx, iRy)
         local iIx, iIy = iRx + RStylebox.FIL_X, iRy + RStylebox.FIL_Y
         m_pBoxRsc:load(iIx, iIy)
 
+        self:_update_resources(pRscProp)
+
         -- minitable dimensions
         local iTbW
         local iTbH
         iTbW, iTbH = fetch_table_dimensions(m_pBoxRsc, pTableConfVw, rgpTabConfVw, siTabIdx)
 
         m_pBoxLimits:set_image_dimensions(iTbW, iTbH)
-
-        self:_update_resources(pRscProp)
     end
 end
 
