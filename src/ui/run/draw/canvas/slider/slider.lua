@@ -114,7 +114,7 @@ local function draw_slider_arrow(pVwSlider)
 end
 
 local function calc_slider_thumb_pos(pVwSlider)
-    local iCur = pVwSlider:get_current() - 1
+    local iCur = pVwSlider:get_wheel_segment() - 1
     local iTotal = pVwSlider:get_num_segments() - 1
 
     local iPos

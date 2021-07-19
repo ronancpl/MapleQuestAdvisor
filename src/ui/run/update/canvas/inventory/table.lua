@@ -100,7 +100,7 @@ local function update_inventory_slider(pVwInvt, bMoveTop)
     pSlider:set_num_segments(iSgmts)
 
     if bMoveTop then
-        pSlider:set_current(0)
+        pSlider:set_wheel_segment(0)
     end
 
     local bDisable = iSgmts < 2

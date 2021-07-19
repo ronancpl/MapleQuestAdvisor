@@ -162,7 +162,7 @@ function CInvtElem:_update_row(iDlt)
     iNextSlct = self:get_row_selected()
 
     local m_pSlider = self.pSlider
-    m_pSlider:set_current(iNextSlct)
+    m_pSlider:set_wheel_segment(iNextSlct)
 end
 
 function CInvtElem:onmousereleased(x, y, button)

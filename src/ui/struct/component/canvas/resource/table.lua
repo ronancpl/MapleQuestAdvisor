@@ -234,6 +234,6 @@ function CRscTableElem:onwheelmoved(dx, dy)
         iNextSlct = self:get_row_selected()
 
         local m_pSlider = self.pSlider
-        m_pSlider:set_current(iNextSlct)
+        m_pSlider:set_wheel_segment(iNextSlct)
     end
 end

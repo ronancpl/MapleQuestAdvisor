@@ -85,11 +85,11 @@ function CSliderElem:get_next()
     return self.pImgNext
 end
 
-function CSliderElem:get_current()
+function CSliderElem:get_wheel_segment()
     return self.iSgmtCur
 end
 
-function CSliderElem:set_current(iCur)
+function CSliderElem:set_wheel_segment(iCur)
     self.iSgmtCur = iCur
 end
 
@@ -104,8 +104,8 @@ end
 function CSliderElem:set_num_segments(iCount)
     self:_set_num_segments(iCount)
 
-    if self:get_current() > iCount then
-        self:set_current(iCount)
+    if self:get_wheel_segment() > iCount then
+        self:set_wheel_segment(iCount)
     end
 end
 
@@ -113,7 +113,7 @@ function CSliderElem:is_vert()
     return self.bVert
 end
 
-function CSliderElem:_set_orientation(bVert)
+function CSliderElem:_set_vert(bVert)
     self.bVert = bVert
 end
 
@@ -194,7 +194,7 @@ function CSliderElem:build_thumb(nSgmts, iLen, bDefWidth)
     end
 
     self:_set_num_segments(nSgmts)
-    self:set_current(math.min(self:get_current(), nSgmts))
+    self:set_wheel_segment(math.min(self:get_wheel_segment(), nSgmts))
 
     local m_eThumb = self.eThumb
     m_eThumb:build(iWidth, iHeight)
@@ -202,7 +202,7 @@ end
 
 function CSliderElem:update_box(iLen, bVert)
     self.iLength = iLen
-    self:_set_orientation(bVert)
+    self:_set_vert(bVert)
 end
 
 function CSliderElem:_update_slider(iLen, nSgmts, bDefWidth, bVert)
