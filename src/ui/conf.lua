@@ -11,5 +11,6 @@
 --]]
 
 function love.conf(t)
+	t.title = "MapleQuestAdvisor"
 	t.console = true
 end

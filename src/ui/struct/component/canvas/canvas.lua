@@ -21,6 +21,7 @@ require("utils.struct.class")
 
 CWndBase = createClass({
     pBtClose,
+    pBtClsVwConf,
     pHdlWnd,
 
     iRx,
@@ -97,6 +98,11 @@ function CWndBase:_onwheelmoved(dx, dy)
     self.pSureChannel:onwheelmoved(dx, dy, true)
 end
 
+function CWndBase:_hide_elements()
+    self.pCtrlChannel:hide_elements()
+    self.pSureChannel:hide_elements()
+end
+
 function CWndBase:is_closed()
     return pWndHandler:is_closed(self)
 end
@@ -109,6 +115,10 @@ function CWndBase:open()
     --pWndHandler:set_opened(self)
 end
 
+function CWndBase:reopen()
+    pWndHandler:set_opened(self)
+end
+
 function CWndBase:get_bt_close()
     return self.pBtClose
 end
@@ -119,9 +129,9 @@ end
 
 function CWndBase:_set_window_size(iWidth, iHeight)
     local pBtClose = self:get_bt_close()
-    local pBtClsVwConf = pBtClose:get_conf()
 
-    pBtClose:set_origin(iWidth - pBtClsVwConf.FIL_X, pBtClsVwConf.FIL_Y)
+    local rX, rY = unpack(self.pBtClsVwConf)
+    pBtClose:set_origin(iWidth + rX, rY)
 
     self:_set_dimensions(iWidth, iHeight)
 end
@@ -157,7 +167,9 @@ end
 
 function CWndBase:_load_bt_close(iWidth, iHeight, pBtClsVwConf)
     local pBtClose = CButtonElem:new()
-    pBtClose:load(pBtClsVwConf)
+
+    self.pBtClsVwConf = pBtClsVwConf
+    pBtClose:load("BtClose", U_INT_MIN, U_INT_MIN)
 
     self.pBtClose = pBtClose
 

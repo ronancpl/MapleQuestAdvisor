@@ -98,6 +98,13 @@ function CWndCanvas:onwheelmoved(dx, dy)
     end
 end
 
+function CWndCanvas:hide_elements()
+    local m_rgpLayers = self.rgpLayers
+    for _, pLyr in ipairs(m_rgpLayers) do
+        pLyr:hide_elements()
+    end
+end
+
 function CWndCanvas:get_layer(iLayer)
     local m_rgpLayers = self.rgpLayers
     return m_rgpLayers[iLayer]

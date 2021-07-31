@@ -25,10 +25,4 @@ function CWmapNavBackground:build(pWmapProp)
 
     local pPropBaseImg = pWmapProp:get_base_img()
     self:add_element(LChannel.WMAP_BGRD, pPropBaseImg)
-
-    local pElem = CSelectBoxElem:new()
-    self:add_element(LChannel.WMAP_BGRD, pElem)
-
-    pElem:load(RSelectBoxState.MOUSE_OVER, 100, 100)
-    pElem:set_text_options({"Line1", "Line2", "Line3", "Line4"}, 100)
 end

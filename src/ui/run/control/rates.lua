@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.persist.delete.rates")
 require("router.procedures.persist.load.rates")
 require("router.procedures.persist.save.rates")
 
@@ -19,4 +20,8 @@ end
 
 function run_rates_bt_save(pUiStats)
     save_rates(pUiStats)
+end
+
+function run_rates_bt_delete(pUiStats)
+    delete_rates(pUiStats)
 end

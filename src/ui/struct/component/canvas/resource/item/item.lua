@@ -126,12 +126,13 @@ function CRscElemItem:_act_inspect_resource(sWmapName)
 end
 
 function CRscElemItem:onmousereleased(x, y, button)
-    local m_iFieldRef = self.iFieldRef
+    if button == 1 then
+        local m_iFieldRef = self.iFieldRef
+        if m_iFieldRef ~= nil then
+            local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(m_iFieldRef)
 
-    if m_iFieldRef ~= nil then
-        local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(m_iFieldRef)
-
-        self:_act_inspect_resource(sWmapName)
-        pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_CLICKABLE)
+            self:_act_inspect_resource(sWmapName)
+            pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_CLICKABLE)
+        end
     end
 end

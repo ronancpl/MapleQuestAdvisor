@@ -95,8 +95,21 @@ local function write_track_quests(tRoute)
     end
 end
 
-function run_route_bt_save(tRoute)  -- saves last quest laning action
+function run_route_bt_save(pPlayer, pUiStats, tRoute)  -- saves last quest laning action
     write_track_quests(tRoute)
+end
+
+local function route_delete_board_quests()
+    os.remove("../" .. RPath.SAV_QBOARD)
+end
+
+local function route_delete_track_quests()
+    os.remove("../" .. RPath.SAV_ROUTE)
+end
+
+function run_route_bt_delete()
+    route_delete_board_quests()
+    route_delete_track_quests()
 end
 
 function load_lookahead_track(pPlayer)

@@ -12,23 +12,25 @@
 
 require("composer.field.node.media.image")
 require("ui.constant.path")
+require("ui.struct.component.canvas.window.state")
 require("utils.procedure.copy")
 require("utils.struct.class")
 
 CStockCursor = createClass({
-    pDirBasicQuads,
-    trgpCursorQuads,
+    tpDirBasicQuads = {},
+    tpCursorQuads = {},
     rgsImgItemPath,
     pImgShd
 })
 
-function CStockCursor:_load_basic_images()
-    local sBasicImgPath = RWndPath.INTF_BASIC
+function CStockCursor:_load_mouse_quads()
+    local pDirBasicQuads = load_quad_storage_from_wz_sub(RWndPath.INTF_BASIC, "Cursor")
+    local pDirCursorQuads = select_animations_from_storage(pDirBasicQuads, "")
 
-    local pDirBasicQuads = load_quad_storage_from_wz_sub(sBasicImgPath, "Cursor")
-    pDirBasicQuads = select_animations_from_storage(pDirBasicQuads, {})
-
-    self.pDirBasicQuads = pDirBasicQuads
+    for sCursorName, pDirStateQuads in pairs(pDirCursorQuads:get_contents()) do
+        local iCursorId = tonumber(sCursorName) or 0
+        self.tpDirBasicQuads[iCursorId] = pDirStateQuads
+    end
 end
 
 local function create_cursor_from_quad(pQuad)
@@ -51,41 +53,45 @@ local function create_cursor_from_quad(pQuad)
     return pCursorQuad
 end
 
-function CStockCursor:_load_mouse_cursor(iCursorId)
-    local sCursorName = tostring(iCursorId)
+function CStockCursor:_load_mouse_cursors()
+    local m_tpCursorQuads = self.tpCursorQuads
 
-    local m_pDirBasicQuads = self.pDirBasicQuads
-    local rgpQuads = find_animation_on_storage(m_pDirBasicQuads, sCursorName)
+    local m_tpDirBasicQuads = self.tpDirBasicQuads
+    for iCursorId, pDirCursorQuads in pairs(m_tpDirBasicQuads) do
+        local trgpCursorQuads = {}
+        local sCursorState = RButtonState.NORMAL
 
-    local rgpCursorQuads = {}
-    for _, pQuad in ipairs(rgpQuads) do
-        local pCursor = create_cursor_from_quad(pQuad)
-        table.insert(rgpCursorQuads, pCursor)
+        local rgpCursorQuads = {}
+        local rgpQuads = pDirCursorQuads
+        for _, pQuad in ipairs(rgpQuads) do
+            local pCursor = create_cursor_from_quad(pQuad)
+            table.insert(rgpCursorQuads, pCursor)
+        end
+
+        trgpCursorQuads[sCursorState] = rgpCursorQuads
+
+        m_tpCursorQuads[iCursorId] = trgpCursorQuads
     end
+end
 
-    local m_trgpCursorQuads = self.trgpCursorQuads
-    m_trgpCursorQuads[iCursorId] = rgpCursorQuads
+function CStockCursor:_load_mouse_frames()
+    clear_table(self.tpDirBasicQuads)
+    self:_load_mouse_quads()
 end
 
 function CStockCursor:_load_mouse_animations()
-    self.trgpCursorQuads = {}
-
-    self:_load_mouse_cursor(RWndPath.MOUSE.BT_DOWN)
-    self:_load_mouse_cursor(RWndPath.MOUSE.BT_NORMAL)
-    self:_load_mouse_cursor(RWndPath.MOUSE.BT_GAME)
-    self:_load_mouse_cursor(RWndPath.MOUSE.BT_CLICKABLE)
-    self:_load_mouse_cursor(RWndPath.MOUSE.BT_SCROLL_X)
-    self:_load_mouse_cursor(RWndPath.MOUSE.BT_SCROLL_Y)
+    clear_table(self.trgpCursorQuads)
+    self:_load_mouse_cursors()
 end
 
 function CStockCursor:load()
-    self:_load_basic_images()
+    self:_load_mouse_frames()
     self:_load_mouse_animations()
 end
 
 function CStockCursor:get_mouse_animation(iCursorId)
-    local m_trgpCursorQuads = self.trgpCursorQuads
-    return m_trgpCursorQuads[iCursorId]
+    local m_tpCursorQuads = self.tpCursorQuads
+    return m_tpCursorQuads[iCursorId][RButtonState.NORMAL]
 end
 
 function load_image_stock_mouse()

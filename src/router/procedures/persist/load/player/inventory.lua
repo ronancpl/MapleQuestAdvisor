@@ -31,7 +31,7 @@ function load_inventory(pPlayer)
     db_close(pCon)
 
     if sJson ~= nil then
-        local tpItems = load_inventory_data(sJson)
-        pPlayer:import_inventory_tables(tpItems)
+        local rgpInvts = load_inventory_data(sJson)
+        pPlayer:import_inventory_tables(rgpInvts)
     end
 end

@@ -14,9 +14,12 @@ require("router.procedures.constant")
 require("ui.constant.path")
 require("ui.constant.view.selectbox")
 require("ui.struct.component.basic.base")
+require("ui.struct.window.summary")
+require("ui.struct.window.element.basic.selectbox_extended")
 require("ui.run.draw.canvas.selectbox.selectbox")
 require("ui.run.update.canvas.position")
 require("ui.texture.composition")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 RSelectBoxState = {DISABLED = "disabled", MOUSE_OVER = "mouseOver", NORMAL = "normal", PRESSED = "pressed", SELECTED = "selected"}
@@ -27,10 +30,10 @@ CSelectBoxElem = createClass({
     eBox,
 
     rgsTextList = {},    -- SelectBox text options
-    rgpTxtOpts = {},
+    rgpFontOpts = {},
 
     iOpt,
-    iPos = 0
+    iPos = 1
 })
 
 function CSelectBoxElem:get_object()
@@ -63,11 +66,30 @@ end
 
 function CSelectBoxElem:_set_text_options(rgsTextList)
     self.rgsTextList = rgsTextList
-    self:_set_opt(0)
+end
+
+function CSelectBoxElem:get_text(iOpt)
+    return self.rgsTextList[iOpt]
+end
+
+function CSelectBoxElem:get_text_opt()
+    return self:get_text(self:get_opt())
+end
+
+function CSelectBoxElem:reset()
+    self:clear_extended()
 end
 
 function CSelectBoxElem:get_ltrb()
-    return self:get_cover_box():get_ltrb()
+    local iLx, iTy, iRx, iBy = self:get_cover_box():get_ltrb()
+    local iPx, iPy = self:get_origin()
+
+    iLx = iLx + iPx
+    iTy = iTy + iPy
+    iRx = iRx + iPx
+    iBy = iBy + iPy
+
+    return iLx, iTy, iRx, iBy
 end
 
 local function is_in_range(x, y, iLx, iTy, iRx, iBy)
@@ -102,71 +124,102 @@ function CSelectBoxElem:_load_selectbox_texture(sSelectBoxState)
 end
 
 function CSelectBoxElem:_load_selectbox_text(pFontOpt, sText, iWidth, bOptSlct)
-    local pTxtOpt = ctPoolFont:take_text(pFontOpt)
-    local rgiRgb = bOptSlct and {1, 1, 1} or {0, 0, 0}
-    pTxtOpt:setf({rgiRgb, sText}, iWidth, "left")
+    local pTxtOpt = love.graphics.newText(pFontOpt)
+    if bOptSlct then
+        pTxtOpt:setf({{1, 1, 1}, sText}, iWidth, "left")
+    else
+        pTxtOpt:setf({{0, 0, 0}, sText}, iWidth, "left")
+    end
 
     return pTxtOpt
 end
 
-function CSelectBoxElem:_free_selectbox_text(pTxtOpt)
-    ctPoolFont:put_text(pTxtOpt)
-end
-
 function CSelectBoxElem:_load_selectbox_texts(iWidth)
-    local pFontOpt = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
-
-    local m_rgpTxtOpts = self.rgpTxtOpts
-    clear_table(m_rgpTxtOpts)
+    local m_rgpFontOpts = self.rgpFontOpts
+    clear_table(m_rgpFontOpts)
 
     local m_rgsTextList = self.rgsTextList
-    for _, sText in ipairs(m_rgsTextList) do
-        local pTxtOpt = self:_load_selectbox_text(pFontOpt, sText, iWidth, false)
-        table.insert(m_rgpTxtOpts, pTxtOpt)
+    for _, _ in ipairs(m_rgsTextList) do
+        local pFontOpt = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
+        table.insert(m_rgpFontOpts, pFontOpt)
     end
 end
 
 function CSelectBoxElem:_get_selectbox_line_width()
     local iVal = U_INT_MIN
 
-    local m_rgpTxtOpts = self.rgpTxtOpts
-    for _, pTxtItem in ipairs(m_rgpTxtOpts) do
-        local iWidth = pTxtItem:getWidth()
+    local i = 1
+    local m_rgpFontOpts = self.rgpFontOpts
+    for _, pFontItem in ipairs(m_rgpFontOpts) do
+        local sText = self.rgsTextList[i]
+        local iWidth = pFontItem:getWrap(sText, U_INT_MAX)
 
         if iVal < iWidth then
             iVal = iWidth
         end
+
+        i = i + 1
     end
 
     return iVal
 end
 
-function CSelectBoxElem:fetch_visible_items()
-    local rgpTxtOpts = {}
+function CSelectBoxElem:_fetch_text_opt(iIdx, bCover)
+    local m_rgpFontOpts = self.rgpFontOpts
+    local m_rgsTextList = self.rgsTextList
 
-    local m_rgpTxtOpts = self.rgpTxtOpts
-    for i = self.iPos, #m_rgpTxtOpts, 1 do
-        table.insert(rgpTxtOpts, m_rgpTxtOpts[i])
+    local pFontOpt = m_rgpFontOpts[iIdx]
+    local sText = m_rgsTextList[iIdx]
+
+    local pTxtOpt = ctPoolFont:take_text(pFontOpt)
+    pTxtOpt:setf({bCover and {1, 1, 1} or {0, 0, 0}, sText}, RSelectbox.VW_SELECTBOX.LINE_W, "left")
+
+    return pTxtOpt
+end
+
+function CSelectBoxElem:fetch_visible_items()
+    local rgpFontOpts = {}
+
+    local m_rgpFontOpts = self.rgpFontOpts
+    local m_rgsTextList = self.rgsTextList
+
+    for i = 1, #m_rgpFontOpts, 1 do
+        local pFontOpt = self:_fetch_text_opt(i)
+        table.insert(rgpFontOpts, pFontOpt)
     end
 
-    return rgpTxtOpts
+    return rgpFontOpts
+end
+
+function CSelectBoxElem:free_visible_item(pTxtOpt)
+    local m_rgpFontOpts = self.rgpFontOpts
+    local pFontOpt = m_rgpFontOpts[self:get_opt()]
+
+    ctPoolFont:put_text(pFontOpt, pTxtOpt)
+end
+
+function CSelectBoxElem:free_visible_items(rgpTxtOpts)
+    local m_rgpFontOpts = self.rgpFontOpts
+    for i = 1, #m_rgpFontOpts, 1 do
+        local pFontOpt = self:_fetch_text_opt(i)
+        local pTxtOpt = rgpTxtOpts[i]
+
+        ctPoolFont:put_text(pFontOpt, pTxtOpt)
+    end
 end
 
 function CSelectBoxElem:_reset_visible_position()
-    self.iPos = nil
+    self.iPos = 1
 end
 
 function CSelectBoxElem:_build_selectbox_texture()
-    local m_rgpTxtOpts = self.rgpTxtOpts
-    local iVal = self:_get_selectbox_line_width()
-
     local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = self.pTxtDataBox:get()
 
     local eTexture = CTextureElem:new()
     eTexture:load(0, 0, pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
-    eTexture:build(200, 15)
+    eTexture:build(RSelectbox.VW_SELECTBOX.LINE_W, RSelectbox.VW_SELECTBOX.LINE_H)
 
-    self.eBox = eTexture
+    self:_set_cover_box(eTexture)
 end
 
 function CSelectBoxElem:set_text_options(rgsTextList, iWidth)
@@ -177,25 +230,25 @@ function CSelectBoxElem:set_text_options(rgsTextList, iWidth)
 end
 
 function CSelectBoxElem:get_text_selected()
-    local m_rgpTxtOpts = self.rgpTxtOpts
-    return self:get_opt() ~= nil and m_rgpTxtOpts[self:get_opt()] or nil
+    if self:get_opt() ~= nil then
+        local m_rgpFontOpts = self.rgpFontOpts
+        return self:_fetch_text_opt(self:get_opt(), true)
+    else
+        return nil
+    end
 end
 
 function CSelectBoxElem:_set_text_selected(iOpt, bOptSlct)
-    local m_rgpTxtOpts = self.rgpTxtOpts
+    local m_rgpFontOpts = self.rgpFontOpts
+    table.remove(m_rgpFontOpts, iOpt)
 
-    local pTxtSlct = table.remove(m_rgpTxtOpts, iOpt)
-    if pTxtSlct ~= nil then
-        self:_free_selectbox_text(pTxtSlct)
-    end
+    local m_rgsTextList = self.rgsTextList
+    local sText = m_rgsTextList[iOpt]
 
-    local sText = m_rgpTxtOpts[iOpt]
     local iWidth = RSelectbox.VW_SELECTBOX.LINE_W
-
     local pFontOpt = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
 
-    local pTxtOpt = self:_load_selectbox_text(pFontOpt, sText, iWidth, bOptSlct)
-    table.insert(m_rgpTxtOpts, iOpt, pTxtOpt)
+    table.insert(m_rgpFontOpts, iOpt, pFontOpt)
 end
 
 function CSelectBoxElem:set_select_option(iOpt)
@@ -209,32 +262,83 @@ function CSelectBoxElem:set_select_option(iOpt)
     self:_set_text_selected(iOpt, true)
 end
 
+function CSelectBoxElem:get_state()
+    return self.sState
+end
+
+function CSelectBoxElem:update_state(sSelectBoxState)
+    self:_load_selectbox_texture(sSelectBoxState)
+    self:_build_selectbox_texture()
+    self.sState = sSelectBoxState
+end
+
+function CSelectBoxElem:get_extended()
+    return self.pSlctEx
+end
+
+function CSelectBoxElem:set_extended(pSlctEx)
+    self.pSlctEx = pSlctEx
+end
+
 function CSelectBoxElem:load(sSelectBoxState, rX, rY)
     self.eElem:load(rX, rY)
-    self:_load_selectbox_texture(sSelectBoxState)
+    self:update_state(sSelectBoxState)
+    self:set_text_options({}, 1)
 end
 
 function CSelectBoxElem:update(dt)
     -- do nothing
 end
 
-function CSelectBoxElem:draw()
-    draw_selectbox(self)
+function CSelectBoxElem:draw(iPx, iPy)
+    draw_selectbox(self, iPx, iPy)
 end
 
 function CSelectBoxElem:onmousehoverin()
-    -- do nothing
+    if self:get_state() == RSelectBoxState.DISABLED then return end
+    self:update_state(love.mouse.isDown(1) and RSelectBoxState.PRESSED or RSelectBoxState.MOUSE_OVER)
 end
 
 function CSelectBoxElem:onmousehoverout()
-    -- do nothing
+    if self:get_state() == RSelectBoxState.DISABLED then return end
+    self:update_state(love.mouse.isDown(1) and RSelectBoxState.PRESSED or RSelectBoxState.MOUSE_OVER)
 end
 
-function CSelectBoxElem:onmousereleased(x, y, button)
+function CSelectBoxElem:_is_mouse_in_range(x, y)
     local pBox = self:get_cover_box()
     local iLx, iTy, _, _ = pBox:get_ltrb()
 
-    local iPy = y - iTy
-    local iSgmt = math.floor(iPy / RSelectbox.VW_SELECTBOX.LINE_H)
-    self:set_select_option(iSgmt)
+    local iRx = iLx + RSelectbox.VW_SELECTBOX.LINE_W
+    local iBy = iTy + RSelectbox.VW_SELECTBOX.LINE_H + (math.min(self:get_num_options(), RSelectbox.VW_SELECTBOX.NUM_LINES) * RSelectbox.VW_SELECTBOX.LINE_H)
+
+    return math.between(x, iLx, iRx) and math.between(x, iTy, iBy)
+end
+
+function CSelectBoxElem:mount_extended()
+    local iLx, _, _, iBy = self:get_ltrb()
+
+    local pSlctEx = CSelectBoxExtElem:new()
+    pSlctEx:load(self, iLx, iBy, RSelectbox.VW_SELECTBOX.LINE_W, (math.min(self:get_num_options(), RSelectbox.VW_SELECTBOX.NUM_LINES) * RSelectbox.VW_SELECTBOX.LINE_H))
+
+    pUiHud:get_misc_channel():add_element(pSlctEx)
+end
+
+function CSelectBoxElem:clear_extended()
+    pUiHud:get_misc_channel():remove_element(LChannel.OVR_TEXTURE, self)
+
+    local pSlctEx = self:get_extended()
+    if pSlctEx ~= nil then
+        self:set_extended(nil)
+        pSlctEx:reset()
+    end
+end
+
+function CSelectBoxElem:onmousereleased(x, y, button)
+    if button == 1 then
+        if self:get_extended() == nil then
+            self:mount_extended()
+        else
+            self:clear_extended()
+        end
+    end
 end

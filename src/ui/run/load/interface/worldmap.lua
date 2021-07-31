@@ -11,6 +11,7 @@
 --]]
 
 require("ui.constant.path")
+require("ui.run.build.interface.storage.split")
 require("ui.run.build.interface.storage.basic.image")
 
 function load_frame_worldmap_region(sWmapName, ctFieldsWmap)

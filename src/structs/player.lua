@@ -11,12 +11,14 @@
 --]]
 
 require("router.structs.inventory.inventory_ex")
+require("structs.job")
 require("structs.storage.inventory")
 require("utils.procedure.copy")
 require("utils.struct.class")
 
 CPlayer = createClass({
     iId = 1,
+    sName = "",
     siJob = -1,
     siLevel = 1,
     liExp = 0,
@@ -39,8 +41,20 @@ function CPlayer:set_id(iId)
     self.iId = iId
 end
 
+function CPlayer:get_name()
+    return self.sName
+end
+
+function CPlayer:set_name(sName)
+    self.sName = sName
+end
+
 function CPlayer:get_job()
     return self.siJob
+end
+
+function CPlayer:get_job_name()
+    return RJob[self:get_job()]
 end
 
 function CPlayer:set_job(siJob)
@@ -157,6 +171,7 @@ end
 function CPlayer:export_table()
     local tpItems = {}
 
+    tpItems.iId = self.iId
     tpItems.siJob = self.siJob
     tpItems.siLevel = self.siLevel
     tpItems.liExp = self.liExp
@@ -184,11 +199,11 @@ function CPlayer:export_inventory_tables()
     return rgpInvts
 end
 
-function CPlayer:import_inventory_tables(rgpItems)
-    self.ivtItems:import_table(rgpItems[1])
-    self.ivtSkills:import_table(rgpItems[2])
-    self.ivtQuests:import_table(rgpItems[3])
-    self.ivtMobs:import_table(rgpItems[4])
+function CPlayer:import_inventory_tables(rgpInvts)
+    self.ivtItems:import_table(rgpInvts[1])
+    self.ivtSkills:import_table(rgpInvts[2])
+    self.ivtQuests:import_table(rgpInvts[3])
+    self.ivtMobs:import_table(rgpInvts[4])
 end
 
 function CPlayer:clone()
@@ -202,6 +217,8 @@ end
 
 function CPlayer:debug_player_state()
     local st = ""
+    st = st .. " ID: " .. self.iId
+    st = st .. " NAME: " .. self.sName
     st = st .. " JOB: " .. self.siJob
     st = st .. " LVL: " .. self.siLevel
     st = st .. " EXP: " .. self.liExp

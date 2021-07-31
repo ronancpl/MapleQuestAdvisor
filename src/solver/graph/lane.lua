@@ -75,13 +75,21 @@ local function append_subpath_lane(pLane, rgpSubpaths, rgfVals)
     end
 end
 
+local function is_subpath_in_lane(pQuestProp, pLane)   -- not repeat sublanes in base step
+    return pQuestProp ~= nil and pLane:get_sublane(pQuestProp) ~= nil
+end
+
 function generate_subpath_lane(pSetRoutePaths)
     local pLane = CQuestLane:new()
     pLane:set_capacity(RGraph.LEADING_PATH_CAPACITY)
 
     for _, pPath in ipairs(pSetRoutePaths:list()) do
         local rgpSubpaths, rgfVals = make_sequence_subpaths(pPath)
-        append_subpath_lane(pLane, rgpSubpaths, rgfVals)
+
+        local pQuestProp = rgpSubpaths[1]
+        if not is_subpath_in_lane(pQuestProp, pLane) then
+            append_subpath_lane(pLane, rgpSubpaths, rgfVals)
+        end
     end
 
     return pLane

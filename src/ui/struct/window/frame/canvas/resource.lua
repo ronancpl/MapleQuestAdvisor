@@ -186,6 +186,11 @@ function CWndResource:onwheelmoved(dx, dy)
     self.pCanvas:onwheelmoved(dx, dy)
 end
 
+function CWndResource:hide_elements()
+    self:_hide_elements()
+    self.pCanvas:hide_elements()
+end
+
 function CWndResource:get_layer(iLayer)
     return self.pCanvas:get_layer(iLayer)
 end

@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.persist.delete.player.character")
+require("router.procedures.persist.delete.player.inventory")
 require("router.procedures.persist.load.player.character")
 require("router.procedures.persist.load.player.inventory")
 require("router.procedures.persist.save.player.character")
@@ -23,4 +25,9 @@ end
 function run_player_bt_save(pPlayer)
     save_player(pPlayer)
     save_inventory(pPlayer)
+end
+
+function run_player_bt_delete(pPlayer)
+    delete_inventory(pPlayer)
+    delete_player(pPlayer)
 end

@@ -171,6 +171,14 @@ function CWndChannel:onmousereleased(x, y, button, bToAll)
     end
 end
 
+function CWndChannel:hide_elements()
+    for _, pElem in ipairs(self:_list_interactive_elements()) do
+        if pElem.is_visible ~= nil then
+            pElem:hidden()
+        end
+    end
+end
+
 function CWndChannel:_in_onwheelmoved(pElem, dx, dy)
     local fn_onwheelmoved = pElem.onwheelmoved
     if fn_onwheelmoved ~= nil then

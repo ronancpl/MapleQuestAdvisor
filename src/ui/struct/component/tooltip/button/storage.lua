@@ -12,21 +12,38 @@
 
 require("composer.field.node.media.image")
 require("ui.constant.path")
+require("ui.constant.view.button")
+require("ui.constant.view.resource")
 require("utils.procedure.copy")
+require("utils.procedure.string")
 require("utils.struct.class")
 
 CStockButton = createClass({
-    pDirBasicQuads,
-    trgpButtonQuads
+    tpDirBasicQuads = {},
+    trgpButtonQuads = {}
 })
 
-function CStockButton:_load_basic_images()
-    local sBasicImgPath = RWndPath.INTF_BASIC
+local function fetch_button_name_path(sButtonImg)
+    local iIdx = string.rfind(sButtonImg, ".img")
+    return (sButtonImg:sub(iIdx + 5)), sButtonImg:sub(1, iIdx + 3)
+end
 
-    local pDirBasicQuads = load_quad_storage_from_wz_sub(sBasicImgPath, "BtClose")
+local function fetch_button_inner_path(sButtonImg)
+    return fetch_button_name_path(sButtonImg)
+end
+
+local function fetch_button_name(sButtonPath)
+    local iIdx = string.rfind(sButtonPath, "/") or 0
+    return (sButtonPath:sub(iIdx+1))
+end
+
+function CStockButton:_load_button_images(sButtonImgPath)
+    local sButtonPath, sButtonImg = fetch_button_name_path("UI.wz/" .. sButtonImgPath)
+
+    local pDirBasicQuads = load_quad_storage_from_wz_sub(sButtonImg, sButtonPath)
     pDirBasicQuads = select_animations_from_storage(pDirBasicQuads, {})
 
-    self.pDirBasicQuads = pDirBasicQuads
+    self.tpDirBasicQuads[sButtonPath] = pDirBasicQuads
 end
 
 local function create_button_from_quad(pQuad)
@@ -48,18 +65,31 @@ local function create_button_from_quad(pQuad)
     return pButtonQuad
 end
 
-function CStockButton:_load_button(sButtonName)
-    local m_pDirBasicQuads = self.pDirBasicQuads
-    local rgpQuads = find_animation_on_storage(m_pDirBasicQuads, sButtonName)
+function CStockButton:_load_button_animation(sButtonImg)
+    local m_tpDirBasicQuads = self.tpDirBasicQuads
 
-    local rgpButtonQuads = {}
-    for _, pQuad in ipairs(rgpQuads) do
-        local pButton = create_button_from_quad(pQuad)
-        table.insert(rgpButtonQuads, pButton)
+    local sButtonPath = fetch_button_inner_path(sButtonImg)
+    local pDirCursorQuads = m_tpDirBasicQuads[sButtonPath]
+
+    local tpStateButtons = {}
+    for _, sCursorState in pairs(RButtonState) do
+        local rgpButtonQuads = {}
+
+        local rgpQuads = find_animation_on_storage(pDirCursorQuads, sCursorState)
+        if rgpQuads ~= nil then
+            for _, pQuad in ipairs(rgpQuads) do
+                local pButton = create_button_from_quad(pQuad)
+                table.insert(rgpButtonQuads, pButton)
+            end
+        end
+
+        tpStateButtons[sCursorState] = rgpButtonQuads
     end
 
     local m_trgpButtonQuads = self.trgpButtonQuads
-    m_trgpButtonQuads[sButtonName] = rgpButtonQuads
+
+    local sButtonName = fetch_button_name(sButtonPath)
+    m_trgpButtonQuads[sButtonName] = tpStateButtons
 end
 
 function CStockButton:get_button(sButtonName)
@@ -67,14 +97,19 @@ function CStockButton:get_button(sButtonName)
     return m_trgpButtonQuads[sButtonName]
 end
 
-function CStockButton:load()
-    self:_load_basic_images()
+function CStockButton:_load_button(sBtPath)
+    self:_load_button_images(sBtPath)
+    self:_load_button_animation(sBtPath)
+end
 
-    self.trgpButtonQuads = {}
-    self:_load_button("normal")
-    self:_load_button("mouseOver")
-    self:_load_button("disabled")
-    self:_load_button("pressed")
+function CStockButton:load()
+    clear_table(self.tpDirBasicQuads)
+    clear_table(self.trgpButtonQuads)
+
+    self:_load_button("Basic.img/BtClose")
+    for _, pBtItem in pairs(RActionButton) do
+        self:_load_button(pBtItem.PATH)
+    end
 end
 
 function load_image_stock_button()

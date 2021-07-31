@@ -30,6 +30,7 @@ RPath = {
     TMP_PID = "pid",
 
     SAV_ROUTE = "route/latest.csv",
-    SAV_QBOARD = "route/quests.csv"
+    SAV_QBOARD = "route/quests.csv",
+    SAV_UPATH = "lib/userdata"
 
 }

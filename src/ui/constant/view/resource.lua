@@ -33,15 +33,8 @@ RResourceTable = {
             H = 20
         },
 
-        VW_CLOSE = {
-            FIL_X = 25,
-            FIL_Y = 15
-        },
-
-        VW_CLOSE2 = {
-            FIL_X = 20,
-            FIL_Y = 6
-        }
+        VW_CLOSE = {-25, 15},
+        VW_CLOSE2 = {-20, 6}
 
     },
 

@@ -106,15 +106,36 @@ function CWndHandler:get_focus_wnd()
     return self.pFocusUiWnd
 end
 
+function CWndHandler:set_focus_wnd(pWnd)
+    self.pFocusUiWnd = pWnd
+end
+
 function CWndHandler:is_focus_wnd(pWnd)
     return self:get_focus_wnd() == pWnd
+end
+
+function CWndHandler:_is_mouse_in_element_range(pUiHud, x, y)
+    for _, pElem in ipairs(pUiHud:get_elements()) do
+        if self:_is_mouse_in_range(pElem, x, y) then
+            return true
+        end
+    end
+
+    return false
 end
 
 function CWndHandler:_find_mouse_focus_wnd(x, y)
     local rgpWndOpened = self:list_opened()
     for i = #rgpWndOpened, 1, -1 do
         local pUiWnd = rgpWndOpened[i]
-        if self:_is_mouse_in_range(pUiWnd, x, y) then
+        if pUiWnd == pUiHud then
+            if self:_is_mouse_in_element_range(pUiWnd, x, y) then
+                pUiWnd:apply_mouse_hover()
+                return pUiWnd
+            elseif pUiHud:has_mouse_hover() then
+                pUiHud:clear_mouse_hover()
+            end
+        elseif self:_is_mouse_in_range(pUiWnd, x, y) then
             return pUiWnd
         end
     end
@@ -137,7 +158,12 @@ function CWndHandler:on_mousemoved(x, y, dx, dy, istouch)
         if pUiWnd ~= nil then
             pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
 
-            self.pFocusUiWnd = pUiWnd
+            local m_pFocusUiWnd = self.pFocusUiWnd
+            if m_pFocusUiWnd ~= pUiWnd then
+                m_pFocusUiWnd:hide_elements()
+                self.pFocusUiWnd = pUiWnd
+            end
+
             self.bUpdFocus = false
         end
     end

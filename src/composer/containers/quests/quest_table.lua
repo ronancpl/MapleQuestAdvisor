@@ -18,7 +18,8 @@ require("utils.struct.array")
 require("utils.struct.class")
 
 CQuestTable = createClass({
-    tpQuests = {}
+    tpQuests = {},
+    tpTitleQuests = {}
 })
 
 function CQuestTable:get_quests()
@@ -31,9 +32,15 @@ function CQuestTable:get_quest_by_id(iQuestid)
     return m_tpQuests[iQuestid]
 end
 
+function CQuestTable:get_quest_by_title(sQuestTitle)
+    local m_tpTitleQuests = self.tpTitleQuests
+    return m_tpTitleQuests[sQuestTitle]
+end
+
 function CQuestTable:add_quest(pQuest)
     local m_tpQuests = self.tpQuests
     m_tpQuests[pQuest:get_quest_id()] = pQuest
+    m_tpQuests[pQuest:get_title()] = pQuest
 end
 
 function CQuestTable:remove_quest(iQuestid)

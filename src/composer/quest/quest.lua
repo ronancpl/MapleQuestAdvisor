@@ -165,8 +165,11 @@ end
 
 local function read_quest_node(pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
     local iQuestid = pActNode:get_name_tonumber()
+    local sTitle = ctQuestsMeta:get_text(iQuestid)
+
     local pQuest = CQuest:new({
         iQuestid = iQuestid,
+        sTitle = sTitle,
         qpStart = CQuestProperties:new({iQuestid = iQuestid, bStart = true}),
         qpEnd = CQuestProperties:new({iQuestid = iQuestid, bStart = false})
     })

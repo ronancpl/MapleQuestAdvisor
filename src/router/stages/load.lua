@@ -13,6 +13,7 @@
 require("composer.containers.strings.item")
 require("composer.containers.strings.mob")
 require("composer.containers.strings.npc")
+require("composer.containers.strings.quest")
 require("composer.field.field")
 require("composer.field.station")
 require("composer.field.worldmap")
@@ -54,6 +55,9 @@ end
 
 local function load_resources_internal()
     SXmlProvider:init()
+
+    ctQuestsMeta = load_meta_resources_quests()
+    --printable(ctQuestsMeta)
 
     ctQuests = load_resources_quests()
     --printable(ctQuests)

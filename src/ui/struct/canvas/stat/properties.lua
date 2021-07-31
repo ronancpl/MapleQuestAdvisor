@@ -35,8 +35,8 @@ end
 function CStatProperties:_set_info_character(pPlayer)
     local m_pInfoChr = self.pInfoChr
 
-    m_pInfoChr:set_name("UNNAMED")
-    m_pInfoChr:set_job(pPlayer:get_job())
+    m_pInfoChr:set_name(pPlayer:get_name())
+    m_pInfoChr:set_job(pPlayer:get_job_name())
     m_pInfoChr:set_level(pPlayer:get_level())
     m_pInfoChr:set_exp(pPlayer:get_exp())
     m_pInfoChr:set_fame(pPlayer:get_fame())

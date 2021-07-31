@@ -96,6 +96,11 @@ function CWndInventory:onwheelmoved(dx, dy)
     self.pCanvas:onwheelmoved(dx, dy)
 end
 
+function CWndInventory:hide_elements()
+    self:_hide_elements()
+    self.pCanvas:hide_elements()
+end
+
 function CWndInventory:get_layer(iLayer)
     return self.pCanvas:get_layer(iLayer)
 end

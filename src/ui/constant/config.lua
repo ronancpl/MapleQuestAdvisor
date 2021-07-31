@@ -25,7 +25,7 @@ RWndConfig = {
         CHANNELS = 8
     },
 
-    QUAD_DELAY_DEF = 0.25,
+    QUAD_DELAY_DEF = 0.1,
 
     TRACK = {
         MAX_AHEAD_TO_BROAD_SEARCH = 3,

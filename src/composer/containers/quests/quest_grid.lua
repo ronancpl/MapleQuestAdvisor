@@ -10,7 +10,6 @@
     provide an express grant of patent rights.
 --]]
 
-
 require("router.constants.graph")
 require("router.procedures.constant")
 require("structs.quest.quest")

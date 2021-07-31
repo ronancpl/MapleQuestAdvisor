@@ -12,6 +12,7 @@
 
 require("router.procedures.constant")
 require("router.procedures.player.update")
+require("ui.constant.view.button")
 
 local function lookahead_lane_on_move(pTrack, pPlayerState)
     local iMinAhead = U_INT_MAX
@@ -49,4 +50,32 @@ end
 
 function player_lane_trim_back(pTrack)
     pTrack:trim_back()
+end
+
+function player_lane_update_selectbox(pTrack, pUiHud)
+    local st = ""
+    for _, pPath in pairs(pTrack:get_paths()) do
+        local pQuestProp = pPath:list()[1]
+        local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
+        st = st .. "[" .. tostring(pQuestProp:get_quest_id()) .. " : " .. pQuest:get_title() .. "], "
+    end
+
+    log(LPath.PROCEDURES, "track.txt", "Next quest : " .. st)
+    log(LPath.PROCEDURES, "track.txt", "==============")
+
+    local rgsTextList = {}
+    for _, pPath in pairs(pTrack:get_paths()) do
+        local pQuestProp = pPath:list()[1]
+        local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
+        table.insert(rgsTextList, pQuest:get_title())
+    end
+
+    local pSlctQuest = pUiHud:get_nav_select_quest()
+    pSlctQuest:set_text_options(rgsTextList, RActionElement.NAV_NEXT_QUEST.LINE_WIDTH)
+end
+
+function player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
+    pUiInvt:update_inventory(pIvtItems)
+    pUiStats:update_stats(pPlayer, siExpRate, siMesoRate, siDropRate)
+    pUiWmap:update_region(sWmapName, pUiRscs)
 end

@@ -15,6 +15,7 @@ require("ui.constant.config")
 require("ui.constant.path")
 require("ui.run.build.interface.storage.basic.quad")
 require("ui.run.build.interface.storage.split")
+require("ui.struct.component.canvas.window.state")
 require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 

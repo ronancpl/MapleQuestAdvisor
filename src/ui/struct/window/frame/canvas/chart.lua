@@ -121,6 +121,7 @@ function CWndWmap:load()
     iBx, iBy = unpack(RWndConfig.WMAP_BGRD_SIZE)
 
     self:_load(iBx, iBy, RWndBtClose.TYPE1)
+    self:get_bt_close():update_state(RButtonState.DISABLED)
 
     self.pProp:reset()
     self.pProp:set_origin(iBx / 2, iBy / 2)
@@ -165,6 +166,11 @@ function CWndWmap:onmousereleased(x, y, button)
 
     local iPx, iPy = self:fetch_relative_pos(x, y)
     self.pCanvas:onmousereleased(iPx, iPy, button)
+end
+
+function CWndWmap:hide_elements()
+    self:_hide_elements()
+    self.pCanvas:hide_elements()
 end
 
 function CWndWmap:get_layer(iLayer)

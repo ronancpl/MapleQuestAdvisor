@@ -99,6 +99,11 @@ function CWndStat:onwheelmoved(dx, dy)
     self.pCanvas:onwheelmoved(dx, dy)
 end
 
+function CWndStat:hide_elements()
+    self:_hide_elements()
+    self.pCanvas:hide_elements()
+end
+
 function CWndStat:get_layer(iLayer)
     return self.pCanvas:get_layer(iLayer)
 end

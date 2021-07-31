@@ -102,7 +102,13 @@ function CActionHandler:export(iMaxPerAction, pFocusWnd)
         tfn_actions, rgpArgs = self:_export_action(sFnName, iMaxPerAction)
 
         local rgfn_actions = {}
+
         if pFocusWnd ~= nil and tfn_actions[pFocusWnd] ~= nil then
+            -- additionally, run button actions
+            if tfn_actions[pUiHud] ~= nil then
+                table.insert(rgfn_actions, tfn_actions[pUiHud])
+            end
+
             table.insert(rgfn_actions, tfn_actions[pFocusWnd])
         else
             for _, fn_act in pairs(tfn_actions) do

@@ -257,6 +257,12 @@ function CSliderElem:update_state(sSliderState)
 end
 
 function CSliderElem:onmousehoverin()
+    local bDisabled = self:get_num_segments() < 1
+    if bDisabled then
+        --pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
+        return
+    end
+
     if self:is_vert() then
         pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_SCROLL_Y)
     else
@@ -265,6 +271,12 @@ function CSliderElem:onmousehoverin()
 end
 
 function CSliderElem:onmousehoverout()
+    local bDisabled = self:get_num_segments() < 1
+    if bDisabled then
+        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
+        return
+    end
+
     if self:is_vert() then
         pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_SCROLL_Y)
     else
@@ -305,30 +317,32 @@ function CSliderElem:get_arrow_positions()
 end
 
 function CSliderElem:onmousereleased(x, y, button)
-    local iNx, iNy, iPx, iPy = self:get_arrow_positions()
-    local bVert = self:is_vert()
+    if button == 1 then
+        local iNx, iNy, iPx, iPy = self:get_arrow_positions()
+        local bVert = self:is_vert()
 
-    local iX, iY
-    if bVert then
-        iX = self:get_arrow_length()
-        iY = self:get_arrow_girth()
+        local iX, iY
+        if bVert then
+            iX = self:get_arrow_length()
+            iY = self:get_arrow_girth()
 
-        iNy = iNy - iY
-        iPy = iPy - iY
-    else
-        iX = self:get_arrow_girth()
-        iY = self:get_arrow_length()
+            iNy = iNy - iY
+            iPy = iPy - iY
+        else
+            iX = self:get_arrow_girth()
+            iY = self:get_arrow_length()
 
-        iNx = iNx - iX
-        iPx = iPx - iX
-    end
+            iNx = iNx - iX
+            iPx = iPx - iX
+        end
 
-    if is_in_range(x, y, iNx, iNy, iNx + iX, iNy + iY) then
-        local pInvt = pUiInvt:get_properties():get_inventory()
-        pInvt:_update_row(1)
-    elseif is_in_range(x, y, iPx, iPy, iPx + iX, iPy + iY) then
-        local pInvt = pUiInvt:get_properties():get_inventory()
-        pInvt:_update_row(-1)
+        if is_in_range(x, y, iNx, iNy, iNx + iX, iNy + iY) then
+            local pInvt = pUiInvt:get_properties():get_inventory()
+            pInvt:_update_row(-1)
+        elseif is_in_range(x, y, iPx, iPy, iPx + iX, iPy + iY) then
+            local pInvt = pUiInvt:get_properties():get_inventory()
+            pInvt:_update_row(1)
+        end
     end
 end
 

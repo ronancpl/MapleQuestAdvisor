@@ -127,6 +127,10 @@ function CInvtElem:reload_inventory(pInvt)
     update_items_for_inventory(self, pInvt)
 end
 
+function CInvtElem:reset()
+    -- do nothing
+end
+
 function CInvtElem:load(pInvt, iPx, iPy)
     local pImg = ctVwInvt:get_background()
     local iW, iH = pImg:getDimensions()

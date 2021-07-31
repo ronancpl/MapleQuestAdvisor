@@ -62,6 +62,12 @@ function CWndLayer:onwheelmoved(dx, dy)
     end
 end
 
+function CWndLayer:hide_elements()
+    for _, pChn in ipairs(self.rgpChannels) do
+        pChn:hide_elements()
+    end
+end
+
 function CWndLayer:add_element(iChn, pElem)
     local pChn = self.rgpChannels[iChn or 1]
     pChn:add_element(pElem)

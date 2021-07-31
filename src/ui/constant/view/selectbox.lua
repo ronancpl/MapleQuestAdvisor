@@ -14,6 +14,7 @@ RSelectbox = {
 
     VW_SELECTBOX = {
         LINE_ST_W = 5,
+        LINE_ST_H = 5,
         LINE_W = 200,
         LINE_H = 20,
         NUM_LINES = 5

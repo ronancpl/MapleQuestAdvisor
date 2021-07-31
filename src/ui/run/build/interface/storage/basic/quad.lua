@@ -15,8 +15,10 @@ require("composer.field.node.media.quad")
 require("ui.run.build.graphic.quad")
 require("ui.run.build.xml.directory")
 require("ui.run.load.graphic.quad")
+require("ui.struct.component.canvas.window.state")
 require("utils.procedure.string")
 require("utils.provider.io.wordlist")
+require("utils.provider.xml.parser")
 require("utils.provider.xml.provider")
 
 local function is_path_img_node(tpImgs)
@@ -61,24 +63,44 @@ local function fetch_quad_subpath(sPath, sImgPath)
     return sPath:sub(i+string.len(sImgPath)+1, -1)
 end
 
+local function fetch_cursor_state(sStatePath)
+    local sState
+
+    local iIdx = string.rfind(sStatePath, "].[")
+    if iIdx ~= nil then
+        sState = sStatePath:sub(iIdx+1)
+    else
+        sState = sStatePath
+    end
+
+    return sState
+end
+
 local function load_quad_img_sets_from_dictionary(pXmlBase, tpQuads)
     local tpPathQuad = {}
 
     for sPath, rgpImgs in pairs(tpQuads) do
-        local pXmlQuad = fetch_quad_xml_node(pXmlBase, sPath)
+        local sStatePath = fetch_cursor_state(sPath)
+
+        local pXmlQuad = fetch_quad_xml_node(pXmlBase, sStatePath)
         local rgpQuads = load_quad_img_set(pXmlQuad, rgpImgs)
 
-        tpPathQuad[sPath] = rgpQuads
+        tpPathQuad[sStatePath] = rgpQuads
     end
 
     return tpPathQuad
 end
 
-local function load_quad_img_sets_from_directory(sImgPath, sDirPath)
+local function load_quad_img_sets_from_directory(sImgPath, sDirPath, bCursor)
     local sImgDirPath = sImgPath .. "/" .. sDirPath
 
+    local tpQuads = {}
     local pDirQuads = load_quads_from_path(sImgDirPath)
-    local tpQuads = pDirQuads:get_contents()
+    local tpCursorQuads = pDirQuads:get_contents()
+    for sCursorState, tpStateQuads in pairs(tpCursorQuads) do
+        local sState = fetch_cursor_state(sCursorState)
+        tpQuads[sState] = tpStateQuads
+    end
 
     local pXmlNode = load_xml_node_from_directory(sImgPath, sDirPath)
 

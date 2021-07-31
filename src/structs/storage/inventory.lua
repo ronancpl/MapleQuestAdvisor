@@ -117,7 +117,7 @@ function CInventory:import_table(tpItems)
     self:empty()
 
     for sId, iCount in pairs(tpItems) do
-        self:add_item(tonumber(sId:sub(2, -2)), iCount)
+        self:add_item(tonumber(sId), iCount)
     end
 end
 

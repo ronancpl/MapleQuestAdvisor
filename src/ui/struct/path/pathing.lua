@@ -32,6 +32,11 @@ function CTracePath:get_root_lane()
     return self.pRootLane
 end
 
+function CTracePath:get_top_quest()
+    local pQuestProp = self.pStackProp:get_top()
+    return pQuestProp
+end
+
 function CTracePath:get_paths()
     local rgpPaths = self.pRootLane:get_paths()
     return rgpPaths
@@ -96,7 +101,7 @@ function CTracePath:_route_ahead(pPlayerState, pPath)
     end
 
     progress_player_state(ctAwarders, pLastQuestProp, pPlayerCopy, {})
-    local pRouteLane = generate_quest_route(pPlayerCopy)
+    local pRouteLane = generate_quest_route(pPlayerCopy, pUiWmap)
 
     pSublane:add_sublane(pLastQuestProp, pRouteLane)
 end

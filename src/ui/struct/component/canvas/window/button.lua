@@ -12,14 +12,14 @@
 
 require("ui.run.draw.canvas.window.button")
 require("ui.run.update.canvas.position")
+require("ui.struct.component.canvas.window.state")
 require("ui.struct.component.element.dynamic")
 require("utils.struct.class")
 
-RButtonState = {DISABLED = "disabled", MOUSE_OVER = "mouseOver", NORMAL = "normal", PRESSED = "pressed"}
-
 CButtonElem = createClass({
     eDynam = CDynamicElem:new(),
-    bPressed = false,
+    trgpQuads = {},
+    sState,
     rgpArgs,
     fn_act,
     pBtClsVwConf
@@ -37,8 +37,36 @@ function CButtonElem:set_origin(rX, rY)
     self.eDynam:set_pos(rX, rY)
 end
 
-function CButtonElem:_load_button(sButtonName)
-    local rgpQuads = ctVwButton:get_button(sButtonName)
+function CButtonElem:reset()
+    -- do nothing
+end
+
+function CButtonElem:get_ltrb()
+    return self.eDynam:get_ltrb()
+end
+
+local function fetch_button_name(sButtonPath)
+    local iIdx = string.rfind(sButtonPath, "/") or 0
+    return (sButtonPath:sub(iIdx+1))
+end
+
+function CButtonElem:update_button(sButtonImg)
+    local trgpQuads = ctVwButton:get_button(fetch_button_name(sButtonImg))
+
+    local m_trgpQuads = self.trgpQuads
+    clear_table(m_trgpQuads)
+    table_merge(m_trgpQuads, trgpQuads)
+end
+
+function CButtonElem:get_state()
+    return self.sState
+end
+
+function CButtonElem:update_state(sButtonState)
+    local m_trgpQuads = self.trgpQuads
+
+    self.sState = sButtonState
+    local rgpQuads = m_trgpQuads[sButtonState]
 
     local rX, rY = self:get_origin()
     self.eDynam:load(rX, rY, rgpQuads)
@@ -47,38 +75,36 @@ function CButtonElem:_load_button(sButtonName)
     self.eDynam:set_static(false)
 end
 
-function CButtonElem:update_state(sButtonState)
-    self:_load_button(sButtonState)
-end
-
 function CButtonElem:set_fn_trigger(fn_act, ...)
-    self.rgpArgs = {...}
+    self.rgpArgs = ... or {}
     self.fn_act = fn_act
 end
 
 function CButtonElem:onmousehoverin()
+    if self:get_state() == RButtonState.DISABLED then return end
     self:update_state(love.mouse.isDown(1) and RButtonState.PRESSED or RButtonState.MOUSE_OVER)
 end
 
 function CButtonElem:onmousehoverout()
+    if self:get_state() == RButtonState.DISABLED then return end
     self:update_state(RButtonState.NORMAL)
 end
 
 function CButtonElem:onmousereleased(x, y, button)
-    local m_fn_act = self.fn_act
-    if m_fn_act ~= nil then
-        local m_rgpArgs = self.rgpArgs
-        m_fn_act(unpack(m_rgpArgs))
+    if button == 1 then
+        if self:get_state() == RButtonState.DISABLED then return end
+
+        local m_fn_act = self.fn_act
+        if m_fn_act ~= nil then
+            local m_rgpArgs = self.rgpArgs
+            m_fn_act(unpack(m_rgpArgs))
+        end
     end
 end
 
-function CButtonElem:get_conf()
-    return self.pBtClsVwConf
-end
-
-function CButtonElem:load(pBtClsVwConf, rX, rY)
-    self.pBtClsVwConf = pBtClsVwConf
-    self:set_origin(rX, rY)
+function CButtonElem:load(sButtonImg, rX, rY)
+    self:set_origin(rX or 0, rY or 0)
+    self:update_button(sButtonImg)
     self:update_state(RButtonState.NORMAL)
 end
 
