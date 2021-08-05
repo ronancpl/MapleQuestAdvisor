@@ -24,6 +24,7 @@ require("ui.run.load.inventory")
 require("ui.run.load.resource")
 require("ui.run.load.stat")
 require("ui.run.load.worldmap")
+require("ui.struct.path.logging")
 require("utils.logger.file")
 
 log(LPath.INTERFACE, "load.txt", "Loading action handler...")
@@ -53,10 +54,10 @@ pUiStats = load_frame_stat()
 pUiRscs = load_frame_quest_resources()
 
 local pIvtItems = pPlayer:get_items():get_inventory()
-pUiInvt:update_inventory(pIvtItems)
+pUiInvt:update_inventory(pIvtItems, pPlayer:get_meso())
 log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring() .. "'")
 
-local sWmapName = "WorldMap010"
+local sWmapName = "WorldMap"
 log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
 pUiWmap:set_player(pPlayer)
 
@@ -78,9 +79,10 @@ if bStartup then
 end
 pUiHud:_fn_bt_load(pUiStats, pPlayer)
 
+player_lane_update_resources(pTrack, pUiRscs, pPlayer)
 player_lane_update_selectbox(pTrack, pUiHud)
 player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
-pUiHud:set_player_quest(pTrack)
+player_lane_update_hud(pTrack, pUiHud)
 
 pEventHdl:bind("ui.interaction.run.inventory", pUiInvt)
 pEventHdl:bind("ui.interaction.run.stat", pUiStats)
@@ -91,8 +93,14 @@ pEventHdl:bind("ui.interaction.run.hud", pUiHud)
 -- in open order
 pWndHandler:set_opened(pUiWmap)
 pWndHandler:set_opened(pUiHud)
-pWndHandler:set_opened(pUiRscs)
-pWndHandler:set_opened(pUiStats)
-pWndHandler:set_opened(pUiInvt)
+--pWndHandler:set_opened(pUiRscs)
+--pWndHandler:set_opened(pUiStats)
+--pWndHandler:set_opened(pUiInvt)
 
 pWndHandler:set_focus_wnd(pUiHud)
+
+local btGo, btSave, btLoad, btDelete = pUiHud:get_buttons_route()
+btGo:update_state(RButtonState.DISABLED)
+btSave:update_state(RButtonState.DISABLED)
+btLoad:update_state(RButtonState.DISABLED)
+btDelete:update_state(RButtonState.DISABLED)

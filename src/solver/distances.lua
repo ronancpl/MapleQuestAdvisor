@@ -15,6 +15,7 @@ require("router.procedures.constant")
 require("solver.graph.build")
 require("solver.graph.fetch")
 require("solver.graph.route")
+require("solver.graph.tree.component")
 require("solver.lookup.category.entries.tables")
 require("solver.lookup.constant")
 require("solver.procedures.remaining")
@@ -113,6 +114,7 @@ function evaluate_quest_distance(ctFieldsDist, ctAccessors, pQuestProp, pPlayerS
         pQuestRoll:set_resource_tree(pRscTree)
     else
         iDist = U_INT_MAX
+        pQuestRoll:set_resource_tree(CSolverTree:new())
     end
 
     return calc_cost_quest_distance(iDist)

@@ -163,6 +163,11 @@ local function read_quest_tab(sTabName, fn_quest_tab, pQuest, pActNode, pChkNode
     pQuestTab:set_action(pQuestActProp, rgfn_act_get)
 end
 
+local function add_requirement_quest_in_progress(pQuest)
+    local pEndQuestProp = pQuest:get_end()
+    pEndQuestProp:get_requirement():add_quest(pQuest:get_quest_id(), 1)
+end
+
 local function read_quest_node(pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
     local iQuestid = pActNode:get_name_tonumber()
     local sTitle = ctQuestsMeta:get_text(iQuestid)
@@ -176,6 +181,8 @@ local function read_quest_node(pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
 
     read_quest_tab("0", CQuest.get_start, pQuest, pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
     read_quest_tab("1", CQuest.get_end, pQuest, pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
+
+    add_requirement_quest_in_progress(pQuest)   -- requirement to complete quests
 
     return pQuest
 end

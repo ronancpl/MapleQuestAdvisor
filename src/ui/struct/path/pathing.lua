@@ -42,13 +42,18 @@ function CTracePath:get_paths()
     return rgpPaths
 end
 
+function CTracePath:get_recommended_paths()
+    local rgpPaths = self.pRootLane:get_recommended_paths()
+    return rgpPaths
+end
+
 function CTracePath:get_sublanes()
     local rgpLanes = self.pRootLane:get_sublanes()
     return rgpLanes
 end
 
 function CTracePath:_push_lane(pQuestProp, pLane)
-    self.pStackLane:push(pLane)
+    self.pStackLane:push(self.pRootLane)
     self.pStackProp:push(pQuestProp)
 
     self.pRootLane = pLane
@@ -60,6 +65,11 @@ function CTracePath:_pop_lane()
 
     self.pRootLane = pLane
 
+    return pQuestProp
+end
+
+function CTracePath:get_top_lane()
+    local pQuestProp = self.pStackLane:get_top()
     return pQuestProp
 end
 
@@ -88,22 +98,46 @@ function CTracePath:trim_back()
     end
 end
 
+function CTracePath:_route_fetch_path_follow_ahead(pPath)
+    local rgpQuestProps = pPath:list()
+
+    local pSublane = self:get_root_lane()
+
+    local i = 0
+    for _, pQuestProp in ipairs(rgpQuestProps) do
+        pSublane = pSublane:get_sublane(pQuestProp)
+        if pSublane == nil then
+            break
+        end
+
+        i = i + 1
+    end
+
+    local rgpFollowQuestProps = {}
+    for j = 1, i, 1 do
+        table.insert(rgpFollowQuestProps, rgpQuestProps[j])
+    end
+    return rgpFollowQuestProps
+end
+
 function CTracePath:_route_ahead(pPlayerState, pPath)
     local pPlayerCopy = pPlayerState:clone()
 
-    local rgpQuestProps = pPath:list()
-    local pLastQuestProp = table.remove(rgpQuestProps)
+    local rgpQuestProps = self:_route_fetch_path_follow_ahead(pPath)    -- prune quest path not found in lane
+    if #rgpQuestProps > 1 then
+        local pLastQuestProp = table.remove(rgpQuestProps)
 
-    local pSublane = self:get_root_lane()
-    for _, pQuestProp in ipairs(rgpQuestProps) do
-        progress_player_state(ctAwarders, pQuestProp, pPlayerCopy, {})
-        pSublane = pSublane:get_sublane(pQuestProp)
+        local pSublane = self:get_root_lane()
+        for _, pQuestProp in ipairs(rgpQuestProps) do
+            progress_player_state(ctAwarders, pQuestProp, pPlayerCopy, {})
+            pSublane = pSublane:get_sublane(pQuestProp)
+        end
+
+        progress_player_state(ctAwarders, pLastQuestProp, pPlayerCopy, {})
+        local pRouteLane = generate_quest_route(pPlayerCopy, pUiWmap)
+
+        pSublane:add_sublane(pLastQuestProp, pRouteLane)
     end
-
-    progress_player_state(ctAwarders, pLastQuestProp, pPlayerCopy, {})
-    local pRouteLane = generate_quest_route(pPlayerCopy, pUiWmap)
-
-    pSublane:add_sublane(pLastQuestProp, pRouteLane)
 end
 
 function CTracePath:look_ahead(pPlayerState, bBroadcastLookahead)
@@ -116,27 +150,26 @@ function CTracePath:look_ahead(pPlayerState, bBroadcastLookahead)
         end
     else
         local nQuestsAhead = U_INT_MIN
+        local pPath = nil
         for _, pSubpath in ipairs(self:get_paths()) do
-            nQuestsAhead = math.max(nQuestsAhead, pSubpath:size())
+            if nQuestsAhead < pSubpath:size() then
+                pPath = pSubpath
+                nQuestsAhead = pSubpath:size()
+            end
         end
 
         if nQuestsAhead < RWndConfig.TRACK.MAX_AHEAD_TO_SEARCH then
-            self:_route_ahead(pPlayerState, self.pRootLane:get_path())
+            self:_route_ahead(pPlayerState, pPath)
         end
     end
 end
 
 function CTracePath:to_string()
-    local st = ""
+    local st = "["
     for _, pQuestProp in ipairs(self.pStackProp:list()) do
         st = st .. pQuestProp:get_name() .. ", "
     end
-
-    st = st .. " >> ["
-    for pQuestProp, _ in pairs(self.pRootLane:get_sublanes()) do
-        st = st .. pQuestProp:get_name() .. ", "
-    end
-    st = st .. "]"
+    st = st .. "] >> " .. self.pRootLane:to_string()
 
     return st
 end

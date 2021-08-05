@@ -156,12 +156,12 @@ function CWndHandler:on_mousemoved(x, y, dx, dy, istouch)
     if not love.mouse.isDown(1) then
         local pUiWnd = self:_find_mouse_focus_wnd(x, y)
         if pUiWnd ~= nil then
-            pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
-
             local m_pFocusUiWnd = self.pFocusUiWnd
             if m_pFocusUiWnd ~= pUiWnd then
                 m_pFocusUiWnd:hide_elements()
                 self.pFocusUiWnd = pUiWnd
+
+                pFrameBasic:get_cursor():update_state(RWndPath.MOUSE.BT_NORMAL)
             end
 
             self.bUpdFocus = false

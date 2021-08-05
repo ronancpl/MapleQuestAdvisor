@@ -231,8 +231,19 @@ local function draw_inventory_slider(pVwInvt)
     pVwInvt:get_slider():draw(iPx, iPy)
 end
 
+local function draw_inventory_meso(pVwInvt)
+    local iPx
+    local iPy
+    iPx, iPy = pVwInvt:get_origin()
+
+    local pTxtMeso = pVwInvt:get_txt_meso()
+    local iWidth = pTxtMeso:getWidth()
+    love.graphics.draw(pTxtMeso, iPx + RInventory.VW_MESO.X + (RInventory.VW_MESO.W - iWidth) - RInventory.VW_MESO.ST_X, iPy + RInventory.VW_MESO.Y + RInventory.VW_MESO.ST_Y)
+end
+
 function draw_table_player_inventory(pVwInvt)
     draw_inventory_background(pVwInvt)
     draw_inventory_slider(pVwInvt)
     draw_inventory_tabs(pVwInvt)
+    draw_inventory_meso(pVwInvt)
 end

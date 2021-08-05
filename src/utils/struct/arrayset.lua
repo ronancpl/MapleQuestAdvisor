@@ -61,6 +61,8 @@ function SArraySet:remove(pItem)
         m_apItems:remove(iIdx, iIdx)
         self:_rearrange_keys(iIdx)
     end
+
+    return iIdx
 end
 
 function SArraySet:remove_all()

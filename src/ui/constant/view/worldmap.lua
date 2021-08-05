@@ -14,8 +14,8 @@ RWmapMarkerState = {
     STATION_IN = false,
     STATION_OUT = false,
     DEFAULT = true,
-    PLAYER = false,
-    TARGET = false
+    PLAYER = true,
+    TARGET = true
 }
 
 RWmapTooltipType = {

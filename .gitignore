@@ -5,6 +5,7 @@ lib/xml/*
 route/**
 !lib/xml/Map.wz
 **/media/images/
+**/media/images2/
 
 # Compiled Lua sources
 luac.out

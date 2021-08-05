@@ -12,9 +12,9 @@
 
 require("ui.struct.component.canvas.inventory.inventory")
 
-function load_view_inventory(pIvtItems, iPx, iPy)
+function load_view_inventory(pIvtItems, iMeso, iPx, iPy)
     local pInvt = CInvtElem:new()
-    pInvt:load(pIvtItems, iPx, iPy)
+    pInvt:load(pIvtItems, iMeso, iPx, iPy)
 
     return pInvt
 end

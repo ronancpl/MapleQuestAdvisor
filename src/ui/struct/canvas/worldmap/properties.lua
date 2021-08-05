@@ -141,7 +141,7 @@ function CWmapProperties:get_track()
     return self.pTrack
 end
 
-function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, pUiRscs)
+function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
     self:reset()
 
     local pBaseImgNode = pWmapRegion:get_base_img()

@@ -64,7 +64,7 @@ function CCursorElem:_update_state_mouse(iOpt)
     end
 end
 
-function CCursorElem:_fetch_mouse_state(iCursorOpt)
+function CCursorElem:_fetch_state_mouse(iCursorOpt)
     local iUpdateCursorId = math.abs(iCursorOpt)
 
     local m_btState = self.btState
@@ -74,19 +74,21 @@ function CCursorElem:_fetch_mouse_state(iCursorOpt)
         return self.bScrollVert and RWndPath.MOUSE.BT_SCROLL_Y or RWndPath.MOUSE.BT_SCROLL_X
     elseif bit.band(m_btState, bit.lshift(1, RMouseState.CLICKABLE)) ~= 0 then
         return RWndPath.MOUSE.BT_CLICKABLE
-    else
+    elseif iCursorOpt <= 0 then
         return RWndPath.MOUSE.BT_NORMAL
+    else
+        return iCursorOpt
     end
 end
 
 function CCursorElem:_fetch_state(iCursorOpt)
     self:_update_state_mouse(iCursorOpt)
 
-    local iNextCursorId = self:_fetch_mouse_state(iCursorOpt)
+    local iNextCursorId = self:_fetch_state_mouse(iCursorOpt)
     return iNextCursorId
 end
 
-function CCursorElem:load_mouse(iCursorOpt)
+function CCursorElem:update_state(iCursorOpt)
     local iNewCursorId = self:_fetch_state(iCursorOpt)
     if self.iCursorId ~= iNewCursorId then
         self.iCursorId = iNewCursorId

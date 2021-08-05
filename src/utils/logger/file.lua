@@ -23,7 +23,8 @@ LPath = {
     QUEST_PATH = "path/",
     RESOURCE_LOCATION = "location/",
     OVERALL = "overall/",
-    PROCEDURES = "procedures/"
+    PROCEDURES = "procedures/",
+    TRAJECTORY = "walk/"
 
 }
 

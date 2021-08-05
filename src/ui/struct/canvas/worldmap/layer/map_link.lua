@@ -21,11 +21,16 @@ require("utils.struct.class")
 
 CWmapNavMapLink = createClass({CWndLayer, {
     pSetLinkVisible = SArraySet:new(),
+    pLinkVisible,
     tpLinkFields = {},
     tFieldLink = {},
     iLastMx = U_INT_MAX,
     iLastMy = U_INT_MAX
 }})
+
+function CWmapNavMapLink:get_link_visible()
+    return self.pLinkVisible
+end
 
 local function is_in_area(pElem, iLx, iTy, iRx, iBy)
     local iX, iY = pElem:get_object():get_center()
@@ -200,17 +205,22 @@ function CWmapNavMapLink:_select_next_link_visible()
     return pLinkVisible
 end
 
+function CWmapNavMapLink:_update_link_visible()
+    self:_sort_nearest_visible()
+    self.pLinkVisible = self:_select_next_link_visible()
+end
+
 function CWmapNavMapLink:before_update(dt)
     local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_PTEXT)
     pLyr:reset_board()
 
     if self:_should_sort_visible() then
-        self:_sort_nearest_visible()
+        self:_update_link_visible()
     end
 
-    local pLinkVisible = self:_select_next_link_visible()
+    local m_pLinkVisible = self.pLinkVisible
     for _, pLinkNode in ipairs(self:get_elements(LChannel.WMAP_LINK_IMG)) do
-        if pLinkNode == pLinkVisible then
+        if pLinkNode == m_pLinkVisible then
             pLinkNode:visible()
         else
             pLinkNode:hidden()
@@ -222,12 +232,20 @@ function CWmapNavMapLink:add_link_visible(pLinkVisible)
     local m_pSetLinkVisible = self.pSetLinkVisible
     m_pSetLinkVisible:add(pLinkVisible)
 
-    self:_sort_nearest_visible()
+    if self:_should_sort_visible() then
+        self:_update_link_visible()
+    end
 end
 
 function CWmapNavMapLink:remove_link_visible(pLinkVisible)
     local m_pSetLinkVisible = self.pSetLinkVisible
-    m_pSetLinkVisible:remove(pLinkVisible)
+
+    local iIdx = m_pSetLinkVisible:remove(pLinkVisible)
+    if iIdx ~= nil then
+        if pLinkVisible == self:get_link_visible() then
+            self:_update_link_visible()
+        end
+    end
 end
 
 function CWmapNavMapLink:is_link_visible(pLinkVisible)

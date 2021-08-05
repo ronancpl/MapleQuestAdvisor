@@ -43,6 +43,11 @@ CWndHud = createClass({
     pNavCurQuest,
     pSlctNavQuest,
 
+    sFont = RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf",
+    iFontHeight = 25,
+
+    iFontOngoingHeight,
+    iFontOngoingSize,
     pFontOngoingQuest,
     pTxtOngoingQuest,
 
@@ -63,6 +68,10 @@ function CWndHud:get_position()
     return iLx, iTy
 end
 
+function CWndHud:get_text_height()
+    return self.iFontOngoingHeight
+end
+
 function CWndHud:get_elements()
     local rgpItems = {}
     table_append(rgpItems, self.pBtChannel:get_elements())
@@ -77,7 +86,9 @@ end
 
 function CWndHud:clear_mouse_hover()
     for _, pElem in ipairs(self.pBtChannel:get_elements()) do
-        pElem:update_state(RButtonState.NORMAL)
+        if pElem:get_state() ~= RButtonState.DISABLED then
+            pElem:update_state(RButtonState.NORMAL)
+        end
     end
     self.pSlctNavQuest:update_state(RSelectBoxState.NORMAL)
 
@@ -156,6 +167,10 @@ function CWndHud:_load_bt_delete(pUiStats, pPlayer)
 
     self.btDelete = bt
     self.pBtChannel:add_element(bt)
+end
+
+function CWndHud:get_buttons_route()
+    return self.btGo, self.btSave, self.btLoad, self.btDelete
 end
 
 function CWndHud:_fn_wnd_toggle_open(pUiWnd)
@@ -256,33 +271,54 @@ function CWndHud:_load_nav_player_background()
     self.pNavOngoingQuest = eTexture
 end
 
-function CWndHud:_load_nav_player_text(iQuestid)
-    self.pFontOngoingQuest = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf", 25)
-    self.pTxtOngoingQuest = love.graphics.newText(self.pFontOngoingQuest)
+function CWndHud:_take_font_nav_player(sOngoingQuest)
+    local sFont = self.sFont
+    local iSize = self.iFontHeight
 
-    --local sOngoingQuest = iQuestid ~= nil and ctQuestsMeta:get_title(iQuestid) or "-"
-    local sOngoingQuest
-    if self:get_nav_select_quest():get_num_options() > 0 then
-        sOngoingQuest = self:get_nav_select_quest():get_text(1)
-    else
-        sOngoingQuest = "-"
+    local pFont
+    while true do
+        local rgsTextWrap
+
+        pFont = ctPoolFont:take_font(sFont, iSize)
+        _, rgsTextWrap = pFont:getWrap(sOngoingQuest, RActionElement.NAV_QUEST.LINE_WIDTH)
+
+        if #rgsTextWrap < 2 or iSize < 15 then
+            self.iFontOngoingHeight = #rgsTextWrap * pFont:getHeight(sText)
+            break
+        end
+
+        ctPoolFont:put_font(pFont, sFont, iSize)
+        iSize = iSize - 5
     end
+
+    self.iFontOngoingSize = iSize
+
+    return pFont
+end
+
+function CWndHud:_load_nav_player_text(iQuestid)
+    local sOngoingQuest = iQuestid ~= nil and ctQuestsMeta:get_text(iQuestid) or "-"
+
+    self.pFontOngoingQuest = self:_take_font_nav_player(sOngoingQuest)
+    self.pTxtOngoingQuest = ctPoolFont:take_text(self.pFontOngoingQuest)
 
     self.pTxtOngoingQuest:setf({{0, 0, 0}, sOngoingQuest}, RActionElement.NAV_QUEST.LINE_WIDTH, "center")
 end
 
-function CWndHud:free_text()
-    if self.pTxtOngoingQuest ~= nil then
-        self.pTxtOngoingQuest = nil
-    end
+function CWndHud:_free_nav_player_text()
+    if self.pFontOngoingQuest ~= nil then
+        if self.pTxtOngoingQuest ~= nil then
+            ctPoolFont:put_text(self.pFontOngoingQuest, self.pTxtOngoingQuest)
+            self.pTxtOngoingQuest = nil
+        end
 
-    if self.pFontTitle ~= nil then
-        self.pFontTitle = nil
+        ctPoolFont:put_font(self.pFontOngoingQuest, self.sFont, self.iFontOngoingSize)
+        self.pFontOngoingQuest = nil
     end
 end
 
 function CWndHud:_load_nav_player_quest(iQuestid)
-    self:free_text()
+    self:_free_nav_player_text()
 
     self:_load_nav_player_background()
     self:_load_nav_player_text(iQuestid)
@@ -296,14 +332,15 @@ function CWndHud:draw_player_quest()
     local iPx, iPy = unpack(RActionElement.NAV_QUEST.POSITION)
     self.pNavOngoingQuest:draw(iPx, iPy)
 
-    love.graphics.draw(self.pTxtOngoingQuest, iPx, iPy)
+    love.graphics.draw(self.pTxtOngoingQuest, iPx, iPy - math.floor(math.max((self:get_text_height() - 46) / 2), 0))
 
     local iNx, iNy = unpack(RActionElement.NAV_NEXT_QUEST.POSITION)
     self.pSlctNavQuest:draw(iNx, iNy)
 end
 
 function CWndHud:set_player_quest(pTrack)
-    self:_load_nav_player_quest(pTrack:get_top_quest())
+    local pQuestProp = pTrack:get_top_quest()
+    self:_load_nav_player_quest(pQuestProp ~= nil and pQuestProp:get_quest_id() or nil)
 end
 
 function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)

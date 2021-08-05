@@ -40,12 +40,21 @@ end
 function CQuestTable:add_quest(pQuest)
     local m_tpQuests = self.tpQuests
     m_tpQuests[pQuest:get_quest_id()] = pQuest
-    m_tpQuests[pQuest:get_title()] = pQuest
+
+    local m_tpTitleQuests = self.tpTitleQuests
+    m_tpTitleQuests[pQuest:get_title()] = pQuest
 end
 
 function CQuestTable:remove_quest(iQuestid)
     local m_tpQuests = self.tpQuests
+
+    local pQuest = m_tpQuests[iQuestid]
     m_tpQuests[iQuestid] = nil
+
+    if pQuest ~= nil then
+        local m_tpTitleQuests = self.tpTitleQuests
+        m_tpTitleQuests[pQuest:get_title()] = nil
+    end
 end
 
 local function is_inoperative_quest(pQuest)

@@ -39,8 +39,10 @@ function player_lane_move_back(pTrack, pPlayerState, rgpPoolProps)
     local pQuestProp = pTrack:move_back()
     if pQuestProp ~= nil then
         rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+        return true
     else
         log(LPath.FALLBACK, "quest_lane.txt", " TRACK BASE REACHED")
+        return false
     end
 end
 
@@ -52,19 +54,30 @@ function player_lane_trim_back(pTrack)
     pTrack:trim_back()
 end
 
+function player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
+    local pQuestProp = pTrack:get_top_quest()
+    if pQuestProp ~= nil then
+        local pPath = pTrack:get_top_lane():get_path_by_quest(pQuestProp)
+        if pPath ~= nil then
+            local pRscTree = pPath:get_node_allot(1):get_resource_tree()
+            pUiRscs:update_resources(pQuestProp, pRscTree)
+        end
+    end
+end
+
 function player_lane_update_selectbox(pTrack, pUiHud)
     local st = ""
-    for _, pPath in pairs(pTrack:get_paths()) do
+    for _, pPath in pairs(pTrack:get_recommended_paths()) do
         local pQuestProp = pPath:list()[1]
         local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
         st = st .. "[" .. tostring(pQuestProp:get_quest_id()) .. " : " .. pQuest:get_title() .. "], "
     end
 
-    log(LPath.PROCEDURES, "track.txt", "Next quest : " .. st)
-    log(LPath.PROCEDURES, "track.txt", "==============")
+    log(LPath.TRAJECTORY, "track.txt", "Next quest : " .. st)
+    log(LPath.TRAJECTORY, "track.txt", "==============")
 
     local rgsTextList = {}
-    for _, pPath in pairs(pTrack:get_paths()) do
+    for _, pPath in pairs(pTrack:get_recommended_paths()) do
         local pQuestProp = pPath:list()[1]
         local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
         table.insert(rgsTextList, pQuest:get_title())
@@ -75,7 +88,11 @@ function player_lane_update_selectbox(pTrack, pUiHud)
 end
 
 function player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
-    pUiInvt:update_inventory(pIvtItems)
+    pUiInvt:update_inventory(pIvtItems, pPlayer:get_meso())
     pUiStats:update_stats(pPlayer, siExpRate, siMesoRate, siDropRate)
     pUiWmap:update_region(sWmapName, pUiRscs)
+end
+
+function player_lane_update_hud(pTrack, pUiHud)
+    pUiHud:set_player_quest(pTrack)
 end

@@ -26,6 +26,9 @@ CInvtElem = createClass({
     iSlctTab,
     iSlctRow,
 
+    pMesoTxt,
+    iMeso = 0,
+
     nVwItems,
 
     rgpVwItems = {},
@@ -118,7 +121,11 @@ function CInvtElem:set_view_range(iIdxFrom, iIdxTo)
     m_rgiCurRange[2] = iIdxTo
 end
 
-function CInvtElem:reload_inventory(pInvt)
+function CInvtElem:reload_inventory(pInvt, iMeso)
+    if iMeso ~= nil then
+        self:set_meso(iMeso)
+    end
+
     local m_rgpTabVwItems = self.rgpTabVwItems
     for i = 1, 5, 1 do
         m_rgpTabVwItems[i] = {}
@@ -131,10 +138,55 @@ function CInvtElem:reset()
     -- do nothing
 end
 
-function CInvtElem:load(pInvt, iPx, iPy)
+function CInvtElem:load_txt_meso()
+    local pFont = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
+    self.pMesoTxt = love.graphics.newText(pFont)
+end
+
+function CInvtElem:get_txt_meso()
+    return self.pMesoTxt
+end
+
+function CInvtElem:get_meso()
+    return self.iMeso
+end
+
+function CInvtElem:_stringify_meso(iMeso)
+    local rgiSp
+
+    local st = ""
+
+    local iVal = iMeso
+    if iVal > 1 then
+        while iVal >= 1 do
+            local iR = iVal % 1000
+            st = "," .. iR .. st
+
+            iVal = math.floor(iVal / 1000)
+        end
+
+        return st:sub(2)
+    else
+        return 0
+    end
+end
+
+function CInvtElem:set_meso(iMeso)
+    self.iMeso = iMeso
+
+    local m_pMesoTxt = self.pMesoTxt
+
+    local sMeso = self:_stringify_meso(iMeso)
+    m_pMesoTxt:setf({{0, 0, 0}, sMeso}, RInventory.VW_MESO.W, "left")
+end
+
+function CInvtElem:load(pInvt, iMeso, iPx, iPy)
     local pImg = ctVwInvt:get_background()
     local iW, iH = pImg:getDimensions()
     self.eBox:load(iPx, iPy, iW, iH)
+
+    self:load_txt_meso()
+    self:set_meso(iMeso)
 
     self.pSlider:load(RSliderState.NORMAL, RInventory.VW_INVT_SLIDER.H, true, true, RInventory.VW_INVT_SLIDER.X, RInventory.VW_INVT_SLIDER.Y)
     self:reload_inventory(pInvt)

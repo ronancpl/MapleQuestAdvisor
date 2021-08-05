@@ -24,7 +24,7 @@ end
 
 local function fetch_pos_repacker_subrepeat(rgsSp)
     for i = 1, #rgsSp, 1 do
-        if string.ends_with(rgsSp[i], ".wz") then
+        if string.ends_with(rgsSp[i], ".img") then
             return i
         end
     end
@@ -32,8 +32,8 @@ local function fetch_pos_repacker_subrepeat(rgsSp)
     return -1
 end
 
-local function parse_repacker_path(sImgPath)
-    local nSubRepeat = LInput.REPACKER_REPEAT_SUBDIR
+local function parse_repacker_path_repeater(sImgPath, iNumRepeats)
+    local nSubRepeat = iNumRepeats
 
     local rgsSp = split_path(sImgPath)
 
@@ -42,13 +42,13 @@ local function parse_repacker_path(sImgPath)
     local iIdxRep = fetch_pos_repacker_subrepeat(rgsSp)
     if iIdxRep > -1 then
 
-        -- same path prefix until ".wz"
-        for i = 1, iIdxRep, 1 do
+        -- same path prefix until before ".img"
+        for i = 1, iIdxRep -1, 1 do
             table.insert(rgsPathFound, rgsSp[i])
         end
 
         -- repeater
-        for i = iIdxRep + 1, #rgsSp - 1, 1 do
+        for i = iIdxRep, #rgsSp - 1, 1 do
             for j = 1, nSubRepeat, 1 do
                 table.insert(rgsPathFound, rgsSp[i])
             end
@@ -59,6 +59,32 @@ local function parse_repacker_path(sImgPath)
     end
 
     return table.concat(rgsPathFound, "/")
+end
+
+local function parse_repacker_path_dot(sImgPath, bItc)
+    local iIdx = sImgPath:rfind(".img")
+    local sLpath = sImgPath:sub(1, iIdx + 3)
+
+    local sRpath = sImgPath:sub(iIdx + 5)
+    if bItc then    -- skip duplicate name from folder path
+        local iIdx = string.find(sRpath, "/")
+        sRpath = sRpath:sub(iIdx + 1)
+    end
+
+    sRpath = string.gsub(sRpath, "/", ".")
+
+    return sLpath .. "/" .. sRpath
+end
+
+local function num_path_repeats(sImgPath)
+    return (string.starts_with(sImgPath, "Character.wz") or string.starts_with(sImgPath, "Item.wz")) and 2 or 1
+end
+
+local function parse_repacker_path(sImgPath)
+    if true then return sImgPath end
+    sImgPath = parse_repacker_path_repeater(sImgPath, num_path_repeats(sImgPath))
+    sImgPath = parse_repacker_path_dot(sImgPath, string.starts_with(sImgPath, "UI.wz/ITC.img"))
+    return sImgPath
 end
 
 function load_image_from_path(sImgPath)
@@ -78,12 +104,12 @@ end
 local function load_images_from_directory_path(sPath, sBasePath)
     local tpImgs = {}
 
-    local pInfo = love.filesystem.getInfo(sPath)
+    local pInfo = love.filesystem.getInfo(parse_repacker_path(sPath))
     if pInfo ~= nil then
         local sInfoType = pInfo.type
         if sInfoType == "directory" then
             local sDirPath = sPath
-            local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
+            local rgsFiles = love.filesystem.getDirectoryItems(parse_repacker_path(sDirPath))
             for _, sFileName in ipairs(rgsFiles) do
                 local tpDirImgs = load_images_from_directory_path(sDirPath .. "/" .. sFileName, sBasePath)
                 table_merge(tpImgs, tpDirImgs)

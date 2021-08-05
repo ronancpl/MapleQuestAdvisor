@@ -93,7 +93,7 @@ function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc)
 
     self.pProp:set_worldmap_name(sWmapName)
 
-    self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, pUiRscs)
+    self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
 
     local pPlayer = self:get_player()
     if pPlayer ~= nil then
@@ -104,7 +104,7 @@ function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc)
         local pRscTree = pUiRscs:get_properties():get_resource_tree()
         select_worldmap_resource_active(pUiWmap, pRscTree, pVwRsc)
     else
-        update_worldmap_resource_actives(self, pUiRscs)
+        --update_worldmap_resource_actives(self, pUiRscs)
     end
 
     self.pCanvas:build(self.pProp)

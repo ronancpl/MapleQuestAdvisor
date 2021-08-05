@@ -158,21 +158,26 @@ function CQuestPath:get_fetch_time()
     return self.sFetchTime
 end
 
-function CQuestPath:debug_path()
+function CQuestPath:to_string()
     local i = 1
     local st = ""
     for _, pQuestProp in pairs(self.rgpPath:list()) do
         st = st .. pQuestProp:get_name(true) .. ":" .. self.pPathValStack[i] .. ", "
         i = i + 1
     end
-    st = "[" .. st .. "]"
+    st = " >> [" .. st .. "]"
 
-    print("ROUTE VAL : " .. self.fAccPathValue)
-    print(st)
+    st = " " .. self.fAccPathValue .. "" .. st
 
     local fCount = 0.0
     for k, v in pairs(self.pPathValStack) do
         fCount = fCount + v
     end
-    print("R: " .. tostring(fCount == self.fAccPathValue))
+    st = "Path " .. tostring(fCount == self.fAccPathValue) .. st
+
+    return st
+end
+
+function CQuestPath:debug_path()
+    print(self:to_string())
 end

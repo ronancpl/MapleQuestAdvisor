@@ -89,7 +89,9 @@ end
 function CWmapElemRegionLink:onmousereleased(rx, ry, button)
     if button == 1 then
         local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MAPLINK)
-        if pLyr:is_link_visible(self) then
+
+        local pLinkVisible = pLyr:get_link_visible()
+        if self == pLinkVisible then
             self:_access_inner_map()
         end
     end

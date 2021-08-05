@@ -14,20 +14,37 @@ require("ui.constant.view.resource")
 require("ui.struct.component.canvas.resource.item.link")
 require("ui.struct.component.canvas.resource.item.picture")
 require("ui.struct.component.canvas.resource.tab.mini")
+require("utils.procedure.unpack")
+
+local function get_resource_field_ref(pRscTree, iRscId)
+    local rgiFields = pRscTree:get_fields_from_resource(iRscId)
+
+    local trgiFields = {}
+    for _, iMapid in ipairs(rgiFields) do
+        local iRegionid = pLandscape:get_region_by_mapid(iMapid)
+
+        local rgiRegFields = create_inner_table_if_not_exists(trgiFields, iRegionid)
+        table.insert(rgiRegFields, iMapid)
+    end
+
+    return rgiRegFields
+end
 
 local function make_tab_resources_items(pRscProp)
     local rgpVwItems = {}
 
     local siType = RResourceTable.TAB.ITEMS.ID
 
+    local pRscTree = pRscProp:get_resource_tree()
+
     for iId, iCount in pairs(pRscProp:get_info_item():get_items()) do
         local pVwItem = CRscElemItemPicture:new()
 
         local pImg = ctHrItems:load_image_by_id(iId)
         local sDesc = ctItemsMeta:get_text(iId, 1)
-        local iFieldRef = 100000000
+        local trgiFieldsRef = get_resource_field_ref(pRscTree, iRscId)
 
-        pVwItem:load(siType, iId, tpRscGridMini, pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID_MINI.ITEMS, true)
+        pVwItem:load(siType, iId, tpRscGridMini, pImg, iCount, sDesc, trgiFieldsRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID_MINI.ITEMS, true)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -40,14 +57,16 @@ local function make_tab_resources_mobs(pRscProp)
 
     local siType = RResourceTable.TAB.MOBS.ID
 
+    local pRscTree = pRscProp:get_resource_tree()
+
     for iId, iCount in pairs(pRscProp:get_info_mob():get_mobs()) do
         local pVwItem = CRscElemItemPicture:new()
 
         local pImg = ctHrMobs:load_image_by_id(iId)
         local sDesc = ctMobsMeta:get_text(iId)
-        local iFieldRef = 100000000
+        local trgiFieldsRef = get_resource_field_ref(pRscTree, iId)
 
-        pVwItem:load(siType, iId, tpRscGridMini, pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_BASE.MOBS, RResourceTable.VW_GRID_MINI.MOBS, true)
+        pVwItem:load(siType, iId, tpRscGridMini, pImg, iCount, sDesc, trgiFieldsRef, RResourceTable.VW_BASE.MOBS, RResourceTable.VW_GRID_MINI.MOBS, true)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -60,15 +79,17 @@ local function make_tab_resources_npc(pRscProp)
 
     local siType = RResourceTable.TAB.NPC.ID
 
+    local pRscTree = pRscProp:get_resource_tree()
+
     local iId = pRscProp:get_info_npc():get_npc()
     if iId >= 0 then
         local pVwItem = CRscElemItemPicture:new()
 
         local pImg = ctHrNpcs:load_image_by_id(iId)
         local sDesc = ctNpcsMeta:get_text(iId)
-        local iFieldRef = 100000000
+        local trgiFieldsRef = get_resource_field_ref(pRscTree, iId)
 
-        pVwItem:load(siType, iId, tpRscGridMini, pImg, nil, sDesc, iFieldRef, RResourceTable.VW_BASE.NPCS, RResourceTable.VW_GRID_MINI.NPCS, true)
+        pVwItem:load(siType, iId, tpRscGridMini, pImg, nil, sDesc, trgiFieldsRef, RResourceTable.VW_BASE.NPCS, RResourceTable.VW_GRID_MINI.NPCS, true)
 
         table.insert(rgpVwItems, pVwItem)
     end

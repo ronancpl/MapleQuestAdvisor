@@ -19,7 +19,7 @@ end
 local function load_lua_pids(sFilePath)
     local tpPids = {}
 
-    local fIn = assert( io.open(sFilePath, "r") )
+    local fIn = io.open(sFilePath, "r")
     if fIn ~= nil then
         local osLines = fIn:lines()
 

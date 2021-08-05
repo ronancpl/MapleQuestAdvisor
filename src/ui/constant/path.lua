@@ -14,6 +14,7 @@ RWndPath = {
 
     LOVE_FONT_DIR_PATH = "/media/fonts/",
     LOVE_IMAGE_DIR_PATH = "/media/images/",
+    LOVE_IMAGE_PATH_ICON = "/media/icon.png",
 
     WZ_IMAGE_PATH = "lib/xml/",
 

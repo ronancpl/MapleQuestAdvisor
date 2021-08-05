@@ -116,7 +116,7 @@ local function route_internal_node(rgpPoolProps, rgpQuestProps, pFrontierQuests,
         local pQuestProp = pFrontierQuests:peek()
         if pQuestProp == nil then
             break
-        elseif not pCurrentPath:is_in_path(pQuestProp) then
+        elseif not pCurrentPath:is_in_path(pQuestProp) and pCurrentPath:size() < RGraph.LANE_PATH_MAX_SIZE then
             pQuestProp:install_player_state(pPlayerState)       -- allow find quest requisites and rewards player-state specific
 
             route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
@@ -173,31 +173,6 @@ local function fetch_most_value_path(pLeadingPath, rgpPaths)
     return pMvPath
 end
 
-local function filter_route_paths(pLeadingPath)
-    local tpPaths = {}
-
-    for _, pPath in ipairs(pLeadingPath:list()) do
-        local st = ""
-        for _, pQuestProp in ipairs(pPath:list()) do
-            st = st .. pQuestProp:get_name()
-        end
-
-        local rgpPaths = create_inner_table_if_not_exists(tpPaths, st)
-        table.insert(rgpPaths, pPath)
-    end
-
-    for _, rgpPaths in pairs(tpPaths) do
-        if #rgpPaths > 1 then
-            local pMvPath = fetch_most_value_path(pLeadingPath, rgpPaths)
-            for _, pPath in ipairs(rgpPaths) do
-                if pPath ~= pMvPath then
-                    pLeadingPath:remove(pPath)
-                end
-            end
-        end
-    end
-end
-
 function load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     local rgpFixedPaths = load_quest_paths(rgsPaths, pPlayer)
 
@@ -212,8 +187,5 @@ function load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctF
     end
 
     log(LPath.OVERALL, "log.txt", "Search finished.")
-    filter_route_paths(pLeadingPath)
-
-    --print_path_search_counts()
     return pLeadingPath
 end

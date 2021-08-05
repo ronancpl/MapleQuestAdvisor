@@ -24,11 +24,11 @@ CWndInventory = createClass({CWndBase, {
     pProp = CInvtProperties:new()
 }})
 
-function CWndInventory:update_inventory(pIvtItems)
+function CWndInventory:update_inventory(pIvtItems, iMeso)
     self.pCanvas:reset()
 
     self.pCanvas:build(self.pProp)
-    self.pProp:update_inventory(pIvtItems)
+    self.pProp:update_inventory(pIvtItems, iMeso)
 end
 
 function CWndInventory:get_window_position()

@@ -21,13 +21,8 @@ local function draw_selectbox_cover(pSlctBox)
 
     local pTxtSlct = pSlctBox:get_text_selected()
     if pTxtSlct ~= nil then
-        --pTxtSlct
-        pFontOngoingQuest = love.graphics.newFont(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
-        pTxtOngoingQuest = love.graphics.newText(pFontOngoingQuest)
-        pTxtOngoingQuest:setf({{0, 0, 0}, pSlctBox:get_text_opt()}, RActionElement.NAV_QUEST.LINE_WIDTH, "center")
-
-        love.graphics.draw(pTxtOngoingQuest, iLx + RSelectbox.VW_SELECTBOX.LINE_ST_W, iTy + RSelectbox.VW_SELECTBOX.LINE_ST_H)
-        --pSlctBox:free_visible_item(pTxtSlct)
+        love.graphics.draw(pTxtSlct, iLx + RSelectbox.VW_SELECTBOX.LINE_ST_W, iTy + RSelectbox.VW_SELECTBOX.LINE_ST_H)
+        pSlctBox:free_visible_text(pTxtSlct)
     end
 end
 
@@ -38,7 +33,7 @@ local function draw_selectbox_items(pSlctBox)
 
     local iLx, iTy, _, iBy = pSlctBox:get_ltrb()
 
-    local rgpBoxItems = pSlctBox:fetch_visible_items()
+    local rgpBoxItems = pSlctBox:fetch_visible_texts()
 
     love.graphics.setColor(0.77, 0.77, 0.77)
     love.graphics.rectangle("fill", iLx, iBy, RSelectbox.VW_SELECTBOX.LINE_W, math.min(#rgpBoxItems, RSelectbox.VW_SELECTBOX.NUM_LINES) * RSelectbox.VW_SELECTBOX.LINE_H)
@@ -64,7 +59,7 @@ local function draw_selectbox_items(pSlctBox)
         love.graphics.draw(pTxtSlct, iPx + RSelectbox.VW_SELECTBOX.LINE_ST_W, iPy + ((iSlct - 1) * RSelectbox.VW_SELECTBOX.LINE_H) + RSelectbox.VW_SELECTBOX.LINE_ST_H)
     end
 
-    --pSlctBox:free_visible_items(rgpBoxItems)
+    pSlctBox:free_visible_texts(rgpBoxItems)
 end
 
 function draw_selectbox(pSlctBox)

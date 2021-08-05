@@ -71,19 +71,16 @@ local function build_descriptor_tree(pRscTree, tpTreeResources, tpPathMapids)
         local iSrcMapid = U_INT_MAX
         local iDestMapid = -1
 
-        for iRegionid, pRegionNode in pairs(tpTreeResources) do
+        for iRegionid, tpChildPathMapids in pairs(tpPathMapids) do
             local pChildRscTree = CSolverTree:new()
 
-            local tpChildPathMapids = tpPathMapids[iRegionid]
+            local pRegionNode = tpTreeResources[iRegionid] or {regional = 1, resource = CSolverRegionResource:new({iRegionid = iRegionid, tResourceFields = {}})}
             build_descriptor_tree(pChildRscTree, pRegionNode, tpChildPathMapids)
 
             local rgiResourceids = pChildRscTree:get_resources()
             rgiTreeResourceids:add_all(rgiResourceids)
 
             pRscTree:add_field_node(iRegionid, pChildRscTree)
-
-            iSrcMapid = math.min(iSrcMapid, pChildRscTree:get_field_source())
-            iDestMapid = math.max(iDestMapid, pChildRscTree:get_field_destination())
         end
 
         pRscTree:set_field_source(iSrcMapid)

@@ -116,8 +116,8 @@ function CRscElemItemPicture:_make_icon_image(pImg, siType, bMini, pToVw)
     return pIconImg, iDx, iDy
 end
 
-function CRscElemItemPicture:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, iFieldRef, pConfVw, pToVw, bMini)
-    self:_load(siType, iId, tpRscGrid, sDesc, pConfVw.W, pConfVw.H, iFieldRef, bMini)
+function CRscElemItemPicture:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, trgiFieldsRef, pConfVw, pToVw, bMini)
+    self:_load(siType, iId, tpRscGrid, sDesc, pConfVw.W, pConfVw.H, trgiFieldsRef, bMini)
     self:_set_origin(-1, -1)
 
     local rX, rY

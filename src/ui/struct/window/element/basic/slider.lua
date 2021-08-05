@@ -237,7 +237,7 @@ local function is_mouse_in_range(pElem, x, y)
     return is_in_range(x, y, iLx, iTy, iRx, iBy)
 end
 
-function CSliderElem:_get_current_state(sSliderState)
+function CSliderElem:_get_hover_state(sSliderState)
     if sSliderState ~= RSliderState.DISABLED then
         local x, y = love.mouse.getPosition()
         if is_mouse_in_range(self, x, y) then
@@ -249,7 +249,7 @@ function CSliderElem:_get_current_state(sSliderState)
 end
 
 function CSliderElem:update_state(sSliderState)
-    sSliderState = self:_get_current_state(sSliderState)
+    sSliderState = self:_get_hover_state(sSliderState)
 
     self:_load_bar(sSliderState)
     self:_load_thumb(sSliderState)
@@ -257,30 +257,28 @@ function CSliderElem:update_state(sSliderState)
 end
 
 function CSliderElem:onmousehoverin()
-    local bDisabled = self:get_num_segments() < 1
+    local bDisabled = self:get_num_segments() < 2
     if bDisabled then
-        --pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
         return
     end
 
     if self:is_vert() then
-        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_SCROLL_Y)
+        pFrameBasic:get_cursor():update_state(RWndPath.MOUSE.BT_SCROLL_Y)
     else
-        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_SCROLL_X)
+        pFrameBasic:get_cursor():update_state(RWndPath.MOUSE.BT_SCROLL_X)
     end
 end
 
 function CSliderElem:onmousehoverout()
-    local bDisabled = self:get_num_segments() < 1
+    local bDisabled = self:get_num_segments() < 2
     if bDisabled then
-        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_NORMAL)
         return
     end
 
     if self:is_vert() then
-        pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_SCROLL_Y)
+        pFrameBasic:get_cursor():update_state(-RWndPath.MOUSE.BT_SCROLL_Y)
     else
-        pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_SCROLL_X)
+        pFrameBasic:get_cursor():update_state(-RWndPath.MOUSE.BT_SCROLL_X)
     end
 end
 

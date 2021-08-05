@@ -24,7 +24,7 @@ local function make_tab_resources_items(pRscProp)
 
         local pImg = ctHrItems:load_image_by_id(iId)
         local sDesc = ctItemsMeta:get_text(iId, 1)
-        local iFieldRef = 100000000
+        local iFieldRef = pVwItem:get_field_link()
 
         pVwItem:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID.ITEMS, false)
 
@@ -44,7 +44,7 @@ local function make_tab_resources_mobs(pRscProp)
 
         local pImg = ctHrMobs:load_image_by_id(iId)
         local sDesc = ctMobsMeta:get_text(iId)
-        local iFieldRef = 100000000
+        local iFieldRef = pVwItem:get_field_link()
 
         pVwItem:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_BASE.MOBS, RResourceTable.VW_GRID.MOBS, false)
 
@@ -66,7 +66,7 @@ local function make_tab_resources_npc(pRscProp)
 
         local pImg = ctHrNpcs:load_image_by_id(iId)
         local sDesc = ctNpcsMeta:get_text(iId)
-        local iFieldRef = 100000000
+        local iFieldRef = pVwItem:get_field_link()
 
         local pVwBase = {W = pImg:getWidth(), H = pImg:getHeight()}
         pVwItem:load(siType, iId, tpRscGrid, pImg, nil, sDesc, iFieldRef, pVwBase, pVwBase, false)

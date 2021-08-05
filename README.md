@@ -8,7 +8,7 @@ Expected inputs range from environment rates, to current player level and comple
 
 ### Development information
 
-Status: <span style="color:grey">__In development__</span>.
+Status: <span style="color:grey">__Released__</span>.
 
 #### Mission
 
@@ -100,26 +100,40 @@ Use the HaRepacker application, encryption "GMS (old)".
     * `<LOCATION_FOLDER>/lib/xml`
 
   + For the images, EXPORT (using the "PNG/MP3" exporting option), to the following location:
-    * `<LOCATION_FOLDER>/ui/media`
+    * `<LOCATION_FOLDER>/ui/media/images`
 
   After exporting, at both folder locations should be present therein subfolders ending with ".wz".
 
 ---
-### Using the tool
+### About the tool
 
 This tool is designed to be a standalone, running in Lua.
 
-At the moment, this tool provides 2 running options:
-* The quest route skimming
-* The graphic UI
+This tool provides 2 running options:
+* The quest route skimming.
+* The graphic UI, in which the intended end-user experiences the application.
 
 To run, open the command prompt and point directory with "cd <LOCATION_FOLDER>\src", then for each running option:
 
 * `> lua5.1 router/main.lua` : runs the quest routing process.
-* `> launch.bat` : opens the UI.
+* `> launch.bat` : opens the application.
 
 The route skimming runs through a group of quests around the player's level, and displays volume measurement from quests traveled.
 
-It currently runs in route generations. Basing on a player entry (with level, job, current map and inventory/quest/skill data), each generation loads a __board of quests__ that the player is very likely to try. Within the board, quests are selected arbitrarily but in an arranged way, to build a "desirable" path for the player to track.
+Basing on a player entry (with level, job, current map and inventory/quest/skill data), each generation loads a __board of quests__ that the player is very likely to try. Within the board, quests are selected arbitrarily but in an arranged way, to build a "desirable" path for the player to track.
 
-The UI currently shows canvas samples for several visual components of the application. User-friendly view of quest pathing is WIP.
+---
+### User input
+
+The MapleQuestAdvisor loads info from **"lib/userdata"** to predict next quests for the player, using CSV files in 4 flavors:
+
+* Character - Pertinent info such as Level, EXP, Job...
+* Inventory - Items the player has gotten.
+* Quest - Holds current quest states the player has achieved.
+* Rates - Environment info, such as ongoing EXP, Meso, Drop rate.
+
+During application use, the user can view several informations regarding current quest prediction:
+
+* The HUD Ongoing Quest element, on top of the screen, shows the quest in progress. More information about it can be retrieved from the Book icon.
+* By selecting an element inside the Resource book, the user is able to quickly reach areas in which the item can be found.
+* Sift through next quest predictions by quest selecting and pressing the "NEXT" button, or return from with the "BACK" button.

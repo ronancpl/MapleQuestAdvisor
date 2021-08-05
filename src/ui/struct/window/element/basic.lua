@@ -28,7 +28,7 @@ end
 
 function CToolBasic:load()
     self.pCursor:load()
-    self.pCursor:load_mouse(RWndPath.MOUSE.BT_GAME)
+    self.pCursor:update_state(RWndPath.MOUSE.BT_NORMAL)
 end
 
 function CToolBasic:update(dt)

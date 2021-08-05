@@ -43,6 +43,39 @@ function CQuestLane:get_paths()
     return m_pSetPaths:list()
 end
 
+function CQuestLane:get_path_by_quest(pNextQuestProp)
+    for _, pPath in ipairs(self:get_paths()) do
+        local pQuestProp = pPath:list()[1]
+        if pQuestProp == pNextQuestProp then
+            return pPath
+        end
+    end
+
+    return nil
+end
+
+function CQuestLane:_recommend_eval_path(tQuestProps, rgpRecommendedPaths, pPath)
+    local rgpQuestProps = pPath:list()
+    local pQuestProp = rgpQuestProps[1]
+    if tQuestProps[pQuestProp] == nil then
+        tQuestProps[pQuestProp] = 1
+        table.insert(rgpRecommendedPaths, pPath)
+    end
+end
+
+function CQuestLane:get_recommended_paths()
+    local rgpPaths = self:get_paths()
+    table.sort(rgpPaths, function (a, b) return a:value() < b:value() end)
+
+    local tQuestProps = {}
+    local rgpRecommendedPaths = {}
+    for _, pPath in ipairs(rgpPaths) do
+        self:_recommend_eval_path(tQuestProps, rgpRecommendedPaths, pPath)
+    end
+
+    return rgpRecommendedPaths
+end
+
 function CQuestLane:get_path_entries()
     local m_pSetPaths = self.pSetPaths
     return m_pSetPaths:get_entry_set()
@@ -101,4 +134,14 @@ function CQuestLane:merge_lane(pOtherLane)
 
         self:add_sublane(pQuestProp, pLaneCopy)
     end
+end
+
+function CQuestLane:to_string()
+    local st = "{"
+    for pQuestProp, _ in pairs(self:get_sublanes()) do
+        st = st .. pQuestProp:get_name() .. ", "
+    end
+    st = st .. "}"
+
+    return st
 end

@@ -21,15 +21,15 @@ CInvtProperties = createClass({
 })
 
 function CInvtProperties:load()
-    self.pInvtPlayer = load_view_inventory(CInventory:new(), 0, 0)
+    self.pInvtPlayer = load_view_inventory(CInventory:new(), 0, 0, 0)
 end
 
 function CInvtProperties:reset()
     self.pInvtPlayer:reload_inventory(CInventory:new())
 end
 
-function CInvtProperties:update_inventory(pIvtItems)
-    self.pInvtPlayer:reload_inventory(pIvtItems)
+function CInvtProperties:update_inventory(pIvtItems, iMeso)
+    self.pInvtPlayer:reload_inventory(pIvtItems, iMeso)
 end
 
 function CInvtProperties:get_inventory()

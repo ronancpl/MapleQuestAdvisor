@@ -14,12 +14,12 @@ require("ui.constant.path")
 
 function on_mousepressed(x, y, button)
     if button == 1 then
-        pFrameBasic:get_cursor():load_mouse(RWndPath.MOUSE.BT_DOWN)
+        pFrameBasic:get_cursor():update_state(RWndPath.MOUSE.BT_DOWN)
     end
 end
 
 function on_mousereleased(x, y, button)
     if button == 1 then
-        pFrameBasic:get_cursor():load_mouse(-RWndPath.MOUSE.BT_DOWN)
+        pFrameBasic:get_cursor():update_state(-RWndPath.MOUSE.BT_DOWN)
     end
 end
