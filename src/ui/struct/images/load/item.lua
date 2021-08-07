@@ -126,7 +126,7 @@ function CStockHeaderItem:get_type(iId)
 end
 
 function CStockHeaderItem:get_image_path(iId)
-    local sImgPath = self.tsItemPath[iId]
+    local sImgPath = self.tsItemPath[iId] or self.tsItemPath[3010000]
     return sImgPath
 end
 
