@@ -215,6 +215,62 @@ function CPlayer:clone()
     return pCopy
 end
 
+function CPlayer:compare_table(tpItems)
+    if tpItems.iId ~= self.iId then log(LPath.PROCEDURES, "_gj.txt", "name" .. " ~") end
+    if tpItems.siJob ~= self.siJob then log(LPath.PROCEDURES, "_gj.txt", "job" .. " ~") end
+    if tpItems.siLevel ~= self.siLevel then log(LPath.PROCEDURES, "_gj.txt", "lv" .. " ~") end
+    if tpItems.liExp ~= self.liExp then log(LPath.PROCEDURES, "_gj.txt", "exp" .. " ~") end
+    if tpItems.liExpUpdt ~= self.liExpUpdt then log(LPath.PROCEDURES, "_gj.txt", "expu" .. " ~") end
+    if tpItems.iMapid ~= self.iMapid then log(LPath.PROCEDURES, "_gj.txt", "mapid" .. " ~") end
+    if tpItems.iMeso ~= self.iMeso then log(LPath.PROCEDURES, "_gj.txt", "meso" .. " ~") end
+    if tpItems.siFame ~= self.siFame then log(LPath.PROCEDURES, "_gj.txt", "fame" .. " ~") end
+    if tpItems.siGender ~= self.siGender then log(LPath.PROCEDURES, "_gj.txt", "gd" .. " ~") end
+end
+
+function table_intersectioner(tpItems, tpOtherItems)
+    local tpIts = {}
+    for k, v in pairs(table_intersection(tpItems, tpOtherItems)) do
+        if v ~= 0 then
+            tpIts[k] = v
+        end
+    end
+
+    return tpIts
+end
+
+function CPlayer:compare_inventory(tpItems, tpOtherItems, sName)
+    local tLf = table_intersectioner(tpItems, tpOtherItems)
+    local tRg = table_intersectioner(tpOtherItems, tpItems)
+
+    local st = ""
+    for k, v in pairs(tLf) do
+        local vL = tostring(tpItems[k])
+        local vR = tostring(tpOtherItems[k])
+
+        st = st .. k .. " [" .. vL .. "|" .. vR .. "],"
+    end
+    for k, v in pairs(tRg) do
+        local vL = tostring(tpItems[k])
+        local vR = tostring(tpOtherItems[k])
+
+        st = st .. k .. " [" .. vL .. "|" .. vR .. "],"
+    end
+
+    if next(tLf) ~= nil or next(tRg) ~= nil then
+        log(LPath.PROCEDURES, "_gj.txt", sName .. " : " .. st)
+    end
+end
+
+function CPlayer:compare_debug(pCopy)
+    pCopy:compare_table(self)
+    self:compare_inventory(self:get_items():get_inventory():get_items(), pCopy:get_items():get_inventory():get_items(), "item")
+    self:compare_inventory(self:get_skills():get_items(), pCopy:get_skills():get_items(), "skill")
+    self:compare_inventory(self:get_quests():get_items(), pCopy:get_quests():get_items(), "quest")
+    self:compare_inventory(self:get_mobs():get_items(), pCopy:get_mobs():get_items(), "mob")
+
+    return pCopy
+end
+
 function CPlayer:debug_player_state()
     local st = ""
     st = st .. " ID: " .. self.iId

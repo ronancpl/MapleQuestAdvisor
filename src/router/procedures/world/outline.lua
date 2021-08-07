@@ -17,9 +17,9 @@ local function outline_area_outskirts(iMapid, tiExploredMapids, tFrontierMapids,
     tiExploredMapids[iMapid] = 1
 
     local tiNeighborMapids = ctFieldsDist:get_field_distances(iMapid)
-    for iMapid, _ in pairs(tiNeighborMapids) do
-        if tiExploredMapids[iMapid] == nil then
-            table.insert(tFrontierMapids, iMapid)
+    for iMapidNeighbor, _ in pairs(tiNeighborMapids) do
+        if tiExploredMapids[iMapidNeighbor] == nil then
+            table.insert(tFrontierMapids, iMapidNeighbor)
         end
     end
 end

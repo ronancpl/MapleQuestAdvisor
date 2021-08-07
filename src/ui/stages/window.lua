@@ -65,7 +65,14 @@ local _, tQuests, tRoute
 
 local bStartup = true
 if bStartup then
-    _, tQuests, tRoute = generate_quest_route(pPlayer, pUiWmap)
+    local pPlayerRoute = pPlayer:clone()
+    _, tQuests, tRoute = generate_quest_route(pPlayerRoute, pUiWmap)
+
+    pPlayer:compare_debug(pPlayerRoute)
+    --pUiHud:_fn_bt_save(pPlayer, pUiStats, tRoute, tQuests)
+else
+    --pUiHud:_fn_bt_load(pUiStats, pPlayer)
+    --pUiHud:_fn_bt_go(pPlayer)
 end
 
 pUiRscs:update_resources(nil, CSolverTree:new())
@@ -73,11 +80,6 @@ pUiWmap:update_region(sWmapName, pUiRscs)
 
 local pTrack = pUiWmap:get_properties():get_track()
 pUiHud = load_frame_hud(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
-
-if bStartup then
-    pUiHud:_fn_bt_save(pPlayer, pUiStats, tRoute, tQuests)
-end
-pUiHud:_fn_bt_load(pUiStats, pPlayer)
 
 player_lane_update_resources(pTrack, pUiRscs, pPlayer)
 player_lane_update_selectbox(pTrack, pUiHud)

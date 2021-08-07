@@ -147,6 +147,27 @@ local function route_quest_log_returned_path(pCurrentPath, rgpBcktQuests)
     log(LPath.QUEST_PATH, "path-" .. pCurrentPath:get_fetch_time() .. ".txt", sPath)
 end
 
+local function route_quest_dismiss_node(pQuestProp, rgpBcktQuests, pQuestMilestone, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
+    if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
+        rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+        pFrontierArranger:rollback_visit(ctAccessors, pQuestProp)
+        table.insert(rgpBcktQuests, pQuestProp)
+
+        pQuestMilestone:add_subpath(rgpBcktQuests)
+    end
+end
+
+local function route_quest_rollback_state(pCurrentPath, rgpBcktQuests)
+    local nBcktQuests = #rgpBcktQuests
+    if nBcktQuests > 0 then
+        route_quest_log_returned_path(pCurrentPath, rgpBcktQuests)
+
+        for _, pBcktQuestProp in ipairs(rgpBcktQuests) do
+            route_quest_suppress_complete(pBcktQuestProp, pPlayerState)
+        end
+    end
+end
+
 function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
     local rgpBcktQuests = {}
 
@@ -156,25 +177,25 @@ function route_quest_dismiss_update(pQuestTree, pQuestMilestone, pFrontierQuests
             break
         end
 
-        if pCurrentPath:remove(pQuestProp) then     -- back tracking from the current path
-            rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
-            pFrontierArranger:rollback_visit(ctAccessors, pQuestProp)
-            table.insert(rgpBcktQuests, pQuestProp)
-
-            pQuestMilestone:add_subpath(rgpBcktQuests)
-        end
+        route_quest_dismiss_node(pQuestProp, rgpBcktQuests, pQuestMilestone, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
     end
+
+    route_quest_rollback_state(pCurrentPath, rgpBcktQuests)
 
     local nBcktQuests = #rgpBcktQuests
-    if nBcktQuests > 0 then
-        route_quest_log_returned_path(pCurrentPath, rgpBcktQuests)
+    return nBcktQuests
+end
 
-        for _, pBcktQuestProp in ipairs(rgpBcktQuests) do
-            route_quest_suppress_complete(pBcktQuestProp, pPlayerState)
-        end
+function route_quest_backtrack_update(pQuestTree, pQuestMilestone, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
+    local rgpBcktQuests = {}
+
+    local rgpQuestProps = pCurrentPath:list()
+    for i = #rgpQuestProps, 1, -1 do
+        local pQuestProp = rgpQuestProps[i]
+        route_quest_dismiss_node(pQuestProp, rgpBcktQuests, pQuestMilestone, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
     end
 
-    return nBcktQuests
+    route_quest_rollback_state(pCurrentPath, rgpBcktQuests)
 end
 
 local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
@@ -186,6 +207,7 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
     while true do
         local pQuestProp = pFrontierQuests:peek()
         if pQuestProp == nil then
+            route_quest_backtrack_update(pQuestTree, pQuestMilestone, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
             break
         elseif not pCurrentPath:is_in_path(pQuestProp) and pCurrentPath:size() < RGraph.LANE_PATH_MAX_SIZE then
             pQuestProp:install_player_state(pPlayerState)       -- allow find quest requisites and rewards player-state specific

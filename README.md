@@ -8,7 +8,7 @@ Expected inputs range from environment rates, to current player level and comple
 
 ### Development information
 
-Status: <span style="color:grey">__Released__</span>.
+Status: <span style="color:green">__Released__</span>.
 
 #### Mission
 

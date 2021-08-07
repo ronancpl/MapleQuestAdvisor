@@ -115,6 +115,7 @@ local function route_internal_node(rgpPoolProps, rgpQuestProps, pFrontierQuests,
     while true do
         local pQuestProp = pFrontierQuests:peek()
         if pQuestProp == nil then
+            route_quest_backtrack_update(pQuestTree, pQuestMilestone, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
             break
         elseif not pCurrentPath:is_in_path(pQuestProp) and pCurrentPath:size() < RGraph.LANE_PATH_MAX_SIZE then
             pQuestProp:install_player_state(pPlayerState)       -- allow find quest requisites and rewards player-state specific

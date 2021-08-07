@@ -144,6 +144,7 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
 
     local pFieldMarkerOrig = pWmapProp:get_marker_by_mapid(iRegOrigMapid)
     if pFieldMarkerOrig ~= nil then
+        pFieldMarkerOrig:set_static(false)
         if bStaticSrc ~= nil then
             pFieldMarkerOrig:set_static(bStaticSrc)
         end
@@ -151,12 +152,12 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
         if sTooltipSrc ~= nil then
             pFieldMarkerOrig:set_tooltip(sTooltipSrc, pDirHelperQuads, pWmapProp)
         end
-        pFieldMarkerOrig:set_static(false)
     end
 
     local iRegDestMapid = ctFieldsMeta:get_field_overworld(pRegionRscTree:get_field_destination())
     local pFieldMarkerDest = pWmapProp:get_marker_by_mapid(iRegDestMapid)
     if pFieldMarkerDest ~= nil then
+        pFieldMarkerDest:set_static(false)
         if bStaticDest ~= nil then
             pFieldMarkerDest:set_static(bStaticDest)
         end
@@ -164,11 +165,10 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
         if sTooltipDest ~= nil then
             pFieldMarkerDest:set_tooltip(sTooltipDest, pDirHelperQuads, pWmapProp)
         end
-        pFieldMarkerDest:set_static(false)
     end
 end
 
-local function create_waypoint_trace(pUiWmap, pRegionRscTree)
+local function create_waypoint_trace(pUiWmap, pPlayer, pRegionRscTree)
     local pWmapProp = pUiWmap:get_properties()
 
     local iRegOrigMapid = pRegionRscTree:get_field_source()
@@ -179,7 +179,7 @@ local function create_waypoint_trace(pUiWmap, pRegionRscTree)
     local pFieldMarkerDest = pWmapProp:get_marker_by_mapid(iRegDestMapid)
 
     local pVwTrace
-    if pFieldMarkerOrig ~= nil and pFieldMarkerDest ~= nil then
+    if pFieldMarkerOrig ~= nil and pFieldMarkerDest ~= nil and pPlayer:get_mapid() == iRegOrigMapid then
         local x1, y1 = pFieldMarkerOrig:get_object():get_center()
         local x2, y2 = pFieldMarkerDest:get_object():get_center()
 
@@ -245,7 +245,9 @@ function update_worldmap_region_track(pUiWmap, pUiRscs, pPlayer, pDirHelperQuads
     update_worldmap_resource_nodes(pUiWmap, pWmapRegionRscTree, pPlayer, pDirHelperQuads)
 
     local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
-    local pElemTrace = create_waypoint_trace(pUiWmap, pWmapRegionRscTree)
+
+    --local pElemTrace = create_waypoint_trace(pUiWmap, pPlayer, pWmapRegionRscTree)
+    local pElemTrace = nil
     if pElemTrace ~= nil then
         pLyr:add_element(LChannel.WMAP_MARK_TRACE, pElemTrace)
     end

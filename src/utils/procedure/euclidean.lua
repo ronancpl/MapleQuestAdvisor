@@ -25,3 +25,18 @@ function calc_distance(...)
 
     return math.sqrt(iDist)
 end
+
+function calc_word_distance(iNum1, iNum2)
+    local iDist = 0
+
+    repeat
+        local i1 = iNum1 % 10
+        local i2 = iNum2 % 10
+        iDist = iDist + math.abs(i1 - i2)
+
+        iNum1 = math.floor(iNum1 / 10)
+        iNum2 = math.floor(iNum2 / 10)
+    until iNum1 == 0 and iNum2 == 0
+
+    return iDist
+end

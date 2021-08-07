@@ -73,6 +73,11 @@ function CTracePath:get_top_lane()
     return pQuestProp
 end
 
+function CTracePath:is_ahead(pQuestProp)
+    local m_pRootLane = self.pRootLane
+    return m_pRootLane:get_sublane(pQuestProp) ~= nil
+end
+
 function CTracePath:move_ahead(pQuestProp)
     local m_pRootLane = self.pRootLane
 

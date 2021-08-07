@@ -114,7 +114,7 @@ function fetch_table_dimensions(pVwRscs)
         local iW2 = math.ceil(pTableConfVw.W / 2)
         local iH2 = math.ceil(pTableConfVw.H / 2)
 
-        return pTableConfVw.W - iTx, iH2 - iTy
+        return pTableConfVw.W - iTx, iH2 + iTy
     else
         return 0, 0
     end

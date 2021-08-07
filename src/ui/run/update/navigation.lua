@@ -66,16 +66,6 @@ function player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
 end
 
 function player_lane_update_selectbox(pTrack, pUiHud)
-    local st = ""
-    for _, pPath in pairs(pTrack:get_recommended_paths()) do
-        local pQuestProp = pPath:list()[1]
-        local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
-        st = st .. "[" .. tostring(pQuestProp:get_quest_id()) .. " : " .. pQuest:get_title() .. "], "
-    end
-
-    log(LPath.TRAJECTORY, "track.txt", "Next quest : " .. st)
-    log(LPath.TRAJECTORY, "track.txt", "==============")
-
     local rgsTextList = {}
     for _, pPath in pairs(pTrack:get_recommended_paths()) do
         local pQuestProp = pPath:list()[1]
