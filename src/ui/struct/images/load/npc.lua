@@ -69,7 +69,7 @@ function CStockHeaderNpc:_get_image_path(iId)
 end
 
 function CStockHeaderNpc:load_image_by_id(iId)
-    local sImgFilePath = self:_get_image_path(iId) or self:_get_image_path(1013000)
+    local sImgFilePath = self:_get_image_path(iId)
 
     local pImg = nil
     if sImgFilePath ~= nil then

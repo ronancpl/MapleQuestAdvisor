@@ -70,7 +70,7 @@ function CStockHeaderMob:_get_image_path(iId)
 end
 
 function CStockHeaderMob:load_image_by_id(iId)
-    local sImgFilePath = self:_get_image_path(iId) or self:_get_image_path(2220000)
+    local sImgFilePath = self:_get_image_path(iId)
 
     local pImg = nil
     if sImgFilePath ~= nil then
