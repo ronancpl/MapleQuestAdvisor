@@ -211,21 +211,21 @@ function CWndHud:_load_bt_wnd_stat()
     self.pBtChannel:add_element(bt)
 end
 
-function CWndHud:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
+function CWndHud:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
     local bt = CButtonElem:new()
 
     bt:load(RActionButton.NAV_NEXT.PATH, unpack(RActionButton.NAV_NEXT.POSITION))
-    bt:set_fn_trigger(fn_bt_nav_next, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs})
+    bt:set_fn_trigger(fn_bt_nav_next, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName})
 
     self.btNavNext = bt
     self.pBtChannel:add_element(bt)
 end
 
-function CWndHud:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
+function CWndHud:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
     local bt = CButtonElem:new()
 
     bt:load(RActionButton.NAV_PREV.PATH, unpack(RActionButton.NAV_PREV.POSITION))
-    bt:set_fn_trigger(fn_bt_nav_prev, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs})
+    bt:set_fn_trigger(fn_bt_nav_prev, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName})
 
     self.btNavPrev = bt
     self.pBtChannel:add_element(bt)
@@ -332,7 +332,7 @@ function CWndHud:draw_player_quest()
     local iPx, iPy = unpack(RActionElement.NAV_QUEST.POSITION)
     self.pNavOngoingQuest:draw(iPx, iPy)
 
-    love.graphics.draw(self.pTxtOngoingQuest, iPx, iPy - math.floor(math.max((self:get_text_height() - 46) / 2), 0))
+    love.graphics.draw(self.pTxtOngoingQuest, iPx, iPy - math.floor(math.max((self:get_text_height() - 46) / 2) + RActionElement.NAV_QUEST.ST_Y, 0))
 
     local iNx, iNy = unpack(RActionElement.NAV_NEXT_QUEST.POSITION)
     self.pSlctNavQuest:draw(iNx, iNy)
@@ -343,7 +343,7 @@ function CWndHud:set_player_quest(pTrack)
     self:_load_nav_player_quest(pQuestProp ~= nil and pQuestProp:get_quest_id() or nil)
 end
 
-function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
+function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
     self:_load_bt_go(pPlayer)
     self:_load_bt_save(pPlayer, pUiStats, tRoute, tQuests)
     self:_load_bt_load(pUiStats, pPlayer)
@@ -353,8 +353,8 @@ function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiSt
     self:_load_bt_wnd_resources()
     self:_load_bt_wnd_stat()
 
-    self:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
-    self:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
+    self:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
+    self:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
     self:_load_sb_nav_select_quest()
 
     self:set_player_quest(pTrack)

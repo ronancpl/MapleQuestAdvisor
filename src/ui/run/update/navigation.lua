@@ -12,6 +12,7 @@
 
 require("router.procedures.constant")
 require("router.procedures.player.update")
+require("solver.graph.tree.component")
 require("ui.constant.view.button")
 
 local function lookahead_lane_on_move(pTrack, pPlayerState)
@@ -55,19 +56,23 @@ function player_lane_trim_back(pTrack)
 end
 
 function player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
+    local pRscTree = nil
     local pQuestProp = pTrack:get_top_quest()
     if pQuestProp ~= nil then
         local pPath = pTrack:get_top_lane():get_path_by_quest(pQuestProp)
         if pPath ~= nil then
-            local pRscTree = pPath:get_node_allot(1):get_resource_tree()
-            pUiRscs:update_resources(pQuestProp, pRscTree)
+            pRscTree = pPath:get_node_allot(1):get_resource_tree()
+        else
+            log(LPath.FALLBACK, "quest_lane.txt", " Could not find " .. tostring(pQuestProp:get_name()) .. " in Path")
         end
     end
+
+    pUiRscs:update_resources(pQuestProp, pRscTree or CSolverTree:new())
 end
 
 function player_lane_update_selectbox(pTrack, pUiHud)
     local rgsTextList = {}
-    for _, pPath in pairs(pTrack:get_recommended_paths()) do
+    for _, pPath in ipairs(pTrack:get_recommended_paths()) do
         local pQuestProp = pPath:list()[1]
         local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
         table.insert(rgsTextList, pQuest:get_title())
@@ -77,7 +82,7 @@ function player_lane_update_selectbox(pTrack, pUiHud)
     pSlctQuest:set_text_options(rgsTextList, RActionElement.NAV_NEXT_QUEST.LINE_WIDTH)
 end
 
-function player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
+function player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
     pUiInvt:update_inventory(pIvtItems, pPlayer:get_meso())
     pUiStats:update_stats(pPlayer, siExpRate, siMesoRate, siDropRate)
     pUiWmap:update_region(sWmapName, pUiRscs)

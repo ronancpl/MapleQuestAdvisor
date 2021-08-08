@@ -121,15 +121,18 @@ function CStationConnectionTable:debug_stations()
 
     log(LPath.PROCEDURES, "resources_station.txt", " ---- REGION LINKS ----")
     for iSrcRegionid, tStationsFrom in pairs(m_tTravelRegions) do
-
-        log(LPath.PROCEDURES, "resources_station.txt", "FROM #" .. tostring(iSrcRegionid) .. ":")
-
-        for iDestRegionid, rgpSrcStationMapLinks in pairs(tStationsFrom) do
-            local st = ""
-            for _, iMapid in ipairs(rgpSrcStationMapLinks) do
-                st = st .. tostring(iMapid) .. ","
+        if next(tStationsFrom) ~= nil then
+            log(LPath.PROCEDURES, "resources_station.txt", "FROM #" .. tostring(iSrcRegionid) .. ":")
+            for iDestRegionid, rgpSrcStationMapLinks in pairs(tStationsFrom) do
+                if #rgpSrcStationMapLinks > 0 then
+                    local st = ""
+                    for _, pMapid in ipairs(rgpSrcStationMapLinks) do
+                        local iMapid, iDestid = unpack(pMapid)
+                        st = st .. "{" .. tostring(iMapid) .. ":" .. tostring(iDestid) .. "},"
+                    end
+                    log(LPath.PROCEDURES, "resources_station.txt", "    #" .. tostring(iDestRegionid) .. " : [" .. st .. "]")
+                end
             end
-            log(LPath.PROCEDURES, "resources_station.txt", "    #" .. tostring(iDestRegionid) .. " : [" .. st .. "]")
         end
     end
 

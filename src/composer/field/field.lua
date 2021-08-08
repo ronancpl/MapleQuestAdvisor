@@ -45,12 +45,15 @@ local function get_world_map_section_id(ctFieldsWmap, iMapid)
     return math.floor(iWmapid / 10)
 end
 
-local function in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid, bNeighborFile)
-    local iRetMapid = ctFieldsMeta:get_field_return(iMapid)
-    local iRetToMapid = ctFieldsMeta:get_field_return(iToMapid)
+local function get_world_map_fields(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid)
+    local iFieldMapid = ctFieldsMeta:get_field_overworld(ctFieldsMeta:get_field_return(iMapid))
+    local iToFieldMapid = ctFieldsMeta:get_field_overworld(ctFieldsMeta:get_field_return(iToMapid))
 
-    local iRetWmapid = get_world_map_section_id(ctFieldsWmap, iRetMapid)
-    local iRetToWmapid = get_world_map_section_id(ctFieldsWmap, iRetToMapid)
+    return get_world_map_section_id(ctFieldsWmap, iFieldMapid), get_world_map_section_id(ctFieldsWmap, iToFieldMapid)
+end
+
+local function is_in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid, bNeighborFile)
+    local iRetWmapid, iRetToWmapid = get_world_map_fields(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid)
 
     local bNeighborByWmap = iRetWmapid == iRetToWmapid
     local bNeighborById = (iRetWmapid < 0 or iRetToWmapid < 0) and math.floor(iMapid / 100) == math.floor(iToMapid / 100) and calc_word_distance(iMapid % 100, iToMapid % 100) < 3
@@ -64,7 +67,7 @@ local function read_field_distances(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, pN
 
         for _, pFieldNeighborNode in pairs(pFieldNode:get_children()) do
             local iToMapid = pFieldNeighborNode:get_value()
-            if in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid, true) then    -- accept as neighbors if referenced mapid share region (unlink FM rooms)
+            if is_in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid, true) then    -- accept as neighbors if referenced mapid share region (unlink FM rooms)
                 ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
                 ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
             end
@@ -138,7 +141,7 @@ local function load_field_scripts(ctFieldsDist, ctFieldsMeta, ctFieldsWmap, sFil
         for _, rgiValidSectionAreas in pairs(rgiValidAreas) do
             for _, iMapid in ipairs(rgiValidSectionAreas) do
                 for _, iToMapid in ipairs(rgiValidSectionAreas) do
-                    if in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid, false) then
+                    if is_in_same_world_map_node(ctFieldsMeta, ctFieldsWmap, iMapid, iToMapid, false) then
                         ctFieldsDist:add_field_distance(iMapid, iToMapid, 1)
                         ctFieldsDist:add_field_distance(iToMapid, iMapid, 1)
                     end

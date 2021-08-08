@@ -190,8 +190,8 @@ wz/Map.wz/Map/Map1/101000102.img.xml 101000000
 wz/Map.wz/Map/Map1/101000103.img.xml 101000000 
 wz/Map.wz/Map/Map1/101000104.img.xml 101000000 
 wz/Map.wz/Map/Map1/101000200.img.xml 101000000 
-wz/Map.wz/Map/Map1/101000300.img.xml 200000111 
-wz/Map.wz/Map/Map1/101000301.img.xml 200000111 
+wz/Map.wz/Map/Map1/101000300.img.xml 101000000 
+wz/Map.wz/Map/Map1/101000301.img.xml 101000000 
 wz/Map.wz/Map/Map1/101000400.img.xml 101000000 
 wz/Map.wz/Map/Map1/101010000.img.xml 101000000 
 wz/Map.wz/Map/Map1/101010100.img.xml 101000000 

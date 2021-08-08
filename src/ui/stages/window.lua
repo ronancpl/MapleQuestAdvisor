@@ -59,6 +59,9 @@ log(LPath.INTERFACE, "load.txt", "Visualizing inventory '" .. pIvtItems:tostring
 
 local sWmapName = "WorldMap"
 log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
+local iMapid = pPlayer:get_mapid()
+pPlayer:move_access_mapid(iMapid)
+pPlayer:move_access_mapid(iMapid)
 pUiWmap:set_player(pPlayer)
 
 local _, tQuests, tRoute
@@ -68,7 +71,6 @@ if bStartup then
     local pPlayerRoute = pPlayer:clone()
     _, tQuests, tRoute = generate_quest_route(pPlayerRoute, pUiWmap)
 
-    pPlayer:compare_debug(pPlayerRoute)
     --pUiHud:_fn_bt_save(pPlayer, pUiStats, tRoute, tQuests)
 else
     --pUiHud:_fn_bt_load(pUiStats, pPlayer)
@@ -79,11 +81,11 @@ pUiRscs:update_resources(nil, CSolverTree:new())
 pUiWmap:update_region(sWmapName, pUiRscs)
 
 local pTrack = pUiWmap:get_properties():get_track()
-pUiHud = load_frame_hud(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
+pUiHud = load_frame_hud(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
 
 player_lane_update_resources(pTrack, pUiRscs, pPlayer)
 player_lane_update_selectbox(pTrack, pUiHud)
-player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pPlayer, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName, pUiRscs)
+player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
 player_lane_update_hud(pTrack, pUiHud)
 
 pEventHdl:bind("ui.interaction.run.inventory", pUiInvt)

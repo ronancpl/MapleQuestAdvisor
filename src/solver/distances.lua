@@ -58,7 +58,7 @@ local function get_npc_location(iNpcid, iPlayerMapid)
 
     local iNpcMapid = nil
     local iNpcFieldDist = U_INT_MAX
-    for _, iMapid in pairs(get_npc_return_locations(iNpcid)) do
+    for iMapid, _ in pairs(get_npc_return_locations(iNpcid)) do
         local iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
         if iRegionid == iPlayerRegionid then
             local iDist = ctFieldsLandscape:fetch_field_distance(iPlayerMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
@@ -73,6 +73,7 @@ local function get_npc_location(iNpcid, iPlayerMapid)
 
     if iNpcMapid == nil then
         for _, iMapid in ipairs(rgiAbroadMapids) do
+
             local iDist = ctFieldsLandscape:fetch_field_distance(iPlayerMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
             if iDist < iNpcFieldDist then
                 iNpcMapid = iMapid

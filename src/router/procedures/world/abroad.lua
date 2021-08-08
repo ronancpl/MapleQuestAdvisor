@@ -135,8 +135,13 @@ local function is_actual_town_map(iMapid)
 end
 
 local function fetch_field_distance(iMapidA, iMapidB, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink, tiFieldRegion, tWorldNodes)
-    local iDistance = calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iMapidA, iMapidB)
-    ctFieldsDist:add_field_distance(iMapidA, iMapidB, iDistance)
+    local iDistance
+    if ctFieldsDist:has_field_entry(iMapidA) then
+        iDistance = calc_interregional_distance(ctFieldsDist, ctFieldsLink, tiFieldRegion, tWorldNodes, iMapidA, iMapidB)
+        ctFieldsDist:add_field_distance(iMapidA, iMapidB, iDistance)
+    else
+        iDistance = U_INT_MAX
+    end
 
     return iDistance
 end

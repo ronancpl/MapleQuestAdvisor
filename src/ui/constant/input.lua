@@ -12,6 +12,7 @@
 
 LInput = {
 
+    QUEST_FILTER_ASCII = true,
     MOUSE_WHEEL_MOVE_DY = 1
 
 }

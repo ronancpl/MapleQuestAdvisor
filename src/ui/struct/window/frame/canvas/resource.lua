@@ -80,6 +80,25 @@ function CWndResource:_add_resources(pQuestProp, pRscTree)
     end
 end
 
+function CWndResource:_export_resources_by_fields(rgiFields)
+    local m_pProp = self.pProp
+
+    local pProp = CRscProperties:new()
+    for _, iMapid in ipairs(rgiFields) do
+        local pRscEntry = m_pProp:get_field_resources(iMapid)
+        if pRscEntry ~= nil then
+            local tiMobs = pRscEntry:get_mobs()
+            local tiItems = pRscEntry:get_items()
+            local iNpc = pRscEntry:get_npc()
+            local tFieldsEnter = pRscEntry:get_field_enter()
+
+            pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)
+        end
+    end
+
+    return pProp
+end
+
 function CWndResource:update_resources(pQuestProp, pRscTree)
     self.pCanvas:reset()
 
@@ -127,6 +146,15 @@ function CWndResource:set_dimensions(iWidth, iHeight)
     eFieldTexture:build(iFw, iFh)
 
     self.pCanvas:build(m_pProp)
+end
+
+function CWndResource:get_field_properties(rgiFields)
+    local pProp = self:_export_resources_by_fields(rgiFields)
+
+    pProp:set_resource_tree(nil)
+    pProp:build()
+
+    return pProp
 end
 
 function CWndResource:_load_table()

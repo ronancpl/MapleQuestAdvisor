@@ -131,7 +131,7 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
         if iDestNpcMapid ~= nil then    -- current region has NPC
             sTooltipDest = RWmapTooltipType.TARGET
             bStaticDest = RWmapMarkerState.TARGET
-        else
+        elseif iRegionidOrig ~= iRegionidDest then
             bStaticDest = RWmapMarkerState.STATION_OUT
         end
     end
@@ -202,8 +202,8 @@ end
 local function build_worldmap_resource_tree(pRscTree, pUiWmap)
     local pWmapRscTree = CSolverTree:new()
 
-    local iMapidSrc = nil
-    local iMapidDest = nil
+    local iMapidSrc = -1
+    local iMapidDest = -1
 
     local rgiRegionids = get_worldmap_regionids(pUiWmap)
     for _, iWmapRegionid in ipairs(rgiRegionids) do
@@ -225,8 +225,8 @@ local function build_worldmap_resource_tree(pRscTree, pUiWmap)
         end
     end
 
-    pWmapRscTree:set_field_source(iMapidSrc or pWmapRscTree:get_field_source())
-    pWmapRscTree:set_field_destination(iMapidDest or pWmapRscTree:get_field_destination())
+    pWmapRscTree:set_field_source(iMapidSrc > -1 and iMapidSrc or pWmapRscTree:get_field_source())
+    pWmapRscTree:set_field_destination(iMapidDest > -1 and iMapidDest or pWmapRscTree:get_field_destination())
 
     return pWmapRscTree
 end

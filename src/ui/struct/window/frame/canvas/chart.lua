@@ -81,6 +81,13 @@ local function activate_region_fields(pUiWmap, pUiRscs)
     end
 end
 
+function CWndWmap:reset_region(pUiRscs, pPlayer)
+    local pDirHelperQuads
+    pDirHelperQuads, _ = self.pCache:get_worldmap_helper()
+
+    update_worldmap_region_track(self, pUiRscs, pPlayer, pDirHelperQuads)
+end
+
 function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc)
     self.pCanvas:reset()
 
@@ -97,7 +104,7 @@ function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc)
 
     local pPlayer = self:get_player()
     if pPlayer ~= nil then
-        update_worldmap_region_track(self, pUiRscs, pPlayer, pDirHelperQuads)
+        self:reset_region(pUiRscs, pPlayer)
     end
 
     if pVwRsc ~= nil then

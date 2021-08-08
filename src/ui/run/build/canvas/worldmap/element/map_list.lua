@@ -95,7 +95,7 @@ local function load_node_map_textbox(pMapNode, rgiFields, pUiRscs)
         pMapTextbox = load_mapno_text_box(rgiFields)
     end
 
-    local pRscProp = pUiRscs:get_properties()
+    local pRscProp = pUiRscs:get_field_properties(rgiFields)
 
     local pTextbox = load_node_text_box(pMapTextbox, pRscProp)
     return pTextbox

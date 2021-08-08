@@ -53,7 +53,35 @@ local function process_player_quest_update(pQuestProp, pPlayerState, bUndo)
     fn_award_player_state_quests(pPlayerState, rgpGet, bUndo)
 end
 
-local function process_player_state_update(fn_process_award, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+local function get_npc_quest_mapid(pQuestProp, pPlayerState, iNpcid)
+    local iRegionid = ctFieldsLandscape:get_region_by_mapid(pPlayerState:get_mapid())
+    local iRegMapid, iNpcMapid
+
+    local iNpcid = pQuestProp:get_requirement():get_npc()
+    local tpNpcFields = ctNpcs:get_locations(iNpcid)
+
+    for _, iMapid in ipairs(tpNpcFields) do
+        local iNpcRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
+        if iRegionid == iNpcRegionid then
+            iRegMapid = iMapid
+            break
+        end
+        iNpcMapid = iMapid
+    end
+
+    return iRegMapid or iNpcMapid or -1
+end
+
+local function process_player_field_update(pQuestProp, pPlayerState, bUndo)
+    if bUndo then
+        pPlayerState:rollback_access_mapid()
+    else
+        local iMapid = get_npc_quest_mapid(pQuestProp, pPlayerState, pQuestProp:get_requirement():get_npc())
+        pPlayerState:move_access_mapid(iMapid)
+    end
+end
+
+local function process_player_state_update(fn_process_award, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps, bUndo)
     local rgfn_active_act_unit
     local rgfn_active_act_invt
     local pPropAct
@@ -72,16 +100,18 @@ local function process_player_state_update(fn_process_award, ctAwarders, pQuestP
     if siPlayerJob ~= iCurJob then
         process_player_job_update(pPlayerState, rgpPoolProps)
     end
+
+    process_player_field_update(pQuestProp, pPlayerState, bUndo)
 end
 
 function progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
     process_player_quest_update(pQuestProp, pPlayerState, false)
-    process_player_state_update(award_player, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+    process_player_state_update(award_player, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps, false)
 end
 
 function rollback_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
     process_player_quest_update(pQuestProp, pPlayerState, true)
-    process_player_state_update(undo_award_player, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+    process_player_state_update(undo_award_player, ctAwarders, pQuestProp, pPlayerState, rgpPoolProps, true)
 end
 
 function apply_initial_player_state(pPlayerState, rgpPoolProps)

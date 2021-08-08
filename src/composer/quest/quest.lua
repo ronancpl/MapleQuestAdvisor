@@ -19,6 +19,7 @@ require("structs.quest.attributes.property")
 require("structs.quest.attributes.requirement")
 require("structs.quest.properties")
 require("structs.quest.quest")
+require("ui.constant.input")
 require("utils.logger.file")
 require("utils.provider.xml.provider")
 require("utils.struct.table")
@@ -278,11 +279,22 @@ local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcFie
     pRequirement:set_field(pNpcMapid)
 end
 
+local function is_ascii_quest(pQuest)
+    local sCh = "" .. pQuest:get_title()[1]
+    return sCh:find("[A-Za-z]") ~= nil
+end
+
 local function should_supress_quest(pQuest)
     -- ignore date expiring quests
     local bHasDate = pQuest:get_start():get_requirement():has_date_access()
     if (bHasDate) then
         return true
+    end
+
+    if LInput.QUEST_FILTER_ASCII then
+        if not is_ascii_quest(pQuest) then
+            return true
+        end
     end
 
     return false
