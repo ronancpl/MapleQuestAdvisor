@@ -170,7 +170,7 @@ function init_quest_accessors()
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, RQuest.DATE.name, CQuestRequirement.has_date_access, fn_get_player_state_date, fn_diff_avail, fn_is_attainable_unit)
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, RQuest.LVMIN.name, CQuestRequirement.get_level_min, fn_get_player_state_level_min, fn_diff_pending, fn_is_attainable_unit)
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, RQuest.LVMAX.name, CQuestRequirement.get_level_max, fn_get_player_state_level_max, fn_diff_exceeded, fn_is_attainable_unit)
-    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, RQuest.JOBS.name, CQuestRequirement.has_job_access, fn_get_player_state_job, fn_diff_avail, fn_is_attainable_unit)
+    ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, RQuest.JOBS.name, CQuestRequirement.has_job_access, fn_get_player_state_job, fn_diff_exceeded, fn_is_attainable_unit)
 
     tfn_strong_reqs = ctAccessors.tfn_strong_ivt_reqs
     ctAccessors:_add_prerequisite_accessor(tfn_strong_reqs, RQuest.QUESTS.name, CQuestProperty.get_quests, fn_get_player_state_quests, fn_diff_pending_list, fn_is_attainable_list)

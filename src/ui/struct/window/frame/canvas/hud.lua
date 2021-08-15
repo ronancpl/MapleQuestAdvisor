@@ -296,8 +296,8 @@ function CWndHud:_take_font_nav_player(sOngoingQuest)
     return pFont
 end
 
-function CWndHud:_load_nav_player_text(iQuestid)
-    local sOngoingQuest = iQuestid ~= nil and ctQuestsMeta:get_text(iQuestid) or "-"
+function CWndHud:_load_nav_player_text(pQuestProp)
+    local sOngoingQuest = pQuestProp ~= nil and pQuestProp:get_title() or "-"
 
     self.pFontOngoingQuest = self:_take_font_nav_player(sOngoingQuest)
     self.pTxtOngoingQuest = ctPoolFont:take_text(self.pFontOngoingQuest)
@@ -317,11 +317,11 @@ function CWndHud:_free_nav_player_text()
     end
 end
 
-function CWndHud:_load_nav_player_quest(iQuestid)
+function CWndHud:_load_nav_player_quest(pQuestProp)
     self:_free_nav_player_text()
 
     self:_load_nav_player_background()
-    self:_load_nav_player_text(iQuestid)
+    self:_load_nav_player_text(pQuestProp)
 end
 
 function CWndHud:get_nav_ongoing_quest()
@@ -340,7 +340,7 @@ end
 
 function CWndHud:set_player_quest(pTrack)
     local pQuestProp = pTrack:get_top_quest()
-    self:_load_nav_player_quest(pQuestProp ~= nil and pQuestProp:get_quest_id() or nil)
+    self:_load_nav_player_quest(pQuestProp)
 end
 
 function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)

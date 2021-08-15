@@ -86,7 +86,7 @@ function CQuestRequirement:_in_job_tree(siPlayerJob)
 
     local bRet
     if m_rgpJobs:size() > 0 then
-        local iIdx = m_rgpJobs:bsearch(fn_compare_job, siPlayerJob, true, true)
+        local iIdx = m_rgpJobs:bsearch(fn_compare_job, siPlayerJob, false, true)
         if iIdx >= 1 and iIdx <= m_rgpJobs:size() then
             bRet = is_in_job_tree(m_rgpJobs:get(iIdx), siPlayerJob)
         else
@@ -130,6 +130,6 @@ end
 function CQuestRequirement:set_default_on_empty_requirements()
     self:set_default_on_empty_properties()  -- calls super-method
 
-    local tsDef = {iNpcid = -1, pMapid = 10000, ivtFieldsEnter = CInventory:new(), siLevelMin = -1, siLevelMax = -1, bJobAccess = false, rgpJobs = SArray:new(), bDateAccess = true, bRepeatable = false, bScripted = false}
+    local tsDef = {iNpcid = -1, pMapid = 10000, ivtFieldsEnter = CInventory:new(), siLevelMin = -1, siLevelMax = -1, bJobAccess = 0, rgpJobs = SArray:new(), bDateAccess = true, bRepeatable = false, bScripted = false}
     self:_set_default_on_empty_properties(tsDef)
 end

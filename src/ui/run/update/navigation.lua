@@ -30,7 +30,7 @@ function player_lane_move_ahead(pTrack, pQuestProp, pPlayerState, rgpPoolProps)
     local bSuccess = pTrack:move_ahead(pQuestProp)
     if bSuccess then
         lookahead_lane_on_move(pTrack, pPlayerState)
-        progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
+        progress_player_state(ctAwarders, ctQuests:get_quest_by_id(1034):get_end(), pPlayerState, rgpPoolProps)
     else
         log(LPath.FALLBACK, "quest_lane.txt", " NOT FOUND quest " .. tostring(pQuestProp:get_name()) .. " ON ROUTE '" .. pTrack:to_string() .. "'")
     end
@@ -74,8 +74,7 @@ function player_lane_update_selectbox(pTrack, pUiHud)
     local rgsTextList = {}
     for _, pPath in ipairs(pTrack:get_recommended_paths()) do
         local pQuestProp = pPath:list()[1]
-        local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
-        table.insert(rgsTextList, pQuest:get_title())
+        table.insert(rgsTextList, pQuestProp:get_title())
     end
 
     local pSlctQuest = pUiHud:get_nav_select_quest()

@@ -13,13 +13,13 @@
 require("ui.run.update.navigation")
 
 local function select_quest_ahead(pPlayerState, pTrack, iOpt)
-    local rgsQuestProps = {}
-    for _, pPath in pairs(pTrack:get_recommended_paths()) do
+    local rgpQuestProps = {}
+    for _, pPath in ipairs(pTrack:get_recommended_paths()) do
         local pQuestProp = pPath:list()[1]
-        table.insert(rgsQuestProps, pQuestProp)
+        table.insert(rgpQuestProps, pQuestProp)
     end
 
-    return rgsQuestProps[iOpt]
+    return rgpQuestProps[iOpt]
 end
 
 function fn_bt_nav_next(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)

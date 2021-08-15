@@ -20,7 +20,8 @@ local function is_route_quest_in_path(pQuestProp, pCurrentPath)
 end
 
 local function is_route_quest_accessible(pQuestProp, pPlayerState, ctAccessors)
-    return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp)
+    local bMetJob = pQuestProp:get_requirement():has_job_access()
+    return ctAccessors:is_player_have_prerequisites(true, pPlayerState, pQuestProp) and bMetJob > 0
 end
 
 local function is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors)

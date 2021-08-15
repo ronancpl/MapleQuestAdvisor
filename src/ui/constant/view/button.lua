@@ -70,12 +70,12 @@ RActionElement = {
         LINE_WIDTH = 254,
         LINE_HEIGHT = 20,
         POSITION = {210, 10},
-        ST_Y = 12
+        ST_Y = 15
     },
 
     NAV_NEXT_QUEST = {
         LINE_WIDTH = 300,
-        POSITION = {135, 445}
+        POSITION = {135, 440}
     }
 
 }

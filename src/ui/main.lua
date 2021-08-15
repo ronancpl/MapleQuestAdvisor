@@ -15,6 +15,7 @@ package.path = package.path .. ';?.lua'
 require("composer.containers.strings.item")
 require("composer.containers.strings.mob")
 require("composer.containers.strings.npc")
+require("composer.field.node.media.image")
 require("composer.quest.quest")
 require("router.stages.load")
 require("structs.player")
@@ -43,7 +44,8 @@ end
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
-    love.graphics.setWireframe(love.keyboard.isDown('space'))
+    --love.graphics.setWireframe(love.keyboard.isDown('space'))
+    --love.graphics.setIcon(love.graphics.newImage(RWndPath.LOVE_IMAGE_PATH_ICON))
 
     log(LPath.INTERFACE, "load.txt", "Loading solver metadata...")
 

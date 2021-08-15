@@ -36,6 +36,15 @@ function CQuestProperties:is_start()
     return self.bStart
 end
 
+function CQuestProperties:get_status()
+    return self:is_start() and "S" or "E"
+end
+
+function CQuestProperties:get_title()
+    local pQuest = ctQuests:get_quest_by_id(self:get_quest_id())
+    return pQuest:get_title() .. " (" .. self:get_status() .. ")"
+end
+
 function CQuestProperties:get_name(bPrependStart)
     local sId = tostring(self:get_quest_id())
     local sStart = self:is_start() and "S" or "E"

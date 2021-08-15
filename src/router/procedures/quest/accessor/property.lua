@@ -63,7 +63,7 @@ function fn_get_player_state_level_max(pPlayerState)
 end
 
 function fn_get_player_state_job(pPlayerState)
-    return U_INT_MAX
+    return 1
 end
 
 function fn_get_player_state_date(pPlayerState)
