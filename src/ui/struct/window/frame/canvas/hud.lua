@@ -40,7 +40,7 @@ CWndHud = createClass({
 
     btNavNext,
     btNavPrev,
-    pNavCurQuest,
+    pNavOngoingQuest,
     pSlctNavQuest,
 
     sFont = RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf",

@@ -224,11 +224,22 @@ function CPlayer:move_access_mapid(iMapid)
     self:set_mapid(iPlayerMapid)
 end
 
+function CPlayer:export_visited_mapids()
+    local m_pStackVisitedMapids = self.pStackVisitedMapids
+    return m_pStackVisitedMapids:list()
+end
+
+function CPlayer:import_visited_mapids(rgiMapids)
+    local m_pStackVisitedMapids = self.pStackVisitedMapids
+    return m_pStackVisitedMapids:push_all(rgiMapids)
+end
+
 function CPlayer:clone()
     local pCopy = CPlayer:new()
 
     pCopy:import_table(self:export_table())
     pCopy:import_inventory_tables(self:export_inventory_tables())
+    pCopy:import_visited_mapids(self:export_visited_mapids())
 
     return pCopy
 end

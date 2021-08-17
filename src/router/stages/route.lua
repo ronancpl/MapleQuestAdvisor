@@ -98,6 +98,16 @@ local function route_path_copy(pQuestPath)
     return pPathNew
 end
 
+function route_quest_update_leading_subpath(pCurrentPath, pLeadingPath)
+    local pTopPath = pLeadingPath:get_top()
+    if pTopPath:is_subpath(pCurrentPath) then
+        pLeadingPath:remove(pTopPath)
+    end
+
+    local pPath = route_path_copy(pCurrentPath)
+    pLeadingPath:insert(pPath, pCurrentPath:value())
+end
+
 function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     route_quest_permit_complete(pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
@@ -107,8 +117,7 @@ function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests,
     pCurrentPath:add(pQuestProp, pQuestRoll, fValue)
 
     if pCurrentPath:value() > pLeadingPath:get_base_value() then    -- try add, ignores if not meet leaderboard
-        local pPath = route_path_copy(pCurrentPath)
-        pLeadingPath:insert(pPath, pCurrentPath:value())
+        route_quest_update_leading_subpath(pCurrentPath, pLeadingPath)
     end
 
     local iPathSize = pCurrentPath:size()
@@ -227,7 +236,7 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
 end
 
 local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
-    local pPlayerState = CPlayer:new(pPlayer)
+    local pPlayerState = pPlayer:clone()
     local pQuestProp = pQuest:get_start()
     local pCurrentPath = CQuestPath:new()
 
@@ -250,6 +259,9 @@ end
 local function make_leading_paths()
     local pSetLeadingPath = SRankedSet:new()
     pSetLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
+
+    local pQuestPath = CQuestPath:new()
+    pSetLeadingPath:insert(pQuestPath, 0.0)
 
     return pSetLeadingPath
 end

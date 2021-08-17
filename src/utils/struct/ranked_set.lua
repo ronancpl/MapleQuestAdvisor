@@ -87,10 +87,15 @@ function SRankedSet:remove(pItem)
     self:_remove(pItem)
 end
 
-function SRankedSet:pop()
+function SRankedSet:get_top()
     local m_rgpItems = self.rgpItems
 
     local pItm = m_rgpItems:get_last()
+    return pItm
+end
+
+function SRankedSet:pop()
+    local pItm = self:get_top()
     self:_remove(pItm)
 
     return pItm

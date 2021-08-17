@@ -11,6 +11,7 @@
 --]]
 
 require("router.procedures.quest.awarder.property")
+require("solver.lookup.constant")
 require("structs.storage.inventory")
 
 local function award_player(ctAwarders, fn_award_key, pQuestProp, pPlayerState)
@@ -53,14 +54,14 @@ local function process_player_quest_update(pQuestProp, pPlayerState, bUndo)
     fn_award_player_state_quests(pPlayerState, rgpGet, bUndo)
 end
 
-local function get_npc_quest_mapid(pQuestProp, pPlayerState, iNpcid)
+local function fetch_npc_quest_mapid_by_quest_property(pQuestProp, pPlayerState)
     local iRegionid = ctFieldsLandscape:get_region_by_mapid(pPlayerState:get_mapid())
     local iRegMapid, iNpcMapid
 
     local iNpcid = pQuestProp:get_requirement():get_npc()
-    local tpNpcFields = ctNpcs:get_locations(iNpcid)
+    local rgiNpcFields = ctNpcs:get_locations(iNpcid)
 
-    for _, iMapid in ipairs(tpNpcFields) do
+    for _, iMapid in ipairs(rgiNpcFields) do
         local iNpcRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
         if iRegionid == iNpcRegionid then
             iRegMapid = iMapid
@@ -72,11 +73,39 @@ local function get_npc_quest_mapid(pQuestProp, pPlayerState, iNpcid)
     return iRegMapid or iNpcMapid or -1
 end
 
+local function fetch_npc_quest_mapid_by_resource_tree(pUiRscs)
+    local iNpcMapid
+
+    local pRscTree = pUiRscs:get_properties():get_resource_tree()
+    if pRscTree ~= nil then
+        for _, iRscid in ipairs(pRscTree:get_resources()) do
+            if math.floor(iRscid / 1000000000) == RLookupCategory.FIELD_NPC then
+                iNpcMapid = iRscid % 1000000000
+            end
+        end
+
+        if iNpcMapid == nil then
+            iNpcMapid = pRscTree:get_field_destination()
+        end
+    end
+
+    return iNpcMapid or -1
+end
+
+local function fetch_npc_quest_mapid(pQuestProp, pPlayerState, pUiRscs)
+    local iMapid = fetch_npc_quest_mapid_by_quest_property(pQuestProp, pPlayerState)
+    if iMapid < 0 then
+        iMapid = fetch_npc_quest_mapid_by_resource_tree(pUiRscs)
+    end
+
+    return iMapid
+end
+
 local function process_player_field_update(pQuestProp, pPlayerState, bUndo)
     if bUndo then
         pPlayerState:rollback_access_mapid()
     else
-        local iMapid = get_npc_quest_mapid(pQuestProp, pPlayerState, pQuestProp:get_requirement():get_npc())
+        local iMapid = fetch_npc_quest_mapid(pQuestProp, pPlayerState, pUiRscs)
         pPlayerState:move_access_mapid(iMapid)
     end
 end

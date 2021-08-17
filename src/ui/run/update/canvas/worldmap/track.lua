@@ -17,17 +17,6 @@ require("ui.struct.component.tooltip.tracer.polyline")
 require("ui.struct.window.summary")
 require("utils.procedure.unpack")
 
-local function contains_field_npc(pResource)
-    for _, iRscid in pairs(pResource:get_resources()) do
-        local iRscType = math.floor(iRscid / 1000000000)
-        if iRscType == RLookupCategory.FIELD_NPC then
-            return true
-        end
-    end
-
-    return false
-end
-
 local function get_worldmap_regionids(pUiWmap)
     local tpRegionids = {}
 
@@ -54,24 +43,6 @@ local function is_player_region_in_worldmap_area(pPlayer, pUiWmap)
     return false
 end
 
-local function fetch_field_source(pPlayer, pUiWmap)
-    if is_player_region_in_worldmap_area(pPlayer, pUiWmap) then
-        return pPlayer:get_mapid()
-    else
-        return nil
-    end
-end
-
-local function fetch_field_destination(pRegionRscTree)
-    for iMapid, pResource in pairs(pRegionRscTree:get_field_nodes()) do
-        if contains_field_npc(pResource) then
-            return iMapid
-        end
-    end
-
-    return nil
-end
-
 local function reset_worldmap_nodes(pUiWmap, pDirHelperQuads)
     local pWmapProp = pUiWmap:get_properties()
 
@@ -92,6 +63,17 @@ local function is_worldmap_subregion(iRegionid, rgiWmapRegionids)
     return false
 end
 
+local function contains_field_npc(pResource)
+    for _, iRscid in pairs(pResource:get_resources()) do
+        local iRscType = math.floor(iRscid / 1000000000)
+        if iRscType == RLookupCategory.FIELD_NPC then
+            return true
+        end
+    end
+
+    return false
+end
+
 local function has_quest_npc(pRegionRscTree, iMapid)
     local pFieldRsc = pRegionRscTree:get_field_node(iMapid)
     return pFieldRsc ~= nil and contains_field_npc(pFieldRsc)
@@ -101,14 +83,8 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
     local rgiWmapRegionids = get_worldmap_regionids(pUiWmap)
 
     -- verify if current worldmap contains the player and destination
-
-    local iOrigPlayerMapid = fetch_field_source(pPlayer, pUiWmap)
-    local iOrigMapid = iOrigPlayerMapid or pRegionRscTree:get_field_source()  -- starting point has player
-    pRegionRscTree:set_field_source(iOrigMapid)
-
-    local iDestNpcMapid = fetch_field_destination(pRegionRscTree)
-    local iDestMapid = iDestNpcMapid or pRegionRscTree:get_field_destination()  -- destination has quest NPC
-    pRegionRscTree:set_field_destination(iDestMapid)
+    local iOrigMapid = pRegionRscTree:get_field_source()
+    local iDestMapid = pRegionRscTree:get_field_destination()
 
     local iRegionidOrig = ctFieldsLandscape:get_region_by_mapid(iOrigMapid) or -1
     local iRegionidDest = ctFieldsLandscape:get_region_by_mapid(iDestMapid) or -1
@@ -128,7 +104,7 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
     local bStaticDest = nil
     local sTooltipDest = nil
     if is_worldmap_subregion(iRegionidDest, rgiWmapRegionids) --[[and has_quest_npc(pRegionRscTree, iDestMapid)--]] then
-        if iDestNpcMapid ~= nil then    -- current region has NPC
+        if has_quest_npc(pRegionRscTree, iDestMapid) then   -- current region has NPC
             sTooltipDest = RWmapTooltipType.TARGET
             bStaticDest = RWmapMarkerState.TARGET
         elseif iRegionidOrig ~= iRegionidDest then
@@ -199,11 +175,46 @@ local function is_field_station(iMapid)
     return ctFieldsLink:get_hub_entry(iMapid) ~= nil
 end
 
-local function build_worldmap_resource_tree(pRscTree, pUiWmap)
+local function is_region_in_worldmap(iRegionid, pUiWmap)
+    local rgiRegionids = get_worldmap_regionids(pUiWmap)
+    for _, iWmapRegionid in ipairs(rgiRegionids) do
+        if iRegionid == iWmapRegionid then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function fetch_source_resource_tree(iPlayerMapid, pUiWmap)
+    local iRegionid = ctFieldsLandscape:get_region_by_mapid(iPlayerMapid)
+    return is_region_in_worldmap(iRegionid, pUiWmap) and iPlayerMapid or -1
+end
+
+local function fetch_destination_resource_tree(tiMapidDest, iMapidSrc, iMapidDest)
+    local iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapidDest)
+    if is_region_in_worldmap(iRegionid, pUiWmap) then
+        return iMapidDest
+    end
+
+    iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapidSrc)
+    if is_region_in_worldmap(iRegionid, pUiWmap) then
+        local iWmapMapidDest = tiMapidDest[iRegionid]
+        if iWmapMapidDest == nil then
+            _, iWmapMapidDest = next(tiMapidDest)
+        end
+
+        return iWmapMapidDest or -1
+    end
+
+    return -1
+end
+
+local function build_worldmap_resource_tree(pRscTree, pUiWmap, iPlayerMapid)
     local pWmapRscTree = CSolverTree:new()
 
     local iMapidSrc = -1
-    local iMapidDest = -1
+    local tiMapidDest = {}
 
     local rgiRegionids = get_worldmap_regionids(pUiWmap)
     for _, iWmapRegionid in ipairs(rgiRegionids) do
@@ -214,17 +225,21 @@ local function build_worldmap_resource_tree(pRscTree, pUiWmap)
             end
 
             local iCurMapidSrc = pRegionRscTree:get_field_source()
-            if is_field_station(iCurMapidSrc) or iMapidSrc < 0 then
+            if is_field_station(iCurMapidSrc) then
                 iMapidSrc = iCurMapidSrc
             end
 
             local iCurMapidDest = pRegionRscTree:get_field_destination()
-            if is_field_station(iCurMapidDest) or iMapidSrc < 0 then
-                iMapidDest = iCurMapidDest
+            if is_field_station(iCurMapidDest) or tiMapidDest[iWmapRegionid] == nil then
+                tiMapidDest[iWmapRegionid] = iCurMapidDest
             end
         end
     end
 
+    local iWmapSrc = fetch_source_resource_tree(iPlayerMapid, pUiWmap, iMapidSrc)
+    iMapidSrc = iWmapSrc > -1 and iWmapSrc or iMapidSrc
+
+    local iMapidDest = fetch_destination_resource_tree(tiMapidDest, iMapidSrc, pRscTree:get_field_destination())
     pWmapRscTree:set_field_source(iMapidSrc > -1 and iMapidSrc or pWmapRscTree:get_field_source())
     pWmapRscTree:set_field_destination(iMapidDest > -1 and iMapidDest or pWmapRscTree:get_field_destination())
 
@@ -241,7 +256,7 @@ function update_worldmap_region_track(pUiWmap, pUiRscs, pPlayer, pDirHelperQuads
     reset_worldmap_nodes(pUiWmap, pDirHelperQuads)
 
     local pRscTree = pUiRscs:get_properties():get_resource_tree()
-    local pWmapRegionRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap)
+    local pWmapRegionRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap, pPlayer:get_mapid())
     update_worldmap_resource_nodes(pUiWmap, pWmapRegionRscTree, pPlayer, pDirHelperQuads)
 
     local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
@@ -266,7 +281,7 @@ local function apply_worldmap_resource_actives(pUiWmap, pUiRscs)
     local pWmapProp = pUiWmap:get_properties()
 
     local pRscTree = pUiRscs:get_properties():get_resource_tree()
-    local pWmapRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap)
+    local pWmapRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap, pPlayer:get_mapid())
 
     for iMapid, _ in pairs(pWmapRscTree:get_field_nodes()) do
         local pFieldMarker = pWmapProp:get_marker_by_mapid(iMapid)

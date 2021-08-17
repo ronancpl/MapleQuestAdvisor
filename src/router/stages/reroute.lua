@@ -49,6 +49,9 @@ local function make_leading_paths()
     local pSetLeadingPath = SRankedSet:new()
     pSetLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
 
+    local pQuestPath = CQuestPath:new()
+    pSetLeadingPath:insert(pQuestPath, 0.0)
+
     return pSetLeadingPath
 end
 
@@ -135,7 +138,7 @@ local function route_internal_node(rgpPoolProps, rgpQuestProps, pFrontierQuests,
 end
 
 local function route_internal(tQuests, pPlayer, rgpQuestProps, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
-    local pPlayerState = CPlayer:new(pPlayer)
+    local pPlayerState = pPlayer:clone()
     local pCurrentPath = CQuestPath:new()
 
     local rgpPoolProps = make_quest_pool_list(tQuests)

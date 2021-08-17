@@ -128,7 +128,7 @@ function CQuestPath:get_node_allot(iIdx)
     return m_pPathAllotStack[iIdx]
 end
 
-function CQuestPath:set(pOtherPath)
+function CQuestPath:_fetch_index_in_path(pOtherPath)
     local rgpOtherQuests = pOtherPath:list()
     local rgpQuests = self:list()
 
@@ -139,7 +139,15 @@ function CQuestPath:set(pOtherPath)
         i = i + 1
     end
 
-    local iBaseIdx = i
+    return i
+end
+
+function CQuestPath:is_subpath(pOtherPath)
+    return self:_fetch_index_in_path(pOtherPath) == self:size()
+end
+
+function CQuestPath:set(pOtherPath)
+    local iBaseIdx = self:_fetch_index_in_path(pOtherPath)
     for i = #rgpQuests, iBaseIdx, -1 do
         local pQuestProp = rgpQuests[i]
         self:remove(pQuestProp)

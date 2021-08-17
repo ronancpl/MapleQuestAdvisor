@@ -90,10 +90,14 @@ local function build_descriptor_tree(pRscTree, tpTreeResources, tpPathMapids)
     pRscTree:set_resources(rgiTreeResourceids:list())
 end
 
-local function create_tree_interregional_resources(tpRegionResources, tpPathMapids)
+local function create_tree_interregional_resources(tpRegionResources, tpPathMapids, ctFieldsLandscape, iSrcMapid, iDestMapid)
     local pRscTree = CSolverTree:new()
 
     build_descriptor_tree(pRscTree, tpRegionResources, tpPathMapids)
+
+    pRscTree:set_field_source(iSrcMapid)
+    pRscTree:set_field_destination(iDestMapid)
+
     pRscTree:make_remissive_index_resource_fields()
 
     return pRscTree
@@ -337,6 +341,6 @@ function build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsD
     local tpPathMapids
     tpRegionResources, tpPathMapids = create_interregional_resources_descriptor(pQuestResource, rgpPathMapids, rgiTransitRegionids, ctSolverLookup, ctFieldsLandscape, ctFieldsLink)
 
-    local pRscTree = create_tree_interregional_resources(tpRegionResources, tpPathMapids)
+    local pRscTree = create_tree_interregional_resources(tpRegionResources, tpPathMapids, ctFieldsLandscape, iSrcMapid, iDestMapid)
     return pRscTree
 end

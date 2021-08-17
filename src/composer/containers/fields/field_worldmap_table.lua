@@ -62,7 +62,7 @@ end
 
 function CFieldWorldmapTable:get_worldmap_name_by_area(iMapid)
     local iWmapid = self:get_worldmapid_by_area(iMapid)
-    return "WorldMap" .. string.format("%03d", iWmapid)
+    return S_WORLDMAP_BASE .. string.format("%03d", iWmapid)
 end
 
 function CFieldWorldmapTable:contains(iMapid)

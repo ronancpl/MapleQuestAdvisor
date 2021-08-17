@@ -188,6 +188,29 @@ local function read_quest_node(pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
     return pQuest
 end
 
+local function is_ascii_quest(pQuest)
+    local sQuestTitle = pQuest:get_title()
+    return sQuestTitle:find("[A-Za-z]") ~= nil
+end
+
+local function should_supress_quest(pQuest)
+
+    -- ignore by text encoding
+    if LInput.QUEST_FILTER_ASCII then
+        if not is_ascii_quest(pQuest) then
+            return true
+        end
+    end
+
+    -- ignore date expiring quests
+    local bHasDate = pQuest:get_start():get_requirement():has_date_access()
+    if not bHasDate then
+        return true
+    end
+
+    return false
+end
+
 local function read_quests(ctQuests, pActNode, pChkNode)
     local pActImgNode = pActNode:get_child_by_name("Act.img")
     local pChkImgNode = pChkNode:get_child_by_name("Check.img")
@@ -199,7 +222,9 @@ local function read_quests(ctQuests, pActNode, pChkNode)
         local pChkQuestNode = pChkImgNode:get_child_by_name(pActQuestNode:get_name())
         if pChkQuestNode ~= nil then
             local pQuest = read_quest_node(pActQuestNode, pChkQuestNode, rgfn_req_get, rgfn_act_get)
-            ctQuests:add_quest(pQuest)
+            if not should_supress_quest(pQuest) then
+                ctQuests:add_quest(pQuest)
+            end
         else
             log(LPath.FALLBACK, "quest.txt", "[WARNING] Missing questid " .. pActQuestNode:get_name())
         end
@@ -243,11 +268,11 @@ local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcFie
 
     local pNpcMapid = tpNpcField[iStartNpc]
     if pNpcMapid == nil then
-        local tpNpcFields = ctNpcs:get_locations(iStartNpc)
-        if next(tpNpcFields) ~= nil then
+        local rgiNpcFields = ctNpcs:get_locations(iStartNpc)
+        if next(rgiNpcFields) ~= nil then
             local tpNpcMapid = STable:new()
             local bHasTown = false
-            for iMapid, _ in pairs(tpNpcFields) do
+            for _, iMapid in ipairs(rgiNpcFields) do
                 local bTown = ctFieldsMeta:is_town(iMapid)
                 bHasTown = bHasTown or bTown
 
@@ -279,40 +304,15 @@ local function apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcFie
     pRequirement:set_field(pNpcMapid)
 end
 
-local function is_ascii_quest(pQuest)
-    local sQuestTitle = pQuest:get_title()
-    return sQuestTitle:find("[A-Za-z]") ~= nil
-end
-
-local function should_supress_quest(pQuest)
-
-    -- ignore by text encoding
-    if LInput.QUEST_FILTER_ASCII then
-        if not is_ascii_quest(pQuest) then
-            return true
-        end
-    end
-
-    -- ignore date expiring quests
-    local bHasDate = pQuest:get_start():get_requirement():has_date_access()
-    if not bHasDate then
-        return true
-    end
-
-    return false
-end
-
 function apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
     local tpQuests = ctQuests:get_quests()
     local tpNpcField = {}
 
     for _, pQuest in pairs(tpQuests) do
-        if not should_supress_quest(pQuest) then
-            local iStartNpc = pQuest:get_start():get_requirement():get_npc()
+        local iStartNpc = pQuest:get_start():get_requirement():get_npc()
 
-            apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcField, CQuest.get_start)
-            apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcField, CQuest.get_end)
-        end
+        apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcField, CQuest.get_start)
+        apply_npc_field(pQuest, iStartNpc, ctNpcs, ctFieldsMeta, tpNpcField, CQuest.get_end)
     end
 end
 

@@ -30,7 +30,7 @@ function player_lane_move_ahead(pTrack, pQuestProp, pPlayerState, rgpPoolProps)
     local bSuccess = pTrack:move_ahead(pQuestProp)
     if bSuccess then
         lookahead_lane_on_move(pTrack, pPlayerState)
-        progress_player_state(ctAwarders, ctQuests:get_quest_by_id(1034):get_end(), pPlayerState, rgpPoolProps)
+        progress_player_state(ctAwarders, pQuestProp, pPlayerState, rgpPoolProps)
     else
         log(LPath.FALLBACK, "quest_lane.txt", " NOT FOUND quest " .. tostring(pQuestProp:get_name()) .. " ON ROUTE '" .. pTrack:to_string() .. "'")
     end
