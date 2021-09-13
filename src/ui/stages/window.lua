@@ -48,6 +48,8 @@ log(LPath.INTERFACE, "load.txt", "Loading user interface...")
 pWndHandler = CWndHandler:new()
 
 pFrameBasic = load_frame_basic()
+pUiHud = CWndHud:new()
+
 pUiWmap = load_frame_worldmap()
 pUiInvt = load_frame_player_inventory()
 pUiStats = load_frame_stat()

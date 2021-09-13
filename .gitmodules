@@ -1,0 +1,6 @@
+[submodule "MQA-Service"]
+	path = MQA-Service
+	url = ../MQA-Service
+[submodule "MQA-Lobby"]
+	path = MQA-Lobby
+	url = ../MQA-Lobby

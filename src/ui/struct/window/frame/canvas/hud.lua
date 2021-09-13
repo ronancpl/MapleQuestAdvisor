@@ -52,7 +52,8 @@ CWndHud = createClass({
     pTxtOngoingQuest,
 
     pBtChannel = CWndChannel:new(),
-    pMiscChannel = CWndChannel:new()
+    pTooltipChannel = CWndChannel:new(),
+    pMiscChannel = CWndChannel:new(),
 })
 
 function CWndHud:is_closed()
@@ -366,12 +367,17 @@ end
 
 function CWndHud:draw()
     self.pBtChannel:draw()
+    self.pTooltipChannel:draw()
     self:draw_player_quest()
 end
 
 function CWndHud:_fetch_relative_pos(x, y)
     local iPx, iPy = 0, 0
     return x - iPx, y - iPy
+end
+
+function CWndHud:get_tooltip_channel()
+    return self.pTooltipChannel
 end
 
 function CWndHud:get_misc_channel()

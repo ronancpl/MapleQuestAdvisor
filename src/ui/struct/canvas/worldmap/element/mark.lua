@@ -98,15 +98,15 @@ end
 function CWmapElemMark:remove_tooltip_element()
     local m_pTooltip = self.pTooltip
     if m_pTooltip ~= nil then
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
-        pLyr:remove_element(LChannel.WMAP_MARK_TTIP, m_pTooltip)
+        local pChn = pUiHud:get_tooltip_channel()
+        pChn:remove_element(m_pTooltip)
     end
 end
 
 function CWmapElemMark:add_tooltip_element(pTooltip)
     if pTooltip ~= nil then
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
-        pLyr:add_element(LChannel.WMAP_MARK_TTIP, pTooltip)
+        local pChn = pUiHud:get_tooltip_channel()
+        pChn:add_element(pTooltip)
     end
 end
 
@@ -207,14 +207,14 @@ function CWmapElemMark:onmousehoverin()
     if m_pTextbox ~= nil then
         m_pTextbox:visible()
 
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
-        pLyr:add_element(LChannel.WMAP_MARK_TBOX, m_pTextbox)
+        local pChn = pUiHud:get_tooltip_channel()
+        pChn:add_element(m_pTextbox)
     end
 
     local m_pPath = self:get_path()
     if m_pPath ~= nil then
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
-        pLyr:add_element(LChannel.WMAP_MARK_PATH, m_pPath)
+        local pChn = pUiHud:get_tooltip_channel()
+        pChn:add_element(m_pPath)
     end
 end
 
@@ -223,13 +223,13 @@ function CWmapElemMark:onmousehoverout()
     if m_pTextbox ~= nil then
         m_pTextbox:hidden()
 
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
-        pLyr:remove_element(LChannel.WMAP_MARK_TBOX, m_pTextbox)
+        local pChn = pUiHud:get_tooltip_channel()
+        pChn:remove_element(m_pTextbox)
     end
 
     local m_pPath = self:get_path()
     if m_pPath ~= nil then
-        local pLyr = pUiWmap:get_layer(LLayer.NAV_WMAP_MISC)
-        pLyr:remove_element(LChannel.WMAP_MARK_PATH, m_pPath)
+        local pChn = pUiHud:get_tooltip_channel()
+        pChn:remove_element(m_pPath)
     end
 end
