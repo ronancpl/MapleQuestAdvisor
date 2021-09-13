@@ -20,6 +20,7 @@ require("ui.run.update.canvas.position")
 require("ui.run.update.track.quest")
 require("ui.struct.component.canvas.window.button")
 require("ui.struct.component.canvas.window.state")
+require("ui.struct.toolkit.scissor")
 require("ui.struct.window.type")
 require("ui.struct.window.element.basic.selectbox")
 require("ui.struct.window.frame.channel")
@@ -53,7 +54,7 @@ CWndHud = createClass({
 
     pBtChannel = CWndChannel:new(),
     pTooltipChannel = CWndChannel:new(),
-    pMiscChannel = CWndChannel:new(),
+    pMiscChannel = CWndChannel:new()
 })
 
 function CWndHud:is_closed()
@@ -331,9 +332,14 @@ end
 
 function CWndHud:draw_player_quest()
     local iPx, iPy = unpack(RActionElement.NAV_QUEST.POSITION)
-    self.pNavOngoingQuest:draw(iPx, iPy)
 
+    local iWidth, iHeight = self:get_nav_ongoing_quest():get_dimensions()
+    lock_drawable_area(iPx, iPy, iWidth, iHeight, false)
+    love.graphics.setColor(1, 1, 1, 0.7)
+
+    self.pNavOngoingQuest:draw(iPx, iPy)
     love.graphics.draw(self.pTxtOngoingQuest, iPx, iPy - math.floor(math.max((self:get_text_height() - 46) / 2) + RActionElement.NAV_QUEST.ST_Y, 0))
+    unlock_drawable_area()
 
     local iNx, iNy = unpack(RActionElement.NAV_NEXT_QUEST.POSITION)
     self.pSlctNavQuest:draw(iNx, iNy)
@@ -363,6 +369,7 @@ end
 
 function CWndHud:update(dt)
     self.pBtChannel:update(dt)
+    self.pTooltipChannel:update(dt)
 end
 
 function CWndHud:draw()
