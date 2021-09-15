@@ -18,6 +18,7 @@ require("ui.struct.component.canvas.resource.tab.grid")
 require("ui.struct.component.canvas.resource.tab.method")
 require("ui.struct.component.element.texture")
 require("ui.struct.window.element.basic.slider")
+require("ui.struct.component.canvas.resource.tab.reward")
 require("utils.procedure.copy")
 require("utils.procedure.unpack")
 require("utils.struct.class")
@@ -35,7 +36,9 @@ CRscTableElem = createClass({
 
     rgpVwItems = {},
     rgiCurRange = {0, -1},
-    rgpTabVwItems = {}
+    rgpTabVwItems = {},
+
+    pReward = CRscRewardTab:new()
 })
 
 function CRscTableElem:get_origin()
@@ -166,6 +169,10 @@ function CRscTableElem:get_fn_update_items()
     return tfn_rsc_update_items[rgiRscTabType[iTab]]
 end
 
+function CRscTableElem:get_reward_tab()
+    return self.pReward
+end
+
 function CRscTableElem:load(rX, rY, pTextureData, pFieldTextureData, tpRscGrid)
     local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh
 
@@ -185,6 +192,7 @@ function CRscTableElem:load(rX, rY, pTextureData, pFieldTextureData, tpRscGrid)
     for i = 1, 4, 1 do
         m_rgpTabVwItems[i] = {}
     end
+    m_rgpTabVwItems[5] = {}     -- reward tab
 
     self.tpRscGrid = tpRscGrid
 end

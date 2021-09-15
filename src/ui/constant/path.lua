@@ -49,5 +49,9 @@ RWndPath = {
     INTF_INVT_WND = "UI.wz/UIWindow.img/Item",
 
     -- Notice screen
-    INTF_NOTC_WND = "UI.wz/UIWindow.img/FloatNotice"
+    INTF_NOTC_WND = "UI.wz/UIWindow.img/FloatNotice",
+
+    -- Reward screen
+    INTF_QUEST_WND = "UI.wz/UIWindow.img/Quest",
+    INTF_QUEST_ICON_WND = "UI.wz/UIWindow.img/QuestIcon"
 }

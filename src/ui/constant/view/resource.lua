@@ -42,7 +42,8 @@ RResourceTable = {
         MOBS = {ID = 1, TYPE = RResourceTabType.GRID, NAME = "Mobs"},
         ITEMS = {ID = 2, TYPE = RResourceTabType.GRID, NAME = "Items"},
         NPC = {ID = 3, TYPE = RResourceTabType.PICT, NAME = "NPC"},
-        FIELD_ENTER = {ID = 4, TYPE = RResourceTabType.INFO, NAME = "Enter"}
+        FIELD_ENTER = {ID = 4, TYPE = RResourceTabType.INFO, NAME = "Enter"},
+        REWARD = {ID = 5, TYPE = RResourceTabType.INFO, NAME = "REWARD"}
     },
 
     VW_SLIDER = {

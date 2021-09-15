@@ -110,7 +110,10 @@ CStockResource = createClass({
     pBgrdTextureData,
     pFieldTextureData,
     pStockTab = CStockResourceTab:new(),
-    pStockItem = CStockResourceItem:new()
+    pStockItem = CStockResourceItem:new(),
+
+    pRewardBgrdData,
+    rgpImgRewardIcons = {}
 })
 
 function CStockResource:_load_texture_background()
@@ -184,6 +187,46 @@ function CStockResource:_load_field_box()
     self:_load_field_box_background(pImgFieldLeft, pImgFieldMid, pImgFieldRight)
 end
 
+function CStockResource:_load_field_reward_icons()
+    local pDirQuestIconImgs = load_image_storage_from_wz_sub(RWndPath.INTF_QUEST_ICON_WND, "")
+    pDirQuestIconImgs = select_images_from_storage(pDirQuestIconImgs, {})
+
+    local m_rgpImgRewardIcons = self.rgpImgRewardIcons
+
+    local pImgIconExp = love.graphics.newImage(find_image_on_storage(pDirQuestIconImgs, "6.0"))
+    table.insert(m_rgpImgRewardIcons, pImgIconExp)
+
+    local pImgIconMeso = love.graphics.newImage(find_image_on_storage(pDirQuestIconImgs, "7.0"))
+    table.insert(m_rgpImgRewardIcons, pImgIconMeso)
+
+    local pImgIconFame = love.graphics.newImage(find_image_on_storage(pDirQuestIconImgs, "8.0"))
+    table.insert(m_rgpImgRewardIcons, pImgIconFame)
+end
+
+function CStockResource:_load_field_reward_background()
+    local pDirQuestBgrdImgs = load_image_storage_from_wz_sub(RWndPath.INTF_QUEST_WND, "")
+    pDirQuestBgrdImgs = select_images_from_storage(pDirQuestBgrdImgs, {})
+
+    local pImgRewardBox = love.graphics.newImage(find_image_on_storage(pDirQuestBgrdImgs, "backgrnd5"))
+    local pImgRewardIcon = love.graphics.newImage(find_image_on_storage(pDirQuestBgrdImgs, "reward"))
+
+    local rgpImgBox = {}
+    table.insert(rgpImgBox, pImgRewardBox)
+
+    local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = compose_texture_from_imageset(rgpImgBox, 1, 15, 15)
+
+    local pFieldData = CBasicTexture:new()
+    pFieldData:load(pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh)
+
+    self.pRewardBgrdData = pFieldData
+    self.pImgRewardIcon = pImgRewardIcon
+end
+
+function CStockResource:_load_field_rewards()
+    self:_load_field_reward_icons()
+    self:_load_field_reward_background()
+end
+
 function CStockResource:load()
     self.pStockTab:load()
     self.pStockItem:load()
@@ -191,6 +234,7 @@ function CStockResource:load()
     self:_load_texture_background()
     self:_load_text_field()
     self:_load_field_box()
+    self:_load_field_rewards()
 end
 
 function CStockResource:get_background_data()
@@ -203,6 +247,18 @@ end
 
 function CStockResource:get_background_text()
     return self.pImgTextArea
+end
+
+function CStockResource:get_reward_background_data()
+    return self.pRewardBgrdData
+end
+
+function CStockResource:get_reward_icon()
+    return self.pImgRewardIcon
+end
+
+function CStockResource:get_reward_types()
+    return self.rgpImgRewardIcons
 end
 
 function CStockResource:get_tab_names()
