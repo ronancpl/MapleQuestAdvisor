@@ -113,7 +113,7 @@ function CWndResource:update_resources(pQuestProp, pRscTree)
 
     local pVwRscs = m_pProp:get_table()
     local fn_update_items = pVwRscs:get_fn_update_items()
-    fn_update_items(pVwRscs, m_pProp)
+    fn_update_items(pVwRscs, m_pProp, pQuestProp ~= nil and ctQuests:get_quest_by_id(pQuestProp:get_quest_id()) or nil)
 end
 
 function CWndResource:get_field_resources()

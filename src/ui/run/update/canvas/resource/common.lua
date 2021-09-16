@@ -141,17 +141,17 @@ function update_tab_for_resource_table(pVwRscs, iNextTab)
     update_resource_slider(pVwRscs, true)
 end
 
-local function update_resource_tabs(pVwRscs, pRscProp)
-    update_resource_items(pVwRscs, pRscProp)
+local function update_resource_tabs(pVwRscs, pRscProp, pQuest)
+    update_resource_items(pVwRscs, pRscProp, pQuest)
 end
 
-function update_items_for_resource_table(pVwRscs, pRscProp)
+function update_items_for_resource_table(pVwRscs, pRscProp, pQuest)
     pVwRscs:set_tab_selected(1)
     pVwRscs:set_row_selected(1)
 
     update_tab_for_resource_table(pVwRscs, 0)  -- set to MOBS
 
-    update_resource_tabs(pVwRscs, pRscProp)
+    update_resource_tabs(pVwRscs, pRscProp, pQuest)
     update_resource_slider(pVwRscs, true)
 end
 

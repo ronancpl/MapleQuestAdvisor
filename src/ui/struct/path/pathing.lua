@@ -91,7 +91,11 @@ function CTracePath:move_ahead(pQuestProp)
 end
 
 function CTracePath:move_back()
-    return self:_pop_lane()
+    if self.pStackProp:get_top() ~= nil then
+        return self:_pop_lane()
+    else
+        return nil
+    end
 end
 
 function CTracePath:trim_back()

@@ -43,7 +43,7 @@ function CStockResourceTab:_load_tab_names()
     local m_rgpTxtTabNames = self.rgpTxtTabNames
     clear_table(m_rgpTxtTabNames)
 
-    local rgsTabNames = {RResourceTable.TAB.MOBS.NAME, RResourceTable.TAB.ITEMS.NAME, RResourceTable.TAB.NPC.NAME, RResourceTable.TAB.FIELD_ENTER.NAME}
+    local rgsTabNames = {RResourceTable.TAB.MOBS.NAME, RResourceTable.TAB.ITEMS.NAME, RResourceTable.TAB.NPC.NAME, RResourceTable.TAB.FIELD_ENTER.NAME, RResourceTable.TAB.REWARD.NAME}
     for _, sName in ipairs(rgsTabNames) do
         local pTxtName = love.graphics.newText(pFont, sName)
         table.insert(m_rgpTxtTabNames, pTxtName)
@@ -192,6 +192,9 @@ function CStockResource:_load_field_reward_icons()
     pDirQuestIconImgs = select_images_from_storage(pDirQuestIconImgs, {})
 
     local m_rgpImgRewardIcons = self.rgpImgRewardIcons
+
+    local pImgIconTab = love.graphics.newImage(find_image_on_storage(pDirQuestIconImgs, "4.0"))
+    table.insert(m_rgpImgRewardIcons, pImgIconTab)
 
     local pImgIconExp = love.graphics.newImage(find_image_on_storage(pDirQuestIconImgs, "6.0"))
     table.insert(m_rgpImgRewardIcons, pImgIconExp)

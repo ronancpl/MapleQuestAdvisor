@@ -47,6 +47,7 @@ end
 
 function CRscTableElem:set_position(iPx, iPy)
     self.eTexture:set_origin(iPx, iPy)
+    self.pReward:set_position(iPx, iPy)
 end
 
 function CRscTableElem:get_background()
@@ -195,6 +196,12 @@ function CRscTableElem:load(rX, rY, pTextureData, pFieldTextureData, tpRscGrid)
     m_rgpTabVwItems[5] = {}     -- reward tab
 
     self.tpRscGrid = tpRscGrid
+
+    self.pReward:load(rX, rY)
+end
+
+function CRscTableElem:set_quest_reward(pQuest)
+    self.pReward:update_rewards(pQuest)
 end
 
 function CRscTableElem:reset()
@@ -214,7 +221,7 @@ function CRscTableElem:_try_click_tab(iPx, iPy)
 
     local iTx = iOx + RResourceTable.VW_TAB.NAME.X
     local iTy = iOx + RResourceTable.VW_TAB.NAME.Y
-    if math.between(iPx, iTx, iTx + 4 * RResourceTable.VW_TAB.W) and math.between(iPy, iTy, iTy + RResourceTable.VW_TAB.H) then
+    if math.between(iPx, iTx, iTx + 5 * RResourceTable.VW_TAB.W) and math.between(iPy, iTy, iTy + RResourceTable.VW_TAB.H) then
         local iTab = math.floor((iPx - iTx) / RResourceTable.VW_TAB.W)
 
         local fn_update_tab = self:get_fn_update_tab()

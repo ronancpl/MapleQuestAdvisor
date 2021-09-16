@@ -20,6 +20,6 @@ function update_tab_for_resource_info(pVwRscs, iNextTab)
     update_tab_for_resource_table(pVwRscs, iNextTab)
 end
 
-function update_items_for_resource_info(pVwRscs, pRscProp)
-    update_items_for_resource_table(pVwRscs, pRscProp)
+function update_items_for_resource_info(pVwRscs, pRscProp, pQuest)
+    update_items_for_resource_table(pVwRscs, pRscProp, pQuest)
 end

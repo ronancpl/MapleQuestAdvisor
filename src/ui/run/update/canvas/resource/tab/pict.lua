@@ -22,6 +22,6 @@ function update_tab_for_resource_pict(pVwRscs, iNextTab)
     update_tab_for_resource_table(pVwRscs, iNextTab)
 end
 
-function update_items_for_resource_pict(pVwRscs, pRscProp)
-    update_items_for_resource_table(pVwRscs, pRscProp)
+function update_items_for_resource_pict(pVwRscs, pRscProp, pQuest)
+    update_items_for_resource_table(pVwRscs, pRscProp, pQuest)
 end

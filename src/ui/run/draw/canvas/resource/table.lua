@@ -176,6 +176,27 @@ local function draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
     end
 end
 
+local function draw_resource_reward_tab_name(pVwRscs, iTabWidth, iTabHeight)
+    local iPx
+    local iPy
+    iPx, iPy = 0, 0
+
+    iPx = iPx + RResourceTable.VW_TAB.NAME.X
+    iPy = iPy + RResourceTable.VW_TAB.NAME.Y + 1
+
+    iPx = iPx + (4 * iTabWidth)
+
+    local pImgRwdIcon = ctVwRscs:get_reward_icon()
+
+    local iW = iTabWidth - 5
+    local iH = math.floor((iW / pImgRwdIcon:getWidth()) * pImgRwdIcon:getHeight())
+
+    local iOx = math.floor((iTabWidth - iW) / 2)
+    local iOy = math.floor((iTabHeight - iH) / 2)
+
+    graphics_draw(pImgRwdIcon, iPx + iOx, iPy + iOy, 0, iW)
+end
+
 local function draw_resource_tabs(pVwRscs)
     local rgiIntvVals = codify_resources_tab_intervals(pVwRscs)
     local rgsIntvImgNames = translate_resources_tab_intervals(rgiIntvVals)
@@ -185,6 +206,8 @@ local function draw_resource_tabs(pVwRscs)
 
     draw_compose_resource_tabs(pVwRscs, rgsIntvImgNames, iTabWidth)
     draw_compose_resource_tab_names(pVwRscs, iTabWidth, iTabHeight)
+
+    draw_resource_reward_tab_name(pVwRscs, iTabWidth, iTabHeight)
 end
 
 local function draw_resource_field_base_box(pVwRscs, iPx, iPy)
@@ -241,6 +264,6 @@ function draw_table_resources(pVwRscs)
     draw_resource_slider(pVwRscs)
 
     if pVwRscs:get_tab_selected() == 5 then
-        self:get_reward_tab():draw()
+        pVwRscs:get_reward_tab():draw()
     end
 end

@@ -119,9 +119,10 @@ local function insert_resource_items(pVwRscs, pRscProp)
     _tpVwItemsB = tpVwItems
 end
 
-function update_resource_items(pVwRscs, pRscProp)
+function update_resource_items(pVwRscs, pRscProp, pQuest)
     clear_resource_items(pVwRscs)
     insert_resource_items(pVwRscs, pRscProp)
 
     pVwRscs:refresh_view_items()
+    pVwRscs:set_quest_reward(pQuest)
 end

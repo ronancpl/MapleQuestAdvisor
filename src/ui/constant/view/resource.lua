@@ -43,7 +43,7 @@ RResourceTable = {
         ITEMS = {ID = 2, TYPE = RResourceTabType.GRID, NAME = "Items"},
         NPC = {ID = 3, TYPE = RResourceTabType.PICT, NAME = "NPC"},
         FIELD_ENTER = {ID = 4, TYPE = RResourceTabType.INFO, NAME = "Enter"},
-        REWARD = {ID = 5, TYPE = RResourceTabType.INFO, NAME = "REWARD"}
+        REWARD = {ID = 5, TYPE = RResourceTabType.INFO, NAME = ""}
     },
 
     VW_SLIDER = {
@@ -142,6 +142,43 @@ RResourceTable = {
 
             W = 210,
             H = 20
+        },
+        REWARD = {
+            ROWS = 1,
+            COLS = 1,
+
+            X = 20,
+            Y = 45,
+
+            ST_X = 15,
+            ST_Y = 5,
+            FIL_X = 4,
+            FIL_Y = 2,
+
+            W = 210,
+            H = 20,
+
+            TYPE = {
+                EXP = {
+                    X = 50,
+                    Y = 50,
+                },
+
+                MESO = {
+                    X = 115,
+                    Y = 50,
+                },
+
+                FAME = {
+                    X = 180,
+                    Y = 50,
+                },
+
+                ITEMS = {
+                    X = 50,
+                    Y = 155
+                }
+            }
         }
     },
     VW_GRID_MINI = {

@@ -19,4 +19,4 @@ tfn_rsc_update_row = {update_row_for_resource_grid, update_row_for_resource_pict
 tfn_rsc_update_tab = {update_tab_for_resource_grid, update_tab_for_resource_pict, update_tab_for_resource_info}
 tfn_rsc_update_items = {update_items_for_resource_grid, update_items_for_resource_pict, update_items_for_resource_info}
 
-rgiRscTabType = {RResourceTable.TAB.MOBS.TYPE, RResourceTable.TAB.ITEMS.TYPE, RResourceTable.TAB.NPC.TYPE, RResourceTable.TAB.FIELD_ENTER.TYPE}
+rgiRscTabType = {RResourceTable.TAB.MOBS.TYPE, RResourceTable.TAB.ITEMS.TYPE, RResourceTable.TAB.NPC.TYPE, RResourceTable.TAB.FIELD_ENTER.TYPE, RResourceTable.TAB.REWARD.TYPE}

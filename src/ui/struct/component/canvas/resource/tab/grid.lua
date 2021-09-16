@@ -12,4 +12,4 @@
 
 require("ui.constant.view.resource")
 
-tpRscGrid = {RResourceTable.VW_GRID.MOBS, RResourceTable.VW_GRID.ITEMS, RResourceTable.VW_GRID.NPCS, RResourceTable.VW_GRID.FIELD_ENTER}
+tpRscGrid = {RResourceTable.VW_GRID.MOBS, RResourceTable.VW_GRID.ITEMS, RResourceTable.VW_GRID.NPCS, RResourceTable.VW_GRID.FIELD_ENTER, RResourceTable.VW_GRID.REWARD}
