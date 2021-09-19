@@ -163,6 +163,8 @@ local function get_fn_rscid(bRscInt)
 
     if bRscInt == nil then
         fn_get_rscid = function(pRsc) return pRsc end
+    elseif bRscInt then
+        fn_get_rscid = function(pRsc) return pRsc:get_sourceid() end
     else
         fn_get_rscid = function(pRsc) return pRsc:get_itemid() end
     end
