@@ -161,22 +161,24 @@ RResourceTable = {
             TYPE = {
                 EXP = {
                     X = 50,
-                    Y = 50,
+                    Y = 60,
                 },
 
                 MESO = {
-                    X = 115,
-                    Y = 50,
+                    X = 50,
+                    Y = 60,
                 },
 
                 FAME = {
-                    X = 180,
-                    Y = 50,
+                    X = 50,
+                    Y = 60,
                 },
 
                 ITEMS = {
                     X = 50,
-                    Y = 155
+                    Y = 165,
+
+                    COLS = 4
                 }
             }
         }

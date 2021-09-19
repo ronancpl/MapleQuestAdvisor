@@ -14,6 +14,7 @@ require("ui.constant.path")
 require("ui.constant.view.resource")
 require("ui.struct.component.canvas.inventory.item")
 require("ui.struct.component.element.texture")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 
 CRscRewardTab = createClass({
@@ -34,8 +35,26 @@ function CRscRewardTab:get_origin()
     return self.eBox:get_origin()
 end
 
+function CRscRewardTab:_update_item_position()
+    local iPx, iPy = self:get_origin()
+    iPx = iPx + RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.X
+    iPy = iPy + RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.Y
+
+    local iPos = 0
+
+    local m_rgpVwItems = self.rgpVwItems
+    for _, pVwItem in ipairs(m_rgpVwItems) do
+        local iRx = (iPos % RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.COLS) * 32
+        local iRy = math.floor(iPos / RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.COLS) * 32
+        iPos = iPos + 1
+
+        pVwItem:update_position(iPx + iRx, iPy + iRy)
+    end
+end
+
 function CRscRewardTab:set_position(iPx, iPy)
     self.eBox:set_position(iPx, iPy)
+    self:_update_item_position()
 end
 
 function CRscRewardTab:_clear_quest_rewards()
@@ -73,18 +92,12 @@ end
 
 function CRscRewardTab:_load_reward_items()
     local m_rgpVwItems = self.rgpVwItems
+    clear_table(m_rgpVwItems)
 
     local ivtItems = self.pQuestAct:get_items()
-
-    local iPos = 0
     for iId, iCount in pairs(ivtItems:get_items()) do
-        local iRx = (iPos % 4) * 32
-        local iRy = math.floor(iPos / 4) * 32
-        iPos = iPos + 1
-
         local pVwItem = CInvtElemItem:new()
         pVwItem:load(iId, iCount)
-        pVwItem:update_position(iRx, iRy)
 
         table.insert(m_rgpVwItems, pVwItem)
     end
@@ -120,6 +133,7 @@ function CRscRewardTab:update_rewards(pQuest)
     end
 
     self:_load_reward_items()
+    self:_update_item_position()
 end
 
 function CRscRewardTab:_draw_reset()
@@ -128,7 +142,7 @@ function CRscRewardTab:_draw_reset()
 end
 
 function CRscRewardTab:_get_drawing_width()
-    return self.iCursorX * 120
+    return self.iCursorX * 60
 end
 
 function CRscRewardTab:_next_drawing_width()

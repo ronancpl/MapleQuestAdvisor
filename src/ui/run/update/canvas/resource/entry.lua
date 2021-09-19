@@ -46,7 +46,8 @@ local function make_tab_resources_mobs(pRscProp)
         local sDesc = ctMobsMeta:get_text(iId)
         local iFieldRef = pVwItem:get_field_link()
 
-        pVwItem:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_BASE.MOBS, RResourceTable.VW_GRID.MOBS, false)
+        local pVwBase = {W = pImg:getWidth(), H = pImg:getHeight()}
+        pVwItem:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, iFieldRef, pVwBase, pVwBase, false)
 
         table.insert(rgpVwItems, pVwItem)
     end
@@ -60,7 +61,6 @@ local function make_tab_resources_npc(pRscProp)
     local siType = RResourceTable.TAB.NPC.ID
 
     local iId = pRscProp:get_info_npc():get_npc()
-    iId = 1013000
     if iId >= 0 then
         local pVwItem = CRscElemItemPicture:new()
 
