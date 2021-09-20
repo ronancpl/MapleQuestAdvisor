@@ -132,6 +132,7 @@ function CRscTableElem:_reset_tab_items()
 end
 
 function CRscTableElem:clear_tab_items()
+    self:_set_view_items({})
     self:_free_tab_items()
     self:_reset_tab_items()
 end
@@ -209,7 +210,7 @@ function CRscTableElem:reset()
 end
 
 function CRscTableElem:update(dt)
-    -- do nothing
+    self.pReward:update(dt)
 end
 
 function CRscTableElem:draw()

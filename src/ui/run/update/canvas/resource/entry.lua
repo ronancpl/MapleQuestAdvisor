@@ -99,6 +99,7 @@ _tpVwItemsB = {}
 local function clear_resource_items(pVwRscs)
     for siTab, rgpVwItems in pairs(_tpVwItemsB) do
         pVwRscs:add_tab_items(siTab, rgpVwItems)
+        clear_table(rgpVwItems)
     end
 
     pVwRscs:clear_tab_items()
@@ -111,6 +112,7 @@ local function insert_resource_items(pVwRscs, pRscProp)
     tpVwItems[RResourceTable.TAB.ITEMS.ID] = make_tab_resources_items(pRscProp)
     tpVwItems[RResourceTable.TAB.NPC.ID] = make_tab_resources_npc(pRscProp)
     tpVwItems[RResourceTable.TAB.FIELD_ENTER.ID] = make_tab_resources_field_enter(pRscProp)
+    tpVwItems[RResourceTable.TAB.REWARD.ID] = {}
 
     for siTab, rgpVwItems in pairs(tpVwItems) do
         pVwRscs:add_tab_items(siTab, rgpVwItems)

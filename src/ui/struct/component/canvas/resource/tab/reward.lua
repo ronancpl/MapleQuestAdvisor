@@ -25,8 +25,8 @@ CRscRewardTab = createClass({
 
     pTxtReward,
 
-    iCursorX,
-    iCursorY,
+    iCursorX = 0,
+    iCursorY = 0,
 
     eTextureRewardBox
 })
@@ -37,8 +37,12 @@ end
 
 function CRscRewardTab:_update_item_position()
     local iPx, iPy = self:get_origin()
+
     iPx = iPx + RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.X
     iPy = iPy + RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.Y
+
+    local iTx = 20
+    local iTy = self:_get_drawing_height()
 
     local iPos = 0
 
@@ -48,7 +52,7 @@ function CRscRewardTab:_update_item_position()
         local iRy = math.floor(iPos / RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.COLS) * 32
         iPos = iPos + 1
 
-        pVwItem:update_position(iPx + iRx, iPy + iRy)
+        pVwItem:update_position(iPx + iRx + iTx, iPy + iRy + iTy)
     end
 end
 
@@ -133,7 +137,6 @@ function CRscRewardTab:update_rewards(pQuest)
     end
 
     self:_load_reward_items()
-    self:_update_item_position()
 end
 
 function CRscRewardTab:_draw_reset()
@@ -223,22 +226,10 @@ function CRscRewardTab:_draw_fame()
 end
 
 function CRscRewardTab:_draw_items()
-    local iPx = RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.X
-    local iPy = RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.Y
-
-    local iRx = self:_get_drawing_width()
-    local iRy = self:_get_drawing_height()
-
-    local iTx, iTy = self:get_origin()
-    local pImgIcon = ctVwRscs:get_reward_types()[1]
-    push_stack_canvas_position(iPx + iRx + iTx - 40, iPx + iRy + iTy + pImgIcon:getHeight() + 5)
-
     local m_rgpVwItems = self.rgpVwItems
     for _, pVwItem in ipairs(m_rgpVwItems) do
         pVwItem:draw()
     end
-
-    pop_stack_canvas_position()
 end
 
 function CRscRewardTab:_draw_reward_icon()
@@ -252,6 +243,10 @@ function CRscRewardTab:_draw_reward_icon()
 
     local pImgIcon = ctVwRscs:get_reward_types()[1]
     graphics_draw(pImgIcon, iPx + iRx + iTx, iPy + iRy + iTy)
+end
+
+function CRscRewardTab:update(dt)
+    self:_update_item_position()
 end
 
 function CRscRewardTab:draw()

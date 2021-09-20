@@ -41,12 +41,12 @@ function CWndResource:set_window_position(iRx, iRy)
 end
 
 function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
+    local pQuestChkProp = pQuestProp:get_requirement()
+
     local tiItems = {}
     local tiMobs = {}
-    local iNpc = nil
+    local iNpc = pQuestChkProp:get_npc()
     local tFieldsEnter = {}
-
-    local pQuestChkProp = pQuestProp:get_requirement()
 
     local tpItems = pQuestChkProp:get_items():get_items()
     local tpMobs = pQuestChkProp:get_mobs():get_items()
@@ -61,8 +61,6 @@ function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
             tiItems[iRscUnit] = tpItems[iRscUnit] or 1
         elseif iRscType == RLookupCategory.FIELD_ENTER then
             tFieldsEnter[iRscUnit] = 1
-        elseif iRscType == RLookupCategory.FIELD_NPC then
-            iNpc = iRscUnit
         end
     end
 

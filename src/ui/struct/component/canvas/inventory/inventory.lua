@@ -80,7 +80,7 @@ function CInvtElem:get_tab_items()
     return self.rgpTabVwItems
 end
 
-function CInvtElem:clear_tab_items()
+function CInvtElem:_reset_tab_items()
     local m_rgpTabVwItems = self.rgpTabVwItems
 
     local nTabs = #m_rgpTabVwItems
@@ -89,6 +89,11 @@ function CInvtElem:clear_tab_items()
     for i = 1, nTabs, 1 do
         m_rgpTabVwItems[i] = {}
     end
+end
+
+function CInvtElem:clear_tab_items()
+    self:_set_view_items({})
+    self:_reset_tab_items()
 end
 
 function CInvtElem:add_tab_items(iTab, rgpVwItems)

@@ -330,11 +330,11 @@ function CWndHud:get_nav_ongoing_quest()
     return self.pNavOngoingQuest
 end
 
-function CWndHud:draw_player_quest()
+function CWndHud:_draw_player_quest()
     local iPx, iPy = unpack(RActionElement.NAV_QUEST.POSITION)
 
     local iWidth, iHeight = self:get_nav_ongoing_quest():get_dimensions()
-    lock_drawable_area(iPx, iPy, iWidth, iHeight, false)
+    lock_drawable_area(iPx + 3, iPy + 2, 248, 30, false)
     love.graphics.setColor(1, 1, 1, 0.7)
 
     self.pNavOngoingQuest:draw(iPx, iPy)
@@ -375,7 +375,7 @@ end
 function CWndHud:draw()
     self.pBtChannel:draw()
     self.pTooltipChannel:draw()
-    self:draw_player_quest()
+    self:_draw_player_quest()
 end
 
 function CWndHud:_fetch_relative_pos(x, y)

@@ -99,8 +99,8 @@ RResourceTable = {
             H = 80
         },
         ITEMS = {
-            ROWS = 6,
-            COLS = 8,
+            ROWS = 8,
+            COLS = 7,
 
             X = 20,
             Y = 45,
