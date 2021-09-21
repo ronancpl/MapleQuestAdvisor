@@ -19,7 +19,9 @@ require("utils.struct.stack")
 CTracePath = createClass({
     pRootLane,
     pStackLane = SStack:new(),
-    pStackProp = SStack:new()
+    pStackProp = SStack:new(),
+
+    bTrimmed = false
 })
 
 function CTracePath:load(pLane)
@@ -91,7 +93,7 @@ function CTracePath:move_ahead(pQuestProp)
 end
 
 function CTracePath:move_back()
-    if self.pStackProp:get_top() ~= nil then
+    if self.pStackLane:size() > (self.bTrimmed and 1 or 0) then
         return self:_pop_lane()
     else
         return nil
@@ -105,6 +107,8 @@ function CTracePath:trim_back()
     for i = 1, nLanes - RWndConfig.TRACK.MAX_BEHIND_TO_RETURN, 1 do
         m_pStackLane:pop_fifo()
     end
+
+    self.bTrimmed = true
 end
 
 function CTracePath:_route_fetch_path_follow_ahead(pPath)
