@@ -79,6 +79,11 @@ function CRscProperties:_update_field_enter(tFieldsEnter)
     self.pInfoFieldEnter:set_fields(tFieldsEnter)
 end
 
+function CRscProperties:reset_field_resources()
+    local m_tpRscEntries = self.tpRscEntries
+    clear_table(m_tpRscEntries)
+end
+
 function CRscProperties:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)
     local pRscEntry = CRscFieldEntry:new()
 

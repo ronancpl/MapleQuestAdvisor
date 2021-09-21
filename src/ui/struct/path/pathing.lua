@@ -167,7 +167,7 @@ function CTracePath:look_ahead(pPlayerState, bBroadcastLookahead)
             end
         end
 
-        if nQuestsAhead < RWndConfig.TRACK.MAX_AHEAD_TO_SEARCH then
+        if pPath ~= nil and nQuestsAhead < RWndConfig.TRACK.MAX_AHEAD_TO_SEARCH then
             self:_route_ahead(pPlayerState, pPath)
         end
     end

@@ -12,7 +12,7 @@
 
 require("ui.constant.path")
 require("ui.constant.view.resource")
-require("ui.struct.component.canvas.inventory.item")
+require("ui.struct.component.canvas.resource.tab.grid")
 require("ui.struct.component.element.texture")
 require("utils.procedure.unpack")
 require("utils.struct.class")
@@ -48,12 +48,16 @@ function CRscRewardTab:_update_item_position()
 
     local m_rgpVwItems = self.rgpVwItems
     for _, pVwItem in ipairs(m_rgpVwItems) do
-        local iRx = (iPos % RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.COLS) * 32
-        local iRy = math.floor(iPos / RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.COLS) * 32
+        local iRx = (iPos % RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.COLS) * RResourceTable.VW_GRID.REWARD.W
+        local iRy = math.floor(iPos / RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.COLS) * RResourceTable.VW_GRID.REWARD.H
         iPos = iPos + 1
 
         pVwItem:update_position(iPx + iRx + iTx, iPy + iRy + iTy)
     end
+end
+
+function CRscRewardTab:get_view_items()
+    return self.rgpVwItems
 end
 
 function CRscRewardTab:set_position(iPx, iPy)
@@ -98,11 +102,17 @@ function CRscRewardTab:_load_reward_items()
     local m_rgpVwItems = self.rgpVwItems
     clear_table(m_rgpVwItems)
 
+    local siType = RResourceTable.TAB.REWARD.ID
+
     local ivtItems = self.pQuestAct:get_items()
     for iId, iCount in pairs(ivtItems:get_items()) do
-        local pVwItem = CInvtElemItem:new()
-        pVwItem:load(iId, iCount)
+        local pVwItem = CRscElemItemPicture:new()
 
+        local pImg = ctHrItems:load_image_by_id(iId)
+        local sDesc = ctItemsMeta:get_text(iId, 1)
+        local iFieldRef = nil
+
+        pVwItem:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID.REWARD, false)
         table.insert(m_rgpVwItems, pVwItem)
     end
 end
@@ -225,13 +235,6 @@ function CRscRewardTab:_draw_fame()
     end
 end
 
-function CRscRewardTab:_draw_items()
-    local m_rgpVwItems = self.rgpVwItems
-    for _, pVwItem in ipairs(m_rgpVwItems) do
-        pVwItem:draw()
-    end
-end
-
 function CRscRewardTab:_draw_reward_icon()
     local iPx = RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.X
     local iPy = RResourceTable.VW_GRID.REWARD.TYPE.ITEMS.Y
@@ -264,7 +267,5 @@ function CRscRewardTab:draw()
     if #m_rgpVwItems > 0 then
         self:_draw_reward_icon()
         self:_next_drawing_height()
-
-        self:_draw_items()
     end
 end

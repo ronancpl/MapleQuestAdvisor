@@ -263,7 +263,7 @@ function draw_table_resources(pVwRscs)
     draw_resource_field_base(pVwRscs)
     draw_resource_slider(pVwRscs)
 
-    if pVwRscs:get_tab_selected() == 5 then
+    if pVwRscs:get_tab_selected() == RResourceTable.TAB.REWARD.ID then
         pVwRscs:get_reward_tab():draw()
     end
 end

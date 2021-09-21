@@ -87,7 +87,11 @@ function CRscTableElem:get_num_items()
 end
 
 function CRscTableElem:get_view_items()
-    return self.rgpVwItems
+    if self:get_tab_selected() == RResourceTable.TAB.REWARD.ID then
+        return self.pReward:get_view_items()
+    else
+        return self.rgpVwItems
+    end
 end
 
 function CRscTableElem:get_conf()

@@ -141,7 +141,12 @@ function update_tab_for_resource_table(pVwRscs, iNextTab)
     update_resource_slider(pVwRscs, true)
 end
 
+function reset_resource_item_range(pVwRscs)
+    clear_current_item_range(pVwRscs)
+end
+
 local function update_resource_tabs(pVwRscs, pRscProp, pQuest)
+    clear_current_item_range(pVwRscs)
     update_resource_items(pVwRscs, pRscProp, pQuest)
 end
 

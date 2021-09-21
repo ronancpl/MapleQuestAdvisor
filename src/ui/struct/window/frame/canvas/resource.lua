@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("solver.graph.tree.component")
 require("solver.lookup.constant")
 require("ui.constant.view.resource")
 require("ui.run.update.canvas.position")
@@ -67,14 +68,17 @@ function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
     return tiItems, tiMobs, iNpc, tFieldsEnter
 end
 
-function CWndResource:_add_resources(pQuestProp, pRscTree)
+function CWndResource:_update_resources(pQuestProp, pRscTree)
     local m_pProp = self.pProp
+    m_pProp:reset_field_resources()
 
-    for iMapid, pResource in pairs(pRscTree:get_field_nodes()) do
-        local rgiResourceids = pResource:get_resources()
+    for _, pRegionRscTree in pairs(pRscTree:get_field_nodes()) do
+        for iMapid, pResource in pairs(pRegionRscTree:get_field_nodes()) do
+            local rgiResourceids = pResource:get_resources()
 
-        local tiItems, tiMobs, iNpc, tFieldsEnter = self:_fetch_field_resources(pQuestProp, rgiResourceids)
-        m_pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)
+            local tiItems, tiMobs, iNpc, tFieldsEnter = self:_fetch_field_resources(pQuestProp, rgiResourceids)
+            m_pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)
+        end
     end
 end
 
@@ -100,16 +104,16 @@ end
 function CWndResource:update_resources(pQuestProp, pRscTree)
     self.pCanvas:reset()
 
-    self:_add_resources(pQuestProp, pRscTree)
-
     local m_pProp = self.pProp
+    local pVwRscs = m_pProp:get_table()
+    reset_resource_item_range(pVwRscs)
+
+    self:_update_resources(pQuestProp, pRscTree)
+
     m_pProp:set_resource_tree(pRscTree)
-
     m_pProp:build()
-
     self.pCanvas:build(m_pProp)
 
-    local pVwRscs = m_pProp:get_table()
     local fn_update_items = pVwRscs:get_fn_update_items()
     fn_update_items(pVwRscs, m_pProp, pQuestProp ~= nil and ctQuests:get_quest_by_id(pQuestProp:get_quest_id()) or nil)
 end
@@ -149,7 +153,7 @@ end
 function CWndResource:get_field_properties(rgiFields)
     local pProp = self:_export_resources_by_fields(rgiFields)
 
-    pProp:set_resource_tree(nil)
+    pProp:set_resource_tree(CSolverTree:new())
     pProp:build()
 
     return pProp
