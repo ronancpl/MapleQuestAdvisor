@@ -46,13 +46,8 @@ function csvify_route_quest_path(pLeadingPath)
 end
 
 local function make_leading_paths()
-    local pSetLeadingPath = SRankedSet:new()
-    pSetLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
-
-    local pQuestPath = CQuestPath:new()
-    pSetLeadingPath:insert(pQuestPath, 0.0)
-
-    return pSetLeadingPath
+    local pLeadingPath = SRankedPath:new()
+    return pLeadingPath
 end
 
 local function find_quest_by_name(sQuestName)
@@ -191,5 +186,6 @@ function load_route_graph_quests(pPlayer, rgsPaths, ctAccessors, ctAwarders, ctF
     end
 
     log(LPath.OVERALL, "log.txt", "Search finished.")
-    return pLeadingPath
+    pLeadingPath:debug_paths()
+    return pLeadingPath:export_paths()
 end

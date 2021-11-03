@@ -30,7 +30,7 @@ RWndConfig = {
     TRACK = {
         MAX_AHEAD_TO_BROAD_SEARCH = 3,
         MAX_AHEAD_TO_SEARCH = 10,
-        MAX_BEHIND_TO_RETURN = 3
+        MAX_BEHIND_TO_RETURN = 8
     }
 
 }

@@ -16,6 +16,7 @@ require("router.procedures.graph.inner")
 require("router.procedures.graph.outer")
 require("router.procedures.player.update")
 require("router.structs.path")
+require("router.structs.rank")
 require("router.structs.trajectory")
 require("router.structs.frontier.frontier")
 require("router.structs.neighbor.arranger")
@@ -82,32 +83,6 @@ local function print_path_search_counts()
     end
 end
 
-local function route_path_copy(pQuestPath)
-    local pPathNew = CQuestPath:new()
-
-    local rgpQuestProps = pQuestPath:list()
-    local nQuestProp = #rgpQuestProps
-    for i = 1, nQuestProp, 1 do
-        local pQuestProp = rgpQuestProps[i]
-        local fVal = pQuestPath:get_node_value(i)
-        local pQuestRoll = pQuestPath:get_node_allot(i)
-
-        pPathNew:add(pQuestProp, pQuestRoll, fVal)
-    end
-
-    return pPathNew
-end
-
-function route_quest_update_leading_subpath(pCurrentPath, pLeadingPath)
-    local pTopPath = pLeadingPath:get_top()
-    if pTopPath:is_subpath(pCurrentPath) then
-        pLeadingPath:remove(pTopPath)
-    end
-
-    local pPath = route_path_copy(pCurrentPath)
-    pLeadingPath:insert(pPath, pCurrentPath:value())
-end
-
 function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     route_quest_permit_complete(pQuestProp, pPlayerState)      -- allows visibility of quest ending
 
@@ -116,9 +91,7 @@ function route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests,
 
     pCurrentPath:add(pQuestProp, pQuestRoll, fValue)
 
-    if pCurrentPath:value() > pLeadingPath:get_base_value() then    -- try add, ignores if not meet leaderboard
-        route_quest_update_leading_subpath(pCurrentPath, pLeadingPath)
-    end
+    pLeadingPath:eval_interim_path(pCurrentPath)    -- try add, ignores if not meet leaderboard
 
     local iPathSize = pCurrentPath:size()
     tPathSearched[iPathSize] = (tPathSearched[iPathSize] or 0) + 1
@@ -257,13 +230,8 @@ local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessor
 end
 
 local function make_leading_paths()
-    local pSetLeadingPath = SRankedSet:new()
-    pSetLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
-
-    local pQuestPath = CQuestPath:new()
-    pSetLeadingPath:insert(pQuestPath, 0.0)
-
-    return pSetLeadingPath
+    local pLeadingPath = CRankedPath:new()
+    return pLeadingPath
 end
 
 function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
@@ -282,5 +250,6 @@ function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsD
     log(LPath.OVERALL, "log.txt", "Search finished.")
 
     --print_path_search_counts()
-    return pLeadingPath
+    pLeadingPath:debug_paths()
+    return pLeadingPath:export_paths()
 end

@@ -114,6 +114,12 @@ function CQuestPath:size()
     return #(self.pPathValStack)
 end
 
+function CQuestPath:get_node_quest(iIdx)
+    local m_rgpPath = self.rgpPath
+    log_st(LPath.PROCEDURES, "_path.txt", "idx " .. iIdx .. " PATH " .. m_rgpPath:size())
+    return m_rgpPath:get(iIdx)
+end
+
 function CQuestPath:get_node_value(iIdx)
     local m_pPathValStack = self.pPathValStack
     return m_pPathValStack[iIdx]
@@ -153,13 +159,30 @@ function CQuestPath:set(pOtherPath)
         self:remove(pQuestProp)
     end
 
-    for i = iBaseIdx, #rgpOtherQuests, 1 do
-        local pQuestProp = rgpOtherQuests[i]
+    for i = iBaseIdx, pOtherPath:size(), 1 do
+        local pQuestProp = pOtherPath:get_node_quest(i)
         local fValue = pOtherPath:get_node_value(i)
         local pQuestRoll = pOtherPath:get_node_allot(i)
 
         self:add(pQuestProp, pQuestRoll, fValue)
     end
+end
+
+function CQuestPath:subpath(iFromIdx, iToIdx)
+    iFromIdx = math.max(iFromIdx, 1)
+    iToIdx = math.min(iToIdx, self:size())
+
+    local pPath = CQuestPath:new()
+
+    for i = iFromIdx, iToIdx, 1 do
+        local pQuestProp = self:get_node_quest(i)
+        local fValue = self:get_node_value(i)
+        local pQuestRoll = self:get_node_allot(i)
+
+        pPath:add(pQuestProp, pQuestRoll, fValue)
+    end
+
+    return pPath
 end
 
 function CQuestPath:get_fetch_time()
