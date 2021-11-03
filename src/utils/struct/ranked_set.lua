@@ -87,6 +87,13 @@ function SRankedSet:remove(pItem)
     self:_remove(pItem)
 end
 
+function SRankedSet:get_base()
+    local m_rgpItems = self.rgpItems
+
+    local pItm = m_rgpItems:get(1)
+    return pItm
+end
+
 function SRankedSet:get_top()
     local m_rgpItems = self.rgpItems
 

@@ -99,58 +99,14 @@ end
 function CRankedPath:export_paths()
     local nPaths = RGraph.LEADING_PATH_CAPACITY
 
-    local nBuckets = 0
-    for _, _ in pairs(self.tpSetRankedPaths) do
-        nBuckets = nBuckets + 1
-    end
-
-    local nBucketPaths = math.floor(nPaths / nBuckets)
-    local iRest = nPaths % nBuckets
-
     local pLeadingPath = SRankedSet:new()
     pLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
 
-    for i = 1, nBucketPaths, 1 do
-        for _, pSetBucketPaths in pairs(self.tpSetRankedPaths) do
-            local rgpQuestPath = pSetBucketPaths:list()
-            if i <= #rgpQuestPath then
-                local pCurrentPath = rgpQuestPath[i]
+    for _, pSetBucketPaths in pairs(self.tpSetRankedPaths) do
+        local pCurrentPath = pSetBucketPaths:get_base() -- insert top of each path bucket
 
-                local pPath = route_path_copy(pCurrentPath)
-                pLeadingPath:insert(pPath, pCurrentPath:value())
-            else
-                iRest = iRest + 1
-            end
-        end
-    end
-
-    local iPrevRest
-
-    local i = nBucketPaths + 1
-    while true do
-        iPrevRest = iRest
-
-        for _, pSetBucketPaths in pairs(self.tpSetRankedPaths) do
-            local rgpQuestPath = pSetBucketPaths:list()
-
-            if i <= #rgpQuestPath then
-                local pCurrentPath = rgpQuestPath[i]
-
-                local pPath = route_path_copy(pCurrentPath)
-                pLeadingPath:insert(pPath, pCurrentPath:value())
-
-                iRest = iRest - 1
-                if iRest < 1 then
-                    break
-                end
-            end
-        end
-
-        if iRest == iPrevRest then
-            break
-        end
-
-        i = i + 1
+        local pPath = route_path_copy(pCurrentPath)
+        pLeadingPath:insert(pPath, pCurrentPath:value())
     end
 
     return pLeadingPath
