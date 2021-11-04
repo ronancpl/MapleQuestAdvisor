@@ -81,10 +81,21 @@ local function num_path_repeats(sImgPath)
 end
 
 local function parse_repacker_path(sImgPath)
-    if true then return sImgPath end
     sImgPath = parse_repacker_path_repeater(sImgPath, num_path_repeats(sImgPath))
     sImgPath = parse_repacker_path_dot(sImgPath, string.starts_with(sImgPath, "UI.wz/ITC.img"))
     return sImgPath
+end
+
+function fetch_repacker_img_path(sDirPath, sImgPath)
+    local rgsPath = split_pathd(sImgPath)
+    if #rgsPath > 0 then
+        local sSubdirName = rgsPath[1]
+        if string.ends_with(sDirPath, sSubdirName) then
+            sDirPath = sDirPath:sub(1, -string.len(sSubdirName) - 2)
+        end
+    end
+
+    return sDirPath .. "/" .. sImgPath
 end
 
 function load_image_from_path(sImgPath)
@@ -130,13 +141,14 @@ local function load_images_from_directory_path(sPath, sBasePath)
     return tpImgs
 end
 
-function load_images_from_path(sPath)
+function load_images_from_path(sPath, sPrepend)
     local sBasePath = sPath
     local tpItems = load_images_from_directory_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sPath, sBasePath)
 
     local pDirImages = CMediaTable:new()
     pDirImages:set_path(sBasePath)
     pDirImages:set_contents(tpItems)
+    pDirImages:set_prepend(sPrepend)
 
     return pDirImages
 end

@@ -118,6 +118,11 @@ local function fetch_image_subpath_location(pDirMedia, sPathImg, bAnimation)
     local rgsSubpath = slice(rgsPath, iBaseIdx, iTopIdx)
     local sSubpathImg = table.concat(rgsSubpath,".")
 
+    local sPrepend = pDirMedia:get_prepend()
+    if string.len(sPrepend) > 0 then
+        sSubpathImg = sPrepend .. "." .. sSubpathImg
+    end
+
     return iTopIdx, sSubpathImg
 end
 

@@ -15,27 +15,28 @@ require("composer.field.node.media.storage.storage")
 require("utils.procedure.string")
 require("utils.procedure.unpack")
 
-local function load_quad_img_set(tpImgs)
+local function load_quad_img_set(tpImgs, sPrepend)
     local tpQuads = {}
     for sPath, pImg in pairs(tpImgs) do
         local sImgPath = sPath
+        if string.starts_with(sImgPath, sPrepend) then
+            while true do
+                local iIdx = string.rfind(sImgPath, ".%")
+                if iIdx ~= nil then
+                    local sQuadPath = sImgPath:sub(1,iIdx-1)
+                    local sSprite = sImgPath:sub(iIdx+1, -1)
 
-        while true do
-            local iIdx = string.rfind(sImgPath, ".%")
-            if iIdx ~= nil then
-                local sQuadPath = sImgPath:sub(1,iIdx-1)
-                local sSprite = sImgPath:sub(iIdx+1, -1)
+                    local iSprite = tonumber(sSprite, 10)
+                    if iSprite ~= nil then    -- is integer
+                        local tQuad = create_inner_table_if_not_exists(tpQuads, sQuadPath)
+                        tQuad[iSprite] = pImg
+                        break
+                    end
 
-                local iSprite = tonumber(sSprite, 10)
-                if iSprite ~= nil then    -- is integer
-                    local tQuad = create_inner_table_if_not_exists(tpQuads, sQuadPath)
-                    tQuad[iSprite] = pImg
+                    sImgPath = sImgPath:sub(1, iIdx - 1)
+                else
                     break
                 end
-
-                sImgPath = sImgPath:sub(1, iIdx - 1)
-            else
-                break
             end
         end
     end
@@ -67,15 +68,15 @@ local function array_quad_image_sets(tQuads)
     return tpQuads
 end
 
-function load_quads_from_path(sPath)
-    local pDirImgs = load_images_from_path(sPath)
+function load_quads_from_path(sImgPath, sDirPath)
+    local pDirImgs = load_images_from_path(sImgPath)
     local tpImgs = pDirImgs:get_contents()
 
-    local tpQuads = load_quad_img_set(tpImgs)
+    local tpQuads = load_quad_img_set(tpImgs, sDirPath)
     tpQuads = array_quad_image_sets(tpQuads)
 
     local pDirQuads = CMediaTable:new()
-    pDirQuads:set_path(sPath)
+    pDirQuads:set_path(sImgPath)
     pDirQuads:set_contents(tpQuads)
 
     return pDirQuads

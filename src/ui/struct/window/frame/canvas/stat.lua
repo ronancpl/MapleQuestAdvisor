@@ -47,7 +47,7 @@ function CWndStat:update_stats(pPlayer, siExpR, siMesoR, siDropR)
 end
 
 function CWndStat:_load_background()
-    local pImgBase = ctPoolImg:take_image("Stat", "backgrnd")
+    local pImgBase = ctPoolImg:take_image("", "Stat.backgrnd")
     self.pProp:set_base_img(pImgBase)
 end
 

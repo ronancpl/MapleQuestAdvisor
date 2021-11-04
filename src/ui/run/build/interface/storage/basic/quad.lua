@@ -91,11 +91,15 @@ local function load_quad_img_sets_from_dictionary(pXmlBase, tpQuads)
     return tpPathQuad
 end
 
+local function fetch_repacker_path(sImgPath, sDirPath)
+    return sImgPath, nil, sDirPath
+end
+
 local function load_quad_img_sets_from_directory(sImgPath, sDirPath, bCursor)
-    local sImgDirPath = sImgPath .. "/" .. sDirPath
+    local sImgPath, _, sDirPath = fetch_repacker_path(sImgPath, sDirPath)
 
     local tpQuads = {}
-    local pDirQuads = load_quads_from_path(sImgDirPath)
+    local pDirQuads = load_quads_from_path(sImgPath, sDirPath)
     local tpCursorQuads = pDirQuads:get_contents()
     for sCursorState, tpStateQuads in pairs(tpCursorQuads) do
         local sState = fetch_cursor_state(sCursorState)
