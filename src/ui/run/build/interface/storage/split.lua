@@ -120,7 +120,9 @@ local function fetch_image_subpath_location(pDirMedia, sPathImg, bAnimation)
 
     local sPrepend = pDirMedia:get_prepend()
     if string.len(sPrepend) > 0 then
-        sSubpathImg = sPrepend .. "." .. sSubpathImg
+        if not string.starts_with(sSubpathImg, sPrepend .. ".") then
+            sSubpathImg = sPrepend .. "." .. sSubpathImg
+        end
     end
 
     return iTopIdx, sSubpathImg

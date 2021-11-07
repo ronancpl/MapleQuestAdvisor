@@ -16,6 +16,8 @@ require("utils.procedure.string")
 require("utils.procedure.unpack")
 
 local function load_quad_img_set(tpImgs, sPrepend)
+    sPrepend = sPrepend:gsub("/", ".")
+
     local tpQuads = {}
     for sPath, pImg in pairs(tpImgs) do
         local sImgPath = sPath

@@ -44,11 +44,6 @@ function load_image_storage_from_wz_sub(sImgPath, sDirPath)
     local sPrepend
     sImgPath, sDirPath, sPrepend = fetch_repacker_path(sImgPath, sDirPath)
 
-    local sImgDirPath = sImgPath
-    if sDirPath ~= nil then
-        sImgDirPath = sImgDirPath .. "/" .. sDirPath
-    end
-
-    local pDirImgs = load_images_from_path(sImgDirPath, sPrepend)
+    local pDirImgs = load_images_from_path(sImgPath, sPrepend)
     return pDirImgs
 end

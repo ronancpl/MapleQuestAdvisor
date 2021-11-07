@@ -116,7 +116,6 @@ end
 
 function CQuestPath:get_node_quest(iIdx)
     local m_rgpPath = self.rgpPath
-    log_st(LPath.PROCEDURES, "_path.txt", "idx " .. iIdx .. " PATH " .. m_rgpPath:size())
     return m_rgpPath:get(iIdx)
 end
 

@@ -250,7 +250,7 @@ function CWndHud:_load_texture_ongoing_quest()
     pDirRscImgs = select_images_from_storage(pDirRscImgs, {})
 
     local rgpImgBox = {}
-    table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "backgrnd2")))
+    table.insert(rgpImgBox, love.graphics.newImage(find_image_on_storage(pDirRscImgs, "Title.backgrnd2")))
 
     local pImgBox, iIx, iIy, iIw, iIh, iOx, iOy, iOw, iOh = compose_texture_from_imageset(rgpImgBox, 1, 15, 15)
 

@@ -21,7 +21,7 @@ CStockHeaderMob = createClass({
 })
 
 local function load_image(sImgDirPath, sImgName)
-    local pImgData = load_image_from_path(sImgDirPath .. "/" .. sImgName)
+    local pImgData = load_image_from_path(sImgDirPath, "/" .. sImgName)
     return love.graphics.newImage(pImgData)
 end
 

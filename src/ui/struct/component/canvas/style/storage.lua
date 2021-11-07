@@ -33,12 +33,12 @@ RStyleBoxColor = {
     A = 0.8
 }
 
-function CStockStyleBox:_load_stylebox_image(sImgPath)
-    local pImgData = load_image_from_path(sImgPath)
+function CStockStyleBox:_load_stylebox_image(sImgDirPath)
+    local pImgData = load_image_from_path(sImgDirPath)
 
     -- white color-coded as transparent
 
-    self.tpImgDatum[sImgPath] = pImgData
+    self.tpImgDatum[sImgDirPath] = pImgData
 end
 
 function CStockStyleBox:load()

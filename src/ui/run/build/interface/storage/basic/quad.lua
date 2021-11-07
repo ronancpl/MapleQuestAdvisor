@@ -83,9 +83,10 @@ local function load_quad_img_sets_from_dictionary(pXmlBase, tpQuads)
         local sStatePath = fetch_cursor_state(sPath)
 
         local pXmlQuad = fetch_quad_xml_node(pXmlBase, sStatePath)
-        local rgpQuads = load_quad_img_set(pXmlQuad, rgpImgs)
-
-        tpPathQuad[sStatePath] = rgpQuads
+        if pXmlQuad ~= nil then
+            local rgpQuads = load_quad_img_set(pXmlQuad, rgpImgs)
+            tpPathQuad[sStatePath] = rgpQuads
+        end
     end
 
     return tpPathQuad
@@ -101,6 +102,7 @@ local function load_quad_img_sets_from_directory(sImgPath, sDirPath, bCursor)
     local tpQuads = {}
     local pDirQuads = load_quads_from_path(sImgPath, sDirPath)
     local tpCursorQuads = pDirQuads:get_contents()
+
     for sCursorState, tpStateQuads in pairs(tpCursorQuads) do
         local sState = fetch_cursor_state(sCursorState)
         tpQuads[sState] = tpStateQuads
