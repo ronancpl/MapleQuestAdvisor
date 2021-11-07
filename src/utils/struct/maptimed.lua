@@ -109,3 +109,8 @@ function SMapTimed:update_long()
         self:_move_insert(pKey, pTmVal)
     end
 end
+
+function SMapTimed:reset()
+    clear_table(self.tpShortUpd)
+    clear_table(self.tpLongUpd)
+end

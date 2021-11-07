@@ -19,7 +19,7 @@ CPoolWorldmap = createClass({
 
 })
 
-local function get_key_table_image(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
+local function fn_get_key_table_image(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
     local iIdx = pPair[1]
     local pMapNode = pPair[2]
 
@@ -35,7 +35,7 @@ local function fn_create_item(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, s
 end
 
 function CPoolWorldmap:init()
-    self.pPool:load(get_key_table_image, fn_create_item)
+    self.pPool:load(fn_get_key_table_image, fn_create_item)
 end
 
 function CPoolWorldmap:take_region(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
@@ -46,4 +46,9 @@ end
 function CPoolWorldmap:put_region(pRegionMarker, pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
     local m_pPool = self.pPool
     m_pPool:put_object(pRegionMarker, {pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion})
+end
+
+function CPoolWorldmap:reset_region()
+    local m_pPool = self.pPool
+    m_pPool:reset()
 end

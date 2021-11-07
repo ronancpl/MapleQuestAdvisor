@@ -100,6 +100,9 @@ function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc)
 
     self.pProp:set_worldmap_name(sWmapName)
 
+    ctPoolWmap:reset_region()
+    self.pProp:reset_map_fields()
+
     self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
 
     local pPlayer = self:get_player()

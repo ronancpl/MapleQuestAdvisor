@@ -69,3 +69,8 @@ function CPool:put_object(pObj, ...)
     table.insert(rgpObjs, pObj)
     self.ctInactives:insert(pObj, 1, RTimer.TM_UI_POOL)
 end
+
+function CPool:reset()
+    clear_table(self.tpEntries)
+    self.ctInactives:reset()
+end
