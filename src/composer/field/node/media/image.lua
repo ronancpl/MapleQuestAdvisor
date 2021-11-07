@@ -118,9 +118,9 @@ local function parse_repacker_path(sImgPathOrig)
         sImgPath = extract_prefix_image_path(sImgPath)
     end
 
+    sImgPath = parse_repacker_path_norm(sImgPath)
     sImgPath = parse_repacker_path_repeater(sImgPath, num_path_repeats(sImgPath))
     sImgPath = parse_repacker_path_dot(sImgPath, string.starts_with(sImgPath, "UI.wz/ITC.img"))
-    sImgPath = parse_repacker_path_norm(sImgPath)
 
     return RWndPath.LOVE_IMAGE_DIR_PATH .. sImgPath
 end
