@@ -165,7 +165,7 @@ function load_image_empty()
     return pImgData
 end
 
-local function load_images_from_directory_path_internal(sPath, sBasePath)
+local function load_image_headers_from_directory_path_internal(sPath, sBasePath)
     local tpImgs = {}
 
     local pInfo = love.filesystem.getInfo(sPath)
@@ -175,17 +175,16 @@ local function load_images_from_directory_path_internal(sPath, sBasePath)
             local sDirPath = sPath
             local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
             for _, sFileName in ipairs(rgsFiles) do
-                local tpDirImgs = load_images_from_directory_path_internal(sDirPath .. "/" .. sFileName, sBasePath)
+                local tpDirImgs = load_image_headers_from_directory_path_internal(sDirPath .. "/" .. sFileName, sBasePath)
                 table_merge(tpImgs, tpDirImgs)
             end
         elseif sInfoType == "file" then
             if string.ends_with(sPath, ".png") then
                 local sImgPath = sPath
-                local pImgData = load_image_from_path_internal(sImgPath)
                 sImgPath = extract_repacker_image_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgPath)
 
                 local sImgSubpath = fetch_figure_subpath(sImgPath, sBasePath)
-                tpImgs[sImgSubpath] = pImgData
+                tpImgs[sImgSubpath] = sPath
             end
         end
     end
@@ -193,14 +192,29 @@ local function load_images_from_directory_path_internal(sPath, sBasePath)
     return tpImgs
 end
 
-local function load_images_from_directory_path(sPath, sBasePath)
+local function load_images_from_headers(tpItems, sPrepend)
+    for sImgKey, sImgPath in pairs(tpItems) do
+        if sPrepend == nil or string.starts_with(sImgKey, sPrepend) then
+            local pImgData = load_image_from_path_internal(sImgPath)
+            tpItems[sImgKey] = pImgData
+        else
+            tpItems[sImgKey] = nil
+        end
+    end
+end
+
+local function load_images_from_directory_path(sPath, sBasePath, sPrepend)
     local sImgPath = parse_repacker_path(sPath)
-    return load_images_from_directory_path_internal(sImgPath, sBasePath)
+
+    local tpItems = load_image_headers_from_directory_path_internal(sImgPath, sBasePath)
+    load_images_from_headers(tpItems, sPrepend)
+
+    return tpItems
 end
 
 function load_images_from_path(sPath, sPrepend)
     local sBasePath = sPath
-    local tpItems = load_images_from_directory_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sPath, sBasePath)
+    local tpItems = load_images_from_directory_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sPath, sBasePath, sPrepend)
 
     local pDirImages = CMediaTable:new()
     pDirImages:set_path(sBasePath)

@@ -155,33 +155,13 @@ function CWndHud:_fn_bt_load_player()
     load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/inventory.csv", function (pPlayer) return pPlayer:get_items():get_inventory() end)
     load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/quest.csv", function (pPlayer) return pPlayer:get_quests() end)
 
-    local iMapid = pPlayer:get_mapid()
-    pPlayer:move_access_mapid(iMapid)
-    pPlayer:move_access_mapid(iMapid)
-    pUiWmap:set_player(pPlayer)
+    local pPlayerState = pUiWmap:get_player()
 
-    local _, tQuests, tRoute
-    local pPlayerRoute = pPlayer:clone()
-    _, tQuests, tRoute = generate_quest_route(pPlayerRoute, pUiWmap)
-
-    --pUiHud:_fn_bt_save(pPlayer, pUiStats, tRoute, tQuests)
+    pPlayerState:import_table(pPlayer:export_table())
+    pPlayerState:import_inventory_tables(pPlayer:export_inventory_tables())
 
     local sWmapName = pUiWmap:get_properties():get_worldmap_name()
-    pUiRscs:update_resources(nil, CSolverTree:new())
     pUiWmap:update_region(sWmapName, pUiRscs)
-
-    local pTrack = pUiWmap:get_properties():get_track()
-    local pIvtItems = pPlayer:get_items():get_inventory()
-
-    local pInfoSrv = pUiStats:get_properties():get_info_server()
-    local siExpRate = pInfoSrv:get_exp_rate()
-    local siMesoRate = pInfoSrv:get_meso_rate()
-    local siDropRate = pInfoSrv:get_drop_rate()
-
-    player_lane_update_resources(pTrack, pUiRscs, pPlayer)
-    player_lane_update_selectbox(pTrack, pUiHud)
-    player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
-    player_lane_update_hud(pTrack, pUiHud)
 end
 
 function CWndHud:_load_bt_load(pUiStats, pPlayer)
