@@ -117,7 +117,6 @@ function CWndChannel:_list_interactive_elements()
         for _, pInterElem in ipairs(list_interactive_elements(pElem)) do
             table.insert(rgpElems, pInterElem)
         end
-        table.insert(rgpElems, Elem)
     end
 
     return rgpElems

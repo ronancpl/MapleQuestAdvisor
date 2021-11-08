@@ -13,6 +13,7 @@
 require("composer.field.node.media.image")
 require("ui.constant.path")
 require("utils.procedure.directory")
+require("utils.procedure.string")
 require("utils.provider.io.wordlist")
 require("utils.struct.class")
 
@@ -65,7 +66,7 @@ function CStockHeaderMob:_get_image_path(iId)
         return nil
     end
 
-    local sImgPath = "Mob.wz/" .. tostring(iId) .. ".img/stand.0.png"
+    local sImgPath = "Mob.wz/" .. string.pad_number(iId, 7) .. ".img/stand.0.png"
     return sImgPath
 end
 

@@ -145,7 +145,6 @@ end
 function CRscElemItem:_access_field_ref()
     local iFieldRef = self:get_field_link()
     if iFieldRef ~= nil and type(iFieldRef) == "table" then
-        local pPlayer = pUiWmap:get_player()
         local trgiFields = iFieldRef
 
         local rgiRegionids = get_worldmap_regionids(pUiWmap)
@@ -156,6 +155,7 @@ function CRscElemItem:_access_field_ref()
             end
         end
 
+        local pPlayer = pUiWmap:get_player()
         local iRegionid = get_area_regionid(pPlayer)
         local rgiFields = trgiFields[iRegionid]
         if rgiFields ~= nil and #rgiFields > 0 then

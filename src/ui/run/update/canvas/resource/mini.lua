@@ -42,7 +42,7 @@ local function make_tab_resources_items(pRscProp)
 
         local pImg = ctHrItems:load_image_by_id(iId)
         local sDesc = ctItemsMeta:get_text(iId, 1)
-        local trgiFieldsRef = get_resource_field_ref(pRscTree, iRscId)
+        local trgiFieldsRef = get_resource_field_ref(pRscTree, iId)
 
         pVwItem:load(siType, iId, tpRscGridMini, pImg, iCount, sDesc, trgiFieldsRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID_MINI.ITEMS, true)
 

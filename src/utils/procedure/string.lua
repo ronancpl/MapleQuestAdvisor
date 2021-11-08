@@ -41,3 +41,17 @@ end
 function string.ltrb(iLx, iTy, iRx, iBy)
     return "(" .. iLx .. "," .. iTy .. " " .. iRx .. "," .. iBy .. ")"
 end
+
+function string.pad_number(iId, iLeftZero)
+    local st = ""
+
+    local bSign = iId < 0
+    iId = math.abs(iId)
+
+    local iAlg = math.ceil(math.log(iId) / math.log(10))
+    for i = 1, iLeftZero - iAlg, 1 do
+        st = st .. "0"
+    end
+
+    return (bSign and "-" or "") .. st .. tostring(iId)
+end
