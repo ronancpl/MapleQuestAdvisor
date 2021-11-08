@@ -61,7 +61,15 @@ local function is_inoperative_quest(pQuest)
     local pStartReq = pQuest:get_start():get_requirement()
     local pEndReq = pQuest:get_end():get_requirement()
 
-    return pStartReq:get_npc() < 0 or pEndReq:get_npc() < 0 and not pStartReq:has_script()
+    if pStartReq:get_npc() < 0 or pEndReq:get_npc() < 0 and not pStartReq:has_script() then
+        return true
+    end
+
+    if pStartReq:has_date_access() == 0 or pEndReq:has_date_access() == 0 then
+        return true
+    end
+
+    return false
 end
 
 function CQuestTable:dispose_inoperative_quests()
