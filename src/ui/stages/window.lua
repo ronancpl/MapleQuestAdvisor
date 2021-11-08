@@ -106,7 +106,7 @@ pWndHandler:set_opened(pUiHud)
 pWndHandler:set_focus_wnd(pUiHud)
 
 local btGo, btSave, btLoad, btDelete = pUiHud:get_buttons_route()
-btGo:update_state(RButtonState.DISABLED)
+--btGo:update_state(RButtonState.DISABLED)
 btSave:update_state(RButtonState.DISABLED)
 btLoad:update_state(RButtonState.DISABLED)
 btDelete:update_state(RButtonState.DISABLED)

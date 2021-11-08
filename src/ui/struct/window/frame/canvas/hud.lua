@@ -10,12 +10,18 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.route")
+require("router.constants.path")
 require("router.procedures.constant")
+require("router.procedures.userdata.player.character")
+require("router.procedures.userdata.player.inventory")
+require("solver.graph.tree.component")
 require("ui.constant.config")
 require("ui.constant.view.button")
 require("ui.run.build.interface.storage.basic.image")
 require("ui.run.build.interface.storage.split")
 require("ui.run.control.route")
+require("ui.run.update.navigation")
 require("ui.run.update.canvas.position")
 require("ui.run.update.track.quest")
 require("ui.struct.component.canvas.window.button")
@@ -43,6 +49,8 @@ CWndHud = createClass({
     btNavPrev,
     pNavOngoingQuest,
     pSlctNavQuest,
+
+    btLoadPlayer,
 
     sFont = RWndPath.LOVE_FONT_DIR_PATH .. "amaranthbd.ttf",
     iFontHeight = 25,
@@ -142,6 +150,40 @@ function CWndHud:_fn_bt_load(pUiStats, pPlayer)
     run_player_bt_load(pPlayer)
 end
 
+function CWndHud:_fn_bt_load_player()
+    local pPlayer = load_csv_player("../" .. RPath.SAV_UPATH .. "/character.csv")
+    load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/inventory.csv", function (pPlayer) return pPlayer:get_items():get_inventory() end)
+    load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/quest.csv", function (pPlayer) return pPlayer:get_quests() end)
+
+    local iMapid = pPlayer:get_mapid()
+    pPlayer:move_access_mapid(iMapid)
+    pPlayer:move_access_mapid(iMapid)
+    pUiWmap:set_player(pPlayer)
+
+    local _, tQuests, tRoute
+    local pPlayerRoute = pPlayer:clone()
+    _, tQuests, tRoute = generate_quest_route(pPlayerRoute, pUiWmap)
+
+    --pUiHud:_fn_bt_save(pPlayer, pUiStats, tRoute, tQuests)
+
+    local sWmapName = pUiWmap:get_properties():get_worldmap_name()
+    pUiRscs:update_resources(nil, CSolverTree:new())
+    pUiWmap:update_region(sWmapName, pUiRscs)
+
+    local pTrack = pUiWmap:get_properties():get_track()
+    local pIvtItems = pPlayer:get_items():get_inventory()
+
+    local pInfoSrv = pUiStats:get_properties():get_info_server()
+    local siExpRate = pInfoSrv:get_exp_rate()
+    local siMesoRate = pInfoSrv:get_meso_rate()
+    local siDropRate = pInfoSrv:get_drop_rate()
+
+    player_lane_update_resources(pTrack, pUiRscs, pPlayer)
+    player_lane_update_selectbox(pTrack, pUiHud)
+    player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
+    player_lane_update_hud(pTrack, pUiHud)
+end
+
 function CWndHud:_load_bt_load(pUiStats, pPlayer)
     local bt = CButtonElem:new()
 
@@ -210,6 +252,16 @@ function CWndHud:_load_bt_wnd_stat()
     bt:set_fn_trigger(self._fn_wnd_toggle_open, {self, pUiStats})
 
     self.btUiStat = bt
+    self.pBtChannel:add_element(bt)
+end
+
+function CWndHud:_load_bt_update_player()
+    local bt = CButtonElem:new()
+
+    bt:load(RActionButton.LOAD_PLAYER.PATH, unpack(RActionButton.LOAD_PLAYER.POSITION))
+    bt:set_fn_trigger(self._fn_bt_load_player, {self})
+
+    self.btLoadPlayer = bt
     self.pBtChannel:add_element(bt)
 end
 
@@ -351,7 +403,7 @@ function CWndHud:set_player_quest(pTrack)
 end
 
 function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
-    self:_load_bt_go(pPlayer)
+    --self:_load_bt_go(pPlayer)
     self:_load_bt_save(pPlayer, pUiStats, tRoute, tQuests)
     self:_load_bt_load(pUiStats, pPlayer)
     self:_load_bt_delete(pUiStats, pPlayer)
@@ -359,6 +411,8 @@ function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiSt
     self:_load_bt_wnd_inventory()
     self:_load_bt_wnd_resources()
     self:_load_bt_wnd_stat()
+
+    self:_load_bt_update_player()
 
     self:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
     self:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)

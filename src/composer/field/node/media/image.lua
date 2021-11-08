@@ -114,7 +114,6 @@ end
 local function parse_repacker_path(sImgPathOrig)
     local sImgPath = sImgPathOrig
     if string.starts_with(sImgPath, RWndPath.LOVE_IMAGE_DIR_PATH) then
-        log(LPath.PROCEDURES, "_vwt.txt", " >> '" .. tostring(sImgPath) .. "'")
         sImgPath = extract_prefix_image_path(sImgPath)
     end
 

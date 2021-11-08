@@ -37,6 +37,11 @@ RActionButton = {
         POSITION = {595, 470}
     },
 
+    LOAD_PLAYER = {
+        PATH = "UIWindow.img/EntrustedShop/BtArrange2",
+        POSITION = {545, 395}
+    },
+
     WND_INVT = {
         PATH = "StatusBar.img/EquipKey",
         POSITION = {25, 440}
