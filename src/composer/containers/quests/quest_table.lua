@@ -65,7 +65,7 @@ local function is_inoperative_quest(pQuest)
         return true
     end
 
-    if pStartReq:has_date_access() == 0 or pEndReq:has_date_access() == 0 then
+    if not pStartReq:has_date_access() or not pEndReq:has_date_access() then
         return true
     end
 
