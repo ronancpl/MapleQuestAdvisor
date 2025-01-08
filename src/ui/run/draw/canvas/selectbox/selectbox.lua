@@ -34,9 +34,11 @@ local function draw_selectbox_items(pSlctBox)
     local iLx, iTy, _, iBy = pSlctBox:get_ltrb()
 
     local rgpBoxItems = pSlctBox:fetch_visible_texts()
+    local nBoxItems = math.min(#rgpBoxItems, RSelectbox.VW_SELECTBOX.NUM_LINES)
+    iBy = iBy - ((nBoxItems + 1) * RSelectbox.VW_SELECTBOX.LINE_H)
 
     love.graphics.setColor(0.77, 0.77, 0.77)
-    love.graphics.rectangle("fill", iLx, iBy, RSelectbox.VW_SELECTBOX.LINE_W, math.min(#rgpBoxItems, RSelectbox.VW_SELECTBOX.NUM_LINES) * RSelectbox.VW_SELECTBOX.LINE_H)
+    love.graphics.rectangle("fill", iLx, iBy, RSelectbox.VW_SELECTBOX.LINE_W, nBoxItems * RSelectbox.VW_SELECTBOX.LINE_H)
     love.graphics.setColor(1, 1, 1)
 
     local iPx = iLx

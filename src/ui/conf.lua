@@ -11,6 +11,9 @@
 --]]
 
 function love.conf(t)
-	t.title = "MapleQuestAdvisor"
-	t.console = true
+    t.window.width = 640
+    t.window.height = 470
+
+    t.title = "MapleQuestAdvisor"
+    t.console = true
 end

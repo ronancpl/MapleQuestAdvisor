@@ -269,9 +269,11 @@ end
 
 function CSelectBoxElem:mount_extended()
     local iLx, _, _, iBy = self:get_ltrb()
+    local iHeight = math.min(self:get_num_options(), RSelectbox.VW_SELECTBOX.NUM_LINES) * RSelectbox.VW_SELECTBOX.LINE_H
+    iBy = iBy - iHeight - RSelectbox.VW_SELECTBOX.LINE_H
 
     local pSlctEx = CSelectBoxExtElem:new()
-    pSlctEx:load(self, iLx, iBy, RSelectbox.VW_SELECTBOX.LINE_W, (math.min(self:get_num_options(), RSelectbox.VW_SELECTBOX.NUM_LINES) * RSelectbox.VW_SELECTBOX.LINE_H))
+    pSlctEx:load(self, iLx, iBy, RSelectbox.VW_SELECTBOX.LINE_W, iHeight)
 
     pUiHud:get_misc_channel():add_element(pSlctEx)
 end
