@@ -54,9 +54,6 @@ local function parse_dom_node_attributes(pTreeNode, tFileNodeAttrs)
 end
 
 local function parse_dom_node_name(pTreeNode, tFileNodeAttrs)
-    local sNodeType = pTreeNode:get_type()
-    -- local tAttr = pTreeNode:get_attr()
-
     local sName = tFileNodeAttrs["name"]
     pTreeNode:set("name", sName)
 end
@@ -76,18 +73,12 @@ function _parse_dom_node(pFileNode)
     return pTreeNode
 end
 
-function _build_dom_root(pTreeDom)
-    local pTreeRoot = CXmlNode:new()
+function parse_dom_file(pFileDom)
+    local pTreeRoot = _parse_dom_node(pFileDom)
 
     pTreeRoot:set_node_type("ROOT")
     pTreeRoot:set_type("")
     pTreeRoot:set_name("")
-    pTreeRoot:add_child(pTreeDom)
 
     return pTreeRoot
-end
-
-function parse_dom_file(pFileDom)
-    local pTreeDom = _parse_dom_node(pFileDom)
-    return _build_dom_root(pTreeDom)
 end

@@ -108,7 +108,7 @@ function CQuestRequirement:has_date_access()
 end
 
 function CQuestRequirement:set_date_access(sDateAccess)
-    self.bDateAccess = string.len(sDateAccess) == 0
+    self.bDateAccess = string.len(sDateAccess or "") == 0
 end
 
 function CQuestRequirement:is_repeatable()

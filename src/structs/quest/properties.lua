@@ -15,6 +15,7 @@ require("utils.struct.class")
 CQuestProperties = createClass({
     iQuestid,
     bStart,
+    iNextQuestid,
     pPropCheck,
     pPropAct,
     bActive,
@@ -54,6 +55,14 @@ function CQuestProperties:get_name(bPrependStart)
     else
         return sId .. sStart
     end
+end
+
+function CQuestProperties:get_next_quest_id()
+    return self.iNextQuestid
+end
+
+function CQuestProperties:set_next_quest_id(iQuestid)
+    self.iNextQuestid = iQuestid
 end
 
 function CQuestProperties:get_requirement()

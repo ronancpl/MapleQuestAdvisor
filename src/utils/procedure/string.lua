@@ -24,13 +24,13 @@ function string.ends_with(str, end_str)
     return i == string.len(str)
 end
 
-function string.rfind(str, match_str)
+function string.rfind(str, match_str, idx)
     local i
 
     local r_str = str:reverse()
     local r_match = match_str:reverse()
 
-    _, i = string.find(r_str, r_match)
+    _, i = string.find(r_str, r_match, idx and (#str - idx) or 0)
     if i ~= nil then
         i = string.len(str) - i + 1     -- find from start
     end

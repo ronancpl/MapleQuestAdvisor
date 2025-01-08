@@ -88,6 +88,22 @@ function CQuestGrid:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pP
         if tQuests[pQuest] == nil then
             tQuests[pQuest] = 1
             self:_search_prequests(tQuests, fn_filter_quests, pQuest, pPlayer, iExpectedStatus)
+
+            return true
+        end
+    end
+
+    return false
+end
+
+function CQuestGrid:_add_next_quests(tQuests, pQuest)
+    while true do
+        local iNextQuestid = pQuest:get_end():get_next_quest_id()
+        if iNextQuestid ~= -1 then
+            pQuest = ctQuests:get_quest_by_id(iNextQuestid)
+            tQuests[pQuest] = 1
+        else
+            break
         end
     end
 end
@@ -96,7 +112,9 @@ function CQuestGrid:_try_add_quest(tQuests, fn_filter_quests, iIdx, pPlayer)
     local m_rgQuests = self.rgQuests
 
     local pQuest = m_rgQuests:get(iIdx)
-    self:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, 0)
+    if self:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, 0) then
+        self:_add_next_quests(tQuests, pQuest)
+    end
 end
 
 function CQuestGrid:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuests, iFromIdx, iToIdx)

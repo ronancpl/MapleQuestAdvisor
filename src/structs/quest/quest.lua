@@ -17,8 +17,8 @@ CQuest = createClass({
     iQuestid = -1,
     sTitle = "",
     siStartingLevel = -1,
-    qpStart = CQuestProperties:new({iQuestid = -1, bStart = true}),
-    qpEnd = CQuestProperties:new({iQuestid = -1, bStart = false})
+    qpStart = CQuestProperties:new({iQuestid = -1, iNextQuestid = -1, bStart = true}),
+    qpEnd = CQuestProperties:new({iQuestid = -1, iNextQuestid = -1, bStart = false})
 })
 
 function CQuest:get_quest_id()

@@ -97,7 +97,6 @@ end
 
 function CPlayer:set_level(siLevel)
     self.siLevel = siLevel
-    self._update_exp_amass()
 end
 
 function CPlayer:get_exp()
@@ -188,6 +187,7 @@ end
 
 function CPlayer:import_table(tpItems)
     table_merge(self, tpItems)
+    self.liExpUpdt = self.liExp
 end
 
 function CPlayer:export_inventory_tables()

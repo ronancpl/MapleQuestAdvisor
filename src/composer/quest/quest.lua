@@ -176,12 +176,17 @@ local function read_quest_node(pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
     local pQuest = CQuest:new({
         iQuestid = iQuestid,
         sTitle = sTitle,
-        qpStart = CQuestProperties:new({iQuestid = iQuestid, bStart = true}),
-        qpEnd = CQuestProperties:new({iQuestid = iQuestid, bStart = false})
+        qpStart = CQuestProperties:new({iQuestid = iQuestid, iNextQuestid = -1, bStart = true}),
+        qpEnd = CQuestProperties:new({iQuestid = iQuestid, iNextQuestid = -1, iQuestid = iQuestid, bStart = false})
     })
 
     read_quest_tab("0", CQuest.get_start, pQuest, pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
     read_quest_tab("1", CQuest.get_end, pQuest, pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
+
+    local pNextQuestNode = pActNode:get_child_by_name("1"):get_child_by_name("nextQuest")
+    if pNextQuestNode ~= nil then
+        pQuest:get_end():set_next_quest_id(pNextQuestNode:get_value())
+    end
 
     add_requirement_quest_in_progress(pQuest)   -- requirement to complete quests
 

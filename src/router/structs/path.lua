@@ -128,6 +128,10 @@ function CQuestPath:value()
     return self.fAccPathValue
 end
 
+function CQuestPath:peek()
+    return self:get_node_quest(self:size())
+end
+
 function CQuestPath:get_node_allot(iIdx)
     local m_pPathAllotStack = self.pPathAllotStack
     return m_pPathAllotStack[iIdx]

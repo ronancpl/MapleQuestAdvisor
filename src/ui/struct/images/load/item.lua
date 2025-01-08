@@ -133,7 +133,7 @@ end
 function CStockHeaderItem:load_image_by_id(iId)
     local siType = self:get_type(iId)
 
-    local sImgFilePath = self:get_image_path(iId)
+    local sImgFilePath = self:get_image_path(iId) or self:get_image_path(3010000)
 
     local pImg = nil
     if sImgFilePath ~= nil then

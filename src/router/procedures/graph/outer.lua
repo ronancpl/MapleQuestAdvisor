@@ -47,17 +47,30 @@ function is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccess
     return bEligible and bMetReqs
 end
 
+local function fetch_eligible_neighbor(rgpNeighbors, pQuestProp, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
+    -- same as is_eligible_root_quest
+
+    if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
+        local bMetReqs = pFrontierQuests:is_quest_accessible(pQuestProp) or is_route_quest_accessible(pQuestProp, pPlayerState, ctAccessors)
+        if bMetReqs then
+            table.insert(rgpNeighbors, pQuestProp)
+        end
+    end
+end
+
 function fetch_neighbors(rgpPoolProps, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
     local rgpNeighbors = {}
 
-    for _, pQuestProp in ipairs(rgpPoolProps) do
-        -- same as is_eligible_root_quest
+    local pQuestCurrent = pCurrentPath:peek()
+    local iNextQuestid = pQuestCurrent:get_next_quest_id()
+    if iNextQuestid ~= -1 then     -- select next quest from questline over quests from the pool
+        local pQuestProp = ctQuests:get_quest_by_id(iNextQuestid):get_start()
+        fetch_eligible_neighbor(rgpNeighbors, pQuestProp, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
+    end
 
-        if is_eligible_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then
-            local bMetReqs = pFrontierQuests:is_quest_accessible(pQuestProp) or is_route_quest_accessible(pQuestProp, pPlayerState, ctAccessors)
-            if bMetReqs then
-                table.insert(rgpNeighbors, pQuestProp)
-            end
+    if #rgpNeighbors == 0 then
+        for _, pQuestProp in ipairs(rgpPoolProps) do
+            fetch_eligible_neighbor(rgpNeighbors, pQuestProp, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
         end
     end
 
