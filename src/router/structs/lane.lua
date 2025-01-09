@@ -65,7 +65,7 @@ end
 
 function CQuestLane:get_recommended_paths()
     local rgpPaths = self:get_paths()
-    table.sort(rgpPaths, function (a, b) return a:value() < b:value() end)
+    table.sort(rgpPaths, function (a, b) return a:value() >= b:value() end)
 
     local tQuestProps = {}
     local rgpRecommendedPaths = {}
