@@ -145,8 +145,23 @@ function CSelectBoxElem:_load_selectbox_fonts()
     clear_table(m_rgpFontOpts)
 
     local m_rgsTextList = self.rgsTextList
-    for _, _ in ipairs(m_rgsTextList) do
-        local pFontOpt = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", 12)
+    for _, sText in ipairs(m_rgsTextList) do
+        local pFontOpt
+
+        local i = 12
+        while i > 2 do
+            local iWidth
+
+            pFontOpt = ctPoolFont:take_font(RWndPath.LOVE_FONT_DIR_PATH .. "arial.ttf", i)
+            iWidth, _ = pFontOpt:getWrap(sText, U_INT_MAX)
+
+            if iWidth <= RSelectbox.VW_SELECTBOX.LINE_W - RSelectbox.VW_SELECTBOX.LINE_ST_W then
+                break
+            end
+
+            i = i - 1
+        end
+
         table.insert(m_rgpFontOpts, pFontOpt)
     end
 end
