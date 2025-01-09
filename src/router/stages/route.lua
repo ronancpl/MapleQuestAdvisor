@@ -191,7 +191,7 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
         if pQuestProp == nil then
             route_quest_backtrack_update(pQuestTree, pQuestMilestone, pFrontierArranger, rgpPoolProps, pCurrentPath, pPlayerState, ctAccessors, ctAwarders)
             break
-        elseif not pCurrentPath:is_in_path(pQuestProp) and pCurrentPath:size() < RGraph.LANE_PATH_MAX_SIZE then
+        elseif not pCurrentPath:is_in_path(pQuestProp) and pCurrentPath:size() < RGraph.LANE_PATH_MAX_SIZE and (pCurrentPath:size() < RGraph.LANE_PATH_MAX_SIZE or ctQuests:is_in_same_questline(ctQuests:get_quest_by_id(pCurrentPath:peek():get_quest_id()), ctQuests:get_quest_by_id(pQuestProp:get_quest_id()))) then
             pQuestProp:install_player_state(pPlayerState)       -- allow find quest requisites and rewards player-state specific
 
             route_quest_attend_update(pQuestTree, pQuestMilestone, pFrontierQuests, pFrontierArranger, rgpPoolProps, pCurrentPath, pLeadingPath, pQuestProp, pPlayerState, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)

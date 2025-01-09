@@ -19,7 +19,8 @@ require("utils.struct.class")
 
 CQuestTable = createClass({
     tpQuests = {},
-    tpTitleQuests = {}
+    tpTitleQuests = {},
+    tpQuestlines = {}
 })
 
 function CQuestTable:get_quests()
@@ -123,6 +124,7 @@ function CQuestTable:_find_prequest_starting_level(pQuest, tiQuestSearchers)
         end
     end
 
+    local pStartingQuest = pQuest
     local siStartLevel = -1
     for _, iPreQuestId in ipairs(rgiPreQuestIds) do
         local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
@@ -130,19 +132,23 @@ function CQuestTable:_find_prequest_starting_level(pQuest, tiQuestSearchers)
 
         if siPreStartLevel > siStartLevel then
             siStartLevel = siPreStartLevel
+            pStartingQuest = pPreQuest
         end
     end
 
-    return siStartLevel
+    return pStartingQuest, siStartLevel
 end
 
 function CQuestTable:_apply_quest_starting_level(pQuest, tiQuestSearchers)
+    local pStartingQuest = pQuest
     local siStartLevel = pQuest:get_start():get_requirement():get_level_min()
     if siStartLevel < 0 then
-        siStartLevel = self:_find_prequest_starting_level(pQuest, tiQuestSearchers)
+        pStartingQuest, siStartLevel = self:_find_prequest_starting_level(pQuest, tiQuestSearchers)
     end
 
     pQuest:set_starting_level(siStartLevel)
+    self:add_questline(pQuest, pStartingQuest)
+
     return siStartLevel
 end
 
@@ -174,4 +180,16 @@ function CQuestTable:fetch_prerequisited_quests(pFromQuestProp)
     end
 
     return keys(tiQuestSearchers)
+end
+
+function CQuestTable:get_questline(pQuest)
+    return self.tpQuestlines[pQuest]
+end
+
+function CQuestTable:is_in_same_questline(pQuest1, pQuest2)
+    return self.tpQuestlines[pQuest1] == self.tpQuestlines[pQuest2]
+end
+
+function CQuestTable:add_questline(pQuest, pFirstQuest)
+    self.tpQuestlines[pQuest] = pFirstQuest
 end
