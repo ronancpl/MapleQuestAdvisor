@@ -38,6 +38,7 @@ local function post_process_quests(ctQuests, ctNpcs, ctFieldsMeta)
     ctQuests:dispose_inoperative_quests()
     ctQuests:dispose_missing_prequests()
     ctQuests:apply_starting_level()
+    ctQuests:build_questline_path()
     apply_quest_npc_field_areas(ctQuests, ctNpcs, ctFieldsMeta)
 end
 

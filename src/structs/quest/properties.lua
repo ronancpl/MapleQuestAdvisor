@@ -57,14 +57,6 @@ function CQuestProperties:get_name(bPrependStart)
     end
 end
 
-function CQuestProperties:get_next_quest_id()
-    return self.iNextQuestid
-end
-
-function CQuestProperties:set_next_quest_id(iQuestid)
-    self.iNextQuestid = iQuestid
-end
-
 function CQuestProperties:get_requirement()
     return self.pPropCheck
 end

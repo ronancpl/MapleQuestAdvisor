@@ -20,7 +20,8 @@ require("utils.struct.class")
 CQuestTable = createClass({
     tpQuests = {},
     tpTitleQuests = {},
-    tpQuestlines = {}
+    tpQuestlines = {},
+    tpNextQuests = {}
 })
 
 function CQuestTable:get_quests()
@@ -125,15 +126,24 @@ function CQuestTable:_find_prequest_starting_level(pQuest, tiQuestSearchers)
     end
 
     local pStartingQuest = pQuest
-    local siStartLevel = -1
+    local siStartLevel = U_INT_MAX
     for _, iPreQuestId in ipairs(rgiPreQuestIds) do
+        local siPreStartLevel = U_INT_MAX
         local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
-        local siPreStartLevel = self:_apply_quest_starting_level(pPreQuest, tiQuestSearchers)
+        if pPreQuest ~= nil then
+            if tiQuestSearchers[iPreQuestId] ~= 2 then
+                pPreQuest, siPreStartLevel = self:_apply_quest_starting_level(pPreQuest, tiQuestSearchers)
+            else
+                siPreStartLevel = pPreQuest:get_starting_level()
+            end
+        end
 
         if siPreStartLevel > siStartLevel then
             siStartLevel = siPreStartLevel
             pStartingQuest = pPreQuest
         end
+
+        tiQuestSearchers[iPreQuestId] = 2
     end
 
     return pStartingQuest, siStartLevel
@@ -149,7 +159,7 @@ function CQuestTable:_apply_quest_starting_level(pQuest, tiQuestSearchers)
     pQuest:set_starting_level(siStartLevel)
     self:add_questline(pQuest, pStartingQuest)
 
-    return siStartLevel
+    return pStartingQuest, siStartLevel
 end
 
 function CQuestTable:apply_starting_level()
@@ -192,4 +202,25 @@ end
 
 function CQuestTable:add_questline(pQuest, pFirstQuest)
     self.tpQuestlines[pQuest] = pFirstQuest
+end
+
+function CQuestTable:get_next_quest(pQuest)
+    return self.tpNextQuests[pQuest]
+end
+
+function CQuestTable:add_next_quest(pQuest, pNextQuest)
+    self.tpNextQuests[pQuest] = pNextQuest
+end
+
+function CQuestTable:build_questline_path()
+    local m_tpQuests = self.tpQuests
+
+    for _, pQuest in pairs(m_tpQuests) do
+        for iPreQuestId, _ in pairs(pQuest:get_start():get_requirement():get_quests():get_items()) do
+            local pNextQuest = ctQuests:get_quest_by_id(iPreQuestId)
+            if pNextQuest ~= nil then
+                self:add_next_quest(pNextQuest, pQuest)
+            end
+        end
+    end
 end

@@ -183,11 +183,6 @@ local function read_quest_node(pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
     read_quest_tab("0", CQuest.get_start, pQuest, pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
     read_quest_tab("1", CQuest.get_end, pQuest, pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
 
-    local pNextQuestNode = pActNode:get_child_by_name("1"):get_child_by_name("nextQuest")
-    if pNextQuestNode ~= nil then
-        pQuest:get_end():set_next_quest_id(pNextQuestNode:get_value())
-    end
-
     add_requirement_quest_in_progress(pQuest)   -- requirement to complete quests
 
     return pQuest

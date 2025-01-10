@@ -96,25 +96,11 @@ function CQuestGrid:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pP
     return false
 end
 
-function CQuestGrid:_add_next_quests(tQuests, pQuest)
-    while true do
-        local iNextQuestid = pQuest:get_end():get_next_quest_id()
-        if iNextQuestid ~= -1 then
-            pQuest = ctQuests:get_quest_by_id(iNextQuestid)
-            tQuests[pQuest] = 1
-        else
-            break
-        end
-    end
-end
-
 function CQuestGrid:_try_add_quest(tQuests, fn_filter_quests, iIdx, pPlayer)
     local m_rgQuests = self.rgQuests
 
     local pQuest = m_rgQuests:get(iIdx)
-    if self:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, 0) then
-        self:_add_next_quests(tQuests, pQuest)
-    end
+    self:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, 0)
 end
 
 function CQuestGrid:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuests, iFromIdx, iToIdx)
@@ -229,6 +215,24 @@ function CQuestGrid:_fetch_top_quests_by_pickability(pPlayer, nQuests, iIdx, iTo
     return tQuests
 end
 
+function CQuestGrid:_fetch_quests_by_questline(tQuests)
+    local rgpQuests = {}
+    for pQuest, _ in pairs(tQuests:get_entry_set()) do
+        table.insert(rgpQuests, pQuest)
+    end
+
+    local tpQuestsSearched = {}
+    for _, pQuest in ipairs(rgpQuests) do
+        local pCurQuest = ctQuests:get_questline(pQuest)
+        while pCurQuest ~= nil and tpQuestsSearched[pCurQuest] == nil do
+            tQuests:insert(pCurQuest, 1)
+            tpQuestsSearched[pCurQuest] = 1
+
+            pCurQuest = ctQuests:get_next_quest(pCurQuest)
+        end
+    end
+end
+
 function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
     local tpPoolQuests = STable:new()
 
@@ -245,6 +249,8 @@ function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
     local nLeft = nQuestsRegional - tpPoolQuests:size()
     local nQuestsOverall = math.ceil((1.0 - RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO) * nQuests)
     tpPoolQuests:insert_table(self:_fetch_top_quests_by_availability(pPlayer, nQuestsOverall + nLeft, iIdx, iToIdx))
+
+    self:_fetch_quests_by_questline(tpPoolQuests)
 
     return tpPoolQuests
 end
