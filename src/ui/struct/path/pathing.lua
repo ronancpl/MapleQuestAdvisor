@@ -102,13 +102,15 @@ end
 
 function CTracePath:trim_back()
     local m_pStackLane = self.pStackLane
-    local nLanes = m_pStackLane:size()
 
-    for i = 1, nLanes - RWndConfig.TRACK.MAX_BEHIND_TO_RETURN, 1 do
-        m_pStackLane:pop_fifo()
+    local nLanesTrim = m_pStackLane:size() - RWndConfig.TRACK.MAX_BEHIND_TO_RETURN
+    if nLanesTrim > 0 then
+        for i = 1, nLanesTrim, 1 do
+            m_pStackLane:pop_fifo()
+        end
+
+        self.bTrimmed = true
     end
-
-    self.bTrimmed = true
 end
 
 function CTracePath:_route_fetch_path_follow_ahead(pPath)

@@ -223,12 +223,12 @@ function CQuestGrid:_fetch_quests_by_questline(tQuests)
 
     local tpQuestsSearched = {}
     for _, pQuest in ipairs(rgpQuests) do
-        local pCurQuest = ctQuests:get_questline(pQuest)
-        while pCurQuest ~= nil and tpQuestsSearched[pCurQuest] == nil do
-            tQuests:insert(pCurQuest, 1)
-            tpQuestsSearched[pCurQuest] = 1
+        local pCurQuestProp = ctQuests:get_questline(pQuest):get_start()
+        while pCurQuestProp ~= nil and tpQuestsSearched[pCurQuestProp] == nil do
+            tQuests:insert(ctQuests:get_quest_by_id(pCurQuestProp:get_quest_id()), 1)
+            tpQuestsSearched[pCurQuestProp] = 1
 
-            pCurQuest = ctQuests:get_next_quest(pCurQuest)
+            pCurQuestProp = ctQuests:get_next_quest_prop(pCurQuestProp)
         end
     end
 end

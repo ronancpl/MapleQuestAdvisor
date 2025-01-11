@@ -158,10 +158,10 @@ end
 
 function SArray:randomize()     -- Algorithm: Fisher-Yates
     local m_apItems = self.apItems
-    local napItems = #m_apItems
+    local nItems = #m_apItems
 
-    for i = 1, napItems, 1 do
-        local j = math.random(1, napItems)
+    for i = 1, nItems, 1 do
+        local j = math.random(1, nItems)
 
         local temp = m_apItems[j]
         m_apItems[j] = m_apItems[i]
@@ -171,11 +171,11 @@ end
 
 function SArray:find(fn_select)
     local m_apItems = self.apItems
-    local napItems = #m_apItems
+    local nItems = #m_apItems
 
     local apFilter = SArray:new()
 
-    for i = 1, napItems, 1 do
+    for i = 1, nItems, 1 do
         if fn_select(m_apItems[i]) then
             apFilter:add(m_apItems[i])
         end
@@ -216,12 +216,12 @@ end
 
 function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
     local m_apItems = self.apItems
-    local napItems = #m_apItems
+    local nItems = #m_apItems
 
     local st = 1
-    local en = napItems
+    local en = nItems
 
-    if napItems > 0 then
+    if nItems > 0 then
         while st <= en do
             local m = math.ceil((st + en) / 2)
 
@@ -245,7 +245,7 @@ function SArray:bsearch(fn_compare, pToFind, bReturnPos, bFirstMatch)
             end
         end
 
-        return bReturnPos and ((fn_compare(m_apItems[napItems], pToFind) > 0) and en or en + 1) or 0
+        return bReturnPos and ((fn_compare(m_apItems[nItems], pToFind) > 0) and en or en + 1) or 0
     else
         return bReturnPos and 1 or 0
     end
@@ -253,9 +253,9 @@ end
 
 function SArray:index_of(fn_select, bFromStart)
     local m_apItems = self.apItems
-    local napItems = #m_apItems
+    local nItems = #m_apItems
 
-    local it = bFromStart and {1, napItems, 1} or {napItems, 1, -1}
+    local it = bFromStart and {1, nItems, 1} or {nItems, 1, -1}
     for i = it[1], it[2], it[3] do
         if fn_select(m_apItems[i]) then
             return i

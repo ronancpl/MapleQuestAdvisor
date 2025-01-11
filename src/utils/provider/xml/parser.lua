@@ -19,6 +19,16 @@ local function parse_dom_node_children(pTreeNode, tFileNodeChildren)
     end
 end
 
+local function parsestring(sStr)
+     sStr = string.gsub(sStr,"&apos;","'")
+     sStr = string.gsub(sStr,"&amp;","&")
+     sStr = string.gsub(sStr,"&quot;","\"")
+     sStr = string.gsub(sStr,"&lt;","<")
+     sStr = string.gsub(sStr,"&gt;",">")
+
+     return sStr
+end
+
 local tfn_parse_attr = {
     -- ["imgdir"] = function (x) return  end,
     -- ["canvas"] = function (x) return  end,
@@ -29,7 +39,7 @@ local tfn_parse_attr = {
     ["float"] = function (x) return tonumber(x) end,
     ["int"] = function (x) return tonumber(x) end,
     ["short"] = function (x) return tonumber(x) end,
-    ["string"] = function (x) return x end,
+    ["string"] = function (x) return parsestring(x) end,
     ["vector"] = function (x) return tonumber(x) end,
     -- ["null"] = function (x) return  end,
 }

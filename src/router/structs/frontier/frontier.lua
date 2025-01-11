@@ -64,6 +64,17 @@ function CQuestFrontier:restack_quests(rgpQuestProps)
     end
 end
 
+function CQuestFrontier:list()
+    local rgpQuestProps = {}
+
+    local m_pQuestStack = self.pQuestStack
+    for _, pQuestProp in ipairs(m_pQuestStack.pQuestStack.pStack:list()) do
+        table.insert(rgpQuestProps, pQuestProp)
+    end
+
+    return rgpQuestProps
+end
+
 function CQuestFrontier:_update_range(pPlayerState, m_pRangeFrom, m_pRangeTo, bFromIsSelect)
     local tpTakeQuestProps = m_pRangeFrom:update_take(pPlayerState, bFromIsSelect)
     m_pRangeTo:update_put(pPlayerState, tpTakeQuestProps, bFromIsSelect)

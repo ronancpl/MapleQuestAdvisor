@@ -199,7 +199,6 @@ local function route_internal_node(rgpPoolProps, pFrontierQuests, pFrontierArran
 
             local rgpRefeedQuests
             _, rgpRefeedQuests = pFrontierQuests:fetch(pQuestTree, iBcktCount)      -- retrieve all nodes from frontier that have been backtracked
-            table.insert(rgpRefeedQuests,ctQuests:get_quest_by_id(pQuestProp:get_quest_id()):get_end())
 
             pFrontierQuests:restack_quests(rgpRefeedQuests)                         -- set skipped quests again for frontier checkout
             pFrontierQuests:update(pPlayerState)

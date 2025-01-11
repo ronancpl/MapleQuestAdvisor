@@ -62,12 +62,10 @@ function fetch_neighbors(rgpPoolProps, pFrontierQuests, pCurrentPath, pPlayerSta
     local rgpNeighbors = {}
 
     local pQuestCurrent = pCurrentPath:peek()
-    if not pQuestCurrent:is_start() then
-        local pNextQuest = ctQuests:get_next_quest(ctQuests:get_quest_by_id(pQuestCurrent:get_quest_id()))
-        if pNextQuest ~= nil then   -- select next quest from questline over quests from the pool
-            local pQuestProp = pNextQuest:get_start()
-            fetch_eligible_neighbor(rgpNeighbors, pQuestProp, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
-        end
+
+    local pNextQuestProp = ctQuests:get_next_quest_prop(pQuestCurrent)
+    if pNextQuestProp ~= nil then   -- select next quest from questline over quests from the pool
+        fetch_eligible_neighbor(rgpNeighbors, pNextQuestProp, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
     end
 
     if #rgpNeighbors == 0 then

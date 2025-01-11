@@ -21,7 +21,7 @@ CQuestTable = createClass({
     tpQuests = {},
     tpTitleQuests = {},
     tpQuestlines = {},
-    tpNextQuests = {}
+    tpNextQuestProps = {}
 })
 
 function CQuestTable:get_quests()
@@ -204,23 +204,28 @@ function CQuestTable:add_questline(pQuest, pFirstQuest)
     self.tpQuestlines[pQuest] = pFirstQuest
 end
 
-function CQuestTable:get_next_quest(pQuest)
-    return self.tpNextQuests[pQuest]
+function CQuestTable:get_next_quest_prop(pQuestProp)
+    return self.tpNextQuestProps[pQuestProp]
 end
 
-function CQuestTable:add_next_quest(pQuest, pNextQuest)
-    self.tpNextQuests[pQuest] = pNextQuest
+function CQuestTable:add_next_quest_prop(pQuestProp, pNextQuestProp)
+    self.tpNextQuestProps[pQuestProp] = self.tpNextQuestProps[pQuestProp] or pNextQuestProp
+end
+
+function CQuestTable:_build_quest_path(pQuestProp)
+    for iPreQuestId, iStatus in pairs(pQuestProp:get_requirement():get_quests():get_items()) do
+        local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
+        if pPreQuest ~= nil and iStatus > 0 then
+            self:add_next_quest_prop(iStatus > 1 and pPreQuest:get_end() or pPreQuest:get_start(), pQuestProp)
+        end
+    end
 end
 
 function CQuestTable:build_questline_path()
     local m_tpQuests = self.tpQuests
 
     for _, pQuest in pairs(m_tpQuests) do
-        for iPreQuestId, _ in pairs(pQuest:get_start():get_requirement():get_quests():get_items()) do
-            local pNextQuest = ctQuests:get_quest_by_id(iPreQuestId)
-            if pNextQuest ~= nil then
-                self:add_next_quest(pNextQuest, pQuest)
-            end
-        end
+        self:_build_quest_path(pQuest:get_start())
+        self:_build_quest_path(pQuest:get_end())
     end
 end

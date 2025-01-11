@@ -204,7 +204,7 @@ local function fetch_path_region_resources(rgiTransitRegionids, rgiRegionids, ct
 
     local pQueueFrontierRegions = SPriorityQueue:new()
     for _, iRegionid in ipairs(rgiTransitRegionids) do
-        pQueueFrontierRegions:put(iRegionid, get_region_priority(0))     -- to calculate MST's new interregion links according to nearest in original path
+        pQueueFrontierRegions:put(iRegionid, get_region_priority(0))     -- to set-up new interregion links according to nearest in original path
     end
 
     local pSetToExplore = SSet{unpack(rgiRegionids)}
