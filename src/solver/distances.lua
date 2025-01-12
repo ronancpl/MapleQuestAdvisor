@@ -59,8 +59,8 @@ local function get_npc_location(iNpcid, iPlayerMapid)
     local iNpcMapid = nil
     local iNpcFieldDist = U_INT_MAX
 
-    local tNpcMapids = get_npc_return_locations(iNpcid)
-    for iMapid, _ in pairs(tNpcMapids) do
+    local tNpcMapids = ctNpcs:get_locations(iNpcid)
+    for _, iMapid in pairs(tNpcMapids) do
         local iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
         if iRegionid == iPlayerRegionid then
             local iDist = ctFieldsLandscape:fetch_field_distance(iPlayerMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
