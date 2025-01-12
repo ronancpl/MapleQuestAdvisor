@@ -21,7 +21,7 @@ local function load_quad_img_set(tpImgs, sPrepend)
     local tpQuads = {}
     for sPath, pImg in pairs(tpImgs) do
         local sImgPath = sPath
-        if string.starts_with(sImgPath, sPrepend) then
+        if string.starts_with(sImgPath, sPrepend .. "%.") then
             while true do
                 local iIdx = string.rfind(sImgPath, ".%")
                 if iIdx ~= nil then

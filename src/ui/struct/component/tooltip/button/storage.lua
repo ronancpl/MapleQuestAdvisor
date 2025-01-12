@@ -25,7 +25,7 @@ CStockButton = createClass({
 
 local function fetch_button_name_path(sButtonImg)
     local iIdx = string.rfind(sButtonImg, ".img")
-    return (sButtonImg:sub(iIdx + 5)), sButtonImg:sub(1, iIdx + 3)
+    return sButtonImg:sub(iIdx + 5), sButtonImg:sub(1, iIdx + 3)
 end
 
 local function fetch_button_inner_path(sButtonImg)
