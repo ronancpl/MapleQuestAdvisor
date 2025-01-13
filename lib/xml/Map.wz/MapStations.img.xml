@@ -29,8 +29,6 @@
   </imgdir>
   <imgdir name="110000000">
     <int name="0" value="104000000"/>
-    <int name="1" value="200000000"/>
-    <int name="2" value="220000000"/>
   </imgdir>
   <imgdir name="130000210">
     <int name="0" value="200000161"/>
@@ -87,7 +85,6 @@
   </imgdir>
   <imgdir name="230030200">
     <int name="0" value="222000001"/>
-    <int name="1" value="251000100"/>
   </imgdir>
   <imgdir name="240000100">
     <int name="0" value="200000130"/>
@@ -100,7 +97,6 @@
   </imgdir>
   <imgdir name="251000100">
     <int name="0" value="230000000"/>
-    <int name="1" value="230030200"/>
   </imgdir>
   <imgdir name="260000100">
     <int name="0" value="200000150"/>

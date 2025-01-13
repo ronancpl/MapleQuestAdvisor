@@ -22,6 +22,14 @@ local function select_quest_ahead(pPlayerState, pTrack, iOpt)
     return rgpQuestProps[iOpt]
 end
 
+local function fetch_name_worldmap_container(sWmapName, iMapid)
+    if sWmapName ~= ctFieldsWmap:get_worldmap_name_by_area(iMapid) then
+        sWmapName = "WorldMap"
+    end
+
+    return sWmapName
+end
+
 function fn_bt_nav_next(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
     local pSlctBox = pUiHud:get_nav_select_quest()
 
@@ -31,7 +39,11 @@ function fn_bt_nav_next(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUi
         if pQuestProp ~= nil then
             player_lane_move_ahead(pTrack, pQuestProp, pPlayerState, rgpPoolProps)
             player_lane_look_ahead(pTrack, pPlayerState)
+
+            local sWmapName = pUiWmap:get_properties():get_worldmap_name()
             pUiWmap:reset_region(pUiRscs, pPlayerState)
+
+            sWmapName = fetch_name_worldmap_container(sWmapName,pPlayerState:get_mapid())
 
             player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
             player_lane_update_selectbox(pTrack, pUiHud)
@@ -44,9 +56,13 @@ end
 function fn_bt_nav_prev(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
     local bMovedBack = player_lane_move_back(pTrack, pPlayerState, rgpPoolProps)
     player_lane_trim_back(pTrack)
+
+    local sWmapName = pUiWmap:get_properties():get_worldmap_name()
     pUiWmap:reset_region(pUiRscs, pPlayerState)
 
     if bMovedBack then
+        sWmapName = fetch_name_worldmap_container(sWmapName,pPlayerState:get_mapid())
+
         player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
         player_lane_update_selectbox(pTrack, pUiHud)
         player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)

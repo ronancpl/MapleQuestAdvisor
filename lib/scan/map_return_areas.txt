@@ -930,8 +930,8 @@ wz/Map.wz/Map/Map2/200000110.img.xml 200000000
 wz/Map.wz/Map/Map2/200000111.img.xml 200000111 
 wz/Map.wz/Map/Map2/200000112.img.xml 200000111 
 wz/Map.wz/Map/Map2/200000120.img.xml 200000000 
-wz/Map.wz/Map/Map2/200000121.img.xml 220000110 
-wz/Map.wz/Map/Map2/200000122.img.xml 220000110 
+wz/Map.wz/Map/Map2/200000121.img.xml 200000121 
+wz/Map.wz/Map/Map2/200000122.img.xml 200000121 
 wz/Map.wz/Map/Map2/200000130.img.xml 200000000 
 wz/Map.wz/Map/Map2/200000131.img.xml 240000110 
 wz/Map.wz/Map/Map2/200000132.img.xml 240000110 
@@ -1136,9 +1136,9 @@ wz/Map.wz/Map/Map2/220000003.img.xml 220000000
 wz/Map.wz/Map/Map2/220000004.img.xml 220000000 
 wz/Map.wz/Map/Map2/220000005.img.xml 220000000 
 wz/Map.wz/Map/Map2/220000006.img.xml 220000000 
-wz/Map.wz/Map/Map2/220000100.img.xml 220000110 
-wz/Map.wz/Map/Map2/220000110.img.xml 220000110 
-wz/Map.wz/Map/Map2/220000111.img.xml 220000110 
+wz/Map.wz/Map/Map2/220000100.img.xml 220000000 
+wz/Map.wz/Map/Map2/220000110.img.xml 220000000 
+wz/Map.wz/Map/Map2/220000111.img.xml 220000000 
 wz/Map.wz/Map/Map2/220000300.img.xml 220000000 
 wz/Map.wz/Map/Map2/220000301.img.xml 220000000 
 wz/Map.wz/Map/Map2/220000302.img.xml 220000000 
@@ -2187,7 +2187,7 @@ wz/Map.wz/Map/Map5/540000000.img.xml 540000000
 wz/Map.wz/Map/Map5/540000100.img.xml 540000000 
 wz/Map.wz/Map/Map5/540000200.img.xml 540000000 
 wz/Map.wz/Map/Map5/540000300.img.xml 540000000 
-wz/Map.wz/Map/Map5/540010000.img.xml 103000000 
+wz/Map.wz/Map/Map5/540010000.img.xml 540000000 
 wz/Map.wz/Map/Map5/540010001.img.xml 103000000 
 wz/Map.wz/Map/Map5/540010002.img.xml 103000000 
 wz/Map.wz/Map/Map5/540010100.img.xml 103000000 

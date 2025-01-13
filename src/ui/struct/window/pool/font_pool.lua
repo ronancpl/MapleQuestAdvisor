@@ -20,12 +20,12 @@ CPoolFont = createClass({
 
 })
 
-local function get_key_table_font(sFont, iHeight)
-    return sFont .. tostring(iHeight)
+local function get_key_table_font(sFont, iSize)
+    return sFont .. tostring(iSize)
 end
 
-local function fn_create_item(sFont, iHeight)
-    return love.graphics.newFont(sFont, iHeight)
+local function fn_create_item(sFont, iSize)
+    return love.graphics.newFont(sFont, math.max(iSize, 3))
 end
 
 local function get_key_table_text(pFont)
@@ -41,16 +41,16 @@ function CPoolFont:init()
     self.pPoolText:load(get_key_table_text, fn_create_item_text)
 end
 
-function CPoolFont:take_font(sFont, iHeight)
+function CPoolFont:take_font(sFont, iSize)
     local m_pPool = self.pPoolFont
 
-    local pFont = m_pPool:take_object({sFont, iHeight})
+    local pFont = m_pPool:take_object({sFont, iSize})
     return pFont
 end
 
-function CPoolFont:put_font(pFont, sFont, iHeight)
+function CPoolFont:put_font(pFont, sFont, iSize)
     local m_pPool = self.pPoolFont
-    m_pPool:put_object(pFont, {sFont, iHeight})
+    m_pPool:put_object(pFont, {sFont, iSize})
 end
 
 function CPoolFont:take_text(pFont)

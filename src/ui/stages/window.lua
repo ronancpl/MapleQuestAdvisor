@@ -83,7 +83,7 @@ pUiRscs:update_resources(nil, CSolverTree:new())
 pUiWmap:update_region(sWmapName, pUiRscs)
 
 local pTrack = pUiWmap:get_properties():get_track()
-pUiHud = load_frame_hud(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
+pUiHud = load_frame_hud(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate)
 
 player_lane_update_resources(pTrack, pUiRscs, pPlayer)
 player_lane_update_selectbox(pTrack, pUiHud)
