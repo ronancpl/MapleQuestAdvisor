@@ -382,6 +382,12 @@ function CWndHud:set_player_quest(pTrack)
     self:_load_nav_player_quest(pQuestProp)
 end
 
+function CWndHud:set_quest_data(tRoute, tQuests)
+    self.btSave:update_fn_trigger(nil, {self, nil, nil, tRoute, tQuests})
+    self.btNavNext:update_fn_trigger(nil, {self, nil, nil, tQuests, nil, nil, nil, nil, nil, nil, nil, nil})
+    self.btNavPrev:update_fn_trigger(nil, {self, nil, nil, tQuests, nil, nil, nil, nil, nil, nil, nil, nil})
+end
+
 function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate)
     --self:_load_bt_go(pPlayer)
     self:_load_bt_save(pPlayer, pUiStats, tRoute, tQuests)

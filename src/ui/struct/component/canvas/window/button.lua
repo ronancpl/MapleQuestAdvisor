@@ -80,6 +80,17 @@ function CButtonElem:set_fn_trigger(fn_act, ...)
     self.fn_act = fn_act
 end
 
+function CButtonElem:update_fn_trigger(fn_act, ...)
+    local m_rgpArgs = self.rgpArgs
+    local rgpUpdArgs = ...
+
+    for i = 1, #m_rgpArgs, 1 do
+        m_rgpArgs[i] = rgpUpdArgs[i] or m_rgpArgs[i]
+    end
+
+    self.fn_act = fn_act or self.fn_act
+end
+
 function CButtonElem:_is_mouse_in_range(x, y)
     local iLx, iTy, iRx, iBy = self:get_ltrb()
     return math.between(x, iLx, iRx) and math.between(y, iTy, iBy)

@@ -237,13 +237,13 @@ end
 function route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     log(LPath.OVERALL, "log.txt", "Route quest board... (" .. tQuests:size() .. " quests)")
 
-    local rgPoolQuests = make_pool_list(tQuests)
+    local rgpPoolQuests = make_pool_list(tQuests)
 
     local pLeadingPath = make_leading_paths()
 
     log(LPath.OVERALL, "log.txt", "Total of quests to search: " .. tQuests:size())
-    while not rgPoolQuests:is_empty() do
-        local pQuest = rgPoolQuests:remove_last()
+    while not rgpPoolQuests:is_empty() do
+        local pQuest = rgpPoolQuests:remove_last()
         route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     end
 

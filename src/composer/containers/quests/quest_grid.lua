@@ -84,13 +84,13 @@ function CQuestGrid:_search_prequests(tQuests, fn_filter_quests, pQuest, pPlayer
 end
 
 function CQuestGrid:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, iExpectedStatus)
-    if pQuest ~= nil and fn_filter_quests(pQuest, pPlayer) then
+    if fn_filter_quests(pQuest, pPlayer) then
         if tQuests[pQuest] == nil then
             tQuests[pQuest] = 1
             self:_search_prequests(tQuests, fn_filter_quests, pQuest, pPlayer, iExpectedStatus)
-
-            return true
         end
+
+        return true
     end
 
     return false
@@ -100,7 +100,46 @@ function CQuestGrid:_try_add_quest(tQuests, fn_filter_quests, iIdx, pPlayer)
     local m_rgQuests = self.rgQuests
 
     local pQuest = m_rgQuests:get(iIdx)
-    self:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, 0)
+    return self:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, 0)
+end
+
+function CQuestGrid:_fetch_top_quests_index(tQuests, fn_filter_quests, iFromIdx, pPlayer, nQuests, nAvailable)
+    local iCount = #keys(tQuests)
+
+    local nParts = RGraph.POOL_QUEST_FETCH_PARTITIONS
+
+    local nRows
+    local nCols
+    if nAvailable >= nParts then
+        nRows = math.ceil(nAvailable / nParts)
+        nCols = nParts
+    else
+        nRows = 1
+        nCols = nAvailable
+    end
+
+    local iIdxLastRowEnds = ((nAvailable - 1) % nParts) + 1
+
+    for i = 0, nRows - 1, 1 do
+        for j = 0, nCols - 2, 1 do
+            local iIdx = ((nRows - 1) * j) + i
+
+            if self:_try_add_quest(tQuests, fn_filter_quests, iFromIdx + iIdx, pPlayer) then
+                iCount = iCount + 1
+                if iCount >= nQuests then return end
+            end
+        end
+        if i < iIdxLastRowEnds then
+            for j = nCols - 1, nCols - 1, 1 do
+                local iIdx = ((nRows - 1) * j) + i
+
+                if self:_try_add_quest(tQuests, fn_filter_quests, iFromIdx + iIdx, pPlayer) then
+                    iCount = iCount + 1
+                    if iCount >= nQuests then return end
+                end
+            end
+        end
+    end
 end
 
 function CQuestGrid:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuests, iFromIdx, iToIdx)
@@ -109,40 +148,11 @@ function CQuestGrid:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuest
     local m_rgQuests = self.rgQuests
 
     local nAvailable = (m_rgQuests:size() + 1) - iFromIdx
-    local nToPick = math.min(nAvailable, nQuests)
-
     if iToIdx ~= nil then
         nAvailable = math.min(nAvailable, iToIdx - iFromIdx + 1)  -- focus on the relevant portion of the available pool
     end
 
-    local nParts = math.ceil(nAvailable / RGraph.POOL_QUEST_FETCH_PARTITIONS)
-
-    local nRows
-    local nCols
-    if nToPick >= nParts then
-        nRows = math.ceil(nToPick / nParts)
-        nCols = nParts
-    else
-        nRows = 1
-        nCols = nToPick
-    end
-
-    local iIdxLastRowEnds = ((nToPick - 1) % nParts) + 1
-
-    for i = 0, nRows - 1, 1 do
-        for j = 0, nCols - 2, 1 do
-            local iIdx = (nCols * j) + i
-
-            self:_try_add_quest(tQuests, fn_filter_quests, iFromIdx + iIdx, pPlayer)
-        end
-        if i < iIdxLastRowEnds then
-            for j = nCols - 1, nCols - 1, 1 do
-                local iIdx = (nCols * j) + i
-
-                self:_try_add_quest(tQuests, fn_filter_quests, iFromIdx + iIdx, pPlayer)
-            end
-        end
-    end
+    self:_fetch_top_quests_index(tQuests, fn_filter_quests, iFromIdx, pPlayer, nQuests, nAvailable)
 
     return tQuests
 end
@@ -182,39 +192,6 @@ function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nQuests)
     return iIdx, iToIdx
 end
 
-local function fn_filter_root_quests(pQuest, pPlayer)
-    return ctAccessors:is_player_have_prerequisites(true, pPlayer, pQuest:get_start())
-end
-
-function CQuestGrid:_count_root_quests(pPlayer, tpPoolQuests)
-    local iCount = 0
-    for pQuest, _ in pairs(tpPoolQuests:get_entry_set()) do
-        if fn_filter_root_quests(pQuest, pPlayer) then
-            iCount = iCount + 1
-        end
-    end
-
-    return iCount
-end
-
-function CQuestGrid:_fetch_top_quests_by_pickability(pPlayer, nQuests, iIdx, iToIdx)
-    local fn_filter_quests = fn_filter_root_quests
-
-    local iCurIdx = iIdx
-    local iCurToIdx = iToIdx
-
-    local tQuests = {}
-    while #keys(tQuests) < nQuests and iCurIdx <= iCurToIdx do
-        local tCurQuests = self:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuests, iCurIdx, iCurToIdx)
-        table_merge(tQuests, tCurQuests)
-
-        iCurIdx = iCurIdx + 1
-        iCurToIdx = iCurToIdx - 1
-    end
-
-    return tQuests
-end
-
 function CQuestGrid:_fetch_quests_by_questline(tQuests)
     local rgpQuests = {}
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
@@ -243,9 +220,6 @@ function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
     local nQuestsRegional = math.ceil(RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO * nQuests)
     tpPoolQuests:insert_table(self:_fetch_top_quests_by_continent(pPlayer, nQuestsRegional, iIdx, iToIdx))
 
-    local nQuestsRoot = math.ceil(nQuests * RGraph.POOL_QUEST_FETCH_ROOT_RATIO) - self:_count_root_quests(pPlayer, tpPoolQuests)
-    tpPoolQuests:insert_table(self:_fetch_top_quests_by_pickability(pPlayer, nQuestsRoot, iIdx, iToIdx))
-
     local nLeft = nQuestsRegional - tpPoolQuests:size()
     local nQuestsOverall = math.ceil((1.0 - RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO) * nQuests)
     tpPoolQuests:insert_table(self:_fetch_top_quests_by_availability(pPlayer, nQuestsOverall + nLeft, iIdx, iToIdx))
@@ -272,8 +246,6 @@ end
 
 function CQuestGrid:length()
     local m_rgQuests = self.rgQuests
-    m_rgQuests:add(pQuest)
-
     return m_rgQuests:size()
 end
 
