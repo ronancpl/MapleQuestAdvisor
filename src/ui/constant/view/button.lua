@@ -80,6 +80,7 @@ RActionElement = {
 
     NAV_NEXT_QUEST = {
         LINE_WIDTH = 300,
+        LINE_HEIGHT = 30,
         POSITION = {135, 440}
     }
 

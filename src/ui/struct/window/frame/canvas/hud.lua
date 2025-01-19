@@ -59,6 +59,7 @@ CWndHud = createClass({
     iFontOngoingSize,
     pFontOngoingQuest,
     pTxtOngoingQuest,
+    rgsTxtOngoingWrap,
 
     pBtChannel = CWndChannel:new(),
     pTooltipChannel = CWndChannel:new(),
@@ -316,8 +317,10 @@ function CWndHud:_take_font_nav_player(sOngoingQuest)
         pFont = ctPoolFont:take_font(sFont, iSize)
         _, rgsTextWrap = pFont:getWrap(sOngoingQuest, RActionElement.NAV_QUEST.LINE_WIDTH)
 
-        if #rgsTextWrap < 2 or iSize < 15 then
-            self.iFontOngoingHeight = #rgsTextWrap * pFont:getHeight(sText)
+        local iFontHeight = #rgsTextWrap * pFont:getHeight(sText)
+        if (#rgsTextWrap < 3 and iFontHeight < RActionElement.NAV_QUEST.LINE_HEIGHT) or iSize < 15 then
+            self.iFontOngoingHeight = iFontHeight
+            self.rgsTxtOngoingWrap = rgsTextWrap
             break
         end
 
@@ -335,8 +338,6 @@ function CWndHud:_load_nav_player_text(pQuestProp)
 
     self.pFontOngoingQuest = self:_take_font_nav_player(sOngoingQuest)
     self.pTxtOngoingQuest = ctPoolFont:take_text(self.pFontOngoingQuest)
-
-    self.pTxtOngoingQuest:setf({{0, 0, 0}, sOngoingQuest}, RActionElement.NAV_QUEST.LINE_WIDTH, "center")
 end
 
 function CWndHud:_free_nav_player_text()
@@ -370,7 +371,15 @@ function CWndHud:_draw_player_quest()
     love.graphics.setColor(1, 1, 1, 0.7)
 
     self.pNavOngoingQuest:draw(iPx, iPy)
-    love.graphics.draw(self.pTxtOngoingQuest, iPx, iPy - math.floor(math.max((self:get_text_height() - 46) / 2) + RActionElement.NAV_QUEST.ST_Y, 0))
+
+    local m_rgsTxtOngoingWrap = self.rgsTxtOngoingWrap
+    for i = 1, #m_rgsTxtOngoingWrap, 1 do
+        local sOngoingText = m_rgsTxtOngoingWrap[i]
+
+        self.pTxtOngoingQuest:setf({{0, 0, 0}, sOngoingText}, RActionElement.NAV_QUEST.LINE_WIDTH, "center")
+        love.graphics.draw(self.pTxtOngoingQuest, iPx, iPy - math.floor(math.max((self:get_text_height() - 46 + ((i - 1) * self.pFontOngoingQuest:getHeight(sOngoingText))) / 2) + RActionElement.NAV_QUEST.ST_Y, 0))
+    end
+
     unlock_drawable_area()
 
     local iNx, iNy = unpack(RActionElement.NAV_NEXT_QUEST.POSITION)

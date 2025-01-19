@@ -62,7 +62,7 @@ function CQuestGrid:_ignore_quests_from_level(iLevel)
 
     local i = m_rgQuests:bsearch(fn_compare_quest_level, iLevel, true, true)
     if i > 0 then
-        m_rgQuests:remove(i)
+        m_rgQuests:remove(math.max(i, RGraph.POOL_MIN_QUESTS))
     end
 end
 
