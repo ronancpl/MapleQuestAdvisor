@@ -39,7 +39,7 @@ load_loot_retrieval_resources()
 for i = 1, 100, 1 do
     local pGridQuests = load_grid_quests(ctQuests)
     local pPlayer = create_player()
-    pGridQuests:ignore_underleveled_quests(pPlayer:get_level())
+    --pGridQuests:ignore_underleveled_quests(pPlayer:get_level())
 
     ctAccessors = init_quest_accessors()
     ctAwarders = init_quest_awarders()

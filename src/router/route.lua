@@ -17,7 +17,7 @@ require("solver.graph.lane")
 
 function generate_quest_route(pPlayer, pUiWmap)
     local pGridQuests = load_grid_quests(ctQuests)
-    pGridQuests:ignore_underleveled_quests(pPlayer:get_level())
+    --pGridQuests:ignore_underleveled_quests(pPlayer:get_level())
 
     local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
 

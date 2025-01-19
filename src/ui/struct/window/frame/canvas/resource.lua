@@ -82,6 +82,18 @@ function CWndResource:_update_resources(pQuestProp, pRscTree)
     end
 end
 
+local function has_field_npc(iNpcid, iMapid)
+    if iMapid > -1 then
+        for _, iNpcMapid in ipairs(ctNpcs:get_locations(iNpcid)) do
+            if iNpcMapid == iMapid then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
 function CWndResource:_export_resources_by_fields(rgiFields)
     local m_pProp = self.pProp
 
@@ -91,7 +103,7 @@ function CWndResource:_export_resources_by_fields(rgiFields)
         if pRscEntry ~= nil then
             local tiMobs = pRscEntry:get_mobs()
             local tiItems = pRscEntry:get_items()
-            local iNpc = pRscEntry:get_npc()
+            local iNpc = has_field_npc(pRscEntry:get_npc(), iMapid) and pRscEntry:get_npc() or -1
             local tFieldsEnter = pRscEntry:get_field_enter()
 
             pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)

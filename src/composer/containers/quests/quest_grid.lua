@@ -114,13 +114,13 @@ function CQuestGrid:_fetch_top_quests_index(tQuests, fn_filter_quests, iFromIdx,
         nRows = math.ceil(nAvailable / nParts)
         nCols = nParts
     else
-        nRows = 1
-        nCols = nAvailable
+        nRows = nAvailable
+        nCols = 1
     end
 
-    local iIdxLastRowEnds = ((nAvailable - 1) % nParts) + 1
+    local iIdxLastRowEnds = math.floor(nAvailable / nCols) - 1
 
-    for i = 0, nRows - 1, 1 do
+    for i = 0, nRows - 2, 1 do
         for j = 0, nCols - 2, 1 do
             local iIdx = ((nRows - 1) * j) + i
 

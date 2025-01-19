@@ -24,6 +24,7 @@ function CPlayerMetaTable:get_exp_to_next_level(iLevel)
     local iExpTnl = self.tExpTnl[iLevel]
     if iExpTnl == nil then
         log(LPath.FALLBACK, "exp_tnl.txt", "NOT found exp 'TO' level " .. tostring(iLevel))
+        iExpTnl = U_INT_MAX
     end
 
     return iExpTnl
