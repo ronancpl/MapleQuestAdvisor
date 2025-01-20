@@ -39,7 +39,7 @@ pEventHdl:install("ui.interaction.run.resource")
 
 log(LPath.INTERFACE, "load.txt", "Loading user data...")
 local pPlayer = load_csv_player("../" .. RPath.SAV_UPATH .. "/character.csv")
-load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/inventory.csv", function (pPlayer) return pPlayer:get_items():get_inventory() end)
+load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/inventory.csv", function (pPlayer) return pPlayer:get_items() end)
 load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/quest.csv", function (pPlayer) return pPlayer:get_quests() end)
 
 local siExpRate, siMesoRate, siDropRate = load_csv_rates("../" .. RPath.SAV_UPATH .. "/rates.csv")
@@ -83,11 +83,11 @@ pUiRscs:update_resources(nil, CSolverTree:new())
 pUiWmap:update_region(sWmapName, pUiRscs)
 
 local pTrack = pUiWmap:get_properties():get_track()
-pUiHud = load_frame_hud(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate)
+pUiHud = load_frame_hud(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
 
 player_lane_update_resources(pTrack, pUiRscs, pPlayer)
 player_lane_update_selectbox(pTrack, pUiHud)
-player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
+player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
 player_lane_update_hud(pTrack, pUiHud)
 
 pEventHdl:bind("ui.interaction.run.inventory", pUiInvt)

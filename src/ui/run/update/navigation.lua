@@ -81,8 +81,9 @@ function player_lane_update_selectbox(pTrack, pUiHud)
     pSlctQuest:set_text_options(rgsTextList, RActionElement.NAV_NEXT_QUEST.LINE_WIDTH)
 end
 
-function player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
-    pUiInvt:update_inventory(pIvtItems, pPlayer:get_meso())
+function player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
+    pPlayer:get_items():commit_reload()
+    pUiInvt:update_inventory(pPlayer:get_items():get_inventory(), pPlayer:get_meso())
     pUiStats:update_stats(pPlayer, siExpRate, siMesoRate, siDropRate)
     pUiWmap:update_region(sWmapName, pUiRscs)
 end

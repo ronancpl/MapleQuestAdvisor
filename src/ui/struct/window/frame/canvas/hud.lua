@@ -246,21 +246,21 @@ function CWndHud:_load_bt_update_player()
     self.pBtChannel:add_element(bt)
 end
 
-function CWndHud:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate)
+function CWndHud:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
     local bt = CButtonElem:new()
 
     bt:load(RActionButton.NAV_NEXT.PATH, unpack(RActionButton.NAV_NEXT.POSITION))
-    bt:set_fn_trigger(fn_bt_nav_next, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate})
+    bt:set_fn_trigger(fn_bt_nav_next, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate})
 
     self.btNavNext = bt
     self.pBtChannel:add_element(bt)
 end
 
-function CWndHud:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate)
+function CWndHud:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
     local bt = CButtonElem:new()
 
     bt:load(RActionButton.NAV_PREV.PATH, unpack(RActionButton.NAV_PREV.POSITION))
-    bt:set_fn_trigger(fn_bt_nav_prev, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate})
+    bt:set_fn_trigger(fn_bt_nav_prev, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate})
 
     self.btNavPrev = bt
     self.pBtChannel:add_element(bt)
@@ -397,7 +397,7 @@ function CWndHud:set_quest_data(tRoute, tQuests)
     self.btNavPrev:update_fn_trigger(nil, {self, nil, nil, tQuests, nil, nil, nil, nil, nil, nil, nil, nil})
 end
 
-function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate)
+function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
     --self:_load_bt_go(pPlayer)
     self:_load_bt_save(pPlayer, pUiStats, tRoute, tQuests)
     self:_load_bt_load(pUiStats, pPlayer)
@@ -409,8 +409,8 @@ function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiSt
 
     self:_load_bt_update_player()
 
-    self:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate)
-    self:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate)
+    self:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
+    self:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
     self:_load_sb_nav_select_quest()
 
     self:set_player_quest(pTrack)

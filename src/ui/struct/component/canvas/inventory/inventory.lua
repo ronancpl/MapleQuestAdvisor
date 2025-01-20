@@ -157,7 +157,7 @@ function CInvtElem:get_meso()
 end
 
 function CInvtElem:_stringify_meso(iMeso)
-    local rgiSp
+    local rgiR = {}
 
     local st = ""
 
@@ -165,14 +165,19 @@ function CInvtElem:_stringify_meso(iMeso)
     if iVal > 1 then
         while iVal >= 1 do
             local iR = iVal % 1000
-            st = "," .. iR .. st
+            table.insert(rgiR,iR)
 
             iVal = math.floor(iVal / 1000)
         end
 
-        return st:sub(2)
+        local st = ""
+        for i = #rgiR - 1, 1, -1 do
+            st = "," .. string.pad_number(rgiR[i], 3) .. st
+        end
+
+        return tostring(rgiR[#rgiR]) .. st
     else
-        return 0
+        return "0"
     end
 end
 

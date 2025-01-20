@@ -65,6 +65,13 @@ function CCompositeInventory:apply_limit_if_not_exists(rgiCompids, iDefQty)
     end
 end
 
+function CCompositeInventory:include_inventory(ivtInventory)
+    local rgEntries = ivtInventory:get_items()
+    for iId, iCount in pairs(rgEntries) do
+        self:add_item(iId, iCount)
+    end
+end
+
 function CCompositeInventory:commit_reload()
     self.ivtExport = nil
 end

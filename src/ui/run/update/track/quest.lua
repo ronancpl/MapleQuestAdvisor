@@ -30,7 +30,7 @@ local function fetch_name_worldmap_container(sWmapName, iMapid)
     return sWmapName
 end
 
-function fn_bt_nav_next(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
+function fn_bt_nav_next(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate, sWmapName)
     local pSlctBox = pUiHud:get_nav_select_quest()
 
     local iOpt = pSlctBox:get_opt()
@@ -47,13 +47,13 @@ function fn_bt_nav_next(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUi
 
             player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
             player_lane_update_selectbox(pTrack, pUiHud)
-            player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
+            player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
             player_lane_update_hud(pTrack, pUiHud)
         end
     end
 end
 
-function fn_bt_nav_prev(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, siExpRate, siMesoRate, siDropRate, sWmapName)
+function fn_bt_nav_prev(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate, sWmapName)
     local bMovedBack = player_lane_move_back(pTrack, pPlayerState, rgpPoolProps)
     player_lane_trim_back(pTrack)
 
@@ -65,7 +65,7 @@ function fn_bt_nav_prev(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUi
 
         player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
         player_lane_update_selectbox(pTrack, pUiHud)
-        player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pIvtItems, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
+        player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
         player_lane_update_hud(pTrack, pUiHud)
     end
 end

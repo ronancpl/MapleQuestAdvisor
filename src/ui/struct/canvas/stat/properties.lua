@@ -38,7 +38,7 @@ function CStatProperties:_set_info_character(pPlayer)
     m_pInfoChr:set_name(pPlayer:get_name())
     m_pInfoChr:set_job(pPlayer:get_job_name())
     m_pInfoChr:set_level(pPlayer:get_level())
-    m_pInfoChr:set_exp(pPlayer:get_exp())
+    m_pInfoChr:set_exp(ctPlayersMeta:get_exp_to_next_level(pPlayer:get_level()) < U_INT_MAX and pPlayer:get_exp() or 0)
     m_pInfoChr:set_fame(pPlayer:get_fame())
 end
 
