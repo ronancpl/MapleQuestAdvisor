@@ -209,7 +209,10 @@ function CQuestTable:get_next_quest_prop(pQuestProp)
 end
 
 function CQuestTable:add_next_quest_prop(pQuestProp, pNextQuestProp)
-    self.tpNextQuestProps[pQuestProp] = self.tpNextQuestProps[pQuestProp] or pNextQuestProp
+    local pNextProp = self.tpNextQuestProps[pQuestProp]
+    if pNextProp == nil or pNextQuestProp:get_quest_id() < pNextProp:get_quest_id() then
+        self.tpNextQuestProps[pQuestProp] = pNextQuestProp
+    end
 end
 
 function CQuestTable:_build_quest_path(pQuestProp)
