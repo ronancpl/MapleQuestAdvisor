@@ -176,14 +176,67 @@ function CQuestGrid:_fetch_top_quests_by_availability(pPlayer, nQuests, iFromIdx
     return tQuests
 end
 
+function CQuestGrid:_fetch_searchable_range_min(iIdx, nRange)
+    if nRange > 0 then
+        local m_rgQuests = self.rgQuests
+        local nQuests = self:length()
+
+        local iLevel = m_rgQuests:get(iIdx):get_starting_level()
+        local iLevelRange = 0
+
+        iIdx = iIdx - 1
+        while iIdx > 0 do
+            local iQuestLevel = m_rgQuests:get(iIdx):get_starting_level()
+            iIdx = iIdx - 1
+
+            if iLevel ~= iQuestLevel then
+                iLevel = iQuestLevel
+
+                iLevelRange = iLevelRange + 1
+                if iLevelRange >= nRange then
+                    break
+                end
+            end
+        end
+    end
+
+    return iIdx + 1
+end
+
+function CQuestGrid:_fetch_searchable_range_max(iIdx, nRange)
+    if nRange > 0 then
+        local m_rgQuests = self.rgQuests
+        local nQuests = self:length()
+
+        local iLevel = m_rgQuests:get(iIdx):get_starting_level()
+        local iLevelRange = 0
+
+        iIdx = iIdx + 1
+        while iIdx <= nQuests do
+            local iQuestLevel = m_rgQuests:get(iIdx):get_starting_level()
+            iIdx = iIdx + 1
+
+            if iLevel ~= iQuestLevel then
+                iLevel = iQuestLevel
+
+                iLevelRange = iLevelRange + 1
+                if iLevelRange >= nRange then
+                    break
+                end
+            end
+        end
+    end
+
+    return iIdx - 1
+end
+
 function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nQuests)
     local m_rgQuests = self.rgQuests
 
-    local iLevelAhead = pPlayer:get_level() + RGraph.POOL_AHEAD_QUEST_LEVEL
-    local iLevelBehind = pPlayer:get_level() - RGraph.POOL_BEHIND_QUEST_LEVEL
+    local iPlayerIdx = m_rgQuests:bsearch(fn_compare_quest_level, pPlayer:get_level(), true, true)
 
-    local iIdx = math.max(m_rgQuests:bsearch(fn_compare_quest_level, iLevelAhead, true, true), 1)
-    local iToIdx = m_rgQuests:bsearch(fn_compare_quest_level, iLevelBehind, true, true)
+    local iIdx = self:_fetch_searchable_range_min(iPlayerIdx, RGraph.POOL_AHEAD_LEVEL_RANGE)
+    local iToIdx = self:_fetch_searchable_range_max(iPlayerIdx, RGraph.POOL_BEHIND_LEVEL_RANGE)
 
     if iToIdx - iIdx < nQuests then
         iToIdx = math.min(m_rgQuests:size(), iIdx + nQuests)
@@ -241,7 +294,7 @@ function CQuestGrid:fetch_quests_by_list(rgiQuests)
 end
 
 function CQuestGrid:ignore_underleveled_quests(iLevel)
-    self:_ignore_quests_from_level(iLevel - RGraph.POOL_BEHIND_QUEST_LEVEL)
+    self:_ignore_quests_from_level(iLevel - RGraph.POOL_BEHIND_LEVEL_RANGE)
 end
 
 function CQuestGrid:length()
