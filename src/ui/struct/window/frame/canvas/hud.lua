@@ -153,7 +153,7 @@ end
 
 function CWndHud:_fn_bt_load_player()
     local pPlayer = load_csv_player("../" .. RPath.SAV_UPATH .. "/character.csv")
-    load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/inventory.csv", function (pPlayer) return pPlayer:get_items():get_inventory() end)
+    load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/inventory.csv", function (pPlayer) return pPlayer:get_items() end)
     load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/quest.csv", function (pPlayer) return pPlayer:get_quests() end)
 
     local pPlayerState = pUiWmap:get_player()
@@ -161,8 +161,18 @@ function CWndHud:_fn_bt_load_player()
     pPlayerState:import_table(pPlayer:export_table())
     pPlayerState:import_inventory_tables(pPlayer:export_inventory_tables())
 
+    local pInfoSrv = pUiStats:get_properties():get_info_server()
+    local siExpRate = pInfoSrv:get_exp_rate()
+    local siMesoRate = pInfoSrv:get_meso_rate()
+    local siDropRate = pInfoSrv:get_drop_rate()
+
     local sWmapName = pUiWmap:get_properties():get_worldmap_name()
-    pUiWmap:update_region(sWmapName, pUiRscs)
+    player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
+
+    local pTrack = pUiWmap:get_properties():get_track()
+    local pRouteLane, tQuests, tRoute = generate_quest_route(pPlayer, pUiWmap)
+    pTrack:load(pRouteLane)
+    pUiHud:set_quest_data(tRoute, tQuests)
 end
 
 function CWndHud:_load_bt_load(pUiStats, pPlayer)
