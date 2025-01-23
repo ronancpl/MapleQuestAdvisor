@@ -19,7 +19,7 @@ CRefineTable = createClass({
     tRefineReferrers = {}
 })
 
-function CRefineTable:add_refine_entry(iItemidToCreate, rgpComposition)
+function CRefineTable:add_refine_entry(iItemidToCreate, iCountToCreate, rgpComposition)
     local tiCompositionNodes = {}
 
     for _, pComp in ipairs(rgpComposition) do
@@ -32,18 +32,21 @@ function CRefineTable:add_refine_entry(iItemidToCreate, rgpComposition)
     end
 
     local pRefineEntry = CRefineEntry:new({iItemid = iItemidToCreate, tiComposition = tiCompositionNodes})
-    self.tRefineItems[iItemidToCreate] = pRefineEntry
+    self.tRefineItems[iItemidToCreate] = {iCountToCreate, pRefineEntry}
 end
 
 function CRefineTable:get_refine_entry(iItemidToCreate)
-    return self.tRefineItems[iItemidToCreate]
+    if self.tRefineItems[iItemidToCreate] == nil then return nil, nil end
+    return self.tRefineItems[iItemidToCreate][1], self.tRefineItems[iItemidToCreate][2]
 end
 
 function CRefineTable:make_remissive_index_item_referrer()
     local m_tRefineReferrers = self.tRefineReferrers
     local m_tRefineItems = self.tRefineItems
 
-    for iItemidToCreate, pRefineEntry in pairs(m_tRefineItems) do
+    for iItemidToCreate, pRefine in pairs(m_tRefineItems) do
+        local pRefineEntry = pRefine[2]
+
         for iItemid, _ in pairs(pRefineEntry:get_composition()) do
             local rgiRefs = m_tRefineReferrers[iItemid]
             if rgiRefs == nil then
@@ -66,21 +69,24 @@ function CRefineTable:debug_refines()
     local m_tRefineItems = self.tRefineItems
 
     print(" ------ Refine table ------ ")
-    for iItemid, pRefineEntry in pairs(m_tRefineItems) do
+    for iItemid, pRefine in pairs(m_tRefineItems) do
+        local iCount = pRefine[1]
+        local pRefineEntry = pRefine[2]
+
         local st = ""
         for iItemid, iCount in pairs(pRefineEntry:get_composition()) do
-            st = st .. iItemid .. ":" .. iCount .. ", "
+            st = st .. tostring(iItemid) .. ":" .. tostring(iCount) .. ", "
         end
-        print(iItemid .. " == [" .. st .. "]")
+        print(tostring(iItemid) .. "x" .. tostring(iCount) .. " == [" .. st .. "]")
     end
 
     print(" ---- Refine referrers ---- ")
     for iItemid, rgiRefs in pairs(m_tRefineReferrers) do
         local st = ""
         for _, iRef in pairs(rgiRefs) do
-            st = st .. iRef .. ", "
+            st = st .. tostring(iRef) .. ", "
         end
-        print(iItemid .. " == [" .. st .. "]")
+        print(tostring(iItemid) .. " == [" .. st .. "]")
     end
 
     os.execute("pause")

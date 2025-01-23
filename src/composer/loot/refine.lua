@@ -16,18 +16,19 @@ require("utils.provider.text.table")
 local function load_refines_table(ctRefine, sFilePath)
     local tRefineEntries = read_plain_table(sFilePath)
     for _, rgpRefineEntry in ipairs(tRefineEntries) do
-        local iItemidToCreate = tonumber(rgpRefineEntry[1])
+        local iCountToCreate = tonumber(rgpRefineEntry[1])
+        local iItemidToCreate = tonumber(rgpRefineEntry[2])
 
         local rgpComposition = {}
         local nRefineEntry = #rgpRefineEntry
-        for i = 2, nRefineEntry, 2 do
+        for i = 3, nRefineEntry, 2 do
             local iItemid = tonumber(rgpRefineEntry[i])
             local iQty = tonumber(rgpRefineEntry[i + 1])
 
             table.insert(rgpComposition, {iItemid, iQty})
         end
 
-        ctRefine:add_refine_entry(iItemidToCreate, rgpComposition)
+        ctRefine:add_refine_entry(iItemidToCreate, iCountToCreate, rgpComposition)
     end
 end
 

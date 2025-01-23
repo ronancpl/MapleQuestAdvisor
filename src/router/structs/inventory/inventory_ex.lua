@@ -38,9 +38,9 @@ function CCompositeInventory:add_item(iId, iCount)
     add_item(self, iId, iCount)
 end
 
-function CCompositeInventory:get_limit(tiComp, rgiItemids)
+function CCompositeInventory:get_limit(tiComp, rgiItemids, iRefineCount)
     local iCompLimit = U_INT_MAX
-    local iReqCount = 1
+    local iReqCount = iRefineCount
 
     for _, iItemid in ipairs(rgiItemids) do
         local iCompCount = self.ttiCompLimits[iItemid]
@@ -90,7 +90,7 @@ function CCompositeInventory:get_inventory()
 end
 
 function CCompositeInventory:export_table()
-    return self:get_inventory():export_table()
+    return self:get_raw():export_table()
 end
 
 function CCompositeInventory:import_table(tpItems)

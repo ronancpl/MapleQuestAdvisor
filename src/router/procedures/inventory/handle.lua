@@ -43,7 +43,7 @@ local function handlify_upper(ctRefine, ivtEx, iId, iQty)
         local rgiRefs = ctRefine:get_item_referrers(iItemid)
         if rgiRefs ~= nil then
             for _, iRefid in ipairs(rgiRefs) do
-                local pRefineEntry = ctRefine:get_refine_entry(iRefid)
+                local iRefineCount, pRefineEntry = ctRefine:get_refine_entry(iRefid)
 
                 local tiComp = pRefineEntry:get_composition()
                 local iReqCount = tiComp[iItemid]
@@ -55,7 +55,7 @@ local function handlify_upper(ctRefine, ivtEx, iId, iQty)
                     local rgiCompids = keys(tiComp)
 
                     ivtEx:apply_limit_if_not_exists(rgiCompids, 0)
-                    local iRefCount = ivtEx:get_limit(tiComp, rgiCompids)
+                    local iRefCount = ivtEx:get_limit(tiComp, rgiCompids, iRefineCount)
 
                     ivtComp:set_item(iRefid, iRefCount)
                     table.insert(rgpUpdated, {iRefid, iRefCount})
@@ -78,7 +78,7 @@ local function handlify_lower(ctRefine, ivtRaw, ivtComp, iId, iQty)
             ivtRaw:add_item(iId, -iRawCount)
             ivtComp:add_item(iId, iNextCount)
 
-            local pRefineEntry = ctRefine:get_refine_entry(iId)
+            local iRefCount, pRefineEntry = ctRefine:get_refine_entry(iId)
             if pRefineEntry ~= nil then
                 for iReqId, iReqCount in pairs(pRefineEntry:get_composition()) do
                     tpCompUpdt[iReqId] = ((tpCompUpdt[iReqId] or 0) + iNextCount) * iReqCount
