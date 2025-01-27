@@ -47,7 +47,7 @@ function CStatNavText:build(pStatProp)
     -- add layer elements (server)
     local pInfoSrv = pStatProp:get_info_server()
 
-    self:_build_element(pInfoSrv:get_exp_rate(), 60, 245)
-    self:_build_element(pInfoSrv:get_meso_rate(), 60, 263)
-    self:_build_element(pInfoSrv:get_drop_rate(), 60, 281)
+    self:_build_element("(EXP Rate: " .. pInfoSrv:get_exp_rate() .. "x)", 60, 245)
+    self:_build_element("(MESO Rate: " .. pInfoSrv:get_meso_rate() .. "x)", 60, 263)
+    self:_build_element("(DROP Rate: " .. pInfoSrv:get_drop_rate() .. "x)", 60, 281)
 end

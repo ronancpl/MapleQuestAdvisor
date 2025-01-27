@@ -40,7 +40,7 @@ end
 
 function CCompositeInventory:get_limit(tiComp, rgiItemids, iRefineCount)
     local iCompLimit = U_INT_MAX
-    local iReqCount = iRefineCount
+    local iReqCount = 1
 
     for _, iItemid in ipairs(rgiItemids) do
         local iCompCount = self.ttiCompLimits[iItemid]
@@ -50,7 +50,7 @@ function CCompositeInventory:get_limit(tiComp, rgiItemids, iRefineCount)
         end
     end
 
-    return math.floor(iCompLimit / iReqCount)
+    return math.floor(iCompLimit / iReqCount) * iRefineCount
 end
 
 function CCompositeInventory:apply_limit(iItemid, iQty)

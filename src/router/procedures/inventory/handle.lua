@@ -78,7 +78,7 @@ local function handlify_lower(ctRefine, ivtRaw, ivtComp, iId, iQty)
             ivtRaw:add_item(iId, -iRawCount)
             ivtComp:add_item(iId, iNextCount)
 
-            local iRefCount, pRefineEntry = ctRefine:get_refine_entry(iId)
+            local _, pRefineEntry = ctRefine:get_refine_entry(iId)
             if pRefineEntry ~= nil then
                 for iReqId, iReqCount in pairs(pRefineEntry:get_composition()) do
                     tpCompUpdt[iReqId] = ((tpCompUpdt[iReqId] or 0) + iNextCount) * iReqCount
