@@ -22,9 +22,16 @@ local function select_quest_ahead(pPlayerState, pTrack, iOpt)
     return rgpQuestProps[iOpt]
 end
 
+local function is_worldmap_container(iWmapid1, iWmapid2)
+    return iWmapid1 == iWmapid2 or iWmapid1 == (math.floor(iWmapid2 / 10) * 10)
+end
+
 local function fetch_name_worldmap_container(sWmapName, iMapid)
-    if sWmapName ~= ctFieldsWmap:get_worldmap_name_by_area(iMapid) then
-        sWmapName = "WorldMap"
+    local sBaseWmapName = "WorldMap"
+    local iWmapid = tonumber(sWmapName:sub(-3))
+
+    if iWmapid == nil or not is_worldmap_container(iWmapid, ctFieldsWmap:get_worldmapid_by_area(iMapid)) then
+        sWmapName = sBaseWmapName
     end
 
     return sWmapName

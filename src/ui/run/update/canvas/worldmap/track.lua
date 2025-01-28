@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("solver.graph.tree.component")
 require("solver.lookup.constant")
 require("ui.constant.view.worldmap")
@@ -81,6 +82,7 @@ end
 
 local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, pDirHelperQuads)
     local rgiWmapRegionids = get_worldmap_regionids(pUiWmap)
+    local bBaseWmap = (pUiWmap:get_properties():get_worldmap_name() == S_WORLDMAP_BASE)
 
     -- verify if current worldmap contains the player and destination
     local iOrigMapid = pRegionRscTree:get_field_source()
@@ -89,13 +91,15 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
     local iRegionidOrig = ctFieldsLandscape:get_region_by_mapid(iOrigMapid) or -1
     local iRegionidDest = ctFieldsLandscape:get_region_by_mapid(iDestMapid) or -1
 
+    local iRegionidPlayer = ctFieldsLandscape:get_region_by_mapid(pPlayer:get_mapid())
+
     -- setup tooltips for player, destination & stations present
     local bStaticSrc = nil
     local sTooltipSrc = nil
     if is_worldmap_subregion(iRegionidOrig, rgiWmapRegionids) then
-        if iRegionidOrig == ctFieldsLandscape:get_region_by_mapid(pPlayer:get_mapid()) then
+        if iRegionidOrig == iRegionidPlayer then
             sTooltipSrc = RWmapTooltipType.PLAYER
-            bStaticSrc = RWmapMarkerState.PLAYER
+            bStaticSrc = (iRegionidPlayer == iRegionidOrig or iRegionidDest == -1 or bBaseWmap) and RWmapMarkerState.PLAYER or RWmapMarkerState.STATION_IN
         else
             bStaticSrc = RWmapMarkerState.STATION_IN
         end
@@ -103,10 +107,10 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
 
     local bStaticDest = nil
     local sTooltipDest = nil
-    if is_worldmap_subregion(iRegionidDest, rgiWmapRegionids) --[[and has_quest_npc(pRegionRscTree, iDestMapid)--]] then
+    if is_worldmap_subregion(iRegionidDest, rgiWmapRegionids) then
         if has_quest_npc(pRegionRscTree, iDestMapid) then   -- current region has NPC
             sTooltipDest = RWmapTooltipType.TARGET
-            bStaticDest = RWmapMarkerState.TARGET
+            bStaticDest = (iRegionidOrig == iRegionidDest or iRegionidDest == -1 or bBaseWmap) and RWmapMarkerState.TARGET or RWmapMarkerState.STATION_OUT
         elseif iRegionidOrig ~= iRegionidDest then
             bStaticDest = RWmapMarkerState.STATION_OUT
         end

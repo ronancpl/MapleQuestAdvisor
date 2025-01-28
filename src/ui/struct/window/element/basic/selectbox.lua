@@ -170,6 +170,7 @@ function CSelectBoxElem:_fetch_text_opt(iIdx, bTextCover)
     local m_rgpFontOpts = self.rgpFontOpts
     local m_rgsTextList = self.rgsTextList
 
+    iIdx = math.iclamp(iIdx, 1, #m_rgpFontOpts)
     local pFontOpt = m_rgpFontOpts[iIdx]
     local sText = m_rgsTextList[iIdx]
 
