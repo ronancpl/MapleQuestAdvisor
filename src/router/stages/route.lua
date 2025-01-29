@@ -43,7 +43,7 @@ local function fn_compare_quest_id(a, b)
     return CQuestProperties.compare(a, b) < 0
 end
 
-function make_quest_pool_list(tQuests)
+function make_quest_pool_list(tQuests, pPlayerState)
     local rgpPool = SArray:new()
 
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
@@ -54,7 +54,7 @@ function make_quest_pool_list(tQuests)
         rgpPool:add(pQuestProp)
 
         pQuestProp = pQuest:get_end()
-        pQuestProp:set_active_on_grid(false)
+        pQuestProp:set_active_on_grid(pPlayerState:get_quests():get_item(pQuest:get_quest_id()) > 0)
         rgpPool:add(pQuestProp)
     end
 
@@ -210,10 +210,13 @@ end
 
 local function route_internal(tQuests, pPlayer, pQuest, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     local pPlayerState = pPlayer:clone()
-    local pQuestProp = pQuest:get_start()
+
+    local pQuestProp = (pPlayerState:get_quests():get_item(pQuest:get_quest_id()) < 1) and pQuest:get_start() or pQuest:get_end()
+    pQuestProp:set_active_on_grid(true)
+
     local pCurrentPath = CQuestPath:new()
 
-    local rgpPoolProps = make_quest_pool_list(tQuests)
+    local rgpPoolProps = make_quest_pool_list(tQuests, pPlayerState)
     apply_initial_player_state(pPlayerState, rgpPoolProps)  -- set up quest properties for graphing
 
     if is_eligible_root_quest(pQuestProp, pCurrentPath, pPlayerState, ctAccessors) then

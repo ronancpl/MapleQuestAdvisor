@@ -136,7 +136,7 @@ local function route_internal(tQuests, pPlayer, rgpQuestProps, pLeadingPath, ctA
     local pPlayerState = pPlayer:clone()
     local pCurrentPath = CQuestPath:new()
 
-    local rgpPoolProps = make_quest_pool_list(tQuests)
+    local rgpPoolProps = make_quest_pool_list(tQuests, pPlayerState)
     apply_initial_player_state(pPlayerState, rgpPoolProps)  -- set up quest properties for graphing
 
     if #rgpQuestProps > 0 then

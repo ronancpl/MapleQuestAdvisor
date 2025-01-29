@@ -205,14 +205,18 @@ function CQuestTable:add_questline(pQuest, pFirstQuest)
 end
 
 function CQuestTable:get_next_quest_prop(pQuestProp)
-    return self.tpNextQuestProps[pQuestProp]
+    return self.tpNextQuestProps[pQuestProp] or {}
 end
 
 function CQuestTable:add_next_quest_prop(pQuestProp, pNextQuestProp)
-    local pNextProp = self.tpNextQuestProps[pQuestProp]
-    if pNextProp == nil or pNextQuestProp:get_quest_id() < pNextProp:get_quest_id() then
-        self.tpNextQuestProps[pQuestProp] = pNextQuestProp
+    local m_tpNextQuestProps = self.tpNextQuestProps
+    local rgpNextProps = m_tpNextQuestProps[pQuestProp]
+    if rgpNextProps == nil then
+        rgpNextProps = {}
+        m_tpNextQuestProps[pQuestProp] = rgpNextProps
     end
+
+    table.insert(rgpNextProps, pNextQuestProp)
 end
 
 function CQuestTable:_build_quest_path(pQuestProp)

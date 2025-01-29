@@ -63,8 +63,8 @@ function fetch_neighbors(rgpPoolProps, pFrontierQuests, pCurrentPath, pPlayerSta
 
     local pQuestCurrent = pCurrentPath:peek()
 
-    local pNextQuestProp = ctQuests:get_next_quest_prop(pQuestCurrent)
-    if pNextQuestProp ~= nil then   -- select next quest from questline over quests from the pool
+    local rgpNextQuestProps = ctQuests:get_next_quest_prop(pQuestCurrent)
+    for _, pNextQuestProp in ipairs(rgpNextQuestProps) do   -- select next quest from questline over quests from the pool
         fetch_eligible_neighbor(rgpNeighbors, pNextQuestProp, pFrontierQuests, pCurrentPath, pPlayerState, ctAccessors)
     end
 

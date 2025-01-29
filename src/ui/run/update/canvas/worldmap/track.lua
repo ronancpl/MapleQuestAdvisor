@@ -110,7 +110,7 @@ local function update_worldmap_resource_nodes(pUiWmap, pRegionRscTree, pPlayer, 
     if is_worldmap_subregion(iRegionidDest, rgiWmapRegionids) then
         if has_quest_npc(pRegionRscTree, iDestMapid) then   -- current region has NPC
             sTooltipDest = RWmapTooltipType.TARGET
-            bStaticDest = (iRegionidOrig == iRegionidDest or iRegionidDest == -1 or bBaseWmap) and RWmapMarkerState.TARGET or RWmapMarkerState.STATION_OUT
+            bStaticDest = ((iRegionidOrig == iRegionidDest and bStaticSrc ~= RWmapMarkerState.STATION_IN) or iRegionidDest == -1 or bBaseWmap) and RWmapMarkerState.TARGET or RWmapMarkerState.STATION_OUT
         elseif iRegionidOrig ~= iRegionidDest then
             bStaticDest = RWmapMarkerState.STATION_OUT
         end
