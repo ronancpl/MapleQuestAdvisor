@@ -135,7 +135,7 @@ function CTracePath:_route_fetch_path_follow_ahead(pPath)
     return rgpFollowQuestProps
 end
 
-local function fetch_quests_in_path(tQuests, pPath)
+local function append_quests_in_path(tQuests, pPath)
     local tPathQuests = {}
     for _, pQuestProp in ipairs(pPath:list()) do
         tPathQuests[ctQuests:get_quest_by_id(pQuestProp:get_quest_id())] = 1
@@ -161,7 +161,7 @@ function CTracePath:_route_ahead(pPlayerState, pPath)
 
         local pRouteLane, tQuests, tRoute
         pRouteLane, tQuests, tRoute = generate_quest_route(pPlayerCopy, pUiWmap)
-        fetch_quests_in_path(tQuests, pPath)
+        append_quests_in_path(tQuests, pPath)
 
         pUiHud:set_quest_data(tRoute, tQuests)
         pSublane:add_sublane(pLastQuestProp, pRouteLane)

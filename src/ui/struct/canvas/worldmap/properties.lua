@@ -28,8 +28,7 @@ CWmapProperties = createClass({
     rgpMapLink = {},
     tpMapMarker = {},
     pTrack,
-
-    pRouteLane
+    pPlayer = nil
 })
 
 function CWmapProperties:reset_map_fields()
@@ -49,19 +48,15 @@ function CWmapProperties:reset()
 
     self:reset_map_fields()
     clear_table(self.rgpMapLink)
-
-    local pTrack = CTracePath:new()
-    pTrack:load(self:get_quest_route())     -- must clear route specifically
-    self.pTrack = pTrack
 end
 
-function CWmapProperties:get_quest_route()
-    return self.pRouteLane
+function CWmapProperties:get_track()
+    return self.pTrack
 end
 
 function CWmapProperties:set_quest_route(pQuestLane)
-    self.pRouteLane = pQuestLane
-    self:reset()
+    self.pTrack = CTracePath:new()
+    self.pTrack:load(pQuestLane)
 end
 
 function CWmapProperties:get_parent_map()
@@ -74,7 +69,6 @@ end
 
 function CWmapProperties:get_worldmap_name()
     return self.sWmapName
-
 end
 
 function CWmapProperties:set_worldmap_name(sWmapName)
@@ -137,8 +131,12 @@ function CWmapProperties:set_origin(iCx, iCy)
     self.iCy = iCy
 end
 
-function CWmapProperties:get_track()
-    return self.pTrack
+function CWmapProperties:get_player()
+    return self.pPlayer
+end
+
+function CWmapProperties:set_player(pPlayer)
+    self.pPlayer = pPlayer
 end
 
 function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)

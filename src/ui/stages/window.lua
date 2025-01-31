@@ -64,31 +64,22 @@ log(LPath.INTERFACE, "load.txt", "Visualizing region '" .. sWmapName .. "'")
 local iMapid = pPlayer:get_mapid()
 pPlayer:move_access_mapid(iMapid)
 pPlayer:move_access_mapid(iMapid)
-pUiWmap:set_player(pPlayer)
+pUiWmap:get_properties():set_player(pPlayer)
 
-local _, tQuests, tRoute
-
-local bStartup = true
-if bStartup then
-    local pPlayerRoute = pPlayer:clone()
-    _, tQuests, tRoute = generate_quest_route(pPlayerRoute, pUiWmap)
-
-    --pUiHud:_fn_bt_save(pPlayer, pUiStats, tRoute, tQuests)
-else
-    --pUiHud:_fn_bt_load(pUiStats, pPlayer)
-    --pUiHud:_fn_bt_go(pPlayer)
-end
+local pPlayerRoute = pPlayer:clone()
+local pRouteLane, tQuests, tRoute = generate_quest_route(pPlayerRoute, pUiWmap)
+pUiWmap:get_properties():set_quest_route(pRouteLane)
 
 pUiRscs:update_resources(nil, CSolverTree:new())
-pUiWmap:update_region(sWmapName, pUiRscs)
+pUiWmap:update_region(sWmapName, pUiRscs, nil)
 
 local pTrack = pUiWmap:get_properties():get_track()
-pUiHud = load_frame_hud(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
+pUiHud = load_frame_hud(pTrack, pPlayer, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
 
 player_lane_update_resources(pTrack, pUiRscs, pPlayer)
-player_lane_update_selectbox(pTrack, pUiHud)
 player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
 player_lane_update_hud(pTrack, pUiHud)
+player_lane_update_selectbox(pTrack, pUiHud)
 
 pEventHdl:bind("ui.interaction.run.inventory", pUiInvt)
 pEventHdl:bind("ui.interaction.run.stat", pUiStats)
@@ -107,6 +98,6 @@ pWndHandler:set_focus_wnd(pUiHud)
 
 local btGo, btSave, btLoad, btDelete = pUiHud:get_buttons_route()
 --btGo:update_state(RButtonState.DISABLED)
-btSave:update_state(RButtonState.DISABLED)
-btLoad:update_state(RButtonState.DISABLED)
-btDelete:update_state(RButtonState.DISABLED)
+--btSave:update_state(RButtonState.DISABLED)
+--btLoad:update_state(RButtonState.DISABLED)
+--btDelete:update_state(RButtonState.DISABLED)

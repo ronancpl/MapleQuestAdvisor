@@ -85,7 +85,7 @@ function player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayer, 
     pPlayer:get_items():commit_reload()
     pUiInvt:update_inventory(pPlayer:get_items():get_inventory(), pPlayer:get_meso())
     pUiStats:update_stats(pPlayer, siExpRate, siMesoRate, siDropRate)
-    pUiWmap:update_region(sWmapName, pUiRscs)
+    pUiWmap:update_region(sWmapName, pUiRscs, nil)
 end
 
 function player_lane_update_hud(pTrack, pUiHud)

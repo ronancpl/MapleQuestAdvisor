@@ -37,9 +37,11 @@ local function fetch_name_worldmap_container(sWmapName, iMapid)
     return sWmapName
 end
 
-function fn_bt_nav_next(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate, sWmapName)
-    local pSlctBox = pUiHud:get_nav_select_quest()
+function fn_bt_nav_next(pUiHud, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
+    local pTrack = pUiWmap:get_properties():get_track()
+    local pPlayerState = pUiWmap:get_properties():get_player()
 
+    local pSlctBox = pUiHud:get_nav_select_quest()
     local iOpt = pSlctBox:get_opt()
     if iOpt ~= nil then
         local pQuestProp = select_quest_ahead(pPlayerState, pTrack, iOpt)
@@ -53,14 +55,17 @@ function fn_bt_nav_next(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUi
             sWmapName = fetch_name_worldmap_container(sWmapName,pPlayerState:get_mapid())
 
             player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
-            player_lane_update_selectbox(pTrack, pUiHud)
             player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
             player_lane_update_hud(pTrack, pUiHud)
+            player_lane_update_selectbox(pTrack, pUiHud)
         end
     end
 end
 
-function fn_bt_nav_prev(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate, sWmapName)
+function fn_bt_nav_prev(pUiHud, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate, sWmapName)
+    local pTrack = pUiWmap:get_properties():get_track()
+    local pPlayerState = pUiWmap:get_properties():get_player()
+
     local bMovedBack = player_lane_move_back(pTrack, pPlayerState, rgpPoolProps)
     player_lane_trim_back(pTrack)
 
@@ -68,11 +73,11 @@ function fn_bt_nav_prev(pUiHud, pTrack, pPlayerState, rgpPoolProps, pUiWmap, pUi
     pUiWmap:reset_region(pUiRscs, pPlayerState)
 
     if bMovedBack then
-        sWmapName = fetch_name_worldmap_container(sWmapName,pPlayerState:get_mapid())
+        sWmapName = fetch_name_worldmap_container(sWmapName, pPlayerState:get_mapid())
 
         player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
-        player_lane_update_selectbox(pTrack, pUiHud)
         player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
         player_lane_update_hud(pTrack, pUiHud)
+        player_lane_update_selectbox(pTrack, pUiHud)
     end
 end

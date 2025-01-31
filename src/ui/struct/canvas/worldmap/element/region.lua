@@ -82,7 +82,7 @@ end
 function CWmapElemRegionLink:_access_inner_map()
     local sWmapName = self:get_link_map()
     if sWmapName ~= "" then
-        pUiWmap:update_region(sWmapName, pUiRscs)
+        pUiWmap:update_region(sWmapName, pUiRscs, nil)
     end
 end
 

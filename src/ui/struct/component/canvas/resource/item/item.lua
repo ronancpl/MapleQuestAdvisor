@@ -155,7 +155,7 @@ function CRscElemItem:_access_field_ref()
             end
         end
 
-        local pPlayer = pUiWmap:get_player()
+        local pPlayer = pUiWmap:get_properties():get_player()
         local iRegionid = get_area_regionid(pPlayer)
         local rgiFields = trgiFields[iRegionid]
         if rgiFields ~= nil and #rgiFields > 0 then

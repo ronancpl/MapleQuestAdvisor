@@ -220,7 +220,10 @@ end
 function CPlayer:move_access_mapid(iMapid)
     local m_pStackVisitedMapids = self.pStackVisitedMapids
     local iPlayerMapid = m_pStackVisitedMapids:get_top()
-    m_pStackVisitedMapids:push(iMapid)
+
+    if iMapid ~= nil then
+        m_pStackVisitedMapids:push(iMapid)
+    end
 
     if iPlayerMapid ~= nil and iPlayerMapid > -1 then
         self:set_mapid(iPlayerMapid)

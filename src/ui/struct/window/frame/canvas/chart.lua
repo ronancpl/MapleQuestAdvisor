@@ -29,9 +29,7 @@ require("utils.struct.class")
 CWndWmap = createClass({CWndBase, {
     pCanvas = CWndCanvas:new(),
     pProp = CWmapProperties:new(),
-    pCache = CWmapStorage:new(),
-
-    pPlayer = nil
+    pCache = CWmapStorage:new()
 }})
 
 function CWndWmap:get_properties()
@@ -44,14 +42,6 @@ end
 
 function CWndWmap:set_window_position(iRx, iRy)
     self:set_position(iRx, iRy)
-end
-
-function CWndWmap:get_player()
-    return self.pPlayer
-end
-
-function CWndWmap:set_player(pPlayer)
-    self.pPlayer = pPlayer
 end
 
 local function is_marker_active(pPropMarker, rgiMapids)
@@ -105,7 +95,7 @@ function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc)
 
     self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
 
-    local pPlayer = self:get_player()
+    local pPlayer = self:get_properties():get_player()
     if pPlayer ~= nil then
         self:reset_region(pUiRscs, pPlayer)
     end

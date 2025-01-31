@@ -82,9 +82,9 @@ end
 
 function CButtonElem:update_fn_trigger(fn_act, ...)
     local m_rgpArgs = self.rgpArgs
-    local rgpUpdArgs = ...
+    local rgpUpdArgs = ... or {}
 
-    for i = 1, #m_rgpArgs, 1 do
+    for i = 1, #rgpUpdArgs, 1 do
         m_rgpArgs[i] = rgpUpdArgs[i] or m_rgpArgs[i]
     end
 

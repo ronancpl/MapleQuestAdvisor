@@ -24,7 +24,5 @@ function generate_quest_route(pPlayer, pUiWmap)
     local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
     local pRouteLane = generate_subpath_lane(tRoute)
 
-    pUiWmap:get_properties():set_quest_route(pRouteLane)
-
     return pRouteLane, tQuests, tRoute
 end

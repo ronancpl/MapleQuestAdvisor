@@ -110,22 +110,42 @@ function CWndHud:apply_mouse_hover()
     self.bHover = true
 end
 
-function CWndHud:_fn_bt_go(pPlayer)
-    -- load quest route info
-    tQuests = load_board_quests()
-    pTrack, tRoute = run_route_bt_load(pPlayer)
+local function player_update_stats(pPlayerState)
+    pPlayerState:move_access_mapid(nil)     -- updates player mapid to current path location
+
+    local pInfoSrv = pUiStats:get_properties():get_info_server()
+    local siExpRate = pInfoSrv:get_exp_rate()
+    local siMesoRate = pInfoSrv:get_meso_rate()
+    local siDropRate = pInfoSrv:get_drop_rate()
+
+    local sWmapName = pUiWmap:get_properties():get_worldmap_name()
+    player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
+
+    local _, tQuests, tRoute = generate_quest_route(pPlayerState, pUiWmap)
+    pUiHud:set_quest_data(tRoute, tQuests)
 end
 
-function CWndHud:_load_bt_go(pPlayer)
+function CWndHud:_fn_bt_go()
+    -- load quest route info
+    local pPlayer = pUiWmap:get_properties():get_player()
+    player_update_stats(pPlayer)
+
+    --tQuests = load_board_quests()
+    --pTrack, tRoute = run_route_bt_load(pPlayer)
+end
+
+function CWndHud:_load_bt_go()
     local bt = CButtonElem:new()
     bt:load(RActionButton.SEARCH.PATH, unpack(RActionButton.SEARCH.POSITION))
-    bt:set_fn_trigger(self._fn_bt_go, {self, pPlayer})
+    bt:set_fn_trigger(self._fn_bt_go, {self})
 
     self.btGo = bt
     self.pBtChannel:add_element(bt)
 end
 
-function CWndHud:_fn_bt_save(pPlayer, pUiStats, tRoute, tQuests)
+function CWndHud:_fn_bt_save(pUiStats, tRoute, tQuests)
+    local pPlayer = pUiWmap:get_properties():get_player()
+
     -- save environment info
     run_rates_bt_save(pUiStats)
     run_player_bt_save(pPlayer)
@@ -135,20 +155,24 @@ function CWndHud:_fn_bt_save(pPlayer, pUiStats, tRoute, tQuests)
     save_board_quests(tQuests)
 end
 
-function CWndHud:_load_bt_save(pPlayer, pUiStats, tRoute, tQuests)
+function CWndHud:_load_bt_save(pUiStats, tRoute, tQuests)
     local bt = CButtonElem:new()
 
     bt:load(RActionButton.SAVE.PATH, unpack(RActionButton.SAVE.POSITION))
-    bt:set_fn_trigger(self._fn_bt_save, {self, pPlayer, pUiStats, tRoute, tQuests})
+    bt:set_fn_trigger(self._fn_bt_save, {self, pUiStats, tRoute, tQuests})
 
     self.btSave = bt
     self.pBtChannel:add_element(bt)
 end
 
-function CWndHud:_fn_bt_load(pUiStats, pPlayer)
+function CWndHud:_fn_bt_load(pUiStats)
+    local pPlayer = pUiWmap:get_properties():get_player()
+
     -- load environment info
     run_rates_bt_load(pUiStats, pPlayer)
     run_player_bt_load(pPlayer)
+
+    player_update_stats(pPlayer)
 end
 
 function CWndHud:_fn_bt_load_player()
@@ -156,36 +180,27 @@ function CWndHud:_fn_bt_load_player()
     load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/inventory.csv", function (pPlayer) return pPlayer:get_items() end)
     load_csv_inventory(pPlayer, "../" .. RPath.SAV_UPATH .. "/quest.csv", function (pPlayer) return pPlayer:get_quests() end)
 
-    local pPlayerState = pUiWmap:get_player()
+    local pPlayerState = pUiWmap:get_properties():get_player()
 
     pPlayerState:import_table(pPlayer:export_table())
     pPlayerState:import_inventory_tables(pPlayer:export_inventory_tables())
 
-    local pInfoSrv = pUiStats:get_properties():get_info_server()
-    local siExpRate = pInfoSrv:get_exp_rate()
-    local siMesoRate = pInfoSrv:get_meso_rate()
-    local siDropRate = pInfoSrv:get_drop_rate()
-
-    local sWmapName = pUiWmap:get_properties():get_worldmap_name()
-    player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
-
-    local pTrack = pUiWmap:get_properties():get_track()
-    local pRouteLane, tQuests, tRoute = generate_quest_route(pPlayer, pUiWmap)
-    pTrack:load(pRouteLane)
-    pUiHud:set_quest_data(tRoute, tQuests)
+    player_update_stats(pPlayerState)
 end
 
-function CWndHud:_load_bt_load(pUiStats, pPlayer)
+function CWndHud:_load_bt_load(pUiStats)
     local bt = CButtonElem:new()
 
     bt:load(RActionButton.OPEN.PATH, unpack(RActionButton.OPEN.POSITION))
-    bt:set_fn_trigger(self._fn_bt_load, {self, pUiStats, pPlayer})
+    bt:set_fn_trigger(self._fn_bt_load, {self, pUiStats})
 
     self.btLoad = bt
     self.pBtChannel:add_element(bt)
 end
 
-function CWndHud:_fn_delete(pUiStats, pPlayer)
+function CWndHud:_fn_delete(pUiStats)
+    local pPlayer = pUiWmap:get_properties():get_player()
+
     -- delete environment info
     run_rates_bt_delete(pUiStats)
     run_player_bt_delete(pPlayer)
@@ -194,11 +209,11 @@ function CWndHud:_fn_delete(pUiStats, pPlayer)
     run_route_bt_delete()
 end
 
-function CWndHud:_load_bt_delete(pUiStats, pPlayer)
+function CWndHud:_load_bt_delete(pUiStats)
     local bt = CButtonElem:new()
 
     bt:load(RActionButton.DELETE.PATH, unpack(RActionButton.DELETE.POSITION))
-    bt:set_fn_trigger(self._fn_delete, {self, pUiStats, pPlayer})
+    bt:set_fn_trigger(self._fn_delete, {self, pUiStats})
 
     self.btDelete = bt
     self.pBtChannel:add_element(bt)
@@ -256,21 +271,21 @@ function CWndHud:_load_bt_update_player()
     self.pBtChannel:add_element(bt)
 end
 
-function CWndHud:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
+function CWndHud:_load_bt_nav_next(tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
     local bt = CButtonElem:new()
 
     bt:load(RActionButton.NAV_NEXT.PATH, unpack(RActionButton.NAV_NEXT.POSITION))
-    bt:set_fn_trigger(fn_bt_nav_next, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate})
+    bt:set_fn_trigger(fn_bt_nav_next, {self, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate})
 
     self.btNavNext = bt
     self.pBtChannel:add_element(bt)
 end
 
-function CWndHud:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
+function CWndHud:_load_bt_nav_prev(tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
     local bt = CButtonElem:new()
 
     bt:load(RActionButton.NAV_PREV.PATH, unpack(RActionButton.NAV_PREV.POSITION))
-    bt:set_fn_trigger(fn_bt_nav_prev, {self, pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate})
+    bt:set_fn_trigger(fn_bt_nav_prev, {self, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate})
 
     self.btNavPrev = bt
     self.pBtChannel:add_element(bt)
@@ -402,16 +417,16 @@ function CWndHud:set_player_quest(pTrack)
 end
 
 function CWndHud:set_quest_data(tRoute, tQuests)
-    self.btSave:update_fn_trigger(nil, {self, nil, nil, tRoute, tQuests})
-    self.btNavNext:update_fn_trigger(nil, {self, nil, nil, tQuests, nil, nil, nil, nil, nil, nil, nil, nil})
-    self.btNavPrev:update_fn_trigger(nil, {self, nil, nil, tQuests, nil, nil, nil, nil, nil, nil, nil, nil})
+    self.btSave:update_fn_trigger(nil, {self, nil, tRoute, tQuests})
+    self.btNavNext:update_fn_trigger(nil, {self, tQuests, nil, nil, nil, nil, nil, nil, nil})
+    self.btNavPrev:update_fn_trigger(nil, {self, tQuests, nil, nil, nil, nil, nil, nil, nil})
 end
 
-function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
-    --self:_load_bt_go(pPlayer)
-    self:_load_bt_save(pPlayer, pUiStats, tRoute, tQuests)
-    self:_load_bt_load(pUiStats, pPlayer)
-    self:_load_bt_delete(pUiStats, pPlayer)
+function CWndHud:load(pTrack, pPlayer, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
+    --self:_load_bt_go()
+    self:_load_bt_save(pUiStats, tRoute, tQuests)
+    self:_load_bt_load(pUiStats)
+    self:_load_bt_delete(pUiStats)
 
     self:_load_bt_wnd_inventory()
     self:_load_bt_wnd_resources()
@@ -419,8 +434,8 @@ function CWndHud:load(pPlayer, pUiStats, pTrack, tRoute, tQuests, pUiWmap, pUiSt
 
     self:_load_bt_update_player()
 
-    self:_load_bt_nav_next(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
-    self:_load_bt_nav_prev(pTrack, pPlayer, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
+    self:_load_bt_nav_next(tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
+    self:_load_bt_nav_prev(tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)
     self:_load_sb_nav_select_quest()
 
     self:set_player_quest(pTrack)
