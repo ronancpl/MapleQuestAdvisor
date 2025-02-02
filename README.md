@@ -100,7 +100,7 @@ Use the HaRepacker application, encryption "GMS (old)".
     * `<LOCATION_FOLDER>/lib/xml`
 
   + For the images, EXPORT (using the "PNG/MP3" exporting option), to the following location:
-    * `<LOCATION_FOLDER>/ui/media/images`
+    * `<LOCATION_FOLDER>/src/ui/media/images`
 
   After exporting, at both folder locations should be present therein subfolders ending with ".wz".
 

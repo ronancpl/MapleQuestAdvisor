@@ -45,7 +45,7 @@ end
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     --love.graphics.setWireframe(love.keyboard.isDown('space'))
-    --love.graphics.setIcon(love.graphics.newImage(RWndPath.LOVE_IMAGE_PATH_ICON))
+    --love.window.setIcon(love.image.newImageData(RWndPath.LOVE_IMAGE_PATH_ICON))
 
     log(LPath.INTERFACE, "load.txt", "Loading solver metadata...")
 

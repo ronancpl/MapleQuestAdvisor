@@ -44,7 +44,7 @@ function pool_select_graph_quests(pGridQuests, pPlayer)
     local rgpPoolProps = fetch_quest_pool_list(pGridQuests)
     apply_initial_player_state(pPlayer, rgpPoolProps)  -- set up initial player-state requirements
 
-    local tQuests = pGridQuests:fetch_top_quests_by_player(pPlayer, math.iclamp(pPlayer:get_level(),RGraph.POOL_MIN_QUESTS,RGraph.POOL_MAX_QUESTS))
+    local tQuests = pGridQuests:fetch_top_quests_by_player(pPlayer, math.iclamp(pPlayer:get_level(), RGraph.POOL_MIN_QUESTS, RGraph.POOL_MAX_QUESTS))
     log(LPath.QUEST_BOARD, "pool-" .. os.date("%H-%M-%S") .. ".txt", route_csvify_quest_pool(tQuests))
     return tQuests
 end

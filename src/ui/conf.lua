@@ -10,9 +10,14 @@
     provide an express grant of patent rights.
 --]]
 
+package.path = package.path .. ';?.lua'
+
+require("ui.constant.path")
+
 function love.conf(t)
     t.window.width = 640
     t.window.height = 470
+    t.window.icon = RWndPath.LOVE_IMAGE_PATH_ICON
 
     t.title = "MapleQuestAdvisor"
     t.console = true

@@ -76,16 +76,18 @@ end
 local function fetch_npc_quest_mapid_by_resource_tree(pUiRscs)
     local iNpcMapid
 
-    local pRscTree = pUiRscs:get_properties():get_resource_tree()
-    if pRscTree ~= nil then
-        for _, iRscid in ipairs(pRscTree:get_resources()) do
-            if math.floor(iRscid / 1000000000) == RLookupCategory.FIELD_NPC then
-                iNpcMapid = iRscid % 1000000000
+    if pUiRscs ~= nil then
+        local pRscTree = pUiRscs:get_properties():get_resource_tree()
+        if pRscTree ~= nil then
+            for _, iRscid in ipairs(pRscTree:get_resources()) do
+                if math.floor(iRscid / 1000000000) == RLookupCategory.FIELD_NPC then
+                    iNpcMapid = iRscid % 1000000000
+                end
             end
-        end
 
-        if iNpcMapid == nil then
-            iNpcMapid = pRscTree:get_field_destination()
+            if iNpcMapid == nil then
+                iNpcMapid = pRscTree:get_field_destination()
+            end
         end
     end
 

@@ -44,7 +44,7 @@ for i = 1, 100, 1 do
     ctAccessors = init_quest_accessors()
     ctAwarders = init_quest_awarders()
 
-    print("Generation graph #" .. i)
+    log(LPath.OVERALL, "log.txt", "Generation graph #" .. i)
     local tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
 
     local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)

@@ -79,5 +79,7 @@ function fn_bt_nav_prev(pUiHud, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRsc
         player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
         player_lane_update_hud(pTrack, pUiHud)
         player_lane_update_selectbox(pTrack, pUiHud)
+
+        pUiHud:get_nav_select_quest():reset()
     end
 end
