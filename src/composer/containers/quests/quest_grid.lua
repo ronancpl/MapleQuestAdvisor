@@ -272,6 +272,18 @@ end
 function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
     local tpPoolQuests = STable:new()
 
+    if pUiWmap ~= nil then
+        local pTrack = pUiWmap:get_properties():get_track()
+        if pTrack ~= nil then
+            local pCurQuestProp = pTrack:get_top_quest()
+            if pCurQuestProp ~= nil then
+                for _, pQuestProp in ipairs(ctQuests:get_next_quest_prop(pCurQuestProp)) do
+                    tpPoolQuests:insert(ctQuests:get_quest_by_id(pQuestProp:get_quest_id()), 1)   -- adds next quest from current track
+                end
+            end
+        end
+    end
+
     local iIdx
     local iToIdx
     iIdx, iToIdx = self:_fetch_top_quests_searchable_range(pPlayer, nQuests)
