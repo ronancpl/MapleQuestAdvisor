@@ -49,7 +49,7 @@ function string.pad_number(iId, iLeftZero)
     iId = math.abs(iId)
 
     local iAlg = iId > 0 and math.ceil(math.log(iId) / math.log(10)) or 0
-    for i = 2, iLeftZero - iAlg, 1 do
+    for i = 1, iLeftZero - iAlg, 1 do
         st = st .. "0"
     end
 
