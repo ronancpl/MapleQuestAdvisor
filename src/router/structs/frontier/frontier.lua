@@ -19,6 +19,8 @@ require("utils.struct.class")
 CQuestFrontier = createClass({
     pHold = CQuestFrontierRange:new(),
     pSelect = CQuestFrontierRange:new(),
+    pEndQuestProp = nil,
+    tUsedEndQuestProps = {},
     pQuestStack = CQuestFrontierQuestList:new(),
     rgpUnusedQuests = {}
 })
@@ -112,18 +114,28 @@ function CQuestFrontier:peek()
 
     local m_pRange = self.pSelect
 
-    local pQuestProp
-    while true do
-        pQuestProp = m_pQuestStack:peek()
+    local pQuestProp = -1
+    while (self.pEndQuestProp ~= nil or pQuestProp == -1) and pQuestProp ~= self.pEndQuestProp do
+        while true do
+            pQuestProp = m_pQuestStack:peek()
 
-        -- keeps exploring the frontier stack, in search for a selectable quest for the player
-        if pQuestProp == nil then
-            break
-        elseif m_pRange:contains(pQuestProp) and m_pRange:should_fetch_quest(pQuestProp) then
-            break
+            -- keeps exploring the frontier stack, in search for a selectable quest for the player
+            if pQuestProp == nil then
+                self.pEndQuestProp = nil
+                break
+            elseif m_pRange:contains(pQuestProp) and m_pRange:should_fetch_quest(pQuestProp) then
+                break
+            end
+
+            table.insert(m_rgpUnusedQuests, pQuestProp)
         end
+    end
 
-        table.insert(m_rgpUnusedQuests, pQuestProp)
+    if pQuestProp ~= nil then
+        self.pEndQuestProp = pQuestProp:is_start() and ctQuests:get_quest_by_id(pQuestProp:get_quest_id()):get_end() or nil
+        if self.pEndQuestProp ~= nil then
+            self.tUsedEndQuestProps[self.pEndQuestProp] = 1
+        end
     end
 
     return pQuestProp
