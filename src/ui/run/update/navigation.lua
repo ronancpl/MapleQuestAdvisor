@@ -79,6 +79,8 @@ function player_lane_update_selectbox(pTrack, pUiHud)
 
     local pSlctQuest = pUiHud:get_nav_select_quest()
     pSlctQuest:set_text_options(rgsTextList, RActionElement.NAV_NEXT_QUEST.LINE_WIDTH)
+
+    pUiHud:get_nav_select_quest():reset()
 end
 
 function player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayer, siExpRate, siMesoRate, siDropRate, sWmapName)
