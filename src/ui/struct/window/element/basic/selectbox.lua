@@ -57,7 +57,11 @@ function CSelectBoxElem:get_opt()
 end
 
 function CSelectBoxElem:_set_opt(iOpt)
-    self.iOpt = iOpt
+    if iOpt > 0 and iOpt <= self:get_num_options() then
+        self.iOpt = iOpt
+    else
+        self.iOpt = nil
+    end
 end
 
 function CSelectBoxElem:get_num_options()
@@ -194,7 +198,9 @@ function CSelectBoxElem:free_visible_text(pTxtOpt)
     local m_rgpFontOpts = self.rgpFontOpts
     local pFontOpt = m_rgpFontOpts[self:get_opt()]
 
-    ctPoolFont:put_text(pFontOpt, pTxtOpt)
+    if pFontOpt ~= nil then
+        ctPoolFont:put_text(pFontOpt, pTxtOpt)
+    end
 end
 
 function CSelectBoxElem:free_visible_texts(rgpTxtOpts)
@@ -203,7 +209,9 @@ function CSelectBoxElem:free_visible_texts(rgpTxtOpts)
         local pFontOpt = m_rgpFontOpts[i]
         local pTxtOpt = rgpTxtOpts[i]
 
-        ctPoolFont:put_text(pFontOpt, pTxtOpt)
+        if pFontOpt ~= nil then
+            ctPoolFont:put_text(pFontOpt, pTxtOpt)
+        end
     end
 end
 

@@ -18,8 +18,12 @@ local function load_inventory_data(sJson)
     local rgpInvtItems = {}
 
     local rgsInvtInfo = decode_item(sJson)
-    for iId, sInvt in pairs(rgsInvtInfo) do
-        rgpInvtItems[iId] = decode_item(sInvt)
+    for iId, tiInvt in pairs(rgsInvtInfo) do
+        local tsInvt = {}
+        for iId2, iItem in pairs(decode_item(tiInvt)) do
+            tsInvt["\"" .. iId2 .. "\""] = iItem
+        end
+        rgpInvtItems[iId] = tsInvt
     end
 
     return rgpInvtItems

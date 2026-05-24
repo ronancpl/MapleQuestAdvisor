@@ -11,6 +11,7 @@
 --]]
 
 require("router.constants.graph")
+require("router.procedures.constant")
 require("router.structs.path")
 require("utils.struct.class")
 require("utils.struct.ranked_set")
@@ -89,10 +90,36 @@ function CRankedPath:get_path_base_value(pCurrentPath)
     end
 end
 
+function CRankedPath:get_top_path()
+    local m_tpSetRankedPaths = self.tpSetRankedPaths
+
+    local iVal = U_INT_MIN
+    local pPath = CQuestPath:new()
+
+    for _, pSetBucketPaths in pairs(m_tpSetRankedPaths) do
+        local pCurrentPath = pSetBucketPaths:get_base()
+
+        if pCurrentPath:value() > iVal then
+            pPath = pCurrentPath
+            iVal = pCurrentPath:value()
+        end
+    end
+
+    return pPath
+end
+
 function CRankedPath:eval_interim_path(pCurrentPath)
     local pRankedPath = self
     if pCurrentPath:value() > pRankedPath:get_path_base_value(pCurrentPath) then
         route_quest_update_leading_subpath(pCurrentPath, pRankedPath)
+    end
+end
+
+function CRankedPath:eval_leading_path(pLeadingPath)
+    local pRankedPath = self
+    local pTopPath = pLeadingPath:get_top_path()
+    if pTopPath:value() > pRankedPath:get_path_base_value(pTopPath) then
+        route_quest_update_leading_subpath(pTopPath, pRankedPath)
     end
 end
 

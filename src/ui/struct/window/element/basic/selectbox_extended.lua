@@ -31,6 +31,10 @@ function CSelectBoxExtElem:get_ltrb()
     return self.eBox:get_ltrb()
 end
 
+function CSelectBoxExtElem:set_select_option(iOpt)
+    return self.pLnkSlctBox:set_select_option(iOpt)
+end
+
 function CSelectBoxExtElem:onmousereleased(x, y, button)
     local iLx, iTy, iRx, iBy = self:get_ltrb()
 
