@@ -39,13 +39,21 @@ function CPoolWorldmap:init()
 end
 
 function CPoolWorldmap:take_region(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
+    --[[
     local m_pPool = self.pPool
     return m_pPool:take_object({pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion})
+    ]]--
+
+    return fn_create_item(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
 end
 
 function CPoolWorldmap:put_region(pRegionMarker, pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
+    --[[
     local m_pPool = self.pPool
     m_pPool:put_object(pRegionMarker, {pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion})
+    ]]--
+
+    -- do nothing
 end
 
 function CPoolWorldmap:reset_region()

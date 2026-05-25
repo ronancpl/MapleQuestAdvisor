@@ -14,3 +14,33 @@ require("composer.containers.units.unit_table")
 require("utils.struct.class")
 
 CMobGroupTable = createClass({CUnitTable, {sRscName = "mob_group"}})
+
+function expand_mob_groups(tiMobs)
+    for _, iSrcid in ipairs(keys(tiMobs)) do
+        local rgiMobs = ctMobsGroup:get_locations(iSrcid)
+        if #rgiMobs > 0 then
+            for _, iMobid in ipairs(rgiMobs) do
+                tiMobs[iMobid] = tiMobs[iSrcid]
+            end
+        end
+    end
+
+    return tiMobs
+end
+
+function collapse_mob_groups(tiMobs)
+    for _, iSrcid in ipairs(keys(tiMobs)) do
+        local rgiMobs = ctMobsGroup:get_locations(iSrcid)
+        if #rgiMobs > 0 then
+            table.sort(rgiMobs)
+
+            for _, iMobid in ipairs(rgiMobs) do
+                if iMobid ~= rgiMobs[1] then
+                    tiMobs[iMobid] = nil
+                end
+            end
+        end
+    end
+
+    return tiMobs
+end

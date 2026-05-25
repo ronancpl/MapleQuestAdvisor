@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.containers.units.mob_group_table")
 require("solver.graph.tree.component")
 require("solver.lookup.category.field")
 require("solver.lookup.constant")
@@ -125,7 +126,7 @@ function CWndResource:_export_resources_by_fields(rgiFields)
 
             pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)
 
-            local pLookupRscs = create_descriptor_lookup_resources(tiItems, tiMobs, tFieldsEnter, iMapid)
+            local pLookupRscs = create_descriptor_lookup_resources(tiItems, expand_mob_groups(tiMobs), tFieldsEnter, iMapid)
             table_append(rgiRscids, pLookupRscs[RLookupCategory.ITEMS])
             table_append(rgiRscids, pLookupRscs[RLookupCategory.MOBS])
             table_append(rgiRscids, pLookupRscs[RLookupCategory.FIELD_ENTER])
@@ -166,7 +167,7 @@ function CWndResource:get_field_resources()
         tpFieldRscs[iMapid] = pRscEntry
     end
 
-    return tpFieldRscs[iMapid]
+    return tpFieldRscs
 end
 
 function CWndResource:set_dimensions(iWidth, iHeight)
