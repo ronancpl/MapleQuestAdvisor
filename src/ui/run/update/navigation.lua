@@ -61,7 +61,7 @@ function player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
     if pQuestProp ~= nil then
         local pPath = pTrack:get_top_lane():get_path_by_quest(pQuestProp)
         if pPath ~= nil then
-            pRscTree = pPath:get_node_allot(1):get_resource_tree()
+            pRscTree = pPath:get_quest_allot(pQuestProp):get_resource_tree()
         else
             log(LPath.FALLBACK, "quest_lane.txt", " Could not find " .. tostring(pQuestProp:get_name()) .. " in Path")
         end

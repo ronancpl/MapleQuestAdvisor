@@ -281,11 +281,11 @@ local function reset_worldmap_resource_actives(pUiWmap)
     end
 end
 
-local function apply_worldmap_resource_actives(pUiWmap, pUiRscs)
+local function apply_worldmap_resource_actives(pUiWmap, pUiRscs, iPlayerMapid)
     local pWmapProp = pUiWmap:get_properties()
 
     local pRscTree = pUiRscs:get_properties():get_resource_tree()
-    local pWmapRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap, pPlayer:get_mapid())
+    local pWmapRscTree = build_worldmap_resource_tree(pRscTree, pUiWmap, iPlayerMapid)
 
     for iMapid, _ in pairs(pWmapRscTree:get_field_nodes()) do
         local pFieldMarker = pWmapProp:get_marker_by_mapid(iMapid)
@@ -295,9 +295,9 @@ local function apply_worldmap_resource_actives(pUiWmap, pUiRscs)
     end
 end
 
-function update_worldmap_resource_actives(pUiWmap, pUiRscs)
+function update_worldmap_resource_actives(pUiWmap, pUiRscs, iPlayerMapid)
     reset_worldmap_resource_actives(pUiWmap)
-    apply_worldmap_resource_actives(pUiWmap, pUiRscs)
+    apply_worldmap_resource_actives(pUiWmap, pUiRscs, iPlayerMapid)
 end
 
 local function apply_selected_worldmap_resource_active(pUiWmap, pRscTree, pVwRsc)

@@ -49,6 +49,13 @@ function CTracePath:get_recommended_paths()
     return rgpPaths
 end
 
+function CTracePath:get_sublane(pQuestProp)
+    local m_pRootLane = self.pRootLane
+
+    local pLane = m_pRootLane:get_sublane(pQuestProp)
+    return pLane
+end
+
 function CTracePath:get_sublanes()
     local rgpLanes = self.pRootLane:get_sublanes()
     return rgpLanes

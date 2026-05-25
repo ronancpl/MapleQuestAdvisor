@@ -11,8 +11,10 @@
 --]]
 
 require("solver.lookup.category")
+require("solver.lookup.category.entries.tables")
 require("solver.lookup.category.entries.resources.static")
 require("solver.lookup.constant")
+require("utils.procedure.unpack")
 
 local function add_lookup_entry_if_exists(fn_get_lookup_entry, trgpEntries, pEntry)
     local iRscid
@@ -114,4 +116,25 @@ function init_lookup_category_field_npc_table(pLandscape, rgiRscids)
     regional_lookup_category_entries_static(pLookupTab)
 
     return pLookupTab
+end
+
+local function expand_mob_groups(tiMobs)
+    for _, iSrcid in ipairs(keys(tiMobs)) do
+        local rgiMobs = ctMobsGroup:get_locations(iSrcid)
+        if #rgiMobs > 0 then
+            for _, iMobid in ipairs(rgiMobs) do
+                tiMobs[iMobid] = 1
+            end
+        end
+    end
+end
+
+function create_descriptor_lookup_resources(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid)
+    local pLookupRscs = {}
+    pLookupRscs[RLookupCategory.ITEMS] = list_resources_from_entries_item(tiItems)
+    pLookupRscs[RLookupCategory.MOBS] = list_resources_from_entries_item(expand_mob_groups(tiMobs))
+    pLookupRscs[RLookupCategory.FIELD_ENTER] = list_resources_from_entries_item(tiFieldsEnter)
+    pLookupRscs[RLookupCategory.FIELD_NPC] = list_resources_from_entries_static(iQuestNpcMapid)
+
+    return pLookupRscs
 end

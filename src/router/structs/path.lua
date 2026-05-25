@@ -137,6 +137,21 @@ function CQuestPath:get_node_allot(iIdx)
     return m_pPathAllotStack[iIdx]
 end
 
+function CQuestPath:get_quest_allot(pQuestProp)
+    local fn_select = function(pOtherProp)
+        return pOtherProp == pQuestProp
+    end
+
+    local m_rgpPath = self.rgpPath
+    local iIdx = m_rgpPath:index_of(fn_select, true)
+
+    if iIdx > 0 and iIdx <= self:size() then
+        return self:get_node_allot(iIdx)
+    else
+        return nil
+    end
+end
+
 function CQuestPath:_fetch_index_in_path(pOtherPath)
     local rgpOtherQuests = pOtherPath:list()
     local rgpQuests = self:list()

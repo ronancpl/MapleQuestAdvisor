@@ -11,6 +11,7 @@
 --]]
 
 require("solver.graph.tree.component")
+require("solver.lookup.category.field")
 require("solver.lookup.constant")
 require("ui.constant.view.resource")
 require("ui.run.update.canvas.position")
@@ -22,6 +23,7 @@ require("ui.struct.component.canvas.resource.table")
 require("ui.struct.component.canvas.resource.tab.grid")
 require("ui.struct.component.element.texture")
 require("ui.struct.window.type")
+require("utils.procedure.copy")
 require("utils.struct.class")
 
 CWndResource = createClass({CWndBase, {
@@ -94,10 +96,25 @@ local function has_field_npc(iNpcid, iMapid)
     return false
 end
 
+local function remove_duplicates_in_resource_list(rgiRscids)
+    local tiRscids = {}
+    for _, iRscid in ipairs(rgiRscids) do
+        tiRscids[iRscid] = 1
+    end
+
+    clear_table(rgiRscids)
+    for iRscid, _ in pairs(tiRscids) do
+        table.insert(rgiRscids, iRscid)
+    end
+
+    table.sort(rgiRscids)
+end
+
 function CWndResource:_export_resources_by_fields(rgiFields)
     local m_pProp = self.pProp
 
     local pProp = CRscProperties:new()
+    local rgiRscids = {}
     for _, iMapid in ipairs(rgiFields) do
         local pRscEntry = m_pProp:get_field_resources(iMapid)
         if pRscEntry ~= nil then
@@ -107,10 +124,18 @@ function CWndResource:_export_resources_by_fields(rgiFields)
             local tFieldsEnter = pRscEntry:get_field_enter()
 
             pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)
+
+            local pLookupRscs = create_descriptor_lookup_resources(tiItems, tiMobs, tFieldsEnter, iMapid)
+            table_append(rgiRscids, pLookupRscs[RLookupCategory.ITEMS])
+            table_append(rgiRscids, pLookupRscs[RLookupCategory.MOBS])
+            table_append(rgiRscids, pLookupRscs[RLookupCategory.FIELD_ENTER])
+            if iNpc ~= -1 then table_append(rgiRscids, pLookupRscs[RLookupCategory.FIELD_NPC]) end
         end
     end
 
-    return pProp
+    remove_duplicates_in_resource_list(rgiRscids)
+
+    return pProp, rgiRscids
 end
 
 function CWndResource:update_resources(pQuestProp, pRscTree)
@@ -163,9 +188,12 @@ function CWndResource:set_dimensions(iWidth, iHeight)
 end
 
 function CWndResource:get_field_properties(rgiFields)
-    local pProp = self:_export_resources_by_fields(rgiFields)
+    local pProp, rgiRscids = self:_export_resources_by_fields(rgiFields)
 
-    pProp:set_resource_tree(CSolverTree:new())
+    local pRscTree = CSolverTree:new()
+    pRscTree:set_resources(rgiRscids)
+
+    pProp:set_resource_tree(pRscTree)
     pProp:build()
 
     return pProp

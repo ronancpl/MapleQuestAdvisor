@@ -16,19 +16,9 @@ require("solver.graph.build")
 require("solver.graph.fetch")
 require("solver.graph.route")
 require("solver.graph.tree.component")
-require("solver.lookup.category.entries.tables")
+require("solver.lookup.category.field")
 require("solver.lookup.constant")
 require("solver.procedures.remaining")
-
-local function create_descriptor_lookup_resources(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid)
-    local pLookupRscs = {}
-    pLookupRscs[RLookupCategory.ITEMS] = list_resources_from_entries_item(tiItems)
-    pLookupRscs[RLookupCategory.MOBS] = list_resources_from_entries_item(tiMobs)
-    pLookupRscs[RLookupCategory.FIELD_ENTER] = list_resources_from_entries_item(tiFieldsEnter)
-    pLookupRscs[RLookupCategory.FIELD_NPC] = list_resources_from_entries_static(iQuestNpcMapid)
-
-    return pLookupRscs
-end
 
 local function generate_quest_resource_graph(iNpcid, tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid, iPlayerMapid)
     local pLookupRscs = create_descriptor_lookup_resources(tiItems, tiMobs, tiFieldsEnter, iQuestNpcMapid)

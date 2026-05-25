@@ -50,12 +50,11 @@ function fn_bt_nav_next(pUiHud, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRsc
             player_lane_look_ahead(pTrack, pPlayerState)
 
             local sWmapName = pUiWmap:get_properties():get_worldmap_name()
-            pUiWmap:reset_region(pUiRscs, pPlayerState)
-
-            sWmapName = fetch_name_worldmap_container(sWmapName,pPlayerState:get_mapid())
+            sWmapName = fetch_name_worldmap_container(sWmapName, pPlayerState:get_mapid())
 
             player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
             player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
+
             player_lane_update_hud(pTrack, pUiHud)
             player_lane_update_selectbox(pTrack, pUiHud)
         end
@@ -69,10 +68,8 @@ function fn_bt_nav_prev(pUiHud, rgpPoolProps, pUiWmap, pUiStats, pUiInvt, pUiRsc
     local bMovedBack = player_lane_move_back(pTrack, pPlayerState, rgpPoolProps)
     player_lane_trim_back(pTrack)
 
-    local sWmapName = pUiWmap:get_properties():get_worldmap_name()
-    pUiWmap:reset_region(pUiRscs, pPlayerState)
-
     if bMovedBack then
+        local sWmapName = pUiWmap:get_properties():get_worldmap_name()
         sWmapName = fetch_name_worldmap_container(sWmapName, pPlayerState:get_mapid())
 
         player_lane_update_resources(pTrack, pUiRscs, pPlayerState)
