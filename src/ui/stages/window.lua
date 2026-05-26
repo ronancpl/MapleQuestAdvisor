@@ -71,7 +71,7 @@ local pRouteLane, tQuests, tRoute = generate_quest_route(pPlayerRoute, pUiWmap)
 pUiWmap:get_properties():set_quest_route(pRouteLane)
 
 pUiRscs:update_resources(nil, CSolverTree:new())
-pUiWmap:update_region(sWmapName, pUiRscs, nil)
+pUiWmap:update_region(sWmapName, pUiRscs, nil, false)
 
 local pTrack = pUiWmap:get_properties():get_track()
 pUiHud = load_frame_hud(pTrack, pPlayer, tRoute, tQuests, pUiWmap, pUiStats, pUiInvt, pUiRscs, siExpRate, siMesoRate, siDropRate)

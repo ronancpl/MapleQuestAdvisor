@@ -78,7 +78,7 @@ function CWndWmap:reset_region(pUiRscs, pPlayer)
     update_worldmap_region_track(self, pUiRscs, pPlayer, pDirHelperQuads)
 end
 
-function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc)
+function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc, bTextboxUpdate)
     self.pCanvas:reset()
 
     local pWmapRegion
@@ -93,7 +93,7 @@ function CWndWmap:update_region(sWmapName, pUiRscs, pVwRsc)
     ctPoolWmap:reset_region()
     self.pProp:reset_map_fields()
 
-    self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
+    self.pProp:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, bTextboxUpdate)
 
     local pPlayer = self:get_properties():get_player()
     local iMapid = 0

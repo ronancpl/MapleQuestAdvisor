@@ -33,8 +33,8 @@ CWmapProperties = createClass({
 
 function CWmapProperties:reset_map_fields()
     local m_rgpMapList = self.rgpMapList
-    for _, pRegionMarker in ipairs(m_rgpMapList) do
-        ctPoolWmap:put_region(pRegionMarker, pRegionMarker:get_metadata(), pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
+    for _, pFieldMarker in ipairs(m_rgpMapList) do
+        ctPoolWmap:put_field_marker(pFieldMarker, pFieldMarker:get_metadata(), pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
     end
     clear_table(m_rgpMapList)
 
@@ -139,7 +139,7 @@ function CWmapProperties:set_player(pPlayer)
     self.pPlayer = pPlayer
 end
 
-function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs)
+function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImgs, bTextboxUpdate)
     self:reset()
 
     local pBaseImgNode = pWmapRegion:get_base_img()
@@ -164,9 +164,9 @@ function CWmapProperties:update_region(pWmapRegion, pDirHelperQuads, pDirWmapImg
 
     local tpNodes = pWmapRegion:get_nodes()
     for _, pPair in ipairs(spairs(tpNodes, function (a, b) return a < b end)) do
-        local pRegionMarker = ctPoolWmap:take_region(pPair, self, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
+        local pFieldMarker = ctPoolWmap:take_field_marker(pPair, self, pDirHelperQuads, pDirWmapImgs, sWmapRegion, bTextboxUpdate)
 
-        self:add_map_field(pRegionMarker)
-        pRegionMarker:free()    -- unused text obj
+        self:add_map_field(pFieldMarker)
+        pFieldMarker:free()    -- unused text obj
     end
 end

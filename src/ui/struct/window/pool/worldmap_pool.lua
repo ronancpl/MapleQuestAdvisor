@@ -30,30 +30,28 @@ local function fn_create_item(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, s
     local iIdx = pPair[1]
     local pMapNode = pPair[2]
 
-    local pRegionMarker = load_node_worldmap_map_list(pWmapProp, pUiRscs, pMapNode, pDirHelperQuads, pDirWmapImgs, sWmapRegion, iIdx)
-    return pRegionMarker
+    local pFieldMarker = load_node_worldmap_map_list(pWmapProp, pUiRscs, pMapNode, pDirHelperQuads, pDirWmapImgs, sWmapRegion, iIdx)
+    return pFieldMarker
 end
 
 function CPoolWorldmap:init()
     self.pPool:load(fn_get_key_table_image, fn_create_item)
 end
 
-function CPoolWorldmap:take_region(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
-    --[[
+function CPoolWorldmap:take_field_marker(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion, bTextboxUpdate)
     local m_pPool = self.pPool
-    return m_pPool:take_object({pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion})
-    ]]--
 
-    return fn_create_item(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
+    local pFieldMarker = m_pPool:take_object({pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion})
+    if bTextboxUpdate then
+        pFieldMarker = fn_create_item(pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
+    end
+
+    return pFieldMarker
 end
 
-function CPoolWorldmap:put_region(pRegionMarker, pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
-    --[[
+function CPoolWorldmap:put_field_marker(pFieldMarker, pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion)
     local m_pPool = self.pPool
-    m_pPool:put_object(pRegionMarker, {pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion})
-    ]]--
-
-    -- do nothing
+    m_pPool:put_object(pFieldMarker, {pPair, pWmapProp, pDirHelperQuads, pDirWmapImgs, sWmapRegion})
 end
 
 function CPoolWorldmap:reset_region()

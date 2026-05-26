@@ -122,7 +122,7 @@ function CRscElemItem:onmousehoverout()
 end
 
 function CRscElemItem:_act_inspect_resource(sWmapName)
-    pUiWmap:update_region(sWmapName, pUiRscs, self)
+    pUiWmap:update_region(sWmapName, pUiRscs, self, false)
 end
 
 local function get_area_regionid(pPlayer)
