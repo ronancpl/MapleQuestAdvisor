@@ -12,6 +12,7 @@
 
 require("router.constants.quest")
 require("router.procedures.constant")
+require("router.procedures.world.npc")
 require("solver.graph.build")
 require("solver.graph.fetch")
 require("solver.graph.route")
@@ -28,63 +29,6 @@ local function generate_quest_resource_graph(iNpcid, tiItems, tiMobs, tiFieldsEn
     local pRscTree = build_quest_resource_graph(pQuestResource, ctFieldsLandscape, ctFieldsDist, ctFieldsLink, pLookupTable, iPlayerMapid, iQuestNpcMapid)
 
     return pRscTree
-end
-
-local function get_npc_return_locations(iNpcid)
-    local tReturnMapids = {}
-
-    for _, iMapid in ipairs(ctNpcs:get_locations(iNpcid)) do
-        local iRetMapid = ctFieldsMeta:get_field_return(iMapid)
-        tReturnMapids[iRetMapid] = iMapid
-    end
-
-    return tReturnMapids
-end
-
-local function get_npc_location(iNpcid, iPlayerMapid)
-    local iPlayerRegionid = ctFieldsLandscape:get_region_by_mapid(iPlayerMapid)
-
-    local rgiAbroadMapids = {}
-
-    local iNpcMapid = nil
-    local iNpcFieldDist = U_INT_MAX
-
-    local tNpcMapids = ctNpcs:get_locations(iNpcid)
-    for _, iMapid in pairs(tNpcMapids) do
-        local iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
-        if iRegionid == iPlayerRegionid then
-            local iDist = ctFieldsLandscape:fetch_field_distance(iPlayerMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
-            if iDist < iNpcFieldDist then
-                iNpcMapid = iMapid
-                iNpcFieldDist = iDist
-            end
-        else
-            table.insert(rgiAbroadMapids, iMapid)
-        end
-    end
-
-    if iNpcMapid == nil then
-        for _, iMapid in ipairs(rgiAbroadMapids) do
-            local iDist = ctFieldsLandscape:fetch_field_distance(iPlayerMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
-            if iDist < iNpcFieldDist then
-                iNpcMapid = iMapid
-                iNpcFieldDist = iDist
-            end
-        end
-    end
-
-    if iNpcMapid == nil then
-        local iRetMapid = ctFieldsMeta:get_field_return(iPlayerMapid)
-        if tNpcMapids[iPlayerMapid] ~= nil then
-            iNpcMapid = iPlayerMapid
-        elseif tNpcMapids[iRetMapid] ~= nil then
-            iNpcMapid = iRetMapid
-        elseif #rgiAbroadMapids > 0 then
-            iNpcMapid = rgiAbroadMapids[1]
-        end
-    end
-
-    return iNpcMapid
 end
 
 local function calc_cost_quest_distance(iDist)

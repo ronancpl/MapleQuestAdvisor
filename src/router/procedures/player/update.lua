@@ -11,6 +11,7 @@
 --]]
 
 require("router.procedures.quest.awarder.property")
+require("router.procedures.world.npc")
 require("solver.lookup.constant")
 require("structs.storage.inventory")
 
@@ -55,22 +56,8 @@ local function process_player_quest_update(pQuestProp, pPlayerState, bUndo)
 end
 
 local function fetch_npc_quest_mapid_by_quest_property(pQuestProp, pPlayerState)
-    local iRegionid = ctFieldsLandscape:get_region_by_mapid(pPlayerState:get_mapid())
-    local iRegMapid, iNpcMapid
-
     local iNpcid = pQuestProp:get_requirement():get_npc()
-    local rgiNpcFields = ctNpcs:get_locations(iNpcid)
-
-    for _, iMapid in ipairs(rgiNpcFields) do
-        local iNpcRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
-        if iRegionid == iNpcRegionid then
-            iRegMapid = iMapid
-            break
-        end
-        iNpcMapid = iMapid
-    end
-
-    return iRegMapid or iNpcMapid or -1
+    return get_npc_location(iNpcid, pPlayerState:get_mapid()) or -1
 end
 
 local function fetch_npc_quest_mapid_by_resource_tree(pUiRscs)
