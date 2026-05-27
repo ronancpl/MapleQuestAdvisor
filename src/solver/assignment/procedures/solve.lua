@@ -123,7 +123,7 @@ local function examine_oct_assignable_row(pTable, iIdx)
     if not pRow:has_flag(RSolver.AP_SEQUENCE_ASSIGN) then
         local rgpRowCells = pTable:get_row_elements(pRow, true)
         for _, pCell in ipairs(rgpRowCells) do
-            if pCell:get_value() == 0 then
+            if pCell:get_value() == 0 and not pCell:has_flag(RSolver.AP_CELL_ASSIGN) then
                 if iAssignableIdx ~= nil then
                     iAssignableIdx = nil    -- second zero has been found
                     break
@@ -202,27 +202,22 @@ local function examine_oct_assignments(pTable)
     local nRows = pTable:get_num_rows()
 
     pTable:set_unassigned_count(nCols)
-    while true do
-        local rgpCellsAssigned = {1}
-        while #rgpCellsAssigned > 0 do
-            rgpCellsAssigned = {}
 
-            for iRowIdx = 1, nRows, 1 do
-                local iAsgnColIdx = examine_oct_assignable_row(pTable, iRowIdx)
-                if iAsgnColIdx ~= nil then
-                    examine_oct_assign_cell(pTable, rgpCellsAssigned, iRowIdx, iAsgnColIdx)
-                end
+    local rgpCellsAssigned = {1}
+    while #rgpCellsAssigned > 0 do
+        rgpCellsAssigned = {}
+
+        for iRowIdx = 1, nRows, 1 do
+            local iAsgnColIdx = examine_oct_assignable_row(pTable, iRowIdx)
+            if iAsgnColIdx ~= nil then
+                examine_oct_assign_cell(pTable, rgpCellsAssigned, iRowIdx, iAsgnColIdx)
             end
-
-            cross_list_oct_assigned_cells(pTable, rgpCellsAssigned)
         end
 
-        if pTable:get_unassigned_count() == 0 then
-            break
-        end
-
-        assign_on_multi_arbitrarily_oct_assignment(pTable)
+        cross_list_oct_assigned_cells(pTable, rgpCellsAssigned)
     end
+
+    assign_on_multi_arbitrarily_oct_assignment(pTable)
 end
 
 local function find_opportunity_cost_table(pTable)
@@ -362,7 +357,7 @@ local function fiddle_revised_oct_headers(pTable)
         end
     end
 
-    return iLineCol + iLineRow == pTable:get_num_columns()
+    return iLineCol + iLineRow >= pTable:get_num_columns()
 end
 
 local function find_shortest_revised_oct_value(pTable)

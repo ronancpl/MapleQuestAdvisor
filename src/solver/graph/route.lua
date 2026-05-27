@@ -54,9 +54,9 @@ local function mst_model_quest_resource(ctFieldsDist, rgiMapids, iSrcMapid)
                 pFrom[1] = iCurMapid
                 pFrom[2] = iPathDist
                 pFrom[3] = iDist
-            end
 
-            pQueueFrontierFields:put(iNeighborMapid, get_field_priority(iDist))
+                pQueueFrontierFields:put(iNeighborMapid, get_field_priority(iDist))
+            end
         end
     end
 
