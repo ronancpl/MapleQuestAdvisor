@@ -155,9 +155,9 @@ end
 function load_image_from_path(sImgDirPath, sImgName)
     local sImgPath = fetch_image_path(sImgDirPath, sImgName)
     sImgPath = parse_repacker_path(sImgPath)
-    sImgPath = load_image_from_path_internal(sImgPath)
 
-    return sImgPath
+    local pImgData = load_image_from_path_internal(sImgPath)
+    return pImgData
 end
 
 function load_image_empty()

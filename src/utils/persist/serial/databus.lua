@@ -51,12 +51,14 @@ function init_persist_interface()
 
     os.execute("TASKLIST /fi \"IMAGENAME eq lua5.1.exe\" /nh /fo csv > " .. sThenFilePath)
     local pHdl = io.popen("lua5.1 utils/persist/act/start.lua")
+
+    local sNowFilePath = "../" .. RPath.TMP_DB .. "/" .. RPath.TMP_PID .. "/" .. "end.txt"
+    os.execute("TASKLIST /fi \"IMAGENAME eq lua5.1.exe\" /nh /fo csv > " .. sNowFilePath)
 end
 
 function close_persist_interface()
     local sThenFilePath = "../" .. RPath.TMP_DB .. "/" .. RPath.TMP_PID .. "/" .. "init.txt"
     local sNowFilePath = "../" .. RPath.TMP_DB .. "/" .. RPath.TMP_PID .. "/" .. "end.txt"
-    os.execute("TASKLIST /fi \"IMAGENAME eq lua5.1.exe\" /nh /fo csv > " .. sNowFilePath)
 
     local rgiPids = fetch_popen_pid(sThenFilePath, sNowFilePath)
     for _, iPid in ipairs(rgiPids) do
