@@ -120,7 +120,7 @@ function CStyleBoxMapno:_load_resources(pRscProp, iRx, iRy)
         -- minitable dimensions
         local iTbW
         local iTbH
-        iTbW, iTbH = fetch_table_dimensions(m_pBoxRsc, pTableConfVw, rgpTabConfVw, siTabIdx)
+        iTbW, iTbH = fetch_table_dimensions(m_pBoxRsc)
 
         m_pBoxLimits:set_image_dimensions(iTbW, iTbH)
     end
