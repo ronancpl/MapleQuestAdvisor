@@ -10,6 +10,8 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.containers.units.mob_group_table")
+require("utils.procedure.copy")
 require("utils.struct.class")
 
 CRscMobTable = createClass({
@@ -22,4 +24,9 @@ end
 
 function CRscMobTable:put_mob(iId, iCount)
     self.tiMobs[iId] = iCount
+end
+
+function CRscMobTable:collapse_mob_groups()
+    local tiMobs = table_copy(self.tiMobs)
+    self.tiMobs = collapse_mob_groups(tiMobs)
 end

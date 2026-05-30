@@ -67,6 +67,7 @@ function CRscProperties:_update_mobs(tiMobs)
     for iId, iCount in pairs(tiMobs) do
         self.pInfoMob:put_mob(iId, iCount)
     end
+    self.pInfoMob:collapse_mob_groups()
 end
 
 function CRscProperties:_update_npc(iNpc)
