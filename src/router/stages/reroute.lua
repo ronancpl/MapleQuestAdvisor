@@ -46,7 +46,7 @@ function csvify_route_quest_path(pLeadingPath)
 end
 
 local function make_leading_paths()
-    local pLeadingPath = SRankedPath:new()
+    local pLeadingPath = CRankedPath:new()
     return pLeadingPath
 end
 
@@ -94,14 +94,7 @@ end
 
 local function load_quest_paths(rgsLines, pPlayer)
     local pLeadingPath = csv_read_route_quest_path(rgsLines, pPlayer)
-
-    local rgpPaths = SArray:new()
-    for _, pPath in ipairs(pLeadingPath:list()) do
-        local rgpQuestProps = pPath:list()
-        rgpPaths:add(rgpQuestProps)
-    end
-
-    return rgpPaths
+    return pLeadingPath
 end
 
 local function route_internal_node(rgpPoolProps, rgpQuestProps, pFrontierQuests, pFrontierArranger, pPlayerState, pCurrentPath, pLeadingPath, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)

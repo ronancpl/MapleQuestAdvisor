@@ -49,7 +49,7 @@ function pool_select_graph_quests(pGridQuests, pPlayer)
     return tQuests
 end
 
-local function pool_load_graph_quests_from_file(pGridQuests, sFilePath)
+function pool_load_graph_quests_from_file(pGridQuests, sFilePath)
     local rgiQuests = {}
 
     local tPoolRs = read_result_set(sFilePath, {"quest"})

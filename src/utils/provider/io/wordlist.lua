@@ -40,3 +40,15 @@ end
 function split_pathd(sText)
     return split_delimiter(sText, "[^/\\%.]+")
 end
+
+function delimiter_line(sText)
+    return "\n"
+end
+
+function delimiter_csv(sText)
+    return ","
+end
+
+function delimiter_path(sText)
+    return "/"
+end

@@ -11,6 +11,7 @@
 --]]
 
 require("router.constants.path")
+require("router.stages.pool")
 require("router.stages.reroute")
 require("router.structs.lane")
 require("structs.player")
@@ -52,37 +53,6 @@ function save_board_quests(tQuests)
     end
 end
 
-local function load_route_quests(pPlayer)
-    local rgsLines = {}
-
-    local fIn = io.open("../" .. RPath.SAV_ROUTE, "r")
-    if fIn ~= nil then
-        for sLine in fIn:lines() do
-            table.insert(rgsLines, sLine)
-        end
-
-        io.close(fIn)
-    end
-
-    local tRoute = csv_read_route_quest_path(rgsLines, pPlayer)
-    return tRoute
-end
-
-local function load_track_lane(pPlayer)
-    local tRoute = load_route_quests(pPlayer)
-    local pRouteLane = generate_subpath_lane(tRoute)
-
-    local pTrack = CTracePath:new()
-    pTrack:load(pRouteLane)
-
-    return pTrack, tRoute
-end
-
-function run_route_bt_load(pPlayer)  -- loads last quest laning action
-    local pTrack, tRoute = load_track_lane(pPlayer)
-    return pTrack, tRoute
-end
-
 local function write_track_quests(tRoute)
     local fOut = io.open("../" .. RPath.SAV_ROUTE, "w")
     if fOut ~= nil then
@@ -95,26 +65,57 @@ local function write_track_quests(tRoute)
     end
 end
 
-function run_route_bt_save(pPlayer, pUiStats, tRoute)  -- saves last quest laning action
+local function load_quest_paths(rgsLines, pPlayer)
+    local pLeadingPath = csv_read_route_quest_path(rgsLines, pPlayer)
+    return pLeadingPath
+end
+
+local function load_route_quests(pPlayer, bFromFile)
+    local pGridQuests = load_grid_quests(ctQuests)
+
+    local tQuests
+    if bFromFile then
+        tQuests = load_board_quests()
+    else
+        tQuests = pool_select_graph_quests(pGridQuests, pPlayer)
+    end
+
+    local tRoute = route_graph_quests(tQuests, pPlayer, ctAccessors, ctAwarders, ctFieldsDist, ctPlayersMeta)
+    return tQuests, tRoute
+end
+
+function load_track_lane(pPlayer, bFromFile)
+    local tQuests, tRoute = load_route_quests(pPlayer, bFromFile)
+    local pRouteLane = generate_subpath_lane(tRoute)
+
+    local pTrack = CTracePath:new()
+    pTrack:load(pRouteLane)
+
+    return pTrack, tRoute
+end
+
+function run_route_bt_load(pPlayer, bFromFile)  -- loads last quest laning action
+    local pTrack, tQuests, tRoute = load_track_lane(pPlayer, bFromFile)
+    return pTrack, tQuests, tRoute
+end
+
+function run_route_bt_save(tQuests, tRoute)  -- saves last quest laning action
     write_track_quests(tRoute)
+    save_board_quests(tQuests)
 end
 
 local function route_delete_board_quests()
-    os.remove("../" .. RPath.SAV_QBOARD)
-end
-
-local function route_delete_track_quests()
     os.remove("../" .. RPath.SAV_ROUTE)
+    os.remove("../" .. RPath.SAV_QBOARD)
 end
 
 function run_route_bt_delete()
     route_delete_board_quests()
-    route_delete_track_quests()
 end
 
 function load_lookahead_track(pPlayer)
     local pPlayerCopy = CPlayer:new()
     pPlayerCopy:copy(pPlayer)
 
-    return load_track_lane(pPlayerCopy)
+    return load_track_lane(pPlayerCopy, false)
 end

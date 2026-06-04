@@ -139,6 +139,30 @@ function CRankedPath:export_paths()
     return pLeadingPath
 end
 
+function CRankedPath:insert(pCurrentPath)
+    route_quest_update_leading_subpath(pCurrentPath, self)
+end
+
+function CRankedPath:list()
+    local rgpList = SArray:new()
+    for _, pSetBucketPaths in pairs(self.tpSetRankedPaths) do
+        rgpList:add(pSetBucketPaths)
+    end
+
+    return rgpList
+end
+
+function CRankedPath:get_entry_set()
+    local tpItems = {}
+    for _, pSetBucketPaths in pairs(self.tpSetRankedPaths) do
+        for pQuestPath, fVal in pairs(pSetBucketPaths:get_entry_set()) do
+            tpItems[pQuestPath] = fVal
+        end
+    end
+
+    return tpItems
+end
+
 function CRankedPath:debug_paths()
     log(LPath.PROCEDURES, "path_sequences.txt", " ---- QUEST STRING ----")
 

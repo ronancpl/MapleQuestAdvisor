@@ -110,7 +110,7 @@ function CWndHud:apply_mouse_hover()
     self.bHover = true
 end
 
-local function player_update_stats(pPlayerState)
+local function player_update_stats(pPlayerState, pRouteLane, tQuests, tRoute)
     pPlayerState:move_access_mapid(nil)     -- updates player mapid to current path location
 
     local pInfoSrv = pUiStats:get_properties():get_info_server()
@@ -121,17 +121,18 @@ local function player_update_stats(pPlayerState)
     local sWmapName = pUiWmap:get_properties():get_worldmap_name()
     player_lane_update_stats(pUiWmap, pUiStats, pUiInvt, pUiRscs, pPlayerState, siExpRate, siMesoRate, siDropRate, sWmapName)
 
-    local _, tQuests, tRoute = generate_quest_route(pPlayerState, pUiWmap)
+    if pRouteLane == nil then
+        pRouteLane, tQuests, tRoute = generate_quest_route(pPlayerState, pUiWmap)
+    end
+
     pUiHud:set_quest_data(tRoute, tQuests)
+    pUiWmap:get_properties():set_quest_route(pRouteLane)
 end
 
 function CWndHud:_fn_bt_go()
     -- load quest route info
     local pPlayer = pUiWmap:get_properties():get_player()
-    player_update_stats(pPlayer)
-
-    --tQuests = load_board_quests()
-    --pTrack, tRoute = run_route_bt_load(pPlayer)
+    player_update_stats(pPlayer, nil, nil, nil)
 end
 
 function CWndHud:_load_bt_go()
@@ -151,8 +152,7 @@ function CWndHud:_fn_bt_save(pUiStats, tRoute, tQuests)
     run_player_bt_save(pPlayer)
 
     -- save quest route info
-    run_route_bt_save(pPlayer, pUiStats, tRoute)
-    save_board_quests(tQuests)
+    run_route_bt_save(tQuests, tRoute)
 end
 
 function CWndHud:_load_bt_save(pUiStats, tRoute, tQuests)
@@ -165,6 +165,14 @@ function CWndHud:_load_bt_save(pUiStats, tRoute, tQuests)
     self.pBtChannel:add_element(bt)
 end
 
+local function run_route_load(pUiHud, pPlayer, bFromFile)
+    local pTrack, tQuests, tRoute = run_route_bt_load(pPlayer, bFromFile)
+
+    player_update_stats(pPlayer, pTrack:get_root_lane(), tQuests, tRoute)
+    player_lane_update_hud(pTrack, pUiHud)
+    player_lane_update_selectbox(pTrack, pUiHud)
+end
+
 function CWndHud:_fn_bt_load(pUiStats)
     local pPlayer = pUiWmap:get_properties():get_player()
 
@@ -172,7 +180,7 @@ function CWndHud:_fn_bt_load(pUiStats)
     run_rates_bt_load(pUiStats, pPlayer)
     run_player_bt_load(pPlayer)
 
-    player_update_stats(pPlayer)
+    run_route_load(pUiHud, pPlayer, true)
 end
 
 function CWndHud:_fn_bt_load_player()
@@ -185,7 +193,7 @@ function CWndHud:_fn_bt_load_player()
     pPlayerState:import_table(pPlayer:export_table())
     pPlayerState:import_inventory_tables(pPlayer:export_inventory_tables())
 
-    player_update_stats(pPlayerState)
+    run_route_load(pUiHud, pPlayerState, false)
 end
 
 function CWndHud:_load_bt_load(pUiStats)
