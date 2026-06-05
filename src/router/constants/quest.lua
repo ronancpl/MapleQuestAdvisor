@@ -32,7 +32,7 @@ RQuest = {
 
     JOBS = {
         name = "JOB",
-        Boost = 100,
+        Boost = 10000,
         Curb = 100
     },
 
@@ -43,19 +43,19 @@ RQuest = {
 
     SKILLS = {
         name = "SKILLS",
-        Boost = 100,
+        Boost = 10000,
         Curb = 100
     },
 
     EXP = {
         name = "EXP",
-        Boost = 40,
+        Boost = 0.04,
         Curb = 100
     },
 
     MESO = {
         name = "MESO",
-        Boost = 40 * 15,
+        Boost = 0.2,
         Curb = 100
     },
 
@@ -65,12 +65,12 @@ RQuest = {
 
     FIELD = {
         name = "FIELD",
-        Curb = 20
+        Curb = 0.001
     },
 
     FIELD_ENTER = {
         name = "FIELD_ENTER",
-        Curb = 20
+        Curb = 0.001
     },
 
     REPEAT = {

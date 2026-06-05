@@ -237,7 +237,7 @@ function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nQuests)
     local iPlayerIdx = m_rgQuests:bsearch(fn_compare_quest_level, pPlayer:get_level(), true, true)
 
     local iIdx = self:_fetch_searchable_range_min(iPlayerIdx, RGraph.POOL_AHEAD_LEVEL_RANGE)
-    local iToIdx = self:_fetch_searchable_range_max(iPlayerIdx, RGraph.POOL_BEHIND_LEVEL_RANGE)
+    local iToIdx = self:_fetch_searchable_range_max(iPlayerIdx, math.max(pPlayer:get_level() - 120, RGraph.POOL_BEHIND_LEVEL_RANGE))
 
     if iToIdx - iIdx < nQuests then
         iToIdx = math.min(m_rgQuests:size(), iIdx + nQuests)
@@ -269,6 +269,22 @@ function CQuestGrid:_fetch_quests_by_questline(tQuests)
     end
 end
 
+function CQuestGrid:_fetch_job_quests(pPlayer)
+    local tQuests = {}
+
+    local m_rgQuests = self.rgQuests
+    for _, pQuest in ipairs(m_rgQuests:list()) do
+        local pQuestProp = pQuest:get_start()
+        if ctAccessors:is_player_have_prerequisites(true, pPlayer, pQuestProp) then
+            if pQuestProp:get_requirement():get_jobs():size() > 0 then
+                tQuests[pQuest] = 1
+            end
+        end
+    end
+
+    return tQuests
+end
+
 function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
     local tpPoolQuests = STable:new()
 
@@ -283,6 +299,9 @@ function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
             end
         end
     end
+
+    tpPoolQuests:insert_table(self:_fetch_job_quests(pPlayer))
+    nQuests = nQuests - tpPoolQuests:size()
 
     local iIdx
     local iToIdx
@@ -312,7 +331,7 @@ function CQuestGrid:fetch_quests_by_list(rgiQuests)
 end
 
 function CQuestGrid:ignore_underleveled_quests(iLevel)
-    self:_ignore_quests_from_level(iLevel - RGraph.POOL_BEHIND_LEVEL_RANGE)
+    self:_ignore_quests_from_level(math.min(iLevel - RGraph.POOL_BEHIND_LEVEL_RANGE, 120 - 1))
 end
 
 function CQuestGrid:length()
