@@ -16,6 +16,7 @@ require("utils.struct.class")
 CQuest = createClass({
     iQuestid = -1,
     sTitle = "",
+    bJob = false,
     siStartingLevel = U_INT_MAX,
     qpStart = CQuestProperties:new({iQuestid = -1, iNextQuestid = -1, bStart = true}),
     qpEnd = CQuestProperties:new({iQuestid = -1, iNextQuestid = -1, bStart = false})
@@ -27,6 +28,10 @@ end
 
 function CQuest:get_title()
     return self.sTitle
+end
+
+function CQuest:is_job_quest()
+    return self.bJob
 end
 
 function CQuest:get_starting_level()

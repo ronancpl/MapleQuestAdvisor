@@ -171,11 +171,13 @@ end
 
 local function read_quest_node(pActNode, pChkNode, rgfn_req_get, rgfn_act_get)
     local iQuestid = pActNode:get_name_tonumber()
-    local sTitle = ctQuestsMeta:get_text(iQuestid)
+    local sTitle = ctQuestsMeta:get_text(iQuestid, 1)
+    local bJobTab = ctQuestsMeta:get_text(iQuestid, 2)
 
     local pQuest = CQuest:new({
         iQuestid = iQuestid,
         sTitle = sTitle,
+        bJob = bJobTab,
         qpStart = CQuestProperties:new({iQuestid = iQuestid, iNextQuestid = -1, bStart = true}),
         qpEnd = CQuestProperties:new({iQuestid = iQuestid, iNextQuestid = -1, iQuestid = iQuestid, bStart = false})
     })

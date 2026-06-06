@@ -16,10 +16,10 @@ require("composer.string.quest")
 function load_meta_resources_quests()
     local ctQuestMeta = CEntryMetaTable:new()
 
-    local tsQuestName = load_quest_string()
+    local tsQuestName, tQuestJob = load_quest_info()
 
     for iId, sName in pairs(tsQuestName) do
-        ctQuestMeta:set_text(iId, sName)
+        ctQuestMeta:set_text(iId, sName, tQuestJob[iId] ~= nil)
     end
 
     return ctQuestMeta

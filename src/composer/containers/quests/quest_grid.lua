@@ -275,9 +275,11 @@ function CQuestGrid:_fetch_job_quests(pPlayer)
     local m_rgQuests = self.rgQuests
     for _, pQuest in ipairs(m_rgQuests:list()) do
         local pQuestProp = pQuest:get_start()
-        if ctAccessors:is_player_have_prerequisites(true, pPlayer, pQuestProp) then
-            if pQuestProp:get_requirement():get_jobs():size() > 0 then
-                tQuests[pQuest] = 1
+        if pQuest:is_job_quest() then
+            if ctAccessors:is_player_have_prerequisites(true, pPlayer, pQuestProp) and ctAccessors:is_player_have_prerequisites(false, pPlayer, pQuestProp) then
+                if pQuestProp:get_requirement():get_jobs():size() > 0 then
+                    tQuests[pQuest] = 1
+                end
             end
         end
     end

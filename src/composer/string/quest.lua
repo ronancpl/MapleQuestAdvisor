@@ -13,7 +13,7 @@
 require("router.constants.path")
 require("utils.provider.xml.provider")
 
-local function load_quest_names(pQuestStringNode, tsQuestName)
+local function load_quest_string(pQuestStringNode, tsQuestName, tQuestJob)
     local pQuestListNode = pQuestStringNode:get_child_by_name("QuestInfo.img")
 
     for _, pQuestNode in pairs(pQuestListNode:get_children()) do
@@ -23,19 +23,24 @@ local function load_quest_names(pQuestStringNode, tsQuestName)
         local sQuestName = pNameNode and pNameNode:get_value() or ""
 
         tsQuestName[iQuestid] = sQuestName
+
+        local pAreaNode = pQuestNode:get_child_by_name("area")
+        local sQuestArea = pAreaNode and pAreaNode:get_value() or ""
+        if sQuestArea == "10" then tQuestJob[iQuestid] = 1 end
     end
 end
 
-function load_quest_string()
+function load_quest_info()
     local tsQuestName = {}
+    local tQuestJob = {}
 
     local sDirPath = RPath.RSC_QUESTS
     local sQuestStringsPath = sDirPath .. "/QuestInfo.img.xml"
 
     local pQuestStringNode = SXmlProvider:load_xml(sQuestStringsPath)
-    load_quest_names(pQuestStringNode, tsQuestName)
+    load_quest_string(pQuestStringNode, tsQuestName, tQuestJob)
 
     SXmlProvider:unload_node(sDirPath)   -- free XMLs nodes: String
 
-    return tsQuestName
+    return tsQuestName, tQuestJob
 end
