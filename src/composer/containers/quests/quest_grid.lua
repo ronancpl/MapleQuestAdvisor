@@ -269,15 +269,31 @@ function CQuestGrid:_fetch_quests_by_questline(tQuests)
     end
 end
 
-function CQuestGrid:_fetch_job_quests(pPlayer)
+function CQuestGrid:_is_job_skill_questline(pQuest)
+    local tQuests = STable:new()
+
+    tQuests:insert(pQuest, 1)
+    self:_fetch_quests_by_questline(tQuests)
+
+    for pQuest, _ in pairs(tQuests:get_entry_set()) do
+        local pQuestProp = pQuest:get_end()
+        if pQuestProp:get_action():get_skills():size() > 0 then
+            return true
+        end
+    end
+
+    return false
+end
+
+function CQuestGrid:_fetch_job_skill_quests(pPlayer)
     local tQuests = {}
 
     local m_rgQuests = self.rgQuests
     for _, pQuest in ipairs(m_rgQuests:list()) do
         local pQuestProp = pQuest:get_start()
         if pQuest:is_job_quest() then
-            if ctAccessors:is_player_have_prerequisites(true, pPlayer, pQuestProp) and ctAccessors:is_player_have_prerequisites(false, pPlayer, pQuestProp) then
-                if pQuestProp:get_requirement():get_jobs():size() > 0 then
+            if pQuestProp:get_requirement():get_jobs():size() > 0 then
+                if self:_is_job_skill_questline(pQuest) and ctAccessors:is_player_have_prerequisites(true, pPlayer, pQuestProp) then
                     tQuests[pQuest] = 1
                 end
             end
@@ -302,8 +318,7 @@ function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
         end
     end
 
-    tpPoolQuests:insert_table(self:_fetch_job_quests(pPlayer))
-    nQuests = nQuests - tpPoolQuests:size()
+    tpPoolQuests:insert_table(self:_fetch_job_skill_quests(pPlayer))
 
     local iIdx
     local iToIdx
