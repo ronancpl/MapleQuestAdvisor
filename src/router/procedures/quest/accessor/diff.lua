@@ -17,8 +17,11 @@ end
 function fn_diff_exceeded(pQuestAcc, pQuestProps, iSeized)
     local fn_req_prop = pQuestAcc:get_fn_property()
     local iRequired = fn_req_prop(pQuestProps)
+    if iRequired < 0 then
+        return 0
+    end
 
-    local iPending = fn_property_diff_pending(iSeized, iRequired)
+    local iPending = fn_property_diff_pending(iRequired, iSeized)
     return -iPending
 end
 
