@@ -55,7 +55,7 @@ local function fetch_item_id_from_icon(sFilePath)
     end
 
     local sImgPath = sFilePath
-    local bEquip = string.starts_with(string.sub(sImgPath, -15), "info.")
+    local bEquip = string.starts_with(string.sub(sImgPath, -16), "info.")
 
     local iLen
     if bEquip then
@@ -72,9 +72,10 @@ local function fetch_directory_itemids(sDirPath)
     local sImgDirPath
 
     local iIdx = string.rfind(sDirPath, "/")
-    local sFile = string.sub(sDirPath, -iIdx + 1)
-    if string.match(sFile, "\\*+") then
+    local sFile = string.sub(sDirPath, iIdx + 1, iIdx + 1)
+    if string.find(sFile, "%*") then
         sImgDirPath = string.sub(sDirPath, 0, iIdx - 1)
+        a = true
     else
         sImgDirPath = sDirPath
     end
