@@ -55,8 +55,7 @@ local function fetch_item_id_from_icon(sFilePath)
     end
 
     local sImgPath = sFilePath
-    local rgsSp = split_path(sImgPath)
-    local bEquip = string.starts_with(rgsSp[#rgsSp], "info.")
+    local bEquip = string.starts_with(string.sub(sImgPath, -15), "info.")
 
     local iLen
     if bEquip then
@@ -70,12 +69,16 @@ local function fetch_item_id_from_icon(sFilePath)
 end
 
 local function fetch_directory_itemids(sDirPath)
-    local rgsPath = split_path(sDirPath)
-    if rgsPath[#rgsPath] == "*" then
-        table.remove(rgsPath)
+    local sImgDirPath
+
+    local iIdx = string.rfind(sDirPath, "/")
+    local sFile = string.sub(sDirPath, -iIdx + 1)
+    if string.match(sFile, "\\*+") then
+        sImgDirPath = string.sub(sDirPath, 0, iIdx - 1)
+    else
+        sImgDirPath = sDirPath
     end
 
-    local sImgDirPath = table.concat(rgsPath, "/")
     local tImgFiles = list_dir_images_from_path(sImgDirPath)
 
     local tsItemPath = {}

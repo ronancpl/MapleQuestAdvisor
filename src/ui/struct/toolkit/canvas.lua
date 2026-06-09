@@ -105,7 +105,10 @@ function CViewCanvas:render_to(fn_drawing, iPx, iPy, iW, iH)
     _TK_CANVAS = self
 
     local iCw, iCh = self:get_origin()
-    local pCnv = self:alloc_canvas(iCw, iCh)
+    iW = iW or 1000
+    iH = iH or 1000
+
+    local pCnv = self:alloc_canvas(iCw + iW, iCh + iH)
 
     pCnv:renderTo(fn_drawing)
 
