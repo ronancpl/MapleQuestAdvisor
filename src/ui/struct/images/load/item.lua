@@ -64,7 +64,7 @@ local function fetch_item_id_from_icon(sFilePath)
         iLen = string.len(".info.iconRaw.png")
     end
 
-    local sItemId = string.sub(sImgPath, -iLen-8, -iLen)
+    local sItemId = string.sub(sImgPath, -iLen-8, -iLen-1)
     return tonumber(sItemId)
 end
 
@@ -75,7 +75,6 @@ local function fetch_directory_itemids(sDirPath)
     local sFile = string.sub(sDirPath, iIdx + 1, iIdx + 1)
     if string.find(sFile, "%*") then
         sImgDirPath = string.sub(sDirPath, 0, iIdx - 1)
-        a = true
     else
         sImgDirPath = sDirPath
     end
@@ -135,8 +134,6 @@ function CStockHeaderItem:get_image_path(iId)
 end
 
 function CStockHeaderItem:load_image_by_id(iId)
-    local siType = self:get_type(iId)
-
     local sImgFilePath = self:get_image_path(iId) or self:get_image_path(3010000)
 
     local pImg = nil
