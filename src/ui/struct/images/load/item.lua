@@ -55,7 +55,7 @@ local function fetch_item_id_from_icon(sFilePath)
     end
 
     local sImgPath = sFilePath
-    local bEquip = string.starts_with(string.sub(sImgPath, -16), "info.")
+    local bEquip = string.starts_with(string.sub(sImgPath, -17), "/info.")
 
     local iLen
     if bEquip then

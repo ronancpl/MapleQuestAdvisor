@@ -15,7 +15,7 @@ require("ui.run.build.interface.storage.split")
 require("ui.struct.canvas.worldmap.element.background")
 
 function load_node_worldmap_base_img(pWmapProp, pBaseImgNode, pDirWmapImgs)
-    local pImg = find_image_on_storage(pDirWmapImgs, "BaseImg/0")
+    local pImg = find_image_on_storage(pDirWmapImgs, "BaseImg.0")
 
     local iOx
     local iOy

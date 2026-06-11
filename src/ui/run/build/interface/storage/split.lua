@@ -86,54 +86,76 @@ function select_images_from_storage(pDirMedia, rgsPaths)
 end
 
 local function intersect_image_subpath(pDirMedia, sPathImg)
-    local sPath = pDirMedia:get_path()
+    local sPrepend = pDirMedia:get_prepend()
+    local rgsPath2 = split_pathd(pDirMedia:get_path() .. "/" .. sPrepend)
+    local nPath = #rgsPath2
 
-    local iIdx = sPathImg:find(sPath)
-    if iIdx ~= nil then
-        local iStIdx = iIdx + string.len(sPath) + 1
+    if nPath > 0 then
+        local rgsPath = split_pathd(sPathImg)
+        local iPrepPathLen = #split_path(sPrepend)
 
-        local sSubpathImg = sPathImg:sub(iStIdx)
-        return 0, sSubpathImg
-    else
-        return 0, sPathImg
+        local nPath2 = #rgsPath
+
+        local ii = 1
+        local j = 1
+        local jj = 0
+        local kk = 0
+
+        for k = 1, nPath, 1 do
+            if rgsPath[ii] == rgsPath2[k] then
+                jj = k
+
+                for l = ii + 1, math.min(nPath2, nPath - jj + 1), 1 do
+                    k = k + 1
+                    if rgsPath[l] ~= rgsPath2[k] then
+                        j = l
+                        break
+                    end
+                end
+
+                break
+            elseif k == nPath then
+                kk = nPath - iPrepPathLen
+            end
+        end
+
+        local sPath
+        if jj > 0 then
+            sPath = rgsPath2[jj]
+            for i = jj + 1, nPath, 1 do
+                sPath = sPath .. "/" .. rgsPath2[j]
+            end
+
+            for j = j + 1, nPath2, 1 do
+                sPath = sPath .. "." .. rgsPath[j]
+            end
+        else
+            sPath = sPathImg
+        end
+
+        if sPrepend ~= "" then
+            local iIdx = string.find(sPath, sPrepend)
+            if iIdx then
+                sPathImg = sPath:sub(iIdx + string.len(sPrepend) + 1)
+            else
+                sPathImg = sPath
+            end
+        end
     end
-end
 
-local function fetch_image_subpath_index(bAnimation, rgsPath, nPath, sSubpathImg)
-    return nPath    -- consists of full subpath from image directory
+    return sPathImg
 end
 
 local function fetch_image_subpath_location(pDirMedia, sPathImg, bAnimation)
     -- relative pathing from pDirMedia
-    local iBaseIdx
-    local sBasepathImg
-    iBaseIdx, sBasepathImg = intersect_image_subpath(pDirMedia, sPathImg)
-    iBaseIdx = iBaseIdx + 1
-
-    local rgsPath = split_pathd(sBasepathImg)
-
-    local nPath = #rgsPath
-    local iTopIdx = fetch_image_subpath_index(bAnimation, rgsPath, nPath, sSubpathImg)
-
-    local rgsSubpath = slice(rgsPath, iBaseIdx, iTopIdx)
-    local sSubpathImg = table.concat(rgsSubpath,".")
-
-    local sPrepend = pDirMedia:get_prepend()
-    if string.len(sPrepend) > 0 then
-        if not string.starts_with(sSubpathImg, sPrepend .. ".") then
-            sSubpathImg = sPrepend .. "." .. sSubpathImg
-        end
-    end
-
-    return iTopIdx, sSubpathImg
+    local sBasepathImg = intersect_image_subpath(pDirMedia, sPathImg)
+    return sBasepathImg
 end
 
 function find_image_on_storage(pDirMedia, sPathImg)
     local tpQuads = pDirMedia:get_contents()
 
-    local iIdx
-    local sSubpathImg
-    iIdx, sSubpathImg = fetch_image_subpath_location(pDirMedia, sPathImg, false)
+    local sSubpathImg = fetch_image_subpath_location(pDirMedia, sPathImg, false)
 
     local pImgData = fetch_image(tpQuads, sSubpathImg, U_QUAD_SINGLE)
     return pImgData
@@ -142,9 +164,7 @@ end
 function find_animation_on_storage(pDirMedia, sPathImg)
     local tpQuads = pDirMedia:get_contents()
 
-    local iIdx
-    local sPath
-    iIdx, sPath = fetch_image_subpath_location(pDirMedia, sPathImg, true)
+    local sPath = fetch_image_subpath_location(pDirMedia, sPathImg, true)
 
     local rgpQuadDatum = fetch_animation(tpQuads, sPath)
     return rgpQuadDatum

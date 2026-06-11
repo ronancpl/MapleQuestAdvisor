@@ -13,14 +13,18 @@
 function string.starts_with(str, start_str)
     local i
 
+    local i
     i, _ = string.find(str, "^" .. start_str)
+
     return i == 1
 end
 
 function string.ends_with(str, end_str)
     local i
 
+    local i
     _, i = string.find(str, end_str .. "$")
+
     return i == string.len(str)
 end
 

@@ -16,6 +16,7 @@ require("ui.constant.path")
 require("utils.procedure.copy")
 require("utils.procedure.directory")
 require("utils.procedure.string")
+require("utils.struct.array")
 
 local function fetch_figure_subpath(sPath, sBasePath)
     local i = sPath:find(sBasePath)
@@ -33,49 +34,58 @@ local function fetch_pos_repacker_subrepeat(rgsSp)
 end
 
 local function parse_repacker_path_repeater(sImgPath, iNumRepeats)
+    local sPath = sImgPath
+
     local nSubRepeat = iNumRepeats
+    if nSubRepeat > 1 then
+        local rgsSp = split_path(sPath)
 
-    local rgsSp = split_path(sImgPath)
+        local rgsPathFound = {}
 
-    local rgsPathFound = {}
+        local iIdxRep = fetch_pos_repacker_subrepeat(rgsSp)
+        if iIdxRep > -1 then
 
-    local iIdxRep = fetch_pos_repacker_subrepeat(rgsSp)
-    if iIdxRep > -1 then
-
-        -- same path prefix until before ".wz"
-        for i = 1, iIdxRep - 1, 1 do
-            table.insert(rgsPathFound, rgsSp[i])
-        end
-
-        -- repeater
-        for i = iIdxRep, #rgsSp - 1, 1 do
-            for j = 1, nSubRepeat, 1 do
+            -- same path prefix until before ".wz"
+            for i = 1, iIdxRep - 1, 1 do
                 table.insert(rgsPathFound, rgsSp[i])
             end
+
+            -- repeater
+            for i = iIdxRep, #rgsSp - 1, 1 do
+                for j = 1, nSubRepeat, 1 do
+                    table.insert(rgsPathFound, rgsSp[i])
+                end
+            end
+
+            -- file name
+            table.insert(rgsPathFound, rgsSp[#rgsSp])
         end
 
-        -- file name
-        table.insert(rgsPathFound, rgsSp[#rgsSp])
+        sPath = table.concat(rgsPathFound, "/")
     end
 
-    return table.concat(rgsPathFound, "/")
+    return sPath
 end
 
-local function parse_repacker_path_dot(sImgPath, bItc)
-    local iIdx = sImgPath:rfind(".img")
-    local sLpath = sImgPath:sub(1, iIdx + 3)
+local function parse_repacker_path_dot(sImgPath, bItc, bRep)
+    local iIdx = sImgPath:find(".img")
+    if iIdx ~= nil then
+        local sLpath = sImgPath:sub(1, iIdx + 3)
+        local sRpath = sImgPath:sub(iIdx + 5)
 
-    local sRpath = sImgPath:sub(iIdx + 5)
-    if bItc then    -- skip duplicate name from folder path
-        local iIdx = string.find(sRpath, "/")
-        if iIdx ~= nil then
-            sRpath = sRpath:sub(iIdx + 1)
+        if not bRep then
+            sRpath = string.gsub(sRpath, "/", ".")
         end
+
+        local sRet = sLpath
+        if sRpath ~= "" then
+            sRet = sRet .. "/" .. sRpath
+        end
+
+        return sRet
+    else
+        return sImgPath
     end
-
-    sRpath = string.gsub(sRpath, "/", ".")
-
-    return sLpath .. "/" .. sRpath
 end
 
 local function num_path_repeats(sImgPath)
@@ -111,17 +121,25 @@ local function parse_repacker_path_norm(sImgPath)
     return sImgPathFix
 end
 
+function parse_repacker_path_internal(sImgPath)
+    local iNum = num_path_repeats(sImgPath)
+
+    sImgPath = parse_repacker_path_norm(sImgPath)
+    sImgPath = parse_repacker_path_repeater(sImgPath, iNum)
+    sImgPath = parse_repacker_path_dot(sImgPath, string.starts_with(sImgPath, "UI.wz/ITC.img"), iNum > 1)
+
+    return sImgPath
+end
+
 local function parse_repacker_path(sImgPathOrig)
     local sImgPath = sImgPathOrig
+
     if string.starts_with(sImgPath, RWndPath.LOVE_IMAGE_DIR_PATH) then
         sImgPath = extract_prefix_image_path(sImgPath)
     end
 
-    sImgPath = parse_repacker_path_norm(sImgPath)
-    sImgPath = parse_repacker_path_repeater(sImgPath, num_path_repeats(sImgPath))
-    sImgPath = parse_repacker_path_dot(sImgPath, string.starts_with(sImgPath, "UI.wz/ITC.img"))
-
-    return RWndPath.LOVE_IMAGE_DIR_PATH .. sImgPath
+    sImgPath = RWndPath.LOVE_IMAGE_DIR_PATH .. parse_repacker_path_internal(sImgPath)
+    return sImgPath
 end
 
 function fetch_repacker_img_path(sDirPath, sImgPath)
@@ -165,26 +183,25 @@ function load_image_empty()
     return pImgData
 end
 
-local function load_image_headers_from_directory_path_internal(sPath, sBasePath)
+local function load_image_headers_from_directory_path_internal(sSystemPath, sPath, sBasePath)
     local tpImgs = {}
 
-    local pInfo = love.filesystem.getInfo(sPath)
+    local pInfo = love.filesystem.getInfo(sSystemPath .. sPath)
     if pInfo ~= nil then
         local sInfoType = pInfo.type
         if sInfoType == "directory" then
             local sDirPath = sPath
-            local rgsFiles = love.filesystem.getDirectoryItems(sDirPath)
+            local rgsFiles = love.filesystem.getDirectoryItems(sSystemPath .. sDirPath)
             for _, sFileName in ipairs(rgsFiles) do
-                local tpDirImgs = load_image_headers_from_directory_path_internal(sDirPath .. "/" .. sFileName, sBasePath)
+                local tpDirImgs = load_image_headers_from_directory_path_internal(sSystemPath, sDirPath .. "/" .. sFileName, sBasePath)
                 table_merge(tpImgs, tpDirImgs)
             end
         elseif sInfoType == "file" then
             if string.ends_with(sPath, ".png") then
-                local sImgPath = sPath
-                sImgPath = extract_repacker_image_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sImgPath)
+                local sImgPath = sSystemPath .. sPath
 
-                local sImgSubpath = fetch_figure_subpath(sImgPath, sBasePath)
-                tpImgs[sImgSubpath] = sPath
+                local sImgSubpath = fetch_figure_subpath(extract_repacker_image_path(sImgPath), sBasePath)
+                tpImgs[sImgSubpath] = sImgPath
             end
         end
     end
@@ -193,28 +210,78 @@ local function load_image_headers_from_directory_path_internal(sPath, sBasePath)
 end
 
 local function load_images_from_headers(tpItems, sPrepend)
-    for sImgKey, sImgPath in pairs(tpItems) do
-        if sPrepend == nil or string.starts_with(sImgKey, sPrepend) then
+    if sPrepend == "" then
+        sPrepend = nil
+    end
+
+    local tpItems2 = {}
+
+    if sPrepend == nil then
+        for sImgKey, sImgPath in pairs(tpItems) do
             local pImgData = load_image_from_path_internal(sImgPath)
-            tpItems[sImgKey] = pImgData
-        else
-            tpItems[sImgKey] = nil
+            tpItems2[sImgKey] = pImgData
+        end
+    else
+        for sImgKey, sImgPath in pairs(tpItems) do
+            if string.starts_with(sImgKey, sPrepend) then
+                local iPrepLen = string.len(sPrepend)
+                if string.len(sImgKey) > iPrepLen + 1 then
+                    sImgKey = sImgKey:sub(iPrepLen + 2)
+                else
+                    sImgKey = ""
+                end
+
+                local pImgData = load_image_from_path_internal(sImgPath)
+                tpItems2[sImgKey] = pImgData
+            end
         end
     end
+
+    return tpItems2
 end
 
-local function load_images_from_directory_path(sPath, sBasePath, sPrepend)
-    local sImgPath = parse_repacker_path(sPath)
-
-    local tpItems = load_image_headers_from_directory_path_internal(sImgPath, sBasePath)
-    load_images_from_headers(tpItems, sPrepend)
+local function load_images_from_directory_path(sSystemPath, sPath, sBasePath, sPrepend)
+    local tpItems = load_image_headers_from_directory_path_internal(sSystemPath, sPath, sBasePath)
+    tpItems = load_images_from_headers(tpItems, sPrepend)
 
     return tpItems
 end
 
+local function fetch_file_path(sSystemPath, sPath, sPrepend)
+    local rgsPrepend = SArray:new()
+    if sPrepend ~= "" then
+        rgsPrepend:insert(sPrepend)
+    end
+
+    while true do
+        local pInfo = love.filesystem.getInfo(sSystemPath .. sPath)
+        if pInfo ~= nil then
+            break
+        end
+
+        local iIdx = sPath:rfind("/")
+        if iIdx == nil then
+            if sPath ~= "" then
+                rgsPrepend:insert(sPath)
+            end
+            sPath = ""
+
+            break
+        end
+
+        rgsPrepend:insert(sPath:sub(iIdx + 1))
+        sPath = sPath:sub(0, iIdx - 1)
+    end
+
+    rgsPrepend:reverse()
+
+    return sPath, table.concat(rgsPrepend:list(), "/")
+end
+
 function load_images_from_path(sPath, sPrepend)
-    local sBasePath = sPath
-    local tpItems = load_images_from_directory_path(RWndPath.LOVE_IMAGE_DIR_PATH .. sPath, sBasePath, sPrepend)
+    local sBasePath, sPrepend = fetch_file_path(RWndPath.LOVE_IMAGE_DIR_PATH, sPath, sPrepend or "")
+
+    local tpItems = load_images_from_directory_path(RWndPath.LOVE_IMAGE_DIR_PATH, sBasePath, sBasePath, sPrepend)
 
     local pDirImages = CMediaTable:new()
     pDirImages:set_path(sBasePath)
@@ -248,3 +315,36 @@ function list_dir_images_from_path(sPath)
 
     return tImgFiles
 end
+
+function fetch_repacker_path(sImgPath, sDirPath)
+    local rgsSpPath = split_path(sImgPath)
+
+    local i = #rgsSpPath
+    while i > 0 do
+        if string.ends_with(rgsSpPath[i], ".img") then
+            break
+        end
+
+        i = i - 1
+    end
+
+    local sPrepend = sDirPath
+    if i > 0 then
+        local rgsConcat = {}
+        for j = i + 1, #rgsSpPath, 1 do
+            table.insert(rgsConcat, rgsSpPath[j])
+        end
+        if #rgsConcat > 0 then
+            sPrepend = table.concat(rgsConcat, ".") .. sDirPath
+        end
+
+        local rgsImgPath = {}
+        for j = 1, i, 1 do
+            table.insert(rgsImgPath, rgsSpPath[j])
+        end
+        sImgPath = table.concat(rgsImgPath, "/")
+    end
+
+    return parse_repacker_path_internal(sImgPath), nil, sPrepend
+end
+
