@@ -17,6 +17,7 @@ require("utils.struct.class")
 
 CStockHeaderItem = createClass({
     tpImgDirType,
+    tItemTypeDir,
     tiItemType,
     tsItemPath
 })
@@ -35,7 +36,13 @@ local function load_item_directory_paths()
     tpImgDirType["Item.wz/Etc"] = 4
     tpImgDirType["Item.wz/Cash"] = 5
 
-    return tpImgDirType
+    local tItemTypeDir = {}
+    tItemTypeDir[2] = "Consume"
+    tItemTypeDir[3] = "Install"
+    tItemTypeDir[4] = "Etc"
+    tItemTypeDir[5] = "Cash"
+
+    return tpImgDirType, tItemTypeDir
 end
 
 local function make_remissive_index_type_items(tTypeItems)
@@ -115,12 +122,13 @@ local function read_item_headers(tpImgDirType)
 end
 
 function CStockHeaderItem:load()
-    self.tpImgDirType = load_item_directory_paths()
+    self.tpImgDirType, self.tItemTypeDir = load_item_directory_paths()
 
-    local tiTypeItem
+    --[[local tiTypeItem
     tiTypeItem, self.tsItemPath = read_item_headers(self.tpImgDirType)
 
     self.tiItemType = make_remissive_index_type_items(tiTypeItem)
+    ]]--
 end
 
 function CStockHeaderItem:get_type(iId)
@@ -129,8 +137,57 @@ function CStockHeaderItem:get_type(iId)
 end
 
 function CStockHeaderItem:get_image_path(iId)
-    local sImgPath = self.tsItemPath[iId]
-    return sImgPath
+    local sImgPath
+    local siType = math.floor(iId / 1000000)
+    if siType ~= 1 then
+        sImgPath = "Item.wz/" .. self.tItemTypeDir[siType]
+        while string.ends_with(sImgPath, "*") do
+            sImgPath = sImgPath:sub(0, string.rfind(sImgPath, "/"))
+        end
+        sImgPath = sImgPath .. "/" .. string.pad_number(math.floor(iId / 10000), 4) .. ".img/"
+        sImgPath = sImgPath .. string.pad_number(math.floor(iId), 8) .. ".info.iconRaw"
+    else
+        sImgPath = "Character.wz/"
+
+        if ((iId >= 1010000 and iId < 1040000) or (iId >= 1122000 and iId < 1123000) or (iId >= 1132000 and iId < 1133000) or (iId >= 1142000 and iId < 1143000)) then
+            sImgPath = sImgPath .. "Accessory"
+        elseif (iId >= 1000000 and iId < 1010000) then
+            sImgPath = sImgPath .. "Cap"
+        elseif (iId >= 1102000 and iId < 1103000) then
+            sImgPath = sImgPath .. "Cape"
+        elseif (iId >= 1040000 and iId < 1050000) then
+            sImgPath = sImgPath .. "Coat"
+        elseif (iId >= 20000 and iId < 22000) then
+            sImgPath = sImgPath .. "Face"
+        elseif (iId >= 1080000 and iId < 1090000) then
+            sImgPath = sImgPath .. "Glove"
+        elseif (iId >= 30000 and iId < 35000) then
+            sImgPath = sImgPath .. "Hair"
+        elseif (iId >= 1050000 and iId < 1060000) then
+            sImgPath = sImgPath .. "Longcoat"
+        elseif (iId >= 1060000 and iId < 1070000) then
+            sImgPath = sImgPath .. "Pants"
+        elseif (iId >= 1802000 and iId < 1842000) then
+            sImgPath = sImgPath .. "PetEquip"
+        elseif (iId >= 1112000 and iId < 1120000) then
+            sImgPath = sImgPath .. "Ring"
+        elseif (iId >= 1092000 and iId < 1100000) then
+            sImgPath = sImgPath .. "Shield"
+        elseif (iId >= 1070000 and iId < 1080000) then
+            sImgPath = sImgPath .. "Shoes"
+        elseif (iId >= 1900000 and iId < 2000000) then
+            sImgPath = sImgPath .. "Taming"
+        elseif (iId >= 1300000 and iId < 1800000) then
+            sImgPath = sImgPath .. "Weapon"
+        else
+            sImgPath = sImgPath .. "*"
+        end
+
+        sImgPath = sImgPath .. "/" .. string.pad_number(iId, 8) .. ".img/info.iconRaw"
+    end
+
+    local pInfo = love.filesystem.getInfo(RWndPath.LOVE_IMAGE_DIR_PATH .. parse_repacker_path_internal(sImgPath) .. ".png")
+    return pInfo and sImgPath or nil
 end
 
 function CStockHeaderItem:load_image_by_id(iId)

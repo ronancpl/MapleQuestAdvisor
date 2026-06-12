@@ -57,16 +57,19 @@ local function read_item_headers()
 end
 
 function CStockHeaderNpc:load()
-    self.tEntries = read_item_headers()
+    --self.tEntries = read_item_headers()
 end
 
 function CStockHeaderNpc:_get_image_path(iId)
+    --[[
     if self.tEntries[iId] == nil then
         return nil
     end
+    ]]--
 
     local sImgPath = "Npc.wz/" .. string.pad_number(iId, 7) .. ".img/stand.0.png"
-    return sImgPath
+    local pInfo = love.filesystem.getInfo(RWndPath.LOVE_IMAGE_DIR_PATH .. parse_repacker_path_internal(sImgPath))
+    return pInfo and sImgPath or nil
 end
 
 function CStockHeaderNpc:load_image_by_id(iId)
