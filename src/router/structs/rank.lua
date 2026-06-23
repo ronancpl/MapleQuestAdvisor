@@ -10,9 +10,12 @@
     provide an express grant of patent rights.
 --]]
 
+require("composer.containers.quests.quest_grid")
 require("router.constants.graph")
+require("router.constants.quest")
 require("router.procedures.constant")
 require("router.structs.path")
+require("utils.procedure.unpack")
 require("utils.struct.class")
 require("utils.struct.ranked_set")
 
@@ -123,17 +126,74 @@ function CRankedPath:eval_leading_path(pLeadingPath)
     end
 end
 
+local function rank_path_grade2(c, g)
+    if c <= g then
+        return g
+    else
+        return rank_path_grade2(c - g, g + 1)
+    end
+end
+
+local function rank_path_grade(c)
+    if c <= 0 then return 0 end
+    return rank_path_grade2(c, 1)
+end
+
+local function rank_path_value(pCurrentPath, pSlctQuestProp)
+    local iVal = pCurrentPath:value()
+    if not pCurrentPath:is_empty() and pSlctQuestProp ~= nil then
+        local pBaseQuest = ctQuests:get_quest_by_id(pSlctQuestProp:get_quest_id())
+        local pBaseQuestProp = pBaseQuest:get_start()
+        local bBaseQuestline = true
+
+        local tFinalQuests = STable:new()
+        tFinalQuests:insert(pBaseQuest, 1)
+        fetch_quests_by_questline(tFinalQuests)
+
+        for pQuest, _ in pairs(tFinalQuests:get_entry_set()) do
+            local iNext = #ctQuests:get_next_quest_prop(pCurQuestProp)
+            if iNext > 0 then
+                tFinalQuests:remove(pQuest)
+            end
+        end
+
+        for _, pQuestProp in ipairs(pCurrentPath:list()) do
+            local pQuest = ctQuests:get_quest_by_id(pQuestProp:get_quest_id())
+            local pFirstQuestProp = ctQuests:get_questline(pQuest):get_start()
+
+            if not tFinalQuests:contains(pQuest) and pBaseQuestProp ~= pFirstQuestProp then
+                bBaseQuestline = false
+                break
+            end
+        end
+
+        if bBaseQuestline then
+            iVal = iVal + (rank_path_grade(#keys(tQuests)) * RQuest.QUESTS.QuestlineBoost)
+        end
+    end
+
+    return iVal
+end
+
 function CRankedPath:export_paths()
     local nPaths = RGraph.LEADING_PATH_CAPACITY
 
     local pLeadingPath = SRankedSet:new()
     pLeadingPath:set_capacity(RGraph.LEADING_PATH_CAPACITY)
 
+    local pSlctQuestProp = nil
+    if pUiWmap ~= nil then
+        local pTrack = pUiWmap:get_properties():get_track()
+        if pTrack ~= nil then
+            pSlctQuestProp = pTrack:get_top_quest()
+        end
+    end
+
     for _, pSetBucketPaths in pairs(self.tpSetRankedPaths) do
         local pCurrentPath = pSetBucketPaths:get_base() -- insert top of each path bucket
 
         local pPath = route_path_copy(pCurrentPath)
-        pLeadingPath:insert(pPath, pCurrentPath:value())
+        pLeadingPath:insert(pPath, rank_path_value(pCurrentPath, pSlctQuestProp))
     end
 
     return pLeadingPath

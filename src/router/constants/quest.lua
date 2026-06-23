@@ -38,6 +38,7 @@ RQuest = {
 
     QUESTS = {
         name = "QUESTS",
+        QuestlineBoost = 10000,
         Curb = 100
     },
 
@@ -65,12 +66,12 @@ RQuest = {
 
     FIELD = {
         name = "FIELD",
-        Curb = 0.001
+        Curb = 5
     },
 
     FIELD_ENTER = {
         name = "FIELD_ENTER",
-        Curb = 0.001
+        Curb = 5
     },
 
     REPEAT = {

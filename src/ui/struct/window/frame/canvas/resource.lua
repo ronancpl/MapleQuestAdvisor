@@ -49,7 +49,7 @@ function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
 
     local tiItems = {}
     local tiMobs = {}
-    local iNpc = pQuestChkProp:get_npc()
+    local iNpc = -1
     local tFieldsEnter = {}
 
     local tpItems = pQuestChkProp:get_items():get_items()
@@ -65,6 +65,8 @@ function CWndResource:_fetch_field_resources(pQuestProp, rgiResourceids)
             tiItems[iRscUnit] = tpItems[iRscUnit] or 1
         elseif iRscType == RLookupCategory.FIELD_ENTER then
             tFieldsEnter[iRscUnit] = 1
+        elseif iRscType == RLookupCategory.FIELD_NPC then
+            iNpc = pQuestChkProp:get_npc()
         end
     end
 
@@ -111,6 +113,16 @@ local function remove_duplicates_in_resource_list(rgiRscids)
     table.sort(rgiRscids)
 end
 
+local function export_resources(rgiResources, siType)
+    local rgiRscs = table_copy(rgiResources)
+
+    for i = 1, #rgiRscs, 1 do
+        rgiRscs[i] = (siType * 1000000000) + rgiRscs[i]
+    end
+
+    return rgiRscs
+end
+
 function CWndResource:_export_resources_by_fields(rgiFields)
     local m_pProp = self.pProp
 
@@ -127,10 +139,10 @@ function CWndResource:_export_resources_by_fields(rgiFields)
             pProp:add_field_resources(iMapid, tiItems, tiMobs, iNpc, tFieldsEnter)
 
             local pLookupRscs = create_descriptor_lookup_resources(tiItems, expand_mob_groups(tiMobs), tFieldsEnter, iMapid)
-            table_append(rgiRscids, pLookupRscs[RLookupCategory.ITEMS])
-            table_append(rgiRscids, pLookupRscs[RLookupCategory.MOBS])
-            table_append(rgiRscids, pLookupRscs[RLookupCategory.FIELD_ENTER])
-            if iNpc ~= -1 then table_append(rgiRscids, pLookupRscs[RLookupCategory.FIELD_NPC]) end
+            table_append(rgiRscids, export_resources(pLookupRscs[RLookupCategory.ITEMS], RLookupCategory.ITEMS))
+            table_append(rgiRscids, export_resources(pLookupRscs[RLookupCategory.MOBS], RLookupCategory.MOBS))
+            table_append(rgiRscids, export_resources(pLookupRscs[RLookupCategory.FIELD_ENTER], RLookupCategory.FIELD_ENTER))
+            if iNpc ~= -1 then table_append(rgiRscids, export_resources(pLookupRscs[RLookupCategory.FIELD_NPC], RLookupCategory.FIELD_NPC)) end
         end
     end
 
@@ -147,6 +159,7 @@ function CWndResource:update_resources(pQuestProp, pRscTree)
     reset_resource_item_range(pVwRscs)
 
     self:_update_resources(pQuestProp, pRscTree)
+    pRscTree:debug_descriptor_tree()
 
     m_pProp:set_resource_tree(pRscTree)
     m_pProp:build()

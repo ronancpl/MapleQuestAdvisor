@@ -67,28 +67,28 @@ function CQuestGrid:_ignore_quests_from_level(iLevel)
     end
 end
 
-function CQuestGrid:_search_prequests_in_tab(tQuests, fn_filter_quests, pQuest, fn_quest_tab, pPlayer, iExpectedStatus)
+function CQuestGrid:_search_prequests_in_tab(tQuests, fn_filter_quests, pQuest, fn_quest_tab, pPlayer, iCurNpcMapid, iExpectedStatus)
     local pQuestTab = fn_quest_tab(pQuest)
 
     for iPreQuestId, iStatus in pairs(pQuestTab:get_requirement():get_quests():get_items()) do
         if iStatus >= iExpectedStatus then
             local pPreQuest = ctQuests:get_quest_by_id(iPreQuestId)
-            self:_add_quest_if_eligible(tQuests, fn_filter_quests, pPreQuest, pPlayer, iStatus)
+            self:_add_quest_if_eligible(tQuests, fn_filter_quests, pPreQuest, pPlayer, iCurNpcMapid, iStatus)
         end
     end
 end
 
 --
-function CQuestGrid:_search_prequests(tQuests, fn_filter_quests, pQuest, pPlayer, iExpectedStatus)
-    self:_search_prequests_in_tab(tQuests, fn_filter_quests, pQuest, CQuest.get_start, pPlayer, iExpectedStatus)
-    self:_search_prequests_in_tab(tQuests, fn_filter_quests, pQuest, CQuest.get_end, pPlayer, iExpectedStatus)
+function CQuestGrid:_search_prequests(tQuests, fn_filter_quests, pQuest, pPlayer, iCurNpcMapid, iExpectedStatus)
+    self:_search_prequests_in_tab(tQuests, fn_filter_quests, pQuest, CQuest.get_start, pPlayer, iCurNpcMapid, iExpectedStatus)
+    self:_search_prequests_in_tab(tQuests, fn_filter_quests, pQuest, CQuest.get_end, pPlayer, iCurNpcMapid, iExpectedStatus)
 end
 
-function CQuestGrid:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, iExpectedStatus)
-    if fn_filter_quests(pQuest, pPlayer) then
+function CQuestGrid:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, iCurNpcMapid, iExpectedStatus)
+    if fn_filter_quests(pQuest, iCurNpcMapid) then
         if tQuests[pQuest] == nil then
             tQuests[pQuest] = 1
-            self:_search_prequests(tQuests, fn_filter_quests, pQuest, pPlayer, iExpectedStatus)
+            self:_search_prequests(tQuests, fn_filter_quests, pQuest, pPlayer, iCurNpcMapid, iExpectedStatus)
         end
 
         return true
@@ -97,14 +97,38 @@ function CQuestGrid:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pP
     return false
 end
 
-function CQuestGrid:_try_add_quest(tQuests, fn_filter_quests, iIdx, pPlayer)
+function CQuestGrid:_try_add_quest(tQuests, fn_filter_quests, iIdx, pPlayer, iCurNpcMapid)
     local m_rgQuests = self.rgQuests
 
     local pQuest = m_rgQuests:get(iIdx)
-    return self:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, 0)
+    return self:_add_quest_if_eligible(tQuests, fn_filter_quests, pQuest, pPlayer, iCurNpcMapid, 0)
+end
+
+local function fetch_current_npc_mapid(pPlayer)
+    local iCurNpcMapid = nil
+
+    if pUiWmap ~= nil then
+        local pTrack = pUiWmap:get_properties():get_track()
+        if pTrack ~= nil then
+            local pCurQuestProp = pTrack:get_top_quest()
+            if pCurQuestProp ~= nil then
+                local pQuestChkProp = pCurQuestProp:get_requirement()
+                local iNpcid = pQuestChkProp:get_npc()
+
+                local iPlayerMapid = pPlayer:get_mapid()
+                local iQuestNpcMapid = get_npc_location(iNpcid, iPlayerMapid)
+
+                iCurNpcMapid = iQuestNpcMapid
+            end
+        end
+    end
+
+    return iCurNpcMapid
 end
 
 function CQuestGrid:_fetch_top_quests_index(tQuests, fn_filter_quests, iFromIdx, pPlayer, nQuests, nAvailable)
+    local iCurNpcMapid = fetch_current_npc_mapid(pPlayer) or pPlayer:get_mapid()
+
     local iCount = #keys(tQuests)
 
     local nParts = RGraph.POOL_QUEST_FETCH_PARTITIONS
@@ -125,7 +149,7 @@ function CQuestGrid:_fetch_top_quests_index(tQuests, fn_filter_quests, iFromIdx,
         for j = 0, nCols - 2, 1 do
             local iIdx = ((nRows - 1) * j) + i
 
-            if self:_try_add_quest(tQuests, fn_filter_quests, iFromIdx + iIdx, pPlayer) then
+            if self:_try_add_quest(tQuests, fn_filter_quests, iFromIdx + iIdx, pPlayer, iCurNpcMapid) then
                 iCount = iCount + 1
                 if iCount >= nQuests then return end
             end
@@ -134,7 +158,7 @@ function CQuestGrid:_fetch_top_quests_index(tQuests, fn_filter_quests, iFromIdx,
             for j = nCols - 1, nCols - 1, 1 do
                 local iIdx = ((nRows - 1) * j) + i
 
-                if self:_try_add_quest(tQuests, fn_filter_quests, iFromIdx + iIdx, pPlayer) then
+                if self:_try_add_quest(tQuests, fn_filter_quests, iFromIdx + iIdx, pPlayer, iCurNpcMapid) then
                     iCount = iCount + 1
                     if iCount >= nQuests then return end
                 end
@@ -159,8 +183,7 @@ function CQuestGrid:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuest
 end
 
 function CQuestGrid:_fetch_top_quests_by_continent(pPlayer, nQuests, iFromIdx, iToIdx)
-    local fn_filter_quests = function (pQuest, pPlayer)
-        local iPlayerMapid = pPlayer:get_mapid()
+    local fn_filter_quests = function (pQuest, iPlayerMapid)
         local iStartMapid = pQuest:get_start():get_requirement():get_field(iPlayerMapid) or 0
 
         return get_region_id(iStartMapid) == get_region_id(iPlayerMapid)
@@ -171,7 +194,7 @@ function CQuestGrid:_fetch_top_quests_by_continent(pPlayer, nQuests, iFromIdx, i
 end
 
 function CQuestGrid:_fetch_top_quests_by_availability(pPlayer, nQuests, iFromIdx, iToIdx)
-    local fn_filter_quests = function (pQuest, pPlayer) return true end
+    local fn_filter_quests = function (pQuest, iPlayerMapid) return true end
 
     local tQuests = self:_fetch_top_quests_internal(fn_filter_quests, pPlayer, nQuests, iFromIdx, iToIdx)
     return tQuests
@@ -246,7 +269,7 @@ function CQuestGrid:_fetch_top_quests_searchable_range(pPlayer, nQuests)
     return iIdx, iToIdx
 end
 
-function CQuestGrid:_fetch_quests_by_questline(tQuests)
+function fetch_quests_by_questline(tQuests)
     local rgpQuests = {}
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
         table.insert(rgpQuests, pQuest)
@@ -273,7 +296,7 @@ function CQuestGrid:_is_job_skill_questline(pQuest)
     local tQuests = STable:new()
 
     tQuests:insert(pQuest, 1)
-    self:_fetch_quests_by_questline(tQuests)
+    fetch_quests_by_questline(tQuests)
 
     for pQuest, _ in pairs(tQuests:get_entry_set()) do
         local pQuestProp = pQuest:get_end()
@@ -331,7 +354,7 @@ function CQuestGrid:fetch_top_quests_by_player(pPlayer, nQuests)
     local nQuestsOverall = math.ceil((1.0 - RGraph.POOL_QUEST_FETCH_CONTINENT_RATIO) * nQuests)
     tpPoolQuests:insert_table(self:_fetch_top_quests_by_availability(pPlayer, nQuestsOverall + nLeft, iIdx, iToIdx))
 
-    self:_fetch_quests_by_questline(tpPoolQuests)
+    fetch_quests_by_questline(tpPoolQuests)
 
     return tpPoolQuests
 end

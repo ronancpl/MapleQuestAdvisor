@@ -26,7 +26,7 @@ RWndPath = {
 
     -- Basic
     INTF_BASIC = "UI.wz/Basic.img",
-    INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx/bar.png",
+    INTF_SBOX = "UI.wz/UIWindow.img/UtilDlgEx.bar.png",
 
     MOUSE = {
         BT_DOWN = 12,

@@ -107,7 +107,10 @@ function CRscProperties:_build_header_resources()
     for iMapid, pRscEntry in pairs(m_tpRscEntries) do
         table_merge(tiItems, pRscEntry:get_items())
         table_merge(tiMobs, pRscEntry:get_mobs())
-        iNpc = pRscEntry:get_npc() or iNpc
+
+        local iNpcid = pRscEntry:get_npc()
+        if iNpcid ~= -1 and iNpcid ~= nil then iNpc = pRscEntry:get_npc() end
+
         table_merge(tFieldsEnter, pRscEntry:get_field_enter())
     end
 

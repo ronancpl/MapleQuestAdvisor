@@ -28,6 +28,32 @@ local function get_resource_field_ref(pRscTree, iRscId)
     return rgiRegFields
 end
 
+local function get_npc_field_ref(pRscTree)
+    local rgiResourceids = pRscTree:get_resources()
+
+    local iMapid = -1
+    for _, iRscid in ipairs(rgiResourceids) do
+        local iRscType = math.floor(iRscid / 1000000000)
+        local iRscUnit = iRscid % 1000000000
+
+        if iRscType == RLookupCategory.FIELD_NPC then
+            iMapid = iRscUnit
+            break
+        end
+    end
+
+    local rgiRegFields = {}
+    if iMapid ~= -1 then
+        local trgiFields = {}
+        local iRegionid = ctFieldsLandscape:get_region_by_mapid(iMapid)
+
+        rgiRegFields = create_inner_table_if_not_exists(trgiFields, iRegionid)
+        table.insert(rgiRegFields, iMapid)
+    end
+
+    return rgiRegFields
+end
+
 local function make_tab_resources_items(pRscProp)
     local rgpVwItems = {}
 
@@ -86,7 +112,7 @@ local function make_tab_resources_npc(pRscProp)
 
         local pImg = ctHrNpcs:load_image_by_id(iId)
         local sDesc = ctNpcsMeta:get_text(iId)
-        local trgiFieldsRef = get_resource_field_ref(pRscTree, iId)
+        local trgiFieldsRef = get_npc_field_ref(pRscTree)
 
         local pVwBase = {W = pImg:getWidth(), H = pImg:getHeight()}
         pVwItem:load(siType, iId, tpRscGrid, pImg, nil, sDesc, trgiFieldsRef, pVwBase, pVwBase, false)

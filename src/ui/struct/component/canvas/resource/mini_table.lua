@@ -91,12 +91,11 @@ function CRscMinitableElem:load(rX, rY)
     for i = 1, 4, 1 do
         m_rgpTabVwItems[i] = {}
     end
-
-    load_minitable_tab_background(self)
 end
 
 function CRscMinitableElem:build()
     -- builds after load of each tab's items
+    load_minitable_tab_background(self)
     load_minitable_resources(self)
 end
 

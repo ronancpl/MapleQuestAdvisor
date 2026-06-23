@@ -28,6 +28,10 @@ function STable:get(pKey)
     return m_tpItems[pKey]
 end
 
+function STable:contains(pKey)
+    return self:get(pKey) ~= nil
+end
+
 function STable:get_entry_set()
     local tpItems = {}
     for k, v in pairs(self.tpItems) do
