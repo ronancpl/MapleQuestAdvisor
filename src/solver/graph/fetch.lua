@@ -13,13 +13,13 @@
 require("solver.assignment.procedures.solve")
 require("solver.graph.resource.measure")
 
-local function fetch_model_resource_field_values(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iEntryMapid, pResource, tiRscIdxs)
+local function fetch_model_resource_field_values(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, ctRetrieveLootShops, iEntryMapid, pResource, tiRscIdxs)
     local rgiFieldCols = {}
     local rgiFieldCosts = {}
 
     for _, iRsc in ipairs(pResource:get_resources()) do
         local iRscIdx = tiRscIdxs[iRsc]
-        local iRscUtilCost = calc_resource_retrieve_utility_cost(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iEntryMapid, iRsc)
+        local iRscUtilCost = calc_resource_retrieve_utility_cost(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, ctRetrieveLootShops, iEntryMapid, iRsc)
 
         table.insert(rgiFieldCols, iRscIdx)
         table.insert(rgiFieldCosts, iRscUtilCost)
@@ -60,7 +60,7 @@ local function create_model_quest_resource_graph(ctFieldsDist, iSrcMapid, tpFiel
         for iMapid, pResource in pairs(tpFieldRscs) do
             local rgiFieldCols
             local rgiFieldCosts
-            rgiFieldCols, rgiFieldCosts = fetch_model_resource_field_values(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iSrcMapid, pResource, tiRscIdxs)
+            rgiFieldCols, rgiFieldCosts = fetch_model_resource_field_values(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, ctRetrieveLootShops, iSrcMapid, pResource, tiRscIdxs)
 
             local iRscDist = ctFieldsLandscape:fetch_field_distance(iSrcMapid, iMapid, ctFieldsDist, ctFieldsMeta, ctFieldsWmap, ctFieldsLink)
             local iRscDistCost = calc_resource_field_cost(iRscDist)

@@ -53,6 +53,7 @@ local function init_loot_table(sDirPath)
 
     load_loot_by_type(ctLoots, CLootTable.add_mob_entry, CLootTable.add_mob_loot, "dropperid", {"dropperid", "itemid", "minimum_quantity", "maximum_quantity", "chance"}, sDirPath .. "/drop_data.csv")
     load_loot_by_type(ctLoots, CLootTable.add_reactor_entry, CLootTable.add_reactor_loot, "reactorid", {"reactorid", "itemid", 1, 1, "chance"}, sDirPath .. "/reactordrops.csv")
+    load_loot_by_type(ctLoots, CLootTable.add_shop_entry, CLootTable.add_shop_loot, "shopid", {"shopid", "itemid", 1, 1, 999999}, sDirPath .. "/shopitems.csv")
 
     ctLoots:squash_loots()
     ctLoots:make_remissive_index_loot_sources()

@@ -159,7 +159,6 @@ function CWndResource:update_resources(pQuestProp, pRscTree)
     reset_resource_item_range(pVwRscs)
 
     self:_update_resources(pQuestProp, pRscTree)
-    pRscTree:debug_descriptor_tree()
 
     m_pProp:set_resource_tree(pRscTree)
     m_pProp:build()

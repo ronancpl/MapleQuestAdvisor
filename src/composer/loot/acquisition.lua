@@ -28,6 +28,7 @@ end
 function load_acquisition_loot_table(iDropRate, ctFieldsLandscape, ctFieldsMeta, ctLoots)
     local ctRetrieveLootMobs = create_acquisition_loot_table(iDropRate, ctFieldsLandscape, ctFieldsMeta, ctMobs, ctLoots:get_loot_mob_entries())
     local ctRetrieveLootReactors = create_acquisition_loot_table(iDropRate, ctFieldsLandscape, ctFieldsMeta, ctReactors, ctLoots:get_loot_reactor_entries())
+    local ctRetrieveLootShops = create_acquisition_loot_table(iDropRate, ctFieldsLandscape, ctFieldsMeta, ctNpcs, ctLoots:get_loot_shop_entries())
 
-    return ctRetrieveLootMobs, ctRetrieveLootReactors
+    return ctRetrieveLootMobs, ctRetrieveLootReactors, ctRetrieveLootShops
 end

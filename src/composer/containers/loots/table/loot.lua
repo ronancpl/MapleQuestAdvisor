@@ -20,12 +20,16 @@ CLootTable = createClass({
     tItemMobs = {},
 
     tReactorItems = {},
-    tItemReactors = {}
+    tItemReactors = {},
+
+    tShopItems = {},
+    tItemShops = {}
 })
 
 local tfn_chance_ratio = {
     ["mob"] = function (x) return x / 999999 end,
-    ["reactor"] = function (x) return 1 / x end
+    ["reactor"] = function (x) return 1 / x end,
+    ["shop"] = function (x) return 1.0 end
 }
 
 local function get_chance_by_type(iChance, sTypeLoot)
@@ -149,6 +153,19 @@ function CLootTable:get_reactor_entries()
     return self.tReactorItems
 end
 
+function CLootTable:add_shop_loot(iSrcid, iItemid, iChance, siMinItems, siMaxItems)
+    local pLoot = create_loot(iSrcid, iItemid, iChance, "shop", siMinItems, siMaxItems)
+    insert_loot(self.tShopItems, pLoot)
+end
+
+function CLootTable:get_shop_entry(iSrcid)
+    return self.tShopItems[iSrcid]
+end
+
+function CLootTable:get_shop_entries()
+    return self.tShopItems
+end
+
 local function squash_type_loots(tItems)
     local tEntries = {}
 
@@ -207,6 +224,7 @@ end
 function CLootTable:make_remissive_index_loot_sources()
     self:_make_remissive_index_table_loot_sources(self.tMobItems, self.tItemMobs)
     self:_make_remissive_index_table_loot_sources(self.tReactorItems, self.tItemReactors)
+    self:_make_remissive_index_table_loot_sources(self.tShopItems, self.tItemShops)
 end
 
 function CLootTable:get_loot_mob_entries()
@@ -223,4 +241,12 @@ end
 
 function CLootTable:get_loot_reactor_entry(iRscid)
     return self.tItemReactors[iRscid]
+end
+
+function CLootTable:get_loot_shop_entries()
+    return self.tItemShops
+end
+
+function CLootTable:get_loot_shop_entry(iRscid)
+    return self.tItemShops[iRscid]
 end

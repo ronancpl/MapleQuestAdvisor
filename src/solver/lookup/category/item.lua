@@ -23,6 +23,9 @@ function init_lookup_category_item_table(ctLoots, ctMobs, ctReactors, pLandscape
     install_lookup_category_entries_item(pLookupTab, ctLoots:get_loot_reactor_entries(), rgiRscids)
     locate_lookup_category_entries_item(pLookupTab, ctReactors, pLandscape)
 
+    install_lookup_category_entries_item(pLookupTab, ctLoots:get_loot_shop_entries(), rgiRscids)
+    locate_lookup_category_entries_item(pLookupTab, ctNpcs, pLandscape)
+
     array_lookup_category_entries_item(pLookupTab)
     regional_lookup_category_entries_item(pLookupTab)
 

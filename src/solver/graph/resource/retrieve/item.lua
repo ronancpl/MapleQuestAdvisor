@@ -12,12 +12,15 @@
 
 require("solver.graph.resource.table.loots")
 
-function calc_resource_retrieve_cost_item(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iEntryMapid, iRscid)
+function calc_resource_retrieve_cost_item(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, ctRetrieveLootShops, iEntryMapid, iRscid)
     local iEntryRegionid = ctFieldsLandscape:get_region_by_mapid(iEntryMapid)
 
     local fChanceMob = ctRetrieveLootMobs:get_acquisition_chance(iRscid, iEntryRegionid)
     local fChanceReactor = ctRetrieveLootReactors:get_acquisition_chance(iRscid, iEntryRegionid)
+    local fChanceShop = ctRetrieveLootShops:get_acquisition_chance(iRscid, iEntryRegionid)
+
     local fChance = math.max(fChanceMob, fChanceReactor)
+    fChance = math.max(fChance, fChanceShop)
 
     return math.sin((1.0 - fChance) * (math.pi / 2))
 end

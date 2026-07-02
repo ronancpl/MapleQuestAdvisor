@@ -128,7 +128,8 @@ end
 function load_loot_retrieval_resources()
     log(LPath.OVERALL, "log.txt", "Load loot retrieval resources...")
 
-    ctRetrieveLootMobs, ctRetrieveLootReactors = load_acquisition_loot_table(RFlags.DROP_RATE, ctFieldsLandscape, ctFieldsMeta, ctLoots)
+    ctRetrieveLootMobs, ctRetrieveLootReactors, ctRetrieveLootShops = load_acquisition_loot_table(RFlags.DROP_RATE, ctFieldsLandscape, ctFieldsMeta, ctLoots)
     --printable(ctRetrieveLootMobs)
     --printable(ctRetrieveLootReactors)
+    --printable(ctRetrieveLootShops)
 end

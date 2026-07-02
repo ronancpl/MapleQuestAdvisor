@@ -17,6 +17,7 @@ local function fetch_effective_unit_count_to_item(iId, iCount, pPlayerState)
 
     local fChance = ctRetrieveLootMobs:get_acquisition_chance(iId, iRegionid)
     fChance = math.max(fChance, ctRetrieveLootReactors:get_acquisition_chance(iId, iRegionid))
+    fChance = math.max(fChance, ctRetrieveLootShops:get_acquisition_chance(iId, iRegionid))
     fChance = fChance + 0.001
 
     return math.ceil(iCount * (1.0 / fChance))

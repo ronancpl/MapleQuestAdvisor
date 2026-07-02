@@ -14,13 +14,13 @@ require("router.procedures.constant")
 require("solver.graph.resource.retrieve.item")
 require("solver.lookup.constant")
 
-function calc_resource_retrieve_utility_cost(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iEntryMapid, iRscid)
+function calc_resource_retrieve_utility_cost(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, ctRetrieveLootShops, iEntryMapid, iRscid)
     local iRscType = math.floor(iRscid / 1000000000)
     local iRscUnit = iRscid % 1000000000
 
     local iRscUtilCost = 0.0
     if iRscType == RLookupCategory.ITEMS then
-        iRscUtilCost = calc_resource_retrieve_cost_item(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, iEntryMapid, iRscUnit)
+        iRscUtilCost = calc_resource_retrieve_cost_item(ctFieldsLandscape, ctRetrieveLootMobs, ctRetrieveLootReactors, ctRetrieveLootShops, iEntryMapid, iRscUnit)
     end
 
     return iRscUtilCost

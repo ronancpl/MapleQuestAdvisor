@@ -14,9 +14,7 @@ require("utils.struct.array")
 require("utils.struct.class")
 
 CItem = createClass({
-    iItemid = -1,
-    trgLootMobs = {},
-    trgLootReactors = {}
+    iItemid = -1
 })
 
 function CItem:get_itemid()
@@ -37,20 +35,4 @@ function CItem:_add_loot(trgLoot, pLoot)
     end
 
     rgIdLoot:add(pLoot)
-end
-
-function CItem:get_loot_mobs()
-    return self.trgLootMobs
-end
-
-function CItem:add_loot_mob(pLoot)
-    self:_add_loot(self.trgLootMobs, pLoot)
-end
-
-function CItem:get_loot_reactors()
-    return self.trgLootReactors
-end
-
-function CItem:add_loot_reactor(pLoot)
-    self:_add_loot(self.trgLootReactors, pLoot)
 end
