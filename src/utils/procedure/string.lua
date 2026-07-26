@@ -52,9 +52,11 @@ function string.pad_number(iId, iLeftZero)
     local bSign = iId < 0
     iId = math.abs(iId)
 
-    local iAlg = iId > 0 and math.ceil(math.log(iId + 1) / math.log(10)) or 0
-    for i = 1, iLeftZero - iAlg, 1 do
-        st = st .. "0"
+    if iId >= 0 then
+        local iAlg = iId > 0 and math.ceil(math.log(iId + 1) / math.log(10)) or 1
+        for i = 1, iLeftZero - iAlg, 1 do
+            st = st .. "0"
+        end
     end
 
     return (bSign and "-" or "") .. st .. tostring(iId)
