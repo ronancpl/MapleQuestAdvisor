@@ -44,7 +44,13 @@ function CRscElemItemPicture:get_count()
 end
 
 function CRscElemItemPicture:is_visible_count()
-    return self.iCount ~= nil
+    local siType = math.iclamp(math.floor(self.iId / 1000000), 1, 5)
+    return not (siType == 1 or siType == 5)
+end
+
+function CRscElemItemPicture:get_visible_count(iId, iCount)
+    self.iId = iId
+    return self:is_visible_count() and iCount or nil
 end
 
 local function calc_image_canvas_pos(pImg, pRscGrid, bUseShadow)

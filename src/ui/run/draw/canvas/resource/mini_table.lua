@@ -101,12 +101,12 @@ local function is_tab_shifted(rgpTabConfVw)
 end
 
 local function fetch_tab_position(pTableConfVw, rgpTabConfVw, siTabIdx)
+    local iCount = 0
     if rgpTabConfVw ~= nil then
-        local iCount = get_count_tabs(rgpTabConfVw)
+        iCount = get_count_tabs(rgpTabConfVw)
+
         if iCount < 2 then
-            if not has_tab_items(rgpTabConfVw[3]) or siTabIdx % 2 == 1 then siTabIdx = 3
-            elseif not has_tab_items(rgpTabConfVw[4]) or siTabIdx % 2 == 0 then siTabIdx = 4
-            end
+            siTabIdx = 3
         elseif iCount < 3 then       -- head start at half table
             if siTabIdx == 2 and not has_tab_items(rgpTabConfVw[1]) and has_tab_items(rgpTabConfVw[2]) then
                 siTabIdx = 1
@@ -122,7 +122,7 @@ local function fetch_tab_position(pTableConfVw, rgpTabConfVw, siTabIdx)
     local btTab = bit.tobit(siTabIdx - 1)
 
     local iTx = bit.band(btTab, bit.lshift(1, 1)) == 0 and iW2 or 0
-    local iTy = bit.band(btTab, bit.lshift(1, 0)) == 0 and 0 or iH2
+    local iTy = (bit.band(btTab, bit.lshift(1, 0)) == 0 or iCount <= 2) and 0 or iH2
 
     return iTx, iTy
 end

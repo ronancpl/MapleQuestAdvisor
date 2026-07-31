@@ -112,7 +112,7 @@ function CRscRewardTab:_load_reward_items()
         local sDesc = ctItemsMeta:get_text(iId, 1)
         local iFieldRef = nil
 
-        pVwItem:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, iFieldRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID.REWARD, false)
+        pVwItem:load(siType, iId, tpRscGrid, pImg, pVwItem:get_visible_count(iId, iCount), sDesc, iFieldRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID.REWARD, false)
         table.insert(m_rgpVwItems, pVwItem)
     end
 end

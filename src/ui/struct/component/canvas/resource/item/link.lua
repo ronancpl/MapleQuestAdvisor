@@ -17,35 +17,29 @@ require("ui.struct.component.element.plaintext")
 require("utils.struct.class")
 
 CRscElemItemLink = createClass({CRscElemItem, {
-    eTxtFieldRef = CTextElem:new()
+    eTxtFieldRef = CTextElem:new(),
+    iFieldRef = -1
 }})
-
-function CRscElemItemLink:get_desc()
-    return self.sDesc
-end
-
-function CRscElemItemLink:get_object_desc()
-    return self.eTxtDesc
-end
 
 function CRscElemItemLink:get_object_field_link()
     return self.eTxtFieldRef
 end
 
-function CRscElemItemLink:_load_text(sDesc, iFieldRef, pConfVw, iPx, iPy)
+function CRscElemItemLink:_load_text(sDesc, pConfVw, iPx, iPy)
     local pFont = ctVwRscs:get_font_info()
 
-    local sFieldName = ctFieldsMeta:get_area_name(iFieldRef)
+    local sFieldName = ctFieldsMeta:get_area_name(self.iFieldRef)
 
     local m_eTxtFieldRef = self.eTxtFieldRef
     m_eTxtFieldRef:load(sFieldName, pFont, pConfVw.W - (2 * pConfVw.FIL_X), iPx + pConfVw.FIL_X, iPy + pConfVw.FIL_Y)
 end
 
 function CRscElemItemLink:load(siType, iId, tpRscGrid, sDesc, iFieldRef, pConfVw, bMini)
+    self.iFieldRef = iFieldRef
+    self.pConfVw = pConfVw
+
     self:_load(siType, iId, tpRscGrid, sDesc, pConfVw.W, pConfVw.H, iFieldRef, bMini)
     self:_set_origin(-1, -1)
-
-    self.pConfVw = pConfVw
 end
 
 function CRscElemItemLink:update(dt)
@@ -56,9 +50,8 @@ function CRscElemItemLink:update_position(iPx, iPy)
     self:_set_origin(iPx, iPy)
 
     local m_sDesc = self.sDesc
-    local m_iFieldRef = self.iFieldRef
     local m_pConfVw = self.pConfVw
-    self:_load_text(m_sDesc, m_iFieldRef, m_pConfVw, iPx, iPy)
+    self:_load_text(m_sDesc, m_pConfVw, iPx, iPy)
 end
 
 function CRscElemItemLink:draw()

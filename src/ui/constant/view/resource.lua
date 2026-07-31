@@ -129,8 +129,8 @@ RResourceTable = {
             H = 100
         },
         FIELD_ENTER = {
-            ROWS = 1,
-            COLS = 16,
+            ROWS = 16,
+            COLS = 1,
 
             X = 20,
             Y = 45,
@@ -138,7 +138,7 @@ RResourceTable = {
             ST_X = 15,
             ST_Y = 5,
             FIL_X = 4,
-            FIL_Y = 2,
+            FIL_Y = 0,
 
             W = 210,
             H = 20

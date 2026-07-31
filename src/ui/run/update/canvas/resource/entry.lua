@@ -68,7 +68,7 @@ local function make_tab_resources_items(pRscProp)
         local sDesc = ctItemsMeta:get_text(iId, 1)
         local trgiFieldsRef = get_resource_field_ref(pRscTree, iId)
 
-        pVwItem:load(siType, iId, tpRscGrid, pImg, iCount, sDesc, trgiFieldsRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID.ITEMS, false)
+        pVwItem:load(siType, iId, tpRscGrid, pImg, pVwItem:get_visible_count(iId, iCount), sDesc, trgiFieldsRef, RResourceTable.VW_BASE.ITEMS, RResourceTable.VW_GRID.ITEMS, false)
 
         table.insert(rgpVwItems, pVwItem)
     end
