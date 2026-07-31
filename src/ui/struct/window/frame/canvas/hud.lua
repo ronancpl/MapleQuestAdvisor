@@ -147,6 +147,10 @@ end
 function CWndHud:_fn_bt_save(pUiStats, tRoute, tQuests)
     local pPlayer = pUiWmap:get_properties():get_player()
 
+    -- clean environment info
+    run_rates_bt_delete(pUiStats)
+    run_player_bt_delete(pPlayer)
+
     -- save environment info
     run_rates_bt_save(pUiStats)
     run_player_bt_save(pPlayer)
