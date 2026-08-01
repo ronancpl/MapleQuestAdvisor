@@ -172,7 +172,7 @@ function CRscElemItem:onmousereleased(x, y, button)
     if button == 1 then
         local iFieldRef = self:_access_field_ref()
         if iFieldRef ~= nil then
-            local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(iFieldRef)
+            local sWmapName = ctFieldsWmap:get_worldmap_name_by_area(ctFieldsMeta:get_field_overworld(iFieldRef))
 
             self:_act_inspect_resource(sWmapName)
             pFrameBasic:get_cursor():update_state(-RWndPath.MOUSE.BT_CLICKABLE)
