@@ -15,6 +15,8 @@ U_INT_MAX = 0x7FFFFFFF
 
 U_QUEUE_SIZE_INC = 25
 
+USE_REPACKER_PATH = false
+
 S_WORLDMAP_BASE = "WorldMap"
 
 require("utils.procedure.iterate")

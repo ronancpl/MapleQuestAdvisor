@@ -10,6 +10,7 @@
     provide an express grant of patent rights.
 --]]
 
+require("router.procedures.constant")
 require("composer.field.node.media.storage.storage")
 require("ui.constant.input")
 require("ui.constant.path")
@@ -20,7 +21,9 @@ require("utils.struct.array")
 
 local function fetch_figure_subpath(sPath, sBasePath)
     local i = sPath:find(sBasePath)
-    return sPath:sub(i+string.len(sBasePath)+1, -5)     -- remove file extension
+
+    sPath = sPath:sub(i+string.len(sBasePath)+1, -5)        -- remove file extension
+    return sPath
 end
 
 local function fetch_pos_repacker_subrepeat(rgsSp)
@@ -97,7 +100,9 @@ local function extract_prefix_image_path(sPath)
 end
 
 local function extract_repacker_image_path(sPath)
-    local sImgPath = string.sub(sPath, string.len(RWndPath.LOVE_IMAGE_DIR_PATH) + 1)
+    local sImgPath = extract_prefix_image_path(sPath)
+    if not USE_REPACKER_PATH then return sImgPath end
+
     local rgsImgSp = split_path(sImgPath)
 
     local rgsSp = {}
@@ -122,6 +127,8 @@ local function parse_repacker_path_norm(sImgPath)
 end
 
 function parse_repacker_path_internal(sImgPath)
+    if not USE_REPACKER_PATH then return sImgPath end
+
     local iNum = num_path_repeats(sImgPath)
 
     sImgPath = parse_repacker_path_norm(sImgPath)
@@ -219,7 +226,7 @@ local function load_images_from_headers(tpItems, sPrepend)
     if sPrepend == nil then
         for sImgKey, sImgPath in pairs(tpItems) do
             local pImgData = load_image_from_path_internal(sImgPath)
-            tpItems2[sImgKey] = pImgData
+            tpItems2[sImgKey:gsub("/", ".")] = pImgData
         end
     else
         for sImgKey, sImgPath in pairs(tpItems) do
@@ -232,7 +239,7 @@ local function load_images_from_headers(tpItems, sPrepend)
                 end
 
                 local pImgData = load_image_from_path_internal(sImgPath)
-                tpItems2[sImgKey] = pImgData
+                tpItems2[sImgKey:gsub("/", ".")] = pImgData
             end
         end
     end

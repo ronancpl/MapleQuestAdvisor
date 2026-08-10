@@ -92,6 +92,12 @@ Use the now installed LuaRocks to install the required modules.
 
 #### 5. Extract XML and images
 
+The first method:
+
+Refer to the ["LibInstaller"](https://github.com/ronancpl/MQA-LibInstaller) to automatically generate the needed files into MapleQuestAdvisor.
+
+The second method:
+
 Use the HaRepacker application, encryption "GMS (old)".
 
   Select and export each WZ file at a time:

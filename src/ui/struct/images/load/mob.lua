@@ -69,7 +69,13 @@ function CStockHeaderMob:_get_image_path(iId)
     ]]--
 
     local sImgPath = "Mob.wz/" .. string.pad_number(iId, 7) .. ".img/stand.0.png"
+
     local pInfo = love.filesystem.getInfo(RWndPath.LOVE_IMAGE_DIR_PATH .. parse_repacker_path_internal(sImgPath))
+    if pInfo == nil then
+        sImgPath = "Mob.wz/" .. string.pad_number(iId, 7) .. ".img/fly.0.png"
+        pInfo = love.filesystem.getInfo(RWndPath.LOVE_IMAGE_DIR_PATH .. parse_repacker_path_internal(sImgPath))
+    end
+
     return pInfo and sImgPath or nil
 end
 
