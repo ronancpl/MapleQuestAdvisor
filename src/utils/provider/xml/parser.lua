@@ -42,6 +42,18 @@ local tfn_parse_attr = {
     ["string"] = function (x) return parsestring(x) end,
     ["vector"] = function (x) return tonumber(x) end,
     -- ["null"] = function (x) return  end,
+    -- ["WzImage"] = function (x) return  end,
+    -- ["WzSub"] = function (x) return  end,
+    -- ["WzCanvas"] = function (x) return  end,
+    -- ["WzUOL"] = function (x) return  end,
+    ["WzDouble"] = function (x) return tonumber(x) end,
+    ["WzByteFloat"] = function (x) return tonumber(x) end,
+    ["WzCompressedInt"] = function (x) return tonumber(x) end,
+    ["WzUnsignedShort"] = function (x) return tonumber(x) end,
+    ["WzString"] = function (x) return parsestring(x) end,
+    ["WzVector"] = function (x) return tonumber(x) end,
+    -- ["WzLua"] = function (x) return  end,
+    -- ["WzNull"] = function (x) return  end,
 }
 
 local function parse_dom_node_attribute(sName, sValue)
@@ -59,7 +71,7 @@ local function parse_dom_node_attributes(pTreeNode, tFileNodeAttrs)
 
     for sName, sValue in pairs(tFileNodeAttrs) do
         local uValue = parse_dom_node_attribute(sNodeType, sValue)
-        pTreeNode:set(sName, uValue)
+        pTreeNode:set(string.lower(sName), uValue)
     end
 end
 

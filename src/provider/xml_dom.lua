@@ -27,7 +27,7 @@ function xml_readline(sLine)
     local iLeft = string.find(sLine, "<") + 1
     local iRight = string.rfind(sLine, ">") - 1
 
-    iIdx = string.find(sLine, " ", iLeft) or iRight + 1
+    iIdx = string.find(sLine, "%s", iLeft) or iRight
     table.insert(rgsStr, sLine:sub(iLeft,iIdx))
 
     while iIdx < iRight do
@@ -120,7 +120,8 @@ function xml_dom(pTree, rgsLines, iIdx)
         local sText
         sText, i = xml_readsequence(rgsLines, i)
         local rgsStr = xml_readline(sText)
-        if rgsStr[1]:starts_with("imgdir") or rgsStr[1]:starts_with("canvas") then
+
+        if rgsStr[1]:starts_with("imgdir") or rgsStr[1]:starts_with("canvas") or rgsStr[1]:starts_with("WzImage") or rgsStr[1]:starts_with("WzSub") or rgsStr[1]:starts_with("WzCanvas") then
             local pNewTree = xml_node(rgsStr)
             xml_node_attributes(pNewTree)
 
@@ -129,7 +130,7 @@ function xml_dom(pTree, rgsLines, iIdx)
 
             iIdx = xml_dom(pNewTree["_children"], rgsLines, i + 1)
             i = iIdx - 1
-        elseif rgsStr[1]:starts_with("/imgdir") or rgsStr[1]:starts_with("/canvas") then
+        elseif rgsStr[1]:starts_with("/imgdir") or rgsStr[1]:starts_with("/canvas") or rgsStr[1]:starts_with("/WzImage") or rgsStr[1]:starts_with("/WzSub") or rgsStr[1]:starts_with("/WzCanvas") then
             iIdx = i
             break
         else
